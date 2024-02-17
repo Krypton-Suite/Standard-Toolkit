@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(internalKCT != null);
 
-            InternalKCT = internalKCT;
+            InternalKCT = internalKCT!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public override int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricInt(state, metric);
+            _redirect!.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricBool(state, metric);
+            _redirect!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -120,14 +120,13 @@ namespace Krypton.Toolkit
                 )
             {
                 // If the user has defined an actual value to use
-                if (!Padding.Equals(CommonHelper.InheritPadding))
-                {
-                    return Padding;
-                }
+                return !Padding.Equals(CommonHelper.InheritPadding)
+                    ? Padding
+                    : _redirect!.GetMetricPadding(state, metric);
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

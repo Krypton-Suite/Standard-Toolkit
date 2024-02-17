@@ -31,37 +31,37 @@ namespace Krypton.Toolkit
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         public KryptonPaletteButtonSpecs([DisallowNull] PaletteRedirect redirector)
         {
-            Debug.Assert(redirector != null);
+            Debug.Assert(redirector! != null);
 
             // Create exposed button specifications
-            Common = new KryptonPaletteButtonSpecTyped(redirector);
-            Generic = new KryptonPaletteButtonSpecTyped(redirector);
-            Close = new KryptonPaletteButtonSpecTyped(redirector);
-            Context = new KryptonPaletteButtonSpecTyped(redirector);
-            Next = new KryptonPaletteButtonSpecTyped(redirector);
-            Previous = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector);
-            DropDown = new KryptonPaletteButtonSpecTyped(redirector);
-            PinVertical = new KryptonPaletteButtonSpecTyped(redirector);
-            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector);
-            FormClose = new KryptonPaletteButtonSpecTyped(redirector);
-            FormMax = new KryptonPaletteButtonSpecTyped(redirector);
-            FormMin = new KryptonPaletteButtonSpecTyped(redirector);
-            FormRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            FormHelp = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantClose = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantMin = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector);
-            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector);
-            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
+            Common = new KryptonPaletteButtonSpecTyped(redirector!);
+            Generic = new KryptonPaletteButtonSpecTyped(redirector!);
+            Close = new KryptonPaletteButtonSpecTyped(redirector!);
+            Context = new KryptonPaletteButtonSpecTyped(redirector!);
+            Next = new KryptonPaletteButtonSpecTyped(redirector!);
+            Previous = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector!);
+            DropDown = new KryptonPaletteButtonSpecTyped(redirector!);
+            PinVertical = new KryptonPaletteButtonSpecTyped(redirector!);
+            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormClose = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormMax = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormMin = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormHelp = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantClose = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantMin = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector!);
+            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector!);
+            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector!);
 
             // Create redirector for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);
+            var redirectCommon = new PaletteRedirectButtonSpec(redirector!, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);

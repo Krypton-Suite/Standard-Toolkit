@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             //MouseController = mcbc;
             KeyController = mcbc;
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager, this, mcbc);
+            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager!, this, mcbc);
         }
 
         /// <summary>

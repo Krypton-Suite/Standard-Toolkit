@@ -190,23 +190,23 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !_removing)
             {
                 // We take on all the available display area
-                ClientRectangle = context.DisplayRectangle;
+                ClientRectangle = context!.DisplayRectangle;
 
                 // Are we allowed to layout child controls?
-                if (!context.ViewManager.DoNotLayoutControls)
+                if (!context.ViewManager!.DoNotLayoutControls)
                 {
                     // Make sure the scrollbar has actually been created
-                    CreateScrollBar(context.Control);
+                    CreateScrollBar(context.Control!);
 
                     // If we need to hide/disable the control then do it before position changes
                     if (!Visible)
                     {
-                        _scrollBar.Hide();
+                        _scrollBar?.Hide();
                     }
 
                     if (!Enabled)
                     {
-                        _scrollBar.Enabled = false;
+                        _scrollBar!.Enabled = false;
                     }
 
                     // Should the scrollbar is shorter than then the entire client area?
@@ -214,31 +214,31 @@ namespace Krypton.Toolkit
                     {
                         if (Vertical)
                         {
-                            _scrollBar.SetBounds(ClientLocation.X, ClientLocation.Y,
+                            _scrollBar?.SetBounds(ClientLocation.X, ClientLocation.Y,
                                                  ClientWidth, ClientHeight - SystemInformation.HorizontalScrollBarHeight);
                         }
                         else
                         {
-                            _scrollBar.SetBounds(ClientLocation.X, ClientLocation.Y,
+                            _scrollBar?.SetBounds(ClientLocation.X, ClientLocation.Y,
                                                  ClientWidth - SystemInformation.VerticalScrollBarWidth, ClientHeight);
                         }
                     }
                     else
                     {
                         // Position the ScrollBar in the entire requested area
-                        _scrollBar.SetBounds(ClientLocation.X, ClientLocation.Y,
+                        _scrollBar?.SetBounds(ClientLocation.X, ClientLocation.Y,
                                              ClientWidth, ClientHeight);
                     }
 
                     // If we need to show/enable control then do it after position changes
                     if (Visible)
                     {
-                        _scrollBar.Show();
+                        _scrollBar?.Show();
                     }
 
                     if (Enabled)
                     {
-                        _scrollBar.Enabled = true;
+                        _scrollBar!.Enabled = true;
                     }
                 }
             }
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
         private void OnScrollBarChange(object sender, ScrollEventArgs e)
         {
             // Update with the new scroll value
-            _scrollBar.Value = e.NewValue;
+            _scrollBar!.Value = e.NewValue;
 
             ScrollChanged?.Invoke(this, EventArgs.Empty);
         }

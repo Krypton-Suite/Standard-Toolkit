@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _drawContent = new ViewDrawContent(_calendar.StateNormal.Header.Content, this, VisualOrientation.Top);
             _borderForced = new PaletteBorderInheritForced(_calendar.StateNormal.Header.Border);
             _borderForced.ForceBorderEdges(PaletteDrawBorders.None);
-            _drawHeader = new ViewDrawDocker(_calendar.StateNormal.Header.Back, _borderForced, null)
+            _drawHeader = new ViewDrawDocker(_calendar.StateNormal.Header.Back, _borderForced, null!)
             {
                 { _drawContent, ViewDockStyle.Fill }
             };

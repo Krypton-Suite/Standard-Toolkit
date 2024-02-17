@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            Inherit = inherit;
+            Inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -539,7 +539,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetContentShortTextColorAngle(PaletteState state) => _colorAngle != -1 ? _colorAngle : Inherit.GetContentShortTextColorAngle(state);
+        public float GetContentShortTextColorAngle(PaletteState state) =>
+            _colorAngle != -1 ? _colorAngle : Inherit.GetContentShortTextColorAngle(state);
 
         #endregion
 

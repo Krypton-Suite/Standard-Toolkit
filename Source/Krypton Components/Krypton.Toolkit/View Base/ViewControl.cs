@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
 
                 // Create a render context for drawing the view
                 using var context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
-                    e.ClipRectangle, Renderer);
+                    e.ClipRectangle, Renderer!);
                 // Ask the view to paint itself
                 ViewLayoutControl.ChildView?.Render(context);
             }
@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IRenderer Renderer
+        private IRenderer? Renderer
         {
             get
             {

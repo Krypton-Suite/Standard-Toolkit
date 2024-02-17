@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             Debug.Assert(images != null);
 
             // Remember incoming target
-            _images = images;
+            _images = images!;
         }
         #endregion
 
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuCheckedImage()
         {
-            Image? retImage = _images.Checked ?? Target.GetContextMenuCheckedImage();
+            Image? retImage = _images.Checked ?? Target?.GetContextMenuCheckedImage();
 
             // Not found, then inherit from target
 
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuIndeterminateImage()
         {
-            Image? retImage = _images.Indeterminate ?? Target.GetContextMenuIndeterminateImage();
+            Image? retImage = _images.Indeterminate ?? Target?.GetContextMenuIndeterminateImage();
 
             // Not found, then inherit from target
 
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetContextMenuSubMenuImage()
         {
-            Image? retImage = _images.SubMenu ?? Target.GetContextMenuSubMenuImage();
+            Image? retImage = _images.SubMenu ?? Target?.GetContextMenuSubMenuImage();
 
             // Not found, then inherit from target
 

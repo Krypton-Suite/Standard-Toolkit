@@ -86,16 +86,16 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (this[0].Visible)
+            if (this[0]!.Visible)
             {
                 // The first and only child is the caption content
-                var caption = (ViewDrawContent)this[0];
+                var caption = this[0] as ViewDrawContent;
 
-                // Cache the origina client rectangle before we modify it
+                // Cache the original client rectangle before we modify it
                 _cacheClientRect = ClientRectangle;
 
                 // Update canvas drawing area by the overlapping caption area
-                Rectangle captionRect = caption.ClientRectangle;
+                var captionRect = caption!.ClientRectangle;
                 switch (GetDock(caption))
                 {
                     case ViewDockStyle.Top:
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
             base.RenderAfter(context);
 
             // Restore original client rectangle
-            if (this[0].Visible)
+            if (this[0]!.Visible)
             {
                 ClientRectangle = _cacheClientRect;
             }
@@ -163,16 +163,16 @@ namespace Krypton.Toolkit
         public override void RenderBorder(RenderContext context)
         {
             // The first and only child is the caption content
-            var caption = (ViewDrawContent)this[0];
+            var caption = this[0] as ViewDrawContent;
 
             // Remember current clipping region so we can put it back later
-            Region clipRegion = context.Graphics.Clip.Clone();
+            var clipRegion = context.Graphics.Clip.Clone();
 
             // Exclude the image/short/long text rectangles from being drawn
-            Region excludeRegion = clipRegion.Clone();
-            Rectangle imageRect = caption.ImageRectangle(context);
-            Rectangle shortRect = caption.ShortTextRect(context);
-            Rectangle longRect = caption.LongTextRect(context);
+            var excludeRegion = clipRegion.Clone();
+            var imageRect = caption!.ImageRectangle(context);
+            var shortRect = caption.ShortTextRect(context);
+            var longRect = caption.LongTextRect(context);
             imageRect.Inflate(1, 1);
             shortRect.Inflate(1, 1);
             longRect.Inflate(1, 1);

@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _dataCell = new PaletteDataGridViewTripleStates(inherit.DataCell, needPaint);
+            _dataCell = new PaletteDataGridViewTripleStates(inherit!.DataCell, needPaint);
             _headerColumn = new PaletteDataGridViewTripleStates(inherit.HeaderColumn, needPaint);
             _headerRow = new PaletteDataGridViewTripleStates(inherit.HeaderRow, needPaint);
         }

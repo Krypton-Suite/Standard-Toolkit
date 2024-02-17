@@ -36,14 +36,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of radio button images.</param>
-        public PaletteRedirectRadioButton(PaletteBase target,
+        public PaletteRedirectRadioButton(PaletteBase? target,
             [DisallowNull] RadioButtonImages images)
             : base(target)
         {
             Debug.Assert(images != null);
 
             // Remember incoming target
-            _images = images;
+            _images = images!;
         }
         #endregion
 
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             retImage ??= _images.Common;
 
             // Not found, then inherit from target
-            return retImage ?? Target.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            return retImage ?? Target?.GetRadioButtonImage(enabled, checkState, tracking, pressed);
         }
         #endregion
     }

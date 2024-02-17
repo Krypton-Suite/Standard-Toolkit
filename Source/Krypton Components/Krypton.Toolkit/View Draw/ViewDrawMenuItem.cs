@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager, this, mic);
+            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager!, this, mic);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the short text value of the menu item.
         /// </summary>
-        public string ItemText => _textContent.Values.GetShortText();
+        public string ItemText => _textContent.Values!.GetShortText();
 
         #endregion
 
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the long text value of the menu item.
         /// </summary>
-        public string ItemExtraText => _textContent.Values.GetLongText();
+        public string ItemExtraText => _textContent.Values!.GetLongText();
 
         #endregion
 
@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
             if ((_contextMenu == null) || _contextMenu.IsDisposed)
             {
                 // No need for the sub menu timer anymore, we are showing
-                _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
+                _provider.ProviderViewManager.SetTargetSubMenu((KeyController as IContextMenuTarget)!);
 
                 // Only show a sub menu if there is one to be shown!
                 if (HasSubMenu)
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             base.Layout(context);
         }
         #endregion
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
                 _contextMenu = null;
 
                 // Tell our view manager that we no longer show a sub menu
-                _provider.ProviderViewManager.ClearTargetSubMenu((IContextMenuTarget)KeyController);
+                _provider.ProviderViewManager.ClearTargetSubMenu((KeyController as IContextMenuTarget)!);
             }
         }
         #endregion

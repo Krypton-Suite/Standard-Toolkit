@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         public ViewDrawCheckBox([DisallowNull] PaletteBase palette)
         {
             Debug.Assert(palette != null);
-            _palette = palette;
+            _palette = palette!;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer for the required size of the check box
-            return context.Renderer.RenderGlyph.GetCheckBoxPreferredSize(context, _palette, 
+            return context!.Renderer.RenderGlyph.GetCheckBoxPreferredSize(context, _palette, 
                                                                          Enabled, CheckState, 
                                                                          Tracking, Pressed);
         }

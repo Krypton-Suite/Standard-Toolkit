@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Default properties
             _borderWidth = -1;

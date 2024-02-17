@@ -69,10 +69,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _disabled = _redirect.GetDropDownButtonImage(PaletteState.Disabled);
-            _normal = _redirect.GetDropDownButtonImage(PaletteState.Normal);
-            _tracking = _redirect.GetDropDownButtonImage(PaletteState.Tracking);
-            _pressed = _redirect.GetDropDownButtonImage(PaletteState.Pressed);
+            _disabled = _redirect?.GetDropDownButtonImage(PaletteState.Disabled);
+            _normal = _redirect?.GetDropDownButtonImage(PaletteState.Normal);
+            _tracking = _redirect?.GetDropDownButtonImage(PaletteState.Tracking);
+            _pressed = _redirect?.GetDropDownButtonImage(PaletteState.Pressed);
         }
         #endregion
 

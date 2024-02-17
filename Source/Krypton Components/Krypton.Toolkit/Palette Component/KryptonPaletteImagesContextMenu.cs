@@ -63,9 +63,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _checked = _redirect.GetContextMenuCheckedImage();
-            _indeterminate = _redirect.GetContextMenuIndeterminateImage();
-            _subMenu = _redirect.GetContextMenuSubMenuImage();
+            _checked = _redirect?.GetContextMenuCheckedImage();
+            _indeterminate = _redirect?.GetContextMenuIndeterminateImage();
+            _subMenu = _redirect?.GetContextMenuSubMenuImage();
         }
         #endregion
 

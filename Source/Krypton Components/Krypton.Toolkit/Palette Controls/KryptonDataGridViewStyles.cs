@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         public DataGridViewStyles([DisallowNull] KryptonDataGridView dataGridView)
         {
             Debug.Assert(dataGridView != null);
-            _dataGridView = dataGridView;
+            _dataGridView = dataGridView!;
             _gridStyle = DataGridViewStyle.List;
             _columnStyle = GridStyle.List;
             _rowStyle = GridStyle.List;

@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
 
             if (_overridePreferredWidth != 0)
             {
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                LastPreferredSize = base.GetPreferredSize(context);
+                LastPreferredSize = base.GetPreferredSize(context!);
             }
 
             if (_zeroHeight)

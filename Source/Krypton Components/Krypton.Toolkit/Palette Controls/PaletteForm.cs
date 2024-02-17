@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
             Debug.Assert(inheritHeader != null);
 
             // Remember the inheritance
-            _inherit = inheritForm;
+            _inherit = inheritForm!;
 
             // Create the palette storage
-            Header = new PaletteTripleMetric(inheritHeader, needPaint);
+            Header = new PaletteTripleMetric(inheritHeader!, needPaint);
         }
         #endregion
 

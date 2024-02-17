@@ -29,20 +29,20 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Create the palette storage
-            ControlInner = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuInner, PaletteBorderStyle.ContextMenuInner, needPaint);
-            ControlOuter = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuOuter, PaletteBorderStyle.ContextMenuOuter, needPaint);
-            Heading = new PaletteTripleRedirect(redirect, PaletteBackStyle.ContextMenuHeading, PaletteBorderStyle.ContextMenuHeading, PaletteContentStyle.ContextMenuHeading, needPaint);
-            ItemHighlight = new PaletteDoubleMetricRedirect(redirect, PaletteBackStyle.ContextMenuItemHighlight, PaletteBorderStyle.ContextMenuItemHighlight, needPaint);
-            ItemImage = new PaletteTripleJustImageRedirect(redirect, PaletteBackStyle.ContextMenuItemImage, PaletteBorderStyle.ContextMenuItemImage, PaletteContentStyle.ContextMenuItemImage, needPaint);
-            ItemImageColumn = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuItemImageColumn, PaletteBorderStyle.ContextMenuItemImageColumn, needPaint);
-            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemShortcutText);
+            ControlInner = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuInner, PaletteBorderStyle.ContextMenuInner, needPaint);
+            ControlOuter = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuOuter, PaletteBorderStyle.ContextMenuOuter, needPaint);
+            Heading = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ContextMenuHeading, PaletteBorderStyle.ContextMenuHeading, PaletteContentStyle.ContextMenuHeading, needPaint);
+            ItemHighlight = new PaletteDoubleMetricRedirect(redirect!, PaletteBackStyle.ContextMenuItemHighlight, PaletteBorderStyle.ContextMenuItemHighlight, needPaint);
+            ItemImage = new PaletteTripleJustImageRedirect(redirect!, PaletteBackStyle.ContextMenuItemImage, PaletteBorderStyle.ContextMenuItemImage, PaletteContentStyle.ContextMenuItemImage, needPaint);
+            ItemImageColumn = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuItemImageColumn, PaletteBorderStyle.ContextMenuItemImageColumn, needPaint);
+            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemShortcutText);
             ItemShortcutText = new PaletteContentJustShortText(ItemShortcutTextRedirect, needPaint);
-            ItemSplit = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuItemSplit, PaletteBorderStyle.ContextMenuItemSplit, needPaint);
-            ItemTextAlternateRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemTextAlternate);
+            ItemSplit = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuItemSplit, PaletteBorderStyle.ContextMenuItemSplit, needPaint);
+            ItemTextAlternateRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemTextAlternate);
             ItemTextAlternate = new PaletteContentJustText(ItemTextAlternateRedirect, needPaint);
-            ItemTextStandardRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemTextStandard);
+            ItemTextStandardRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemTextStandard);
             ItemTextStandard = new PaletteContentJustText(ItemTextStandardRedirect, needPaint);
-            Separator = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuSeparator, PaletteBorderStyle.ContextMenuSeparator, needPaint);
+            Separator = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuSeparator, PaletteBorderStyle.ContextMenuSeparator, needPaint);
         }
         #endregion
 
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         public override bool IsDefault => ControlInner.IsDefault &&
                                            ControlOuter.IsDefault &&
                                            Heading.IsDefault &&
-                                           ItemHighlight.IsDefault &&
+                                           ItemHighlight!.IsDefault &&
                                            ItemImage.IsDefault &&
                                            ItemImageColumn.IsDefault &&
                                            ItemShortcutText.IsDefault &&
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             ControlInner.SetRedirector(redirect);
             ControlOuter.SetRedirector(redirect);
             Heading.SetRedirector(redirect);
-            ItemHighlight.SetRedirector(redirect);
+            ItemHighlight?.SetRedirector(redirect);
             ItemImage.SetRedirector(redirect);
             ItemImageColumn.SetRedirector(redirect);
             ItemShortcutTextRedirect.SetRedirector(redirect);
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight!.IsDefault;
 
         #endregion
 

@@ -29,17 +29,17 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the button style specific and common palettes
-            PanelCommon = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelClient, needPaint);
-            PanelClient = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelClient, needPaint);
-            PanelAlternate = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelAlternate, needPaint);
-            PanelRibbonInactive = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelRibbonInactive, needPaint);
-            PanelCustom1 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom1, needPaint);
-            PanelCustom2 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom2, needPaint);
-            PanelCustom3 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom3, needPaint);
+            PanelCommon = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelClient, needPaint);
+            PanelClient = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelClient, needPaint);
+            PanelAlternate = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelAlternate, needPaint);
+            PanelRibbonInactive = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelRibbonInactive, needPaint);
+            PanelCustom1 = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelCustom1, needPaint);
+            PanelCustom2 = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelCustom2, needPaint);
+            PanelCustom3 = new KryptonPalettePanel(redirector!, PaletteBackStyle.PanelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon =
-                new PaletteRedirectBack(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
+                new PaletteRedirectBack(redirector!, PanelCommon.StateDisabled, PanelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             PanelClient.SetRedirector(redirectCommon);

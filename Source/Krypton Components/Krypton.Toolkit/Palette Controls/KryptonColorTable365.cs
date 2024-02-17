@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            _colors = colors;
+            _colors = colors!;
             _roundedEdges = roundedEdges;
         }
         #endregion

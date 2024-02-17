@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
                                        NeedPaintHandler needPaint) 
         {
             // Create the storage objects
-            OverrideFocus = new PaletteTabTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
-            StateCommon = new PaletteTabTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
+            OverrideFocus = new PaletteTabTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
+            StateCommon = new PaletteTabTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
             StateDisabled = new PaletteTabTriple(StateCommon, needPaint);
             StateNormal = new PaletteTabTriple(StateCommon, needPaint);
             StateTracking = new PaletteTabTriple(StateCommon, needPaint);

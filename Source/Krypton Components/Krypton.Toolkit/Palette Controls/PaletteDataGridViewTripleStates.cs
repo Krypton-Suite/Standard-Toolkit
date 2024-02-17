@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Back = new PaletteBack(inherit.PaletteBack, needPaint);
-            Border = new PaletteBorder(inherit.PaletteBorder, needPaint);
-            Content = new PaletteDataGridViewContentStates(inherit.PaletteContent, needPaint);
+            Back = new PaletteBack(inherit!.PaletteBack, needPaint);
+            Border = new PaletteBorder(inherit.PaletteBorder!, needPaint);
+            Content = new PaletteDataGridViewContentStates(inherit.PaletteContent!, needPaint);
         }
         #endregion
 
@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteTriple inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
-            Border.SetInherit(inherit.PaletteBorder);
-            Content.SetInherit(inherit.PaletteContent);
+            Border.SetInherit(inherit.PaletteBorder!);
+            Content.SetInherit(inherit.PaletteContent!);
         }
         #endregion
 
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder? PaletteBorder => Border;
+        public IPaletteBorder PaletteBorder => Border;
 
         #endregion
 
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent? PaletteContent => Content;
+        public IPaletteContent PaletteContent => Content;
 
         #endregion
 

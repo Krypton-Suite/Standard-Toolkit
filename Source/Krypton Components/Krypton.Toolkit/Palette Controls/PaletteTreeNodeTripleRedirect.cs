@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
-            Node = new PaletteTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
+            Node = new PaletteTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
         }
         #endregion
 

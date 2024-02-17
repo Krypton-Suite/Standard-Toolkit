@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         public void PopulateFromBase(PaletteState state, PaletteMetricPadding metric)
         {
             base.PopulateFromBase(state);
-            Padding = _inherit.GetMetricPadding(state, metric);
+            Padding = _inherit!.GetMetricPadding(state, metric);
         }
         #endregion
 
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _inherit.GetMetricInt(state, metric);
+            _inherit!.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            _inherit.GetMetricBool(state, metric);
+            _inherit!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -145,14 +145,13 @@ namespace Krypton.Toolkit
                 )
             {
                 // If the user has defined an actual value to use
-                if (!Padding.Equals(CommonHelper.InheritPadding))
-                {
-                    return Padding;
-                }
+                return !Padding.Equals(CommonHelper.InheritPadding)
+                    ? Padding
+                    : _inherit!.GetMetricPadding(state, metric);
             }
 
             // Pass onto the inheritance
-            return _inherit.GetMetricPadding(state, metric);
+            return _inherit!.GetMetricPadding(state, metric);
         }
         #endregion
     }

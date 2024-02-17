@@ -49,9 +49,9 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Tick = new PaletteElementColor(inheritTick, needPaint);
-            Track = new PaletteElementColor(inheritTrack, needPaint);
-            Position = new PaletteElementColor(inheritPosition, needPaint);
+            Tick = new PaletteElementColor(inheritTick!, needPaint);
+            Track = new PaletteElementColor(inheritTrack!, needPaint);
+            Position = new PaletteElementColor(inheritPosition!, needPaint);
         }
         #endregion
 

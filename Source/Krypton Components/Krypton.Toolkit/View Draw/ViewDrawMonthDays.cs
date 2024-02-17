@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]?.Dispose();
                     _dayMementos[i] = null;
                 }
             }
@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
             DateTime selectEnd = _calendar.SelectionEnd.Date;
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
 
                     if (_dayMementos[index] != null)
                     {
-                        _dayMementos[index].Dispose();
+                        _dayMementos[index]?.Dispose();
                         _dayMementos[index] = null;
                     }
 
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
 
                     if (!skip)
                     {
-                        _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent,
+                        _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent!,
                                                                                                    this, VisualOrientation.Top, paletteState);
 
                         // Track the maximum date displayed for this month (exclude disabled days that are shown for
@@ -453,22 +453,22 @@ namespace Krypton.Toolkit
                             // Do we need to draw the background?
                             if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                             {
-                                using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
-                                    VisualOrientation.Top, paletteState);
-                                using var gh = new GraphicsHint(context.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
+                                using GraphicsPath path = context?.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder!, 
+                                    VisualOrientation.Top, paletteState)!;
+                                using var gh = new GraphicsHint(context!.Graphics, paletteTriple.PaletteBorder!.GetBorderGraphicsHint(paletteState));
                                 context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                             }
 
                             // Do we need to draw the border?
-                            if (paletteTriple.PaletteBorder.GetBorderDraw(paletteState) == InheritBool.True)
+                            if (paletteTriple.PaletteBorder!.GetBorderDraw(paletteState) == InheritBool.True)
                             {
-                                context.Renderer.RenderStandardBorder.DrawBorder(context, drawRectCell, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
+                                context?.Renderer.RenderStandardBorder.DrawBorder(context, drawRectCell, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
                             }
 
                             // Do we need to draw the content?
-                            if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
+                            if (paletteTriple.PaletteContent!.GetContentDraw(paletteState) == InheritBool.True)
                             {
-                                context.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index],
+                                context?.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index]!,
                                                                                    VisualOrientation.Top, paletteState, true);
                             }
                         }

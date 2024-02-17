@@ -99,14 +99,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font? GetContentShortTextNewFont(PaletteState state)
+        public override Font GetContentShortTextNewFont(PaletteState state)
         {
             if (Font != null)
             {
                 return new Font(Font, Font.Style);
             }
             var font = Inherit.GetContentShortTextFont(state);
-            return new Font(font, FontStyle.Italic);
+            return new Font(font!, FontStyle.Italic);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         internal void PerformPaint(VisualControlBase textBox, Graphics? g, PI.RECT rect, SolidBrush backBrush)
         {
             using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
-            using var old1 = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
+            using var old1 = new GraphicsTextHint(g!, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
             // Define the string formatting requirements
             var stringFormat = new StringFormat
             {
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
 
             // Draw entire client area in the background color
-            g.FillRectangle(backBrush, layoutRectangle);
+            g?.FillRectangle(backBrush, layoutRectangle);
 
             var padding = GetContentPadding(PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))
@@ -163,10 +163,10 @@ namespace Krypton.Toolkit
                 layoutRectangle.Height -= padding.Top + padding.Bottom;
             }
 
-            using Font? font = GetContentShortTextNewFont(PaletteState.Normal);
+            using var font = GetContentShortTextNewFont(PaletteState.Normal);
             using var foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
-            g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
+            g?.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
         }
 
         #region TextV

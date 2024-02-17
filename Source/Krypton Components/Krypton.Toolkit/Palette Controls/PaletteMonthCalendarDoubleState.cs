@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect redirect,
-                                               NeedPaintHandler needPaint) 
-            : base(redirect, needPaint)
+                                               NeedPaintHandler? needPaint) 
+            : base(redirect, needPaint!)
         {
             Header = new PaletteTriple(redirect.Header, needPaint);
             Day = new PaletteTriple(redirect.Day, needPaint);

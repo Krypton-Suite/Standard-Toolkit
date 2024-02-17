@@ -36,14 +36,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of drop down button images.</param>
-        public PaletteRedirectDropDownButton(PaletteBase target,
+        public PaletteRedirectDropDownButton(PaletteBase? target,
                                              [DisallowNull] DropDownButtonImages images)
             : base(target)
         {
             Debug.Assert(images != null);
 
             // Remember incoming target
-            _images = images;
+            _images = images!;
         }
         #endregion
 

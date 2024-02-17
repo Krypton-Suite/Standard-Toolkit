@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             public BackToBorder([DisallowNull] IPaletteBorder parent)
             {
                 Debug.Assert(parent != null);
-                _parent = parent;
+                _parent = parent!;
             }
             #endregion
 

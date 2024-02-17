@@ -10,6 +10,7 @@
  */
 #endregion
 
+#pragma warning disable VSSpell001
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -51,44 +52,44 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Store incoming reference
-            _redirect = redirect;
+            _redirect = redirect!;
 
             // Create redirectors
-            _ribbonGeneralRedirect = new PaletteRibbonGeneralInheritRedirect(redirect);
-            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuInner);
-            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuOuter);
-            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuDocs);
-            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
-            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
-            _ribbonQATFullRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATFullbar);
-            _ribbonQATOverRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATOverflow);
-            _ribbonGalleryBackRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGalleryBack);
-            _ribbonGalleryBorderRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGalleryBorder);
+            _ribbonGeneralRedirect = new PaletteRibbonGeneralInheritRedirect(redirect!);
+            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonAppMenuInner);
+            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonAppMenuOuter);
+            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonAppMenuDocs);
+            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect!, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
+            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect!, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
+            _ribbonQATFullRedirect = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonQATFullbar);
+            _ribbonQATOverRedirect = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonQATOverflow);
+            _ribbonGalleryBackRedirect = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonGalleryBack);
+            _ribbonGalleryBorderRedirect = new PaletteRibbonBackInheritRedirect(redirect!, PaletteRibbonBackStyle.RibbonGalleryBorder);
 
             // Create palettes
             RibbonGeneral = new PaletteRibbonGeneral(_ribbonGeneralRedirect, needPaint);
-            RibbonAppButton = new KryptonPaletteRibbonAppButton(redirect, needPaint);
+            RibbonAppButton = new KryptonPaletteRibbonAppButton(redirect!, needPaint);
             _ribbonAppMenuInner = new PaletteRibbonBack(_ribbonAppMenuInnerInherit, needPaint);
             _ribbonAppMenuOuter = new PaletteRibbonBack(_ribbonAppMenuOuterInherit, needPaint);
             _ribbonAppMenuDocs = new PaletteRibbonBack(_ribbonAppMenuDocsInherit, needPaint);
             _ribbonAppMenuDocsTitle = new PaletteRibbonText(_ribbonAppMenuDocsTitleInherit, needPaint);
             _ribbonAppMenuDocsEntry = new PaletteRibbonText(_ribbonAppMenuDocsEntryInherit, needPaint);
-            RibbonGroupArea = new KryptonPaletteRibbonGroupArea(redirect, needPaint);
-            RibbonGroupButtonText = new KryptonPaletteRibbonGroupButtonText(redirect, needPaint);
-            RibbonGroupCheckBoxText = new KryptonPaletteRibbonGroupCheckBoxText(redirect, needPaint);
-            RibbonGroupNormalBorder = new KryptonPaletteRibbonGroupNormalBorder(redirect, needPaint);
-            RibbonGroupNormalTitle = new KryptonPaletteRibbonGroupNormalTitle(redirect, needPaint);
-            RibbonGroupCollapsedBorder = new KryptonPaletteRibbonGroupCollapsedBorder(redirect, needPaint);
-            RibbonGroupCollapsedBack = new KryptonPaletteRibbonGroupCollapsedBack(redirect, needPaint);
-            RibbonGroupCollapsedFrameBorder = new KryptonPaletteRibbonGroupCollapsedFrameBorder(redirect, needPaint);
-            RibbonGroupCollapsedFrameBack = new KryptonPaletteRibbonGroupCollapsedFrameBack(redirect, needPaint);
-            RibbonGroupCollapsedText = new KryptonPaletteRibbonGroupCollapsedText(redirect, needPaint);
-            RibbonGroupRadioButtonText = new KryptonPaletteRibbonGroupRadioButtonText(redirect, needPaint);
-            RibbonGroupLabelText = new KryptonPaletteRibbonGroupLabelText(redirect, needPaint);
+            RibbonGroupArea = new KryptonPaletteRibbonGroupArea(redirect!, needPaint);
+            RibbonGroupButtonText = new KryptonPaletteRibbonGroupButtonText(redirect!, needPaint);
+            RibbonGroupCheckBoxText = new KryptonPaletteRibbonGroupCheckBoxText(redirect!, needPaint);
+            RibbonGroupNormalBorder = new KryptonPaletteRibbonGroupNormalBorder(redirect!, needPaint);
+            RibbonGroupNormalTitle = new KryptonPaletteRibbonGroupNormalTitle(redirect!, needPaint);
+            RibbonGroupCollapsedBorder = new KryptonPaletteRibbonGroupCollapsedBorder(redirect!, needPaint);
+            RibbonGroupCollapsedBack = new KryptonPaletteRibbonGroupCollapsedBack(redirect!, needPaint);
+            RibbonGroupCollapsedFrameBorder = new KryptonPaletteRibbonGroupCollapsedFrameBorder(redirect!, needPaint);
+            RibbonGroupCollapsedFrameBack = new KryptonPaletteRibbonGroupCollapsedFrameBack(redirect!, needPaint);
+            RibbonGroupCollapsedText = new KryptonPaletteRibbonGroupCollapsedText(redirect!, needPaint);
+            RibbonGroupRadioButtonText = new KryptonPaletteRibbonGroupRadioButtonText(redirect!, needPaint);
+            RibbonGroupLabelText = new KryptonPaletteRibbonGroupLabelText(redirect!, needPaint);
             RibbonQATFullbar = new PaletteRibbonBack(_ribbonQATFullRedirect, needPaint);
-            RibbonQATMinibar = new KryptonPaletteRibbonQATMinibar(redirect, needPaint);
+            RibbonQATMinibar = new KryptonPaletteRibbonQATMinibar(redirect!, needPaint);
             RibbonQATOverflow = new PaletteRibbonBack(_ribbonQATOverRedirect, needPaint);
-            RibbonTab = new KryptonPaletteRibbonTab(redirect, needPaint);
+            RibbonTab = new KryptonPaletteRibbonTab(redirect!, needPaint);
             _ribbonGalleryBack = new PaletteRibbonBack(_ribbonGalleryBackRedirect, needPaint);
             _ribbonGalleryBorder = new PaletteRibbonBack(_ribbonGalleryBorderRedirect, needPaint);
         }

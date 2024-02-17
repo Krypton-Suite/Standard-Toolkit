@@ -81,14 +81,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _checkedDisabled = _redirect.GetRadioButtonImage(false, true, false, false);
-            _checkedNormal = _redirect.GetRadioButtonImage(true, true, false, false);
-            _checkedTracking = _redirect.GetRadioButtonImage(true, true, true, false);
-            _checkedPressed = _redirect.GetRadioButtonImage(true, true, false, true);
-            _uncheckedDisabled = _redirect.GetRadioButtonImage(false, false, false, false);
-            _uncheckedNormal = _redirect.GetRadioButtonImage(true, false, false, false);
-            _uncheckedTracking = _redirect.GetRadioButtonImage(true, false, true, false);
-            _uncheckedPressed = _redirect.GetRadioButtonImage(true, false, false, true);
+            _checkedDisabled = _redirect?.GetRadioButtonImage(false, true, false, false);
+            _checkedNormal = _redirect?.GetRadioButtonImage(true, true, false, false);
+            _checkedTracking = _redirect?.GetRadioButtonImage(true, true, true, false);
+            _checkedPressed = _redirect?.GetRadioButtonImage(true, true, false, true);
+            _uncheckedDisabled = _redirect?.GetRadioButtonImage(false, false, false, false);
+            _uncheckedNormal = _redirect?.GetRadioButtonImage(true, false, false, false);
+            _uncheckedTracking = _redirect?.GetRadioButtonImage(true, false, true, false);
+            _uncheckedPressed = _redirect?.GetRadioButtonImage(true, false, false, true);
         }
         #endregion
 
