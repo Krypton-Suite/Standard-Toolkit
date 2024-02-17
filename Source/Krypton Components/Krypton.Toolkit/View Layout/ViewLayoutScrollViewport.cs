@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             Orientation = orientation;
 
             // Create the child viewport
-            Viewport = new ViewLayoutViewport(paletteMetrics, metricPadding,
+            Viewport = new ViewLayoutViewport(paletteMetrics!, metricPadding,
                                                metricOvers, ViewportOrientation(_viewportVertical),
                                                alignment, animateChange)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             };
 
             // Put the provided element inside the viewport
-            Viewport.Add(viewportFiller);
+            Viewport.Add(viewportFiller!);
 
             // Hook into animation step events
             Viewport.AnimateStep += OnAnimateStep;
@@ -92,9 +92,9 @@ namespace Krypton.Toolkit
             // To prevent the contents of the viewport from being able to draw outside
             // the viewport (such as having child controls) we use a ViewLayoutControl
             // that uses a child control to restrict the drawing region.
-            ViewControl = new ViewLayoutControl(rootControl, Viewport)
+            ViewControl = new ViewLayoutControl(rootControl!, Viewport)
             {
-                InDesignMode = rootControl.InDesignMode
+                InDesignMode = rootControl!.InDesignMode
             };
 
             // Create the scrollbar and matching border edge
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         public void RevertParent(Control newParent, Control? c)
         {
             // Remove control from current collection
-            CommonHelper.RemoveControlFromParent(c);
+            CommonHelper.RemoveControlFromParent(c!);
 
             // Add to our child control
             CommonHelper.AddControlToParent(newParent, c);
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
             BorderEdgeH.Visible = ScrollbarH.Visible = false;
 
             // Do not actually change the layout of any child controls
-            context.ViewManager.DoNotLayoutControls = true;
+            context.ViewManager!.DoNotLayoutControls = true;
 
             do
             {
@@ -434,7 +434,7 @@ namespace Krypton.Toolkit
                 NeedPaint(true);
 
                 // Make sure the child control is redraw to keep in sync with new scroll position
-                ViewControl.ChildControl.Refresh();
+                ViewControl.ChildControl?.Refresh();
             }
         }
 
@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
                 NeedPaint(true);
 
                 // Make sure the child control is redraw to keep in sync with new scroll position
-                ViewControl.ChildControl.Refresh();
+                ViewControl.ChildControl?.Refresh();
             }
         }
 
