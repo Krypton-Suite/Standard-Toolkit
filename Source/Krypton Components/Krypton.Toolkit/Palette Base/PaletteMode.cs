@@ -183,6 +183,11 @@ namespace Krypton.Toolkit
         Microsoft365BlackDarkMode,
 
         /// <summary>
+        /// Specifies the alternate dark Black color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365BlackDarkModeAlternate,
+
+        /// <summary>
         /// Specifies the Blue color variant of the Microsoft 365 appearance.
         /// </summary>
         Microsoft365Blue,

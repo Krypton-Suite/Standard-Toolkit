@@ -1384,7 +1384,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    StateCommon?.Item.SetStyles(_style);
+                    StateCommon.Item.SetStyles(_style);
                     OverrideFocus.Item.SetStyles(_style);
                     _listBox.Recreate();
                     PerformNeedPaint(true);
@@ -2271,7 +2271,7 @@ namespace Krypton.Toolkit
                         // Ask the view element to actually draw
                         using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
-                            _listBox?.ViewDrawPanel.Render(context);
+                            _listBox.ViewDrawPanel.Render(context);
                             _layoutDocker.Render(context);
                         }
 

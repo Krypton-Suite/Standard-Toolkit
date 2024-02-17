@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     ///<summary>A property grid control that supports the Krypton render.</summary>
@@ -31,7 +29,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
-        ///<summary>A property grid control that supports the Krypton render.</summary>
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonPropertyGrid" /> class.</summary>
         public KryptonPropertyGrid()
         {
             SetStyle(ControlStyles.UserPaint
@@ -58,13 +57,13 @@ namespace Krypton.Toolkit
             _stateNormal = new PaletteInputControlTripleStates(_stateCommon, null);
             _stateActive = new PaletteInputControlTripleStates(_stateCommon, null);
 
-            InitColours();
+            InitColors();
         }
         #endregion
 
         #region Public
         /// <summary>Refreshes the colours.</summary>
-        public void RefreshColours() => InitColours();
+        public void RefreshColors() => InitColors();
         #endregion
 
         #region Protected Overrides
@@ -97,7 +96,7 @@ namespace Krypton.Toolkit
             {
                 _palette.PalettePaint += OnPalettePaint;
                 //repaint with new values
-                InitColours();
+                InitColors();
             }
 
             Invalidate();
@@ -110,7 +109,7 @@ namespace Krypton.Toolkit
         private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         /// <summary>Initialises the colours.</summary>
-        private void InitColours()
+        private void InitColors()
         {
             ToolStripRenderer = ToolStripManager.Renderer;
 
@@ -139,8 +138,7 @@ namespace Krypton.Toolkit
                 {
                     state = PaletteState.ContextNormal;
                     triple = _stateNormal;
-                    // tobitege commented out to avoid unrecoverable exception in System.Drawing
-                    // when toggling theme back and forth
+                    // Note: tobitege commented out to avoid unrecoverable exception in System.Drawing, when toggling theme back and forth
                     //control.Font = normalFont!;
                 }
                 else

@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);
-            _palette = palette;
+            _palette = palette!;
         }
 
         /// <summary>

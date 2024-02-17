@@ -83,9 +83,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            ViewLayoutRibbonTabs = layoutTabs;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            ViewLayoutRibbonTabs = layoutTabs!;
+            _needPaint = needPaint!;
 
             // Create overrides for handling a focus state
             _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
@@ -354,10 +354,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
                 _cacheState = State;
             }
 
-            // Do we need to actually perform the relayout?
+            // Do we need to actually perform the re-layout?
             if ((_displayRect != ClientRectangle) ||
                 (Ribbon.DirtyPaletteCounter != _dirtyPaletteLayout))
             {
@@ -603,7 +603,7 @@ namespace Krypton.Ribbon
         private void CheckPaletteState(ViewContext context)
         {
             // Should control be enabled or disabled
-            var enabled = IsFixed || context.Control.Enabled;
+            var enabled = IsFixed || context.Control!.Enabled;
 
             // Ensure we and child and in correct enabled state
             Enabled = enabled;
@@ -745,7 +745,7 @@ namespace Krypton.Ribbon
             else
             {
                 // Convert the mouse point to screen coords from the containing control
-                Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl!.PointToScreen(new Point(e.X, e.Y));
+                Point screenPt = Ribbon.TabsArea!.TabsContainerControl.ChildControl!.PointToScreen(new Point(e.X, e.Y));
 
                 // Convert back to ribbon client coords, needed for the show context menu call
                 Point clientPt = Ribbon.PointToClient(screenPt);

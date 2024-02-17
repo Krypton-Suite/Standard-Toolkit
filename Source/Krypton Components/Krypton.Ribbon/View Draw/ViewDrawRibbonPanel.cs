@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
             // of ribbon then we need to draw the tabs area as part of the window chrome
             if ( _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
-                var tabsHeight = _ribbon.TabsArea.ClientHeight;
+                var tabsHeight = _ribbon.TabsArea!.ClientHeight;
 
                 // Clip to prevent drawing over the tabs area
                 using (var clip = new Clipping(context.Graphics,

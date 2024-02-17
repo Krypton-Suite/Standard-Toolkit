@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
     {
-        private readonly int MINI_BUTTON_HEIGHT; // = 22;
-        private readonly int MINI_BUTTON_OFFSET; // = 24;
+        private readonly int _miniButtonHeight; // = 22;
+        private readonly int _miniButtonOffset; // = 24;
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawRibbonQATExtraButtonMini class.
@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
                                                 NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {
-            MINI_BUTTON_HEIGHT = (int)(22 * FactorDpiY);
-            MINI_BUTTON_OFFSET = (int)(24 * FactorDpiX);
+            _miniButtonHeight = (int)(22 * FactorDpiY);
+            _miniButtonOffset = (int)(24 * FactorDpiX);
         }
 
         /// <summary>
@@ -54,11 +54,11 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            Rectangle clientRect = context.DisplayRectangle;
+            Rectangle clientRect = context!.DisplayRectangle;
 
             // For the minibar we have to position ourself at bottom of available area
-            clientRect.Y = clientRect.Bottom - 1 - MINI_BUTTON_OFFSET;
-            clientRect.Height = MINI_BUTTON_HEIGHT;
+            clientRect.Y = clientRect.Bottom - 1 - _miniButtonOffset;
+            clientRect.Height = _miniButtonHeight;
 
             // Use modified size to position base class and children
             context.DisplayRectangle = clientRect;

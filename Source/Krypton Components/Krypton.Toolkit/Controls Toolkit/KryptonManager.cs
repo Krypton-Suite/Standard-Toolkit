@@ -94,6 +94,7 @@ namespace Krypton.Toolkit
         private static PaletteMicrosoft365DarkGray? _paletteMicrosoft365DarkGray;
         private static PaletteMicrosoft365Black? _paletteMicrosoft365Black;
         private static PaletteMicrosoft365BlackDarkMode? _paletteMicrosoft365BlackDarkMode;
+        private static PaletteMicrosoft365BlackDarkModeAlternate? _paletteMicrosoft365BlackDarkModeAlternate;
         private static PaletteMicrosoft365Blue? _paletteMicrosoft365Blue;
         private static PaletteMicrosoft365BlueDarkMode? _paletteMicrosoft365BlueDarkMode;
         private static PaletteMicrosoft365BlueLightMode? _paletteMicrosoft365BlueLightMode;
@@ -534,6 +535,8 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365Black;
                 case PaletteMode.Microsoft365BlackDarkMode:
                     return PaletteMicrosoft365BlackDarkMode;
+                case PaletteMode.Microsoft365BlackDarkModeAlternate:
+                    return PaletteMicrosoft365BlackDarkModeAlternate;
                 case PaletteMode.Microsoft365BlueDarkMode:
                     return PaletteMicrosoft365BlueDarkMode;
                 case PaletteMode.Microsoft365BlueLightMode:
@@ -734,6 +737,8 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
+
+        public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
 
         /// <summary>
         /// Gets the palette Microsoft365 blue.

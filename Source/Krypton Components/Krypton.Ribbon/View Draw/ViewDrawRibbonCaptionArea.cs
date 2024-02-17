@@ -66,12 +66,12 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _needPaintDelegate = needPaintDelegate!;
             _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
-            _redirect = new PaletteCaptionRedirect(redirect);
+            _redirect = new PaletteCaptionRedirect(redirect!);
 
             CreateViewElements();
             SetupParentMonitoring();
@@ -140,8 +140,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
-            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
+            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager?.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
+            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager?.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
         }
         #endregion
 
@@ -387,7 +387,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;

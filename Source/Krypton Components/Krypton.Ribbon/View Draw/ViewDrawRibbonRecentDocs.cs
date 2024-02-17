@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly RibbonRecentDocsTitleToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity
@@ -34,10 +34,10 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonRecentDocs([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Use a class to convert from ribbon recent docs to content interface
-            _contentProvider = new RibbonRecentDocsTitleToContent(ribbon.StateCommon.RibbonGeneral,
+            _contentProvider = new RibbonRecentDocsTitleToContent(ribbon!.StateCommon.RibbonGeneral,
                                                                   ribbon.StateCommon.RibbonAppMenuDocsTitle);
         }        
 
@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Remember to dispose of old memento
             if (_memento != null)

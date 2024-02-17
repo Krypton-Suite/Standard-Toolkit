@@ -29,8 +29,8 @@ namespace Krypton.Ribbon
         private IDisposable? _mementoContentShadow1;
         private IDisposable? _mementoContentShadow2;
         private Rectangle _textRect;
-        private readonly int TEXT_SIDE_GAP; // = 4;
-        private readonly int TEXT_BOTTOM_GAP; // = 3;
+        private readonly int _textSideGap; // = 4;
+        private readonly int _textBottomGap; // = 3;
         #endregion
 
         #region Identity
@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(inherit != null);
 
-            TEXT_SIDE_GAP = (int)(4 * FactorDpiX);
-            TEXT_BOTTOM_GAP = (int)(3 * FactorDpiY);
+            _textSideGap = (int)(4 * FactorDpiX);
+            _textBottomGap = (int)(3 * FactorDpiY);
 
             // Remember incoming references
             _inherit = inherit!;
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
             var adjustRect = new Rectangle(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
 
             // Get the client rect of the parent
-            Rectangle parentRect = Parent.ClientRectangle;
+            Rectangle parentRect = Parent!.ClientRectangle;
 
             // If we are only partially visible on the right hand side
             if ((adjustRect.X < parentRect.Right) && (adjustRect.Right >= parentRect.Right))
@@ -175,9 +175,9 @@ namespace Krypton.Ribbon
 
             // Use the font height to decide on the text rectangle
             var fontHeight = _ribbon.CalculatedValues.DrawFontHeight;
-            _textRect = new Rectangle(ClientLocation.X + TEXT_SIDE_GAP,
-                                      ClientLocation.Y + (ClientHeight - fontHeight - TEXT_BOTTOM_GAP),
-                                      ClientWidth - (TEXT_SIDE_GAP * 2),
+            _textRect = new Rectangle(ClientLocation.X + _textSideGap,
+                                      ClientLocation.Y + (ClientHeight - fontHeight - _textBottomGap),
+                                      ClientWidth - (_textSideGap * 2),
                                       fontHeight);
 
             // Remember to dispose of old memento
@@ -244,7 +244,7 @@ namespace Krypton.Ribbon
                 PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
                 // Use renderer to draw the tab background
-                _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
+                _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack!);
 
                 var shadowTextRect1 = _textRect with { X = _textRect.X - 1, Y = _textRect.Y + 1 };
                 var shadowTextRect2 = _textRect with { X = _textRect.X + 1, Y = _textRect.Y + 1 };
@@ -259,7 +259,7 @@ namespace Krypton.Ribbon
                                                                    state, true);
 
                 context.Renderer.RenderStandardContent.DrawContent(context, shadowTextRect2,
-                                                                   _contentProvider, _mementoContentShadow2,
+                                                                   _contentProvider, _mementoContentShadow2!,
                                                                    VisualOrientation.Top,
                                                                    state, true);
 
@@ -281,7 +281,7 @@ namespace Krypton.Ribbon
                 PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
                 // Use renderer to draw the tab background
-                _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
+                _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack!);
 
                 // Use renderer to draw the text content
                 if (_mementoContentText != null)

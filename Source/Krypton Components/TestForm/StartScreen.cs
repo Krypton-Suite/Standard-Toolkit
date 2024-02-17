@@ -133,5 +133,12 @@ namespace TestForm
 
             outlookGridTest.Show();
         }
+
+        private void kbtnCalendar_Click(object sender, EventArgs e)
+        {
+            CalendarTest calendarTest = new CalendarTest();
+
+            calendarTest.Show();
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonGroup != null);
-            _ribbonGroup = ribbonGroup;
+            _ribbonGroup = ribbonGroup!;
             _padding = new Padding((int)(1 * FactorDpiX), 0, 0, 0);
         }
 
