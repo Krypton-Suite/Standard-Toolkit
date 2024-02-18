@@ -881,8 +881,6 @@ namespace Krypton.Ribbon
                 case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
-                default:
-                    break;
             }
         }
 
@@ -894,7 +892,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -950,7 +948,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -1099,7 +1097,7 @@ namespace Krypton.Ribbon
         private void HookContextMenuEvents(KryptonContextMenuCollection collection, bool hook)
         {
             // Search for items of interest
-            foreach (KryptonContextMenuItemBase item in collection)
+            foreach (var item in collection)
             {
                 // Hook into color events
                 if (item is KryptonContextMenuColorColumns columns)
@@ -1126,7 +1124,7 @@ namespace Krypton.Ribbon
             if (AutoRecentColors)
             {
                 // We do not add to recent colors if it is inside another color columns 
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (var item in _kryptonContextMenu?.Items!)
                 {
                     // Only interested in the non-recent colors color columns
                     if ((item != _colorsRecent) && (item is KryptonContextMenuColorColumns colors))
@@ -1152,7 +1150,7 @@ namespace Krypton.Ribbon
                 if ((color != Color.Empty) && !color.Equals(Color.Empty))
                 {
                     var found = false;
-                    foreach (Color recentColor in _recentColors)
+                    foreach (var recentColor in _recentColors)
                     {
                         if (recentColor.Equals(color))
                         {
@@ -1187,11 +1185,11 @@ namespace Krypton.Ribbon
             _itemsMoreColors.Visible = _visibleMoreColors;
 
             // Define the display strings
-            _headingTheme.Text = Ribbon.RibbonStrings.ThemeColors;
-            _headingStandard.Text = Ribbon.RibbonStrings.StandardColors;
-            _headingRecent.Text = Ribbon.RibbonStrings.RecentColors;
-            _itemNoColor.Text = Ribbon.RibbonStrings.NoColor;
-            _itemMoreColors.Text = Ribbon.RibbonStrings.MoreColors;
+            _headingTheme.Text = Ribbon?.RibbonStrings.ThemeColors!;
+            _headingStandard.Text = Ribbon?.RibbonStrings.StandardColors!;
+            _headingRecent.Text = Ribbon?.RibbonStrings.RecentColors!;
+            _itemNoColor.Text = Ribbon?.RibbonStrings.NoColor!;
+            _itemMoreColors.Text = Ribbon?.RibbonStrings.MoreColors!;
 
             // Define the colors used in the first two color schemes
             _colorsTheme.ColorScheme = SchemeThemes;
@@ -1228,7 +1226,7 @@ namespace Krypton.Ribbon
             if (target.Visible)
             {
                 // Check all items before the target
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (var item in _kryptonContextMenu?.Items!)
                 {
                     // Finish when we reach the target
                     if (item == target)
@@ -1283,8 +1281,8 @@ namespace Krypton.Ribbon
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed;
+            var kcm = sender as KryptonContextMenu;
+            kcm!.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate
             if (_kcmFinishDelegate != null)
@@ -1294,7 +1292,7 @@ namespace Krypton.Ribbon
             }
 
             // Unhook from item events
-            HookContextMenuEvents(_kryptonContextMenu.Items, false);
+            HookContextMenuEvents(_kryptonContextMenu?.Items!, false);
         }
         #endregion
     }

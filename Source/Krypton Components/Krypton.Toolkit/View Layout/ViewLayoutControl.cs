@@ -50,13 +50,13 @@ namespace Krypton.Toolkit
             ChildView = viewChild;
 
             // Ensure the child is hooked into the hierarchy of elements
-            ChildView.Parent = this;
+            ChildView!.Parent = this;
 
             // Create the view control instance
             ChildControl = viewControl;
 
             // Back reference hookup
-            ChildControl.ViewLayoutControl = this;
+            ChildControl!.ViewLayoutControl = this;
 
             // Start off invisible until first laid out
             ChildControl.Visible = false;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             OwningControl = ChildControl;
 
             // Add our new control to the provided parent collection
-            CommonHelper.AddControlToParent(rootControl, ChildControl);
+            CommonHelper.AddControlToParent(rootControl!, ChildControl);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child controls paint delegate.
         /// </summary>
-        public NeedPaintHandler ChildPaintDelegate => ChildControl.NeedPaintDelegate;
+        public NeedPaintHandler? ChildPaintDelegate => ChildControl?.NeedPaintDelegate;
 
         #endregion
 
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ChildTransparentBackground
         {
-            get => ChildControl.TransparentBackground;
-            set => ChildControl.TransparentBackground = value;
+            get => ChildControl!.TransparentBackground;
+            set => ChildControl!.TransparentBackground = value;
         }
         #endregion
 
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool InDesignMode
         {
-            get => ChildControl.InDesignMode;
-            set => ChildControl.InDesignMode = value;
+            get => ChildControl!.InDesignMode;
+            set => ChildControl!.InDesignMode = value;
         }
         #endregion
 
@@ -195,10 +195,10 @@ namespace Krypton.Toolkit
         public void MakeParent(Control? c)
         {
             // Remove control from current collection
-            CommonHelper.RemoveControlFromParent(c);
+            CommonHelper.RemoveControlFromParent(c!);
 
             // Add to our child control
-            CommonHelper.AddControlToParent(ChildControl, c);
+            CommonHelper.AddControlToParent(ChildControl!, c!);
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure the control has the correct parent
-                UpdateParent(context.Control);
+                UpdateParent(context.Control!);
 
                 // Ensure context has the correct control
                 using var ccc = new CorrectContextControl(context, ChildControl);
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
                 ClientRectangle = context.DisplayRectangle;
 
                 // Are we allowed to layout child controls?
-                if (!context.ViewManager.DoNotLayoutControls)
+                if (!context.ViewManager!.DoNotLayoutControls)
                 {
                     // Do we have a control to position?
                     if (ChildControl != null)

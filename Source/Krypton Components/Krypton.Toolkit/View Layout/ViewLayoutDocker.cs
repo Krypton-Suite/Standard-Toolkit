@@ -119,13 +119,13 @@ namespace Krypton.Toolkit
             Debug.Assert(child != null);
 
             // Does this element exist in the lookup?
-            if (!_childDocking.ContainsKey(child))
+            if (!_childDocking.ContainsKey(child!))
             {
                 // No, so add with a default value
-                _childDocking.Add(child, ViewDockStyle.Top);
+                _childDocking.Add(child!, ViewDockStyle.Top);
             }
 
-            return _childDocking[child];
+            return _childDocking[child!];
         }
 
         /// <summary>
@@ -138,15 +138,15 @@ namespace Krypton.Toolkit
             Debug.Assert(child != null);
 
             // If the lookup is not already defined
-            if (!_childDocking.ContainsKey(child))
+            if (!_childDocking.ContainsKey(child!))
             {
                 // Then just add the value
-                _childDocking.Add(child, dock);
+                _childDocking.Add(child!, dock);
             }
             else
             {
                 // Overwrite the existing value
-                _childDocking[child] = dock;
+                _childDocking[child!] = dock;
             }
         }
         #endregion
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
             var newChildDocking = new ViewDockStyleLookup();
 
             // Remember the original display rectangle provided
-            Rectangle originalRect = context.DisplayRectangle;
+            Rectangle originalRect = context!.DisplayRectangle;
             Rectangle displayRect = context.DisplayRectangle;
 
             // Accumulate the size that must be provided by docking edges and then filler
@@ -334,7 +334,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Space available for children begins with our space
             Rectangle fillerRect = ClientRectangle;
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
             var fillEdges = PaletteDrawBorders.All;
 
             // Position all except the filler
-            foreach (ViewBase child in Reverse()
+            foreach (var child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
                      )
             {
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
                 Size childSize = child.GetPreferredSize(context);
 
                 // Position the child inside the available space
-                switch (CalculateDock(OrientateDock(GetDock(child)), context.Control))
+                switch (CalculateDock(OrientateDock(GetDock(child)), context.Control!))
                 {
                     case ViewDockStyle.Top:
                         context.DisplayRectangle = fillerRect with { Height = childSize.Height };
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
             }
 
             // Allow the filler rectangle to be modified before being used
-            fillerRect = UpdateFillerRect(fillerRect, context.Control);
+            fillerRect = UpdateFillerRect(fillerRect, context.Control!);
 
             // Position any filler last
             foreach (ViewBase child in Reverse()
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
                 var childCanvas = child as ViewDrawCanvas;
 
                 // Docking edge determines calculation
-                switch (CalculateDock(GetDock(child), context.Control))
+                switch (CalculateDock(GetDock(child), context.Control!))
                 {
                     case ViewDockStyle.Fill:
                         if (childCanvas != null)

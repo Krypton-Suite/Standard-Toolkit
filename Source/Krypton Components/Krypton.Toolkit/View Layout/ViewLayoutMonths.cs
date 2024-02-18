@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
                                 PaletteRedirect redirector,
                                 NeedPaintHandler needPaintDelegate)
         {
-            Provider = provider;
+            Provider = provider!;
             Calendar = calendar;
             _oldSelectionStart = Calendar.SelectionStart;
             _oldSelectionEnd = Calendar.SelectionEnd;
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
 
             // Use a controller that can work against all the displayed months
             var controller =
-                new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
+                new MonthCalendarController(monthCalendar!, viewManager!, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
             // We must have a focused day
             if (FocusDay != null)
             {
-                KeyController.KeyDown(c, e);
+                KeyController?.KeyDown(c, e);
                 return true;
             }
             else
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
             // Find the column to be used in lookup
             for (var col = 0; col < cols; col++)
             {
-                if (pt.X < this[col + 1].ClientRectangle.Right)
+                if (pt.X < this[col + 1]!.ClientRectangle.Right)
                 {
                     ptCol = col;
                     break;
@@ -325,15 +325,15 @@ namespace Krypton.Toolkit
             // Find the row to be used in lookup
             for (var row = 0; row < rows; row++)
             {
-                if (pt.Y < this[(row * cols) + 1].ClientRectangle.Bottom)
+                if (pt.Y < this[(row * cols) + 1]!.ClientRectangle.Bottom)
                 {
                     ptRow = row;
                     break;
                 }
             }
 
-            var target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
-            return target.ViewDrawMonthDays.DayNearPoint(pt);
+            var target = this[ptCol + (ptRow * cols) + 1] as ViewDrawMonth;
+            return target!.ViewDrawMonthDays.DayNearPoint(pt);
         }
 
         /// <summary>
@@ -473,10 +473,10 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
-            return this[1].GetPreferredSize(context);
+            return this[1]!.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
 
             if (_drawHeader.Visible)
             {
-                Size retSize = _drawHeader.GetPreferredSize(context);
+                Size retSize = _drawHeader.GetPreferredSize(context!);
                 retSize.Width = 0;
                 retSize.Height += GAP * 2;
                 return retSize;
@@ -508,7 +508,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
             var preferredSize = Size.Empty;
@@ -517,7 +517,7 @@ namespace Krypton.Toolkit
             if (_drawHeader.Visible)
             {
                 // Measure size of the header
-                Size headerSize = _drawHeader.GetPreferredSize(context);
+                Size headerSize = _drawHeader.GetPreferredSize(context!);
 
                 // Only use the height as the width is based on the months only
                 preferredSize.Height = headerSize.Height + (GAP * 2);
@@ -527,7 +527,7 @@ namespace Krypton.Toolkit
             if (Count > 1)
             {
                 // Only need to measure the first child as all children must be the same size
-                Size monthSize = this[1].GetPreferredSize(context);
+                Size monthSize = this[1]!.GetPreferredSize(context!);
 
                 // Find total width based on requested dimensions and add a single pixel space around and between months
                 preferredSize.Width += (monthSize.Width * Calendar.CalendarDimensions.Width) + (GAP * Calendar.CalendarDimensions.Width) + GAP;
@@ -545,11 +545,11 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Is there a today header to layout?
             if (_drawHeader.Visible)
@@ -568,7 +568,7 @@ namespace Krypton.Toolkit
             if (Count > 1)
             {
                 // Only need to measure the first child as all children must be the same size
-                Size monthSize = this[1].GetPreferredSize(context);
+                Size monthSize = this[1]!.GetPreferredSize(context);
 
                 // Position each child within the required grid
                 Size dimensions = Calendar.CalendarDimensions;
@@ -580,7 +580,7 @@ namespace Krypton.Toolkit
                                                                  ClientLocation.Y + (y * monthSize.Height) + (GAP * (y + 1)),
                                                                  monthSize.Width, monthSize.Height);
 
-                        this[index++].Layout(context);
+                        this[index++]?.Layout(context);
                     }
                 }
             }
@@ -663,7 +663,7 @@ namespace Krypton.Toolkit
         private void SyncData(ViewLayoutContext context)
         {
             // A change in culture means we need to recache information
-            if ((_lastCultureInfo == null) || (_lastCultureInfo != CultureInfo.CurrentCulture))
+            if ((_lastCultureInfo == null) || (!Equals(_lastCultureInfo, CultureInfo.CurrentCulture)))
             {
                 _lastCultureInfo = CultureInfo.CurrentCulture;
                 _needPaintDelegate(this, new NeedLayoutEventArgs(true));
@@ -695,8 +695,8 @@ namespace Krypton.Toolkit
         private void SyncMonths()
         {
             // We need the today header if we show the today button or a button spec
-            this[0].Visible = _showToday || (ButtonSpecs.Count > 0);
-            this[0].Enabled = Enabled;
+            this[0]!.Visible = _showToday || (ButtonSpecs.Count > 0);
+            this[0]!.Enabled = Enabled;
             _drawToday.Visible = _showToday;
 
             // How many month children instances do we need?
@@ -715,7 +715,7 @@ namespace Krypton.Toolkit
                 // Remove excess month view instances
                 for (var i = Count - 1; i > months; i--)
                 {
-                    this[i].Dispose();
+                    this[i]?.Dispose();
                     RemoveAt(i);
                 }
             }
@@ -772,8 +772,8 @@ namespace Krypton.Toolkit
             // Inform each view which month it should be drawing
             for (var i = 1; i < Count; i++)
             {
-                var viewMonth = (ViewDrawMonth)this[i];
-                viewMonth.Enabled = Enabled;
+                var viewMonth = this[i] as ViewDrawMonth;
+                viewMonth!.Enabled = Enabled;
                 viewMonth.Month = currentMonth;
                 viewMonth.FirstMonth = i == 1;
                 viewMonth.LastMonth = i == (Count - 1);
@@ -804,7 +804,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

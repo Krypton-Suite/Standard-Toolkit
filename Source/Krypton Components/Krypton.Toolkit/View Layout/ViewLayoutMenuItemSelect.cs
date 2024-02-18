@@ -47,15 +47,15 @@ namespace Krypton.Toolkit
             Debug.Assert(provider != null);
 
             // Store incoming references
-            _itemSelect = itemSelect;
-            _provider = provider;
+            _itemSelect = itemSelect!;
+            _provider = provider!;
 
-            _itemSelect.TrackingIndex = -1;
-            ItemEnabled = provider.ProviderEnabled;
+            _itemSelect!.TrackingIndex = -1;
+            ItemEnabled = provider!.ProviderEnabled;
             _viewManager = provider.ProviderViewManager;
 
             // Cache the values to use when running
-            _imageList = _itemSelect.ImageList;
+            _imageList = _itemSelect.ImageList!;
             _imageIndexStart = _itemSelect.ImageIndexStart;
             _imageIndexEnd = _itemSelect.ImageIndexEnd;
             _lineItems = _itemSelect.LineItems;
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
                                                  PaletteContentStyle.ButtonLowProfile);
 
             // Update with current button style
-            _triple.SetStyles(itemSelect.ButtonStyle);
+            _triple.SetStyles(itemSelect!.ButtonStyle);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
             if (Count > 0)
             {
                 // Ask child for it's own preferred size
-                preferredSize = this[0].GetPreferredSize(context);
+                preferredSize = this[0]!.GetPreferredSize(context!);
 
                 // Find preferred size from the preferred item size
                 var lineItems = Math.Max(1, _lineItems);
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                 Rectangle displayRect = CommonHelper.ApplyPadding(Orientation.Horizontal, ClientRectangle, _padding);
 
                 // Get size of the first child, assume all others are same size
-                Size itemSize = this[0].GetPreferredSize(context);
+                Size itemSize = this[0]!.GetPreferredSize(context);
 
                 // Starting position for first item
                 Point nextPoint = displayRect.Location;
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                     context.DisplayRectangle = new Rectangle(nextPoint, itemSize);
 
                     // Layout the child
-                    this[i].Layout(context);
+                    this[i]?.Layout(context);
 
                     // Move to next position across
                     nextPoint.X += itemSize.Width;
@@ -242,8 +242,8 @@ namespace Krypton.Toolkit
             for (var i = 0; i < _imageIndexCount; i++)
             {
                 var imageIndex = i + _imageIndexStart;
-                var item = (ViewDrawMenuImageSelectItem)this[i];
-                item.ImageList = _imageList;
+                var item = this[i] as ViewDrawMenuImageSelectItem;
+                item!.ImageList = _imageList;
                 item.ImageIndex = imageIndex;
                 item.Checked = _selectedIndex == imageIndex;
                 item.Enabled = ItemEnabled;

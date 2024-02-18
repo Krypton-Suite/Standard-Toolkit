@@ -373,7 +373,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupClusterInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Setup the back references
-            e.Item.Ribbon = Ribbon;
+            e.Item!.Ribbon = Ribbon;
             e.Item.RibbonTab = RibbonTab;
             e.Item.RibbonContainer = this;
 
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupClusterRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
             e.Item.RibbonContainer = null;
 
