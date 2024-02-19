@@ -139,6 +139,27 @@ namespace Krypton.Toolkit
         public override Color GetRibbonMinimizeBarLight(PaletteState state) => _redirect.GetRibbonMinimizeBarLight(state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _redirect.GetRibbonTabRowBackgroundSolidColor(state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>

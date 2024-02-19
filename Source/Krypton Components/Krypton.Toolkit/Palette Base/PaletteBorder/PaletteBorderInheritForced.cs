@@ -142,14 +142,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBorderColor1(PaletteState state) => _inherit?.GetBorderColor1(state) ?? Color.Empty;
+        public override Color GetBorderColor1(PaletteState state) => _inherit?.GetBorderColor1(state) ?? GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the second border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBorderColor2(PaletteState state) => _inherit?.GetBorderColor2(state) ?? Color.Empty;
+        public override Color GetBorderColor2(PaletteState state) => _inherit?.GetBorderColor2(state) ?? GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color drawing style.

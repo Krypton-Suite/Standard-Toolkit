@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If a map color provided then return is
-            return (mapColor != Color.Empty) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
+            return (mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If mapping occurring then return the target remap color
-            if ((mapColor != Color.Empty) && (PaletteContent != null))
+            if ((mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null))
             {
                 PaletteState getState = PaletteState;
 
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                     // ReSharper restore RedundantBaseQualifier
 
                     // If we are supposed to remap a color
-                    if (mapColor != Color.Empty)
+                    if (mapColor != GlobalStaticValues.EMPTY_COLOR)
                     {
                         // ReSharper disable RedundantBaseQualifier
                         // Get the button style requested
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            return Color.Empty;
+            return GlobalStaticValues.EMPTY_COLOR;
         }
 
         private bool OverrideTextColor(PaletteState state)

@@ -56,8 +56,8 @@ namespace Krypton.Toolkit
             _draw = InheritBool.Inherit;
             _hint = PaletteTextHint.Inherit;
             _trim = PaletteTextTrim.Inherit;
-            _color1 = Color.Empty;
-            _color2 = Color.Empty;
+            _color1 = GlobalStaticValues.EMPTY_COLOR;
+            _color2 = GlobalStaticValues.EMPTY_COLOR;
             _colorStyle = PaletteColorStyle.Inherit;
             _colorAlign = PaletteRectangleAlign.Inherit;
             _colorAngle = -1;
@@ -85,8 +85,8 @@ namespace Krypton.Toolkit
         public override bool IsDefault => (Draw == InheritBool.Inherit) &&
                                            (Hint == PaletteTextHint.Inherit) &&
                                            (Trim == PaletteTextTrim.Inherit) &&
-                                           (Color1 == Color.Empty) &&
-                                           (Color2 == Color.Empty) &&
+                                           (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
                                            (ColorStyle == PaletteColorStyle.Inherit) &&
                                            (ColorAlign == PaletteRectangleAlign.Inherit) &&
                                            (ColorAngle == -1) &&
@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor1(PaletteState state) => _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
+        public Color GetContentShortTextColor1(PaletteState state) => _color1 != GlobalStaticValues.EMPTY_COLOR ? _color1 : Inherit.GetContentShortTextColor1(state);
 
         #endregion
 
@@ -443,7 +443,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor2(PaletteState state) => _color2 != Color.Empty ? _color2 : Inherit.GetContentShortTextColor2(state);
+        public Color GetContentShortTextColor2(PaletteState state) => _color2 != GlobalStaticValues.EMPTY_COLOR ? _color2 : Inherit.GetContentShortTextColor2(state);
 
         #endregion
 

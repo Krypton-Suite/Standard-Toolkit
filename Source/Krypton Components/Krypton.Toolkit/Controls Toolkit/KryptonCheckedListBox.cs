@@ -2320,7 +2320,7 @@ namespace Krypton.Toolkit
                 _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
                 _contentValues.LongText = null;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
+                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             }
         }
 

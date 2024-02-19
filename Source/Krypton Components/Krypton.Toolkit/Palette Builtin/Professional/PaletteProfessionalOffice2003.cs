@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
                             case PaletteState.Disabled:
                                 return SystemColors.Control;
                             case PaletteState.Normal:
-                                return Color.Empty;
+                                return GlobalStaticValues.EMPTY_COLOR;
                             case PaletteState.Tracking:
                                 return ColorTable.MenuItemSelectedGradientBegin;
                         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
                             case PaletteState.Disabled:
                                 return SystemColors.Control;
                             case PaletteState.Normal:
-                                return Color.Empty;
+                                return GlobalStaticValues.EMPTY_COLOR;
                             case PaletteState.Tracking:
                                 return ColorTable.MenuItemSelectedGradientBegin;
                         }
@@ -267,6 +267,21 @@ namespace Krypton.Toolkit
             // Get everything else from the base class implementation
             return base.GetContentShortTextColor2(style, state);
         }
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
         #endregion
     }
 
@@ -567,7 +582,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -684,11 +699,11 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.TabCustom3:
                     return state switch
                     {
-                        PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? Color.Empty : SystemColors.Control,
-                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? Color.Empty : SystemColors.Window,
+                        PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Control,
+                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Window,
                         PaletteState.Pressed or PaletteState.Tracking => style switch
                         {
-                            PaletteBackStyle.TabLowProfile => Color.Empty,
+                            PaletteBackStyle.TabLowProfile => GlobalStaticValues.EMPTY_COLOR,
                             PaletteBackStyle.TabHighProfile => ColorTable.ButtonPressedGradientMiddle,
                             _ => SystemColors.Window
                         },
@@ -758,7 +773,7 @@ namespace Krypton.Toolkit
                     return state switch
                     {
                         PaletteState.Disabled => SystemColors.Control,
-                        PaletteState.Normal => Color.Empty,
+                        PaletteState.Normal => GlobalStaticValues.EMPTY_COLOR,
                         PaletteState.Tracking => ColorTable.MenuItemSelectedGradientBegin,
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
@@ -778,7 +793,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -896,10 +911,10 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.TabCustom3:
                     return state switch
                     {
-                        PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? Color.Empty : SystemColors.Control,
-                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? Color.Empty : MergeColors(SystemColors.Window, 0.9f, SystemColors.ControlText, 0.1f),
+                        PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Control,
+                        PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : MergeColors(SystemColors.Window, 0.9f, SystemColors.ControlText, 0.1f),
                         PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile
-? Color.Empty
+? GlobalStaticValues.EMPTY_COLOR
 : MergeColors(SystemColors.Window, 0.95f, SystemColors.ControlText, 0.05f),
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
                         _ => throw DebugTools.NotImplemented(state.ToString())
@@ -975,7 +990,7 @@ namespace Krypton.Toolkit
                     return state switch
                     {
                         PaletteState.Disabled => SystemColors.Control,
-                        PaletteState.Normal => Color.Empty,
+                        PaletteState.Normal => GlobalStaticValues.EMPTY_COLOR,
                         PaletteState.Tracking => ColorTable.MenuItemSelectedGradientEnd,
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
@@ -1242,7 +1257,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -1351,8 +1366,8 @@ namespace Krypton.Toolkit
                 case PaletteBorderStyle.TabCustom3:
                     return state switch
                     {
-                        PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : FadedColor(ColorTable.ButtonSelectedBorder),
-                        PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : ColorTable.OverflowButtonGradientEnd,
+                        PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : FadedColor(ColorTable.ButtonSelectedBorder),
+                        PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : ColorTable.OverflowButtonGradientEnd,
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => ColorTable.MenuBorder,
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
@@ -1437,7 +1452,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -1544,8 +1559,8 @@ namespace Krypton.Toolkit
                 case PaletteBorderStyle.TabCustom3:
                     return state switch
                     {
-                        PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : FadedColor(ColorTable.ButtonSelectedBorder),
-                        PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : ColorTable.ButtonPressedHighlightBorder,
+                        PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : FadedColor(ColorTable.ButtonSelectedBorder),
+                        PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : ColorTable.ButtonPressedHighlightBorder,
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => ColorTable.MenuBorder,
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
@@ -1906,12 +1921,12 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             return style switch
             {
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => Color.Empty,
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1927,12 +1942,12 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             return style switch
             {
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => Color.Empty,
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1948,12 +1963,12 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             return style switch
             {
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => Color.Empty,
+                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => GlobalStaticValues.EMPTY_COLOR,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -2181,7 +2196,7 @@ namespace Krypton.Toolkit
                     PaletteState.LinkNotVisitedOverride => Color.Blue,
                     PaletteState.LinkVisitedOverride => Color.Purple,
                     PaletteState.LinkPressedOverride => Color.Red,
-                    _ => Color.Empty // All other override states do nothing
+                    _ => GlobalStaticValues.EMPTY_COLOR // All other override states do nothing
                 };
             }
 
@@ -2225,7 +2240,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -2594,7 +2609,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -2637,7 +2652,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (style)
@@ -3495,7 +3510,7 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonAppButton:
                     switch (state)
                     {
@@ -3533,7 +3548,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return _contextCheckedTabBorder1;
                         case PaletteState.Normal:
-                            return Color.Empty;
+                            return GlobalStaticValues.EMPTY_COLOR;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -3598,7 +3613,7 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonAppButton:
                     switch (state)
                     {
@@ -3633,7 +3648,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return _contextCheckedTabBorder2;
                         case PaletteState.Normal:
-                            return Color.Empty;
+                            return GlobalStaticValues.EMPTY_COLOR;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -3644,7 +3659,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonAppMenuDocs:
                 case PaletteRibbonBackStyle.RibbonGalleryBack:
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -3684,10 +3699,10 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonGalleryBack:
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonAppButton:
                     switch (state)
                     {
@@ -3722,7 +3737,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return _contextCheckedTabBorder3;
                         case PaletteState.Normal:
-                            return Color.Empty;
+                            return GlobalStaticValues.EMPTY_COLOR;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -3769,7 +3784,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGroupNormalTitle:
                 case PaletteRibbonBackStyle.RibbonGalleryBack:
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonAppButton:
                     switch (state)
                     {
@@ -3804,7 +3819,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return _contextCheckedTabBorder4;
                         case PaletteState.Normal:
-                            return Color.Empty;
+                            return GlobalStaticValues.EMPTY_COLOR;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -3846,7 +3861,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonQATOverflow:
                 case PaletteRibbonBackStyle.RibbonGalleryBack:
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteRibbonBackStyle.RibbonQATMinibar:
                     return state == PaletteState.Normal
                         ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini5]
@@ -3886,7 +3901,7 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextCheckedTracking:
                         case PaletteState.FocusOverride:
                         case PaletteState.Normal:
-                            return Color.Empty;
+                            return GlobalStaticValues.EMPTY_COLOR;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -3963,7 +3978,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (element)
@@ -3994,7 +4009,7 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (element)
@@ -4032,7 +4047,7 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return Color.Empty;
+                return GlobalStaticValues.EMPTY_COLOR;
             }
 
             switch (element)
@@ -4073,21 +4088,21 @@ namespace Krypton.Toolkit
                 case PaletteElement.TrackBarTick:
                     if (CommonHelper.IsOverrideState(state))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return ColorTable.SeparatorDark;
                 case PaletteElement.TrackBarTrack:
                     if (CommonHelper.IsOverrideState(state))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return SystemColors.Control;
                 case PaletteElement.TrackBarPosition:
                     if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return state switch
@@ -4121,21 +4136,21 @@ namespace Krypton.Toolkit
                 case PaletteElement.TrackBarTick:
                     if (CommonHelper.IsOverrideState(state))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return ColorTable.SeparatorDark;
                 case PaletteElement.TrackBarTrack:
                     if (CommonHelper.IsOverrideState(state))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return SystemColors.Control;
                 case PaletteElement.TrackBarPosition:
                     if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                     {
-                        return Color.Empty;
+                        return GlobalStaticValues.EMPTY_COLOR;
                     }
 
                     return state switch
@@ -4325,7 +4340,7 @@ namespace Krypton.Toolkit
                                           ribbonTabSelected2,           // RibbonTabSelected2
                                           ribbonTabSelected3,           // RibbonTabSelected3
                                           ribbonTabSelected4,           // RibbonTabSelected4
-                                          Color.Empty,                  // RibbonTabSelected5
+                                          GlobalStaticValues.EMPTY_COLOR,                  // RibbonTabSelected5
                                           ribbonTabTracking1,           // RibbonTabTracking1
                                           ribbonTabTracking2,           // RibbonTabTracking2
                                           Color.FromArgb(196, ColorTable.ButtonSelectedGradientMiddle), // RibbonTabHighlight1
@@ -4373,8 +4388,8 @@ namespace Krypton.Toolkit
                                           ribbonGroupFrameBorder1,      // RibbonGroupFrameBorder2
                                           ribbonGroupFrameInside1,      // RibbonGroupFrameInside1
                                           ribbonGroupFrameInside1,      // RibbonGroupFrameInside2
-                                          Color.Empty,                  // RibbonGroupFrameInside3
-                                          Color.Empty,                  // RibbonGroupFrameInside4
+                                          GlobalStaticValues.EMPTY_COLOR,                  // RibbonGroupFrameInside3
+                                          GlobalStaticValues.EMPTY_COLOR,                  // RibbonGroupFrameInside4
                                           SystemColors.ControlText,     // RibbonGroupCollapsedText
                                           // Non ribbon colors
                                           Color.Red, Color.Red, Color.Red,
@@ -4461,8 +4476,8 @@ namespace Krypton.Toolkit
             _toolTipBack2 = SystemColors.Info;
             _toolTipBorder = SystemColors.WindowFrame;
             _toolTipText = SystemColors.InfoText;
-            //_disabledDropDownColor = Color.Empty;
-            //_normalDropDownColor = Color.Empty;
+            //_disabledDropDownColor = GlobalStaticValues.EMPTY_COLOR;
+            //_normalDropDownColor = GlobalStaticValues.EMPTY_COLOR;
             //_ribbonGroupCollapsedBackContext = new Color[] { Color.FromArgb(48, 235, 235, 235), Color.FromArgb(235, 235, 235) };
             //_ribbonGroupCollapsedBackContextTracking = _ribbonGroupCollapsedBackContext;
             //_ribbonGroupCollapsedBorderContext = new Color[] { Color.FromArgb(160, ribbonGroupBorder1), ribbonGroupBorder1, Color.FromArgb(48, ribbonGroupsArea4), ribbonGroupsArea4 };
@@ -4546,6 +4561,21 @@ namespace Krypton.Toolkit
 
             return image;
         }
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
         #endregion
     }
 

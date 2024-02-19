@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         {
             _wrapLabel = wrapLabel;
             _font = null;
-            _textColor = Color.Empty;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
             _hint = PaletteTextHint.Inherit;
         }
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         {
             _linkWrapLabel = linkWrapLabel;
             _font = null;
-            _textColor = Color.Empty;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
             _hint = PaletteTextHint.Inherit;
         }
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (_font == null) &&
-                                          (_textColor == Color.Empty) &&
+                                          (_textColor == GlobalStaticValues.EMPTY_COLOR) &&
                                           (_hint == PaletteTextHint.Inherit);
 
         #endregion

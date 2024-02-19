@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             _column = null;
             if (KryptonManager.CurrentGlobalPalette.GetRenderer() == KryptonManager.RenderOffice2013 || KryptonManager.CurrentGlobalPalette.GetRenderer() == KryptonManager.RenderMicrosoft365)
             {
-                _height = GlobalStaticValues._2013GroupRowHeight; // special height for office 2013
+                _height = GlobalStaticValues.Office2013GroupRowHeight; // special height for office 2013
             }
             else
             {

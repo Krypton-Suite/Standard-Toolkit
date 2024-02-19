@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public virtual Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+            public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
             /// <summary>
             /// Gets the content long text.
@@ -2894,7 +2894,7 @@ namespace Krypton.Toolkit
                 _contentValues!.ShortText = _comboBox.GetItemText(Items[index]);
                 _contentValues.LongText = null;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
+                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             }
 
             // Always ensure there is some text that can be measured, if only a single space. The height of

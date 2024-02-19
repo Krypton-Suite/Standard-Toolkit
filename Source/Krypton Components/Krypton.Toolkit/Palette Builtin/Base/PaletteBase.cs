@@ -834,7 +834,7 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -873,12 +873,12 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1088,7 +1088,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1109,7 +1109,7 @@ namespace Krypton.Toolkit
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1137,7 +1137,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1165,7 +1165,7 @@ namespace Krypton.Toolkit
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1495,6 +1495,27 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonMinimizeBarLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
 
         /// <summary>
         /// Gets the color for the tab separator.

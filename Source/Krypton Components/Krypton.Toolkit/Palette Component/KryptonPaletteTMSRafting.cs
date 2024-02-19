@@ -35,8 +35,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalRaftingContainerGradientEnd == Color.Empty);
+        public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalRaftingContainerGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientBegin property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = Color.Empty;
+        public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region RaftingContainerGradientEnd
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientEnd property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = Color.Empty;
+        public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

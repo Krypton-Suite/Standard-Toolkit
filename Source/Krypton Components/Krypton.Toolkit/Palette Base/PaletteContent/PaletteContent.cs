@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != Color.Empty
+        public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != GlobalStaticValues.EMPTY_COLOR
             ? _image.ImageColorMap
             : _inherit.GetContentImageColorMap(state);
 
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != Color.Empty
+        public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != GlobalStaticValues.EMPTY_COLOR
             ? _image.ImageColorTo
             : _inherit.GetContentImageColorTo(state);
 
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor1(PaletteState state) =>
-            ShortText.Color1 != Color.Empty
+            ShortText.Color1 != GlobalStaticValues.EMPTY_COLOR
             ? ShortText.Color1
             : _inherit.GetContentShortTextColor1(state);
 
@@ -429,7 +429,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != Color.Empty
+        public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != GlobalStaticValues.EMPTY_COLOR
             ? ShortText.Color2
             : _inherit.GetContentShortTextColor2(state);
 
@@ -589,7 +589,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor1(PaletteState state) =>
-            LongText.Color1 != Color.Empty
+            LongText.Color1 != GlobalStaticValues.EMPTY_COLOR
             ? LongText.Color1
             : _inherit.GetContentLongTextColor1(state);
 
@@ -599,7 +599,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor2(PaletteState state) =>
-            LongText.Color2 != Color.Empty
+            LongText.Color2 != GlobalStaticValues.EMPTY_COLOR
             ? LongText.Color2
             : _inherit.GetContentLongTextColor2(state);
 

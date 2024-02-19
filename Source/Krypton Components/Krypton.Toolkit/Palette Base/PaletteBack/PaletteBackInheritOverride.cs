@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBackColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBackColor1(state);
                 }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBackColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBackColor2(state);
                 }

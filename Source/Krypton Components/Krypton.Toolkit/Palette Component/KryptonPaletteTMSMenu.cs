@@ -35,21 +35,21 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalMenuBorder == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemText == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemBorder == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelected == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientEnd == Color.Empty);
+        public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalImageMarginGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalImageMarginGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalImageMarginRevealedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalImageMarginRevealedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalImageMarginRevealedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemText == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemSelected == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalMenuItemSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = Color.Empty;
+        public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginGradientEnd
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = Color.Empty;
+        public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginGradientMiddle
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = Color.Empty;
+        public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientBegin
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = Color.Empty;
+        public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientEnd
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = Color.Empty;
+        public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientMiddle
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = Color.Empty;
+        public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuBorder
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuBorder property to its default value.
         /// </summary>
-        public void ResetMenuBorder() => MenuBorder = Color.Empty;
+        public void ResetMenuBorder() => MenuBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemText
@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemText property to its default value.
         /// </summary>
-        public void ResetMenuItemText() => MenuItemText = Color.Empty;
+        public void ResetMenuItemText() => MenuItemText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemBorder
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemBorder property to its default value.
         /// </summary>
-        public void ResetMenuItemBorder() => MenuItemBorder = Color.Empty;
+        public void ResetMenuItemBorder() => MenuItemBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientBegin
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = Color.Empty;
+        public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientEnd
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = Color.Empty;
+        public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientMiddle
@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = Color.Empty;
+        public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelected
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelected property to its default value.
         /// </summary>
-        public void ResetMenuItemSelected() => MenuItemSelected = Color.Empty;
+        public void ResetMenuItemSelected() => MenuItemSelected = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelectedGradientBegin
@@ -424,7 +424,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = Color.Empty;
+        public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelectedGradientEnd
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = Color.Empty;
+        public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

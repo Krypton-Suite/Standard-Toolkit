@@ -159,14 +159,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor1(state);
+        public override Color GetContentShortTextColor1(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor2(state);
+        public override Color GetContentShortTextColor2(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the short text.
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor1(PaletteState state) =>
-            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != GlobalStaticValues.EMPTY_COLOR)
                 ? kryptonNode.LongForeColor
                 : _inherit.GetContentLongTextColor1(state);
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor2(PaletteState state) =>
-            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != GlobalStaticValues.EMPTY_COLOR)
                 ? kryptonNode.LongForeColor
                 : _inherit.GetContentLongTextColor2(state);
 

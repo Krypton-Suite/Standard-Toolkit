@@ -1319,7 +1319,7 @@ namespace Krypton.Toolkit
         public void AddUpdateRecentColors(IList<Color> colors)
         {
             foreach (Color color in colors
-                         .Where(static color => (color != null) && !color.Equals(Color.Empty))
+                         .Where(static color => (color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
                          .Where(color => !Enumerable.Contains(_recentColors, color)))
             {
                 // Add to start of the list
@@ -1362,7 +1362,7 @@ namespace Krypton.Toolkit
                 }
 
                 // If this color valid and so possible to become a recent color
-                if ((color != null) && !color.Equals(Color.Empty))
+                if ((color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
                 {
                     var found = false;
                     foreach (Color recentColor in _recentColors)
@@ -1430,7 +1430,7 @@ namespace Krypton.Toolkit
             }
 
             // Should the no color entry be checked?
-            _itemNoColor.Checked = _selectedColor.Equals(Color.Empty);
+            _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticValues.EMPTY_COLOR);
         }
 
         private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1469,7 +1469,7 @@ namespace Krypton.Toolkit
 
         private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
+        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
 
         private void OnClickMoreColors(object sender, EventArgs e)
         {

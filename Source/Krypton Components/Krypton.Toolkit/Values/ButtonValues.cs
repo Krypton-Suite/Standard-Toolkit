@@ -56,8 +56,8 @@ namespace Krypton.Toolkit
 
             // Set initial values
             _image = null;
-            _transparent = Color.Empty;
-            _dropDownArrowColor = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
+            _dropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
             _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
@@ -79,9 +79,9 @@ namespace Krypton.Toolkit
                                            (UseAsADialogButton == false) &&
                                            (UseAsUACElevationButton == false) &&
                                            (ShowSplitOption == false) &&
-                                           (DropDownArrowColor == Color.Empty) &&
+                                           (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
-                                           (ImageTransparentColor == Color.Empty) &&
+                                           (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
                                            (Text == DEFAULT_TEXT) &&
                                            (ExtraText == _defaultExtraText);
 
@@ -140,12 +140,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.

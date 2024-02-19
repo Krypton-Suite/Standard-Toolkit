@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-            #region Renderer
+        #region Renderer
             /// <summary>
             /// Gets the renderer to use for this palette.
             /// </summary>
@@ -873,11 +873,34 @@ namespace Krypton.Toolkit
         public override Color GetRibbonMinimizeBarDark(PaletteState state) => _target!.GetRibbonMinimizeBarDark(state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => _target!.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => _target!.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _target!.GetRibbonTabRowBackgroundSolidColor(state);
+
+        /// <summary>
         /// Gets the color for the minimize bar light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetRibbonMinimizeBarLight(PaletteState state) => _target!.GetRibbonMinimizeBarLight(state);
+
+        
 
         /// <summary>
         /// Gets the color for the tab separator.

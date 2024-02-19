@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state)?.GetBackColor1(state) ?? Color.Empty;
+            GetPaletteBack(style, state)?.GetBackColor1(state) ?? GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the second back color.
@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state)?.GetBackColor2(state) ?? Color.Empty;
+            GetPaletteBack(style, state)?.GetBackColor2(state) ?? GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color background drawing style.
@@ -1730,6 +1730,27 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonMinimizeBarLight(PaletteState state)
         => GetPaletteRibbonGeneral(state).GetRibbonMinimizeBarLight(state);
+
+        /// <summary>
+        /// Gets the dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        /// <summary>
+        /// Gets the light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabRowBackgroundSolidColor(state);
 
         /// <summary>
         /// Gets the font for the ribbon text.

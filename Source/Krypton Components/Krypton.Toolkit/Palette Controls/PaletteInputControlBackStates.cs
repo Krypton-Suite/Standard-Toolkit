@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Default the initial values
-            _color1 = Color.Empty;
+            _color1 = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => Color1 == Color.Empty;
+        public override bool IsDefault => Color1 == GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : Inherit.GetBackColor1(state);
+        public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : Inherit.GetBackColor1(state);
 
         #endregion
 

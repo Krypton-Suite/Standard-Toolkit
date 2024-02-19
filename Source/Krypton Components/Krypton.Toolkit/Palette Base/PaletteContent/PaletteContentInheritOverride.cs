@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentImageColorMap(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentImageColorMap(state);
                 }
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentImageColorTo(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentImageColorTo(state);
                 }
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentShortTextColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentShortTextColor1(state);
                 }
@@ -510,7 +510,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentShortTextColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentShortTextColor2(state);
                 }
@@ -879,7 +879,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentLongTextColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentLongTextColor1(state);
                 }
@@ -903,7 +903,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentLongTextColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentLongTextColor2(state);
                 }

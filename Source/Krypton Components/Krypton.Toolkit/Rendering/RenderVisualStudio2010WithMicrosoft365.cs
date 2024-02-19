@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If we have a context color to use then modify the drawing colors
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
                 context.Graphics.FillRectangle(cache.CenterBrush, cache.Rect);
                 //context.Graphics.FillPath(cache.centerBrush, cache.outsidePath);
 
-                //if (c5 != Color.Empty)
+                //if (c5 != GlobalStaticValues.EMPTY_COLOR)
                 //    context.Graphics.FillPath(cache.insideBrush, cache.insidePath);
 
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If c5 has a colour then use that to highlight the tab
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {

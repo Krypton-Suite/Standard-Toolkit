@@ -19,6 +19,14 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Colors
+
+        private readonly Color _tabRowBackgroundGradientRaftingDarkColor = Color.FromArgb(71, 71, 71);
+
+        private readonly Color _tabRowBackgroundGradientRaftingLightColor = Color.FromArgb(113, 113, 113);
+
+        #endregion
+
         #region Image Lists
 
         private static readonly ImageList _checkBoxList;
@@ -172,40 +180,40 @@ namespace Krypton.Toolkit
             Color.FromArgb(145, 145, 145), // RibbonGroupsArea5
             Color.FromArgb(159, 159, 159), // RibbonGroupBorder1
             Color.FromArgb(194, 194, 194), // RibbonGroupBorder2
-            Color.Empty, // RibbonGroupTitle1
-            Color.Empty, // RibbonGroupTitle2
-            Color.Empty, // RibbonGroupBorderContext1
-            Color.Empty, // RibbonGroupBorderContext2
-            Color.Empty, // RibbonGroupTitleContext1
-            Color.Empty, // RibbonGroupTitleContext2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext2
             Color.FromArgb(92, 92, 94), // RibbonGroupDialogDark
             Color.FromArgb(123, 125, 125), // RibbonGroupDialogLight
-            Color.Empty, // RibbonGroupTitleTracking1
-            Color.Empty, // RibbonGroupTitleTracking2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking2
             Color.FromArgb(71, 71, 71), // RibbonMinimizeBarDark
             Color.FromArgb(113, 113, 113), // RibbonMinimizeBarLight
-            Color.Empty, // RibbonGroupCollapsedBorder1
-            Color.Empty, // RibbonGroupCollapsedBorder2
-            Color.Empty, // RibbonGroupCollapsedBorder3
-            Color.Empty, // RibbonGroupCollapsedBorder4
-            Color.Empty, // RibbonGroupCollapsedBack1
-            Color.Empty, // RibbonGroupCollapsedBack2
-            Color.Empty, // RibbonGroupCollapsedBack3
-            Color.Empty, // RibbonGroupCollapsedBack4
-            Color.Empty, // RibbonGroupCollapsedBorderT1
-            Color.Empty, // RibbonGroupCollapsedBorderT2
-            Color.Empty, // RibbonGroupCollapsedBorderT3
-            Color.Empty, // RibbonGroupCollapsedBorderT4
-            Color.Empty, // RibbonGroupCollapsedBackT1
-            Color.Empty, // RibbonGroupCollapsedBackT2
-            Color.Empty, // RibbonGroupCollapsedBackT3
-            Color.Empty, // RibbonGroupCollapsedBackT4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT4
             Color.FromArgb(147, 147, 147), // RibbonGroupFrameBorder1
             Color.FromArgb(139, 139, 139), // RibbonGroupFrameBorder2
             Color.FromArgb(187, 187, 188), // RibbonGroupFrameInside1
             Color.FromArgb(167, 167, 168), // RibbonGroupFrameInside2
-            Color.Empty, // RibbonGroupFrameInside3
-            Color.Empty, // RibbonGroupFrameInside4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
             Color.FromArgb(59, 59, 59), // RibbonGroupCollapsedText         
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
@@ -283,7 +291,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(70, 70, 70), // AppButtonOuter1
             Color.FromArgb(70, 70, 70), // AppButtonOuter2
             Color.FromArgb(70, 70, 70), // AppButtonOuter3
-            Color.Empty, // AppButtonInner1
+            GlobalStaticValues.EMPTY_COLOR, // AppButtonInner1
             Color.FromArgb(50, 50, 50), // AppButtonInner2
             Color.White, // AppButtonMenuDocs
             Color.Black, // AppButtonMenuDocsText
@@ -423,6 +431,21 @@ namespace Krypton.Toolkit
                                                      },
                                                      _ => base.GetButtonSpecImage(style, state)
                                                  };
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            _tabRowBackgroundGradientRaftingDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            _tabRowBackgroundGradientRaftingLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
         #endregion
     }
 }

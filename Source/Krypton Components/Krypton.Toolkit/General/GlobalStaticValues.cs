@@ -37,6 +37,12 @@ namespace Krypton.Toolkit
 
         public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
+        public const float DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT = 90F;
+
+        public static readonly Color EMPTY_COLOR = Color.Empty;
+
+        public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
+
         /// <summary>
         /// The default group row height
         /// </summary>
@@ -44,7 +50,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The group row height for 2013 palettes
         /// </summary>
-        public static int _2013GroupRowHeight = 24;
+        public static int Office2013GroupRowHeight = 24;
         /// <summary>
         /// The default offset height
         /// </summary>

@@ -14,10 +14,31 @@ namespace Krypton.Toolkit
 {
     public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
     {
+        #region Instance Fields
+
+        private readonly Color _tabRowBackgroundColor = GlobalStaticValues.EMPTY_COLOR;
+
+        #endregion
+
         public PaletteMicrosoft365LightGray(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours) : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
         {
         }
 
         public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
+
+        #endregion
     }
 }

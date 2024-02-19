@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _checkState = CheckState.Unchecked;
             _checked = false;
             _threeState = false;
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets and sets the check box label style.
