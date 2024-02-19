@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _backRedirect = new PaletteDoubleRedirect(redirect, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaint);
+            _backRedirect = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaint);
             Tick = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarTick, NeedPaint);
             Track = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarTrack, NeedPaint);
             Position = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarPosition, NeedPaint);

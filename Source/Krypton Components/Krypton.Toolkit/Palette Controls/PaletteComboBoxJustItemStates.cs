@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Item = new PaletteTriple(inheritItem, needPaint);
+            Item = new PaletteTriple(inheritItem!, needPaint);
         }
         #endregion
 

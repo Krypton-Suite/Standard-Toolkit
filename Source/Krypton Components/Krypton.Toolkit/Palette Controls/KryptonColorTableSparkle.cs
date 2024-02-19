@@ -59,8 +59,8 @@ namespace Krypton.Toolkit
             Debug.Assert(colors != null);
             Debug.Assert(sparkleColors != null);
 
-            _colors = colors;
-            _sparkleColors = sparkleColors;
+            _colors = colors!;
+            _sparkleColors = sparkleColors!;
             UseRoundedEdges = roundedEdges;
         }
         #endregion

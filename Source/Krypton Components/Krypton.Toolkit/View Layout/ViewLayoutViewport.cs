@@ -474,7 +474,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache the right to left setting at layout time
-            _rightToLeft = context.Control.RightToLeft;
+            _rightToLeft = context.Control!.RightToLeft;
             _rightToLeftLayout = CommonHelper.GetRightToLeftLayout(context.Control);
 
             // We take on all the available display area

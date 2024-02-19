@@ -115,7 +115,9 @@ namespace Krypton.Toolkit
 
             LineColor = _palette!.ColorTable.ToolStripGradientMiddle;
 
-            CategoryForeColor = _palette!.ColorTable.ToolStripDropDownBackground;
+            CategoryForeColor = KryptonManager.CurrentGlobalPalette.ToString().Contains("DarkMode")
+                ? _palette!.ColorTable.MenuStripText
+                : _palette!.ColorTable.ToolStripDropDownBackground;
 
             var normalFont = _stateNormal.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
             var disabledFont = _stateDisabled.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);

@@ -36,11 +36,11 @@ namespace Krypton.Toolkit
             Debug.Assert(palette != null);
 
             // Remember initial settings
-            _palette = palette;
+            _palette = palette!;
             Orientation = orientation;
 
             // Create the forced border and override the graphics hint
-            _borderForced = new PaletteBackInheritForced(palette)
+            _borderForced = new PaletteBackInheritForced(palette!)
             {
                 ForceGraphicsHint = PaletteGraphicsHint.None
             };
@@ -75,8 +75,8 @@ namespace Krypton.Toolkit
             Debug.Assert(palette != null);
 
             // Inherit from the newly provided palette
-            _palette = palette;
-            _borderForced.SetInherit(palette);
+            _palette = palette!;
+            _borderForced.SetInherit(palette!);
 
             // Give the forced palette to the base
             base.SetPalettes(_borderForced);

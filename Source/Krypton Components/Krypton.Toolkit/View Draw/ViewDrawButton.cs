@@ -117,12 +117,12 @@ namespace Krypton.Toolkit
             _drawOuterSeparator = new ViewLayoutSeparator(1);
 
             // Create the view used to draw the split edge
-            _edgeRedirect = new PaletteBorderEdgeRedirect(_paletteNormal.PaletteBorder, null);
+            _edgeRedirect = new PaletteBorderEdgeRedirect(_paletteNormal.PaletteBorder!, null);
             _drawSplitBorder = new ViewDrawBorderEdge(new PaletteBorderEdge(_edgeRedirect, null), CommonHelper.VisualToOrientation(orientation));
 
             // Our view contains background and border with content inside
             _drawContent = new ViewDrawContent(_paletteNormal.PaletteContent, buttonValues, orientation);
-            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder, paletteMetric, PaletteMetricPadding.None, orientation);
+            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder!, paletteMetric, PaletteMetricPadding.None, orientation);
 
             // Use a docker layout to organize the contents of the canvas
             LayoutDocker = new ViewLayoutDocker
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public IContentValues ButtonValues
         {
-            get => _drawContent.Values;
+            get => _drawContent.Values!;
             set => _drawContent.Values = value;
         }
         #endregion
@@ -416,10 +416,10 @@ namespace Krypton.Toolkit
             Debug.Assert(palettePressed != null);
 
             // Remember the new palette settings
-            _paletteDisabled = paletteDisabled;
-            _paletteNormal = paletteNormal;
-            _paletteTracking = paletteTracking;
-            _palettePressed = palettePressed;
+            _paletteDisabled = paletteDisabled!;
+            _paletteNormal = paletteNormal!;
+            _paletteTracking = paletteTracking!;
+            _palettePressed = palettePressed!;
 
             // Must force update of palettes to use latest ones provided
             _forcePaletteUpdate = true;
@@ -440,9 +440,9 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteCheckedPressed != null);
 
             // Remember the new palette settings
-            _paletteCheckedNormal = paletteCheckedNormal;
-            _paletteCheckedTracking = paletteCheckedTracking;
-            _paletteCheckedPressed = paletteCheckedPressed;
+            _paletteCheckedNormal = paletteCheckedNormal!;
+            _paletteCheckedTracking = paletteCheckedTracking!;
+            _paletteCheckedPressed = paletteCheckedPressed!;
 
             // Must force update of palettes to use latest ones provided
             _forcePaletteUpdate = true;
@@ -460,10 +460,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // Ask the renderer to evaluate the given palette
-            return _drawCanvas.EvalTransparentPaint(context);
+            return _drawCanvas.EvalTransparentPaint(context!);
         }
         #endregion
 
@@ -478,10 +478,10 @@ namespace Krypton.Toolkit
             Debug.Assert(_drawCanvas != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // Delegate work to the child canvas
-            return _drawCanvas.GetPreferredSize(context);
+            return _drawCanvas!.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -570,10 +570,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // Let base class perform standard rendering
-            base.Render(context);
+            base.Render(context!);
         }
         #endregion
 
@@ -588,7 +588,7 @@ namespace Krypton.Toolkit
             PaletteState buttonState = State;
 
             // If the actual control is not enabled, force to disabled state
-            if (!IsFixed && !context.Control.Enabled)
+            if (!IsFixed && !context.Control!.Enabled)
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -659,9 +659,9 @@ namespace Krypton.Toolkit
                 }
 
                 // Update with the correct palettes
-                _drawCanvas.SetPalettes(CurrentPalette.PaletteBack, CurrentPalette.PaletteBorder);
-                _drawContent.SetPalette(CurrentPalette.PaletteContent);
-                _edgeRedirect.SetPalette(CurrentPalette.PaletteBorder);
+                _drawCanvas.SetPalettes(CurrentPalette.PaletteBack, CurrentPalette.PaletteBorder!);
+                _drawContent.SetPalette(CurrentPalette.PaletteContent!);
+                _edgeRedirect.SetPalette(CurrentPalette.PaletteBorder!);
             }
         }
         #endregion

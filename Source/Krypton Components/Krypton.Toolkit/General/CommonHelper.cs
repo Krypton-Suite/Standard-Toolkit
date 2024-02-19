@@ -1131,21 +1131,21 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c.Parent != null)
+            if (c?.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent.Controls is KryptonControlCollection cc)
+            if (parent?.Controls is KryptonControlCollection cc)
             {
-                cc.AddInternal(c);
+                cc.AddInternal(c!);
             }
             else
             {
                 // Inside a standard collection, add it the usual way
-                parent.Controls.Add(c);
+                parent?.Controls?.Add(c!);
             }
         }
 
@@ -1367,10 +1367,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="format">Incoming format.</param>
         /// <returns>Corrected format.</returns>
-        public static string MakeCustomDateFormat(string format)
+        public static string MakeCustomDateFormat(string? format)
         {
             // Is this a single character format?
-            if (format.Length == 1)
+            if (format!.Length == 1)
             {
                 // If the character is one of the predefined entries...
                 if (format.IndexOfAny(_singleDateFormat) == 0)
@@ -1645,7 +1645,7 @@ namespace Krypton.Toolkit
             //// Handle rounding down of the target `newImage` dimensions
             //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
             //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
-            gr.DrawImage(src, 0, 0, (int)trgtWidth, (int)trgtHeight);
+            gr.DrawImage(src!, 0, 0, (int)trgtWidth, (int)trgtHeight);
 
             return newImage;
         }

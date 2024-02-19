@@ -28,12 +28,12 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _visible;
         private bool _enabled;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private string _textLine1;
         private string _textLine2;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private readonly NeedPaintHandler _needPaintDelegate;
         private readonly PaletteRibbonText _stateNormal;
         private readonly PaletteRibbonText _stateDisabled;

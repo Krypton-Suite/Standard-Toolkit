@@ -190,7 +190,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Dispose of per-item resources
-                foreach (KryptonRibbonGroupItem item in Items)
+                foreach (var item in Items!)
                 {
                     item.Dispose();
                 }
@@ -216,8 +216,8 @@ namespace Krypton.Ribbon
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
-                // are added before the this object is added to the owner)
-                foreach (KryptonRibbonGroupItem item in Items)
+                // are added before this object is added to the owner)
+                foreach (var item in Items!)
                 {
                     item.Ribbon = value;
                 }
@@ -239,8 +239,8 @@ namespace Krypton.Ribbon
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children
-                // are added before the this object is added to the owner)
-                foreach (KryptonRibbonGroupItem item in Items)
+                // are added before this object is added to the owner)
+                foreach (var item in Items!)
                 {
                     item.RibbonTab = value;
                 }
@@ -344,8 +344,8 @@ namespace Krypton.Ribbon
                     }
 
                     // Update all contained elements to reflect the same sizing
-                    GroupItemSize itemSize = LinesToItemSize(_itemSizeMax);
-                    foreach (IRibbonGroupItem item in Items)
+                    var itemSize = LinesToItemSize(_itemSizeMax);
+                    foreach (IRibbonGroupItem item in Items!)
                     {
                         item.ItemSizeMaximum = itemSize;
                     }
@@ -387,7 +387,7 @@ namespace Krypton.Ribbon
 
                     // Update all contained elements to reflect the same sizing
                     _ = LinesToItemSize(_itemSizeMin);
-                    foreach (IRibbonGroupItem item in Items)
+                    foreach (IRibbonGroupItem item in Items!)
                     {
                         item.ItemSizeMinimum = value;
                     }
@@ -452,7 +452,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of child components.</returns>
         public override Component[] GetChildComponents()
         {
-            var array = new Component[Items.Count];
+            var array = new Component[Items!.Count];
             Items.CopyTo(array, 0);
             return array;
         }
@@ -513,7 +513,7 @@ namespace Krypton.Ribbon
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // Ask the containers to check for command key processing
-            foreach (KryptonRibbonGroupItem item in Items)
+            foreach (var item in Items!)
             {
                 if (item.ProcessCmdKey(ref msg, keyData))
                 {
@@ -544,7 +544,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupLineClearing(object sender, EventArgs e)
         {
             // Remove the back references
-            foreach (IRibbonGroupItem item in Items)
+            foreach (var item in Items!)
             {
                 item.Ribbon = null;
                 item.RibbonTab = null;
@@ -564,7 +564,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupLineInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Setup the back references
-            e.Item.Ribbon = Ribbon;
+            e.Item!.Ribbon = Ribbon;
             e.Item.RibbonTab = RibbonTab;
             e.Item.RibbonContainer = this;
 
@@ -583,7 +583,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupLineRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupItem> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
             e.Item.RibbonContainer = null;
 

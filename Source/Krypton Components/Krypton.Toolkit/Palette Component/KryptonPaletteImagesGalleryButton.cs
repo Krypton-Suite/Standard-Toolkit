@@ -70,10 +70,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _disabled = _redirect.GetGalleryButtonImage(_button, PaletteState.Disabled);
-            _normal = _redirect.GetGalleryButtonImage(_button, PaletteState.Normal);
-            _tracking = _redirect.GetGalleryButtonImage(_button, PaletteState.Tracking);
-            _pressed = _redirect.GetGalleryButtonImage(_button, PaletteState.Pressed);
+            _disabled = _redirect?.GetGalleryButtonImage(_button, PaletteState.Disabled);
+            _normal = _redirect?.GetGalleryButtonImage(_button, PaletteState.Normal);
+            _tracking = _redirect?.GetGalleryButtonImage(_button, PaletteState.Tracking);
+            _pressed = _redirect?.GetGalleryButtonImage(_button, PaletteState.Pressed);
         }
         #endregion
 

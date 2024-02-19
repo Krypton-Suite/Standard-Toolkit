@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
             if (Visible)
             {
                 // We have no children so perform all rendering now
-                RenderBefore(context);
-                RenderAfter(context);
+                RenderBefore(context!);
+                RenderAfter(context!);
             }
         }
         #endregion

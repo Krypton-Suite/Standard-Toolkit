@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteKCT class.
         /// </summary>
-        /// <param name="palette">Associated palettte instance.</param>
+        /// <param name="palette">Associated palette instance.</param>
         /// <param name="baseKCT">Initial base KCT to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteTMS(PaletteBase palette,
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             Debug.Assert(baseKCT != null);
 
             // Create actual KCT for storage
-            InternalKCT = new KryptonInternalKCT(baseKCT, palette);
+            InternalKCT = new KryptonInternalKCT(baseKCT!, palette);
 
             // Create the set of sub objects that expose the palette properties
             Button = new KryptonPaletteTMSButton(InternalKCT, needPaint);

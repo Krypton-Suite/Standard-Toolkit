@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Drawing.Imaging;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -93,7 +91,7 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            Colors = colors!;
             UseRoundedEdges = roundedEdges;
         }
         #endregion

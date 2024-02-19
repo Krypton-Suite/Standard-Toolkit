@@ -21,19 +21,20 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
 
-        private const string DEFAULT_APP_BUTTON_KEY_TIP = "F";
-        private const string DEFAULT_CUSTOMIZE_QUICK_ACCESS_TOOLBAR = "Customize Quick Access Toolbar";
-        private const string DEFAULT_MINIMIZE = "Mi&nimize the Ribbon";
-        private const string DEFAULT_MORE_COLORS = "&More Colors...";
-        private const string DEFAULT_NO_COLOR = "&No Color";
-        private const string DEFAULT_RECENT_DOCUMENTS = "Recent Documents";
-        private const string DEFAULT_RECENT_COLORS = "Recent Colors";
-        private const string DEFAULT_SHOW_QAT_ABOVE_RIBBON = "&Show Quick Access Toolbar Above the Ribbon";
-        private const string DEFAULT_SHOW_QAT_BELOW_RIBBON = "&Show Quick Access Toolbar Below the Ribbon";
-        private const string DEFAULT_SHOW_ABOVE_RIBBON = "&Show Above the Ribbon";
-        private const string DEFAULT_SHOW_BELOW_RIBBON = "&Show Below the Ribbon";
-        private const string DEFAULT_STANDARD_COLORS = "Standard Colors";
-        private const string DEFAULT_THEME_COLORS = "Theme Colors";
+        private const string DEFAULT_APP_BUTTON_KEY_TIP = @"F";
+        private const string DEFAULT_CUSTOMIZE_QUICK_ACCESS_TOOLBAR = @"Customize Quick Access Toolbar";
+        private const string DEFAULT_MINIMIZE = @"Mi&nimize the Ribbon";
+        private const string DEFAULT_MORE_COLORS = @"&More Colors...";
+        private const string DEFAULT_NO_COLOR = @"&No Color";
+        private const string DEFAULT_RECENT_DOCUMENTS = @"Recent Documents";
+        private const string DEFAULT_RECENT_COLORS = @"Recent Colors";
+        private const string DEFAULT_SHOW_QAT_ABOVE_RIBBON = @"&Show Quick Access Toolbar Above the Ribbon";
+        private const string DEFAULT_SHOW_QAT_BELOW_RIBBON = @"&Show Quick Access Toolbar Below the Ribbon";
+        private const string DEFAULT_SHOW_ABOVE_RIBBON = @"&Show Above the Ribbon";
+        private const string DEFAULT_SHOW_BELOW_RIBBON = @"&Show Below the Ribbon";
+        private const string DEFAULT_STANDARD_COLORS = @"Standard Colors";
+        private const string DEFAULT_THEME_COLORS = @"Theme Colors";
+        private const string DEFAULT_FILE = @"File";
 
         #endregion
 
@@ -62,10 +63,12 @@ namespace Krypton.Ribbon
             ShowQATBelowRibbon = DEFAULT_SHOW_QAT_BELOW_RIBBON;
             StandardColors = DEFAULT_STANDARD_COLORS;
             ThemeColors = DEFAULT_THEME_COLORS;
+            AppButtonText = DEFAULT_FILE;
         }
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
@@ -82,7 +85,8 @@ namespace Krypton.Ribbon
                                           ShowQATAboveRibbon.Equals(DEFAULT_SHOW_QAT_ABOVE_RIBBON) &&
                                           ShowQATBelowRibbon.Equals(DEFAULT_SHOW_QAT_BELOW_RIBBON) &&
                                           StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                          ThemeColors.Equals(DEFAULT_THEME_COLORS);
+                                          ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                                          AppButtonText.Equals(DEFAULT_FILE);
 
         #endregion
 
@@ -93,7 +97,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Values")]
         [Description(@"Application button key tip string.")]
-        [DefaultValue("F")]
+        [DefaultValue(DEFAULT_APP_BUTTON_KEY_TIP)]
         [RefreshProperties(RefreshProperties.All)]
         public string AppButtonKeyTip
         {
@@ -117,7 +121,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Values")]
         [Description(@"Heading for quick access toolbar menu.")]
-        [DefaultValue("Customize Quick Access Toolbar")]
+        [DefaultValue(DEFAULT_CUSTOMIZE_QUICK_ACCESS_TOOLBAR)]
         [RefreshProperties(RefreshProperties.All)]
         public string CustomizeQuickAccessToolbar { get; set; }
 
@@ -130,7 +134,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for minimizing the ribbon option.")]
-        [DefaultValue("Mi&nimize the Ribbon")]
+        [DefaultValue(DEFAULT_MINIMIZE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Minimize { get; set; }
 
@@ -143,7 +147,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for a 'more colors' entry.")]
-        [DefaultValue("&More Colors...")]
+        [DefaultValue(DEFAULT_MORE_COLORS)]
         [RefreshProperties(RefreshProperties.All)]
         public string MoreColors { get; set; }
 
@@ -156,7 +160,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for a 'no color' entry.")]
-        [DefaultValue("&No Color")]
+        [DefaultValue(DEFAULT_NO_COLOR)]
         [RefreshProperties(RefreshProperties.All)]
         public string NoColor { get; set; }
 
@@ -169,7 +173,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Title for recent documents section of the application menu.")]
-        [DefaultValue("Recent Documents")]
+        [DefaultValue(DEFAULT_RECENT_DOCUMENTS)]
         [RefreshProperties(RefreshProperties.All)]
         public string RecentDocuments { get; set; }
 
@@ -182,7 +186,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Title for recent colors section of the color button menu.")]
-        [DefaultValue("Recent Colors")]
+        [DefaultValue(DEFAULT_RECENT_COLORS)]
         [RefreshProperties(RefreshProperties.All)]
         public string RecentColors { get; set; }
 
@@ -195,7 +199,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for showing above the ribbon.")]
-        [DefaultValue("&Show Above the Ribbon")]
+        [DefaultValue(DEFAULT_SHOW_ABOVE_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string ShowAboveRibbon { get; set; }
 
@@ -208,7 +212,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for showing below the ribbon.")]
-        [DefaultValue("&Show Below the Ribbon")]
+        [DefaultValue(DEFAULT_SHOW_BELOW_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string ShowBelowRibbon { get; set; }
 
@@ -221,7 +225,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for showing QAT above the ribbon.")]
-        [DefaultValue("&Show Quick Access Toolbar Above the Ribbon")]
+        [DefaultValue(DEFAULT_SHOW_QAT_ABOVE_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string ShowQATAboveRibbon { get; set; }
 
@@ -234,7 +238,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Menu string for showing QAT below the ribbon.")]
-        [DefaultValue("&Show Quick Access Toolbar Below the Ribbon")]
+        [DefaultValue(DEFAULT_SHOW_QAT_BELOW_RIBBON)]
         [RefreshProperties(RefreshProperties.All)]
         public string ShowQATBelowRibbon { get; set; }
 
@@ -247,7 +251,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Title for standard colors section of the color button menu.")]
-        [DefaultValue("Standard Colors")]
+        [DefaultValue(DEFAULT_STANDARD_COLORS)]
         [RefreshProperties(RefreshProperties.All)]
         public string StandardColors { get; set; }
 
@@ -260,9 +264,22 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Title for theme colors section of the color button menu.")]
-        [DefaultValue("Theme Colors")]
+        [DefaultValue(DEFAULT_THEME_COLORS)]
         [RefreshProperties(RefreshProperties.All)]
         public string ThemeColors { get; set; }
+
+        #endregion
+
+        #region AppButtonText
+        /// <summary>
+        /// Gets and sets the button text for the app button.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Button text for the AppButton.")]
+        [DefaultValue(DEFAULT_FILE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string AppButtonText { get; set; }
 
         #endregion
     }

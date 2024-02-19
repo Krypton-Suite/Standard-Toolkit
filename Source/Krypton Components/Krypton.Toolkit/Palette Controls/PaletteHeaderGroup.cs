@@ -42,11 +42,11 @@ namespace Krypton.Toolkit
             Debug.Assert(inheritHeaderSecondary != null);
 
             // Remember the inheritance
-            _inherit = inheritHeaderGroup;
+            _inherit = inheritHeaderGroup!;
 
             // Create the palette storage
-            HeaderPrimary = new PaletteTripleMetric(inheritHeaderPrimary, needPaint);
-            HeaderSecondary = new PaletteTripleMetric(inheritHeaderSecondary, needPaint);
+            HeaderPrimary = new PaletteTripleMetric(inheritHeaderPrimary!, needPaint);
+            HeaderSecondary = new PaletteTripleMetric(inheritHeaderSecondary!, needPaint);
         }
         #endregion
 

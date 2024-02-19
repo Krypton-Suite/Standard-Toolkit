@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();

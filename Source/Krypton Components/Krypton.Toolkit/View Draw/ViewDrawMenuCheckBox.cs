@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             };
 
             // Create the check box image drawer and place inside element so it is always centered
-            ViewDrawCheckBox = new ViewDrawCheckBox(KryptonContextMenuCheckBox.StateCheckBoxImages)
+            ViewDrawCheckBox = new ViewDrawCheckBox(KryptonContextMenuCheckBox.StateCheckBoxImages!)
             {
                 CheckState = ResolveCheckState,
                 Enabled = ItemEnabled
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             _innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckBox.ToolTipManager, this, mcbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckBox.ToolTipManager!, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
             // Update the checked state
             ViewDrawCheckBox.CheckState = ResolveCheckState;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>

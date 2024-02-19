@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
             Debug.Assert(cellStyle != null);
 
-            _inherit = inherit;
-            _cellStyle = cellStyle;
+            _inherit = inherit!;
+            _cellStyle = cellStyle!;
         }
         #endregion
 

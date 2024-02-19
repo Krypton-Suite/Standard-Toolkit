@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="displayPadding">Padding to use around area.</param>
         /// <param name="child">Child to add into view hierarchy.</param>
-        public ViewLayoutPadding(Padding displayPadding, ViewBase child)
+        public ViewLayoutPadding(Padding displayPadding, ViewBase? child)
         {
             _displayPadding = displayPadding;
             Add(child);
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask base class to find preferred size of all children
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
 
             // Add on the display padding
             preferredSize.Width += _displayPadding.Horizontal;
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Take on the provided space
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Reduce space by the padding value
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, ClientRectangle, _displayPadding);

@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Item index.</param>
             /// <returns>Item at specified index.</returns>
-            public object this[int index]
+            public object? this[int index]
             {
                 get => InnerArrayGetItem(index, _anyItemMask);
                 set => throw new NotSupportedException(@"Read Only Collection");

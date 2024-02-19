@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
         [AllowNull]
         public new string Text
         {
-            get => base.Text;
+            get => base.Text!;
             set => base.Text = value;
         }
 

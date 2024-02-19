@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(254, 254, 255), // RibbonGroupDialogLight
             Color.FromArgb(200, 224, 255), // RibbonGroupTitleTracking1
             Color.FromArgb(214, 237, 255), // RibbonGroupTitleTracking2
-            Color.FromArgb(155, 187, 227), // RibbonMinimizeBarDark
+            Color.FromArgb(134, 179, 236), //(155, 187, 227), // RibbonMinimizeBarDark
             Color.FromArgb(213, 226, 243), // RibbonMinimizeBarLight
             Color.FromArgb(165, 191, 213), // RibbonGroupCollapsedBorder1
             Color.FromArgb(148, 185, 213), // RibbonGroupCollapsedBorder2

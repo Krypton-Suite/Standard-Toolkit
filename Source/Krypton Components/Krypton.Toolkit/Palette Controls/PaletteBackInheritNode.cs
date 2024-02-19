@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance border
-            _inherit = inherit;
+            _inherit = inherit!;
         }
         #endregion
 

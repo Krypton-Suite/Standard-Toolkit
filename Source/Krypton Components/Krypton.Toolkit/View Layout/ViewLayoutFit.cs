@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
             var space = _orientation == Orientation.Vertical ? ClientHeight : ClientWidth;
             for(var i=0; i<Count; i++)
             {
-                ViewBase child = this[i];
+                var child = this[i];
 
                 // Find length of this item
                 int length;
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask child for it's own preferred size
-                Size childPreferred = child.GetPreferredSize(context);
+                Size childPreferred = child!.GetPreferredSize(context);
 
                 // Size child to our relevant dimension
                 if (_orientation == Orientation.Vertical)

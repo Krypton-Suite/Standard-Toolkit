@@ -516,8 +516,6 @@ namespace Krypton.Ribbon
                 case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
-                default:
-                    break;
             }
         }
 
@@ -529,7 +527,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -585,7 +583,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)

@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Perform rendering before any children
-            RenderBefore(context);
+            RenderBefore(context!);
 
             // Perform rendering after that of children
-            RenderAfter(context);
+            RenderAfter(context!);
         }
 
         /// <summary>

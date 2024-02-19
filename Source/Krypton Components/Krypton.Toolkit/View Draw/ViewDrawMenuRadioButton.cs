@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             //_innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuRadioButton.ToolTipManager, this, mrbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuRadioButton.ToolTipManager!, this, mrbc);
 
             // We need to be notified whenever the checked state changes
             KryptonContextMenuRadioButton.CheckedChanged += OnCheckedChanged;

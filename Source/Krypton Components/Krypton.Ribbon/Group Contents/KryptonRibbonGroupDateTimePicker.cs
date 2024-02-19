@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
                 if (value != null)
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
-                    // to know when the ribbon palette changes so we can reflect that change
+                    // to know when the ribbon palette changes, so we can reflect that change
                     DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
                     DateTimePicker.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
@@ -259,7 +259,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -571,7 +571,7 @@ namespace Krypton.Ribbon
         [TypeConverter(typeof(DateTimeNullableConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
-        public object ValueNullable
+        public object? ValueNullable
         {
             get => DateTimePicker.ValueNullable;
             set => DateTimePicker.ValueNullable = value;
@@ -699,7 +699,7 @@ namespace Krypton.Ribbon
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string CustomFormat
+        public string? CustomFormat
         {
             get => DateTimePicker.CustomFormat;
             set => DateTimePicker.CustomFormat = value;

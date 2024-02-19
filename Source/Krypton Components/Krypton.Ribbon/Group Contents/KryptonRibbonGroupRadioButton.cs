@@ -400,7 +400,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 if (Enabled)
                 {

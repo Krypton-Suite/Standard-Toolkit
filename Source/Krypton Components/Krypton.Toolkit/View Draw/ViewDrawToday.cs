@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Draw todays date as a button.
+    /// Draw today's date as a button.
     /// </summary>
     public class ViewDrawToday : ViewDrawButton,
                                  IContentValues
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
                              IPaletteTriple palettePressed,
                              NeedPaintHandler needPaintHandler)
             : base(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
-                   paletteNormal, paletteTracking, palettePressed, null,
+                   paletteNormal, paletteTracking, palettePressed, null!,
                    null, VisualOrientation.Top, false)
         {
             _calendar = calendar;
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            base.Layout(context);
+            base.Layout(context!);
         }
     }
 }

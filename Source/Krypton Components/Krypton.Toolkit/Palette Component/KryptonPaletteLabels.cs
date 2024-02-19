@@ -29,26 +29,26 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the button style specific and common palettes
-            LabelCommon = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelNormalControl, needPaint);
-            LabelNormalControl = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelNormalControl, needPaint);
-            LabelBoldControl = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelBoldControl, needPaint);
-            LabelItalicControl = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelItalicControl, needPaint);
-            LabelTitleControl = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelTitleControl, needPaint);
-            LabelNormalPanel = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelNormalPanel, needPaint);
-            LabelBoldPanel = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelBoldPanel, needPaint);
-            LabelItalicPanel = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelItalicPanel, needPaint);
-            LabelTitlePanel = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelTitlePanel, needPaint);
-            LabelCaptionPanel = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelGroupBoxCaption, needPaint);
-            LabelToolTip = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelToolTip, needPaint);
-            LabelSuperTip = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelSuperTip, needPaint);
-            LabelKeyTip = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelKeyTip, needPaint);
-            LabelCustom1 = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelCustom1, needPaint);
-            LabelCustom2 = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelCustom2, needPaint);
-            LabelCustom3 = new KryptonPaletteLabel(redirector, PaletteContentStyle.LabelCustom3, needPaint);
+            LabelCommon = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelNormalControl, needPaint);
+            LabelNormalControl = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelNormalControl, needPaint);
+            LabelBoldControl = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelBoldControl, needPaint);
+            LabelItalicControl = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelItalicControl, needPaint);
+            LabelTitleControl = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelTitleControl, needPaint);
+            LabelNormalPanel = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelNormalPanel, needPaint);
+            LabelBoldPanel = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelBoldPanel, needPaint);
+            LabelItalicPanel = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelItalicPanel, needPaint);
+            LabelTitlePanel = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelTitlePanel, needPaint);
+            LabelCaptionPanel = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelGroupBoxCaption, needPaint);
+            LabelToolTip = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelToolTip, needPaint);
+            LabelSuperTip = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelSuperTip, needPaint);
+            LabelKeyTip = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelKeyTip, needPaint);
+            LabelCustom1 = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelCustom1, needPaint);
+            LabelCustom2 = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelCustom2, needPaint);
+            LabelCustom3 = new KryptonPaletteLabel(redirector!, PaletteContentStyle.LabelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon =
-                new PaletteRedirectContent(redirector, LabelCommon.StateDisabled, LabelCommon.StateNormal);
+                new PaletteRedirectContent(redirector!, LabelCommon.StateDisabled, LabelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             LabelNormalControl.SetRedirector(redirectCommon);

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
             private int _activeFragment;
             private FormatFragmentList _fragments;
-            private string _inputDigits;
+            private string? _inputDigits;
             private readonly KryptonDateTimePicker _dateTimePicker;
             private readonly NeedPaintHandler _needPaint;
             private readonly ViewDrawDateTimeText _timeText;
@@ -648,12 +648,12 @@ namespace Krypton.Toolkit
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
-                var charRegion = g.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font, _measureRect, measureFormat);
+                var charRegion = g?.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font!, _measureRect, measureFormat);
 
                 // Push return values into the individual fragment entries
                 for (var i = 0; i < _fragments.Count; i++)
                 {
-                    _fragments[i].TotalWidth = (int)Math.Ceiling(charRegion[i].GetBounds(g).Width);
+                    _fragments[i].TotalWidth = (int)Math.Ceiling(charRegion![i].GetBounds(g!).Width);
                 }
             }
 
@@ -1605,7 +1605,7 @@ namespace Krypton.Toolkit
             Size retSize = TextRenderer.MeasureText(GetFullDisplayText(), font, Size.Empty, MEASURE_FLAGS);
 
             // The line height gives better appearance as it includes space for overhanging glyphs
-            retSize.Height = Math.Max(font.Height, retSize.Height);
+            retSize.Height = Math.Max(font!.Height, retSize.Height);
 
             // Add constant extra sizing to add padding around area
             retSize.Height += 3;

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Position = new PaletteElementColor(inheritPosition, needPaint);
+            Position = new PaletteElementColor(inheritPosition!, needPaint);
         }
         #endregion
 

@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            Colors = colors!;
             UseRoundedEdges = roundedEdges;
         }
         #endregion

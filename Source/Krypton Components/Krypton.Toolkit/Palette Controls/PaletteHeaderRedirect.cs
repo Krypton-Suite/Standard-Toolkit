@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Remember the redirect reference
-            _redirect = redirect;
+            _redirect = redirect!;
 
             // Set default value for padding property
             _buttonPadding = CommonHelper.InheritPadding;

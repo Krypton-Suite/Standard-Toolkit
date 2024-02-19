@@ -65,6 +65,7 @@ namespace Krypton.Toolkit
 
         #region IsDefault
 
+        [Browsable(false)]
         public override bool IsDefault { get; }
 
         #endregion
@@ -74,35 +75,35 @@ namespace Krypton.Toolkit
         /// <summary>Populates values from base palette.</summary>
         public void PopulateFromBase()
         {
-            _copy = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Copy, PaletteState.Normal);
+            _copy = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Copy, PaletteState.Normal);
 
-            _cut = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Cut, PaletteState.Normal);
+            _cut = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Cut, PaletteState.Normal);
 
-            _help = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.FormHelp, PaletteState.Normal);
+            _help = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.FormHelp, PaletteState.Normal);
 
-            _print = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Print, PaletteState.Normal);
+            _print = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Print, PaletteState.Normal);
 
-            _pageSetup = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.PageSetup, PaletteState.Normal);
+            _pageSetup = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.PageSetup, PaletteState.Normal);
 
-            _paste = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Paste, PaletteState.Normal);
+            _paste = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Paste, PaletteState.Normal);
 
-            _printPreview = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.PrintPreview, PaletteState.Normal);
+            _printPreview = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.PrintPreview, PaletteState.Normal);
 
-            _new = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.New, PaletteState.Normal);
+            _new = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.New, PaletteState.Normal);
 
-            _open = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Open, PaletteState.Normal);
+            _open = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Open, PaletteState.Normal);
 
-            _redo = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Redo, PaletteState.Normal);
+            _redo = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Redo, PaletteState.Normal);
 
-            _undo = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Undo, PaletteState.Normal);
+            _undo = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Undo, PaletteState.Normal);
 
-            _save = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.Save, PaletteState.Normal);
+            _save = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.Save, PaletteState.Normal);
 
-            _saveAll = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.SaveAll, PaletteState.Normal);
+            _saveAll = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.SaveAll, PaletteState.Normal);
 
-            _saveAs = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.SaveAs, PaletteState.Normal);
+            _saveAs = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.SaveAs, PaletteState.Normal);
 
-            _quickPrint = _redirect.GetButtonSpecImage(PaletteButtonSpecStyle.QuickPrint, PaletteState.Normal);
+            _quickPrint = _redirect?.GetButtonSpecImage(PaletteButtonSpecStyle.QuickPrint, PaletteState.Normal);
         }
 
         #endregion

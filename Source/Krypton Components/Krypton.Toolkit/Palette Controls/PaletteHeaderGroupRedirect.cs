@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
             _redirect = redirectHeaderGroup;
 
             // Create the palette storage
-            HeaderPrimary = new PaletteHeaderPaddingRedirect(redirectHeaderPrimary, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
-            HeaderSecondary = new PaletteHeaderPaddingRedirect(redirectHeaderSecondary, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderPrimary = new PaletteHeaderPaddingRedirect(redirectHeaderPrimary!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
+            HeaderSecondary = new PaletteHeaderPaddingRedirect(redirectHeaderSecondary!, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
 
             // Default other values
             _overlayHeaders = InheritBool.Inherit;
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricInt(state, metric);
+            _redirect!.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -150,14 +150,11 @@ namespace Krypton.Toolkit
             if (metric == PaletteMetricBool.HeaderGroupOverlay)
             {
                 // If the user has defined an actual value to use
-                if (OverlayHeaders != InheritBool.Inherit)
-                {
-                    return OverlayHeaders;
-                }
+                return OverlayHeaders != InheritBool.Inherit ? OverlayHeaders : _redirect!.GetMetricBool(state, metric);
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
+            return _redirect!.GetMetricBool(state, metric);
         }
 
         /// <summary>
@@ -168,7 +165,7 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricPadding(state, metric);
+            _redirect!.GetMetricPadding(state, metric);
 
         #endregion
     }
