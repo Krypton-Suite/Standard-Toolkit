@@ -944,6 +944,12 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state) => _target!.GetRibbonQATButtonLight(state);
 
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _target!.GetRibbonTabRowGradientRaftingAngle(state);
+
         #endregion
 
         #region RibbonBack

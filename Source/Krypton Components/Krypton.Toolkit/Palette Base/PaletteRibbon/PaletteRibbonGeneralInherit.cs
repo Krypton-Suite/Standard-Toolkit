@@ -178,6 +178,12 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public abstract float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
+
         #endregion
     }
 }

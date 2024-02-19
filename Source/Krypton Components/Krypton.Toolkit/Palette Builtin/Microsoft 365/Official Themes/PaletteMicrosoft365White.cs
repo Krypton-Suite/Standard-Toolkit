@@ -575,6 +575,9 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => Color.White;
 
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
         #endregion
     }
 }

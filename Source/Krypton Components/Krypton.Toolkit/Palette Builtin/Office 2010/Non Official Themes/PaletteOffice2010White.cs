@@ -26,6 +26,12 @@ namespace Krypton.Toolkit
         private readonly Color _tabRowBackgroundGradientRaftingLightColor = Color.FromArgb(255, 255, 255);
 
         #endregion
+
+        #region Rafting
+
+        private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+
+        #endregion
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image?[] _radioButtonArray;
@@ -416,6 +422,9 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
 
         #endregion
     }

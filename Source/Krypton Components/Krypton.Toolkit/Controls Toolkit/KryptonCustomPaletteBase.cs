@@ -1760,6 +1760,10 @@ namespace Krypton.Toolkit
         public override Font GetRibbonTextFont(PaletteState state)
         => GetPaletteRibbonGeneral(state).GetRibbonTextFont(state);
 
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonTabRowGradientRaftingAngle(state);
+
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
         /// </summary>

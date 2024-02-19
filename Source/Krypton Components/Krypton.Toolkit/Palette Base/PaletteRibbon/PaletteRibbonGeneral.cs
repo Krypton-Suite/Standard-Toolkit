@@ -44,6 +44,7 @@ namespace Krypton.Toolkit
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
         private Font? _textFont;
+        private float _ribbonTabRowGradientRaftingAngle;
         private PaletteTextHint _textHint;
         #endregion
 
@@ -78,6 +79,10 @@ namespace Krypton.Toolkit
             _groupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
             _minimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
             _minimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+            _ribbonTabRowGradientRaftingAngle = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
             _ribbonShape = PaletteRibbonShape.Inherit;
             _tabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
             _tabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
@@ -106,6 +111,10 @@ namespace Krypton.Toolkit
                                            (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
                                            (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
                                            (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
                                            (RibbonShape == PaletteRibbonShape.Inherit) &&
                                            (TextFont == null) &&
                                            (TextHint == PaletteTextHint.Inherit) &&
@@ -146,6 +155,7 @@ namespace Krypton.Toolkit
             TabRowBackgroundSolidColor = GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal);
             TabRowBackgroundGradientRaftingDarkColor = GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState.Normal);
             TabRowBackgroundGradientRaftingLightColor = GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
+            RibbonTabRowGradientRaftingAngle = GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal);
             RibbonShape = GetRibbonShape();
             TabSeparatorColor = GetRibbonTabSeparatorColor(PaletteState.Normal);
             TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
@@ -776,6 +786,47 @@ namespace Krypton.Toolkit
         public Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => TabRowBackgroundGradientRaftingLightColor != GlobalStaticValues.EMPTY_COLOR
             ? TabRowBackgroundGradientRaftingLightColor
             : _inherit.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientRaftingAngle
+
+        /// <summary>
+        /// Gets access to ribbon tab row gradient rafting angle.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background gradient rafting angle.")]
+        [DefaultValue(typeof(Color), "")]
+        [RefreshProperties(RefreshProperties.All)]
+        public float RibbonTabRowGradientRaftingAngle
+        {
+            get => _ribbonTabRowGradientRaftingAngle;
+
+            set
+            {
+                if (_ribbonTabRowGradientRaftingAngle != value)
+                {
+                    _ribbonTabRowGradientRaftingAngle = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the RibbonTabRowGradientRaftingAngle property to its default value.
+        /// </summary>
+        public void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
+            GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+
+        /// <summary>
+        /// Gets the rafting angle for the ribbon tab row.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Rafting angle value.</returns>
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => RibbonTabRowGradientRaftingAngle != GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT
+            ? RibbonTabRowGradientRaftingAngle
+            : _inherit.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
 

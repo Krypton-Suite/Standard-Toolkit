@@ -24,6 +24,12 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Rafting
+
+        private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+
+        #endregion
+
         #endregion
 
         public PaletteOffice2010LightGray(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
@@ -44,6 +50,9 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
 
         #endregion
     }

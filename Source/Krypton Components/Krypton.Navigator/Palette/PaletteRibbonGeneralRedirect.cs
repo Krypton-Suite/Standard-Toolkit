@@ -194,6 +194,38 @@ namespace Krypton.Navigator
 
         #endregion
 
+        #region RibbonTabRowBackgroundGradientRaftingDark
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundGradientRaftingLight
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundSolidColor
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundSolidColor(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientRaftingAngle
+
+        /// <inheritdoc />
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _inherit.GetRibbonTabRowGradientRaftingAngle(state);
+
+        #endregion
+
         #region GetRibbonShape
         /// <summary>
         /// Gets the ribbon shape.
