@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
 
         // Properties
         /// <summary>
-        /// Indicates if the the None value should be included in standard values for selection.
+        /// Indicates if the None value should be included in standard values for selection.
         /// </summary>
         protected override bool IncludeNoneAsStandardValue => false;
     }

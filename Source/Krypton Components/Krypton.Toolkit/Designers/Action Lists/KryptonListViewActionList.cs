@@ -10,9 +10,7 @@
  */
 #endregion
 
-using Krypton.Toolkit.Designers.Designers;
-
-namespace Krypton.Toolkit.Designers.Action_Lists
+namespace Krypton.Toolkit
 {
     internal class KryptonListViewActionList : DesignerActionList
     {

@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _lastHitTest;
         private KryptonDateTimePicker? _dateTimePicker;
-        private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private IComponentChangeService? _changeService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public Overrides
@@ -45,17 +45,17 @@ namespace Krypton.Toolkit
             if (_dateTimePicker != null)
             {
                 // Hook into date time picker events
-                _dateTimePicker.GetViewManager().MouseUpProcessed += OnDateTimePickerMouseUp;
-                _dateTimePicker.GetViewManager().DoubleClickProcessed += OnDateTimePickerDoubleClick;
+                _dateTimePicker.GetViewManager()!.MouseUpProcessed += OnDateTimePickerMouseUp;
+                _dateTimePicker.GetViewManager()!.DoubleClickProcessed += OnDateTimePickerDoubleClick;
             }
 
             // Acquire service interfaces
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                SelectionRules rules = base.SelectionRules;
+                var rules = base.SelectionRules;
                 return rules & ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
             }
         }
@@ -105,11 +105,11 @@ namespace Krypton.Toolkit
             if (_dateTimePicker != null)
             {
                 // Unhook from events
-                _dateTimePicker.GetViewManager().MouseUpProcessed -= OnDateTimePickerMouseUp;
-                _dateTimePicker.GetViewManager().DoubleClickProcessed -= OnDateTimePickerDoubleClick;
+                _dateTimePicker.GetViewManager()!.MouseUpProcessed -= OnDateTimePickerMouseUp;
+                _dateTimePicker.GetViewManager()!.DoubleClickProcessed -= OnDateTimePickerDoubleClick;
             }
 
-            _changeService.ComponentRemoving -= OnComponentRemoving;
+            _changeService!.ComponentRemoving -= OnComponentRemoving;
 
             // Must let base class do standard stuff
             base.Dispose(disposing);
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
             if ((_dateTimePicker != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component? component = _dateTimePicker.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                var component = _dateTimePicker.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
                     {
                         component
                     };
-                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -182,43 +182,43 @@ namespace Krypton.Toolkit
         private void OnDateTimePickerDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _dateTimePicker.DesignerComponentFromPoint(pt);
+            var component = _dateTimePicker?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                var designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our control is being removed
-            if (e.Component == _dateTimePicker)
+            if (Equals(e.Component, _dateTimePicker))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
-                for (var i = _dateTimePicker.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _dateTimePicker!.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _dateTimePicker.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_dateTimePicker, null);
+                    _changeService?.OnComponentChanging(_dateTimePicker, null);
 
                     // Perform actual removal of button spec from calendar
                     _dateTimePicker.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_dateTimePicker, null, null, null);
+                    _changeService?.OnComponentChanged(_dateTimePicker, null, null, null);
                 }
             }
         }

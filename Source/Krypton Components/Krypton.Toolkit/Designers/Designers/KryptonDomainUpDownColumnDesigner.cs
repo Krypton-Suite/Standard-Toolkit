@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonDomainUpDownColumnDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonDataGridViewDomainUpDownColumn _domainUpDown;
-        private IComponentChangeService _changeService;
+        private KryptonDataGridViewDomainUpDownColumn? _domainUpDown;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _domainUpDown = component as KryptonDataGridViewDomainUpDownColumn;
 
             // Get access to the design services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 

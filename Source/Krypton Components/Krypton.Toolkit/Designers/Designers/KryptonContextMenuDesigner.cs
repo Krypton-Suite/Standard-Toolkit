@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonContextMenu? _contextMenu;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,10 +35,10 @@ namespace Krypton.Toolkit
             _contextMenu = component as KryptonContextMenu;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
                 var actionLists = new DesignerActionListCollection();
                 actionLists.AddRange(base.ActionLists);
                 // Add the palette specific list
-                actionLists.Add((DesignerActionList)new KryptonContextMenuActionList(this));
+                actionLists.Add(new KryptonContextMenuActionList(this));
 
                 return actionLists;
             }
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Unhook from events
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                    _changeService!.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our context menu is being removed
-            if ((_contextMenu != null) && (e.Component == _contextMenu))
+            if ((_contextMenu != null) && (Equals(e.Component, _contextMenu)))
             {
                 // Need access to host in order to delete a component
                 var host = GetService(typeof(IDesignerHost)) as IDesignerHost;

@@ -16,8 +16,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonSplitContainer? _splitContainer;
-        private IDesignerHost _designerHost;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private ISelectionService? _selectionService;
         private BehaviorService? _behaviorService;
         private Adorner _adorner;
         #endregion
@@ -40,17 +40,17 @@ namespace Krypton.Toolkit
             AutoResizeHandles = true;
 
             // Acquire service interfaces
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
-            _behaviorService = (BehaviorService)GetService(typeof(BehaviorService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
+            _behaviorService = GetService(typeof(BehaviorService)) as BehaviorService;
 
             // Remember the actual control being designed
             _splitContainer = component as KryptonSplitContainer;
 
             // Create a new adorner and add our splitter glyph
             _adorner = new Adorner();
-            _adorner.Glyphs.Add(new KryptonSplitContainerGlyph(_selectionService, _behaviorService, _adorner, this));
-            _behaviorService.Adorners.Add(_adorner);
+            _adorner.Glyphs.Add(new KryptonSplitContainerGlyph(_selectionService!, _behaviorService!, _adorner, this));
+            _behaviorService?.Adorners.Add(_adorner);
 
             // Let the two panels in the container be designable
             if (_splitContainer != null)
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit
                 {
                     // Get the control designer for the requested indexed child control
                     case 0:
-                        return _designerHost.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
+                        return _designerHost?.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
                     case 1:
-                        return _designerHost.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
+                        return _designerHost?.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
                 }
             }
 

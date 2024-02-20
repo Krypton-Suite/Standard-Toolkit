@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonGroupBox? _groupBox;
-        private IDesignerHost _designerHost;
+        private IDesignerHost? _designerHost;
         #endregion
 
         #region Public
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             AutoResizeHandles = true;
 
             // Acquire service interfaces
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
             // Let the internal panel in the container be designable
             if (_groupBox != null)
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
             (_groupBox != null) && (internalControlIndex == 0) 
-                ? (ControlDesigner)_designerHost.GetDesigner(_groupBox.Panel) 
+                ? _designerHost?.GetDesigner(_groupBox.Panel) as ControlDesigner 
                 : null;
 
         /// <summary>

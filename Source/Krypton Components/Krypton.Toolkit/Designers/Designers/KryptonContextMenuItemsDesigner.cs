@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonContextMenuItems? _contextMenuItems;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,10 +35,10 @@ namespace Krypton.Toolkit
             _contextMenuItems = component as KryptonContextMenuItems;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Unhook from events
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                    _changeService!.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our item collection is being removed
-            if ((_contextMenuItems != null) && (e.Component == _contextMenuItems))
+            if ((_contextMenuItems != null) && (Equals(e.Component, _contextMenuItems)))
             {
                 // Need access to host in order to delete a component
                 var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
