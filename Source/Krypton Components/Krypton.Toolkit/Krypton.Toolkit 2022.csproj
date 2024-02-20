@@ -339,6 +339,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>OutlookGridStringResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\PaletteSchemas\PaletteSchemaResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>PaletteSchemaResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -765,6 +770,10 @@
         <EmbeddedResource Update="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>OutlookGridStringResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\PaletteSchemas\PaletteSchemaResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>PaletteSchemaResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

@@ -2197,9 +2197,12 @@ namespace Krypton.Toolkit
         /// Import xml palette - with auto upgrade - from the specified stream.
         /// </summary>
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
+        /// <param name="schemaVersion">The palette schema version to upgrade to.</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
-        public void ImportWithUpgrade(Stream stream)
+        public void ImportWithUpgrade(Stream stream, PaletteSchemaVersion? schemaVersion)
         {
+            PaletteSchemaVersion paletteVersion = schemaVersion ?? PaletteSchemaVersion.Version19To20;
+
             try
             {
                 // Prevent lots of redraw events until all loading completes
@@ -2218,7 +2221,7 @@ namespace Krypton.Toolkit
                 }
 
                 stream.Position = 0;
-                PerformUpgrade(stream);
+                PerformUpgrade(stream, paletteVersion);
             }
             finally
             {
@@ -2227,21 +2230,41 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void PerformUpgrade(Stream stream)
+        private void PerformUpgrade(Stream stream, PaletteSchemaVersion schemaVersion)
         {
             using var reader = new StreamReader(stream);
             string end = reader.ReadToEnd();
             reader.Close();
 
-            using (var streamReader = new StringReader(Resources.v6to19))
+            switch (schemaVersion)
             {
-                using (var xmlTextReader = XmlReader.Create(streamReader))
-                {
-                    var xslCompiledTransform1 = new XslCompiledTransform();
-                    xslCompiledTransform1.Load(xmlTextReader);
-                    end = TransformXml(xslCompiledTransform1, end);
-                }
+                case PaletteSchemaVersion.Version6To19:
+                    using (var streamReader = new StringReader(PaletteSchemaResources.PaletteVersion6To19/*Resources.v6to19*/))
+                    {
+                        using (var xmlTextReader = XmlReader.Create(streamReader))
+                        {
+                            var xslCompiledTransform1 = new XslCompiledTransform();
+                            xslCompiledTransform1.Load(xmlTextReader);
+                            end = TransformXml(xslCompiledTransform1, end);
+                        }
+                    }
+                    break;
+                case PaletteSchemaVersion.Version19To20:
+                    using (var version19To20Reader = new StreamReader(PaletteSchemaResources.PaletteVersion19To20/*Resources.v19to20*/))
+                    {
+                        using (var version19To20XmlTextReader = XmlReader.Create(version19To20Reader))
+                        {
+                            var version19To20ReaderXslCompiledTransform = new XslCompiledTransform();
+
+                            version19To20ReaderXslCompiledTransform.Load(version19To20XmlTextReader);
+
+                            end = TransformXml(version19To20ReaderXslCompiledTransform, end);
+                        }
+                    }
+                    break;
             }
+
+            // ToDo: Repeat the same for version 19 to 20
 
             using var ms = new MemoryStream();
             using (var writer = new StreamWriter(ms,

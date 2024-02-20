@@ -90,14 +90,14 @@ namespace Krypton.Toolkit
             if ((_contextMenuItem != null) && (e.Component == _contextMenuItem))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all items from the child item collection
                 for (var j = _contextMenuItem.Items.Count - 1; j >= 0; j--)
                 {
                     var item = _contextMenuItem.Items[j] as Component;
                     _contextMenuItem.Items.Remove(item);
-                    host.DestroyComponent(item);
+                    host?.DestroyComponent(item);
                 }
             }
         }

@@ -93,16 +93,14 @@ namespace Krypton.Toolkit
         {
             try
             {
-                using var ofd = new OpenFileDialog /*KryptonOpenFileDialog*/
-                {
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Custom Palette"
-                };
+                using var ofd = new OpenFileDialog(); /*KryptonOpenFileDialog*/
+                ofd.CheckFileExists = true;
+                ofd.CheckPathExists = true;
+                ofd.DefaultExt = @"xml";
+                ofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                ofd.Title = @"Load Custom Palette";
 
-                string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
+                var paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
                     ? ofd.FileName
                     : string.Empty;
 
@@ -111,7 +109,7 @@ namespace Krypton.Toolkit
                     return;
                 }
 
-                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
+                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName), null);
             }
             catch (Exception exc)
             {
