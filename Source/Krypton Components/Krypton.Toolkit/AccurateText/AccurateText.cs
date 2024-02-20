@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
                     try
                     {
 
-                                g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
+                                g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
                     }
                     catch
                     {

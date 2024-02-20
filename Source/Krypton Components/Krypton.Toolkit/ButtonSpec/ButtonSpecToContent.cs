@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(palette != null);
             Debug.Assert(buttonSpec != null);
-            _palette = palette;
-            _buttonSpec = buttonSpec;
+            _palette = palette!;
+            _buttonSpec = buttonSpec!;
         }
         #endregion
 
