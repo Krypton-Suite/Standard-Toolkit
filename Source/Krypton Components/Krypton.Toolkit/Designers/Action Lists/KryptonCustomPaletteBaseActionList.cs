@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly KryptonCustomPaletteBase? _palette;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             _palette = owner.Component as KryptonCustomPaletteBase;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
                                     KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.ResetToDefaults(false);
-                    _service.OnComponentChanged(_palette, null, null, null);
+                    _service?.OnComponentChanged(_palette, null, null, null);
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
                                     KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.PopulateFromBase(false);
-                    _service.OnComponentChanged(_palette, null, null, null);
+                    _service?.OnComponentChanged(_palette, null, null, null);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
             if (_palette != null)
             {
                 _palette.ActionListImport();
-                _service.OnComponentChanged(_palette, null, null, null);
+                _service?.OnComponentChanged(_palette, null, null, null);
             }
         }
 
@@ -115,14 +115,12 @@ namespace Krypton.Toolkit
         {
             try
             {
-                using var ofd = new OpenFileDialog /*KryptonOpenFileDialog*/
-                {
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Custom Palette"
-                };
+                using var ofd = new OpenFileDialog(); /*KryptonOpenFileDialog*/
+                ofd.CheckFileExists = true;
+                ofd.CheckPathExists = true;
+                ofd.DefaultExt = @"xml";
+                ofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                ofd.Title = @"Load Custom Palette";
 
                 string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
                     ? ofd.FileName

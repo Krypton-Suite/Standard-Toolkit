@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonBreadCrumb? _breadCrumb;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _breadCrumb = owner.Component as KryptonBreadCrumb;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_breadCrumb!.ControlBackStyle != value)
                 {
-                    _service.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBackStyle, value);
+                    _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBackStyle, value);
                     _breadCrumb.ControlBackStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_breadCrumb!.ControlBorderStyle != value)
                 {
-                    _service.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBorderStyle, value);
+                    _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBorderStyle, value);
                     _breadCrumb.ControlBorderStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_breadCrumb!.CrumbButtonStyle != value)
                 {
-                    _service.OnComponentChanged(_breadCrumb, null, _breadCrumb.CrumbButtonStyle, value);
+                    _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.CrumbButtonStyle, value);
                     _breadCrumb.CrumbButtonStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_breadCrumb!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_breadCrumb, null, _breadCrumb.PaletteMode, value);
+                    _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.PaletteMode, value);
                     _breadCrumb.PaletteMode = value;
                 }
             }

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonGroup? _group;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _group = owner.Component as KryptonGroup;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -41,13 +41,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _group.GroupBackStyle;
+            get => _group!.GroupBackStyle;
 
             set
             {
-                if (_group.GroupBackStyle != value)
+                if (_group!.GroupBackStyle != value)
                 {
-                    _service.OnComponentChanged(_group, null, _group.GroupBackStyle, value);
+                    _service?.OnComponentChanged(_group, null, _group.GroupBackStyle, value);
                     _group.GroupBackStyle = value;
                 }
             }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _group.GroupBorderStyle;
+            get => _group!.GroupBorderStyle;
 
             set 
             {
-                if (_group.GroupBorderStyle != value)
+                if (_group!.GroupBorderStyle != value)
                 {
-                    _service.OnComponentChanged(_group, null, _group.GroupBorderStyle, value);
+                    _service?.OnComponentChanged(_group, null, _group.GroupBorderStyle, value);
                     _group.GroupBorderStyle = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _group.PaletteMode;
+            get => _group!.PaletteMode;
 
             set 
             {
-                if (_group.PaletteMode != value)
+                if (_group!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_group, null, _group.PaletteMode, value);
+                    _service?.OnComponentChanged(_group, null, _group.PaletteMode, value);
                     _group.PaletteMode = value;
                 }
             }

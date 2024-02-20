@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonCommand? _command;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             // Remember the panel instance
             _command = owner.Component as KryptonCommand;
 
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion
@@ -37,13 +37,13 @@ namespace Krypton.Toolkit
 
         public string Text
         {
-            get => _command.Text;
+            get => _command!.Text;
 
             set
             {
-                if (_command.Text != value)
+                if (_command!.Text != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.Text, value);
+                    _service?.OnComponentChanged(_command, null, _command.Text, value);
 
                     _command.Text = value;
                 }
@@ -52,13 +52,13 @@ namespace Krypton.Toolkit
 
         public Image? ImageSmall
         {
-            get => _command.ImageSmall;
+            get => _command!.ImageSmall;
 
             set
             {
-                if (_command.ImageSmall != value)
+                if (_command!.ImageSmall != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageSmall, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageSmall, value);
 
                     _command.ImageSmall = value;
                 }
@@ -67,13 +67,13 @@ namespace Krypton.Toolkit
 
         public Image? ImageLarge
         {
-            get => _command.ImageLarge;
+            get => _command!.ImageLarge;
 
             set
             {
-                if (_command.ImageLarge != value)
+                if (_command!.ImageLarge != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageLarge, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageLarge, value);
 
                     _command.ImageLarge = value;
                 }
@@ -82,13 +82,13 @@ namespace Krypton.Toolkit
 
         public Color ImageTransparentColor
         {
-            get => _command.ImageTransparentColor;
+            get => _command!.ImageTransparentColor;
 
             set
             {
-                if (_command.ImageTransparentColor != value)
+                if (_command!.ImageTransparentColor != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageTransparentColor, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageTransparentColor, value);
 
                     _command.ImageTransparentColor = value;
                 }
