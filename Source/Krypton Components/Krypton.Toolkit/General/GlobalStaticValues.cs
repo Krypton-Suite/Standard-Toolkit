@@ -28,6 +28,8 @@ namespace Krypton.Toolkit
 
         public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
 
+        public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
+
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";
         internal static string DEFAULT_NAVIGATOR_FILE = @"Krypton.Navigator.dll";
