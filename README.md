@@ -40,6 +40,7 @@
 * [Known Issues & Workarounds](#known-issues--workarounds)
 	* [Introduction](#introduction)
 	* [What is this Repository About?](#what-is-this-repository-about)
+	* [Contributing to this project](#contributing-to-this-project)
 	* [Individual Components](#individual-components)
 		* [Krypton Toolkit](#krypton-toolkit)
 		* [Krypton Ribbon](#krypton-ribbon)
@@ -194,8 +195,10 @@ There are list of changes that have occurred during the development of the V90.#
   - `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
   - All `CornerRoundingRadius` have been removed
 - [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269),  Remove AllowFormIntegrate to give consistent experience on all supported OS's 
-  - Please check the images inthe issue.
+  - Please check the images in the issue.
   - To fix: just remove `AllowFormIntegrate` from your deisgner files
+- [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
+  - The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
 
 ### Support for .NET 6/7
 As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
@@ -279,6 +282,10 @@ The Krypton Suite contains user interface components designed to make it quick a
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
 - For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
+
+## Contributing to this project
+
+If you want to contribute to this project, please follow [these](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Create-a-Pull-Request.md) guidelines. All contributions are welcome!
 
 ## Individual Components
 

@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            ComboBox = new PaletteInputControlTripleStates(inheritComboBox, needPaint);
+            ComboBox = new PaletteInputControlTripleStates(inheritComboBox!, needPaint);
         }
         #endregion
 

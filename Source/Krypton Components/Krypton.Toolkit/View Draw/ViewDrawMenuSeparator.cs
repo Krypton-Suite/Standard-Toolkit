@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
 
             if (Draw)
             {
-                base.Render(context);
+                base.Render(context!);
             }
         }
         #endregion

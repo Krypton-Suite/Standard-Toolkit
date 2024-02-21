@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             //_drawContent.MouseController = mllc;
             _drawContent.KeyController = mllc;
             // Create the manager for handling tooltips
-            _drawContent.MouseController = new ToolTipController(KryptonContextMenuLinkLabel.ToolTipManager, this, mllc);
+            _drawContent.MouseController = new ToolTipController(KryptonContextMenuLinkLabel.ToolTipManager!, this, mllc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -149,7 +149,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText;
+        public string ResolveExtraText =>
+            (_cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText)!;
 
         #endregion
 
@@ -233,7 +234,7 @@ namespace Krypton.Toolkit
             // Update with enabled state
             _drawContent.Enabled = ItemEnabled;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>

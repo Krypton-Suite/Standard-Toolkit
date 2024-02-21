@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutMenuItemSelect _layout;
         private readonly MenuImageSelectController _controller;
         private readonly NeedPaintHandler _needPaint;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private int _imageIndex;
         #endregion
 
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             SourceController = _controller;
             KeyController = _controller;
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(imageSelect.ToolTipManager, this, _controller);
+            MouseController = new ToolTipController(imageSelect.ToolTipManager!, this, _controller);
 
         }
 
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             }
 
             // Let base class draw using the temp state, then put back to original
-            base.Render(context);
+            base.Render(context!);
             ElementState = tempState;
         }
         #endregion

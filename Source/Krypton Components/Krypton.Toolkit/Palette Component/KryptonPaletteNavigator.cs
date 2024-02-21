@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
             
             // Create the storage objects
-            StateCommon = new KryptonPaletteNavigatorState(redirect, needPaint);
+            StateCommon = new KryptonPaletteNavigatorState(redirect!, needPaint);
         }
         #endregion
 

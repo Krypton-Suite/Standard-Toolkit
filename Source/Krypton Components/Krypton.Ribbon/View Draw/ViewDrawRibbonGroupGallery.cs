@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
 
         #region Instance Fields
-        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly int _nullControlWidth; // = 50;
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup? _activeGroup;
@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon custom definition
             GroupGallery.PropertyChanged += OnGalleryPropertyChanged;
-            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            _nullControlWidth = (int)(50 * FactorDpiX);
             _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
         }
 
@@ -385,7 +385,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return [new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH)];
+                return [new ItemSizeWidth(GroupItemSize.Large, _nullControlWidth)];
             }
         }
 
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    preferredSize.Width = NULL_CONTROL_WIDTH;
+                    preferredSize.Width = _nullControlWidth;
                 }
             }
 

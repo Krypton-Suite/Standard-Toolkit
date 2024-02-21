@@ -15,7 +15,7 @@
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Draws an design time only for adding a new item to a lines container.
+    /// Draws a design time only for adding a new item to a lines' container.
     /// </summary>
     internal class ViewDrawRibbonDesignGroupLines : ViewDrawRibbonDesignBase
     {
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonLines != null);
 
-            _ribbonLines = ribbonLines;
+            _ribbonLines = ribbonLines!;
             CurrentSize = currentSize;
             _padding = new Padding(0, (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(4 * FactorDpiY));
         }
@@ -147,6 +147,7 @@ namespace Krypton.Ribbon
                 var menuDomainUpDown = new ToolStripMenuItem("Add DomainUpDown", null, OnAddDomainUpDown);
                 var menuDateTimePicker = new ToolStripMenuItem("Add DateTimePicker", null, OnAddDateTimePicker);
                 var menuTrackBar = new ToolStripMenuItem("Add TrackBar", null, OnAddTrackBar);
+                var menuThemeComboBox = new ToolStripMenuItem("Add Theme ComboBox", null, OnAddThemeComboBox);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;
@@ -164,9 +165,10 @@ namespace Krypton.Ribbon
                 menuDomainUpDown.ImageIndex = 12;
                 menuDateTimePicker.ImageIndex = 13;
                 menuTrackBar.ImageIndex = 13;
+                menuThemeComboBox.ImageIndex = 14;
 
                 // Finally, add all items to the strip
-                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuCluster, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox });
+                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuCluster, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox, menuThemeComboBox });
             }
 
             if (CommonHelper.ValidContextMenuStrip(_cms))
@@ -210,6 +212,9 @@ namespace Krypton.Ribbon
         private void OnAddDateTimePicker(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddDateTimePicker();
 
         private void OnAddTrackBar(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddTrackBar();
+
+        private void OnAddThemeComboBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddThemeComboBox();
+
         #endregion
     }
 }

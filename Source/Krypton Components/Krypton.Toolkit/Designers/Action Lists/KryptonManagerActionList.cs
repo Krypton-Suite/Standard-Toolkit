@@ -57,7 +57,31 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
+        private void OnReset(object sender, EventArgs e)
+        {
+            if (_manager != null)
+            {
+                KryptonMessageBoxData data = new KryptonMessageBoxData()
+                {
+                    MessageText =
+                        @"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
+                    Caption = @"Reset Theme",
+                    Icon = KryptonMessageBoxIcon.Question,
+                    Buttons = KryptonMessageBoxButtons.YesNo
+                };
 
+                DialogResult result = KryptonMessageBox.Show(data);
+
+                if (result == DialogResult.Yes)
+                {
+                    _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+
+                    _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
+
+                    //UpdateVerbStatus();
+                }
+            }
+        }
 
         #endregion
 
@@ -75,17 +99,18 @@ namespace Krypton.Toolkit
             if (_manager != null)
             {
                 // Add the list of panel specific actions
-                /*actions.Add(new DesignerActionHeaderItem(@"Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions")); */
-                actions.Add(new DesignerActionHeaderItem(@"Data"));
-
+                actions.Add(new DesignerActionHeaderItem(@"Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Default Theme", OnReset), @"Actions"));
+                /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions")); 
+                actions.Add(new DesignerActionHeaderItem(@"Data"));*/
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
             }
 
             return actions;
         }
+
         #endregion
     }
 }

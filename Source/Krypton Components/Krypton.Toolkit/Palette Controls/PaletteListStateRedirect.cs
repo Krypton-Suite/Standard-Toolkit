@@ -43,11 +43,11 @@ namespace Krypton.Toolkit
             _redirect = redirect;
 
             // Create the item redirector
-            Item = new PaletteTripleRedirect(redirect,
-                                                      PaletteBackStyle.ButtonListItem,
-                                                      PaletteBorderStyle.ButtonListItem,
-                                                      PaletteContentStyle.ButtonListItem,
-                                                      needPaint);
+            Item = new PaletteTripleRedirect(redirect!,
+                                             PaletteBackStyle.ButtonListItem,
+                                             PaletteBorderStyle.ButtonListItem,
+                                             PaletteContentStyle.ButtonListItem,
+                                             needPaint);
         }
         #endregion
 

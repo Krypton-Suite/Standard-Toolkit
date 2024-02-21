@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]?.Dispose();
                     _dayMementos[i] = null;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
            
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Content palette depends on enabled state of the control
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
-                _drawText = _months.DayNames[day % 7];
+                _drawText = _months.DayNames![day % 7];
 
                 _dayMementos[i]?.Dispose();
 
@@ -142,8 +142,8 @@ namespace Krypton.Toolkit
                 // Draw using memento cached from the layout call
                 if (_dayMementos[day % 7] != null)
                 {
-                    context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                        _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7],
+                    context?.Renderer.RenderStandardContent.DrawContent(context, drawRect,
+                        _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7]!,
                         VisualOrientation.Top, state, true);
                 }
 

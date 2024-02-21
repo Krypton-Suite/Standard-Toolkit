@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Get requested size of the control
-            Size size = _control?.GetPreferredSize(context.DisplayRectangle.Size) ?? Size.Empty;
+            var size = _control?.GetPreferredSize(context.DisplayRectangle.Size) ?? Size.Empty;
 
             // Return size with padding added on
             return new Size(size.Width + DisplayPadding.Horizontal,
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Cache the fill rectangle
             FillRect = ClientRectangle;

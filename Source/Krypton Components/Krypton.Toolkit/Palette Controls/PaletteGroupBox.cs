@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent? PaletteContent => Content;
+        public IPaletteContent PaletteContent => Content;
 
         #endregion
     }

@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
                                        NeedPaintHandler needPaint) 
         {
             // Create the storage objects
-            StateCommon = new PaletteSeparatorPaddingRedirect(redirect, backStyle, borderStyle, needPaint);
+            StateCommon = new PaletteSeparatorPaddingRedirect(redirect!, backStyle, borderStyle, needPaint);
             StateDisabled = new PaletteSeparatorPadding(StateCommon, StateCommon, needPaint);
             StateNormal = new PaletteSeparatorPadding(StateCommon, StateCommon, needPaint);
             StateTracking = new PaletteSeparatorPadding(StateCommon, StateCommon, needPaint);
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => StateCommon.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => StateCommon?.SetRedirector(redirect);
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => StateCommon.IsDefault &&
+        public override bool IsDefault => StateCommon!.IsDefault &&
                                           StateDisabled.IsDefault &&
                                           StateNormal.IsDefault &&
                                           StateTracking.IsDefault &&
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPaddingRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         #endregion
 

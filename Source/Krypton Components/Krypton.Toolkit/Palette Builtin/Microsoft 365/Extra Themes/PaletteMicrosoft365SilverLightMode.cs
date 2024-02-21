@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 226, 238), // RibbonGroupTitleTracking1
             Color.FromArgb(179, 185, 199), // RibbonGroupTitleTracking2
             Color.FromArgb(128, 128, 128), // RibbonMinimizeBarDark
-            Color.FromArgb(220, 225, 235), // RibbonMinimizeBarLight
+            Color.FromArgb(224, 225, 231), // RibbonMinimizeBarLight
             Color.FromArgb(183, 183, 183), // RibbonGroupCollapsedBorder1
             Color.FromArgb(145, 145, 145), // RibbonGroupCollapsedBorder2
             Color.FromArgb(64, Color.White), // RibbonGroupCollapsedBorder3
@@ -342,6 +342,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(76, 83, 92), // RibbonGroupTitleText
             Color.Empty, // RibbonDropArrowLight
             Color.Empty, // RibbonDropArrowDark
             Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1

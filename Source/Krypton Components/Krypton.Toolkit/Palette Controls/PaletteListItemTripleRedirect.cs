@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Implement storage for a a list item triple.
+    /// Implement storage for a list item triple.
     /// </summary>
     public class PaletteListItemTripleRedirect : Storage                                            
     {
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
-            Item = new PaletteTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
+            Item = new PaletteTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
         }
         #endregion
 

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the common palettes
-            StateCommon = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
+            StateCommon = new PaletteTripleRedirect(redirector!, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
             StateDisabled = new PaletteTriple(StateCommon, needPaint);
             StateOthers = new PaletteTriple(StateCommon, needPaint);
         }

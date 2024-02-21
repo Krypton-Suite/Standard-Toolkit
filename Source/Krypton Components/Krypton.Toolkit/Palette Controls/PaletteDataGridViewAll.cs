@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Create storage that maps onto the inherit instances
-            _background = new PaletteDouble(inherit.BackgroundDouble, needPaint);
+            _background = new PaletteDouble(inherit!.BackgroundDouble, needPaint);
         }
         #endregion
 

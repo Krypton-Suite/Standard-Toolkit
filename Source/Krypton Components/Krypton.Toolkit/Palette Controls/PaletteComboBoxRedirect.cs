@@ -37,13 +37,13 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Item = new PaletteTripleRedirect(redirect, 
+            Item = new PaletteTripleRedirect(redirect!, 
                                                       PaletteBackStyle.ButtonListItem, 
                                                       PaletteBorderStyle.ButtonListItem, 
                                                       PaletteContentStyle.ButtonListItem, 
                                                       NeedPaint);
 
-            ComboBox = new PaletteInputControlTripleRedirect(redirect, 
+            ComboBox = new PaletteInputControlTripleRedirect(redirect!, 
                                                                       PaletteBackStyle.InputControlStandalone,
                                                                       PaletteBorderStyle.InputControlStandalone,
                                                                       PaletteContentStyle.InputControlStandalone, 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
                 }
             };
 
-            _dropBackRedirect = new PaletteDoubleRedirect(redirect, 
+            _dropBackRedirect = new PaletteDoubleRedirect(redirect!, 
                                                           PaletteBackStyle.ControlClient, 
                                                           PaletteBorderStyle.ButtonStandalone,
                                                           NeedPaint);

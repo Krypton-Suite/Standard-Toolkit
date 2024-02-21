@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
                                       NeedPaintHandler needPaint) 
         {
             // Create the storage objects
-            StateCommon = new PaletteTrackBarRedirect(redirect, needPaint);
-            OverrideFocus = new PaletteTrackBarRedirect(redirect, needPaint);
+            StateCommon = new PaletteTrackBarRedirect(redirect!, needPaint);
+            OverrideFocus = new PaletteTrackBarRedirect(redirect!, needPaint);
             StateDisabled = new PaletteTrackBarStates(StateCommon, needPaint);
             StateNormal = new PaletteTrackBarStates(StateCommon, needPaint);
             StateTracking = new PaletteTrackBarPositionStates(StateCommon, needPaint);

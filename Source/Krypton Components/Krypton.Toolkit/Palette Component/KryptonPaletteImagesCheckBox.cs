@@ -93,18 +93,18 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _checkedDisabled = _redirect.GetCheckBoxImage(false, CheckState.Checked, false, false);
-            _checkedNormal = _redirect.GetCheckBoxImage(true, CheckState.Checked, false, false);
-            _checkedTracking = _redirect.GetCheckBoxImage(true, CheckState.Checked, true, false);
-            _checkedPressed = _redirect.GetCheckBoxImage(true, CheckState.Checked, false, true);
-            _uncheckedDisabled = _redirect.GetCheckBoxImage(false, CheckState.Unchecked, false, false);
-            _uncheckedNormal = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, false, false);
-            _uncheckedTracking = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, true, false);
-            _uncheckedPressed = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, false, true);
-            _indeterminateDisabled = _redirect.GetCheckBoxImage(false, CheckState.Indeterminate, false, false);
-            _indeterminateNormal = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, false, false);
-            _indeterminateTracking = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, true, false);
-            _indeterminatePressed = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, false, true);
+            _checkedDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Checked, false, false);
+            _checkedNormal = _redirect?.GetCheckBoxImage(true, CheckState.Checked, false, false);
+            _checkedTracking = _redirect?.GetCheckBoxImage(true, CheckState.Checked, true, false);
+            _checkedPressed = _redirect?.GetCheckBoxImage(true, CheckState.Checked, false, true);
+            _uncheckedDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Unchecked, false, false);
+            _uncheckedNormal = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, false, false);
+            _uncheckedTracking = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, true, false);
+            _uncheckedPressed = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, false, true);
+            _indeterminateDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Indeterminate, false, false);
+            _indeterminateNormal = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, false, false);
+            _indeterminateTracking = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, true, false);
+            _indeterminatePressed = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, false, true);
         }
         #endregion
 

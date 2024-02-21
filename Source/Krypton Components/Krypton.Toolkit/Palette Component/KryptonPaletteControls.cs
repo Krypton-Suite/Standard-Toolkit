@@ -29,20 +29,20 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the button style specific and common palettes
-            ControlCommon = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, needPaint);
-            ControlClient = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, needPaint);
-            ControlAlternate = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlAlternate, PaletteBorderStyle.ControlAlternate, needPaint);
-            ControlGroupBox = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlGroupBox, PaletteBorderStyle.ControlGroupBox, needPaint);
-            ControlToolTip = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlToolTip, PaletteBorderStyle.ControlToolTip, needPaint);
-            ControlRibbon = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlRibbon, PaletteBorderStyle.ControlRibbon, needPaint);
-            ControlRibbonAppMenu = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlRibbonAppMenu, PaletteBorderStyle.ControlRibbonAppMenu, needPaint);
-            ControlCustom1 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom1, PaletteBorderStyle.ControlCustom1, needPaint);
-            ControlCustom2 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom2, PaletteBorderStyle.ControlCustom2, needPaint);
-            ControlCustom3 = new KryptonPaletteControl(redirector, PaletteBackStyle.ControlCustom3, PaletteBorderStyle.ControlCustom3, needPaint);
+            ControlCommon = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, needPaint);
+            ControlClient = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, needPaint);
+            ControlAlternate = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlAlternate, PaletteBorderStyle.ControlAlternate, needPaint);
+            ControlGroupBox = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlGroupBox, PaletteBorderStyle.ControlGroupBox, needPaint);
+            ControlToolTip = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlToolTip, PaletteBorderStyle.ControlToolTip, needPaint);
+            ControlRibbon = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlRibbon, PaletteBorderStyle.ControlRibbon, needPaint);
+            ControlRibbonAppMenu = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlRibbonAppMenu, PaletteBorderStyle.ControlRibbonAppMenu, needPaint);
+            ControlCustom1 = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlCustom1, PaletteBorderStyle.ControlCustom1, needPaint);
+            ControlCustom2 = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlCustom2, PaletteBorderStyle.ControlCustom2, needPaint);
+            ControlCustom3 = new KryptonPaletteControl(redirector!, PaletteBackStyle.ControlCustom3, PaletteBorderStyle.ControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon =
-                new PaletteRedirectDouble(redirector, ControlCommon.StateDisabled, ControlCommon.StateNormal);
+                new PaletteRedirectDouble(redirector!, ControlCommon.StateDisabled, ControlCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             ControlClient.SetRedirector(redirectCommon);

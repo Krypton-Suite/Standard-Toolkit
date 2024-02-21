@@ -26,17 +26,17 @@ namespace Krypton.Toolkit
         public KryptonPaletteGrids([DisallowNull] PaletteRedirect redirector,
                                      NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirector != null);
+            Debug.Assert(redirector! != null);
 
-            GridCommon = new KryptonPaletteGrid(redirector, GridStyle.List, needPaint);
-            GridList = new KryptonPaletteGrid(redirector, GridStyle.List, needPaint);
-            GridSheet = new KryptonPaletteGrid(redirector, GridStyle.Sheet, needPaint);
-            GridCustom1 = new KryptonPaletteGrid(redirector, GridStyle.Custom1, needPaint);
-            GridCustom2 = new KryptonPaletteGrid(redirector, GridStyle.Custom3, needPaint);
-            GridCustom3 = new KryptonPaletteGrid(redirector, GridStyle.Custom3, needPaint);
+            GridCommon = new KryptonPaletteGrid(redirector!, GridStyle.List, needPaint);
+            GridList = new KryptonPaletteGrid(redirector!, GridStyle.List, needPaint);
+            GridSheet = new KryptonPaletteGrid(redirector!, GridStyle.Sheet, needPaint);
+            GridCustom1 = new KryptonPaletteGrid(redirector!, GridStyle.Custom1, needPaint);
+            GridCustom2 = new KryptonPaletteGrid(redirector!, GridStyle.Custom3, needPaint);
+            GridCustom3 = new KryptonPaletteGrid(redirector!, GridStyle.Custom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectGrids(redirector, GridCommon);
+            var redirectCommon = new PaletteRedirectGrids(redirector!, GridCommon);
 
             // Ensure the specific styles inherit to the common grid style
             GridList.SetRedirector(redirectCommon);

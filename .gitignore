@@ -325,3 +325,6 @@ Installer Project Files/Krypton Toolkit Suite/Krypton Toolkit Suite-cache/part1/
 Source\Miscellaneous Toolkit Items\Krypton Toolkit Documentation\Help
 *.bak
 Source/Krypton Components/Temp.txt
+
+# Don't ignore these files
+!Source/Krypton Components/TestForm/invoices.xml

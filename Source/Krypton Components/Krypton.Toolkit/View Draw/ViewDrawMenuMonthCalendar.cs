@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             base.Layout(context);
         }
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             get 
             {
                 var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
-                return contextMenu.CreateToolStripRenderer;
+                return contextMenu.CreateToolStripRenderer!;
             }
         }
 

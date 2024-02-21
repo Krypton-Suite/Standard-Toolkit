@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
             Debug.Assert(qatButton != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            QATButton = qatButton;
+            _ribbon = ribbon!;
+            QATButton = qatButton!;
 
             _viewSize = new Size((int)(22 * FactorDpiX), (int)(22*FactorDpiY));
 
@@ -54,18 +54,18 @@ namespace Krypton.Ribbon
             Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            var controller = new QATButtonController(ribbon, this, needPaint);
+            var controller = new QATButtonController(ribbon!, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;
 
             // Create controller for intercepting events to determine tool tip handling
-            MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager?.ToolTipManager!,
                                                     this, controller);
 
 
             // Use a class to convert from ribbon tab to content interface
-            _contentProvider = new QATButtonToContent(qatButton);
+            _contentProvider = new QATButtonToContent(qatButton!);
 
             // Create and add the draw content for display inside the button
             _drawContent = new ViewDrawContent(_contentProvider, this, VisualOrientation.Top);
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -174,27 +174,27 @@ namespace Krypton.Ribbon
             }
 
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonQATButton.PaletteBack;
-            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonQATButton.PaletteBorder;
+            IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonQATButton.PaletteBorder;
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
-                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder!, VisualOrientation.Top, State);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder!, State, VisualOrientation.Top);
 
                 // Apply the padding depending on the orientation
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
-                using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                using var gh = new GraphicsHint(context.Graphics, paletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                     paletteBack, VisualOrientation.Top,
                     State, _mementoBack);
             }
 
             // Do we need to draw the border?
-            if (paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (paletteBorder?.GetBorderDraw(State) == InheritBool.True)
             {
                 context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, 
                     VisualOrientation.Top, State);
@@ -217,7 +217,7 @@ namespace Krypton.Ribbon
             // We do not operate the qat button at design time
             if (!_ribbon.InDesignMode)
             {
-                Form ownerForm = _ribbon.FindForm();
+                Form? ownerForm = _ribbon.FindForm();
 
                 // Ensure the form we are inside is active
                 ownerForm?.Activate();
@@ -241,11 +241,11 @@ namespace Krypton.Ribbon
             if (_cachedImage == null)
             {
                 var sourceImage = QATButton.GetImage();
-                var currentWidth = sourceImage.Width * FactorDpiX;
+                var currentWidth = sourceImage!.Width * FactorDpiX;
                 var currentHeight = sourceImage.Height * FactorDpiY;
                 /*if ((int)currentHeight == sourceImage.Height)
                 {
-                    // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
+                    // Need to work around the image drawing off the bottom of the form title bar when scaling @ 100%
                     currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
                 }
                 */

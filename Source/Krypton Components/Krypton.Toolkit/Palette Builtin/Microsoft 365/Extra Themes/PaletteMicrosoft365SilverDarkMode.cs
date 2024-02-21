@@ -127,9 +127,9 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(24, 24, 24), // TextLabelControl
-            Color.FromArgb(24, 24, 24), // TextButtonNormal
-            Color.FromArgb(24, 24, 24), // TextButtonChecked
+            Color.FromArgb(40, 40, 40), // TextLabelControl
+            Color.FromArgb(40, 40, 40), // TextButtonNormal
+            Color.FromArgb(52, 52, 52), // TextButtonChecked
             Color.FromArgb(141, 148, 157), // ButtonNormalBorder1
             Color.FromArgb(131, 138, 147), // ButtonNormalBorder2
             Color.FromArgb(119, 132, 161), // ButtonNormalBack1
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack1
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack2
             Color.FromArgb(21, 66, 139), // HeaderText
-            Color.FromArgb(24, 24, 24), // StatusStripText
+            Color.FromArgb(40, 40, 40), // StatusStripText
             Color.FromArgb(155, 163, 167), // ButtonBorder
             Color.FromArgb(255, 255, 255), // SeparatorLight
             Color.FromArgb(110, 109, 143), // SeparatorDark
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(83, 99, 136), // FormBorderHeaderActive2
             Color.FromArgb(119, 132, 161), // FormBorderHeaderInctive1
             Color.FromArgb(83, 99, 136), // FormBorderHeaderInctive2
-            Color.FromArgb(24, 24, 24), // FormHeaderShortActive
+            Color.FromArgb(52, 52, 52), // FormHeaderShortActive
             Color.FromArgb(138, 138, 138), // FormHeaderShortInactive
             Color.FromArgb(92, 98, 106), // FormHeaderLongActive
             Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
@@ -196,8 +196,8 @@ namespace Krypton.Toolkit
             Color.Silver, // LinkNotVisitedOverridePanel
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
-            Color.FromArgb(24, 24, 24), // TextLabelPanel
-            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(40, 40, 40), // TextLabelPanel
+            Color.FromArgb(40, 40, 40), // RibbonTabTextNormal (Old value 255, 255, 255)
             Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
@@ -219,18 +219,18 @@ namespace Krypton.Toolkit
             Color.FromArgb(243, 245, 249), // RibbonGroupsArea5
             Color.FromArgb(189, 191, 193), // RibbonGroupBorder1
             Color.FromArgb(133, 133, 133), // RibbonGroupBorder2
-            Color.FromArgb(223, 227, 239), // RibbonGroupTitle1
-            Color.FromArgb(195, 199, 209), // RibbonGroupTitle2
+            Color.FromArgb(40, 40, 40), // RibbonGroupTitle1 (Old value 223, 227, 239)
+            Color.FromArgb(52, 52, 52), // RibbonGroupTitle2 (Old value 195, 199, 209)
             Color.FromArgb(183, 183, 183), // RibbonGroupBorderContext1
             Color.FromArgb(131, 131, 131), // RibbonGroupBorderContext2
-            Color.FromArgb(223, 227, 239), // RibbonGroupTitleContext1
-            Color.FromArgb(195, 199, 209), // RibbonGroupTitleContext2
+            Color.FromArgb(40, 40, 40), // RibbonGroupTitleContext1 (Old value 223, 227, 239)
+            Color.FromArgb(52, 52, 52), // RibbonGroupTitleContext2 (Old value 195, 199, 209)
             Color.FromArgb(101, 104, 112), // RibbonGroupDialogDark
             Color.FromArgb(242, 242, 242), // RibbonGroupDialogLight
             Color.FromArgb(222, 226, 238), // RibbonGroupTitleTracking1
             Color.FromArgb(179, 185, 199), // RibbonGroupTitleTracking2
-            Color.FromArgb(128, 128, 128), // RibbonMinimizeBarDark
-            Color.FromArgb(220, 225, 235), // RibbonMinimizeBarLight
+            Color.FromArgb(119, 132, 161), // RibbonMinimizeBarDark
+            Color.FromArgb(83, 99, 136), // RibbonMinimizeBarLight
             Color.FromArgb(183, 183, 183), // RibbonGroupCollapsedBorder1
             Color.FromArgb(145, 145, 145), // RibbonGroupCollapsedBorder2
             Color.FromArgb(64, Color.White), // RibbonGroupCollapsedBorder3
@@ -253,7 +253,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(226, 229, 234), // RibbonGroupFrameInside2
             Color.FromArgb(220, 224, 231), // RibbonGroupFrameInside3
             Color.FromArgb(232, 234, 238), // RibbonGroupFrameInside4
-            Color.FromArgb(76, 83, 92), // RibbonGroupCollapsedText         
+            Color.FromArgb(40, 40, 40), // RibbonGroupCollapsedText (Old value 76, 83, 92)
             Color.FromArgb(179, 185, 195), // AlternatePressedBack1
             Color.FromArgb(216, 224, 224), // AlternatePressedBack2
             Color.FromArgb(125, 125, 125), // AlternatePressedBorder1
@@ -280,18 +280,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
             Color.FromArgb(219, 218, 228), // RibbonQATOverflow1                                                      
             Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-            Color.FromArgb(173, 177,
-                181), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(232, 235,
-                237), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(231, 234,
-                238), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(241, 243,
-                243), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(197, 198,
-                199), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(157, 158,
-                159), // ButtonClusterButtonBorder2                                                      
+            Color.FromArgb(173, 177, 181), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(232, 235, 237), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1                                                      
+            Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2                                                      
+            Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1                                                      
+            Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2                                                      
             Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor                                                    
             Color.FromArgb(119, 132, 161), // GridListNormal1                                                    
             Color.FromArgb(83, 99, 136), // GridListNormal2                                                    
@@ -320,8 +314,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 248, 203), // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
-            Color.FromArgb(24, 24, 24), // ContextMenuHeading
-            Color.FromArgb(76, 83, 92), // ContextMenuHeadingText
+            Color.FromArgb(40, 40, 40), // ContextMenuHeading
+            Color.FromArgb(40, 40, 40), // ContextMenuHeadingText (Old value 76, 83, 92)
             Color.FromArgb(239, 239, 239), // ContextMenuImageColumn
             Color.FromArgb(119, 132, 161), // AppButtonBack1
             Color.FromArgb(83, 99, 136), // AppButtonBack2
@@ -344,6 +338,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(40, 40, 40), // RibbonGroupTitleText
             Color.Empty, // RibbonDropArrowLight
             Color.Empty, // RibbonDropArrowDark
             Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
@@ -883,10 +879,52 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile
+                    or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden
+                    or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3
+                    or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive
+                    or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2
+                    or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorHighInternalProfile
+                    or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorLowProfile
+                    or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2
+                    or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient
+                    or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox
+                    or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon
+                    or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1
+                    or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3
+                    or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner
+                    or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator
+                    or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn
+                    or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight
+                    or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon
+                    or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2
+                    or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1
+                    or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary
+                    or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive
+                    or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm
+                    or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderCustom1
+                    or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3
+                    or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery
+                    or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile
+                    or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                    or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonCalendarDay
+                    or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster
+                    or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow
+                    or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm
+                    or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1
+                    or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3
+                    or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList
+                    or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
- or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteGraphicsHint.None,
+                    or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet
+                    or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2
+                    or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList
+                    or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1
+                    or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3
+                    or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet
+                    or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2
+                    or PaletteBackStyle.GridDataCellCustom3 => PaletteGraphicsHint.None,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -978,21 +1016,10 @@ namespace Krypton.Toolkit
                         case PaletteState.CheckedNormal:
                         case PaletteState.CheckedPressed:
                         case PaletteState.CheckedTracking:
-                            if (style == PaletteBackStyle.TabHighProfile)
-                            {
-                                if (state == PaletteState.CheckedNormal)
-                                {
-                                    return _buttonBackColors[6];
-                                }
-                                else
-                                {
-                                    return state == PaletteState.CheckedPressed ? _buttonBackColors[4] : _buttonBackColors[8];
-                                }
-                            }
-                            else
-                            {
-                                return SystemColors.Window;
-                            }
+                            return style == PaletteBackStyle.TabHighProfile
+                                ? state == PaletteState.CheckedNormal ? _buttonBackColors[6] :
+                                state == PaletteState.CheckedPressed ? _buttonBackColors[4] : _buttonBackColors[8]
+                                : SystemColors.Window;
 
                         default:
                             throw DebugTools.NotImplemented(state.ToString());
@@ -1042,14 +1069,9 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
                 case PaletteBackStyle.PanelCustom3:
@@ -1062,14 +1084,9 @@ namespace Krypton.Toolkit
                     return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
                 case PaletteBackStyle.PanelRibbonInactive:
                     return _ribbonColours[(int)SchemeOfficeColors.FormBorderInactiveLight];
                 case PaletteBackStyle.FormMain:
@@ -1079,27 +1096,17 @@ namespace Krypton.Toolkit
                     return state == PaletteState.Disabled
                         ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactiveLight]
                         : _ribbonColours[(int)SchemeOfficeColors.FormBorderActiveLight];
-
+                case PaletteBackStyle.Control:
                 case PaletteBackStyle.ControlClient:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.ControlAlternate:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
@@ -1110,16 +1117,11 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.InputControlCustom1:
                 case PaletteBackStyle.InputControlCustom2:
                 case PaletteBackStyle.InputControlCustom3:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled];
-                    }
-                    else
-                    {
-                        return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
+                    return state == PaletteState.Disabled
+                        ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled]
+                        : (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                             ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackNormal]
                             : _ribbonColours[(int)SchemeOfficeColors.InputControlBackInactive];
-                    }
                 case PaletteBackStyle.ControlRibbon:
                     return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected4];
                 case PaletteBackStyle.ControlRibbonAppMenu:
@@ -1146,17 +1148,21 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ButtonForm:
                     return state switch
                     {
-                        PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
+                        PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color
+                            .Empty,
                         PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Checked],
                         PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Track],
-                        PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1CheckTrack],
-                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBack1Pressed],
+                        PaletteState.CheckedTracking => _ribbonColours[
+                            (int)SchemeOfficeColors.FormButtonBack1CheckTrack],
+                        PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[
+                            (int)SchemeOfficeColors.FormButtonBack1Pressed],
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 case PaletteBackStyle.ButtonFormClose:
                     return state switch
                     {
-                        PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
+                        PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color
+                            .Empty,
                         PaletteState.CheckedNormal => _formCloseChecked1,
                         PaletteState.Tracking => _formCloseTracking1,
                         PaletteState.CheckedTracking => _formCloseCheckedTracking1,
@@ -1334,14 +1340,9 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.SeparatorCustom3:
                 case PaletteBackStyle.PanelClient:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelCustom1:
                 case PaletteBackStyle.PanelCustom2:
                 case PaletteBackStyle.PanelCustom3:
@@ -1354,14 +1355,9 @@ namespace Krypton.Toolkit
                     return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.PanelAlternate:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
                 case PaletteBackStyle.PanelRibbonInactive:
                     return _ribbonColours[(int)SchemeOfficeColors.FormBorderInactiveDark];
                 case PaletteBackStyle.FormMain:
@@ -1374,24 +1370,14 @@ namespace Krypton.Toolkit
 
                 case PaletteBackStyle.ControlClient:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelClient];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelClient];
                 case PaletteBackStyle.ControlAlternate:
                     // Note: Alter these to control the backgrounds
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledBack;
-                    }
-                    else
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
-                    }
+                    return state == PaletteState.Disabled
+                        ? _disabledBack
+                        : _ribbonColours[(int)SchemeOfficeColors.PanelAlternative];
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
@@ -1402,16 +1388,11 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.InputControlCustom1:
                 case PaletteBackStyle.InputControlCustom2:
                 case PaletteBackStyle.InputControlCustom3:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled];
-                    }
-                    else
-                    {
-                        return (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
+                    return state == PaletteState.Disabled
+                        ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackDisabled]
+                        : (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                             ? _ribbonColours[(int)SchemeOfficeColors.InputControlBackNormal]
                             : _ribbonColours[(int)SchemeOfficeColors.InputControlBackInactive];
-                    }
                 case PaletteBackStyle.ControlRibbon:
                     return _ribbonColours[(int)SchemeOfficeColors.RibbonTabSelected4];
                 case PaletteBackStyle.ControlRibbonAppMenu:
@@ -4869,16 +4850,16 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         private static readonly Color _menuBorder = Color.FromArgb(134, 134, 134);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(83, 99, 136);
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(119, 132, 161);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(134, 134, 134);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(83, 83, 83);
         private static readonly Color _contextMenuBackground = Color.FromArgb(119, 132, 161);
         private static readonly Color _checkBackground = Color.FromArgb(164, 172, 192);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(83, 99, 136);
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(119, 132, 161);
-        private static readonly Color _buttonPressedBegin = Color.FromArgb(83, 99, 136);
-        private static readonly Color _buttonPressedEnd = Color.FromArgb(119, 132, 161);
-        private static readonly Color _buttonCheckedBegin = Color.FromArgb(83, 99, 136);
-        private static readonly Color _buttonCheckedEnd = Color.FromArgb(119, 132, 161);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(134, 134, 134);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(83, 83, 83);
+        private static readonly Color _buttonPressedBegin = Color.FromArgb(134, 134, 134);
+        private static readonly Color _buttonPressedEnd = Color.FromArgb(83, 83, 83);
+        private static readonly Color _buttonCheckedBegin = Color.FromArgb(134, 134, 134);
+        private static readonly Color _buttonCheckedEnd = Color.FromArgb(83, 83, 83);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion

@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         public ViewDrawPanel([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
-            _paletteBack = paletteBack;
+            _paletteBack = paletteBack!;
             VisualOrientation = VisualOrientation.Top;
         }
 
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Use newly provided palettes
-            _paletteBack = paletteBack;
+            _paletteBack = paletteBack!;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer to evaluate the given palette
-            return context.Renderer.EvalTransparentPaint(_paletteBack, State);
+            return context!.Renderer.EvalTransparentPaint(_paletteBack, State);
         }
         #endregion
 

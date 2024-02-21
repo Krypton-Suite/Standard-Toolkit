@@ -60,8 +60,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _plus = _redirect.GetTreeViewImage(false);
-            _minus = _redirect.GetTreeViewImage(true);
+            _plus = _redirect?.GetTreeViewImage(false);
+            _minus = _redirect?.GetTreeViewImage(true);
         }
         #endregion
 

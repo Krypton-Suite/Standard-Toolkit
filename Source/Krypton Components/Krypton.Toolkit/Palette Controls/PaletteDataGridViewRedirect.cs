@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _background = new PaletteDoubleRedirect(redirect, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint);
-            _dataCell = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint);
-            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint);
-            _headerRow = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint);
+            _background = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint);
+            _dataCell = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint);
+            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint);
+            _headerRow = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint);
         }
         #endregion
 

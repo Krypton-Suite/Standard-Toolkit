@@ -293,6 +293,15 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeKryptonMiscellaneousThemeStrings() => !MiscellaneousThemeStrings.IsDefault;
         private void ResetKryptonMiscellaneousThemeStrings() => MiscellaneousThemeStrings.Reset();
 
+        [Category(@"Visuals")]
+        [Description(@"Collection of outlook grid strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonOutlookGridStrings KryptonOutlookGridStrings => OutlookGridStrings;
+        private bool ShouldSerializeKryptonOutlookGridStrings() => !OutlookGridStrings.IsDefault;
+        private void ResetKryptonOutlookGridStrings() => OutlookGridStrings.Reset();
+
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
         [Category(@"Visuals")]
@@ -501,6 +510,10 @@ namespace Krypton.Toolkit
         public static KryptonMiscellaneousThemeStrings MiscellaneousThemeStrings { get; } =
         new KryptonMiscellaneousThemeStrings();
 
+        /// <summary>Gets the outlook grid strings.</summary>
+        /// <value>The outlook grid strings.</value>
+        public static KryptonOutlookGridStrings OutlookGridStrings { get; } = new KryptonOutlookGridStrings();
+
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
         public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
@@ -556,6 +569,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() ||
                                    ShouldSerializeKryptonAboutBoxStrings() ||
                                    ShouldSerializeKryptonMiscellaneousThemeStrings() ||
+                                   ShouldSerializeKryptonOutlookGridStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings() ||
                                    ShouldSerializeKryptonToastNotificationStrings());
 
@@ -619,6 +633,8 @@ namespace Krypton.Toolkit
             ResetKryptonAboutBoxStrings();
 
             ResetKryptonMiscellaneousThemeStrings();
+
+            ResetKryptonOutlookGridStrings();
 
             ResetKryptonScrollBarStrings();
 

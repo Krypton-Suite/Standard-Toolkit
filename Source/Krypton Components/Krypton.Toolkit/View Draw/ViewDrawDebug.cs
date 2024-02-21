@@ -64,10 +64,10 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            // Use all of the provided space
+            // Use all the provided space
 
             // Always use the metric and ignore given space
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 

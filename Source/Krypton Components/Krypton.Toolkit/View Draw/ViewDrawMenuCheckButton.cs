@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             //_innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckButton.ToolTipManager, this, mcbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckButton.ToolTipManager!, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the short text value of the check box item.
         /// </summary>
-        public string ItemText => _contentValues.GetShortText();
+        public string? ItemText => _contentValues?.GetShortText();
 
         #endregion
 
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Update text and image values
-            _contentValues.ShortText = ResolveText;
+            _contentValues!.ShortText = ResolveText;
             _contentValues.LongText = ResolveExtraText;
             _contentValues.Image = ResolveImage;
             _contentValues.ImageTransparentColor = ResolveImageTransparentColor;
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
             // Update the checked state
             ViewDrawButton.Checked = ResolveChecked;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>

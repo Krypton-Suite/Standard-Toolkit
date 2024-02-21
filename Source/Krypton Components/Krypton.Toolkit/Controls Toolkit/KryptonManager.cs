@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+ *
  */
 #endregion
 
@@ -94,6 +94,7 @@ namespace Krypton.Toolkit
         private static PaletteMicrosoft365DarkGray? _paletteMicrosoft365DarkGray;
         private static PaletteMicrosoft365Black? _paletteMicrosoft365Black;
         private static PaletteMicrosoft365BlackDarkMode? _paletteMicrosoft365BlackDarkMode;
+        private static PaletteMicrosoft365BlackDarkModeAlternate? _paletteMicrosoft365BlackDarkModeAlternate;
         private static PaletteMicrosoft365Blue? _paletteMicrosoft365Blue;
         private static PaletteMicrosoft365BlueDarkMode? _paletteMicrosoft365BlueDarkMode;
         private static PaletteMicrosoft365BlueLightMode? _paletteMicrosoft365BlueLightMode;
@@ -184,7 +185,7 @@ namespace Krypton.Toolkit
             container.Add(this);
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -244,9 +245,8 @@ namespace Krypton.Toolkit
                 {
                     if (value != PaletteMode.Custom)
                     {
-                        CurrentGlobalPalette = GetPaletteForMode(value);
                         // Get a reference to the standard palette from its name
-                        SetPalette(CurrentGlobalPalette);
+                        SetPalette(GetPaletteForMode(value));
                     }
                     CurrentGlobalPaletteMode = value;
                     if (_baseFont != null)
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007White:
                     return PaletteOffice2007White;
                 case PaletteMode.Office2007Black:
-                    return PaletteOffice2007Black; 
+                    return PaletteOffice2007Black;
                 // TODO: Re-enable this once completed
                 // case PaletteMode.Office2010DarkGray:
                 // return PaletteOffice2010DarkGray;
@@ -535,6 +535,8 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365Black;
                 case PaletteMode.Microsoft365BlackDarkMode:
                     return PaletteMicrosoft365BlackDarkMode;
+                case PaletteMode.Microsoft365BlackDarkModeAlternate:
+                    return PaletteMicrosoft365BlackDarkModeAlternate;
                 case PaletteMode.Microsoft365BlueDarkMode:
                     return PaletteMicrosoft365BlueDarkMode;
                 case PaletteMode.Microsoft365BlueLightMode:
@@ -735,6 +737,8 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the ### palette.
         /// </summary>
         public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
+
+        public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
 
         /// <summary>
         /// Gets the palette Microsoft365 blue.

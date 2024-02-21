@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
 
         public const int GLOBAL_BUTTON_PADDING = 10;
 
+        public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
+
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";
         internal static string DEFAULT_NAVIGATOR_FILE = @"Krypton.Navigator.dll";
@@ -34,5 +36,34 @@ namespace Krypton.Toolkit
         internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
 
         public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
+
+        /// <summary>
+        /// The default group row height
+        /// </summary>
+        public static int DefaultGroupRowHeight = 34;
+        /// <summary>
+        /// The group row height for 2013 palettes
+        /// </summary>
+        public static int _2013GroupRowHeight = 24;
+        /// <summary>
+        /// The default offset height
+        /// </summary>
+        public static int DefaultOffsetHeight = 22;
+        /// <summary>
+        /// The offset height for 2013 palettes
+        /// </summary>
+        public static int Office2013OffsetHeight = 11;
+        /// <summary>
+        /// The image offset width
+        /// </summary>
+        public static int ImageOffsetWidth = 18;
+        /// <summary>
+        /// The group level multiplier
+        /// </summary>
+        public static int GroupLevelMultiplier = 15;
+        /// <summary>
+        /// The group image side size
+        /// </summary>
+        public static int GroupImageSide = 16;
     }
 }

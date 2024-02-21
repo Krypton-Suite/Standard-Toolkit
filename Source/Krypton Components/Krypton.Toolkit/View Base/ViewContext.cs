@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                ViewManager = new ViewManager(control, new ViewLayoutNull());
+                ViewManager = new ViewManager(control!, new ViewLayoutNull());
                 _disposeManager = true;
             }
 

@@ -63,7 +63,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
 
         #endregion
-        private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
+
+        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
 
         #region Colour Arrays
 
@@ -79,8 +80,8 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
-            Color.Black, // TextButtonNormal
+            Color.FromArgb(70, 70, 70), // (76, 83, 92), // TextLabelControl
+            Color.FromArgb(70, 70, 70), // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
             Color.FromArgb(94, 94, 94), // ButtonNormalDefaultBorder
@@ -149,7 +150,6 @@ namespace Krypton.Toolkit
             Color.Violet, // LinkVisitedOverridePanel
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
-            //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
             Color.White, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(94, 94, 94), // RibbonTabSelected1
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(123, 125, 125), // RibbonGroupDialogLight
             Color.Empty, // RibbonGroupTitleTracking1
             Color.Empty, // RibbonGroupTitleTracking2
-            Color.FromArgb(78, 78, 78), // RibbonMinimizeBarDark
-            Color.FromArgb(110, 110, 110), // RibbonMinimizeBarLight
+            Color.FromArgb(71, 71, 71), // RibbonMinimizeBarDark
+            Color.FromArgb(113, 113, 113), // RibbonMinimizeBarLight
             Color.Empty, // RibbonGroupCollapsedBorder1
             Color.Empty, // RibbonGroupCollapsedBorder2
             Color.Empty, // RibbonGroupCollapsedBorder3
@@ -263,14 +263,14 @@ namespace Krypton.Toolkit
             Color.FromArgb(218, 220, 221), // GridDataCellBorder
             Color.FromArgb(183, 219, 255), // GridDataCellSelected
             //Color.Black,    
-            Color.FromArgb(255, 255, 255), // InputControlTextNormal
+            Color.FromArgb(70, 70, 70), // InputControlTextNormal
             Color.FromArgb(168, 168, 168), // InputControlTextDisabled
             Color.FromArgb(132, 132, 132), // InputControlBorderNormal
             Color.FromArgb(187, 187, 187), // InputControlBorderDisabled
-            Color.FromArgb(38, 38, 38), // InputControlBackNormal
+            Color.White, // InputControlBackNormal
             Color.FromArgb(240, 240, 240), // InputControlBackDisabled
             Color.FromArgb(192, 192, 192), // InputControlBackInactive
-            Color.Black, // InputDropDownNormal1
+            Color.White, // InputDropDownNormal1
             Color.Transparent, // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
@@ -361,265 +361,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Back
-        /// <summary>
-        /// Gets the color background drawing style.
-        /// </summary>
-        /// <param name="style">Background style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
-        {
-            // We do not provide override values
-            if (CommonHelper.IsOverrideState(state))
-            {
-                return PaletteColorStyle.Inherit;
-            }
-
-            switch (style)
-            {
-                case PaletteBackStyle.ButtonNavigatorStack:
-                case PaletteBackStyle.ButtonNavigatorOverflow:
-                case PaletteBackStyle.ButtonNavigatorMini:
-                    switch (state)
-                    {
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.CheckedPressed:
-                            return PaletteColorStyle.ExpertSquareHighlight2;
-                    }
-                    break;
-            }
-
-            return base.GetBackColorStyle(style, state);
-        }
-
-        /// <summary>
-        /// Gets the second back color.
-        /// </summary>
-        /// <param name="style">Background style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteBackStyle.TabDock:
-                    switch (state)
-                    {
-                        case PaletteState.Normal:
-                            return _schemeOfficeColors[(int)SchemeOfficeColors.HeaderSecondaryBack1];
-                    }
-                    break;
-            }
-
-            return base.GetBackColor2(style, state);
-        }
-        #endregion
-
-        #region Border
-        /// <summary>
-        /// Gets the first border color.
-        /// </summary>
-        /// <param name="style">Border style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteBorderStyle.TabDock:
-                    switch (state)
-                    {
-                        case PaletteState.Normal:
-                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
-                    }
-                    break;
-            }
-
-            return base.GetBorderColor1(style, state);
-        }
-
-        /// <summary>
-        /// Gets the second border color.
-        /// </summary>
-        /// <param name="style">Border style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteBorderStyle.TabDock:
-                    switch (state)
-                    {
-                        case PaletteState.Normal:
-                            return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
-                    }
-                    break;
-            }
-
-            return base.GetBorderColor2(style, state);
-        }
-        #endregion
-
-        #region Content
-        /// <summary>
-        /// Gets the first back color for the short text.
-        /// </summary>
-        /// <param name="style">Content style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteContentStyle.ButtonStandalone:
-                case PaletteContentStyle.ButtonGallery:
-                case PaletteContentStyle.ButtonAlternate:
-                case PaletteContentStyle.ButtonCluster:
-                case PaletteContentStyle.ButtonCustom1:
-                case PaletteContentStyle.ButtonCustom2:
-                case PaletteContentStyle.ButtonCustom3:
-                    if (state == PaletteState.NormalDefaultOverride)
-                    {
-                        return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked];
-                    }
-
-                    break;
-                case PaletteContentStyle.ButtonNavigatorMini:
-                case PaletteContentStyle.ButtonNavigatorStack:
-                case PaletteContentStyle.ButtonNavigatorOverflow:
-                    return state == PaletteState.NormalDefaultOverride
-                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-
-                case PaletteContentStyle.HeaderPrimary:
-                case PaletteContentStyle.HeaderDockInactive:
-                case PaletteContentStyle.HeaderCalendar:
-                    if (state != PaletteState.Disabled)
-                    {
-                        return Color.White;
-                    }
-
-                    break;
-            }
-
-            return base.GetContentShortTextColor1(style, state);
-        }
-
-        /// <summary>
-        /// Gets the second back color for the short text.
-        /// </summary>
-        /// <param name="style">Content style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
-        {
-            // We do not provide override values
-            if (CommonHelper.IsOverrideState(state))
-            {
-                return Color.Empty;
-            }
-
-            switch (style)
-            {
-                case PaletteContentStyle.ButtonNavigatorMini:
-                case PaletteContentStyle.ButtonNavigatorStack:
-                case PaletteContentStyle.ButtonNavigatorOverflow:
-                    return state == PaletteState.NormalDefaultOverride
-                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-
-                case PaletteContentStyle.HeaderPrimary:
-                case PaletteContentStyle.HeaderDockInactive:
-                case PaletteContentStyle.HeaderCalendar:
-                    if (state != PaletteState.Disabled)
-                    {
-                        return Color.White;
-                    }
-
-                    break;
-            }
-
-            return base.GetContentShortTextColor2(style, state);
-        }
-
-        /// <summary>
-        /// Gets the first back color for the long text.
-        /// </summary>
-        /// <param name="style">Content style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
-        {
-            // We do not provide override values
-            if (CommonHelper.IsOverrideState(state))
-            {
-                return Color.Empty;
-            }
-
-            switch (style)
-            {
-                case PaletteContentStyle.ButtonNavigatorMini:
-                case PaletteContentStyle.ButtonNavigatorStack:
-                case PaletteContentStyle.ButtonNavigatorOverflow:
-                    return state == PaletteState.NormalDefaultOverride
-                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-
-                case PaletteContentStyle.HeaderPrimary:
-                case PaletteContentStyle.HeaderDockInactive:
-                case PaletteContentStyle.HeaderCalendar:
-                    if (state != PaletteState.Disabled)
-                    {
-                        return Color.White;
-                    }
-
-                    break;
-            }
-
-            return base.GetContentLongTextColor1(style, state);
-        }
-
-        /// <summary>
-        /// Gets the second back color for the long text.
-        /// </summary>
-        /// <param name="style">Content style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteContentStyle style, PaletteState state)
-        {
-            // We do not provide override values
-            if (CommonHelper.IsOverrideState(state))
-            {
-                return Color.Empty;
-            }
-
-            switch (style)
-            {
-                case PaletteContentStyle.ButtonNavigatorMini:
-                case PaletteContentStyle.ButtonNavigatorStack:
-                case PaletteContentStyle.ButtonNavigatorOverflow:
-                    return state == PaletteState.NormalDefaultOverride
-                        ? _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonChecked]
-                        : _schemeOfficeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-
-                case PaletteContentStyle.HeaderPrimary:
-                case PaletteContentStyle.HeaderDockInactive:
-                case PaletteContentStyle.HeaderCalendar:
-                    if (state != PaletteState.Disabled)
-                    {
-                        return Color.White;
-                    }
-
-                    break;
-            }
-
-            return base.GetContentLongTextColor2(style, state);
-        }
-        #endregion
-
         #region Images
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
@@ -645,9 +386,6 @@ namespace Krypton.Toolkit
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) => style switch
                                                  {
-                                                     PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
-                                                     PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
-                                                     PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
                                                      PaletteButtonSpecStyle.FormClose => state switch
                                                      {
                                                          PaletteState.Tracking => _formCloseActive,
@@ -683,97 +421,8 @@ namespace Krypton.Toolkit
                                                          PaletteState.Normal => _formHelpNormal,
                                                          _ => _formHelpDisabled
                                                      },
-                                                     PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
-                                                     PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,
                                                      _ => base.GetButtonSpecImage(style, state)
                                                  };
-        #endregion
-
-        #region RibbonText
-        /// <summary>
-        /// Gets the =color for the item text.
-        /// </summary>
-        /// <param name="style">Text style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledRibbonText;
-                    }
-
-                    break;
-                case PaletteRibbonTextStyle.RibbonGroupButtonText:
-                case PaletteRibbonTextStyle.RibbonGroupLabelText:
-                case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
-                case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledRibbonText;
-                    }
-
-                    break;
-            }
-
-            return base.GetRibbonTextColor(style, state);
-        }
-        #endregion
-
-        #region RibbonBack
-        /// <summary>
-        /// Gets the method used to draw the background of a ribbon item.
-        /// </summary>
-        /// <param name="style">Background style.</param>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>PaletteRibbonBackStyle value.</returns>
-        public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteRibbonBackStyle.RibbonTab:
-                    switch (state)
-                    {
-                        case PaletteState.Tracking:
-                        case PaletteState.Pressed:
-                        case PaletteState.ContextTracking:
-                            return PaletteRibbonColorStyle.RibbonTabTracking2010Alt;
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.CheckedPressed:
-                        case PaletteState.ContextCheckedNormal:
-                        case PaletteState.ContextCheckedTracking:
-                            return PaletteRibbonColorStyle.RibbonTabSelected2010Alt;
-                    }
-                    break;
-                case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
-                case PaletteRibbonBackStyle.RibbonGroupNormalBorder:
-                    switch (state)
-                    {
-                        case PaletteState.Tracking:
-                        case PaletteState.ContextTracking:
-                            return PaletteRibbonColorStyle.RibbonGroupNormalBorderSepTrackingDark;
-                        case PaletteState.Pressed:
-                            return PaletteRibbonColorStyle.RibbonGroupNormalBorderSepPressedDark;
-                    }
-                    break;
-                case PaletteRibbonBackStyle.RibbonGroupArea:
-                    switch (state)
-                    {
-                        case PaletteState.Tracking:
-                        case PaletteState.ContextTracking:
-                            return PaletteRibbonColorStyle.RibbonGroupNormalTrackingDark;
-                        case PaletteState.Pressed:
-                            return PaletteRibbonColorStyle.RibbonGroupNormalPressedDark;
-                    }
-                    break;
-            }
-
-            return base.GetRibbonBackColorStyle(style, state);
-        }
         #endregion
     }
 }

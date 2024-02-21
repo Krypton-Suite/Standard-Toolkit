@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
                                         KryptonLinkBehavior linkBehavior)
         {
             Debug.Assert(inherit != null);
-            _inherit = inherit;
+            _inherit = inherit!;
             LinkBehavior = linkBehavior;
         }
         #endregion
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
                 // Do we need to add an underline to the font?
                 if (underline)
                 {
-                    font = new Font(font, FontStyle.Underline | font.Style);
+                    font = new Font(font!, FontStyle.Underline | font!.Style);
                 }
             }
 

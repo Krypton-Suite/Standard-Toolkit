@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -204,11 +204,11 @@ namespace Krypton.Toolkit
             CheckPaletteState();
 
             // Apply padding needed outside the border of the separator
-            Rectangle rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
-                                                       _metric.GetMetricPadding(ElementState, MetricPadding));
+            var rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
+                                                       _metric!.GetMetricPadding(ElementState, MetricPadding));
 
             // Ask the renderer to perform drawing of the separator glyph
-            context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette.PaletteBack, _palette.PaletteBorder,
+            context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette!.PaletteBack, _palette.PaletteBorder!,
                                                        Orientation, State, (Source == null) || Source.SeparatorCanMove);
         }
         #endregion

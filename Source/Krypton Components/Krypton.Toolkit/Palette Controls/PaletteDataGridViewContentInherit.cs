@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private IPaletteContent _inherit;
-        private DataGridViewCellStyle _cellStyle;
+        private DataGridViewCellStyle? _cellStyle;
         #endregion
 
         #region SetInherit
@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
             Debug.Assert(cellStyle != null);
 
-            _inherit = inherit;
-            _cellStyle = cellStyle;
+            _inherit = inherit!;
+            _cellStyle = cellStyle!;
         }
         #endregion
 
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _cellStyle.Alignment switch
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _cellStyle!.Alignment switch
         {
             DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
             DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _cellStyle.Alignment switch
+        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _cellStyle!.Alignment switch
         {
             DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.TopRight => PaletteRelativeAlign.Near,
             DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.MiddleRight => PaletteRelativeAlign.Center,
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor1(PaletteState state) => state switch
         {
-            PaletteState.Normal => _cellStyle.ForeColor,
-            PaletteState.CheckedNormal => _cellStyle.SelectionForeColor,
+            PaletteState.Normal => _cellStyle!.ForeColor,
+            PaletteState.CheckedNormal => _cellStyle!.SelectionForeColor,
             _ => _inherit.GetContentShortTextColor1(state)
         };
 
@@ -230,14 +230,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font? GetContentLongTextFont(PaletteState state) => _cellStyle.Font;
+        public override Font? GetContentLongTextFont(PaletteState state) => _cellStyle!.Font;
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font? GetContentLongTextNewFont(PaletteState state) => _cellStyle.Font;
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _cellStyle!.Font;
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -272,7 +272,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentLongTextH(PaletteState state) => _cellStyle.Alignment switch
+        public override PaletteRelativeAlign GetContentLongTextH(PaletteState state) => _cellStyle!.Alignment switch
         {
             DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
             DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentLongTextV(PaletteState state) => _cellStyle.Alignment switch
+        public override PaletteRelativeAlign GetContentLongTextV(PaletteState state) => _cellStyle!.Alignment switch
         {
             DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
             DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
@@ -361,7 +361,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteState state) => _cellStyle.Padding;
+        public override Padding GetContentPadding(PaletteState state) => _cellStyle!.Padding;
 
         /// <summary>
         /// Gets the padding between adjacent content items.

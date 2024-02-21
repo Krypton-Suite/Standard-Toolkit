@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         public virtual Size GetPreferredSize(IRenderer renderer,
                                              Size proposedSize)
         {
-            if ((renderer == null) || (Root == null))
+            if (renderer == null || Root == null)
             {
                 return proposedSize;
             }
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             // Create a layout context for calculating size and positioning
             using var context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
-            return Root.EvalTransparentPaint(context);
+            return Root!.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using var context = new ViewLayoutContext(this, Control, AlignControl, renderer);
+                using var context = new ViewLayoutContext(this, Control, AlignControl, renderer!);
                 Layout(context);
             }
         }
@@ -306,11 +306,11 @@ namespace Krypton.Toolkit
         public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            Debug.Assert(context.Renderer != null);
+            Debug.Assert(context?.Renderer != null);
             Debug.Assert(Root != null);
 
             // Do nothing if the control is disposed
-            if (!context.Control.IsDisposed)
+            if (!context!.Control!.IsDisposed)
             {
                 if (OutputDebug)
                 {
@@ -695,7 +695,7 @@ namespace Krypton.Toolkit
             if (!MouseCaptured)
             {
                 // Update the active view with that found under the mouse position
-                ActiveView = Root?.ViewFromPoint(pt);
+                ActiveView = Root.ViewFromPoint(pt);
             }
         }
         #endregion

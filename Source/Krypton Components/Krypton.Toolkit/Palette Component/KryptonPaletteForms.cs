@@ -29,15 +29,15 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the form style specific and common palettes
-            FormCommon = new KryptonPaletteForm(redirector, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
-            FormMain = new KryptonPaletteForm(redirector, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
-            FormCustom1 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom1, PaletteBorderStyle.FormCustom1, needPaint);
-            FormCustom2 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom2, PaletteBorderStyle.FormCustom2, needPaint);
-            FormCustom3 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
+            FormCommon = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
+            FormMain = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
+            FormCustom1 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom1, PaletteBorderStyle.FormCustom1, needPaint);
+            FormCustom2 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom2, PaletteBorderStyle.FormCustom2, needPaint);
+            FormCustom3 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon =
-                new PaletteRedirectDouble(redirector, FormCommon.StateInactive, FormCommon.StateActive);
+                new PaletteRedirectDouble(redirector!, FormCommon.StateInactive, FormCommon.StateActive);
 
             // Inform the form style to use the new redirector
             FormMain.SetRedirector(redirectCommon);

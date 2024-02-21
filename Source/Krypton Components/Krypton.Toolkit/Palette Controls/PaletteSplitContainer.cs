@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
                                      NeedPaintHandler needPaint)
             : base(inheritSplitContainer, needPaint) =>
             // Create the embedded separator palette information
-            Separator = new PaletteSeparatorPadding(inheritSeparator, inheritMetric, needPaint);
+            Separator = new PaletteSeparatorPadding(inheritSeparator!, inheritMetric!, needPaint);
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => base.IsDefault &&
-                                           Separator.IsDefault;
+                                           Separator!.IsDefault;
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+        private bool ShouldSerializeSeparator() => !Separator!.IsDefault;
 
         #endregion
     }

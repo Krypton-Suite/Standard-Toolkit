@@ -4556,8 +4556,53 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public RECT rcHelpButton;
             public RECT rcCloseButton;
         }
+
+        #region For Acrylic
+
+        /*
+        // The following code comes from https://stackoverflow.com/questions/56481230/how-to-create-windows-10-acrylic-transparency-effect-in-winform-c-sharp
+        // Discovered via:
+        // https://withinrafael.com/2015/07/08/adding-the-aero-glass-blur-to-your-windows-10-apps/
+        // https://github.com/riverar/sample-win32-acrylicblur/blob/917adc277c7258307799327d12262ebd47fd0308/MainWindow.xaml.cs
+
+        [DllImport(Libraries.User32)]
+        public static extern int SetWindowCompositionAttribute(HandleRef hWnd, IntPtr WindowCompositionAttributeData data);
+
+        public IntPtr struct WindowCompositionAttributeData
+        {
+            public WCA Attribute;
+            public void* Data;
+            public int DataLength;
+        }
+
+        public enum WCA
+        {
+            ACCENT_POLICY = 19
+        }
+
+        public enum ACCENT
+        {
+            DISABLED = 0,
+            ENABLE_GRADIENT = 1,
+            ENABLE_TRANSPARENTGRADIENT = 2,
+            ENABLE_BLURBEHIND = 3,
+            ENABLE_ACRYLICBLURBEHIND = 4,
+            INVALID_STATE = 5
+        }
+
+        public struct AccentPolicy
+        {
+            public ACCENT AccentState;
+            public uint AccentFlags;
+            public uint GradientColor;
+            public uint AnimationId;
+        }*/
+
+        #endregion
+
         #endregion
     }
+
     internal static class BoolExtensions
     {
         public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                  IRibbonViewGroupItemView
     {
         #region Instance Fields
-        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup? _activeGroup;
         private readonly TrackBarController? _controller;
@@ -45,10 +45,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             GroupTrackBar = ribbonTrackBar;
             _needPaint = needPaint;
-            _currentSize = GroupTrackBar.ItemSizeCurrent;
+            _currentSize = GroupTrackBar!.ItemSizeCurrent;
 
             // Hook into the textbox events
             GroupTrackBar.MouseEnterControl += OnMouseEnterControl;
@@ -82,7 +82,7 @@ namespace Krypton.Ribbon
 
             // Hook into changes in the ribbon custom definition
             GroupTrackBar.PropertyChanged += OnTextBoxPropertyChanged;
-            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            _nullControlWidth = (int)(50 * FactorDpiX);
         }
 
         /// <summary>
@@ -147,17 +147,8 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
-        {
-            if (GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } })
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public ViewBase GetFirstFocusItem() => GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } } ? this : null!;
+
         #endregion
 
         #region GetLastFocusItem
@@ -165,17 +156,8 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
-        {
-            if (GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } })
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public ViewBase GetLastFocusItem() => GroupTrackBar is { Visible: true, LastTrackBar: { CanSelect: true } } ? this : null!;
+
         #endregion
 
         #region GetNextFocusItem
@@ -189,7 +171,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -204,7 +186,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -267,7 +249,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a textbox associated then ask for its requested size
             if (LastTrackBar != null)
@@ -282,7 +264,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                preferredSize.Width = NULL_CONTROL_WIDTH;
+                preferredSize.Width = _nullControlWidth;
             }
 
             preferredSize.Height = _currentSize == GroupItemSize.Large
@@ -301,7 +283,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
             if (!context.ViewManager!.DoNotLayoutControls)
@@ -339,8 +321,8 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the textbox will be
-                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
-                    context.Graphics.DrawRectangle(Pens.Gold, drawRect);
+                    context?.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context?.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
         }

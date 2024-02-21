@@ -31,14 +31,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection for bread crumb level.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMonthCalendarRedirect(PaletteRedirect redirect,
-                                            NeedPaintHandler needPaint)
-            : base(redirect, PaletteBackStyle.ControlClient, 
+        public PaletteMonthCalendarRedirect(PaletteRedirect? redirect,
+                                            NeedPaintHandler? needPaint)
+            : base(redirect!, PaletteBackStyle.ControlClient, 
                              PaletteBorderStyle.ControlClient)
         {
-            Header = new PaletteTripleRedirect(redirect, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
-            DayOfWeek = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
-            Day = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
+            Header = new PaletteTripleRedirect(redirect!, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
+            DayOfWeek = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
+            Day = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
         }
         #endregion
 

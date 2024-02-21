@@ -48,15 +48,15 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
-            _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
-            _contentInherit = new PaletteContentInheritRedirect(redirect, contentStyle);
-            _metricRedirect = new PaletteMetricRedirect(redirect);
+            _backInherit = new PaletteBackInheritRedirect(redirect!, backStyle);
+            _borderInherit = new PaletteBorderInheritRedirect(redirect!, borderStyle);
+            _contentInherit = new PaletteContentInheritRedirect(redirect!, contentStyle);
+            _metricRedirect = new PaletteMetricRedirect(redirect!);
 
             // Create storage that maps onto the inherit instances
             Back = new PaletteInputControlBackStates(_backInherit, needPaint);
             Border = new PaletteBorder(_borderInherit, needPaint);
-            Content = new PaletteInputControlContentStates(_contentInherit, needPaint);
+            Content = new PaletteInputControlContentStates(_contentInherit, needPaint!);
         }
         #endregion
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder? PaletteBorder => Border;
+        public IPaletteBorder PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent? PaletteContent => Content;
+        public IPaletteContent PaletteContent => Content;
 
         /// <summary>
         /// Gets and sets the content palette style.

@@ -39,15 +39,15 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create and add the draw content for display inside the tab
-            _contentProvider = new DesignTextToContent(ribbon);
+            _contentProvider = new DesignTextToContent(ribbon!);
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Use a controller to change state because of mouse movement
-            var controller = new ViewHightlightController(this, needPaint);
+            var controller = new ViewHightlightController(this, needPaint!);
             controller.Click += OnClick;
             MouseController = controller;
         }
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Reduce our size by a padding around the element
             ClientRectangle = new Rectangle(ClientLocation.X + OuterPadding.Left,
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // Ensure the child text view has same state as us
-            this[0].ElementState = ElementState;
+            this[0]!.ElementState = ElementState;
 
             // Draw background using the design time colors
             DesignTimeDraw.DrawArea(Ribbon, context, ClientRectangle, State);

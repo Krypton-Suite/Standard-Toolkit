@@ -24,6 +24,8 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
+        private bool _synchronizeDropDownWidth;
+
         private int _selectedIndex;
 
         private readonly int _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
@@ -33,6 +35,26 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets a value indicating whether [synchronize drop down width].</summary>
+        /// <value><c>true</c> if [synchronize drop down width]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Synchronizes the drop-down width, with the width of the control.")]
+        [DefaultValue(false)]
+        public bool SynchronizeDropDownWidth
+        {
+            get => _synchronizeDropDownWidth;
+
+            set
+            {
+                if (value != _synchronizeDropDownWidth)
+                {
+                    _synchronizeDropDownWidth = value;
+
+                    UpdateDropDownWidth(MaximumSize);
+                }
+            }
+        }
 
         /// <summary>Gets or sets the default palette mode.</summary>
         /// <value>The default palette mode.</value>
@@ -55,6 +77,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
         [DefaultValue((int)PaletteMode.Microsoft365Blue)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;
@@ -87,6 +110,7 @@ namespace Krypton.Ribbon
         /// <summary>Initializes a new instance of the <see cref="KryptonRibbonGroupThemeComboBox" /> class.</summary>
         public KryptonRibbonGroupThemeComboBox()
         {
+            _synchronizeDropDownWidth = false;
             DropDownStyle = ComboBoxStyle.DropDownList;
             DisplayMember = "Key";
             ValueMember = "Value";
@@ -113,6 +137,8 @@ namespace Krypton.Ribbon
         ///   <br />
         /// </returns>
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
+
+        private void UpdateDropDownWidth(Size size) => DropDownWidth = size.Width;
 
         #endregion
 
@@ -143,7 +169,7 @@ namespace Krypton.Ribbon
         [AllowNull]
         public new string Text
         {
-            get => base.Text;
+            get => base.Text!;
             set => base.Text = value;
         }
 

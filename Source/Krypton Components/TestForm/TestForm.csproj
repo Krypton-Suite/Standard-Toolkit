@@ -6,7 +6,7 @@
 		<TargetFrameworks>net48</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,6 +28,12 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="invoices.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

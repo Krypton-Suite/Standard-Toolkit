@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
             // If we have some content to investigate
             if (_paletteContent?.GetContentDraw(State) == InheritBool.True)
             {
-                isDisplayed = context.Renderer.RenderStandardContent.GetContentImageDisplayed(_memento);
+                isDisplayed = context.Renderer.RenderStandardContent.GetContentImageDisplayed(_memento!);
             }
 
             return isDisplayed;
@@ -189,9 +189,9 @@ namespace Krypton.Toolkit
             var imageRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                imageRect = context.Renderer.RenderStandardContent.GetContentImageRectangle(_memento);
+                imageRect = context.Renderer.RenderStandardContent.GetContentImageRectangle(_memento!);
             }
 
             return imageRect;
@@ -218,9 +218,9 @@ namespace Krypton.Toolkit
             var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                textRect = context.Renderer.RenderStandardContent.GetContentShortTextRectangle(_memento);
+                textRect = context.Renderer.RenderStandardContent.GetContentShortTextRectangle(_memento!);
             }
 
             return textRect;
@@ -247,9 +247,9 @@ namespace Krypton.Toolkit
             var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                textRect = context.Renderer.RenderStandardContent.GetContentLongTextRectangle(_memento);
+                textRect = context.Renderer.RenderStandardContent.GetContentLongTextRectangle(_memento!);
             }
 
             return textRect;
@@ -277,12 +277,12 @@ namespace Krypton.Toolkit
             var preferredSize = Size.Empty;
 
             // If we have some content to encompass
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
                 // Ask the renderer for the contents preferred size
                 preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context,
                                                                                                _paletteContent,
-                                                                                               Values,
+                                                                                               Values!,
                                                                                                Orientation,
                                                                                                State);
             }
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
             ClientRectangle = context.DisplayRectangle;
 
             // Do we need to draw the content?
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
                 // Dispose of old memento first
                 if (_memento != null)
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context,
                                                                                 ClientRectangle,
                                                                                 _paletteContent,
-                                                                                Values,
+                                                                                Values!,
                                                                                 Orientation,
                                                                                 State);
             }
@@ -346,15 +346,15 @@ namespace Krypton.Toolkit
             }
 
             // Do we need to draw the content?
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                var allowFocusRect = !TestForFocusCues || ShowFocusCues(context.Control);
+                var allowFocusRect = !TestForFocusCues || ShowFocusCues(context.Control!);
 
                 // Draw using memento returned from render layout
                 context.Renderer.RenderStandardContent.DrawContent(context,
                                                                    ClientRectangle,
                                                                    _paletteContent,
-                                                                   _memento,
+                                                                   _memento!,
                                                                    Orientation,
                                                                    State,
                                                                    allowFocusRect);
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
                                                                          BindingFlags.NonPublic);
             }
 
-            return (bool)_pi.GetValue(c, null);
+            return (bool)_pi!.GetValue(c, null);
         }
         #endregion
 

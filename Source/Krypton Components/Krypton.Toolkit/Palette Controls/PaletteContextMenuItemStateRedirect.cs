@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <param name="provider">Provider for acquiring context menu information.</param>
         public void SetRedirector(IContextMenuProvider provider)
         {
-            _itemHighlight.Target = provider.ProviderStateCommon.ItemHighlight.GetRedirector();
+            _itemHighlight.Target = provider.ProviderStateCommon.ItemHighlight?.GetRedirector();
             _itemImage.Target = provider.ProviderStateCommon.ItemImage.GetRedirector();
             _itemShortcutText.Target = provider.ProviderStateCommon.ItemShortcutTextRedirect.GetRedirector();
             _itemSplit.Target = provider.ProviderStateCommon.ItemSplit.GetRedirector();

@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
             // Remember incoming references
             _manager = manager;
-            _targetElement = targetElement;
+            _targetElement = targetElement!;
             _targetController = targetController;
         }
         #endregion

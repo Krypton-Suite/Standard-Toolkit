@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            BarPaddingInside = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
+            BarPaddingInside = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
             BarPaddingOutside = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOutside);
             BarPaddingOnly = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOnly);
             ButtonPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarButtonPadding);
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
             }
 
             // Always pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricBool(state, metric);
+            _redirect!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

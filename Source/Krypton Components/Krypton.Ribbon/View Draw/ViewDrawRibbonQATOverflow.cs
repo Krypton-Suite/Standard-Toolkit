@@ -21,10 +21,10 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Padding _borderPadding; // = new(3);
-        private readonly int QAT_HEIGHT_FULL; // = 28;
+        private readonly int _qatHeightFull; // = 28;
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity
@@ -40,10 +40,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _needPaintDelegate = needPaintDelegate!;
             _borderPadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
-            QAT_HEIGHT_FULL = (int)(28 * FactorDpiY);
+            _qatHeightFull = (int)(28 * FactorDpiY);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
 
             // Add on the border padding
             preferredSize = CommonHelper.ApplyPadding(Orientation.Horizontal, preferredSize, _borderPadding);
-            preferredSize.Height = Math.Max(preferredSize.Height, QAT_HEIGHT_FULL);
+            preferredSize.Height = Math.Max(preferredSize.Height, _qatHeightFull);
 
             return preferredSize;
         }
@@ -98,7 +98,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            Rectangle clientRect = context.DisplayRectangle;
+            Rectangle clientRect = context!.DisplayRectangle;
 
             ClientRectangle = clientRect;
 

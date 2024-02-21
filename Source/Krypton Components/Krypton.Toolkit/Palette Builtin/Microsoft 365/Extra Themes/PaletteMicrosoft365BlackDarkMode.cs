@@ -10,9 +10,6 @@
  */
 #endregion
 
-using System.Drawing.Drawing2D;
-using System.Xml.Linq;
-
 namespace Krypton.Toolkit
 {
     #region Class: PaletteMicrosoft365BlackDarkMode
@@ -167,9 +164,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(139, 147, 158), // OverflowMiddle
             Color.FromArgb(76, 83, 92), // OverflowEnd
             Color.FromArgb(76, 83, 92), // ToolStripBorder
-            Color.FromArgb(47, 47, 47), // FormBorderActive
+            Color.FromArgb(10, 10, 10), //(47, 47, 47), // FormBorderActive
             Color.FromArgb(146, 146, 146), // FormBorderInactive
-            Color.FromArgb(77, 77, 77), // FormBorderActiveLight
+            Color.FromArgb(41, 41, 41), //(77, 77, 77), // FormBorderActiveLight
             Color.FromArgb(102, 102, 102), // FormBorderActiveDark
             Color.FromArgb(153, 153, 153), // FormBorderInactiveLight
             Color.FromArgb(171, 171, 171), // FormBorderInactiveDark
@@ -199,7 +196,7 @@ namespace Krypton.Toolkit
             Color.Violet, // LinkVisitedOverridePanel
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
-            Color.FromArgb(10, 10, 10), // RibbonTabTextNormal
+            Color.White, // RibbonTabTextNormal
             Color.FromArgb(41, 41, 41), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(199, 250, 254), // RibbonTabSelected2
@@ -231,8 +228,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(235, 235, 235), // RibbonGroupDialogLight
             Color.FromArgb(170, 171, 171), // RibbonGroupTitleTracking1
             Color.FromArgb(109, 110, 110), // RibbonGroupTitleTracking2
-            Color.FromArgb(79, 79, 79), // RibbonMinimizeBarDark
-            Color.FromArgb(98, 98, 98), // RibbonMinimizeBarLight
+            Color.FromArgb(10, 10, 10), // (79, 79, 79) // RibbonMinimizeBarDark
+            Color.FromArgb(41, 41, 41), // (98, 98, 98) // RibbonMinimizeBarLight
             Color.FromArgb(182, 183, 183), // RibbonGroupCollapsedBorder1
             Color.FromArgb(112, 112, 112), // RibbonGroupCollapsedBorder2
             Color.FromArgb(64, Color.White), // RibbonGroupCollapsedBorder3
@@ -255,7 +252,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
             Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
             Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText (Old value 70, 70, 70)
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -346,6 +343,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitleText
             Color.FromArgb(225, 225, 225), // RibbonDropArrowLight
             Color.FromArgb(103, 103, 103), // RibbonDropArrowDark
             Color.FromArgb(137, 137, 137), // HeaderDockInactiveBack1
@@ -772,7 +771,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Variables
-        private KryptonColorTable365BlackDarkMode _table;
+        private KryptonColorTable365BlackDarkMode? _table;
 
         private readonly Color[] _ribbonColours;
 
@@ -3631,7 +3630,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
+        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
         {
             switch (checkState)
             {
@@ -3746,7 +3745,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
+        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
             PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
             PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],

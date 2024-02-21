@@ -116,12 +116,12 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _trackBarColors =
         [
-            Color.FromArgb(116, 150, 194),      // Tick marks
-                                                            Color.FromArgb(116, 150, 194),      // Top track
-                                                            Color.FromArgb(152, 190, 241),      // Bottom track
-                                                            Color.FromArgb(142, 180, 231),      // Fill track
-                                                            Color.FromArgb(64, Color.White),    // Outside position
-                                                            Color.FromArgb(63, 101, 152)        // Border (normal) position
+            Color.FromArgb(116, 150, 194), // Tick marks
+            Color.FromArgb(116, 150, 194), // Top track
+            Color.FromArgb(152, 190, 241), // Bottom track
+            Color.FromArgb(142, 180, 231), // Fill track
+            Color.FromArgb(64, Color.White), // Outside position
+            Color.FromArgb(63, 101, 152) // Border (normal) position
         ];
 
         private static readonly Color[] _schemeOfficeColors =
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(254, 254, 255), // RibbonGroupDialogLight
             Color.FromArgb(200, 224, 255), // RibbonGroupTitleTracking1
             Color.FromArgb(214, 237, 255), // RibbonGroupTitleTracking2
-            Color.FromArgb(155, 187, 227), // RibbonMinimizeBarDark
+            Color.FromArgb(134, 179, 236), //(155, 187, 227), // RibbonMinimizeBarDark
             Color.FromArgb(213, 226, 243), // RibbonMinimizeBarLight
             Color.FromArgb(165, 191, 213), // RibbonGroupCollapsedBorder1
             Color.FromArgb(148, 185, 213), // RibbonGroupCollapsedBorder2
@@ -279,18 +279,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(234, 242, 249), // RibbonQATButtonLight                                                      
             Color.FromArgb(192, 220, 255), // RibbonQATOverflow1                                                      
             Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
-            Color.FromArgb(140, 172,
-                211), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(248, 250,
-                252), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(192, 212,
-                241), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(200, 219,
-                238), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(155, 183,
-                224), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(117, 150,
-                191), // ButtonClusterButtonBorder2                                                      
+            Color.FromArgb(140, 172, 211), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(248, 250, 252), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(192, 212, 241), // ButtonClusterButtonBack1                                                      
+            Color.FromArgb(200, 219, 238), // ButtonClusterButtonBack2                                                      
+            Color.FromArgb(155, 183, 224), // ButtonClusterButtonBorder1                                                      
+            Color.FromArgb(117, 150, 191), // ButtonClusterButtonBorder2                                                      
             Color.FromArgb(213, 228, 242), // NavigatorMiniBackColor                                                    
             Color.FromArgb(134, 179, 236), // GridListNormal1                                                    
             Color.FromArgb(63, 122, 197), // GridListNormal2                                                    
@@ -343,6 +337,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(0, 21, 110), // RibbonGroupTitleText
             Color.Empty, // RibbonDropArrowLight
             Color.Empty, // RibbonDropArrowDark
             Color.FromArgb(208, 226, 248), // HeaderDockInactiveBack1

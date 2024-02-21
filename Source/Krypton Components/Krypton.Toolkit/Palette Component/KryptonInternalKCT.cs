@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+ *
  */
 #endregion
 
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             Debug.Assert(baseKCT != null);
 
             // Remember the base used for inheriting
-            _baseKCT = baseKCT;
+            _baseKCT = baseKCT!;
 
             // Always assume the same use of system colors
             UseSystemColors = _baseKCT.UseSystemColors;
@@ -782,17 +782,26 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a menu strip.
         /// </summary>
-        public override Color MenuStripText =>
-            _colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty
-                ? BaseKCT.MenuStripText
-                : _colors[(int)PaletteColorIndex.MenuStripText];
+        public override Color MenuStripText
+        {
+            get
+            {
+                if (_colors.Length > (int)PaletteColorIndex.MenuStripText)
+                {
+                    return _colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty
+                        ? BaseKCT.MenuStripText
+                        : _colors[(int)PaletteColorIndex.MenuStripText];
+                }
+                return BaseKCT.MenuStripText;
+            }
+        }
 
         /// <summary>
         /// Sets and sets the internal MenuStripText value.
         /// </summary>
         public Color InternalMenuStripText
         {
-            get => _colors[(int)PaletteColorIndex.MenuStripText];
+            get => _colors.Length > (int)PaletteColorIndex.MenuStripText ? _colors [(int)PaletteColorIndex.MenuStripText] : BaseKCT.MenuStripText;
             set => _colors[(int)PaletteColorIndex.MenuStripText] = value;
         }
         #endregion

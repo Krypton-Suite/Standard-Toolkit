@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         private bool _enabled;
         private string _keyTip;
         private GroupItemSize _itemSizeCurrent;
-        private Control _customControl;
+        private Control? _customControl;
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Control CustomControl
+        public Control? CustomControl
         {
             get => _customControl;
 

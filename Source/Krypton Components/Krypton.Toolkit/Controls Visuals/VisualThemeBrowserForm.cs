@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
             _formStartPosition = startPosition;
 
-            _startIndex = startIndex ?? (int)PaletteMode.Microsoft365Blue;
+            _startIndex = startIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
 
             _windowTitle = windowTitle ?? KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
 
         private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
         {
-            foreach (string? themeName in ThemeManager.SupportedInternalThemeNames)
+            foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
             {
                 if (themeName != null)
                 {

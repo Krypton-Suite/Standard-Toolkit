@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             return base.GetPreferredSize(context);
             // ReSharper restore RedundantBaseQualifier
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             base.Layout(context);
             // ReSharper restore RedundantBaseQualifier
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             base.RenderBefore(context);
             // ReSharper restore RedundantBaseQualifier

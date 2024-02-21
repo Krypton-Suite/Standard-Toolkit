@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Implement storage for a a list item triple.
+    /// Implement storage for a list item triple.
     /// </summary>
     public class PaletteListItemTriple : Storage
     {
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _paletteItem = new PaletteTriple(inherit, needPaint);
+            _paletteItem = new PaletteTriple(inherit!, needPaint);
         }
         #endregion
 

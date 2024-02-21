@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             base.Layout(context);
         }

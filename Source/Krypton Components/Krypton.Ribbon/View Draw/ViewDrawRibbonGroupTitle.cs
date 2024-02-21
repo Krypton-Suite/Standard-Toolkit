@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly RibbonGroupTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private Rectangle _displayRect;
         private int _dirtyPaletteLayout;
         private PaletteState _cacheState;
@@ -42,11 +42,11 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
 
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
+            _ribbon = ribbon!;
+            _ribbonGroup = ribbonGroup!;
 
             // Use a class to convert from ribbon group to content interface
-            _contentProvider = new RibbonGroupTextToContent(ribbon.StateCommon.RibbonGeneral,
+            _contentProvider = new RibbonGroupTextToContent(ribbon!.StateCommon.RibbonGeneral,
                                                             ribbon.StateNormal.RibbonGroupNormalTitle);
         }        
 
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

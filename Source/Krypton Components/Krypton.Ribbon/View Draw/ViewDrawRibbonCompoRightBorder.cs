@@ -22,14 +22,14 @@ namespace Krypton.Ribbon
         #region Instance Fields
 
         private int _width;
-        private readonly int SPACING_GAP; // = 10;
+        private readonly int _spacingGap; // = 10;
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawRibbonCompoRightBorder class.
         /// </summary>
-        public ViewDrawRibbonCompoRightBorder() => SPACING_GAP = (int)(10 * FactorDpiX);
+        public ViewDrawRibbonCompoRightBorder() => _spacingGap = (int)(10 * FactorDpiX);
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Start with all the provided space
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
     }

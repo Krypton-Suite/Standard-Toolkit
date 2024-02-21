@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
             [DisallowNull]IPaletteBorder paletteBorder,
-                                        IPaletteMetric paletteMetric)
+                                        IPaletteMetric? paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -168,10 +168,10 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _borderForced.SetInherit(paletteBorder);
+                _borderForced.SetInherit(paletteBorder!);
             }
 
-            _paletteMetric = paletteMetric;
+            _paletteMetric = paletteMetric!;
         }
         #endregion
 
@@ -344,7 +344,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer to evaluate the given palette
-            return context.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
+            return context!.Renderer.EvalTransparentPaint(_paletteBack!, _paletteBorder, State);
         }
 
         #endregion
@@ -372,9 +372,9 @@ namespace Krypton.Toolkit
             // Apply space the border takes up
             preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize,
                 DrawTabBorder
-                    ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder, State, Orientation,
+                    ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State, Orientation,
                         TabBorderStyle)
-                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation));
+                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation));
 
             // Do we have a metric source for additional padding?
             if (_paletteMetric != null)
@@ -416,9 +416,9 @@ namespace Krypton.Toolkit
 
             // Calculate how much space the border takes up
             Padding padding = DrawTabBorder
-                ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder, State,
+                ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State,
                     Orientation, TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation);
 
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
 
             // Do we need to draw the background?
             if (DrawCanvas 
-                && (_paletteBack.GetBackDraw(State) == InheritBool.True)
+                && (_paletteBack!.GetBackDraw(State) == InheritBool.True)
                 )
             {
                 GraphicsPath borderPath;
@@ -459,20 +459,20 @@ namespace Krypton.Toolkit
                 // Ask the border renderer for a path that encloses the border
                 if (DrawTabBorder)
                 {
-                    borderPath = context.Renderer.RenderTabBorder.GetTabBackPath(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle);
+                    borderPath = context.Renderer.RenderTabBorder.GetTabBackPath(context, ClientRectangle, _paletteBorder!, Orientation, State, TabBorderStyle);
                     borderPadding = Padding.Empty;
                 }
                 else
                 {
-                    borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, _paletteBorder, Orientation, State);
-                    borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, State, Orientation);
+                    borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, _paletteBorder!, Orientation, State);
+                    borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder!, State, Orientation);
                 }
 
                 // Apply the padding depending on the orientation
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(Orientation, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
-                using var gh = new GraphicsHint(context.Graphics, _paletteBorder.GetBorderGraphicsHint(State));
+                using var gh = new GraphicsHint(context.Graphics, _paletteBorder!.GetBorderGraphicsHint(State));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, _paletteBack, Orientation, State, _mementoBack);
 
                 borderPath.Dispose();
@@ -554,16 +554,16 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Do we need to draw the border?
-            if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (_paletteBorder!.GetBorderDraw(State) == InheritBool.True)
             {
                 // Render the border over the background and children
                 if (DrawTabBorder)
                 {
-                    context.Renderer.RenderTabBorder.DrawTabBorder(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle);
+                    context?.Renderer.RenderTabBorder.DrawTabBorder(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle);
                 }
                 else
                 {
-                    context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, _paletteBorder, Orientation, State);
+                    context?.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, _paletteBorder, Orientation, State);
                 }
             }
         }
