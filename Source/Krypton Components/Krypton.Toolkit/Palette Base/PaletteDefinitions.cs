@@ -783,6 +783,27 @@ namespace Krypton.Toolkit
         Color GetRibbonMinimizeBarLight(PaletteState state);
 
         /// <summary>
+        /// Gets the dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state);
+
+        /// <summary>
+        /// Gets the light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -823,6 +844,11 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         Color GetRibbonQATButtonLight(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
     }
     #endregion
 

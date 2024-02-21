@@ -36,11 +36,15 @@ namespace Krypton.Toolkit
         private Color _groupSeparatorLight;
         private Color _minimizeBarDarkColor;
         private Color _minimizeBarLightColor;
+        private Color _tabRowBackgroundSolidColor;
+        private Color _tabBackgroundGradientRaftingDarkColor;
+        private Color _tabBackgroundGradientRaftingLightColor;
         private Color _qatButtonDarkColor;
         private Color _qatButtonLightColor;
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
         private Font? _textFont;
+        private float _ribbonTabRowGradientRaftingAngle;
         private PaletteTextHint _textHint;
         #endregion
 
@@ -63,25 +67,29 @@ namespace Krypton.Toolkit
 
             // Set default values
             _contextTextAlign = PaletteRelativeAlign.Inherit;
-            _contextTextColor = Color.Empty;
+            _contextTextColor = GlobalStaticValues.EMPTY_COLOR;
             _contextTextFont = null;
-            _disabledDarkColor = Color.Empty;
-            _disabledLightColor = Color.Empty;
-            _dialogDarkColor = Color.Empty;
-            _dialogLightColor = Color.Empty;
-            _dropArrowLightColor = Color.Empty;
-            _dropArrowDarkColor = Color.Empty;
-            _groupSeparatorDark = Color.Empty;
-            _groupSeparatorLight = Color.Empty;
-            _minimizeBarDarkColor = Color.Empty;
-            _minimizeBarLightColor = Color.Empty;
+            _disabledDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _disabledLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _dialogDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _dialogLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _dropArrowLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _dropArrowDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _groupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
+            _groupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
+            _minimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _minimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+            _ribbonTabRowGradientRaftingAngle = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
             _ribbonShape = PaletteRibbonShape.Inherit;
-            _tabSeparatorColor = Color.Empty;
-            _tabSeparatorContextColor = Color.Empty;
+            _tabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
             _textFont = null;
             _textHint = PaletteTextHint.Inherit;
-            _qatButtonDarkColor = Color.Empty;
-            _qatButtonLightColor = Color.Empty;
+            _qatButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _qatButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
@@ -91,25 +99,29 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (ContextTextAlign == PaletteRelativeAlign.Inherit) &&
-                                           (ContextTextColor == Color.Empty) &&
+                                           (ContextTextColor == GlobalStaticValues.EMPTY_COLOR) &&
                                            (ContextTextFont == null) &&
-                                           (DisabledDark == Color.Empty) &&
-                                           (DisabledLight == Color.Empty) &&
-                                           (DropArrowLight == Color.Empty) &&
-                                           (DropArrowDark == Color.Empty) &&
-                                           (GroupDialogDark == Color.Empty) &&
-                                           (GroupDialogLight == Color.Empty) &&
-                                           (GroupSeparatorDark == Color.Empty) &&
-                                           (GroupSeparatorLight == Color.Empty) &&
-                                           (MinimizeBarDarkColor == Color.Empty) &&
-                                           (MinimizeBarLightColor == Color.Empty) &&
+                                           (DisabledDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (DisabledLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (DropArrowLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (DropArrowDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (GroupDialogDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (GroupDialogLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (GroupSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
                                            (RibbonShape == PaletteRibbonShape.Inherit) &&
                                            (TextFont == null) &&
                                            (TextHint == PaletteTextHint.Inherit) &&
-                                           (TabSeparatorColor == Color.Empty) &&
-                                           (TabSeparatorContextColor == Color.Empty) &&
-                                           (QATButtonDarkColor == Color.Empty) &&
-                                           (QATButtonLightColor == Color.Empty);
+                                           (TabSeparatorColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (TabSeparatorContextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (QATButtonDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (QATButtonLightColor == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -140,6 +152,10 @@ namespace Krypton.Toolkit
             GroupSeparatorLight = GetRibbonGroupSeparatorLight(PaletteState.Normal);
             MinimizeBarDarkColor = GetRibbonMinimizeBarDark(PaletteState.Normal);
             MinimizeBarLightColor = GetRibbonMinimizeBarLight(PaletteState.Normal);
+            TabRowBackgroundSolidColor = GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal);
+            TabRowBackgroundGradientRaftingDarkColor = GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState.Normal);
+            TabRowBackgroundGradientRaftingLightColor = GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
+            RibbonTabRowGradientRaftingAngle = GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal);
             RibbonShape = GetRibbonShape();
             TabSeparatorColor = GetRibbonTabSeparatorColor(PaletteState.Normal);
             TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
@@ -253,14 +269,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ContextTextColor property to its default value.
         /// </summary>
-        public void ResetContextTextColor() => ContextTextColor = Color.Empty;
+        public void ResetContextTextColor() => ContextTextColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color of the ribbon caption text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonContextTextColor(PaletteState state) => DisabledDark != Color.Empty
+        public Color GetRibbonContextTextColor(PaletteState state) => DisabledDark != GlobalStaticValues.EMPTY_COLOR
             ? ContextTextColor
             : _inherit.GetRibbonContextTextColor(state);
 
@@ -292,7 +308,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DisabledDark property to its default value.
         /// </summary>
-        public void ResetDisabledDark() => DisabledDark = Color.Empty;
+        public void ResetDisabledDark() => DisabledDark = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
@@ -300,7 +316,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDisabledDark(PaletteState state) =>
-            DisabledDark != Color.Empty ? DisabledDark : _inherit.GetRibbonDisabledDark(state);
+            DisabledDark != GlobalStaticValues.EMPTY_COLOR ? DisabledDark : _inherit.GetRibbonDisabledDark(state);
 
         #endregion
 
@@ -330,7 +346,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DisabledLight property to its default value.
         /// </summary>
-        public void ResetDisabledLight() => DisabledLight = Color.Empty;
+        public void ResetDisabledLight() => DisabledLight = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the light disabled color used for ribbon glyphs.
@@ -338,7 +354,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDisabledLight(PaletteState state) =>
-            DisabledLight != Color.Empty ? DisabledLight : _inherit.GetRibbonDisabledLight(state);
+            DisabledLight != GlobalStaticValues.EMPTY_COLOR ? DisabledLight : _inherit.GetRibbonDisabledLight(state);
 
         #endregion
 
@@ -368,14 +384,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GroupDialogDark property to its default value.
         /// </summary>
-        public void ResetGroupDialogDark() => GroupDialogDark = Color.Empty;
+        public void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupDialogDark(PaletteState state) => GroupDialogDark != Color.Empty
+        public Color GetRibbonGroupDialogDark(PaletteState state) => GroupDialogDark != GlobalStaticValues.EMPTY_COLOR
             ? GroupDialogDark
             : _inherit.GetRibbonGroupDialogDark(state);
 
@@ -407,14 +423,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GroupDialogLight property to its default value.
         /// </summary>
-        public void ResetGroupDialogLight() => GroupDialogLight = Color.Empty;
+        public void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupDialogLight(PaletteState state) => GroupDialogLight != Color.Empty
+        public Color GetRibbonGroupDialogLight(PaletteState state) => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR
             ? GroupDialogLight
             : _inherit.GetRibbonGroupDialogLight(state);
 
@@ -446,7 +462,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropArrowDark property to its default value.
         /// </summary>
-        public void ResetDropArrowDark() => DropArrowDark = Color.Empty;
+        public void ResetDropArrowDark() => DropArrowDark = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the drop arrow dark color.
@@ -454,7 +470,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDropArrowDark(PaletteState state) =>
-            DropArrowDark != Color.Empty ? DropArrowDark : _inherit.GetRibbonDropArrowDark(state);
+            DropArrowDark != GlobalStaticValues.EMPTY_COLOR ? DropArrowDark : _inherit.GetRibbonDropArrowDark(state);
 
         #endregion
 
@@ -484,14 +500,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropArrowLight property to its default value.
         /// </summary>
-        public void ResetDropArrowLight() => DropArrowLight = Color.Empty;
+        public void ResetDropArrowLight() => DropArrowLight = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the drop arrow light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonDropArrowLight(PaletteState state) => DropArrowLight != Color.Empty
+        public Color GetRibbonDropArrowLight(PaletteState state) => DropArrowLight != GlobalStaticValues.EMPTY_COLOR
             ? DropArrowLight
             : _inherit.GetRibbonDropArrowLight(state);
 
@@ -523,14 +539,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GroupDialogDark property to its default value.
         /// </summary>
-        public void ResetGroupSeparatorDark() => GroupSeparatorDark = Color.Empty;
+        public void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupSeparatorDark(PaletteState state) => GroupSeparatorDark != Color.Empty
+        public Color GetRibbonGroupSeparatorDark(PaletteState state) => GroupSeparatorDark != GlobalStaticValues.EMPTY_COLOR
             ? GroupSeparatorDark
             : _inherit.GetRibbonGroupSeparatorDark(state);
 
@@ -562,14 +578,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the GroupSeparatorLight property to its default value.
         /// </summary>
-        public void ResetGroupSeparatorLight() => GroupDialogLight = Color.Empty;
+        public void ResetGroupSeparatorLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupSeparatorLight(PaletteState state) => GroupSeparatorLight != Color.Empty
+        public Color GetRibbonGroupSeparatorLight(PaletteState state) => GroupSeparatorLight != GlobalStaticValues.EMPTY_COLOR
             ? GroupSeparatorLight
             : _inherit.GetRibbonGroupSeparatorLight(state);
 
@@ -601,14 +617,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the MinimizeBarDarkColor property to its default value.
         /// </summary>
-        public void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = Color.Empty;
+        public void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the ribbon minimize bar dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonMinimizeBarDark(PaletteState state) => MinimizeBarDarkColor != Color.Empty
+        public Color GetRibbonMinimizeBarDark(PaletteState state) => MinimizeBarDarkColor != GlobalStaticValues.EMPTY_COLOR
             ? MinimizeBarDarkColor
             : _inherit.GetRibbonMinimizeBarDark(state);
 
@@ -640,16 +656,177 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the MinimizeBarLightColor property to its default value.
         /// </summary>
-        public void ResetMinimizeBarLightColor() => MinimizeBarLightColor = Color.Empty;
+        public void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the ribbon minimize bar light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonMinimizeBarLight(PaletteState state) => MinimizeBarLightColor != Color.Empty
+        public Color GetRibbonMinimizeBarLight(PaletteState state) => MinimizeBarLightColor != GlobalStaticValues.EMPTY_COLOR
             ? MinimizeBarLightColor
             : _inherit.GetRibbonMinimizeBarLight(state);
+
+        #endregion
+
+        #region TabRowBackgroundSolidColor
+
+        /// <summary>
+        /// Gets access to ribbon tab row solid color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background solid color.")]
+        [DefaultValue(typeof(Color), "")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color TabRowBackgroundSolidColor
+        {
+            get => _tabRowBackgroundSolidColor;
+
+            set
+            {
+                if (_tabRowBackgroundSolidColor != value)
+                {
+                    _tabRowBackgroundSolidColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the TabRowBackgroundSolidColor property to its default value.
+        /// </summary>
+        public void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the solid color for the ribbon tab row.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => TabRowBackgroundSolidColor != GlobalStaticValues.EMPTY_COLOR
+            ? TabRowBackgroundSolidColor
+            : _inherit.GetRibbonTabRowBackgroundSolidColor(state);
+
+        #endregion
+
+        #region TabRowBackgroundGradientRaftingDarkColor
+
+        /// <summary>
+        /// Gets access to ribbon tab row gradient dark rafting color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background gradient dark rafting color.")]
+        [DefaultValue(typeof(Color), "")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color TabRowBackgroundGradientRaftingDarkColor
+        {
+            get => _tabBackgroundGradientRaftingDarkColor;
+
+            set
+            {
+                if (_tabBackgroundGradientRaftingDarkColor != value)
+                {
+                    _tabBackgroundGradientRaftingDarkColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the TabRowBackgroundGradientRaftingDarkColor property to its default value.
+        /// </summary>
+        public void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the dark Gradient rafting color for the ribbon tab row.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => TabRowBackgroundGradientRaftingDarkColor != GlobalStaticValues.EMPTY_COLOR
+            ? TabRowBackgroundGradientRaftingDarkColor
+            : _inherit.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        #endregion
+
+        #region TabRowBackgroundGradientRaftingLightColor
+
+        /// <summary>
+        /// Gets access to ribbon tab row gradient light rafting color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background gradient light rafting color.")]
+        [DefaultValue(typeof(Color), "")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color TabRowBackgroundGradientRaftingLightColor
+        {
+            get => _tabBackgroundGradientRaftingLightColor;
+
+            set
+            {
+                if (_tabBackgroundGradientRaftingLightColor != value)
+                {
+                    _tabBackgroundGradientRaftingLightColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the TabRowBackgroundGradientRaftingLightColor property to its default value.
+        /// </summary>
+        public void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the light rafting color for the ribbon tab row.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => TabRowBackgroundGradientRaftingLightColor != GlobalStaticValues.EMPTY_COLOR
+            ? TabRowBackgroundGradientRaftingLightColor
+            : _inherit.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientRaftingAngle
+
+        /// <summary>
+        /// Gets access to ribbon tab row gradient rafting angle.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background gradient rafting angle.")]
+        [DefaultValue(typeof(Color), "")]
+        [RefreshProperties(RefreshProperties.All)]
+        public float RibbonTabRowGradientRaftingAngle
+        {
+            get => _ribbonTabRowGradientRaftingAngle;
+
+            set
+            {
+                if (_ribbonTabRowGradientRaftingAngle != value)
+                {
+                    _ribbonTabRowGradientRaftingAngle = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the RibbonTabRowGradientRaftingAngle property to its default value.
+        /// </summary>
+        public void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
+            GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+
+        /// <summary>
+        /// Gets the rafting angle for the ribbon tab row.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Rafting angle value.</returns>
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => RibbonTabRowGradientRaftingAngle != GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT
+            ? RibbonTabRowGradientRaftingAngle
+            : _inherit.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
 
@@ -715,14 +892,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the TabSeparatorColor property to its default value.
         /// </summary>
-        public void ResetTabSeparatorColor() => TabSeparatorColor = Color.Empty;
+        public void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonTabSeparatorColor(PaletteState state) => TabSeparatorColor != Color.Empty
+        public Color GetRibbonTabSeparatorColor(PaletteState state) => TabSeparatorColor != GlobalStaticValues.EMPTY_COLOR
             ? TabSeparatorColor
             : _inherit.GetRibbonTabSeparatorColor(state);
 
@@ -754,7 +931,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the TabSeparatorContextColor property to its default value.
         /// </summary>
-        public void ResetTabSeparatorContextColor() => TabSeparatorContextColor = Color.Empty;
+        public void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the tab context separator.
@@ -762,7 +939,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonTabSeparatorContextColor(PaletteState state) => 
-            TabSeparatorColor != Color.Empty
+            TabSeparatorColor != GlobalStaticValues.EMPTY_COLOR
             ? TabSeparatorContextColor
             : _inherit.GetRibbonTabSeparatorContextColor(state);
 
@@ -869,14 +1046,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the QATButtonDarkColor property to its default value.
         /// </summary>
-        public void ResetQATButtonDarkColor() => QATButtonDarkColor = Color.Empty;
+        public void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the extra QAT button dark content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonQATButtonDark(PaletteState state) => QATButtonDarkColor != Color.Empty
+        public Color GetRibbonQATButtonDark(PaletteState state) => QATButtonDarkColor != GlobalStaticValues.EMPTY_COLOR
             ? QATButtonDarkColor
             : _inherit.GetRibbonQATButtonDark(state);
 
@@ -908,14 +1085,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the QATButtonLightColor property to its default value.
         /// </summary>
-        public void ResetQATButtonLightColor() => QATButtonLightColor = Color.Empty;
+        public void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonQATButtonLight(PaletteState state) => QATButtonLightColor != Color.Empty
+        public Color GetRibbonQATButtonLight(PaletteState state) => QATButtonLightColor != GlobalStaticValues.EMPTY_COLOR
             ? QATButtonLightColor
             : _inherit.GetRibbonQATButtonLight(state);
 

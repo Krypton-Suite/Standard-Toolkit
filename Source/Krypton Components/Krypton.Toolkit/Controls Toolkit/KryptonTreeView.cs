@@ -1959,7 +1959,7 @@ namespace Krypton.Toolkit
                 _contentValues.ShortText = node.Text;
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
+                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
                 if (node is KryptonTreeNode kryptonNode)
                 {
@@ -1973,7 +1973,7 @@ namespace Krypton.Toolkit
                 _contentValues.ShortText = @"A";
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
+                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             }
         }
 

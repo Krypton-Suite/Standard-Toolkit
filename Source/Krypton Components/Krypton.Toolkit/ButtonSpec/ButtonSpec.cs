@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         private bool _allowInheritText;
         private bool _allowInheritExtraText;
         private bool _allowInheritToolTipTitle;
-        private ViewBase _buttonSpecView;
+        private ViewBase? _buttonSpecView;
         private KryptonCommand? _command;
         private PaletteButtonStyle _style;
         private PaletteButtonOrientation _orientation;
@@ -74,9 +74,9 @@ namespace Krypton.Toolkit
         {
             _image = null;
             _toolTipImage = null;
-            _colorMap = Color.Empty;
-            _imageTransparentColor = Color.Empty;
-            _toolTipImageTransparentColor = Color.Empty;
+            _colorMap = GlobalStaticValues.EMPTY_COLOR;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+            _toolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _text = string.Empty;
             _extraText = string.Empty;
             UniqueName = CommonHelper.UniqueString;
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
-        private void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageStates
@@ -327,8 +327,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-        private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
-        private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
+        private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ToolTipTitle
@@ -543,8 +543,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-        private bool ShouldSerializeColorMap() => ColorMap != Color.Empty;
-        private void ResetColorMap() => ColorMap = Color.Empty;
+        private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetColorMap() => ColorMap = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region Style
@@ -786,9 +786,9 @@ namespace Krypton.Toolkit
                 return KryptonCommand.ImageTransparentColor;
             }
 
-            return ImageTransparentColor != Color.Empty
+            return ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR
                 ? ImageTransparentColor
-                : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? Color.Empty;
+                : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         /// <summary>
@@ -841,7 +841,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != Color.Empty
+        public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != GlobalStaticValues.EMPTY_COLOR
             ? ColorMap
             : palette!.GetButtonSpecColorMap(ProtectedType);
 
@@ -898,7 +898,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        public virtual ViewBase GetView() => _buttonSpecView;
+        public virtual ViewBase GetView() => _buttonSpecView!;
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.

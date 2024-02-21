@@ -7,6 +7,8 @@
 
 // This file holds the global definitions >= C# 10
 
+#region WinForms Libraries
+
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
@@ -45,6 +47,10 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
+    #endregion
+
+#region Internal Resources
+
 global using Krypton.Toolkit.Properties;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
@@ -62,6 +68,7 @@ global using Krypton.Toolkit.ResourceFiles.Logos;
 global using Krypton.Toolkit.ResourceFiles.MDI;
 global using Krypton.Toolkit.ResourceFiles.MessageBox;
 global using Krypton.Toolkit.ResourceFiles.OutlookGrid;
+global using Krypton.Toolkit.ResourceFiles.PaletteSchemas;
 global using Krypton.Toolkit.ResourceFiles.Pendants;
 global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
@@ -72,6 +79,8 @@ global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
+
+    #endregion
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;

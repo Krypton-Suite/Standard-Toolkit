@@ -461,10 +461,10 @@ namespace Krypton.Toolkit
             font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
-            if (textColor == Color.Empty)
+            if (textColor == GlobalStaticValues.EMPTY_COLOR)
             {
                 textColor = StateCommon.TextColor;
-                if (textColor == Color.Empty)
+                if (textColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
                 }
@@ -562,10 +562,10 @@ namespace Krypton.Toolkit
             font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
-            if (textColor == Color.Empty)
+            if (textColor == GlobalStaticValues.EMPTY_COLOR)
             {
                 textColor = StateCommon.TextColor;
-                if (textColor == Color.Empty)
+                if (textColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
                 }

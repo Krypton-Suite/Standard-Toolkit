@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBackDraw(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? InheritBool.True : _inherit.GetBackDraw(state);
+        public override InheritBool GetBackDraw(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != GlobalStaticValues.EMPTY_COLOR) ? InheritBool.True : _inherit.GetBackDraw(state);
 
         /// <summary>
         /// Gets the graphics drawing hint.
@@ -64,14 +64,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor1(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? TreeNode.BackColor : _inherit.GetBackColor1(state);
+        public override Color GetBackColor1(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.BackColor : _inherit.GetBackColor1(state);
 
         /// <summary>
         /// Gets the second back color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor2(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? TreeNode.BackColor : _inherit.GetBackColor2(state);
+        public override Color GetBackColor2(PaletteState state) => (TreeNode != null) && (TreeNode.BackColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.BackColor : _inherit.GetBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="v19to20" xml:space="preserve">
+  <data name="PaletteVersion19To20" xml:space="preserve">
     <value>&lt;?xml version="1.0"?&gt;
 &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
   &lt;xsl:template match="KryptonPalette"&gt;
@@ -170,8 +170,9 @@
     &lt;/xsl:copy&gt;
   &lt;/xsl:template&gt;
 &lt;/xsl:stylesheet&gt;</value>
+    <comment>Make sure to duplictae from / in the Palette Upgrade tool</comment>
   </data>
-  <data name="v6to19" xml:space="preserve">
+  <data name="PaletteVersion6To19" xml:space="preserve">
     <value>&lt;?xml version="1.0"?&gt;
 &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
   &lt;xsl:template match="KryptonPalette"&gt;

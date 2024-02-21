@@ -67,9 +67,9 @@ namespace Krypton.Toolkit
 
         private void UpdateBorderColors()
         {
-            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? Color.Empty;
+            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
 
-            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? Color.Empty;
+            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _toastNotificationData.UseFade;

@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _lastHitTest;
         private KryptonMonthCalendar? _monthCalendar;
-        private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private IComponentChangeService? _changeService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public Overrides
@@ -45,17 +45,17 @@ namespace Krypton.Toolkit
             if (_monthCalendar != null)
             {
                 // Hook into header event
-                _monthCalendar.GetViewManager().MouseUpProcessed += OnCalendarMouseUp;
-                _monthCalendar.GetViewManager().DoubleClickProcessed += OnCalendarDoubleClick;
+                _monthCalendar.GetViewManager()!.MouseUpProcessed += OnCalendarMouseUp;
+                _monthCalendar.GetViewManager()!.DoubleClickProcessed += OnCalendarDoubleClick;
             }
 
             // Acquire service interfaces
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
 
         }
 
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Get the set of components from the base class
-                ICollection baseComponents = base.AssociatedComponents;
+                var baseComponents = base.AssociatedComponents;
 
                 // If no button specs then nothing more to do
                 if ((_monthCalendar == null) || (_monthCalendar.ButtonSpecs.Count == 0))
@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                SelectionRules rules = base.SelectionRules;
+                var rules = base.SelectionRules;
                 return rules & ~(SelectionRules.LeftSizeable | SelectionRules.TopSizeable);
             }
         }
@@ -128,11 +128,11 @@ namespace Krypton.Toolkit
             if (_monthCalendar != null)
             {
                 // Unhook from events
-                _monthCalendar.GetViewManager().MouseUpProcessed -= OnCalendarMouseUp;
-                _monthCalendar.GetViewManager().DoubleClickProcessed -= OnCalendarDoubleClick;
+                _monthCalendar.GetViewManager()!.MouseUpProcessed -= OnCalendarMouseUp;
+                _monthCalendar.GetViewManager()!.DoubleClickProcessed -= OnCalendarDoubleClick;
             }
 
-            _changeService.ComponentRemoving -= OnComponentRemoving;
+            _changeService!.ComponentRemoving -= OnComponentRemoving;
 
             // Must let base class do standard stuff
             base.Dispose(disposing);
@@ -185,11 +185,11 @@ namespace Krypton.Toolkit
             if ((_monthCalendar != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component? component = _monthCalendar.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                var component = _monthCalendar.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
-                    // Force the layout to be update for any change in selection
+                    // Force the layout to be updated for any change in selection
                     _monthCalendar.PerformLayout();
 
                     // Select the component
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
                     {
                         component
                     };
-                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -205,43 +205,43 @@ namespace Krypton.Toolkit
         private void OnCalendarDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _monthCalendar.DesignerComponentFromPoint(pt);
+            var component = _monthCalendar?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                var designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our control is being removed
-            if (e.Component == _monthCalendar)
+            if (Equals(e.Component, _monthCalendar))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
-                for (var i = _monthCalendar.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _monthCalendar!.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _monthCalendar.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_monthCalendar, null);
+                    _changeService?.OnComponentChanging(_monthCalendar, null);
 
                     // Perform actual removal of button spec from calendar
                     _monthCalendar.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_monthCalendar, null, null, null);
+                    _changeService?.OnComponentChanged(_monthCalendar, null, null, null);
                 }
             }
         }

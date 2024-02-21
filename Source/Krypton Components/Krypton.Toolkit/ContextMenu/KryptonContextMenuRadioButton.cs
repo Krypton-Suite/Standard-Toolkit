@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _checked = false;
             _autoCheck = true;
             _style = LabelStyle.NormalPanel;
@@ -253,7 +253,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets and sets the radio button label style.

@@ -45,9 +45,9 @@ namespace Krypton.Toolkit
             Debug.Assert(buttonSpec != null);
 
             // Remember references
-            _redirector = redirector;
-            Manager = manager;
-            ButtonSpec = buttonSpec;
+            _redirector = redirector!;
+            Manager = manager!;
+            ButtonSpec = buttonSpec!;
             _finishDelegate = OnFinishDelegate;
 
             // Create delegate for paint notifications
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
             // Intercept calls from the button for color remapping and instead use
             // the button spec defined map and the container foreground color
-            RemapPalette = Manager.CreateButtonSpecRemap(redirector, ButtonSpec);
+            RemapPalette = Manager.CreateButtonSpecRemap(redirector!, ButtonSpec);
 
             // Use a redirector to get button values directly from palette
             _palette = new PaletteTripleRedirect(RemapPalette,
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
             ButtonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
             // Remove ButtonSpec/view association
-            ButtonSpec.SetView(null);
+            ButtonSpec.SetView(null!);
 
             // Remove all view element resources
             ViewCenter.Dispose();

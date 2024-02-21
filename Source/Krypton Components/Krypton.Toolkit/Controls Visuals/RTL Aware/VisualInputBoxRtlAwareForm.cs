@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         {
             ktxtUserResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != Color.Empty)
+            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
             {
                 ktxtUserResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
             }

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
         private DesignerVerb _resetVerb;
         private KryptonThemeComboBox? _themeComboBox;
         private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         private ISelectionService _selectionService;
 
         #endregion

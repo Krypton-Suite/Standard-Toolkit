@@ -117,9 +117,9 @@ namespace Krypton.Toolkit
 
             UseRtlReading = false;
 
-            BorderColor1 = Color.Empty;
+            BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
 
-            BorderColor2 = Color.Empty;
+            BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
 
             SelectedIndex = 0;
         }

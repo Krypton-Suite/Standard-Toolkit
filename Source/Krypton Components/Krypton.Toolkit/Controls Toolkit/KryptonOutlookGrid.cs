@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
             //Update StaticValues
             //ColumnHeadersHeight = (int)(ColumnHeadersHeight * factorY); //No need already done in KryptonDataGridView
             GlobalStaticValues.DefaultGroupRowHeight = (int)(GlobalStaticValues.DefaultGroupRowHeight * _factorY);
-            GlobalStaticValues._2013GroupRowHeight = (int)(GlobalStaticValues._2013GroupRowHeight * _factorY);
+            GlobalStaticValues.Office2013GroupRowHeight = (int)(GlobalStaticValues.Office2013GroupRowHeight * _factorY);
             GlobalStaticValues.DefaultOffsetHeight = (int)(GlobalStaticValues.DefaultOffsetHeight * _factorY);
             GlobalStaticValues.Office2013OffsetHeight = (int)(GlobalStaticValues.DefaultOffsetHeight * _factorY);
             GlobalStaticValues.ImageOffsetWidth = (int)(GlobalStaticValues.ImageOffsetWidth * _factorX);
@@ -938,7 +938,7 @@ namespace Krypton.Toolkit
             if (KryptonManager.CurrentGlobalPalette != null && KryptonManager.CurrentGlobalPalette.GetRenderer() ==
                 KryptonManager.RenderOffice2013)
             {
-                h = GlobalStaticValues._2013GroupRowHeight; // special height for office 2013         
+                h = GlobalStaticValues.Office2013GroupRowHeight; // special height for office 2013         
             }
 
             //For each outlookgridcolumn

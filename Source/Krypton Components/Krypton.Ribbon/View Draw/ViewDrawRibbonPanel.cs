@@ -133,12 +133,12 @@ namespace Krypton.Ribbon
                             //Adjust Color of the gradient
                             Color gradientColor = KryptonManager.CurrentGlobalPaletteMode.ToString()
                                 .StartsWith(PaletteMode.Office2010Black.ToString())
-                                ? _palette.GetRibbonMinimizeBarDark(PaletteState.Normal) //Color.FromArgb(39, 39, 39)
-                                : _palette.GetRibbonMinimizeBarLight(PaletteState.Normal); //Color.White;
+                                ? _palette.GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState.Normal)
+                                : _palette.GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
 
                             using var backBrush = new LinearGradientBrush(
                                 rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
-                                gradientColor, 90f);
+                                gradientColor, _palette.GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal));
                             backBrush.Blend = _compBlend;
                             g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                             break;
@@ -147,20 +147,9 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.Microsoft365:
                     case PaletteRibbonShape.VisualStudio:
                         {
-                            // ToDo: Adjust for 'dark mode' themes
-                            if (KryptonManager.CurrentGlobalPalette.ToString().Contains("DarkMode"))
-                            {
-                                using var backBrushDark = new SolidBrush(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal));
-
-                                g.FillRectangle(backBrushDark, rect with { Height = rect.Height - 1});
-                            }
-                            else
-                            {
-                                using var backBrush = new SolidBrush(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal) /*Color.White*/);
-
-                                g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                            }
-
+                            using var backBrush = new SolidBrush(_palette.GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal));
+                            
+                            g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                             break;
                         }
                 }

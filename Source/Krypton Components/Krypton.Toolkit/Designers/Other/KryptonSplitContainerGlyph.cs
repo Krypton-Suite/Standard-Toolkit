@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonSplitContainer? _splitContainer;
-        private readonly ISelectionService _selectionService;
+        private readonly ISelectionService? _selectionService;
         private readonly BehaviorService _behaviorService; 
         private readonly Adorner _adorner;
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="behaviorService">Reference to the behavior service.</param>
         /// <param name="adorner">Reference to the containing adorner.</param>
         /// <param name="relatedDesigner">Reference to the containing designer.</param>
-        public KryptonSplitContainerGlyph([DisallowNull] ISelectionService selectionService,
+        public KryptonSplitContainerGlyph([DisallowNull] ISelectionService? selectionService,
                                           [DisallowNull] BehaviorService behaviorService,
                                           [DisallowNull] Adorner adorner,
                                           [DisallowNull] IDesigner relatedDesigner)

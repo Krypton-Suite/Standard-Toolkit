@@ -40,30 +40,30 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _comboBox.KryptonContextMenu;
+            get => _comboBox!.KryptonContextMenu;
 
             set
             {
-                if (_comboBox.KryptonContextMenu != value)
+                if (_comboBox!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_comboBox, null, _comboBox.KryptonContextMenu, value);
 
                     _comboBox.KryptonContextMenu = value;
                 }
             }
         }
 
-        /// <summary>Gets or sets the drop down style.</summary>
-        /// <value>The drop down style.</value>
+        /// <summary>Gets or sets the drop-down style.</summary>
+        /// <value>The drop-down style.</value>
         public ComboBoxStyle DropDownStyle
         {
-            get => _comboBox.DropDownStyle;
+            get => _comboBox!.DropDownStyle;
 
             set
             {
-                if (_comboBox.DropDownStyle != value)
+                if (_comboBox!.DropDownStyle != value)
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.DropDownStyle, value);
+                    _service?.OnComponentChanged(_comboBox, null, _comboBox.DropDownStyle, value);
 
                     _comboBox.DropDownStyle = value;
                 }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _comboBox.PaletteMode;
+            get => _comboBox!.PaletteMode;
 
             set
             {
-                if (_comboBox.PaletteMode != value)
+                if (_comboBox!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_comboBox, null, _comboBox.PaletteMode, value);
                     _comboBox.PaletteMode = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _comboBox.InputControlStyle;
+            get => _comboBox!.InputControlStyle;
 
             set
             {
-                if (_comboBox.InputControlStyle != value)
+                if (_comboBox!.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_comboBox, null, _comboBox.InputControlStyle, value);
                     _comboBox.InputControlStyle = value;
                 }
             }
@@ -108,13 +108,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font Font
         {
-            get => _comboBox.StateCommon.ComboBox.Content.Font;
+            get => _comboBox!.StateCommon.ComboBox.Content.Font!;
 
             set
             {
-                if (_comboBox.StateCommon.ComboBox.Content.Font != value)
+                if (!Equals(_comboBox!.StateCommon.ComboBox.Content.Font, value))
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Content.Font, value);
+                    _service?.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Content.Font, value);
 
                     _comboBox.StateCommon.ComboBox.Content.Font = value;
                 }

@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         private void Init()
         {
             _longText = string.Empty;
-            _longForeColor = Color.Empty;
+            _longForeColor = GlobalStaticValues.EMPTY_COLOR;
             _longNodeFont = null;
             _isCheckBoxVisible = true;
         }
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLongForeColor() => _longForeColor != Color.Empty;
+        private bool ShouldSerializeLongForeColor() => _longForeColor != GlobalStaticValues.EMPTY_COLOR;
 
         #endregion    
 

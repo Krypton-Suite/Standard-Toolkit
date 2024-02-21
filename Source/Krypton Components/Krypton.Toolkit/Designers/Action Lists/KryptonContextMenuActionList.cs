@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonContextMenu? _contextMenu;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _contextMenu = owner.Component as KryptonContextMenu;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -69,8 +69,8 @@ namespace Krypton.Toolkit
             {
                 if (_contextMenu?.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_contextMenu, null, _contextMenu!.PaletteMode, value);
-                    _contextMenu.PaletteMode = value;
+                    _service?.OnComponentChanged(_contextMenu!, null, _contextMenu!.PaletteMode, value);
+                    _contextMenu!.PaletteMode = value;
                 }
             }
         }
@@ -79,13 +79,13 @@ namespace Krypton.Toolkit
         /// <value>The items.</value>
         public KryptonContextMenuCollection Items
         {
-            get => _contextMenu.Items;
+            get => _contextMenu!.Items;
 
             set
             {
-                if (_contextMenu.Items != value)
+                if (_contextMenu!.Items != value)
                 {
-                    _service.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
+                    _service?.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
                 }
             }
         }

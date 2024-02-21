@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonBreadCrumbItem class.
         /// </summary>
         public KryptonBreadCrumbItem()
-            : this("ListItem", null, null, Color.Empty)
+            : this("ListItem", null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="shortText">Initial short text value.</param>
         public KryptonBreadCrumbItem(string shortText)
-            : this(shortText, null, null, Color.Empty)
+            : this(shortText, null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// <param name="shortText">Initial short text value.</param>
         /// <param name="longText">Initial long text value.</param>
         public KryptonBreadCrumbItem(string shortText, string longText)
-            : this(shortText, longText, null, Color.Empty)
+            : this(shortText, longText, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
         public KryptonBreadCrumbItem(string shortText,
                                      string longText,
                                      Image? image)
-            : this(shortText, longText, image, Color.Empty)
+            : this(shortText, longText, image, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 

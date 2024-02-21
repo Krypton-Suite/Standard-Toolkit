@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
         private void NormalState()
         {
             _highlight = false;
-            _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(Color.Empty));
+            _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(GlobalStaticValues.EMPTY_COLOR));
             UpdateTarget();
         }
 

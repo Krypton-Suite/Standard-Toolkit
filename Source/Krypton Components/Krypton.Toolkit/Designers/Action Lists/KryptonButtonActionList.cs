@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonButton? _button;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _button = owner.Component as KryptonButton;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.ButtonStyle != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.ButtonStyle, value);
+                    _service?.OnComponentChanged(_button, null, _button.ButtonStyle, value);
                     _button.ButtonStyle = value;
                 }
             }
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.DialogResult != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.DialogResult, value);
+                    _service?.OnComponentChanged(_button, null, _button.DialogResult, value);
                     _button.DialogResult = value;
                 }
             }
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_button, null, _button.KryptonContextMenu, value);
 
                     _button.KryptonContextMenu = value;
                 }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.Orientation != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Orientation, value);
+                    _service?.OnComponentChanged(_button, null, _button.Orientation, value);
                     _button.Orientation = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.Text, value);
+                    _service?.OnComponentChanged(_button, null, _button.Values.Text, value);
                     _button.Values.Text = value;
                 }
             }
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_button, null, _button.Values.ExtraText, value);
                     _button.Values.ExtraText = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.Image, value);
+                    _service?.OnComponentChanged(_button, null, _button.Values.Image, value);
                     _button.Values.Image = value;
                 }
             }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_button!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.PaletteMode, value);
+                    _service?.OnComponentChanged(_button, null, _button.PaletteMode, value);
                     _button.PaletteMode = value;
                 }
             }
@@ -179,9 +179,9 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_button!.StateCommon.Content.ShortText.Font != value)
+                if (!Equals(_button!.StateCommon.Content.ShortText.Font, value))
                 {
-                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
 
                     _button.StateCommon.Content.ShortText.Font = value;
                 }
@@ -196,9 +196,9 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_button!.StateCommon.Content.LongText.Font != value)
+                if (!Equals(_button!.StateCommon.Content.LongText.Font, value))
                 {
-                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_button, null, _button.StateCommon.Content.LongText.Font, value);
 
                     _button.StateCommon.Content.LongText.Font = value;
                 }
@@ -214,9 +214,9 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_button!.Values.UseAsUACElevationButton != value)
+                if (!_button!.Values.UseAsUACElevationButton.Equals(value))
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.UseAsUACElevationButton, value);
+                    _service?.OnComponentChanged(_button, null, _button.Values.UseAsUACElevationButton, value);
 
                     _button.Values.UseAsUACElevationButton = value;
                 }

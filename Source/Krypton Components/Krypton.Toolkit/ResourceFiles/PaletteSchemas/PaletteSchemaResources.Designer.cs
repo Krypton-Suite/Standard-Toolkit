@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.Properties {
+namespace Krypton.Toolkit.ResourceFiles.PaletteSchemas {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class PaletteSchemaResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal PaletteSchemaResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.PaletteSchemas.PaletteSchemaResources", typeof(PaletteSchemaResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -69,9 +69,9 @@ namespace Krypton.Toolkit.Properties {
         ///    &lt;xsl:comment&gt;New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)&lt;/xsl:comment&gt;
         ///    &lt;xsl: [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string v19to20 {
+        internal static string PaletteVersion19To20 {
             get {
-                return ResourceManager.GetString("v19to20", resourceCulture);
+                return ResourceManager.GetString("PaletteVersion19To20", resourceCulture);
             }
         }
         
@@ -85,9 +85,9 @@ namespace Krypton.Toolkit.Properties {
         ///    &lt;KryptonPalette Version=&quot;19&quot;&gt;
         ///      &lt;xsl:attr [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string v6to19 {
+        internal static string PaletteVersion6To19 {
             get {
-                return ResourceManager.GetString("v6to19", resourceCulture);
+                return ResourceManager.GetString("PaletteVersion6To19", resourceCulture);
             }
         }
     }

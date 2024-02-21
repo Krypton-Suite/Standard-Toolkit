@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
             // Create the redirector that can get values from the krypton context menu
             _redirectHeading = new PaletteRedirectTriple();
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets access to the header instance specific appearance values.

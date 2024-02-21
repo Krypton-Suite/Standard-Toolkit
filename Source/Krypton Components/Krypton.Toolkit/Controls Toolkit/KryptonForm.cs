@@ -744,7 +744,7 @@ namespace Krypton.Toolkit
         /// <returns>Transparent Color.</returns>
         public Color GetImageTransparentColor(PaletteState state) =>
             // We never mark any color as transparent
-            Color.Empty;
+            GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the short text used as the main caption title.

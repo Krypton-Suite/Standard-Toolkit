@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
 
             // Set initial values to the default
             _image = GetImageDefault();
-            _transparent = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
             _heading = GetHeadingDefault();
             _description = GetDescriptionDefault();
         }
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (Image == GetImageDefault()) &&
-                                           (ImageTransparentColor == Color.Empty) &&
+                                           (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
                                            (Heading == GetHeadingDefault()) &&
                                            (Description == GetDescriptionDefault());
 
@@ -150,12 +150,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.

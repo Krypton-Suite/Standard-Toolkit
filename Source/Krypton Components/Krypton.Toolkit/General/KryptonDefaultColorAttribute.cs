@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDefaultColorAttribute class.
         /// </summary>
         public KryptonDefaultColorAttribute()
-            : base(Color.Empty)
+            : base(GlobalStaticValues.EMPTY_COLOR)
         {
         }
         #endregion

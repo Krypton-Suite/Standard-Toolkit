@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
                 {
                     using (SolidBrush br = new(Color.FromArgb(225, 225, 225)))
                     {
-                        graphics.FillRectangle(br, rowBounds.Left + rowHeadersWidth - grid.HorizontalScrollingOffset, rowBounds.Bottom - GlobalStaticValues._2013GroupRowHeight, gridwidth + 1, GlobalStaticValues._2013GroupRowHeight - 1);
+                        graphics.FillRectangle(br, rowBounds.Left + rowHeadersWidth - grid.HorizontalScrollingOffset, rowBounds.Bottom - GlobalStaticValues.Office2013GroupRowHeight, gridwidth + 1, GlobalStaticValues.Office2013GroupRowHeight - 1);
                     }
                 }
                 else

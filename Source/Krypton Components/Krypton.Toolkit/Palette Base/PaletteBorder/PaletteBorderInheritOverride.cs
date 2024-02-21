@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBorderColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBorderColor1(state);
                 }
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBorderColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBorderColor2(state);
                 }

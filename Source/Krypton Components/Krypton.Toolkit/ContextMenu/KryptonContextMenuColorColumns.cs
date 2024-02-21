@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         {
             // Default fields
             _autoClose = true;
-            _selectedColor = Color.Empty;
+            _selectedColor = GlobalStaticValues.EMPTY_COLOR;
             _groupNonFirstRows = true;
             _blockSize = new Size(13, 13);
             SetColorScheme(scheme);

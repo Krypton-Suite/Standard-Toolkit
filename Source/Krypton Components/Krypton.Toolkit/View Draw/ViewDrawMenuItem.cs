@@ -88,11 +88,11 @@ namespace Krypton.Toolkit
                 {
                     case CheckState.Checked:
                         itemColumnImage = provider.ProviderImages.GetContextMenuCheckedImage();
-                        itemImageTransparent = Color.Empty;
+                        itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                         break;
                     case CheckState.Indeterminate:
                         itemColumnImage = provider.ProviderImages.GetContextMenuIndeterminateImage();
-                        itemImageTransparent = Color.Empty;
+                        itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                         break;
                 }
             }
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
 
             // Text/Extra Text
             PaletteContentJustText menuItemStyle = standardStyle ? menuItemState.ItemTextStandard : menuItemState.ItemTextAlternate;
-            _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, Color.Empty);
+            _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, GlobalStaticValues.EMPTY_COLOR);
             _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
             docker.Add(_textContent, ViewDockStyle.Fill);
             _textContent.Enabled = ItemEnabled;
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
 
                 if (shortcutString.Length > 0)
                 {
-                    _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, Color.Empty), 2);
+                    _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, GlobalStaticValues.EMPTY_COLOR), 2);
                     docker.Add(_shortcutContent, ViewDockStyle.Right);
                     _shortcutContent.Enabled = ItemEnabled;
                 }
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
 
             // SubMenu Indicator
             HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty), 3);
+            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : GlobalStaticValues.EMPTY_COLOR), 3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
 
@@ -520,11 +520,11 @@ namespace Krypton.Toolkit
                     {
                         case CheckState.Checked:
                             itemColumnImage = _provider.ProviderImages.GetContextMenuCheckedImage();
-                            itemImageTransparent = Color.Empty;
+                            itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                             break;
                         case CheckState.Indeterminate:
                             itemColumnImage = _provider.ProviderImages.GetContextMenuIndeterminateImage();
-                            itemImageTransparent = Color.Empty;
+                            itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                             break;
                     }
                 }

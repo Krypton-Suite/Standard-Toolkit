@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             _text = string.Empty;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _dialogResult = DialogResult.OK;
         }
 

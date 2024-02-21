@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _lastHitTest;
         private KryptonTextBox? _textBox;
-        private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private IComponentChangeService? _changeService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public Overrides
@@ -45,17 +45,17 @@ namespace Krypton.Toolkit
             if (_textBox != null)
             {
                 // Hook into textbox events
-                _textBox.GetViewManager().MouseUpProcessed += OnTextBoxMouseUp;
-                _textBox.GetViewManager().DoubleClickProcessed += OnTextBoxDoubleClick;
+                _textBox.GetViewManager()!.MouseUpProcessed += OnTextBoxMouseUp;
+                _textBox.GetViewManager()!.DoubleClickProcessed += OnTextBoxDoubleClick;
             }
 
             // Get access to the design services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -72,12 +72,12 @@ namespace Krypton.Toolkit
             get
             {
                 // Start with all edges being sizeable
-                SelectionRules rules = base.SelectionRules;
+                var rules = base.SelectionRules;
 
                 // Get access to the actual control instance
-                var textBox = (KryptonTextBox)Component;
+                var textBox = Component as KryptonTextBox;
 
-                // With multiline or autosize we prevent the user changing the height
+                // With multiline or auto size we prevent the user changing the height
                 if (textBox is { Multiline: false, AutoSize: true })
                 {
                     rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
@@ -152,11 +152,11 @@ namespace Krypton.Toolkit
             if ((_textBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component? component = _textBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                var component = _textBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
-                    // Force the layout to be update for any change in selection
+                    // Force the layout to be updated for any change in selection
                     _textBox.PerformLayout();
 
                     // Select the component
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
                     {
                         component
                     };
-                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -172,25 +172,25 @@ namespace Krypton.Toolkit
         private void OnTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _textBox?.DesignerComponentFromPoint(pt);
+            var component = _textBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                var designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our control is being removed
-            if ((_textBox != null) && (e.Component == _textBox))
+            if ((_textBox != null) && (Equals(e.Component, _textBox)))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
                 for (var i = _textBox.ButtonSpecs.Count - 1; i >= 0; i--)
@@ -199,16 +199,16 @@ namespace Krypton.Toolkit
                     ButtonSpec spec = _textBox.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_textBox, null);
+                    _changeService?.OnComponentChanging(_textBox, null);
 
                     // Perform actual removal of button spec from textbox
                     _textBox.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_textBox, null, null, null);
+                    _changeService?.OnComponentChanged(_textBox, null, null, null);
                 }
             }
         }

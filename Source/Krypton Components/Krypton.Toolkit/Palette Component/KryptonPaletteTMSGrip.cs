@@ -35,8 +35,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalGripDark == Color.Empty) &&
-                                          (InternalKCT.InternalGripLight == Color.Empty);
+        public override bool IsDefault => (InternalKCT.InternalGripDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (InternalKCT.InternalGripLight == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripDark property to its default value.
         /// </summary>
-        public void ResetGripDark() => GripDark = Color.Empty;
+        public void ResetGripDark() => GripDark = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region GripLight
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripLight property to its default value.
         /// </summary>
-        public void ResetGripLight() => GripLight = Color.Empty;
+        public void ResetGripLight() => GripLight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

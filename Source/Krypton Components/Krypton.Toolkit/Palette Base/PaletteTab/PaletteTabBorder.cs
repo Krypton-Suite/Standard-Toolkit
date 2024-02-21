@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => (Draw == InheritBool.Inherit) &&
                                            (GraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                           (Color1 == Color.Empty) &&
-                                           (Color2 == Color.Empty) &&
+                                           (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                           (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
                                            (ColorStyle == PaletteColorStyle.Inherit) &&
                                            (ColorAlign == PaletteRectangleAlign.Inherit) &&
                                            (ColorAngle == -1) &&

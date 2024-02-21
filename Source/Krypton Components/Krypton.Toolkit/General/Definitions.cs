@@ -2336,4 +2336,14 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum PaletteSchemaVersion
+
+    public enum PaletteSchemaVersion
+    {
+        Version6To19,
+        Version19To20
+    }
+
+    #endregion
 }

@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor1(state);
                 }
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor2(state);
                 }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor3(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor3(state);
                 }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor4(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor4(state);
                 }
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor5(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor5(state);
                 }

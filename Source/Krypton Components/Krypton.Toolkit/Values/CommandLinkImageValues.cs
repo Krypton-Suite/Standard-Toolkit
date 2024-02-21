@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-        private bool ShouldSerializeImageTransparentColor() => _transparencyKey != Color.Empty;
-        private void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => _transparencyKey != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>Gets or sets the image.</summary>
         /// <value>The image.</value>

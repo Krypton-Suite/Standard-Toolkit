@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             // Default the initial values
             _synchronizeDropDownWidth = false;
             _font = null;
-            _color1 = Color.Empty;
+            _color1 = GlobalStaticValues.EMPTY_COLOR;
             _padding = CommonHelper.InheritPadding;
             _shortTextH = PaletteRelativeAlign.Inherit;
         }

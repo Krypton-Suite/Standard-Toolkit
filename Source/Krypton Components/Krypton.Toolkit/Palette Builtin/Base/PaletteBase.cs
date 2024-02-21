@@ -834,7 +834,7 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -873,12 +873,12 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1088,7 +1088,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1109,7 +1109,7 @@ namespace Krypton.Toolkit
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1137,7 +1137,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1165,7 +1165,7 @@ namespace Krypton.Toolkit
                     // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1497,6 +1497,27 @@ namespace Krypton.Toolkit
         public abstract Color GetRibbonMinimizeBarLight(PaletteState state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -1537,6 +1558,11 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonQATButtonLight(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public abstract float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
         #endregion
 
         #region RibbonBack
@@ -1762,7 +1788,7 @@ namespace Krypton.Toolkit
 
             Header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
             Header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont!.SizeInPoints, FontStyle.Regular);
             Header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
             Header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             ButtonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);

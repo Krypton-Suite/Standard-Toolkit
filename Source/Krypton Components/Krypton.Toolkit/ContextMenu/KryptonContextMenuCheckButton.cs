@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _checked = false;
             _autoCheck = false;
             _style = ButtonStyle.Standalone;
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets and sets the check button style.

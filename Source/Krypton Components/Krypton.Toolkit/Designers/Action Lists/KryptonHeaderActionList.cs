@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonHeader? _header;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _header = owner.Component as KryptonHeader;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -41,13 +41,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public HeaderStyle HeaderStyle
         {
-            get => _header.HeaderStyle;
+            get => _header!.HeaderStyle;
 
             set 
             {
-                if (_header.HeaderStyle != value)
+                if (_header!.HeaderStyle != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.HeaderStyle, value);
+                    _service?.OnComponentChanged(_header, null, _header.HeaderStyle, value);
                     _header.HeaderStyle = value;
                 }
             }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _header.Orientation;
+            get => _header!.Orientation;
 
             set 
             {
-                if (_header.Orientation != value)
+                if (_header!.Orientation != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Orientation, value);
+                    _service?.OnComponentChanged(_header, null, _header.Orientation, value);
                     _header.Orientation = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Heading
         {
-            get => _header.Values.Heading;
+            get => _header!.Values.Heading;
 
             set 
             {
-                if (_header.Values.Heading != value)
+                if (_header!.Values.Heading != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Heading, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Heading, value);
                     _header.Values.Heading = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Description
         {
-            get => _header.Values.Description;
+            get => _header!.Values.Description;
 
             set 
             {
-                if (_header.Values.Description != value)
+                if (_header!.Values.Description != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Description, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Description, value);
                     _header.Values.Description = value;
                 }
             }
@@ -109,13 +109,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _header.Values.Image;
+            get => _header!.Values.Image;
 
             set 
             {
-                if (_header.Values.Image != value)
+                if (_header!.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Image, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Image, value);
                     _header.Values.Image = value;
                 }
             }
@@ -126,13 +126,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _header.PaletteMode;
+            get => _header!.PaletteMode;
 
             set 
             {
-                if (_header.PaletteMode != value)
+                if (_header!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.PaletteMode, value);
+                    _service?.OnComponentChanged(_header, null, _header.PaletteMode, value);
                     _header.PaletteMode = value;
                 }
             }
