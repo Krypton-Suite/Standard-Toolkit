@@ -46,10 +46,10 @@ namespace Krypton.Toolkit
             Debug.Assert(backupText != null);
 
             // Remember values
-            _primaryBack = primaryBack;
-            _primaryText = primaryText;
-            _backupBack = backupBack;
-            _backupText = backupText;
+            _primaryBack = primaryBack!;
+            _primaryText = primaryText!;
+            _backupBack = backupBack!;
+            _backupText = backupText!;
 
             // Default state
             Apply = false;

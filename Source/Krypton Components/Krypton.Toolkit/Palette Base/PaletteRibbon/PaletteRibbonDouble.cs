@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
             Debug.Assert(inheritText != null);
 
             // Remember inheritance
-            _inheritBack = inheritBack;
-            _inheritText = inheritText;
+            _inheritBack = inheritBack!;
+            _inheritText = inheritText!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

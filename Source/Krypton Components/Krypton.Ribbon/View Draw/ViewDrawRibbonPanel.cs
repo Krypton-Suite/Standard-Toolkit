@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
                                 : _palette.GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
 
                             using var backBrush = new LinearGradientBrush(
-                                rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
+                                rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, /*Color.Transparent*/ _palette.GetRibbonTabRowGradientColor1(PaletteState.Normal),
                                 gradientColor, _palette.GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal));
                             backBrush.Blend = _compBlend;
                             g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });

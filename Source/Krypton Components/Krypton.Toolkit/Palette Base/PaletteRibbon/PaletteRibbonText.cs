@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritText">Source for inheriting text values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteRibbonText(IPaletteRibbonText inheritText,
+        public PaletteRibbonText(IPaletteRibbonText? inheritText,
                                  NeedPaintHandler needPaint) 
         {
             // Remember inheritance

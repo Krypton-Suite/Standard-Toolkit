@@ -45,6 +45,10 @@ namespace Krypton.Toolkit
 
         public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
 
+        public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;
+
+        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_COLOR = Color.FromArgb(31, 72, 161);
+
         /// <summary>
         /// The default group row height
         /// </summary>

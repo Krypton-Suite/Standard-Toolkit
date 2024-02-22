@@ -39,10 +39,14 @@ namespace Krypton.Toolkit
         private Color _tabRowBackgroundSolidColor;
         private Color _tabBackgroundGradientRaftingDarkColor;
         private Color _tabBackgroundGradientRaftingLightColor;
+        private Color _tabRowBackgroundGradientFirstColor;
         private Color _qatButtonDarkColor;
         private Color _qatButtonLightColor;
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
+        private Color _ribbonAppButtonDarkColor;
+        private Color _ribbonAppButtonLightColor;
+        private Color _ribbonAppButtonTextColor;
         private Font? _textFont;
         private float _ribbonTabRowGradientRaftingAngle;
         private PaletteTextHint _textHint;
@@ -60,7 +64,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -82,6 +86,7 @@ namespace Krypton.Toolkit
             _tabBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
             _tabBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
             _tabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+            _tabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
             _ribbonTabRowGradientRaftingAngle = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
             _ribbonShape = PaletteRibbonShape.Inherit;
             _tabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
@@ -90,38 +95,46 @@ namespace Krypton.Toolkit
             _textHint = PaletteTextHint.Inherit;
             _qatButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
             _qatButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _ribbonAppButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+            _ribbonAppButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+            _ribbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (ContextTextAlign == PaletteRelativeAlign.Inherit) &&
-                                           (ContextTextColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (ContextTextFont == null) &&
-                                           (DisabledDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DisabledLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropArrowLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropArrowDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupDialogDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupDialogLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
-                                           (RibbonShape == PaletteRibbonShape.Inherit) &&
-                                           (TextFont == null) &&
-                                           (TextHint == PaletteTextHint.Inherit) &&
-                                           (TabSeparatorColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabSeparatorContextColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (QATButtonDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (QATButtonLightColor == GlobalStaticValues.EMPTY_COLOR);
+                                          (ContextTextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (ContextTextFont == null) &&
+                                          (DisabledDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (DisabledLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (DropArrowLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (DropArrowDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (GroupDialogDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (GroupDialogLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (GroupSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (TabRowBackgroundGradientFirstColor == GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR) &&
+                                          (RibbonAppButtonDarkColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR) &&
+                                          (RibbonAppButtonLightColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR) &&
+                                          (RibbonAppButtonTextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
+                                          (RibbonShape == PaletteRibbonShape.Inherit) &&
+                                          (TextFont == null) &&
+                                          (TextHint == PaletteTextHint.Inherit) &&
+                                          (TabSeparatorColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (TabSeparatorContextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (QATButtonDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (QATButtonLightColor == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -155,7 +168,11 @@ namespace Krypton.Toolkit
             TabRowBackgroundSolidColor = GetRibbonTabRowBackgroundSolidColor(PaletteState.Normal);
             TabRowBackgroundGradientRaftingDarkColor = GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState.Normal);
             TabRowBackgroundGradientRaftingLightColor = GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
+            TabRowBackgroundGradientFirstColor = GetRibbonTabRowGradientColor1(PaletteState.Normal);
             RibbonTabRowGradientRaftingAngle = GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal);
+            RibbonAppButtonDarkColor = GetRibbonAppButtonDarkColor(PaletteState.Normal);
+            RibbonAppButtonLightColor = GetRibbonAppButtonLightColor(PaletteState.Normal);
+            RibbonAppButtonTextColor = GetRibbonAppButtonTextColor(PaletteState.Normal);
             RibbonShape = GetRibbonShape();
             TabSeparatorColor = GetRibbonTabSeparatorColor(PaletteState.Normal);
             TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
@@ -221,7 +238,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_contextTextFont != value)
+                if (!Equals(_contextTextFont, value))
                 {
                     _contextTextFont = value;
                     PerformNeedPaint(true);
@@ -789,6 +806,150 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region TabRowBackgroundGradientFirstColor
+
+        /// <summary>
+        /// Gets access to ribbon tab row gradient first color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon tab row background gradient first color.")]
+        [DefaultValue(typeof(Color), "Color.Transparent")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color TabRowBackgroundGradientFirstColor
+        {
+            get => _tabRowBackgroundGradientFirstColor;
+
+            set
+            {
+                if (_tabRowBackgroundGradientFirstColor != value)
+                {
+                    _tabRowBackgroundGradientFirstColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the TabRowBackgroundGradientFirstColor property to its default value.
+        /// </summary>
+        public void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowGradientColor1(PaletteState state) => TabRowBackgroundGradientFirstColor != GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR
+            ? TabRowBackgroundGradientFirstColor
+            : _inherit.GetRibbonTabRowGradientColor1(state);
+
+        #endregion
+
+        #region RibbonAppButtonDarkColor
+
+        /// <summary>
+        /// Gets access to ribbon app button dark color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon app button dark color.")]
+        [DefaultValue(typeof(Color), "Color.Empty")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color RibbonAppButtonDarkColor
+        {
+            get => _ribbonAppButtonDarkColor;
+
+            set
+            {
+                if (_ribbonAppButtonDarkColor != value)
+                {
+                    _ribbonAppButtonDarkColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the RibbonAppButtonDarkColor property to its default value.
+        /// </summary>
+        public void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR;
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonDarkColor(PaletteState state) => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR
+            ? RibbonAppButtonDarkColor
+            : _inherit.GetRibbonAppButtonDarkColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonLightColor
+
+        /// <summary>
+        /// Gets access to ribbon app button light color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon app button light color.")]
+        [DefaultValue(typeof(Color), "Color.Empty")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color RibbonAppButtonLightColor
+        {
+            get => _ribbonAppButtonLightColor;
+
+            set
+            {
+                if (_ribbonAppButtonLightColor != value)
+                {
+                    _ribbonAppButtonLightColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the RibbonAppButtonLightColor property to its default value.
+        /// </summary>
+        public void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR;
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonLightColor(PaletteState state) => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR
+            ? RibbonAppButtonLightColor
+            : _inherit.GetRibbonAppButtonLightColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonTextColor
+
+        /// <summary>
+        /// Gets access to ribbon app button text color.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon app button text color.")]
+        [DefaultValue(typeof(Color), "Color.Empty")]
+        [RefreshProperties(RefreshProperties.All)]
+        public Color RibbonAppButtonTextColor
+        {
+            get => _ribbonAppButtonTextColor;
+
+            set
+            {
+                if (_ribbonAppButtonTextColor != value)
+                {
+                    _ribbonAppButtonTextColor = value;
+                    PerformNeedPaint();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the RibbonAppButtonTextColor property to its default value.
+        /// </summary>
+        public void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonTextColor(PaletteState state) => RibbonAppButtonTextColor != GlobalStaticValues.EMPTY_COLOR
+            ? RibbonAppButtonTextColor
+            : _inherit.GetRibbonAppButtonTextColor(state);
+
+        #endregion
+
         #region RibbonTabRowGradientRaftingAngle
 
         /// <summary>
@@ -797,7 +958,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Ribbon tab row background gradient rafting angle.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT)]
         [RefreshProperties(RefreshProperties.All)]
         public float RibbonTabRowGradientRaftingAngle
         {
@@ -805,7 +966,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_ribbonTabRowGradientRaftingAngle != value)
+                if (!_ribbonTabRowGradientRaftingAngle.Equals(value))
                 {
                     _ribbonTabRowGradientRaftingAngle = value;
                     PerformNeedPaint();
@@ -824,7 +985,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Rafting angle value.</returns>
-        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => RibbonTabRowGradientRaftingAngle != GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => RibbonTabRowGradientRaftingAngle !=
+            GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT
             ? RibbonTabRowGradientRaftingAngle
             : _inherit.GetRibbonTabRowGradientRaftingAngle(state);
 
@@ -960,7 +1122,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_textFont != value)
+                if (!Equals(_textFont, value))
                 {
                     _textFont = value;
                     PerformNeedPaint(true);

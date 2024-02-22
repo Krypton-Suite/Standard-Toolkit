@@ -1745,6 +1745,22 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabRowBackgroundSolidColor(state);
 
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonTabRowGradientColor1(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonDarkColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonLightColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonTextColor(state);
+
         /// <summary>
         /// Gets the font for the ribbon text.
         /// </summary>
@@ -2773,7 +2789,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"KryptonPalette used to inherit from.")]
         [DefaultValue(null)]
-        public PaletteBase BasePalette
+        public PaletteBase? BasePalette
         {
             get => _basePalette;
 
@@ -2788,7 +2804,7 @@ namespace Krypton.Toolkit
 
                     // Find the new palette mode based on the incoming value
                     //_basePaletteMode = value == null ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
-                    _basePalette = value;
+                    _basePalette = value!;
 
                     // If the new value creates a circular reference
                     //if (HasCircularReference())
@@ -2807,7 +2823,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Use the provided palette value
-                    SetPalette(value);
+                    SetPalette(value!);
 
                     // If no custom palette is required
                     if (value == null)

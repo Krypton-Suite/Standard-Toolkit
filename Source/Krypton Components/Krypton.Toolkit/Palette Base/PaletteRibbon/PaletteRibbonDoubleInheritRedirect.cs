@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(redirect != null);
 
-            _redirect = redirect;
+            _redirect = redirect!;
             StyleBack = styleBack;
             StyleText = styleText;
         }

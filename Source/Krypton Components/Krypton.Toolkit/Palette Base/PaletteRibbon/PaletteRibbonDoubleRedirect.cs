@@ -49,8 +49,8 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inheritBack = new PaletteRibbonBackInheritRedirect(redirect, backStyle);
-            _inheritText = new PaletteRibbonTextInheritRedirect(redirect, textStyle);
+            _inheritBack = new PaletteRibbonBackInheritRedirect(redirect!, backStyle);
+            _inheritText = new PaletteRibbonTextInheritRedirect(redirect!, textStyle);
 
             // Define default values
             _backColor1 = GlobalStaticValues.EMPTY_COLOR;

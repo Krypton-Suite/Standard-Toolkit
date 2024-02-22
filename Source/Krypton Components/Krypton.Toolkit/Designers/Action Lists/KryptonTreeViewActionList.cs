@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonTreeViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTreeView _treeView;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonTreeView? _treeView;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the tree view instance
-            _treeView = (KryptonTreeView)owner.Component;
+            _treeView = owner.Component as KryptonTreeView;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
