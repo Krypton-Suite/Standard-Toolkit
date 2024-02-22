@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
         #region Static Fields
         private static readonly Image? _defaultAppImage = GenericImageResources.AppButtonDefault;
         private const string DEFAULT_APP_TEXT = @"File";
-        private IPaletteRibbonGeneral _palette;
+        private readonly IPaletteRibbonGeneral _palette;
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
         #endregion
@@ -62,11 +62,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="palette">Source for palette values.</param>
-        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon, IPaletteRibbonGeneral palette)
+        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon, [DisallowNull] IPaletteRibbonGeneral palette)
         {
             Debug.Assert(ribbon != null);
+            Debug.Assert(palette != null);
+
             _ribbon = ribbon!;
-            _palette = palette;
+            _palette = palette!;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
