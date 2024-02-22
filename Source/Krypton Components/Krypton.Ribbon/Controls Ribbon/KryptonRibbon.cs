@@ -83,6 +83,8 @@ namespace Krypton.Ribbon
         // Palettes
         private PaletteBackInheritRedirect _backPanelInherit;
 
+        private PaletteRibbonGeneralInheritRedirect _ribbonGeneralInherit;
+
         // Properties
         private bool _minimizedMode;
         private bool _showMinimizeButton;
@@ -2568,7 +2570,7 @@ namespace Krypton.Ribbon
         {
             RibbonShortcuts = new RibbonShortcuts();
             RibbonStrings = new RibbonStrings();
-            RibbonAppButton = new RibbonAppButton(this);
+            RibbonAppButton = new RibbonAppButton(this, _ribbonGeneralInherit);
             RibbonStyles = new PaletteRibbonStyles(this, NeedPaintPaletteDelegate);
             StateCommon = new PaletteRibbonRedirect(Redirector, PaletteBackStyle.PanelClient, NeedPaintPaletteDelegate);
             StateDisabled = new PaletteRibbonDisabled(StateCommon, NeedPaintPaletteDelegate);
@@ -2591,6 +2593,8 @@ namespace Krypton.Ribbon
 
             // Create direct access to the redirector for panel background
             _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
+
+            _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(Redirector);
 
             // Create the background panel for the entire ribbon area and the groups area when minimized
             MainPanel = new ViewDrawRibbonPanel(this, _backPanelInherit, NeedPaintDelegate, StateCommon.RibbonGeneral);

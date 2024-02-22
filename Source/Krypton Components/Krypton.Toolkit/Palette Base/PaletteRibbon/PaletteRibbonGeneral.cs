@@ -124,9 +124,9 @@ namespace Krypton.Toolkit
                                           (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
                                           (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
                                           (TabRowBackgroundGradientFirstColor == GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR) &&
-                                          (RibbonAppButtonDarkColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR) &&
-                                          (RibbonAppButtonLightColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR) &&
-                                          (RibbonAppButtonTextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                          (RibbonAppButtonDarkColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR) &&
+                                          (RibbonAppButtonLightColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR) &&
+                                          (RibbonAppButtonTextColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR) &&
                                           (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
                                           (RibbonShape == PaletteRibbonShape.Inherit) &&
                                           (TextFont == null) &&
@@ -869,10 +869,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the RibbonAppButtonDarkColor property to its default value.
         /// </summary>
-        public void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR;
+        public void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
 
         /// <inheritdoc />
-        public Color GetRibbonAppButtonDarkColor(PaletteState state) => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR
+        public Color GetRibbonAppButtonDarkColor(PaletteState state) => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR
             ? RibbonAppButtonDarkColor
             : _inherit.GetRibbonAppButtonDarkColor(state);
 
@@ -905,10 +905,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the RibbonAppButtonLightColor property to its default value.
         /// </summary>
-        public void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR;
+        public void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
 
         /// <inheritdoc />
-        public Color GetRibbonAppButtonLightColor(PaletteState state) => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_COLOR
+        public Color GetRibbonAppButtonLightColor(PaletteState state) => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR
             ? RibbonAppButtonLightColor
             : _inherit.GetRibbonAppButtonLightColor(state);
 
@@ -941,10 +941,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the RibbonAppButtonTextColor property to its default value.
         /// </summary>
-        public void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+        public void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
 
         /// <inheritdoc />
-        public Color GetRibbonAppButtonTextColor(PaletteState state) => RibbonAppButtonTextColor != GlobalStaticValues.EMPTY_COLOR
+        public Color GetRibbonAppButtonTextColor(PaletteState state) => RibbonAppButtonTextColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR
             ? RibbonAppButtonTextColor
             : _inherit.GetRibbonAppButtonTextColor(state);
 
