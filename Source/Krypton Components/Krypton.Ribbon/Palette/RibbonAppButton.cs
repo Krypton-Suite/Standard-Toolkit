@@ -61,6 +61,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
+        /// <param name="palette">Source for palette values.</param>
         public RibbonAppButton([DisallowNull] KryptonRibbon ribbon, IPaletteRibbonGeneral palette)
         {
             Debug.Assert(ribbon != null);
