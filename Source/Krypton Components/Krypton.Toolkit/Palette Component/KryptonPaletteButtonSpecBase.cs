@@ -55,9 +55,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Style == PaletteButtonStyle.Inherit) &&
-                                           (Orientation == PaletteButtonOrientation.Inherit) &&
-                                           (Edge == PaletteRelativeEdgeAlign.Inherit);
+                                            (Orientation == PaletteButtonOrientation.Inherit) &&
+                                            (Edge == PaletteRelativeEdgeAlign.Inherit);
 
         #endregion
 

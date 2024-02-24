@@ -39,13 +39,14 @@ namespace Krypton.Toolkit
                     PaletteContentStyle.ButtonCalendarDay, 
                     needPaint);
 
-            #endregion
+        #endregion
 
         #region IsDefault
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Day.IsDefault;
 
         #endregion

@@ -109,25 +109,26 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((ButtonSpecs!.Count == 0) &&
-                                           PreviousButton.IsDefault &&
-                                           (PreviousButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
-                                           (PreviousButtonDisplay == ButtonDisplay.Logic) &&
-                                           (PreviousButtonShortcut == DEFAULT_SHORTCUT_PREVIOUS) &&
-                                           NextButton.IsDefault &&
-                                           (NextButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
-                                           (NextButtonDisplay == ButtonDisplay.Logic) &&
-                                           (NextButtonShortcut == DEFAULT_SHORTCUT_NEXT) &&
-                                           ContextButton.IsDefault &&
-                                           (ContextButtonDisplay == ButtonDisplay.Logic) &&
-                                           (ContextButtonShortcut == DEFAULT_SHORTCUT_CONTEXT) &&
-                                           (ContextMenuMapText == MapKryptonPageText.TextTitle) &&
-                                           (ContextMenuMapImage == MapKryptonPageImage.Small) &&
-                                           CloseButton.IsDefault &&
-                                           (CloseButtonAction == CloseButtonAction.RemovePageAndDispose) &&
-                                           (CloseButtonDisplay == ButtonDisplay.Logic) &&
-                                           (CloseButtonShortcut == DEFAULT_SHORTCUT_CLOSE) &&
-                                           (ButtonDisplayLogic == ButtonDisplayLogic.Context));
+                                             PreviousButton.IsDefault &&
+                                             (PreviousButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
+                                             (PreviousButtonDisplay == ButtonDisplay.Logic) &&
+                                             (PreviousButtonShortcut == DEFAULT_SHORTCUT_PREVIOUS) &&
+                                             NextButton.IsDefault &&
+                                             (NextButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
+                                             (NextButtonDisplay == ButtonDisplay.Logic) &&
+                                             (NextButtonShortcut == DEFAULT_SHORTCUT_NEXT) &&
+                                             ContextButton.IsDefault &&
+                                             (ContextButtonDisplay == ButtonDisplay.Logic) &&
+                                             (ContextButtonShortcut == DEFAULT_SHORTCUT_CONTEXT) &&
+                                             (ContextMenuMapText == MapKryptonPageText.TextTitle) &&
+                                             (ContextMenuMapImage == MapKryptonPageImage.Small) &&
+                                             CloseButton.IsDefault &&
+                                             (CloseButtonAction == CloseButtonAction.RemovePageAndDispose) &&
+                                             (CloseButtonDisplay == ButtonDisplay.Logic) &&
+                                             (CloseButtonShortcut == DEFAULT_SHORTCUT_CLOSE) &&
+                                             (ButtonDisplayLogic == ButtonDisplayLogic.Context));
 
         #endregion
 

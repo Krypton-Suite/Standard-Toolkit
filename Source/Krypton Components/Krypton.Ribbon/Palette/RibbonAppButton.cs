@@ -94,25 +94,26 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
-                                           (AppButtonText == DEFAULT_APP_TEXT) &&
-                                           (AppButtonBaseColorDark == _defaultAppBaseColorDark) &&
-                                           (AppButtonBaseColorLight == _defaultAppBaseColorLight) &&
-                                           (AppButtonTextColor == Color.White) &&
-                                           (AppButtonMenuItems.Count == 0) &&
-                                           (AppButtonRecentDocs.Count == 0) &&
-                                           AppButtonMinRecentSize.Equals(new Size(250, 250)) &&
-                                           AppButtonMaxRecentSize.Equals(new Size(350, 350)) &&
-                                           AppButtonShowRecentDocs &&
-                                           (AppButtonSpecs.Count == 0) &&
-                                           string.IsNullOrEmpty(AppButtonToolTipBody) &&
-                                           string.IsNullOrEmpty(AppButtonToolTipBody) &&
-                                           (AppButtonToolTipImage == null) &&
-                                           (AppButtonToolTipImageTransparentColor == Color.Empty) &&
-                                           (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
-                                           AppButtonVisible
-                                           && !IgnoreDoubleClickClose
-                                           && !FormCloseBoxVisible;
+                                            (AppButtonText == DEFAULT_APP_TEXT) &&
+                                            (AppButtonBaseColorDark == _defaultAppBaseColorDark) &&
+                                            (AppButtonBaseColorLight == _defaultAppBaseColorLight) &&
+                                            (AppButtonTextColor == Color.White) &&
+                                            (AppButtonMenuItems.Count == 0) &&
+                                            (AppButtonRecentDocs.Count == 0) &&
+                                            AppButtonMinRecentSize.Equals(new Size(250, 250)) &&
+                                            AppButtonMaxRecentSize.Equals(new Size(350, 350)) &&
+                                            AppButtonShowRecentDocs &&
+                                            (AppButtonSpecs.Count == 0) &&
+                                            string.IsNullOrEmpty(AppButtonToolTipBody) &&
+                                            string.IsNullOrEmpty(AppButtonToolTipBody) &&
+                                            (AppButtonToolTipImage == null) &&
+                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
+                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
+                                            AppButtonVisible
+                                            && !IgnoreDoubleClickClose
+                                            && !FormCloseBoxVisible;
 
         #endregion
 

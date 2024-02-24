@@ -35,8 +35,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalRaftingContainerGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                            (InternalKCT.InternalRaftingContainerGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

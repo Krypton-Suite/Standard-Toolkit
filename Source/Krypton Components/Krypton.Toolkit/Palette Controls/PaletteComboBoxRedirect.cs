@@ -68,9 +68,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ComboBox.IsDefault &&
-                                           Item.IsDefault &&
-                                           DropBack.IsDefault;
+                                            Item.IsDefault &&
+                                            DropBack.IsDefault;
 
         #endregion
 

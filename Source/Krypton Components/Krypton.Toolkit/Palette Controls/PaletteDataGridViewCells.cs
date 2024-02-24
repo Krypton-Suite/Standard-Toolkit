@@ -49,9 +49,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => DataCell.IsDefault &&
-                                           HeaderColumn.IsDefault &&
-                                           HeaderRow.IsDefault;
+                                            HeaderColumn.IsDefault &&
+                                            HeaderRow.IsDefault;
 
         #endregion
 

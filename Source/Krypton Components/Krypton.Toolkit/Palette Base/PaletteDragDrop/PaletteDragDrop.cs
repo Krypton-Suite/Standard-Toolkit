@@ -62,14 +62,15 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Feedback == PaletteDragFeedback.Inherit) &&
-                                           (SolidBack == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (SolidBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (SolidOpacity == -1.0f) &&
-                                           (DropDockBack == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropDockBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropDockActive == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropDockInactive == GlobalStaticValues.EMPTY_COLOR);
+                                            (SolidBack == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (SolidBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (SolidOpacity == -1.0f) &&
+                                            (DropDockBack == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockActive == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockInactive == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

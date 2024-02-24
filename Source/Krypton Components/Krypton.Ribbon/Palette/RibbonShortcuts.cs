@@ -45,9 +45,10 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (ToggleMinimizeMode == DEFAULT_TOGGLE_MINIMIZE_MODE) &&
-                                           (ToggleKeyboardAccess1 == DEFAULT_TOGGLE_KEYBOARD_ACCESS1) &&
-                                           (ToggleKeyboardAccess2 == DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
+                                            (ToggleKeyboardAccess1 == DEFAULT_TOGGLE_KEYBOARD_ACCESS1) &&
+                                            (ToggleKeyboardAccess2 == DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
 
         #endregion
 

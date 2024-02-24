@@ -66,9 +66,11 @@ namespace Krypton.Toolkit
 
         public LinkArea DiscordLinkArea { get; set; }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => CaptionText.Equals(DEFAULT_CAPTION) &&
-                                          DescriptionText.Equals(DEFAULT_DESCRIPTION) &&
-                                          DocumentationText.Equals(DEFAULT_DOCUMENTATION) &&
-                                          DiscordText.Equals(DEFAULT_DISCORD);
+                                            DescriptionText.Equals(DEFAULT_DESCRIPTION) &&
+                                            DocumentationText.Equals(DEFAULT_DOCUMENTATION) &&
+                                            DiscordText.Equals(DEFAULT_DISCORD);
     }
 }

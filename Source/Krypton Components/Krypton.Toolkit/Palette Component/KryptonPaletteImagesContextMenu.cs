@@ -51,9 +51,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_checked == null) &&
-                                          (_indeterminate == null) &&
-                                          (_subMenu == null);
+                                            (_indeterminate == null) &&
+                                            (_subMenu == null);
 
         #endregion
 

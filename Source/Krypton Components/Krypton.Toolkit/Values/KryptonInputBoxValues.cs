@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit
 {
     /// <summary>Access Krypton input box settings.</summary>
     [Category(@"Code")]
@@ -12,6 +6,8 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class KryptonInputBoxValues : Storage
     {
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => throw new NotImplementedException();
     }
 }

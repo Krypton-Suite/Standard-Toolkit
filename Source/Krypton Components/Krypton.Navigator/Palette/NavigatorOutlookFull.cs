@@ -60,12 +60,13 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((OverflowMapImage == MapKryptonPageImage.Small) &&
-                                           (OverflowMapText == MapKryptonPageText.None) &&
-                                           (OverflowMapExtraText == MapKryptonPageText.None) &&
-                                           (StackMapImage == MapKryptonPageImage.MediumSmall) &&
-                                           (StackMapText == MapKryptonPageText.TextTitle) &&
-                                           (StackMapExtraText == MapKryptonPageText.None));
+                                             (OverflowMapText == MapKryptonPageText.None) &&
+                                             (OverflowMapExtraText == MapKryptonPageText.None) &&
+                                             (StackMapImage == MapKryptonPageImage.MediumSmall) &&
+                                             (StackMapText == MapKryptonPageText.TextTitle) &&
+                                             (StackMapExtraText == MapKryptonPageText.None));
 
         #endregion
 

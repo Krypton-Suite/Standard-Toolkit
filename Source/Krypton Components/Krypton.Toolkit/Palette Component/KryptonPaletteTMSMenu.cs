@@ -35,21 +35,22 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalImageMarginGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalImageMarginGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemText == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemSelected == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                            (InternalKCT.InternalImageMarginGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemText == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelected == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

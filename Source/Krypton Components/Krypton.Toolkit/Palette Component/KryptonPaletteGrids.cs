@@ -51,12 +51,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => GridCommon.IsDefault &&
-                                          GridList.IsDefault &&
-                                          GridSheet.IsDefault 
-                                          &&GridCustom1.IsDefault
-                                          && GridCustom2.IsDefault 
-                                          && GridCustom3.IsDefault;
+                                            GridList.IsDefault &&
+                                            GridSheet.IsDefault 
+                                            &&GridCustom1.IsDefault
+                                            && GridCustom2.IsDefault 
+                                            && GridCustom3.IsDefault;
 
         #endregion
 
