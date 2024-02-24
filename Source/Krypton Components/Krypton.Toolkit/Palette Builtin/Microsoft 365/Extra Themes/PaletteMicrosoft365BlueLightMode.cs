@@ -23,6 +23,16 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(135, 145, 157);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(179, 193, 208);
+
+        private static readonly Color _ribbonAppButtonTextColor = SystemColors.Control;
+
+        #endregion
+
         #region Image Lists
 
         private static readonly ImageList _checkBoxList;
@@ -128,12 +138,12 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _trackBarColors =
         [
-            Color.FromArgb(116, 150, 194),      // Tick marks
-                                                            Color.FromArgb(116, 150, 194),      // Top track
-                                                            Color.FromArgb(152, 190, 241),      // Bottom track
-                                                            Color.FromArgb(142, 180, 231),      // Fill track
-                                                            Color.FromArgb(64, Color.White),    // Outside position
-                                                            Color.FromArgb(63, 101, 152)        // Border (normal) position
+            Color.FromArgb(116, 150, 194), // Tick marks
+            Color.FromArgb(116, 150, 194), // Top track
+            Color.FromArgb(152, 190, 241), // Bottom track
+            Color.FromArgb(142, 180, 231), // Fill track
+            Color.FromArgb(64, Color.White), // Outside position
+            Color.FromArgb(63, 101, 152) // Border (normal) position
         ];
 
         private static readonly Color[] _schemeOfficeColors =
@@ -570,6 +580,9 @@ namespace Krypton.Toolkit
         #region Tab Row Background
 
         /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
             GlobalStaticValues.EMPTY_COLOR;
 
@@ -584,6 +597,20 @@ namespace Krypton.Toolkit
         public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
 
         #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+
+        #endregion
+
     }
     #endregion
 

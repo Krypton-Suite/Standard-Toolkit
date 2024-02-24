@@ -597,6 +597,9 @@ namespace Krypton.Toolkit
         #region Tab Row Background
 
         /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
             GlobalStaticValues.EMPTY_COLOR;
 
@@ -609,6 +612,19 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
     }

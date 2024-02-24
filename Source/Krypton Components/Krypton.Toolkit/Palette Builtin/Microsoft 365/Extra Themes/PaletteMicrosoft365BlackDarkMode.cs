@@ -21,6 +21,16 @@ namespace Krypton.Toolkit
 
         private static readonly Color _tabRowBackgroundColor = Color.FromArgb(10, 10, 10);
 
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(41, 41, 41);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(79, 79, 79);
+
+        private static readonly Color _ribbonAppButtonTextColor = Color.White;
+
+        #endregion
+
         #region Images
         private static readonly Image?[] _radioButtonArray;
         private static readonly Image? _blackDropDownButton = Office2010ArrowResources.Office2010BlackDropDownButton;
@@ -569,6 +579,9 @@ namespace Krypton.Toolkit
         #region Tab Row Background
 
         /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
             GlobalStaticValues.EMPTY_COLOR;
 
@@ -581,6 +594,19 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

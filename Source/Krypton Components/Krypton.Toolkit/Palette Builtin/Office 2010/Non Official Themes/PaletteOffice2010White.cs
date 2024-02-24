@@ -27,6 +27,16 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
+
+        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
+
+        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
+
+        #endregion
+
         #region Rafting
 
         private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
@@ -355,48 +365,48 @@ namespace Krypton.Toolkit
         #endregion
 
         #region ButtonSpec
-         /// <summary>
-         /// Gets the image to display for the button.
-         /// </summary>
-         /// <param name="style">Style of button spec.</param>
-         /// <param name="state">State for which image is required.</param>
-         /// <returns>Image value.</returns>
-         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => style switch
-         {
+        /// <summary>
+        /// Gets the image to display for the button.
+        /// </summary>
+        /// <param name="style">Style of button spec.</param>
+        /// <param name="state">State for which image is required.</param>
+        /// <returns>Image value.</returns>
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => style switch
+        {
             PaletteButtonSpecStyle.FormClose => state switch
             {
-                 PaletteState.Tracking => _formCloseActive,
-                 PaletteState.Normal => _formCloseNormal,
-                 PaletteState.Pressed => _formClosePressed,
-                 _ => _formCloseDisabled
+                PaletteState.Tracking => _formCloseActive,
+                PaletteState.Normal => _formCloseNormal,
+                PaletteState.Pressed => _formClosePressed,
+                _ => _formCloseDisabled
             },
             PaletteButtonSpecStyle.FormMin => state switch
             {
-                 PaletteState.Normal => _formMinimiseNormal,
-                 PaletteState.Tracking => _formMinimiseActive,
-                 PaletteState.Pressed => _formMinimisePressed,
-                 _ => _formMinimiseDisabled
+                PaletteState.Normal => _formMinimiseNormal,
+                PaletteState.Tracking => _formMinimiseActive,
+                PaletteState.Pressed => _formMinimisePressed,
+                _ => _formMinimiseDisabled
             },
             PaletteButtonSpecStyle.FormMax => state switch
             {
-                 PaletteState.Normal => _formMaximiseNormal,
-                 PaletteState.Tracking => _formMaximiseActive,
-                 PaletteState.Pressed => _formMaximisePressed,
-                 _ => _formMaximiseDisabled
+                PaletteState.Normal => _formMaximiseNormal,
+                PaletteState.Tracking => _formMaximiseActive,
+                PaletteState.Pressed => _formMaximisePressed,
+                _ => _formMaximiseDisabled
             },
             PaletteButtonSpecStyle.FormRestore => state switch
             {
-                 PaletteState.Normal => _formRestoreNormal,
-                 PaletteState.Tracking => _formRestoreActive,
-                 PaletteState.Pressed => _formRestorePressed,
-                 _ => _formRestoreDisabled
+                PaletteState.Normal => _formRestoreNormal,
+                PaletteState.Tracking => _formRestoreActive,
+                PaletteState.Pressed => _formRestorePressed,
+                _ => _formRestoreDisabled
             },
             PaletteButtonSpecStyle.FormHelp => state switch
             {
-                 PaletteState.Tracking => _formHelpActive,
-                 PaletteState.Pressed => _formHelpPressed,
-                 PaletteState.Normal => _formHelpNormal,
-                 _ => _formHelpDisabled
+                PaletteState.Tracking => _formHelpActive,
+                PaletteState.Pressed => _formHelpPressed,
+                PaletteState.Normal => _formHelpNormal,
+                _ => _formHelpDisabled
             },
             _ => base.GetButtonSpecImage(style, state)
         };
@@ -413,6 +423,10 @@ namespace Krypton.Toolkit
         #region Tab Row Background
 
         /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
             _tabRowBackgroundGradientRaftingDarkColor;
 
@@ -425,6 +439,19 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

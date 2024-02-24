@@ -226,6 +226,35 @@ namespace Krypton.Navigator
             _inherit.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
+		
+		#region RibbonTabRowGradientColor1
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowGradientColor1(PaletteState state) => _inherit.GetRibbonTabRowGradientColor1(state);
+
+        #endregion
+
+        #region RibbonAppButtonDarkColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonDarkColor(PaletteState state) => _inherit.GetRibbonAppButtonDarkColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonLightColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonLightColor(PaletteState state) => _inherit.GetRibbonAppButtonLightColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonTextColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonTextColor(PaletteState state) => _inherit.GetRibbonAppButtonTextColor(state);
+
+        #endregion
+
 
         #region GetRibbonShape
         /// <summary>
