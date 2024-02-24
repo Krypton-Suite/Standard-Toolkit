@@ -2570,6 +2570,11 @@ namespace Krypton.Ribbon
         {
             RibbonShortcuts = new RibbonShortcuts();
             RibbonStrings = new RibbonStrings();
+            // Create direct access to the redirector for panel background
+            _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
+
+            _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(Redirector);
+
             RibbonAppButton = new RibbonAppButton(this, _ribbonGeneralInherit);
             RibbonStyles = new PaletteRibbonStyles(this, NeedPaintPaletteDelegate);
             StateCommon = new PaletteRibbonRedirect(Redirector, PaletteBackStyle.PanelClient, NeedPaintPaletteDelegate);
@@ -2590,11 +2595,6 @@ namespace Krypton.Ribbon
         {
             // Setup the need paint delegate
             _needPaintGroups = OnNeedPaintMinimizedGroups;
-
-            // Create direct access to the redirector for panel background
-            _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
-
-            _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(Redirector);
 
             // Create the background panel for the entire ribbon area and the groups area when minimized
             MainPanel = new ViewDrawRibbonPanel(this, _backPanelInherit, NeedPaintDelegate, StateCommon.RibbonGeneral);
