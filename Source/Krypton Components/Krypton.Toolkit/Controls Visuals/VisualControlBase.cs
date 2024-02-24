@@ -514,8 +514,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]  //  Hides the property from the Property Grid in the Visual Studio designer
+        [EditorBrowsable(EditorBrowsableState.Never)]   // Hides the property from IntelliSense and code completion. 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] //  Prevents the property from being serialized into the designer code.
         public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
