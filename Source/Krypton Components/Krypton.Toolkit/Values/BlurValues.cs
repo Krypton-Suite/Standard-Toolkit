@@ -117,6 +117,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => !ShouldSerializeOpacity()
                                             && !ShouldSerializeBlurWhenFocusLost()
                                             ;

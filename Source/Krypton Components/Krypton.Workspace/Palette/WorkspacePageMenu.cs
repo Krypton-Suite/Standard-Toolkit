@@ -71,24 +71,25 @@ namespace Krypton.Workspace
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (TextClose.Equals(DEFAULT_TEXT_CLOSE) &&
-                                           TextCloseAllButThis.Equals(DEFAULT_TEXT_CLOSE_ALL_BUT_THIS) &&
-                                           TextMoveNext.Equals(DEFAULT_TEXT_MOVE_NEXT) &&
-                                           TextMovePrevious.Equals(DEFAULT_TEXT_MOVE_PREVIOUS) &&
-                                           TextSplitVertical.Equals(DEFAULT_TEXT_SPLIT_VERTICAL) &&
-                                           TextSplitHorizontal.Equals(DEFAULT_TEXT_SPLIT_HORIZONTAL) &&
-                                           TextRebalance.Equals(DEFAULT_TEXT_REBALANCE) &&
-                                           TextMaximize.Equals(DEFAULT_TEXT_MAXIMIZE) &&
-                                           TextRestore.Equals(DEFAULT_TEXT_RESTORE) &&
-                                           ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE) &&
-                                           ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS) &&
-                                           ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT) &&
-                                           ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS) &&
-                                           ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL) &&
-                                           ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL) &&
-                                           ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE) &&
-                                           ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE) &&
-                                           ShowContextMenu);
+                                             TextCloseAllButThis.Equals(DEFAULT_TEXT_CLOSE_ALL_BUT_THIS) &&
+                                             TextMoveNext.Equals(DEFAULT_TEXT_MOVE_NEXT) &&
+                                             TextMovePrevious.Equals(DEFAULT_TEXT_MOVE_PREVIOUS) &&
+                                             TextSplitVertical.Equals(DEFAULT_TEXT_SPLIT_VERTICAL) &&
+                                             TextSplitHorizontal.Equals(DEFAULT_TEXT_SPLIT_HORIZONTAL) &&
+                                             TextRebalance.Equals(DEFAULT_TEXT_REBALANCE) &&
+                                             TextMaximize.Equals(DEFAULT_TEXT_MAXIMIZE) &&
+                                             TextRestore.Equals(DEFAULT_TEXT_RESTORE) &&
+                                             ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE) &&
+                                             ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS) &&
+                                             ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT) &&
+                                             ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS) &&
+                                             ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL) &&
+                                             ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL) &&
+                                             ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE) &&
+                                             ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE) &&
+                                             ShowContextMenu);
 
         #endregion
 

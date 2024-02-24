@@ -35,29 +35,30 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (InternalKCT.InternalButtonCheckedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonCheckedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonCheckedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonCheckedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonCheckedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonPressedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalButtonSelectedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalCheckBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalCheckPressedBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalCheckSelectedBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalOverflowButtonGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalOverflowButtonGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalOverflowButtonGradientMiddle == GlobalStaticValues.EMPTY_COLOR);
+                                            (InternalKCT.InternalButtonCheckedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckPressedBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckSelectedBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientMiddle == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

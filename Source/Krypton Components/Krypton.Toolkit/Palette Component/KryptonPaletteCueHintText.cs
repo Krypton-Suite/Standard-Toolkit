@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (CueColor == GlobalStaticValues.EMPTY_COLOR) && (CueFont == null);
 
         #region Colour

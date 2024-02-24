@@ -35,10 +35,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (InternalKCT.InternalMenuStripText == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuStripFont == null) &&
-                                          (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                            (InternalKCT.InternalMenuStripFont == null) &&
+                                            (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

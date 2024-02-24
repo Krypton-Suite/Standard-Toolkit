@@ -69,17 +69,18 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((HeaderStylePrimary == HeaderStyle.Primary) &&
-                                           (HeaderStyleSecondary == HeaderStyle.Secondary) &&
-                                           (HeaderStyleBar == HeaderStyle.Secondary) &&
-                                           (HeaderPositionPrimary == VisualOrientation.Top) &&
-                                           (HeaderPositionSecondary == VisualOrientation.Bottom) &&
-                                           (HeaderPositionBar == VisualOrientation.Top) &&
-                                           HeaderVisiblePrimary &&
-                                           HeaderVisibleSecondary &&
-                                           HeaderVisibleBar &&
-                                           HeaderValuesPrimary.IsDefault &&
-                                           HeaderValuesSecondary.IsDefault);
+                                             (HeaderStyleSecondary == HeaderStyle.Secondary) &&
+                                             (HeaderStyleBar == HeaderStyle.Secondary) &&
+                                             (HeaderPositionPrimary == VisualOrientation.Top) &&
+                                             (HeaderPositionSecondary == VisualOrientation.Bottom) &&
+                                             (HeaderPositionBar == VisualOrientation.Top) &&
+                                             HeaderVisiblePrimary &&
+                                             HeaderVisibleSecondary &&
+                                             HeaderVisibleBar &&
+                                             HeaderValuesPrimary.IsDefault &&
+                                             HeaderValuesSecondary.IsDefault);
 
         #endregion
 

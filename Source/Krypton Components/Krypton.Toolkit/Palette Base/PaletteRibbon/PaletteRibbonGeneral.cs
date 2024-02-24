@@ -98,30 +98,31 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (ContextTextAlign == PaletteRelativeAlign.Inherit) &&
-                                           (ContextTextColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (ContextTextFont == null) &&
-                                           (DisabledDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DisabledLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropArrowLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (DropArrowDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupDialogDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupDialogLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
-                                           (RibbonShape == PaletteRibbonShape.Inherit) &&
-                                           (TextFont == null) &&
-                                           (TextHint == PaletteTextHint.Inherit) &&
-                                           (TabSeparatorColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (TabSeparatorContextColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (QATButtonDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (QATButtonLightColor == GlobalStaticValues.EMPTY_COLOR);
+                                            (ContextTextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (ContextTextFont == null) &&
+                                            (DisabledDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DisabledLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropArrowLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropArrowDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (GroupDialogDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (GroupDialogLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (GroupSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (GroupSeparatorLight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (MinimizeBarDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (MinimizeBarLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
+                                            (RibbonShape == PaletteRibbonShape.Inherit) &&
+                                            (TextFont == null) &&
+                                            (TextHint == PaletteTextHint.Inherit) &&
+                                            (TabSeparatorColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TabSeparatorContextColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (QATButtonDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (QATButtonLightColor == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

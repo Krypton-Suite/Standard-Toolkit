@@ -61,14 +61,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ControlCommon.IsDefault &&
-                                          ControlClient.IsDefault &&
-                                          ControlAlternate.IsDefault &&
-                                          ControlGroupBox.IsDefault &&
-                                          ControlToolTip.IsDefault &&
-                                          ControlRibbon.IsDefault &&
-                                          ControlRibbonAppMenu.IsDefault &&
-                                          ControlCustom1.IsDefault;
+                                            ControlClient.IsDefault &&
+                                            ControlAlternate.IsDefault &&
+                                            ControlGroupBox.IsDefault &&
+                                            ControlToolTip.IsDefault &&
+                                            ControlRibbon.IsDefault &&
+                                            ControlRibbonAppMenu.IsDefault &&
+                                            ControlCustom1.IsDefault;
 
         #endregion
 

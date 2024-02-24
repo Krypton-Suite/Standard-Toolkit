@@ -74,16 +74,17 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ImageStates.IsDefault &&
-                                           (Image == null) &&
-                                           (UseAsADialogButton == false) &&
-                                           (UseAsUACElevationButton == false) &&
-                                           (ShowSplitOption == false) &&
-                                           (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
-                                           (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (Text == DEFAULT_TEXT) &&
-                                           (ExtraText == _defaultExtraText);
+                                            (Image == null) &&
+                                            (UseAsADialogButton == false) &&
+                                            (UseAsUACElevationButton == false) &&
+                                            (ShowSplitOption == false) &&
+                                            (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Text == DEFAULT_TEXT) &&
+                                            (ExtraText == _defaultExtraText);
 
         #endregion
 

@@ -35,17 +35,18 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (InternalKCT.InternalToolStripText == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripFont == null) &&
-                                          (InternalKCT.InternalToolStripBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripContentPanelGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripContentPanelGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripDropDownBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripPanelGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (InternalKCT.InternalToolStripPanelGradientEnd == GlobalStaticValues.EMPTY_COLOR);
+                                            (InternalKCT.InternalToolStripFont == null) &&
+                                            (InternalKCT.InternalToolStripBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripContentPanelGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripContentPanelGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripDropDownBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripPanelGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalToolStripPanelGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

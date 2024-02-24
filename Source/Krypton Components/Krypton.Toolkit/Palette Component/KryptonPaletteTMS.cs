@@ -47,15 +47,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => InternalKCT.IsDefault &&
-                                          Button.IsDefault &&
-                                          Grip.IsDefault &&
-                                          Menu.IsDefault &&
-                                          Rafting.IsDefault &&
-                                          MenuStrip.IsDefault &&
-                                          Separator.IsDefault &&
-                                          StatusStrip.IsDefault &&
-                                          ToolStrip.IsDefault;
+                                            Button.IsDefault &&
+                                            Grip.IsDefault &&
+                                            Menu.IsDefault &&
+                                            Rafting.IsDefault &&
+                                            MenuStrip.IsDefault &&
+                                            Separator.IsDefault &&
+                                            StatusStrip.IsDefault &&
+                                            ToolStrip.IsDefault;
 
         #endregion
 

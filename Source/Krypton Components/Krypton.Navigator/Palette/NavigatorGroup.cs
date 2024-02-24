@@ -52,8 +52,9 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((GroupBackStyle == PaletteBackStyle.ControlClient) &&
-                                           (GroupBorderStyle == PaletteBorderStyle.ControlClient));
+                                             (GroupBorderStyle == PaletteBorderStyle.ControlClient));
 
         #endregion
 

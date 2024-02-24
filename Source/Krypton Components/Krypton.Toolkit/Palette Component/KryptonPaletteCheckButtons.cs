@@ -82,26 +82,28 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ButtonCommon.IsDefault &&
-                                          ButtonStandalone.IsDefault &&
-                                          ButtonAlternate.IsDefault &&
-                                          ButtonLowProfile.IsDefault &&
-                                          ButtonButtonSpec.IsDefault &&
-                                          ButtonBreadCrumb.IsDefault &&
-                                          ButtonCalendarDay.IsDefault &&
-                                          ButtonCluster.IsDefault &&
-                                          ButtonGallery.IsDefault &&
-                                          ButtonNavigatorStack.IsDefault &&
-                                          ButtonNavigatorOverflow.IsDefault &&
-                                          ButtonNavigatorMini.IsDefault &&
-                                          ButtonInputControl.IsDefault &&
-                                          ButtonListItem.IsDefault &&
-                                          ButtonForm.IsDefault &&
-                                          ButtonFormClose.IsDefault &&
-                                          ButtonCommand.IsDefault &&
-                                          ButtonCustom1.IsDefault &&
-                                          ButtonCustom2.IsDefault &&
-                                          ButtonCustom3.IsDefault;
+                                            ButtonStandalone.IsDefault &&
+                                            ButtonAlternate.IsDefault &&
+                                            ButtonLowProfile.IsDefault &&
+                                            ButtonButtonSpec.IsDefault &&
+                                            ButtonBreadCrumb.IsDefault &&
+                                            ButtonCalendarDay.IsDefault &&
+                                            ButtonCluster.IsDefault &&
+                                            ButtonGallery.IsDefault &&
+                                            ButtonNavigatorStack.IsDefault &&
+                                            ButtonNavigatorOverflow.IsDefault &&
+                                            ButtonNavigatorMini.IsDefault &&
+                                            ButtonInputControl.IsDefault &&
+                                            ButtonListItem.IsDefault &&
+                                            ButtonForm.IsDefault &&
+                                            ButtonFormClose.IsDefault &&
+                                            ButtonCommand.IsDefault &&
+                                            ButtonCustom1.IsDefault &&
+                                            ButtonCustom2.IsDefault &&
+                                            ButtonCustom3.IsDefault;
 
         #endregion
 

@@ -147,26 +147,27 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool IsDefault => !ShouldSerializeImageStates() &&
-                                          !ShouldSerializeImage() &&
-                                          !ShouldSerializeColorMap() &&
-                                          !ShouldSerializeImageTransparentColor() &&
-                                          !ShouldSerializeText() &&
-                                          !ShouldSerializeExtraText() &&
-                                          !ShouldSerializeToolTipImage() &&
-                                          !ShouldSerializeToolTipImageTransparentColor() &&
-                                          !ShouldSerializeToolTipTitle() &&
-                                          !ShouldSerializeToolTipBody() &&
-                                          !ShouldSerializeToolTipStyle() &&
-                                          !ShouldSerializeToolTipShadow() &&
-                                          !ShouldSerializeStyle() &&
-                                          !ShouldSerializeOrientation() &&
-                                          !ShouldSerializeEdge() &&
-                                          (ContextMenuStrip == null) &&
-                                          AllowInheritImage &&
-                                          AllowInheritText &&
-                                          AllowInheritExtraText &&
-                                          AllowInheritToolTipTitle;
+                                           !ShouldSerializeImage() &&
+                                           !ShouldSerializeColorMap() &&
+                                           !ShouldSerializeImageTransparentColor() &&
+                                           !ShouldSerializeText() &&
+                                           !ShouldSerializeExtraText() &&
+                                           !ShouldSerializeToolTipImage() &&
+                                           !ShouldSerializeToolTipImageTransparentColor() &&
+                                           !ShouldSerializeToolTipTitle() &&
+                                           !ShouldSerializeToolTipBody() &&
+                                           !ShouldSerializeToolTipStyle() &&
+                                           !ShouldSerializeToolTipShadow() &&
+                                           !ShouldSerializeStyle() &&
+                                           !ShouldSerializeOrientation() &&
+                                           !ShouldSerializeEdge() &&
+                                           (ContextMenuStrip == null) &&
+                                           AllowInheritImage &&
+                                           AllowInheritText &&
+                                           AllowInheritExtraText &&
+                                           AllowInheritToolTipTitle;
 
         #endregion
 

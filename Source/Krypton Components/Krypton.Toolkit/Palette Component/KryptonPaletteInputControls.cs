@@ -53,12 +53,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => InputControlCommon.IsDefault &&
-                                          InputControlStandalone.IsDefault &&
-                                          InputControlRibbon.IsDefault
-                                          && InputControlCustom1.IsDefault
-                                          && InputControlCustom2.IsDefault
-                                          && InputControlCustom3.IsDefault
+                                            InputControlStandalone.IsDefault &&
+                                            InputControlRibbon.IsDefault
+                                            && InputControlCustom1.IsDefault
+                                            && InputControlCustom2.IsDefault
+                                            && InputControlCustom3.IsDefault
         ;
 
         #endregion

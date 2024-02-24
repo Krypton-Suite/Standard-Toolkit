@@ -90,23 +90,24 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((CheckButtonStyle == ButtonStyle.Standalone) &&
-                                           (TabStyle == TabStyle.HighProfile) &&
-                                           (TabBorderStyle == TabBorderStyle.RoundedOutsizeMedium) &&
-                                           (BarFirstItemInset == DEFAULT_BAR_FIRST_ITEM_INSET) &&
-                                           (BarLastItemInset == DEFAULT_BAR_LAST_ITEM_INSET) &&
-                                           (BarMapImage == MapKryptonPageImage.Small) &&
-                                           (BarMapText == MapKryptonPageText.TextTitle) &&
-                                           (BarMapExtraText == MapKryptonPageText.None) &&
-                                           (BarOrientation == VisualOrientation.Top) &&
-                                           (ItemSizing == BarItemSizing.SameHeight) &&
-                                           (ItemMinimumSize == _defaultItemMinimumSize) &&
-                                           (ItemMaximumSize == _defaultItemMaximumSize) &&
-                                           (ItemOrientation == ButtonOrientation.Auto) &&
-                                           (ItemAlignment == RelativePositionAlign.Near) &&
-                                           (BarMinimumHeight == DEFAULT_BAR_MINIMUM_HEIGHT) &&
-                                           BarAnimation &&
-                                           (BarMultiline == BarMultiline.Singleline));
+                                             (TabStyle == TabStyle.HighProfile) &&
+                                             (TabBorderStyle == TabBorderStyle.RoundedOutsizeMedium) &&
+                                             (BarFirstItemInset == DEFAULT_BAR_FIRST_ITEM_INSET) &&
+                                             (BarLastItemInset == DEFAULT_BAR_LAST_ITEM_INSET) &&
+                                             (BarMapImage == MapKryptonPageImage.Small) &&
+                                             (BarMapText == MapKryptonPageText.TextTitle) &&
+                                             (BarMapExtraText == MapKryptonPageText.None) &&
+                                             (BarOrientation == VisualOrientation.Top) &&
+                                             (ItemSizing == BarItemSizing.SameHeight) &&
+                                             (ItemMinimumSize == _defaultItemMinimumSize) &&
+                                             (ItemMaximumSize == _defaultItemMaximumSize) &&
+                                             (ItemOrientation == ButtonOrientation.Auto) &&
+                                             (ItemAlignment == RelativePositionAlign.Near) &&
+                                             (BarMinimumHeight == DEFAULT_BAR_MINIMUM_HEIGHT) &&
+                                             BarAnimation &&
+                                             (BarMultiline == BarMultiline.Singleline));
 
         #endregion
 

@@ -97,30 +97,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => RibbonAppButton.IsDefault &&
-                                          RibbonAppMenuOuter.IsDefault &&
-                                          RibbonAppMenuInner.IsDefault &&
-                                          RibbonAppMenuDocs.IsDefault &&
-                                          RibbonAppMenuDocsTitle.IsDefault &&
-                                          RibbonAppMenuDocsEntry.IsDefault &&
-                                          RibbonGeneral.IsDefault &&
-                                          RibbonGroupArea.IsDefault &&
-                                          RibbonGroupButtonText.IsDefault &&
-                                          RibbonGroupCheckBoxText.IsDefault &&
-                                          RibbonGroupNormalBorder.IsDefault &&
-                                          RibbonGroupNormalTitle.IsDefault &&
-                                          RibbonGroupCollapsedBorder.IsDefault &&
-                                          RibbonGroupCollapsedBack.IsDefault &&
-                                          RibbonGroupCollapsedFrameBorder.IsDefault &&
-                                          RibbonGroupCollapsedFrameBack.IsDefault &&
-                                          RibbonGroupCollapsedText.IsDefault &&
-                                          RibbonGroupLabelText.IsDefault &&
-                                          RibbonGroupRadioButtonText.IsDefault &&
-                                          RibbonQATFullbar.IsDefault &&
-                                          RibbonQATMinibar.IsDefault &&
-                                          RibbonTab.IsDefault &&
-                                          RibbonGalleryBack.IsDefault &&
-                                          RibbonGalleryBorder.IsDefault;
+                                            RibbonAppMenuOuter.IsDefault &&
+                                            RibbonAppMenuInner.IsDefault &&
+                                            RibbonAppMenuDocs.IsDefault &&
+                                            RibbonAppMenuDocsTitle.IsDefault &&
+                                            RibbonAppMenuDocsEntry.IsDefault &&
+                                            RibbonGeneral.IsDefault &&
+                                            RibbonGroupArea.IsDefault &&
+                                            RibbonGroupButtonText.IsDefault &&
+                                            RibbonGroupCheckBoxText.IsDefault &&
+                                            RibbonGroupNormalBorder.IsDefault &&
+                                            RibbonGroupNormalTitle.IsDefault &&
+                                            RibbonGroupCollapsedBorder.IsDefault &&
+                                            RibbonGroupCollapsedBack.IsDefault &&
+                                            RibbonGroupCollapsedFrameBorder.IsDefault &&
+                                            RibbonGroupCollapsedFrameBack.IsDefault &&
+                                            RibbonGroupCollapsedText.IsDefault &&
+                                            RibbonGroupLabelText.IsDefault &&
+                                            RibbonGroupRadioButtonText.IsDefault &&
+                                            RibbonQATFullbar.IsDefault &&
+                                            RibbonQATMinibar.IsDefault &&
+                                            RibbonTab.IsDefault &&
+                                            RibbonGalleryBack.IsDefault &&
+                                            RibbonGalleryBorder.IsDefault;
 
         #endregion
 

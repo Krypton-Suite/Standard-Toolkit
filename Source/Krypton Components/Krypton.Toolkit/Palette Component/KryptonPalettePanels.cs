@@ -55,13 +55,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => PanelCommon.IsDefault &&
-                                          PanelClient.IsDefault &&
-                                          PanelAlternate.IsDefault &&
-                                          PanelRibbonInactive.IsDefault 
-                                          && PanelCustom1.IsDefault
-                                          && PanelCustom2.IsDefault
-                                          && PanelCustom3.IsDefault;
+                                            PanelClient.IsDefault &&
+                                            PanelAlternate.IsDefault &&
+                                            PanelRibbonInactive.IsDefault 
+                                            && PanelCustom1.IsDefault
+                                            && PanelCustom2.IsDefault
+                                            && PanelCustom3.IsDefault;
 
         #endregion
 

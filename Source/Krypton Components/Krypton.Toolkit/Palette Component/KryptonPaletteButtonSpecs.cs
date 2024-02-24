@@ -122,31 +122,33 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Common.IsDefault &&
-                                          Generic.IsDefault &&
-                                          Close.IsDefault &&
-                                          Context.IsDefault &&
-                                          Next.IsDefault &&
-                                          Previous.IsDefault &&
-                                          ArrowLeft.IsDefault &&
-                                          ArrowRight.IsDefault &&
-                                          ArrowUp.IsDefault &&
-                                          ArrowDown.IsDefault &&
-                                          DropDown.IsDefault &&
-                                          PinVertical.IsDefault &&
-                                          PinHorizontal.IsDefault &&
-                                          FormClose.IsDefault &&
-                                          FormMax.IsDefault &&
-                                          FormMin.IsDefault &&
-                                          FormRestore.IsDefault &&
-                                          FormHelp.IsDefault &&
-                                          PendantClose.IsDefault &&
-                                          PendantMin.IsDefault &&
-                                          PendantRestore.IsDefault &&
-                                          WorkspaceMaximize.IsDefault &&
-                                          WorkspaceRestore.IsDefault &&
-                                          RibbonMinimize.IsDefault &&
-                                          RibbonExpand.IsDefault;
+                                            Generic.IsDefault &&
+                                            Close.IsDefault &&
+                                            Context.IsDefault &&
+                                            Next.IsDefault &&
+                                            Previous.IsDefault &&
+                                            ArrowLeft.IsDefault &&
+                                            ArrowRight.IsDefault &&
+                                            ArrowUp.IsDefault &&
+                                            ArrowDown.IsDefault &&
+                                            DropDown.IsDefault &&
+                                            PinVertical.IsDefault &&
+                                            PinHorizontal.IsDefault &&
+                                            FormClose.IsDefault &&
+                                            FormMax.IsDefault &&
+                                            FormMin.IsDefault &&
+                                            FormRestore.IsDefault &&
+                                            FormHelp.IsDefault &&
+                                            PendantClose.IsDefault &&
+                                            PendantMin.IsDefault &&
+                                            PendantRestore.IsDefault &&
+                                            WorkspaceMaximize.IsDefault &&
+                                            WorkspaceRestore.IsDefault &&
+                                            RibbonMinimize.IsDefault &&
+                                            RibbonExpand.IsDefault;
 
         #endregion
 

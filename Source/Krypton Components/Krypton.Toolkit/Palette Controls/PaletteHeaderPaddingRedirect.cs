@@ -53,8 +53,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           HeaderPadding.Equals(CommonHelper.InheritPadding);
+                                            HeaderPadding.Equals(CommonHelper.InheritPadding);
 
         #endregion
 
