@@ -5618,6 +5618,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return label.StateDisabled;
                 case PaletteState.Normal:
+                case PaletteState.ContextNormal:    // Occurrs from the TreeGrid
                 case PaletteState.Tracking:
                 case PaletteState.Pressed:
                     return label.StateNormal;

@@ -682,6 +682,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return _disabled;
                 case PaletteState.Normal:
+                case PaletteState.ContextNormal:    // From the TreeGrid
                     return _normal;
                 case PaletteState.Pressed:
                     return _pressed;
