@@ -126,19 +126,20 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (base.IsDefault &&
-                                           PalettePage.IsDefault &&
-                                           HeaderGroup.IsDefault &&
-                                           CheckButton.IsDefault &&
-                                           OverflowButton.IsDefault &&
-                                           MiniButton.IsDefault &&
-                                           Bar.IsDefault &&
-                                           BorderEdge.IsDefault &&
-                                           Separator!.IsDefault &&
-                                           Tab.IsDefault &&
-                                           RibbonTab.IsDefault &&
-                                           RibbonGeneral.IsDefault &&
-                                           Metrics.IsDefault);
+                                             PalettePage.IsDefault &&
+                                             HeaderGroup.IsDefault &&
+                                             CheckButton.IsDefault &&
+                                             OverflowButton.IsDefault &&
+                                             MiniButton.IsDefault &&
+                                             Bar.IsDefault &&
+                                             BorderEdge.IsDefault &&
+                                             Separator!.IsDefault &&
+                                             Tab.IsDefault &&
+                                             RibbonTab.IsDefault &&
+                                             RibbonGeneral.IsDefault &&
+                                             Metrics.IsDefault);
 
         #endregion
 

@@ -73,22 +73,24 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => LabelCommon.IsDefault &&
-                                          LabelNormalControl.IsDefault &&
-                                          LabelBoldControl.IsDefault &&
-                                          LabelItalicControl.IsDefault &&
-                                          LabelTitleControl.IsDefault &&
-                                          LabelNormalPanel.IsDefault &&
-                                          LabelBoldPanel.IsDefault &&
-                                          LabelItalicPanel.IsDefault &&
-                                          LabelTitlePanel.IsDefault &&
-                                          LabelCaptionPanel.IsDefault &&
-                                          LabelToolTip.IsDefault &&
-                                          LabelSuperTip.IsDefault &&
-                                          LabelKeyTip.IsDefault &&
-                                          LabelCustom1.IsDefault &&
-                                          LabelCustom2.IsDefault &&
-                                          LabelCustom3.IsDefault;
+                                            LabelNormalControl.IsDefault &&
+                                            LabelBoldControl.IsDefault &&
+                                            LabelItalicControl.IsDefault &&
+                                            LabelTitleControl.IsDefault &&
+                                            LabelNormalPanel.IsDefault &&
+                                            LabelBoldPanel.IsDefault &&
+                                            LabelItalicPanel.IsDefault &&
+                                            LabelTitlePanel.IsDefault &&
+                                            LabelCaptionPanel.IsDefault &&
+                                            LabelToolTip.IsDefault &&
+                                            LabelSuperTip.IsDefault &&
+                                            LabelKeyTip.IsDefault &&
+                                            LabelCustom1.IsDefault &&
+                                            LabelCustom2.IsDefault &&
+                                            LabelCustom3.IsDefault;
 
         #endregion
 

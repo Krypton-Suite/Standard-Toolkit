@@ -72,13 +72,14 @@ namespace Krypton.Docking
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_textAutoHide.Equals(DEFAULT_TEXT_AUTO_HIDE) &&
-                                           _textClose.Equals(DEFAULT_TEXT_CLOSE) &&
-                                           _textDock.Equals(DEFAULT_TEXT_DOCK) &&
-                                           _textFloat.Equals(DEFAULT_TEXT_FLOAT) &&
-                                           _textHide.Equals(DEFAULT_TEXT_HIDE) &&
-                                           _textTabbedDocument.Equals(DEFAULT_TEXT_TABBED_DOCUMENT) &&
-                                           _textWindowLocation.Equals(DEFAULT_TEXT_WINDOW_LOCATION));
+                                             _textClose.Equals(DEFAULT_TEXT_CLOSE) &&
+                                             _textDock.Equals(DEFAULT_TEXT_DOCK) &&
+                                             _textFloat.Equals(DEFAULT_TEXT_FLOAT) &&
+                                             _textHide.Equals(DEFAULT_TEXT_HIDE) &&
+                                             _textTabbedDocument.Equals(DEFAULT_TEXT_TABBED_DOCUMENT) &&
+                                             _textWindowLocation.Equals(DEFAULT_TEXT_WINDOW_LOCATION));
 
         #endregion
 

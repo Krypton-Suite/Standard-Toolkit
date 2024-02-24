@@ -66,16 +66,17 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (base.IsDefault &&
-                                           BarPaddingTabs.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
-                                           ButtonPadding.Equals(CommonHelper.InheritPadding) &&
-                                           (ButtonEdgeOutside == -1) &&
-                                           (ButtonEdgeInside == -1) &&
-                                           (CheckButtonGap == -1) &&
-                                           (RibbonTabGap == -1));
+                                             BarPaddingTabs.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
+                                             ButtonPadding.Equals(CommonHelper.InheritPadding) &&
+                                             (ButtonEdgeOutside == -1) &&
+                                             (ButtonEdgeInside == -1) &&
+                                             (CheckButtonGap == -1) &&
+                                             (RibbonTabGap == -1));
 
         #endregion
 

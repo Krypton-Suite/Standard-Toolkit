@@ -161,10 +161,11 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (!ShouldSerializeDisplayUACShield() &&
-                                           !ShouldSerializeImage() &&
-                                           !ShouldSerializeImageTransparentColor() &&
-                                           !ShouldSerializeUACShieldIconSize()
+                                             !ShouldSerializeImage() &&
+                                             !ShouldSerializeImageTransparentColor() &&
+                                             !ShouldSerializeUACShieldIconSize()
                                            );
 
         #endregion

@@ -66,12 +66,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (BackColor1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (BackColor2 == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (BackColor3 == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (BackColor4 == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (BackColor5 == GlobalStaticValues.EMPTY_COLOR) &&
-                                          (TextColor == GlobalStaticValues.EMPTY_COLOR);
+                                            (BackColor2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor3 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor4 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor5 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TextColor == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 

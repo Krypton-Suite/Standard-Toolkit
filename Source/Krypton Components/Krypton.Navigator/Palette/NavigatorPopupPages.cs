@@ -63,11 +63,12 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((AllowPopupPages == PopupPageAllow.OnlyOutlookMiniMode) &&
-                                           (Border == DEFAULT_BORDER) &&
-                                           (Element == DEFAULT_ELEMENT) &&
-                                           (Gap == DEFAULT_GAP) &&
-                                           (Position == DEFAULT_POSITION));
+                                             (Border == DEFAULT_BORDER) &&
+                                             (Element == DEFAULT_ELEMENT) &&
+                                             (Gap == DEFAULT_GAP) &&
+                                             (Position == DEFAULT_POSITION));
 
         #endregion
 

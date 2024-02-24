@@ -59,17 +59,18 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           ImageStates.IsDefault &&
-                                           (Image == null) &&
-                                           (Text == string.Empty) &&
-                                           (ExtraText == string.Empty) &&
-                                           (ToolTipTitle == string.Empty) &&
-                                           (ColorMap == GlobalStaticValues.EMPTY_COLOR) &&
-                                           AllowInheritImage &&
-                                           AllowInheritText &&
-                                           AllowInheritExtraText &&
-                                           AllowInheritToolTipTitle;
+                                            ImageStates.IsDefault &&
+                                            (Image == null) &&
+                                            (Text == string.Empty) &&
+                                            (ExtraText == string.Empty) &&
+                                            (ToolTipTitle == string.Empty) &&
+                                            (ColorMap == GlobalStaticValues.EMPTY_COLOR) &&
+                                            AllowInheritImage &&
+                                            AllowInheritText &&
+                                            AllowInheritExtraText &&
+                                            AllowInheritToolTipTitle;
 
         #endregion
 

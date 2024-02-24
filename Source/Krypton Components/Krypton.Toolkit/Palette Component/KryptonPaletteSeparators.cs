@@ -55,13 +55,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => SeparatorCommon.IsDefault &&
-                                          SeparatorLowProfile.IsDefault &&
-                                          SeparatorHighProfile.IsDefault &&
-                                          SeparatorHighInternalProfile.IsDefault 
-                                          && SeparatorCustom1.IsDefault
-                                          && SeparatorCustom2.IsDefault
-                                          && SeparatorCustom3.IsDefault
+                                            SeparatorLowProfile.IsDefault &&
+                                            SeparatorHighProfile.IsDefault &&
+                                            SeparatorHighInternalProfile.IsDefault 
+                                            && SeparatorCustom1.IsDefault
+                                            && SeparatorCustom2.IsDefault
+                                            && SeparatorCustom3.IsDefault
         ;
 
         #endregion

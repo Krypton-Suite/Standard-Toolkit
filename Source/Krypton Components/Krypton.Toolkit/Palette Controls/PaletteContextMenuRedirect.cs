@@ -51,18 +51,19 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ControlInner.IsDefault &&
-                                           ControlOuter.IsDefault &&
-                                           Heading.IsDefault &&
-                                           ItemHighlight!.IsDefault &&
-                                           ItemImage.IsDefault &&
-                                           ItemImageColumn.IsDefault &&
-                                           ItemShortcutText.IsDefault &&
-                                           ItemSplit.IsDefault &&
-                                           ItemTextAlternate.IsDefault &&
-                                           ItemTextStandard.IsDefault &&
-                                           Separator.IsDefault &&
-                                           HasShadow;
+                                            ControlOuter.IsDefault &&
+                                            Heading.IsDefault &&
+                                            ItemHighlight!.IsDefault &&
+                                            ItemImage.IsDefault &&
+                                            ItemImageColumn.IsDefault &&
+                                            ItemShortcutText.IsDefault &&
+                                            ItemSplit.IsDefault &&
+                                            ItemTextAlternate.IsDefault &&
+                                            ItemTextStandard.IsDefault &&
+                                            Separator.IsDefault &&
+                                            HasShadow;
 
         #endregion
 

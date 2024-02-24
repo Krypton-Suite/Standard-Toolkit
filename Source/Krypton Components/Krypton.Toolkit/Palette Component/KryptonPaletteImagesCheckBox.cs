@@ -71,19 +71,20 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_common == null) &&
-                                          (_uncheckedDisabled == null) &&
-                                          (_uncheckedNormal == null) &&
-                                          (_uncheckedTracking == null) &&
-                                          (_uncheckedPressed == null) &&
-                                          (_checkedDisabled == null) &&
-                                          (_checkedNormal == null) &&
-                                          (_checkedTracking == null) &&
-                                          (_checkedPressed == null) &&
-                                          (_indeterminateDisabled == null) &&
-                                          (_indeterminateNormal == null) &&
-                                          (_indeterminateTracking == null) &&
-                                          (_indeterminatePressed == null);
+                                            (_uncheckedDisabled == null) &&
+                                            (_uncheckedNormal == null) &&
+                                            (_uncheckedTracking == null) &&
+                                            (_uncheckedPressed == null) &&
+                                            (_checkedDisabled == null) &&
+                                            (_checkedNormal == null) &&
+                                            (_checkedTracking == null) &&
+                                            (_checkedPressed == null) &&
+                                            (_indeterminateDisabled == null) &&
+                                            (_indeterminateNormal == null) &&
+                                            (_indeterminateTracking == null) &&
+                                            (_indeterminatePressed == null);
 
         #endregion
 

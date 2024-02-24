@@ -537,33 +537,35 @@ namespace Krypton.Toolkit
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => !(ShouldSerializeCustomStrings() ||
-                                   ShouldSerializeGeneralStrings() ||
-                                   ShouldSerializeColorStrings() ||
-                                   ShouldSerializePaletteModeStrings() ||
-                                   ShouldSerializeButtonSpecStyleStrings() ||
-                                   ShouldSerializeDataGridViewStyleStrings() ||
-                                   ShouldSerializeGridStyleStrings() ||
-                                   ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
-                                   ShouldSerializeHeaderStyleStrings() ||
-                                   ShouldSerializeInputControlStyleStrings() ||
-                                   ShouldSerializeIntegratedToolBarStrings() ||
-                                   ShouldSerializeKryptonLinkBehaviorStrings() ||
-                                   ShouldSerializePaletteBackStyleStrings() ||
-                                   ShouldSerializePaletteBorderStyleStrings() ||
-                                   ShouldSerializePaletteButtonOrientationStrings() ||
-                                   ShouldSerializePaletteButtonSpecStyleStrings() ||
-                                   ShouldSerializePaletteButtonStyleStrings() ||
-                                   ShouldSerializePaletteContentStyleStrings() ||
-                                   ShouldSerializePaletteImageEffectStrings() ||
-                                   ShouldSerializePaletteImageStyleStrings() ||
-                                   ShouldSerializePaletteTextTrimStrings() ||
-                                   ShouldSerializePlacementModeStrings() ||
-                                   ShouldSerializeSeparatorStyleStrings() ||
-                                   ShouldSerializeTabBorderStyleStrings() ||
-                                   ShouldSerializeTabStyleStrings() ||
-                                   ShouldSerializeKryptonScrollBarStrings() ||
-                                   ShouldSerializeKryptonToastNotificationStrings());
+                                              ShouldSerializeGeneralStrings() ||
+                                              ShouldSerializeColorStrings() ||
+                                              ShouldSerializePaletteModeStrings() ||
+                                              ShouldSerializeButtonSpecStyleStrings() ||
+                                              ShouldSerializeDataGridViewStyleStrings() ||
+                                              ShouldSerializeGridStyleStrings() ||
+                                              ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
+                                              ShouldSerializeHeaderStyleStrings() ||
+                                              ShouldSerializeInputControlStyleStrings() ||
+                                              ShouldSerializeIntegratedToolBarStrings() ||
+                                              ShouldSerializeKryptonLinkBehaviorStrings() ||
+                                              ShouldSerializePaletteBackStyleStrings() ||
+                                              ShouldSerializePaletteBorderStyleStrings() ||
+                                              ShouldSerializePaletteButtonOrientationStrings() ||
+                                              ShouldSerializePaletteButtonSpecStyleStrings() ||
+                                              ShouldSerializePaletteButtonStyleStrings() ||
+                                              ShouldSerializePaletteContentStyleStrings() ||
+                                              ShouldSerializePaletteImageEffectStrings() ||
+                                              ShouldSerializePaletteImageStyleStrings() ||
+                                              ShouldSerializePaletteTextTrimStrings() ||
+                                              ShouldSerializePlacementModeStrings() ||
+                                              ShouldSerializeSeparatorStyleStrings() ||
+                                              ShouldSerializeTabBorderStyleStrings() ||
+                                              ShouldSerializeTabStyleStrings() ||
+                                              ShouldSerializeKryptonScrollBarStrings() ||
+                                              ShouldSerializeKryptonToastNotificationStrings());
 
         #endregion
 

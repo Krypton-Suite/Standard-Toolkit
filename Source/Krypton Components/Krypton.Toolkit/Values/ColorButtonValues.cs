@@ -74,12 +74,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ImageStates.IsDefault &&
-                                           (Image == _defaultImage) &&
-                                           (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (Text == _defaultText) &&
-                                           (ExtraText == _defaultExtraText)
-                                           && (_roundedCorners == 0)
+                                            (Image == _defaultImage) &&
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Text == _defaultText) &&
+                                            (ExtraText == _defaultExtraText)
+                                            && (_roundedCorners == 0)
                                            ;
 
         #endregion

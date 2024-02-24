@@ -73,20 +73,21 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => AppButtonKeyTip.Equals(DEFAULT_APP_BUTTON_KEY_TIP) &&
-                                          CustomizeQuickAccessToolbar.Equals(DEFAULT_CUSTOMIZE_QUICK_ACCESS_TOOLBAR) &&
-                                          Minimize.Equals(DEFAULT_MINIMIZE) &&
-                                          MoreColors.Equals(DEFAULT_MORE_COLORS) &&
-                                          NoColor.Equals(DEFAULT_NO_COLOR) &&
-                                          RecentDocuments.Equals(DEFAULT_RECENT_DOCUMENTS) &&
-                                          RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
-                                          ShowAboveRibbon.Equals(DEFAULT_SHOW_ABOVE_RIBBON) &&
-                                          ShowBelowRibbon.Equals(DEFAULT_SHOW_BELOW_RIBBON) &&
-                                          ShowQATAboveRibbon.Equals(DEFAULT_SHOW_QAT_ABOVE_RIBBON) &&
-                                          ShowQATBelowRibbon.Equals(DEFAULT_SHOW_QAT_BELOW_RIBBON) &&
-                                          StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                          ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
-                                          AppButtonText.Equals(DEFAULT_FILE);
+                                            CustomizeQuickAccessToolbar.Equals(DEFAULT_CUSTOMIZE_QUICK_ACCESS_TOOLBAR) &&
+                                            Minimize.Equals(DEFAULT_MINIMIZE) &&
+                                            MoreColors.Equals(DEFAULT_MORE_COLORS) &&
+                                            NoColor.Equals(DEFAULT_NO_COLOR) &&
+                                            RecentDocuments.Equals(DEFAULT_RECENT_DOCUMENTS) &&
+                                            RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
+                                            ShowAboveRibbon.Equals(DEFAULT_SHOW_ABOVE_RIBBON) &&
+                                            ShowBelowRibbon.Equals(DEFAULT_SHOW_BELOW_RIBBON) &&
+                                            ShowQATAboveRibbon.Equals(DEFAULT_SHOW_QAT_ABOVE_RIBBON) &&
+                                            ShowQATBelowRibbon.Equals(DEFAULT_SHOW_QAT_BELOW_RIBBON) &&
+                                            StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
+                                            ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
+                                            AppButtonText.Equals(DEFAULT_FILE);
 
         #endregion
 

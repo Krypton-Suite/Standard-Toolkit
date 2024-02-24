@@ -82,19 +82,20 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Draw == InheritBool.Inherit) &&
-                                           (Hint == PaletteTextHint.Inherit) &&
-                                           (Trim == PaletteTextTrim.Inherit) &&
-                                           (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
-                                           (ColorStyle == PaletteColorStyle.Inherit) &&
-                                           (ColorAlign == PaletteRectangleAlign.Inherit) &&
-                                           (ColorAngle == -1) &&
-                                           (Image == null) &&
-                                           (ImageStyle == PaletteImageStyle.Inherit) &&
-                                           (ImageAlign == PaletteRectangleAlign.Inherit) &&
-                                           (MultiLine == InheritBool.Inherit) &&
-                                           (MultiLineH == PaletteRelativeAlign.Inherit);
+                                            (Hint == PaletteTextHint.Inherit) &&
+                                            (Trim == PaletteTextTrim.Inherit) &&
+                                            (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (ColorStyle == PaletteColorStyle.Inherit) &&
+                                            (ColorAlign == PaletteRectangleAlign.Inherit) &&
+                                            (ColorAngle == -1) &&
+                                            (Image == null) &&
+                                            (ImageStyle == PaletteImageStyle.Inherit) &&
+                                            (ImageAlign == PaletteRectangleAlign.Inherit) &&
+                                            (MultiLine == InheritBool.Inherit) &&
+                                            (MultiLineH == PaletteRelativeAlign.Inherit);
 
         #endregion
 
