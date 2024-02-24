@@ -97,9 +97,9 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
                                             (AppButtonText == DEFAULT_APP_TEXT) &&
-                                            (AppButtonBaseColorDark == _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal)/*_defaultAppBaseColorDark*/) &&
-                                            (AppButtonBaseColorLight == _palette.GetRibbonAppButtonLightColor(PaletteState.Normal)/*_defaultAppBaseColorLight*/) &&
-                                            (AppButtonTextColor == _palette.GetRibbonContextTextColor(PaletteState.Normal)/*Color.White*/) &&
+                                            (AppButtonBaseColorDark == _defaultAppBaseColorDark) &&
+                                            (AppButtonBaseColorLight == _defaultAppBaseColorLight) &&
+                                            (AppButtonTextColor == Color.White) &&
                                             (AppButtonMenuItems.Count == 0) &&
                                             (AppButtonRecentDocs.Count == 0) &&
                                             AppButtonMinRecentSize.Equals(new Size(250, 250)) &&

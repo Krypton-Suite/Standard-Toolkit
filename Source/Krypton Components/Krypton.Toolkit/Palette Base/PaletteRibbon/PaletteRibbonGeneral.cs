@@ -115,10 +115,6 @@ namespace Krypton.Toolkit
                                             (TabRowBackgroundGradientRaftingDarkColor == GlobalStaticValues.EMPTY_COLOR) &&
                                             (TabRowBackgroundGradientRaftingLightColor == GlobalStaticValues.EMPTY_COLOR) &&
                                             (TabRowBackgroundSolidColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                            (TabRowBackgroundGradientFirstColor == GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR) &&
-                                            (RibbonAppButtonDarkColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR) &&
-                                            (RibbonAppButtonLightColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR) &&
-                                            (RibbonAppButtonTextColor == GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR) &&
                                             (RibbonTabRowGradientRaftingAngle == GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT) &&
                                             (RibbonShape == PaletteRibbonShape.Inherit) &&
                                             (TextFont == null) &&
