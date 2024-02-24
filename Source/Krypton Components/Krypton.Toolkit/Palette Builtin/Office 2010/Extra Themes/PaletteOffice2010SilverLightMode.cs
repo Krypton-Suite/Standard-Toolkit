@@ -30,11 +30,11 @@ namespace Krypton.Toolkit
 
         #region Ribbon Specific Colors
 
-        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(147, 149, 158);
 
-        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(195, 198, 209);
 
-        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(24, 24, 24);
 
         #endregion
 

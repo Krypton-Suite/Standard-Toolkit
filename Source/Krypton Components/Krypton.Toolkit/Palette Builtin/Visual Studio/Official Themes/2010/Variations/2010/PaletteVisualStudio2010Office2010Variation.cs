@@ -25,11 +25,11 @@ namespace Krypton.Toolkit
 
         #region Ribbon Specific Colors
 
-        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(16, 22, 33);
 
-        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(53, 73, 109);
 
-        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
         #endregion
 
@@ -351,7 +351,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Office2010Variation" /> class.</summary>
-        public PaletteVisualStudio2010Office2010Variation() 
+        public PaletteVisualStudio2010Office2010Variation()
             : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
             ThemeName = nameof(PaletteVisualStudio2010Office2010Variation);

@@ -29,11 +29,11 @@ namespace Krypton.Toolkit
 
         #region Ribbon Specific Colors
 
-        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
 
-        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
 
-        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
 
         #endregion
 
@@ -42,8 +42,16 @@ namespace Krypton.Toolkit
         private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
         #endregion
+
+        #region ImageLists
+
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
+
+        #endregion
+
+        #region Images
+
         private static readonly Image?[] _radioButtonArray;
         private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
         private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
@@ -67,14 +75,19 @@ namespace Krypton.Toolkit
         private static readonly Image _formHelpActive = Office2010ControlBoxResources.Office2010HelpIconHover;
         private static readonly Image _formHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
         private static readonly Image _formHelpDisabled = Office2010ControlBoxResources.Office2010HelpIconDisabled;
+
+        #endregion
+
+        #region Color Arrays
+
         private static readonly Color[] _trackBarColors =
         [
             Color.FromArgb(116, 150, 194),      // Tick marks
-                                                                        Color.FromArgb(116, 150, 194),      // Top track
-                                                                        Color.FromArgb(152, 190, 241),      // Bottom track
-                                                                        Color.FromArgb(142, 180, 231),      // Fill track
-                                                                        Color.FromArgb(64, Color.White),    // Outside position
-                                                                        Color.FromArgb(63, 101, 152)        // Border (normal) position
+            Color.FromArgb(116, 150, 194),      // Top track
+            Color.FromArgb(152, 190, 241),      // Bottom track
+            Color.FromArgb(142, 180, 231),      // Fill track
+            Color.FromArgb(64, Color.White),    // Outside position
+            Color.FromArgb(63, 101, 152)        // Border (normal) position
         ];
 
         private static readonly Color[] _schemeOfficeColors =
@@ -310,9 +323,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(198, 214, 231), // ButtonNavigatorPressed2
             Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
             Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 217,
-                239) // ToolTipBottom                                                                      
+            Color.FromArgb(201, 217, 239) // ToolTipBottom                                                                      
         ];
+
+        #endregion
         #endregion
 
         #region Identity
