@@ -119,6 +119,8 @@ namespace Krypton.Toolkit
             _recreateButtons = true;
             _firstCheckView = true;
             _lastNotNormal = false;
+            // Yes, we want to be drawn double buffered by default
+            base.DoubleBuffered = true;
 
             // Create storage objects
             ButtonSpecs = new FormButtonSpecCollection(this);
@@ -528,7 +530,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element, style);
+                    _drawHeading.Add(element!, style);
                 }
             }
         }
@@ -1292,7 +1294,7 @@ namespace Krypton.Toolkit
                     if (_headerStyle != _headerStylePrev)
                     {
                         // Ensure the header style matches the form border style
-                        SetHeaderStyle(_drawHeading, StateCommon.Header, _headerStyle);
+                        SetHeaderStyle(_drawHeading, StateCommon!.Header, _headerStyle);
 
                         // Remember last header style set
                         _headerStylePrev = _headerStyle;

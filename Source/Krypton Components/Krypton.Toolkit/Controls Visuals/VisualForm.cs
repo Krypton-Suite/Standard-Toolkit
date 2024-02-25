@@ -137,7 +137,6 @@ namespace Krypton.Toolkit
             UpdateDpiFactors();
         }
 
-
         /// <summary>
         /// Releases all resources used by the Control. 
         /// </summary>
@@ -1035,7 +1034,7 @@ namespace Krypton.Toolkit
             }
 
             // Do we need to override message processing?
-            if (/*ApplyCustomChrome &&*/ !IsDisposed && !Disposing)
+            if (!IsDisposed && !Disposing)
             {
                 switch (m.Msg)
                 {
