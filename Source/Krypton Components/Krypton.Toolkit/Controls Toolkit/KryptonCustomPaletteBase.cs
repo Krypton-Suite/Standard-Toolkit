@@ -1745,6 +1745,22 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabRowBackgroundSolidColor(state);
 
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonTabRowGradientColor1(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonDarkColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonLightColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
+            GetPaletteRibbonGeneral(state).GetRibbonAppButtonTextColor(state);
+
         /// <summary>
         /// Gets the font for the ribbon text.
         /// </summary>

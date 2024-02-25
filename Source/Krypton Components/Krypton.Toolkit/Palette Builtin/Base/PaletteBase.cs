@@ -1558,6 +1558,26 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonQATButtonLight(PaletteState state);
+		
+        /// <summary>Gets the ribbon tab row gradient first color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient first color.</returns>
+        public abstract Color GetRibbonTabRowGradientColor1(PaletteState state);
+
+        /// <summary>Gets the ribbon app button dark color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button dark color.</returns>
+        public abstract Color GetRibbonAppButtonDarkColor(PaletteState state);
+
+        /// <summary>Gets the ribbon app button light color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button light color.</returns>
+        public abstract Color GetRibbonAppButtonLightColor(PaletteState state);
+
+        /// <summary>Gets the ribbon app button text color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button text color.</returns>
+        public abstract Color GetRibbonAppButtonTextColor(PaletteState state);
 
         /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
