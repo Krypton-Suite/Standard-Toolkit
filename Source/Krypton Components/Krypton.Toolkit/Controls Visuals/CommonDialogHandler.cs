@@ -424,6 +424,7 @@ namespace Krypton.Toolkit
                 Padding = new Padding(0),
                 TopMost = true
             };
+
             if (ShowIcon)
             {
                 _wrapperForm.FormBorderStyle = _isResizable ? FormBorderStyle.Sizable : FormBorderStyle.Fixed3D;
@@ -497,7 +498,9 @@ namespace Krypton.Toolkit
                 if (_wrapperForm != null)
                 {
                     var clientSize = _wrapperForm.ClientSize;
-                    PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, false);
+                    _wrapperForm.SuspendLayout();
+                    PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, true);
+                    _wrapperForm.ResumeLayout(false);
                 }
             }
         }

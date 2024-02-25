@@ -3,10 +3,11 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1351](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1351),  KryptonFolderBrowserDialog display and runtime errors
 * Resolved [#1337](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1337), ViewManager is visible in the designer as a readonly field, when it should be invisible !
 * Resolved [#1244](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1244), Should `IsDefault` set to be `internal`
 * Resolved [#1322](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1322), Exception at design time When Assigning CustomPalette to PropertyGrid / TreeGrid
-  * Resolved [#1340](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1340), `KryptonPropertyGrid` Category header text colours
+* Resolved [#1340](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1340), `KryptonPropertyGrid` Category header text colours
 * Resolved [#1331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1331), Fix white menu text in White themes (2010, 2013, 365); fixes to `KryptonPropertyGrid` and `KryptonThemeComboBox` with regard to theme switching
 * Resolved [#1313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1313), White background in tabs area
 * Implement [#1309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1309), Is it time to bring over `KryptonOutlookGrid`
