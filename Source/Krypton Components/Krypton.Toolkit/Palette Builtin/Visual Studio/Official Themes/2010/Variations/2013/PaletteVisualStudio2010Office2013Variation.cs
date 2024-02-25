@@ -21,6 +21,16 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(16, 22, 33);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(53, 73, 109);
+
+        private static readonly Color _ribbonAppButtonTextColor = Color.White;
+
+        #endregion
+
         #region Image Lists
 
         private static readonly ImageList _checkBoxList;
@@ -333,7 +343,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Office2013Variation" /> class.</summary>
-        public PaletteVisualStudio2010Office2013Variation() 
+        public PaletteVisualStudio2010Office2013Variation()
             : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
             ThemeName = nameof(PaletteVisualStudio2010Office2013Variation);
@@ -408,6 +418,9 @@ namespace Krypton.Toolkit
         #region Tab Row Background
 
         /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
             GlobalStaticValues.EMPTY_COLOR;
 
@@ -420,6 +433,19 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

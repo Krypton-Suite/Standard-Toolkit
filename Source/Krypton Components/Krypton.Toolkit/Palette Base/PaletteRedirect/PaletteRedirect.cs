@@ -943,6 +943,22 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state) => _target!.GetRibbonQATButtonLight(state);
+		
+		/// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            _target!.GetRibbonTabRowGradientColor1(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
+            _target!.GetRibbonAppButtonDarkColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
+            _target!.GetRibbonAppButtonLightColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
+            _target!.GetRibbonAppButtonTextColor(state);
 
         /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
