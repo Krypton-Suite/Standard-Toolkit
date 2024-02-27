@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     public class GlobalStaticValues
@@ -20,14 +21,19 @@ namespace Krypton.Toolkit
         /// Used for the default control corners
         public const float DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE = -1f;
 
+        /// <summary>The default UAC shield icon size</summary>
         public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
 
+        /// <summary>The default UAC shield icon custom size</summary>
         public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);
 
+        /// <summary>The global button padding</summary>
         public const int GLOBAL_BUTTON_PADDING = 10;
 
+        /// <summary>The global default theme index</summary>
         public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
 
+        /// <summary>The current supported palette version</summary>
         public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
 
         // Used for version reporting
@@ -37,21 +43,281 @@ namespace Krypton.Toolkit
         internal static string DEFAULT_TOOLKIT_FILE = @"Krypton.Toolkit.dll";
         internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
 
+        /// <summary>The OS major version</summary>
         public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
+        /// <summary>The default rafting ribbon tab background gradient</summary>
         public const float DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT = 90F;
 
+        /// <summary>The empty color</summary>
         public static readonly Color EMPTY_COLOR = Color.Empty;
 
+        /// <summary>The transparency key color</summary>
         public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
 
+        /// <summary>The tab row gradient first color</summary>
         public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;
 
+        /// <summary>The default ribbon application button dark color</summary>
         public static readonly Color DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR = Color.FromArgb(31, 72, 161);
 
+        /// <summary>The default ribbon application button light color</summary>
         public static readonly Color DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR = Color.FromArgb(84, 158, 243);
 
+        /// <summary>The default ribbon application button text color</summary>
         public static readonly Color DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR = Color.White;
+
+        #region Arrays
+
+        #region Images
+
+        #region ToolBar
+
+        #region Generic
+
+        /// <summary>The generic toolbar images</summary>
+        public static Image[] GenericToolBarImages =
+        [
+            GenericToolbarImageResources.GenericNewDocument,
+            GenericToolbarImageResources.GenericOpenFolder,
+            GenericToolbarImageResources.GenericSave,
+            GenericToolbarImageResources.GenericSaveAs,
+            GenericToolbarImageResources.GenericSaveAll,
+            GenericToolbarImageResources.GenericCut,
+            GenericToolbarImageResources.GenericCopy,
+            GenericToolbarImageResources.GenericPaste,
+            GenericToolbarImageResources.GenericUndo,
+            GenericToolbarImageResources.GenericRedo,
+            GenericToolbarImageResources.GenericPrintSetup,
+            GenericToolbarImageResources.GenericPrintPreview,
+            GenericToolbarImageResources.GenericPrint,
+            GenericToolbarImageResources.GenericQuickPrint
+        ];
+
+        #endregion
+
+        #region Microsoft 365
+
+        /// <summary>The Microsoft 365 toolbar images</summary>
+        public static Image[] Microsoft365ToolBarImages =
+        [
+            Office2019ToolbarImageResources.Office2019ToolbarNewNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarOpenNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarCutNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarCopyNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPasteNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarUndoNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarRedoNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPrintNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region Office 2003
+
+        /// <summary>The Office 2003 toolbar images</summary>
+        public static Image[] Office2003ToolBarImages =
+        [
+            Office2003ToolbarImageResources.Office2003ToolbarNewNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarOpenNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarSaveNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarCutNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarCopyNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarPasteNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarUndoNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarRedoNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal,
+            Office2003ToolbarImageResources.Office2003ToolbarPrintNormal,
+            GenericToolbarImageResources.GenericQuickPrint
+        ];
+
+        #endregion
+
+        #region Office 2007
+
+        /// <summary>The Office 2007 toolbar images</summary>
+        public static Image[] Office2007ToolBarImages =
+        [
+            Office2007ToolbarImageResources.Office2007ToolbarNewNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarOpenNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarSaveNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarCutNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarCopyNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarPasteNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarUndoNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarRedoNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarPrintNormal,
+            Office2007ToolbarImageResources.Office2007ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region Office 2010
+
+        /// <summary>The Office 2010 toolbar images</summary>
+        public static Image[] Office2010ToolBarImages =
+        [
+            Office2010ToolbarImageResources.Office2010ToolbarNewNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarOpenNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarSaveNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarCutNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarCopyNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarPasteNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarUndoNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarRedoNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarPrintNormal,
+            Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region Office 2013
+
+        /// <summary>
+        /// The Office 2013 toolbar images
+        /// </summary>
+        public static Image[] Office2013ToolBarImages =
+        [
+            Office2013ToolbarImageResources.Office2013ToolbarNewNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarOpenNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarSaveNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarSaveAsNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarCutNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarCopyNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarPasteNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarUndoNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarRedoNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarPageSetupNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarPrintNormal,
+            Office2013ToolbarImageResources.Office2013ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region Office 2016
+
+        /// <summary>
+        /// The Office 2016 toolbar images
+        /// </summary>
+        public static Image[] Office2016ToolBarImages =
+        [
+            Office2016ToolbarImageResources.Office2016ToolbarNewNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarOpenNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarSaveNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarSaveAsNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarSaveAllNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarCutNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarCopyNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarPasteNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarUndoNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarRedoNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarPageSetupNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarPrintPreviewNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarPrintNormal,
+            Office2016ToolbarImageResources.Office2016ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region Office 2019
+
+        /// <summary>
+        /// The Office 2019 toolbar images
+        /// </summary>
+        public static Image[] Office2019ToolBarImages =
+        [
+            Office2019ToolbarImageResources.Office2019ToolbarNewNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarOpenNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarCutNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarCopyNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPasteNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarUndoNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarRedoNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarPrintNormal,
+            Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal
+        ];
+
+        #endregion
+
+        #region System
+
+        /// <summary>
+        /// The system toolbar images
+        /// </summary>
+        public static Image[] SystemToolBarImages =
+        [
+            SystemToolbarImageResources.SystemToolbarNewNormal,
+            SystemToolbarImageResources.SystemToolbarOpenNormal,
+            SystemToolbarImageResources.SystemToolbarSaveNormal,
+            SystemToolbarImageResources.SystemToolbarSaveNormal,
+            SystemToolbarImageResources.SystemToolbarSaveAllNormal,
+            SystemToolbarImageResources.SystemToolbarCutNormal,
+            SystemToolbarImageResources.SystemToolbarCopyNormal,
+            SystemToolbarImageResources.SystemToolbarPasteNormal,
+            SystemToolbarImageResources.SystemToolbarUndoNormal,
+            SystemToolbarImageResources.SystemToolbarRedoNormal,
+            SystemToolbarImageResources.SystemToolbarPageSetupNormal,
+            SystemToolbarImageResources.SystemToolbarPrintPreviewNormal,
+            SystemToolbarImageResources.SystemToolbarPrintNormal,
+            GenericToolbarImageResources.GenericQuickPrint
+        ];
+
+        #endregion
+
+        #region Visual Studio
+
+        /// <summary>
+        /// The Visual Studio toolbar images
+        /// </summary>
+        public static Image[] VisualStudioToolBarImages =
+        [
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarNewFile,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarOpen,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarSave,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarSaveAs,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarSaveAll,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarCut,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarCopy,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarPaste,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarUndo,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarRedo,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarPageSetup,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarPrintPreview,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarPrint,
+            VisualStudioToolbarImageResources.VisualStudio2022ToolbarQuickPrint
+        ];
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// The default group row height

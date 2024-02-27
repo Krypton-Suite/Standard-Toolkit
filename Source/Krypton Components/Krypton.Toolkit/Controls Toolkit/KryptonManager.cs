@@ -213,8 +213,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToolkitStrings() ||
                                    ShouldSerializeUseKryptonFileDialogs() ||
                                    ShouldSerializeBaseFont() ||
-                                   ShouldSerializeGlobalPaletteMode()
-                                   );
+                                   ShouldSerializeGlobalPaletteMode() ||
+                                   ShouldSerializeToolkitImages());
 
         /// <summary>
         /// Reset All values
@@ -228,6 +228,7 @@ namespace Krypton.Toolkit
             ResetUseKryptonFileDialogs();
             ResetBaseFont();
             ResetGlobalPaletteMode();
+            ResetToolkitImages();
         }
 
         /// <summary>
@@ -387,13 +388,29 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
         private void ResetToolkitStrings() => Strings.Reset();
 
+        /// <summary>Gets the toolkit images.</summary>
+        [Category(@"Data")]
+        [Description(@"A collection of images that are used throughout the toolkit.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonImageStorage ToolkitImages => Images;
+
+        private bool ShouldSerializeToolkitImages() => !Images.IsDefault;
+
+        private void ResetToolkitImages() => Images.Reset();
+
         #endregion
 
-        #region Static Strings
+        #region Static Properties
 
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
         public static KryptonGlobalToolkitStrings Strings { get; } = new KryptonGlobalToolkitStrings();
+
+        /// <summary>Gets the images.</summary>
+        /// <value>The images.</value>
+        public static KryptonImageStorage Images { get; } = new KryptonImageStorage();
 
         #endregion
 
@@ -1019,7 +1036,84 @@ namespace Krypton.Toolkit
         {
             UpdateToolStripManager();
 
+            UpdatePaletteImages(CurrentGlobalPaletteMode);
+
             GlobalPaletteChanged?.Invoke(null, e);
+        }
+
+        private static void UpdatePaletteImages(PaletteMode paletteMode)
+        {
+            switch (paletteMode)
+            {
+                case PaletteMode.Global:
+                case PaletteMode.Custom:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.GenericToolBarImages);
+                    break;
+                case PaletteMode.ProfessionalSystem:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.SystemToolBarImages);
+                    break;
+                case PaletteMode.ProfessionalOffice2003:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2003ToolBarImages);
+                    break;
+                case PaletteMode.Office2007Blue:
+                case PaletteMode.Office2007BlueDarkMode:
+                case PaletteMode.Office2007BlueLightMode:
+                case PaletteMode.Office2007Silver:
+                case PaletteMode.Office2007SilverDarkMode:
+                case PaletteMode.Office2007SilverLightMode:
+                case PaletteMode.Office2007White:
+                case PaletteMode.Office2007Black:
+                case PaletteMode.Office2007BlackDarkMode:
+                case PaletteMode.VisualStudio2010Render2007:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2007ToolBarImages);
+                    break;
+                case PaletteMode.Office2010Blue:
+                case PaletteMode.Office2010BlueDarkMode:
+                case PaletteMode.Office2010BlueLightMode:
+                case PaletteMode.Office2010Silver:
+                case PaletteMode.Office2010SilverDarkMode:
+                case PaletteMode.Office2010SilverLightMode:
+                case PaletteMode.Office2010White:
+                case PaletteMode.Office2010Black:
+                case PaletteMode.Office2010BlackDarkMode:
+                case PaletteMode.SparkleBlue:
+                case PaletteMode.SparkleBlueDarkMode:
+                case PaletteMode.SparkleBlueLightMode:
+                case PaletteMode.SparkleOrange:
+                case PaletteMode.SparkleOrangeDarkMode:
+                case PaletteMode.SparkleOrangeLightMode:
+                case PaletteMode.SparklePurple:
+                case PaletteMode.SparklePurpleDarkMode:
+                case PaletteMode.SparklePurpleLightMode:
+                case PaletteMode.VisualStudio2010Render2010:
+                    Images.ToolbarImages.SetToolBarImages(new Image[]
+                    {
+                        
+                    });
+                    break;
+                case PaletteMode.Office2013White:
+                case PaletteMode.VisualStudio2010Render2013:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2013ToolBarImages);
+                    break;
+                case PaletteMode.Microsoft365Black:
+                case PaletteMode.Microsoft365BlackDarkMode:
+                case PaletteMode.Microsoft365BlackDarkModeAlternate:
+                case PaletteMode.Microsoft365Blue:
+                case PaletteMode.Microsoft365BlueDarkMode:
+                case PaletteMode.Microsoft365BlueLightMode:
+                case PaletteMode.Microsoft365Silver:
+                case PaletteMode.Microsoft365SilverDarkMode:
+                case PaletteMode.Microsoft365SilverLightMode:
+                case PaletteMode.Microsoft365White:
+                case PaletteMode.VisualStudio2010Render365:
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Microsoft365ToolBarImages);
+                    break;
+                default:
+                    // Should not happen!
+                    Debug.Assert(paletteMode != null);
+                    DebugTools.NotImplemented(paletteMode.ToString());
+                    break;
+            }
         }
 
         private static void UpdateToolStripManager()

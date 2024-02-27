@@ -33,6 +33,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
             this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
@@ -52,7 +53,6 @@ namespace TestForm
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -82,8 +82,18 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(440, 325);
+            this.kryptonPanel1.Size = new System.Drawing.Size(468, 353);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnCalendar
+            // 
+            this.kbtnCalendar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.kbtnCalendar.Location = new System.Drawing.Point(223, 71);
+            this.kbtnCalendar.Name = "kbtnCalendar";
+            this.kbtnCalendar.Size = new System.Drawing.Size(204, 25);
+            this.kbtnCalendar.TabIndex = 19;
+            this.kbtnCalendar.Values.Text = "Calendar";
+            this.kbtnCalendar.Click += new System.EventHandler(this.kbtnCalendar_Click);
             // 
             // kryptonThemeComboBox1
             // 
@@ -250,27 +260,13 @@ namespace TestForm
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.ToolkitStrings.KryptonOutlookGridStrings.CustomFormatMinimumColorButtonText = null;
-            // 
-            // kbtnCalendar
-            // 
-            this.kbtnCalendar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCalendar.Location = new System.Drawing.Point(223, 71);
-            this.kbtnCalendar.Name = "kbtnCalendar";
-            this.kbtnCalendar.Size = new System.Drawing.Size(204, 25);
-            this.kbtnCalendar.TabIndex = 19;
-            this.kbtnCalendar.Values.Text = "Calendar";
-            this.kbtnCalendar.Click += new System.EventHandler(this.kbtnCalendar_Click);
-            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(440, 325);
+            this.ClientSize = new System.Drawing.Size(468, 353);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

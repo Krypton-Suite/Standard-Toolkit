@@ -538,6 +538,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets a value indicating whether this instance is default.</summary>
         /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeCustomStrings() ||
