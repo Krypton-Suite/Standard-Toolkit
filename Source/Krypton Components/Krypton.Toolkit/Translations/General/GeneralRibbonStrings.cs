@@ -9,6 +9,8 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes a general set of strings that are used within the Krypton Ribbon, and are localisable.</summary>
+    /// <seealso cref="GlobalId" />
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class GeneralRibbonStrings : GlobalId
     {
