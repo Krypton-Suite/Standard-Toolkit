@@ -1185,11 +1185,11 @@ namespace Krypton.Ribbon
             _itemsMoreColors.Visible = _visibleMoreColors;
 
             // Define the display strings
-            _headingTheme.Text = Ribbon?.RibbonStrings.ThemeColors!;
-            _headingStandard.Text = Ribbon?.RibbonStrings.StandardColors!;
-            _headingRecent.Text = Ribbon?.RibbonStrings.RecentColors!;
-            _itemNoColor.Text = Ribbon?.RibbonStrings.NoColor!;
-            _itemMoreColors.Text = Ribbon?.RibbonStrings.MoreColors!;
+            _headingTheme.Text = KryptonManager.Strings.RibbonStrings.ThemeColors;
+            _headingStandard.Text = KryptonManager.Strings.RibbonStrings.StandardColors;
+            _headingRecent.Text = KryptonManager.Strings.RibbonStrings.RecentColors;
+            _itemNoColor.Text = KryptonManager.Strings.RibbonStrings.NoColor;
+            _itemMoreColors.Text = KryptonManager.Strings.RibbonStrings.MoreColors;
 
             // Define the colors used in the first two color schemes
             _colorsTheme.ColorScheme = SchemeThemes;

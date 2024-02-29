@@ -692,16 +692,6 @@ namespace Krypton.Ribbon
 		public RibbonShortcuts RibbonShortcuts { get; private set; }
 
 		/// <summary>
-		/// Gets the set of ribbon display strings.
-		/// </summary>
-		[Category(@"Values")]
-		[Description(@"Collection of ribbon strings.")]
-		[MergableProperty(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-		[Localizable(true)]
-		public RibbonStrings RibbonStrings { get; private set; }
-
-		/// <summary>
 		/// Gets the set of ribbon application button display strings.
 		/// </summary>
 		[Category(@"Values")]
@@ -1939,7 +1929,7 @@ namespace Krypton.Ribbon
 			// Add heading at top of the context menu
 			var heading = new KryptonContextMenuHeading
 			{
-				Text = RibbonStrings.CustomizeQuickAccessToolbar
+				Text = KryptonManager.Strings.RibbonStrings.CustomizeQuickAccessToolbar
 			};
 			_kcm?.Items.Add(heading);
 
@@ -1971,8 +1961,8 @@ namespace Krypton.Ribbon
 				var showQAT = new KryptonContextMenuItem
 				{
 					Text = QATLocation == QATLocation.Above
-						? RibbonStrings.ShowBelowRibbon
-						: RibbonStrings.ShowAboveRibbon
+						? KryptonManager.Strings.RibbonStrings.ShowBelowRibbon
+						: KryptonManager.Strings.RibbonStrings.ShowAboveRibbon
 				};
 				showQAT.Click += OnInvertQATLocation;
 
@@ -1990,7 +1980,7 @@ namespace Krypton.Ribbon
 				// Allow the ribbon to be minimized
 				var minimize = new KryptonContextMenuItem
 				{
-					Text = RibbonStrings.Minimize,
+					Text = KryptonManager.Strings.RibbonStrings.Minimize,
 					Checked = MinimizedMode
 				};
 				minimize.Click += OnInvertMinimizeMode;
@@ -2051,8 +2041,8 @@ namespace Krypton.Ribbon
 				var showQAT = new KryptonContextMenuItem
 				{
 					Text = QATLocation == QATLocation.Above
-						? RibbonStrings.ShowQATBelowRibbon
-						: RibbonStrings.ShowQATAboveRibbon
+						? KryptonManager.Strings.RibbonStrings.ShowQATBelowRibbon
+						: KryptonManager.Strings.RibbonStrings.ShowQATAboveRibbon
 				};
 				showQAT.Click += OnInvertQATLocation;
 
@@ -2065,7 +2055,7 @@ namespace Krypton.Ribbon
 				// Allow the ribbon to be minimized
 				var minimize = new KryptonContextMenuItem
 				{
-					Text = RibbonStrings.Minimize,
+					Text = KryptonManager.Strings.RibbonStrings.Minimize,
 					Checked = MinimizedMode
 				};
 				minimize.Click += OnInvertMinimizeMode;
@@ -2568,7 +2558,7 @@ namespace Krypton.Ribbon
 		private void CreateStorageObjects()
 		{
 			RibbonShortcuts = new RibbonShortcuts();
-			RibbonStrings = new RibbonStrings();
+
 			// Create direct access to the redirector for panel background
 			_backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
 

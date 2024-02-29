@@ -26,7 +26,6 @@ namespace Krypton.Toolkit
         private const string DEFAULT_CLOSE = @"Clo&se"; // Accelerator key - S
         private const string DEFAULT_TODAY = @"&Today"; // Accelerator key - T
         private const string DEFAULT_HELP = @"H&elp"; // Accelerator key - E
-        private const string DEFAULT_APP_BUTTON_TEXT = @"File"; // Accelerator key - F
 
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
@@ -67,7 +66,6 @@ namespace Krypton.Toolkit
                                  Close.Equals(DEFAULT_CLOSE) &&
                                  Today.Equals(DEFAULT_TODAY) &&
                                  Help.Equals(DEFAULT_HELP) &&
-                                 AppButtonText.Equals(DEFAULT_APP_BUTTON_TEXT) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
                                  TryAgain.Equals(DEFAULT_TRY_AGAIN);
 
@@ -90,7 +88,6 @@ namespace Krypton.Toolkit
             Close = DEFAULT_CLOSE;
             Today = DEFAULT_TODAY;
             Help = DEFAULT_HELP;
-            AppButtonText = DEFAULT_APP_BUTTON_TEXT;
 
             // NET 6 & newer
             Continue = DEFAULT_CONTINUE;
@@ -201,16 +198,6 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_HELP)]
         [RefreshProperties(RefreshProperties.All)]
         public string Help { get; set; }
-
-        /// <summary>
-        /// Gets and sets the app button text string used in the ribbon.
-        /// </summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"App button text string used in the ribbon.")]
-        [DefaultValue(DEFAULT_APP_BUTTON_TEXT)]
-        [RefreshProperties(RefreshProperties.All)]
-        public string AppButtonText { get; set; }
 
         /// <summary>
         /// Gets and sets the Continue string used in message box buttons.

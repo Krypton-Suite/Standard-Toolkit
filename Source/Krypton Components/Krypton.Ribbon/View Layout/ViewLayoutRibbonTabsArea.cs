@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts;
-            NeedPaintDelegate = needPaintDelegate;
+            _layoutContexts = layoutContexts!;
+            NeedPaintDelegate = needPaintDelegate!;
 
             // Default other state
             _setVisible = true;
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
 
             CreateController();
             CreateButtonSpecs();
-            CreateViewElements(redirect);
+            CreateViewElements(redirect!);
             SetupParentMonitoring();
         }
 
@@ -311,7 +311,7 @@ namespace Krypton.Ribbon
             var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
 
             // Return key tip details
-            return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
+            return new KeyTipInfo(true, KryptonManager.Strings.RibbonStrings.AppButtonKeyTip, screenPt,
                                   LayoutAppButton.ClientRectangle, _appButtonController);
 
         }
@@ -327,7 +327,7 @@ namespace Krypton.Ribbon
             var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
 
             // Return key tip details
-            return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
+            return new KeyTipInfo(true, KryptonManager.Strings.RibbonStrings.AppButtonKeyTip, screenPt,
                                   LayoutAppTab.ClientRectangle, _appTabController);
 
         }

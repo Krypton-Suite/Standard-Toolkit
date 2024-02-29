@@ -143,8 +143,8 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText() => !string.IsNullOrEmpty(_ribbon.RibbonStrings.RecentDocuments)
-            ? _ribbon.RibbonStrings.RecentDocuments
+        public string GetShortText() => !string.IsNullOrEmpty(KryptonManager.Strings.RibbonStrings.RecentDocuments)
+            ? KryptonManager.Strings.RibbonStrings.RecentDocuments
             : string.Empty;
 
         /// <summary>

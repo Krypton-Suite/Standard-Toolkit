@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
             _appButtonBaseColorDark = _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal);
             _appButtonBaseColorLight = _palette.GetRibbonAppButtonLightColor(PaletteState.Normal);
             _appButtonTextColor = _palette.GetRibbonAppButtonTextColor(PaletteState.Normal);
-            _appButtonText = KryptonManager.Strings.GeneralStrings.AppButtonText;
+            _appButtonText = KryptonManager.Strings.RibbonStrings.AppButtonText;
         }
         #endregion
 
@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
-                                            (AppButtonText == KryptonManager.Strings.GeneralStrings.AppButtonText) &&
+                                            (AppButtonText == KryptonManager.Strings.RibbonStrings.AppButtonText) &&
                                             (AppButtonBaseColorDark == _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal)) &&
                                             (AppButtonBaseColorLight == _palette.GetRibbonAppButtonLightColor(PaletteState.Normal)) &&
                                             (AppButtonTextColor == _palette.GetRibbonAppButtonTextColor(PaletteState.Normal)) &&
