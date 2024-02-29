@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_CLOSE = @"Clo&se"; // Accelerator key - S
         private const string DEFAULT_TODAY = @"&Today"; // Accelerator key - T
         private const string DEFAULT_HELP = @"H&elp"; // Accelerator key - E
-        private const string DEFAULT_APP_BUTTON_TEXT = @"&File"; // Accelerator key - F
+        private const string DEFAULT_APP_BUTTON_TEXT = @"File"; // Accelerator key - F
 
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
