@@ -1086,10 +1086,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.SparklePurpleDarkMode:
                 case PaletteMode.SparklePurpleLightMode:
                 case PaletteMode.VisualStudio2010Render2010:
-                    Images.ToolbarImages.SetToolBarImages(new Image[]
-                    {
-                        
-                    });
+                    Images.ToolbarImages.SetToolBarImages(GlobalStaticValues.Office2010ToolBarImages);
                     break;
                 case PaletteMode.Office2013White:
                 case PaletteMode.VisualStudio2010Render2013:
