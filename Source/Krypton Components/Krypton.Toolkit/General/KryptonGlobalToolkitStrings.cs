@@ -48,6 +48,17 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeCustomStrings() => !CustomToolkitStrings.IsDefault;
         private void ResetCustomStrings() => CustomToolkitStrings.ResetValues();
 
+        /// <summary>Gets the general ribbon strings.</summary>
+        /// <value>The general ribbon strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of general ribbon strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public GeneralRibbonStrings RibbonStrings => GeneralRibbonStrings;
+        private bool ShouldSerializeGeneralRibbonStrings() => !GeneralRibbonStrings.IsDefault;
+        private void ResetGeneralRibbonStrings() => GeneralRibbonStrings.Reset();
+
         /// <summary>Gets the general toolkit strings.</summary>
         /// <value>The general toolkit strings.</value>
         [Category(@"Visuals")]
@@ -398,6 +409,10 @@ namespace Krypton.Toolkit
         /// <value>The custom toolkit strings.</value>
         public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
+        /// <summary>Gets the general ribbon strings.</summary>
+        /// <value>The general ribbon strings.</value>
+        public static GeneralRibbonStrings GeneralRibbonStrings { get; } = new GeneralRibbonStrings();
+
         /// <summary>Gets the strings.</summary>
         /// <value>The strings.</value>
         public static GeneralToolkitStrings GeneralToolkitStrings
@@ -542,6 +557,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeCustomStrings() ||
+                                   ShouldSerializeGeneralRibbonStrings() ||
                                    ShouldSerializeGeneralStrings() ||
                                    ShouldSerializeColorStrings() ||
                                    ShouldSerializePaletteModeStrings() ||
@@ -582,6 +598,8 @@ namespace Krypton.Toolkit
             ResetButtonSpecStyleStrings();
 
             ResetCustomStrings();
+
+            ResetGeneralRibbonStrings();
 
             ResetGeneralStrings();
 
