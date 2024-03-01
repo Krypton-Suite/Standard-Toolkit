@@ -1331,7 +1331,7 @@ namespace Krypton.Toolkit
 
             CustomFormatPreviewLabelText = DEFAULT_CUSTOM_FORMAT_PREVIEW;
 
-            CustomFormatMaximumColorButtonText = DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR;
+            CustomFormatMinimumColorButtonText = DEFAULT_CUSTOM_FORMAT_MINIMUM_COLOR;
 
             CustomFormatIntermediateColorButtonText = DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR;
 

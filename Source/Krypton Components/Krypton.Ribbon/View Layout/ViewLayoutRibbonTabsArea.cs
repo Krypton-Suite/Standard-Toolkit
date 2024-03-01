@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts;
-            NeedPaintDelegate = needPaintDelegate;
+            _layoutContexts = layoutContexts!;
+            NeedPaintDelegate = needPaintDelegate!;
 
             // Default other state
             _setVisible = true;
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
 
             CreateController();
             CreateButtonSpecs();
-            CreateViewElements(redirect);
+            CreateViewElements(redirect!);
             SetupParentMonitoring();
         }
 
@@ -181,7 +181,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, LayoutAppButton, _appButtonController);
+            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager?.ToolTipManager!, LayoutAppButton, _appButtonController);
             LayoutAppTab.MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager!.ToolTipManager!, LayoutAppTab, _appTabController);
         }
         #endregion
@@ -311,7 +311,7 @@ namespace Krypton.Ribbon
             var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
 
             // Return key tip details
-            return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
+            return new KeyTipInfo(true, KryptonManager.Strings.RibbonStrings.AppButtonKeyTip, screenPt,
                                   LayoutAppButton.ClientRectangle, _appButtonController);
 
         }
@@ -327,7 +327,7 @@ namespace Krypton.Ribbon
             var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
 
             // Return key tip details
-            return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
+            return new KeyTipInfo(true, KryptonManager.Strings.RibbonStrings.AppButtonKeyTip, screenPt,
                                   LayoutAppTab.ClientRectangle, _appTabController);
 
         }
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
             // If using custom chrome 
             if (_captionArea is { UsingCustomChrome: true })
             {
-                _paintCount = _captionArea.KryptonForm.PaintCount;
+                _paintCount = _captionArea.KryptonForm!.PaintCount;
                 _invalidateTimer.Start();
             }
         }
@@ -808,45 +808,45 @@ namespace Krypton.Ribbon
                     {
                         case ViewLayoutRibbonAppButton:
                         case ViewLayoutRibbonAppTab:
-                        {
-                            // Create a content that recovers values from a the ribbon for the app button/tab
-                            var appButtonContent = new AppButtonToolTipToContent(_ribbon);
-
-                            // Is there actually anything to show for the tooltip
-                            if (appButtonContent.HasContent)
                             {
-                                sourceContent = appButtonContent;
+                                // Create a content that recovers values from a the ribbon for the app button/tab
+                                var appButtonContent = new AppButtonToolTipToContent(_ribbon);
 
-                                // Grab the style from the app button settings
-                                toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
-                                shadow = _ribbon.RibbonAppButton.ToolTipShadow;
+                                // Is there actually anything to show for the tooltip
+                                if (appButtonContent.HasContent)
+                                {
+                                    sourceContent = appButtonContent;
 
-                                // Display below the mouse cursor
-                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                    // Grab the style from the app button settings
+                                    toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
+                                    shadow = _ribbon.RibbonAppButton.ToolTipShadow;
+
+                                    // Display below the mouse cursor
+                                    screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                }
                             }
-                        }
                             break;
                         case ViewDrawRibbonQATButton viewElement1:
-                        {
-                            // If the target is a QAT button
-                            // Cast to correct type
-
-                            // Create a content that recovers values from a IQuickAccessToolbarButton
-                            var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
-
-                            // Is there actually anything to show for the tooltip
-                            if (qatButtonContent.HasContent)
                             {
-                                sourceContent = qatButtonContent;
+                                // If the target is a QAT button
+                                // Cast to correct type
 
-                                // Grab the style from the QAT button settings
-                                toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
-                                shadow = viewElement1.QATButton.GetToolTipShadow();
+                                // Create a content that recovers values from a IQuickAccessToolbarButton
+                                var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
 
-                                // Display below the mouse cursor
-                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                // Is there actually anything to show for the tooltip
+                                if (qatButtonContent.HasContent)
+                                {
+                                    sourceContent = qatButtonContent;
+
+                                    // Grab the style from the QAT button settings
+                                    toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
+                                    shadow = viewElement1.QATButton.GetToolTipShadow();
+
+                                    // Display below the mouse cursor
+                                    screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
+                                }
                             }
-                        }
                             break;
                         default:
                             {

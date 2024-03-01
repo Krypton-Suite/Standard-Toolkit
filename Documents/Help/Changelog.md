@@ -3,6 +3,9 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Implemented [#1355](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1355), Ability to merge `KryptonRibbon`s
+    - **Note:** This feature is activated via the `KryptonRibbonMerger` API
+* Resolved issue whereby `CustomFormatMinimumColorButtonText` was assigned `null`, therefore flagging `KryptonOutlookGridStrings` as 'modified'
 * Resolved [#1351](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1351),  KryptonFolderBrowserDialog display and runtime errors
 * Implemented [#1343](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1343), Extend palette to accept `AppButton` colours
 * Resolved [#1337](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1337), ViewManager is visible in the designer as a readonly field, when it should be invisible !

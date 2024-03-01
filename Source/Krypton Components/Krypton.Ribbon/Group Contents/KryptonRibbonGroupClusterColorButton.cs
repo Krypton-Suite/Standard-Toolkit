@@ -1066,13 +1066,13 @@ namespace Krypton.Ribbon
 
         private void UpdateRecentColors([DisallowNull] Color color)
         {
-            // Do we need to update the recent colors collection?
+            // Do we need to update the recent colors' collection?
             if (AutoRecentColors)
             {
                 // We do not add to recent colors if it is inside another color columns 
                 foreach (var item in _kryptonContextMenu!.Items)
                 {
-                    // Only interested in the non-recent colors color columns
+                    // Only interested in the non-recent colors' color columns
                     if ((item != _colorsRecent) && (item is KryptonContextMenuColorColumns colors))
                     {
                         // Cast to correct type
@@ -1131,11 +1131,11 @@ namespace Krypton.Ribbon
             _itemsMoreColors.Visible = _visibleMoreColors;
 
             // Define the display strings
-            _headingTheme.Text = Ribbon?.RibbonStrings.ThemeColors!;
-            _headingStandard.Text = Ribbon?.RibbonStrings.StandardColors!;
-            _headingRecent.Text = Ribbon?.RibbonStrings.RecentColors!;
-            _itemNoColor.Text = Ribbon?.RibbonStrings.NoColor!;
-            _itemMoreColors.Text = Ribbon?.RibbonStrings.MoreColors!;
+            _headingTheme.Text = KryptonManager.Strings.RibbonStrings.ThemeColors;
+            _headingStandard.Text = KryptonManager.Strings.RibbonStrings.StandardColors;
+            _headingRecent.Text = KryptonManager.Strings.RibbonStrings.RecentColors;
+            _itemNoColor.Text = KryptonManager.Strings.RibbonStrings.NoColor;
+            _itemMoreColors.Text = KryptonManager.Strings.RibbonStrings.MoreColors;
 
             // Define the colors used in the first two color schemes
             _colorsTheme.ColorScheme = SchemeThemes;
