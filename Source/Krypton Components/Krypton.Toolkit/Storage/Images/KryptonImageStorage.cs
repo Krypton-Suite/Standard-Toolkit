@@ -32,12 +32,20 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeGenericToolkitImages() => !GenericImages.IsDefault;
 
+        /// <summary>Resets the generic toolkit images.</summary>
         public void ResetGenericToolkitImages() => GenericImages.Reset();
 
+        /// <summary>Gets the toolbar images.</summary>
+        [Category(@"Visuals")]
+        [Description(@"A collection of images that are used in toolbars.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
         public ToolBarImageStorage ToolbarImages => ToolbarImageStorage;
 
         private bool ShouldSerializeToolbarImages() => !ToolbarImageStorage.IsDefault;
 
+        /// <summary>Resets the toolbar images.</summary>
         public void ResetToolbarImages() => ToolbarImageStorage.Reset();
 
         #endregion
