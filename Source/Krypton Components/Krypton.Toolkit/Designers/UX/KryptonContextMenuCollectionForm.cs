@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
                 public MenuTreeNode([DisallowNull] KryptonContextMenuItemBase item)
                 {
                     Debug.Assert(item != null);
-                    Item = item;
-                    PropertyObject = item;
+                    Item = item!;
+                    PropertyObject = item!;
 
                     // Setup the initial starting image and description strings
                     ImageIndex = ImageIndexFromItem();

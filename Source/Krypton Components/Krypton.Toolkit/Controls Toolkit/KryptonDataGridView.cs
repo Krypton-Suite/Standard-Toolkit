@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
                                                   int columnIndex,
                                                   out IPaletteBack paletteBack,
                                                   out IPaletteBorder paletteBorder,
-                                                  out IPaletteContent? paletteContent)
+                                                  out IPaletteContent paletteContent)
         {
             PaletteState retState;
 
@@ -1158,7 +1158,7 @@ namespace Krypton.Toolkit
                                                e.ColumnIndex,
                                                out IPaletteBack paletteBack,
                                                out IPaletteBorder paletteBorder,
-                                               out IPaletteContent? paletteContent);
+                                               out IPaletteContent paletteContent);
 
             try
             {

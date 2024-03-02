@@ -205,11 +205,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Reset the ContextTextAlign to the default value.
-        /// </summary>
-        public void ResetContextTextAlign() => ContextTextAlign = PaletteRelativeAlign.Inherit;
+        private void ResetContextTextAlign() => ContextTextAlign = PaletteRelativeAlign.Inherit;
+        private bool ShouldSerializeContextTextAlign() => ContextTextAlign != PaletteRelativeAlign.Inherit;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.
@@ -245,11 +242,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Reset the ContextTextFont to the default value.
-        /// </summary>
-        public void ResetContextTextFont() => ContextTextFont = null;
+        private void ResetContextTextFont() => ContextTextFont = null;
+        private bool ShouldSerializeContextTextFont() => ContextTextFont != null;
 
         /// <summary>
         /// Gets the font for the ribbon context text.
@@ -282,11 +276,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the ContextTextColor property to its default value.
-        /// </summary>
-        public void ResetContextTextColor() => ContextTextColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetContextTextColor() => ContextTextColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeContextTextColor() => ContextTextColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color of the ribbon caption text.
@@ -321,11 +312,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the DisabledDark property to its default value.
-        /// </summary>
-        public void ResetDisabledDark() => DisabledDark = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetDisabledDark() => DisabledDark = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDisabledDark() => DisabledDark != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
@@ -359,11 +347,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the DisabledLight property to its default value.
-        /// </summary>
-        public void ResetDisabledLight() => DisabledLight = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetDisabledLight() => DisabledLight = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDisabledLight() => DisabledLight != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the light disabled color used for ribbon glyphs.
@@ -397,11 +382,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the GroupDialogDark property to its default value.
-        /// </summary>
-        public void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeGroupDialogDark() => GroupDialogDark != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
@@ -436,11 +418,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the GroupDialogLight property to its default value.
-        /// </summary>
-        public void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeGroupDialogLight() => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
@@ -475,11 +454,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the DropArrowDark property to its default value.
-        /// </summary>
-        public void ResetDropArrowDark() => DropArrowDark = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetDropArrowDark() => DropArrowDark = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDropArrowDark() => DropArrowDark != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the drop arrow dark color.
@@ -513,11 +489,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the DropArrowLight property to its default value.
-        /// </summary>
-        public void ResetDropArrowLight() => DropArrowLight = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetDropArrowLight() => DropArrowLight = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDropArrowLight() => DropArrowLight != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the drop arrow light.
@@ -552,11 +525,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the GroupDialogDark property to its default value.
-        /// </summary>
-        public void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeGroupSeparatorDark() => GroupSeparatorDark != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
@@ -591,11 +561,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the GroupSeparatorLight property to its default value.
-        /// </summary>
-        public void ResetGroupSeparatorLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetGroupSeparatorLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeGroupSeparatorLight() => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
@@ -630,11 +597,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the MinimizeBarDarkColor property to its default value.
-        /// </summary>
-        public void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeMinimizeBarDarkColor() => MinimizeBarDarkColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the ribbon minimize bar dark.
@@ -669,11 +633,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the MinimizeBarLightColor property to its default value.
-        /// </summary>
-        public void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeMinimizeBarLightColor() => MinimizeBarLightColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the ribbon minimize bar light.
@@ -709,11 +670,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabRowBackgroundSolidColor property to its default value.
-        /// </summary>
-        public void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the solid color for the ribbon tab row.
@@ -749,11 +707,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabRowBackgroundGradientRaftingDarkColor property to its default value.
-        /// </summary>
-        public void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the dark Gradient rafting color for the ribbon tab row.
@@ -789,11 +744,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabRowBackgroundGradientRaftingLightColor property to its default value.
-        /// </summary>
-        public void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the light rafting color for the ribbon tab row.
@@ -829,11 +781,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabRowBackgroundGradientFirstColor property to its default value.
-        /// </summary>
-        public void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+        private void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+        private bool ShouldSerializeTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor != GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
 
         /// <inheritdoc />
         public Color GetRibbonTabRowGradientColor1(PaletteState state) => TabRowBackgroundGradientFirstColor != GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR
@@ -865,11 +814,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the RibbonAppButtonDarkColor property to its default value.
-        /// </summary>
-        public void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
+        private void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
+        private bool ShouldSerializeRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
 
         /// <inheritdoc />
         public Color GetRibbonAppButtonDarkColor(PaletteState state) => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR
@@ -901,11 +847,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the RibbonAppButtonLightColor property to its default value.
-        /// </summary>
-        public void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
+        private void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
+        private bool ShouldSerializeRibbonAppButtonLightColor() => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
 
         /// <inheritdoc />
         public Color GetRibbonAppButtonLightColor(PaletteState state) => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR
@@ -937,11 +880,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the RibbonAppButtonTextColor property to its default value.
-        /// </summary>
-        public void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
+        private void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
+        private bool ShouldSerializeRibbonAppButtonTextColor() => RibbonAppButtonTextColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
 
         /// <inheritdoc />
         public Color GetRibbonAppButtonTextColor(PaletteState state) => RibbonAppButtonTextColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR
@@ -973,12 +913,11 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the RibbonTabRowGradientRaftingAngle property to its default value.
-        /// </summary>
-        public void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
+        private void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
             GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+
+        private bool ShouldSerializeRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle !=
+                                                                          GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
         /// <summary>
         /// Gets the rafting angle for the ribbon tab row.
@@ -1012,11 +951,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the RibbonShape property to its default value.
-        /// </summary>
-        public void ResetRibbonShape() => RibbonShape = PaletteRibbonShape.Inherit;
+        private void ResetRibbonShape() => RibbonShape = PaletteRibbonShape.Inherit;
+        private bool ShouldSerializeRibbonShape() => RibbonShape != PaletteRibbonShape.Inherit;
 
         /// <summary>
         /// Gets the ribbon shape.
@@ -1049,11 +985,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabSeparatorColor property to its default value.
-        /// </summary>
-        public void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeTabSeparatorColor() => TabSeparatorColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the tab separator.
@@ -1088,11 +1021,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the TabSeparatorContextColor property to its default value.
-        /// </summary>
-        public void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeTabSeparatorContextColor() => TabSeparatorContextColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the tab context separator.
@@ -1128,11 +1058,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Reset the TextFont to the default value.
-        /// </summary>
-        public void ResetTextFont() => TextFont = null;
+        private void ResetTextFont() => TextFont = null;
+        private bool ShouldSerializeTextFont() => TextFont != null;
 
         /// <summary>
         /// Gets the font for the ribbon text.
@@ -1165,11 +1092,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Reset the TextHint to the default value.
-        /// </summary>
-        public void ResetTextHint() => TextHint = PaletteTextHint.Inherit;
+        private void ResetTextHint() => TextHint = PaletteTextHint.Inherit;
+        private bool ShouldSerializeTextHint() => TextHint != PaletteTextHint.Inherit;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -1203,11 +1127,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the QATButtonDarkColor property to its default value.
-        /// </summary>
-        public void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeQATButtonDarkColor() => QATButtonDarkColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the extra QAT button dark content color.
@@ -1242,11 +1163,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Resets the QATButtonLightColor property to its default value.
-        /// </summary>
-        public void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeQATButtonLightColor() => QATButtonLightColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.

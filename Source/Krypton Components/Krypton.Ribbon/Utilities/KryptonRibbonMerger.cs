@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
                 return;
             }
 
-            string? selectedContext = TargetRibbon.SelectedContext;
+            string selectedContext = TargetRibbon.SelectedContext;
             KryptonRibbonTab? selectedTab = TargetRibbon.SelectedTab;
 
             MergeTabs(ribbon, TargetRibbon);

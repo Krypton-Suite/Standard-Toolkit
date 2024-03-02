@@ -3049,7 +3049,7 @@ namespace Krypton.Toolkit
         public override Rectangle DrawGridSortGlyph([DisallowNull] RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    [DisallowNull] IPaletteContent? paletteContent,
+                                                    [DisallowNull] IPaletteContent paletteContent,
                                                     PaletteState state,
                                                     bool rtl)
         {

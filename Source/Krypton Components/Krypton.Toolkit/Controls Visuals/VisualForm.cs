@@ -118,8 +118,6 @@ namespace Krypton.Toolkit
             // We need to layout the view
             NeedLayout = true;
 
-            CloseBox = true;
-
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
 
@@ -289,8 +287,9 @@ namespace Krypton.Toolkit
         /// <see langword="true" /> to display a Close button for the form; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
         [Category("Window Style")]
         [DefaultValue(true)]
-        [Description("Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
-        public bool CloseBox { [DebuggerStepThrough] get; set; }
+        [Description(
+            "Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
+        public bool CloseBox { [DebuggerStepThrough] get; set; } = true;
 
         /// <summary>
         /// Gets or sets the palette to be applied.
