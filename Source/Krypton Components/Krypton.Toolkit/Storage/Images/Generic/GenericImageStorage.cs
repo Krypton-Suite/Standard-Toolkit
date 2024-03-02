@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
-        public override bool IsDefault => ApplicationIcon.Equals(_defaultApplicationImage);
+        public override bool IsDefault => _defaultApplicationImage.Equals(ApplicationIcon);
 
         #endregion
 
