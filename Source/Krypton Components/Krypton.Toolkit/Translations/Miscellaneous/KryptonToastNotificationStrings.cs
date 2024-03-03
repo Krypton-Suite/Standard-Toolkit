@@ -23,6 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonToastNotificationStrings" /> class.</summary>
         public KryptonToastNotificationStrings()
         {
             Reset();
@@ -40,8 +41,8 @@ namespace Krypton.Toolkit
 
         #region Public
 
-                /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
-                [Localizable(true)]
+        /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
+        [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Dismiss string used for custom situations.")]
         [DefaultValue(DEFAULT_DO_NOT_SHOW_AGAIN)]
