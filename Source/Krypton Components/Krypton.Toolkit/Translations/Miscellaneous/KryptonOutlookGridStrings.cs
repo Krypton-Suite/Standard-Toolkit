@@ -197,6 +197,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonOutlookGridStrings" /> class.</summary>
         public KryptonOutlookGridStrings()
         {
             Reset();

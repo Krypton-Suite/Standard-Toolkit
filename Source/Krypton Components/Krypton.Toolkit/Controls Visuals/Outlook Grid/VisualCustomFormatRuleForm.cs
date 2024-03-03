@@ -69,22 +69,22 @@ namespace Krypton.Toolkit
         private void Initialize()
         {
             // Set up text
-            Text = KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatWindowTitle;
+            Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatWindowTitle;
 
-            klblFill.Text = KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatFillLabelText;
+            klblFill.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatFillLabelText;
 
-            klblFormat.Text = KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatLabelText;
+            klblFormat.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatLabelText;
 
-            klblPreview.Text = KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatPreviewLabelText;
+            klblPreview.Text = KryptonManager.Strings.OutlookGridStrings.CustomFormatPreviewLabelText;
 
-            kcolbtnIntermediateColor.Text = KryptonManager.Strings.KryptonOutlookGridStrings
+            kcolbtnIntermediateColor.Text = KryptonManager.Strings.OutlookGridStrings
                 .CustomFormatIntermediateColorButtonText;
 
             kcolbtnMaximumColor.Text =
-                KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatMaximumColorButtonText;
+                KryptonManager.Strings.OutlookGridStrings.CustomFormatMaximumColorButtonText;
 
             kcolbtnMinimumColor.Text =
-                KryptonManager.Strings.KryptonOutlookGridStrings.CustomFormatMinimumColorButtonText;
+                KryptonManager.Strings.OutlookGridStrings.CustomFormatMinimumColorButtonText;
 
             kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 

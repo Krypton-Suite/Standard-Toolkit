@@ -1384,21 +1384,21 @@ namespace Krypton.Toolkit
             {
                 _tsmiTop.Text = nameof(Top);
                 _tsmiBottom.Text = nameof(Bottom);
-                _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageDown;
-                _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageUp;
-                _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollDown;
-                _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollUp;
-                _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+                _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageDown;
+                _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageUp;
+                _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollDown;
+                _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollUp;
+                _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             }
             else
             {
                 _tsmiTop.Text = nameof(Left);
                 _tsmiBottom.Text = nameof(Right);
-                _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageLeft;
-                _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageRight;
-                _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollRight;
-                _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollLeft;
-                _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+                _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageLeft;
+                _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageRight;
+                _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollRight;
+                _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollLeft;
+                _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             }
         }
 
@@ -1447,7 +1447,7 @@ namespace Krypton.Toolkit
             _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiScrollHere.Name = nameof(_tsmiScrollHere);
             _tsmiScrollHere.Size = new Size(150, 22);
-            _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+            _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
@@ -1481,7 +1481,7 @@ namespace Krypton.Toolkit
             _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeUp.Name = nameof(_tsmiLargeUp);
             _tsmiLargeUp.Size = new Size(150, 22);
-            _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageUp;
+            _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageUp;
             _tsmiLargeUp.Click += LargeUpClick;
             // 
             // tsmiLargeDown
@@ -1489,7 +1489,7 @@ namespace Krypton.Toolkit
             _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeDown.Name = nameof(_tsmiLargeDown);
             _tsmiLargeDown.Size = new Size(150, 22);
-            _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageDown;
+            _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageDown;
             _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
@@ -1502,7 +1502,7 @@ namespace Krypton.Toolkit
             _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallUp.Name = nameof(_tsmiSmallUp);
             _tsmiSmallUp.Size = new Size(150, 22);
-            _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollUp;
+            _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollUp;
             _tsmiSmallUp.Click += SmallUpClick;
             // 
             // tsmiSmallDown
@@ -1510,7 +1510,7 @@ namespace Krypton.Toolkit
             _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallDown.Name = nameof(_tsmiSmallDown);
             _tsmiSmallDown.Size = new Size(150, 22);
-            _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollDown;
+            _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollDown;
             _tsmiSmallDown.Click += SmallDownClick;
             _contextMenu.ResumeLayout(false);
             ResumeLayout(false);

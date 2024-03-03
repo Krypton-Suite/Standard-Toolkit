@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
 * Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), Duplicate window titles when window maximized
 * Resolved [#1361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1361), Opening an existing (Or creating a new) RibbonBar creates incorrect designer code for new `ToolBarImages` object(s)
