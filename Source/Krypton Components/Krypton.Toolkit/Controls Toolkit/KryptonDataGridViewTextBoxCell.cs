@@ -76,10 +76,10 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
+            var cloned = (KryptonDataGridViewTextBoxCell)base.Clone();
             foreach (IconSpec sp in IconSpecs)
             {
-                cloned.IconSpecs.Add(sp.Clone() as IconSpec);
+                cloned.IconSpecs.Add((IconSpec)sp.Clone());
             }
 
             cloned.Multiline = Multiline;

@@ -69,17 +69,12 @@ namespace Krypton.Toolkit
         /// Overrides Clone
         /// </summary>
         /// <returns>The cloned KryptonDataGridViewTextAndImageCell</returns>
-        public override object? Clone()
+        public override object Clone()
         {
-            KryptonDataGridViewTextAndImageCell? c = (KryptonDataGridViewTextAndImageCell)base.Clone();
-            if (c != null)
-            {
-                c._imageValue = _imageValue;
-                c._imageSize = _imageSize;
-                return c;
-            }
-
-            return null;
+            var c = (KryptonDataGridViewTextAndImageCell)base.Clone();
+            c._imageValue = _imageValue;
+            c._imageSize = _imageSize;
+            return c;
         }
 
         #endregion
