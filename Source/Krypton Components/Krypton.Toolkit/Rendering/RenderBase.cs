@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
         public abstract Rectangle DrawGridSortGlyph(RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    IPaletteContent? paletteContent,
+                                                    IPaletteContent paletteContent,
                                                     PaletteState state,
                                                     bool rtl);
 
