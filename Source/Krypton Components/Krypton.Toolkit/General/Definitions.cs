@@ -1950,8 +1950,8 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
         /// </summary>
-#if NET60_OR_GREATER
-            CancelTryContinue = MessageBoxButtons.CancelTryContinue
+#if NET6_0_OR_GREATER
+        CancelTryContinue = MessageBoxButtons.CancelTryContinue
 #else
         CancelTryContinue = 0x00000006
 #endif
