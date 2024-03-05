@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
             _startIndex = startIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
 
-            _windowTitle = windowTitle ?? KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserWindowTitle;
+            _windowTitle = windowTitle ?? KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
             AdjustUI();
         }
@@ -61,11 +61,11 @@ namespace Krypton.Toolkit
 
             //klbThemeList.SelectedIndex = _startIndex;
 
-            klblDescription.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
+            klblDescription.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
-            kbtnImport.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Import;
+            kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
 
-            kchkSilent.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Silent;
+            kchkSilent.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Silent;
 
             kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 

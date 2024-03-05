@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
 
             _soundPlayer?.Play();
 
-            kbtnDismiss.Text = KryptonManager.Strings.KryptonToastNotificationStrings.Dismiss;
+            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
         }
 
         private void knudUserInput_ValueChanged(object sender, EventArgs e)

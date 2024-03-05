@@ -252,32 +252,32 @@ namespace Krypton.Toolkit
 
             string callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationBase, Assembly.GetEntryAssembly()!.Location);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationBase, Assembly.GetEntryAssembly()!.Location);
 
             // ToDo: Move to .NET
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CachePath, domain.SetupInformation.CachePath);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CachePath, domain.SetupInformation.CachePath);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.DynamicBase, domain.SetupInformation.DynamicBase);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.DynamicBase, domain.SetupInformation.DynamicBase);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.FriendlyName, domain.FriendlyName);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.FriendlyName, domain.FriendlyName);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.LicenseFile, domain.SetupInformation.LicenseFile);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.LicenseFile, domain.SetupInformation.LicenseFile);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
 
-            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
+            //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
 
             Populate(dataStore, string.Empty, string.Empty);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.EntryAssembly, entryAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ExecutingAssembly, executingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CallingAssembly, callingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName);
         }
 
         public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)

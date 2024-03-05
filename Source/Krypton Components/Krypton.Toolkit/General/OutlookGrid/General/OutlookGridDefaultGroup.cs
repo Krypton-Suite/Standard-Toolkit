@@ -98,11 +98,11 @@ namespace Krypton.Toolkit
                 _height = GlobalStaticValues.DefaultGroupRowHeight; // default height
             }
 
-            Rows = new();
-            Children = new();
+            Rows = new List<OutlookGridRow>();
+            Children = new OutlookGridGroupCollection();
             _formatStyle = "";
-            _oneItemText = KryptonManager.Strings.KryptonOutlookGridStrings.OneItem;
-            _xXxItemsText = KryptonManager.Strings.KryptonOutlookGridStrings.NumberOfItems;
+            _oneItemText = KryptonManager.Strings.OutlookGridStrings.OneItem;
+            _xXxItemsText = KryptonManager.Strings.OutlookGridStrings.NumberOfItems;
             _allowHiddenWhenGrouped = true;
             _sortBySummaryCount = false;
         }
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                 //For formatting number we need to cast the object value to the number before applying formatting
                 if (_val == null || string.IsNullOrEmpty(_val.ToString()))
                 {
-                    formattedValue = KryptonManager.Strings.KryptonOutlookGridStrings.Unknown;
+                    formattedValue = KryptonManager.Strings.OutlookGridStrings.Unknown;
                 }
                 else if (!String.IsNullOrEmpty(_formatStyle))
                 {

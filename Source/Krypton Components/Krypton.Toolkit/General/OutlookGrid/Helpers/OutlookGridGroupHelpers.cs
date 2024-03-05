@@ -36,57 +36,57 @@ namespace Krypton.Toolkit
             switch (GetDateCode(date))
             {
                 case "NODATE":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.NoDate;// "Today";
+                    return KryptonManager.Strings.OutlookGridStrings.NoDate;// "Today";
                 case "TODAY":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Today;// "Today";
+                    return KryptonManager.Strings.OutlookGridStrings.Today;// "Today";
                 case "YESTERDAY":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Yesterday;//"Yesterday";
+                    return KryptonManager.Strings.OutlookGridStrings.Yesterday;//"Yesterday";
                 case "TOMORROW":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Tomorrow;//"Tomorrow";
+                    return KryptonManager.Strings.OutlookGridStrings.Tomorrow;//"Tomorrow";
                 case "Monday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Monday;
+                    return KryptonManager.Strings.OutlookGridStrings.Monday;
                 case "Tuesday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Tuesday;
+                    return KryptonManager.Strings.OutlookGridStrings.Tuesday;
                 case "Wednesday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Wednesday;
+                    return KryptonManager.Strings.OutlookGridStrings.Wednesday;
                 case "Thursday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Thursday;
+                    return KryptonManager.Strings.OutlookGridStrings.Thursday;
                 case "Friday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Friday;
+                    return KryptonManager.Strings.OutlookGridStrings.Friday;
                 case "Saturday":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Saturday;
+                    return KryptonManager.Strings.OutlookGridStrings.Saturday;
                 case "Sunday":
                     return UppercaseFirst(date.ToString("dddd"));
                 case "NEXTWEEK":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.NextWeek;//"Next Week";
+                    return KryptonManager.Strings.OutlookGridStrings.NextWeek;//"Next Week";
                 case "INTWOWEEKS": //dans le deux semaines a venir
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.InTwoWeeks;//"In two weeks"; //dans le deux semaines a venir
+                    return KryptonManager.Strings.OutlookGridStrings.InTwoWeeks;//"In two weeks"; //dans le deux semaines a venir
                 case "INTHREEWEEKS": //dans les trois semaines à venir
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.InThreeWeeks;//"In three weeks"; //dans les trois semaines à venir
+                    return KryptonManager.Strings.OutlookGridStrings.InThreeWeeks;//"In three weeks"; //dans les trois semaines à venir
                 case "LATERDURINGTHISMONTH": //Plus tard au cours de ce mois 
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.LaterDuringThisMonth;//"Later during this month"; //Plus tard au cours de ce mois 
+                    return KryptonManager.Strings.OutlookGridStrings.LaterDuringThisMonth;//"Later during this month"; //Plus tard au cours de ce mois 
                 case "NEXTMONTH": //Prochain mois
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.NextMonth;//"Next month"; //Prochain mois
+                    return KryptonManager.Strings.OutlookGridStrings.NextMonth;//"Next month"; //Prochain mois
                 case "AFTERNEXTMONTH":  //Au-delà du prochain mois 
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.AfterNextMonth;//"After next month";  //Au-delà du prochain mois 
+                    return KryptonManager.Strings.OutlookGridStrings.AfterNextMonth;//"After next month";  //Au-delà du prochain mois 
                 case "PREVIOUSWEEK":
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.PreviousWeek;//"Previous Week";
+                    return KryptonManager.Strings.OutlookGridStrings.PreviousWeek;//"Previous Week";
                 case "TWOWEEKSAGO": //Il y a deux semaines
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.TwoWeeksAgo;//"Two weeks ago"; //Il y a deux semaines
+                    return KryptonManager.Strings.OutlookGridStrings.TwoWeeksAgo;//"Two weeks ago"; //Il y a deux semaines
                 case "THREEWEEKSAGO": //Il y a trois semaines
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.ThreeWeeksAgo;//"Three weeks ago"; //Il y a deux semaines
+                    return KryptonManager.Strings.OutlookGridStrings.ThreeWeeksAgo;//"Three weeks ago"; //Il y a deux semaines
                 case "EARLIERDURINGTHISMONTH": //Plus tôt durant ce mois
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.EarlierDuringThisMonth;//"Earlier during this month";  //Plus tot au cours de ce mois
+                    return KryptonManager.Strings.OutlookGridStrings.EarlierDuringThisMonth;//"Earlier during this month";  //Plus tot au cours de ce mois
                 case "PREVIOUSMONTH": //Mois précédent
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.PreviousMonth;//"Previous Month";  //Mois dernier
+                    return KryptonManager.Strings.OutlookGridStrings.PreviousMonth;//"Previous Month";  //Mois dernier
                 case "BEFOREPREVIOUSMONTH":  //Mois dernier // no longer exist
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.BeforePreviousMonth;//"Before Previous Month";   //Avant le mois dernier
+                    return KryptonManager.Strings.OutlookGridStrings.BeforePreviousMonth;//"Before Previous Month";   //Avant le mois dernier
                 case "EARLIERTHISYEAR":  //Mois dernier // no longer exist
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.EarlierDuringThisYear;//"Before Previous Month";   //Avant le mois dernier
+                    return KryptonManager.Strings.OutlookGridStrings.EarlierDuringThisYear;//"Before Previous Month";   //Avant le mois dernier
                 case "PREVIOUSYEAR":  //Mois dernier // no longer exist
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.PreviousYear;//"Before Previous Month";   //Avant le mois dernier
+                    return KryptonManager.Strings.OutlookGridStrings.PreviousYear;//"Before Previous Month";   //Avant le mois dernier
                 case "OLDER":  //Mois dernier // no longer exist
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.Older;//"Before Previous Month";   //Avant le mois dernier
+                    return KryptonManager.Strings.OutlookGridStrings.Older;//"Before Previous Month";   //Avant le mois dernier
 
                 default:
                     return date.Date.ToShortDateString();
@@ -309,13 +309,13 @@ namespace Krypton.Toolkit
             switch (GetQuarter(dateTime))
             {
                 case 1:
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.QuarterOne;
+                    return KryptonManager.Strings.OutlookGridStrings.QuarterOne;
                 case 2:
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.QuarterTwo;
+                    return KryptonManager.Strings.OutlookGridStrings.QuarterTwo;
                 case 3:
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.QuarterThree;
+                    return KryptonManager.Strings.OutlookGridStrings.QuarterThree;
                 case 4:
-                    return KryptonManager.Strings.KryptonOutlookGridStrings.QuarterFour;
+                    return KryptonManager.Strings.OutlookGridStrings.QuarterFour;
                 default:
                     return "";
             }

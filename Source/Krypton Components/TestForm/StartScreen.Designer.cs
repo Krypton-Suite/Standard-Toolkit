@@ -82,7 +82,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(472, 357);
+            this.kryptonPanel1.Size = new System.Drawing.Size(459, 346);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnCalendar
@@ -266,7 +266,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(472, 357);
+            this.ClientSize = new System.Drawing.Size(459, 346);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -302,7 +302,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnTreeView;
         private Krypton.Toolkit.KryptonButton kbtnOutlookGrid;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private KryptonManager kryptonManager1;
         private KryptonButton kbtnCalendar;
+        private KryptonManager kryptonManager1;
     }
 }

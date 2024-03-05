@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             _valDateTime = DateTime.MinValue;
-                            base.Value = KryptonManager.Strings.KryptonOutlookGridStrings.NoDate;
+                            base.Value = KryptonManager.Strings.OutlookGridStrings.NoDate;
                         }
                         break;
                     case DateInterval.Month:
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             _valDateTime = DateTime.MinValue;
-                            base.Value = KryptonManager.Strings.KryptonOutlookGridStrings.NoDate;
+                            base.Value = KryptonManager.Strings.OutlookGridStrings.NoDate;
                         }
                         break;
                     case DateInterval.Day:
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             _valDateTime = DateTime.MinValue;
-                            base.Value = KryptonManager.Strings.KryptonOutlookGridStrings.NoDate;
+                            base.Value = KryptonManager.Strings.OutlookGridStrings.NoDate;
                         }
                         break;
                     case DateInterval.Quarter:
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             _valDateTime = DateTime.MinValue;
-                            base.Value = KryptonManager.Strings.KryptonOutlookGridStrings.NoDate;
+                            base.Value = KryptonManager.Strings.OutlookGridStrings.NoDate;
                         }
                         break;
                     default:
