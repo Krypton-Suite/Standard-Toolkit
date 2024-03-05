@@ -84,6 +84,15 @@ namespace Krypton.Toolkit
             }
         }
 
+#if NET6_0_OR_GREATER
+        /// <inheritdoc />
+        public override Guid? ClientGuid
+        {
+            get => _internalOpenFileDialog.ClientGuid;
+            set => _internalOpenFileDialog.ClientGuid = value;
+        }
+#endif
+
         /// <inheritdoc />
         [AllowNull]
         public override string Title

@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewCheckBoxCell : DataGridViewCheckBoxCell
     {
         #region Static Fields
-        private static PropertyInfo _piButtonState;
-        private static PropertyInfo _piMouseEnteredCellAddress;
-        private static FieldInfo _fiMouseInContentBounds;
+        private static PropertyInfo? _piButtonState;
+        private static PropertyInfo? _piMouseEnteredCellAddress;
+        private static FieldInfo? _fiMouseInContentBounds;
         #endregion
 
         #region Instance Fields
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState.GetValue(this, null);
+                return _piButtonState != null ? (ButtonState)_piButtonState.GetValue(this, null) : ButtonState.Normal;
             }
         }
 
@@ -280,6 +280,15 @@ namespace Krypton.Toolkit
                     _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField(@"mouseInContentBounds", BindingFlags.Static |
                                                                                                                 BindingFlags.NonPublic |
                                                                                                                 BindingFlags.GetField);
+
+                    if (_fiMouseInContentBounds == null)
+                    {
+                        // https://github.com/dotnet/winforms/commit/7ab46c6e6ae1c39143a7638d694fb6e130ab4edc#diff-2684515ec95bea4ec16a0bf7c9e6ff09dc33d31aafabd2c35f016994c800fc84
+                        // This was changed in netCore8 P1 but when running netcore7 it still wants this new name ??
+                        _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField(@"s_mouseInContentBounds", BindingFlags.Static |
+                            BindingFlags.NonPublic |
+                            BindingFlags.GetField);
+                    }
                 }
 
                 // Grab the internal property implemented by base class

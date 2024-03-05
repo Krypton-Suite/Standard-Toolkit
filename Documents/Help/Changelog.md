@@ -2,6 +2,11 @@
 
 =======
 
+## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+* Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
+
+=======
+
 ## 2023-11-17 - Build 2311 (Patch 1) - November 2023
 * Resolved issue where an assertion is made when using `KryptonThemeComboBox` or `KryptonRibbonGroupThemeComboBox`
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`

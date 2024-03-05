@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.CheckPathExists = value;
         }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

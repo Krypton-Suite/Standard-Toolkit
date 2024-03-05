@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewButtonCell : DataGridViewButtonCell
     {
         #region Static Fields
-        private static PropertyInfo _piButtonState;
-        private static PropertyInfo _piMouseEnteredCellAddress;
-        private static FieldInfo _fiMouseInContentBounds;
+        private static PropertyInfo? _piButtonState;
+        private static PropertyInfo? _piMouseEnteredCellAddress;
+        private static FieldInfo? _fiMouseInContentBounds;
         #endregion
 
         #region Instance Fields
@@ -356,7 +356,9 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState.GetValue(this, null);
+                return _piButtonState != null
+                    ? (ButtonState)(_piButtonState.GetValue(this, null) ?? ButtonState.Normal)
+                    : ButtonState.Normal;
             }
         }
 
@@ -371,10 +373,19 @@ namespace Krypton.Toolkit
                     _fiMouseInContentBounds = typeof(DataGridViewButtonCell).GetField(@"mouseInContentBounds", BindingFlags.Static |
                                                                                                               BindingFlags.NonPublic |
                                                                                                               BindingFlags.GetField);
+
+                    if (_fiMouseInContentBounds == null)
+                    {
+                        // https://github.com/dotnet/winforms/commit/27e010d21c78457113f5be67eeea842499ab5f74#diff-bb5ad249080118c559367691ad27b9a93f8d5324b814f65113ff2e4bd15c9b39
+                        // This was changed in netCore8 P1 but when running netcore7 it still wants this new name ??
+                        _fiMouseInContentBounds = typeof(DataGridViewButtonCell).GetField(@"s_mouseInContentBounds", BindingFlags.Static |
+                            BindingFlags.NonPublic |
+                            BindingFlags.GetField);
+                    }
                 }
 
                 // Grab the internal property implemented by base class
-                return (bool)_fiMouseInContentBounds.GetValue(this);
+                return _fiMouseInContentBounds != null && (bool)(_fiMouseInContentBounds.GetValue(this) ?? false);
             }
         }
 
@@ -394,7 +405,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress.GetValue(base.DataGridView, null);
+                return _piMouseEnteredCellAddress != null ? (Point)(_piMouseEnteredCellAddress.GetValue(base.DataGridView, null) ?? Point.Empty) : Point.Empty;
                 // ReSharper restore RedundantBaseQualifier
             }
         }
