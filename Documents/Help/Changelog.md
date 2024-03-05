@@ -7,7 +7,6 @@
 * Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
 * Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), Duplicate window titles when window maximized
-* Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), **[Regression]** Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
 * Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), **[Regression]** Duplicate window titles when window maximized
 * Resolved [#1361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1361), Opening an existing (Or creating a new) RibbonBar creates incorrect designer code for new `ToolBarImages` object(s)
@@ -71,6 +70,11 @@
 * Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
 * Version bump `80.xx.xx.xx` -> `90.xx.xx.xx`
+
+=======
+
+## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+* Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======
 

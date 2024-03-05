@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
 
             _style = PaletteButtonSpecStyle.SaveAll;
 
-            Text = KryptonManager.Strings.IntegratedToolBarStrings.SaveAll;
+            Text = KryptonManager.Strings.ToolBarStrings.SaveAll;
 
             UpdateButtonSpec();
         }
