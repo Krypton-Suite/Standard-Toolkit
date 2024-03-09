@@ -591,110 +591,64 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsDefault => !(ShouldSerializeCustomStrings() ||
-                                   ShouldSerializeGeneralRibbonStrings() ||
-                                   ShouldSerializeGeneralStrings() ||
-                                   ShouldSerializeColorStrings() ||
-                                   ShouldSerializePaletteModeStrings() ||
-                                   ShouldSerializeGridViewStyleStrings() ||
-                                   ShouldSerializeGridStyleStrings() ||
+        public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                                   ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
+                                   ShouldSerializeButtonOrientationStrings() ||
+                                   ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
+                                   ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
+                                   ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                                   ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
-                                   ShouldSerializeHeaderStyleStrings() ||
-                                   ShouldSerializeInputControlStyleStrings() ||
-                                   ShouldSerializeToolBarStrings() ||
-                                   ShouldSerializeLinkBehaviorStrings() ||
-                                   ShouldSerializeBackStyleStrings() ||
-                                   ShouldSerializeBorderStyleStrings() ||
-                                   ShouldSerializeButtonStyleStrings() ||
-                                   //ShouldSerializePaletteButtonOrientationStrings() ||
-                                   ShouldSerializeButtonSpecStyleStrings() ||
+                                   ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
+                                   ShouldSerializeLabelStyleStrings() || ShouldSerializeLinkBehaviorStrings() ||
+                                   ShouldSerializeMiscellaneousThemeStrings() || ShouldSerializeOutlookGridStrings() ||
                                    ShouldSerializePaletteButtonStyles() ||
                                    ShouldSerializePaletteContentStyleStrings() ||
                                    ShouldSerializePaletteImageEffectStrings() ||
-                                   ShouldSerializePaletteImageStyleStrings() ||
-                                   ShouldSerializePaletteTextTrimStrings() ||
-                                   ShouldSerializePlacementModeStrings() ||
-                                   ShouldSerializeSeparatorStyleStrings() ||
-                                   ShouldSerializeTabBorderStyleStrings() ||
-                                   ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializePaletteImageStyleStrings() || ShouldSerializePaletteModeStrings() ||
+                                   ShouldSerializePaletteTextTrimStrings() || ShouldSerializePlacementModeStrings() ||
+                                   ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeToastNotificationIconStrings() ||
-                                   ShouldSerializeAboutBoxBasicStrings() ||
-                                   ShouldSerializeAboutBoxStrings() ||
-                                   ShouldSerializeMiscellaneousThemeStrings() ||
-                                   ShouldSerializeOutlookGridStrings() ||
-                                   ShouldSerializeScrollBarStrings() ||
-                                   ShouldSerializeToastNotificationStrings());
+                                   ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
         {
-            ResetColorStrings();
-
-            ResetButtonSpecStyleStrings();
-
-            ResetCustomStrings();
-
-            ResetGeneralRibbonStrings();
-
-            ResetGeneralStrings();
-
-            ResetPaletteModeStrings();
-
-            ResetGridViewStyleStrings();
-
-            ResetGridStyleStrings();
-
-            ResetHeaderGroupCollapsedTargetStrings();
-
-            ResetHeaderStyleStrings();
-
-            ResetInputControlStyleStrings();
-
-            ResetToolBarStrings();
-
-            ResetLinkBehaviorStrings();
-
-            ResetBackStyleStrings();
-
-            ResetBorderStyleStrings();
-
-            ResetButtonStyleStrings();
-
-            //ResetPaletteButtonOrientationStrings();
-
-            ResetButtonSpecStyleStrings();
-
-            ResetPaletteButtonStyles();
-
-            ResetPaletteContentStyleStrings();
-
-            ResetPaletteImageEffectStrings();
-
-            ResetPaletteImageStyleStrings();
-
-            ResetPaletteTextTrimStrings();
-
-            ResetPlacementModeStrings();
-
-            ResetSeparatorStyleStrings();
-
-            ResetTabBorderStyleStrings();
-
-            ResetTabStyleStrings();
-
-            ResetToastNotificationIconStrings();
-
             ResetAboutBoxBasicStrings();
-
             ResetAboutBoxStrings();
-
+            ResetBackStyleStrings();
+            ResetBorderStyleStrings();
+            ResetButtonOrientationStrings();
+            ResetButtonSpecStyleStrings();
+            ResetButtonStyleStrings();
+            ResetColorStrings();
+            ResetCustomStrings();
+            ResetGeneralRibbonStrings();
+            ResetGeneralStrings();
+            ResetGridStyleStrings();
+            ResetGridViewStyleStrings();
+            ResetHeaderGroupCollapsedTargetStrings();
+            ResetHeaderStyleStrings();
+            ResetInputControlStyleStrings();
+            ResetLabelStyleStrings();
+            ResetLinkBehaviorStrings();
             ResetMiscellaneousThemeStrings();
-
             ResetOutlookGridStrings();
-
+            ResetPaletteButtonStyles();
+            ResetPaletteContentStyleStrings();
+            ResetPaletteImageEffectStrings();
+            ResetPaletteImageStyleStrings();
+            ResetPaletteModeStrings();
+            ResetPaletteTextTrimStrings();
+            ResetPlacementModeStrings();
             ResetScrollBarStrings();
-
+            ResetSeparatorStyleStrings();
+            ResetTabBorderStyleStrings();
+            ResetTabStyleStrings();
+            ResetToastNotificationIconStrings();
             ResetToastNotificationStrings();
+            ResetToolBarStrings();
         }
 
         #endregion
