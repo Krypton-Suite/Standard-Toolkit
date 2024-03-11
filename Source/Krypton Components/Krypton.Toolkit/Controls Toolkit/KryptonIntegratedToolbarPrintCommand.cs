@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
 
             _printButtonSpec = null;
 
-            Text = KryptonManager.Strings.IntegratedToolBarStrings.Print;
+            Text = KryptonManager.Strings.ToolBarStrings.Print;
         }
 
         #endregion

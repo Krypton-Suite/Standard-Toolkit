@@ -13,18 +13,197 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class KryptonGlobalToolkitStrings : GlobalId
     {
+        #region Static Strings
+
+        /// <summary>Gets the color strings.</summary>
+        /// <value>The color strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static GlobalColorStrings GlobalColorStrings { get; } = new GlobalColorStrings();
+
+        /// <summary>Gets the spec style strings.</summary>
+        /// <value>The spec style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static ButtonStyleStrings ButtonStyles { get; } = new ButtonStyleStrings();
+
+        /// <summary>Gets the custom toolkit strings.</summary>
+        /// <value>The custom toolkit strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
+
+        /// <summary>Gets the general ribbon strings.</summary>
+        /// <value>The general ribbon strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static GeneralRibbonStrings GeneralRibbonStrings { get; } = new GeneralRibbonStrings();
+
+        /// <summary>Gets the strings.</summary>
+        /// <value>The strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static GeneralToolkitStrings GeneralToolkitStrings
+        { get; } = new GeneralToolkitStrings();
+
+        /// <summary>Gets the grid view style strings.</summary>
+        /// <value>The grid view style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static DataGridViewStyleStrings DataGridViewStyles { get; } = new DataGridViewStyleStrings();
+
+        /// <summary>Gets the style strings.</summary>
+        /// <value>The style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static GridStyleStrings GridStyles { get; } = new GridStyleStrings();
+
+        /// <summary>Gets the group collapsed target strings.</summary>
+        /// <value>The group collapsed target strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static HeaderGroupCollapsedTargetStrings GroupCollapsedTargetStrings { get; } =
+        new HeaderGroupCollapsedTargetStrings();
+
+        /// <summary>Gets the header styles.</summary>
+        /// <value>The header styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static HeaderStyleStrings HeaderStyles { get; } = new HeaderStyleStrings();
+
+        /// <summary>Gets the input control styles.</summary>
+        /// <value>The input control styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static InputControlStyleStrings InputControlStyles { get; } = new InputControlStyleStrings();
+
+        /// <summary>Gets the tool bar strings.</summary>
+        /// <value>The tool bar strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static IntegratedToolBarStrings IntegratedToolBarStrings { get; } = new IntegratedToolBarStrings();
+
+        /// <summary>Gets the link behavior strings.</summary>
+        /// <value>The link behavior strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonLinkBehaviorStrings KryptonLinkBehaviorStrings { get; } = new KryptonLinkBehaviorStrings();
+
+        /// <summary>Gets the krypton label style strings.</summary>
+        /// <value>The krypton label style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new LabelStyleStrings();
+
+        /// <summary>Gets the back style strings.</summary>
+        /// <value>The back style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteBackStyleStrings PaletteBackStyleStrings { get; } = new PaletteBackStyleStrings();
+
+        /// <summary>Gets the border style strings.</summary>
+        /// <value>The border style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteBorderStyleStrings PaletteBorderStyleStrings { get; } = new PaletteBorderStyleStrings();
+
+        /// <summary>Gets the button orientation strings.</summary>
+        /// <value>The button orientation strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteButtonOrientationStrings PaletteButtonOrientationStrings { get; } =
+        new PaletteButtonOrientationStrings();
+
+        /// <summary>Gets the button spec styles.</summary>
+        /// <value>The button spec styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteButtonSpecStyleStrings PaletteButtonSpecStyleStrings { get; } = new PaletteButtonSpecStyleStrings();
+
+        /// <summary>Gets the button style strings.</summary>
+        /// <value>The button style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteButtonStyleStrings PaletteButtonStyleStrings { get; } = new PaletteButtonStyleStrings();
+
+        /// <summary>Gets the content style strings.</summary>
+        /// <value>The content style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new PaletteContentStyleStrings();
+
+        /// <summary>Gets the image effect strings.</summary>
+        /// <value>The image effect strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new PaletteImageEffectStrings();
+
+        /// <summary>Gets the image style strings.</summary>
+        /// <value>The image style strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new PaletteImageStyleStrings();
+
+        /// <summary>Gets the mode strings.</summary>
+        /// <value>The mode strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteModeStrings ModeStrings { get; } = new PaletteModeStrings();
+
+        /// <summary>Gets the text trim strings.</summary>
+        /// <value>The text trim strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PaletteTextTrimStrings TextTrimStrings { get; } = new PaletteTextTrimStrings();
+
+        /// <summary>Gets the placement mode strings.</summary>
+        /// <value>The placement mode strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static PlacementModeStrings PlacementModeStrings { get; } = new PlacementModeStrings();
+
+        /// <summary>Gets the separator styles.</summary>
+        /// <value>The separator styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static SeparatorStyleStrings SeparatorStyles { get; } = new SeparatorStyleStrings();
+
+        /// <summary>Gets the tab border styles.</summary>
+        /// <value>The tab border styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static TabBorderStyleStrings TabBorderStyles { get; } = new TabBorderStyleStrings();
+
+        /// <summary>Gets the tab styles.</summary>
+        /// <value>The tab styles.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
+
+        /// <summary>Gets the toast notification icon.</summary>
+        /// <value>The toast notification icon.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static ToastNotificationIconStrings ToastNotificationIcon { get; } = new ToastNotificationIconStrings();
+
+        /// <summary>Gets the basic application information strings.</summary>
+        /// <value>The basic application information strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonAboutBoxBasicApplicationInformationStrings KryptonAboutBoxBasicApplicationInformationStrings { get; } = new KryptonAboutBoxBasicApplicationInformationStrings();
+
+        /// <summary>Gets the about box strings.</summary>
+        /// <value>The about box strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonAboutBoxStrings KryptonAboutBoxStrings { get; } = new KryptonAboutBoxStrings();
+
+        /// <summary>Gets the miscellaneous theme strings.</summary>
+        /// <value>The miscellaneous theme strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
+        new KryptonMiscellaneousThemeStrings();
+
+        /// <summary>Gets the outlook grid strings.</summary>
+        /// <value>The outlook grid strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonOutlookGridStrings KryptonOutlookGridStrings { get; } = new KryptonOutlookGridStrings();
+
+        /// <summary>Gets the scroll bar strings.</summary>
+        /// <value>The scroll bar strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonScrollBarStrings KryptonScrollBarStrings { get; } = new KryptonScrollBarStrings();
+
+        /// <summary>Gets the toast notification strings.</summary>
+        /// <value>The toast notification strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
+            new KryptonToastNotificationStrings();
+
+        #endregion
+
         #region Public
 
-        /// <summary>Gets the global color strings.</summary>
-        /// <value>The global color strings.</value>
+        /// <summary>Gets the palette back style strings.</summary>
+        /// <value>The palette back style strings.</value>
         [Category(@"Visuals")]
-        [Description(@"Collection of color strings.")]
+        [Description(@"Collection of palette back style strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public GlobalColorStrings GlobalColorStrings => ColorStrings;
-        private bool ShouldSerializeColorStrings() => !ColorStrings.IsDefault;
-        private void ResetColorStrings() => ColorStrings.Reset();
+        public PaletteBackStyleStrings BackStyleStrings => PaletteBackStyleStrings;
+        private bool ShouldSerializeBackStyleStrings() => !PaletteBackStyleStrings.IsDefault;
+        private void ResetBackStyleStrings() => PaletteBackStyleStrings.Reset();
 
         /// <summary>Gets the button spec style strings.</summary>
         /// <value>The button spec style strings.</value>
@@ -34,8 +213,63 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public ButtonStyleStrings ButtonStyleStrings => ButtonStyles;
-        private bool ShouldSerializeButtonSpecStyleStrings() => !ButtonStyles.IsDefault;
-        private void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
+        private bool ShouldSerializeButtonStyleStrings() => !ButtonStyles.IsDefault;
+        private void ResetButtonStyleStrings() => ButtonStyles.Reset();
+
+        /// <summary>Gets the palette border style strings.</summary>
+        /// <value>The palette border style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette border style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteBorderStyleStrings BorderStyleStrings => PaletteBorderStyleStrings;
+        private bool ShouldSerializeBorderStyleStrings() => !PaletteBorderStyleStrings.IsDefault;
+        private void ResetBorderStyleStrings() => PaletteBorderStyleStrings.Reset();
+
+        /// <summary>Gets the palette button orientation strings.</summary>
+        /// <value>The palette button orientation strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button orientation strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonOrientationStrings ButtonOrientationStrings => PaletteButtonOrientationStrings;
+        private bool ShouldSerializeButtonOrientationStrings() => !PaletteButtonOrientationStrings.IsDefault;
+        private void ResetButtonOrientationStrings() => PaletteButtonOrientationStrings.Reset();
+
+        /// <summary>Gets the palette button spec style strings.</summary>
+        /// <value>The palette button spec style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button spec style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonSpecStyleStrings ButtonSpecStyleStrings => PaletteButtonSpecStyleStrings;
+        private bool ShouldSerializeButtonSpecStyleStrings() => !PaletteButtonSpecStyleStrings.IsDefault;
+        private void ResetButtonSpecStyleStrings() => PaletteButtonSpecStyleStrings.Reset();
+
+        /// <summary>Gets the palette button style strings.</summary>
+        /// <value>The palette button style strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of palette button style strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public PaletteButtonStyleStrings PaletteButtonStyles => PaletteButtonStyleStrings;
+        private bool ShouldSerializePaletteButtonStyles() => !PaletteButtonStyleStrings.IsDefault;
+        private void ResetPaletteButtonStyles() => PaletteButtonStyleStrings.Reset();
+
+        /// <summary>Gets the global color strings.</summary>
+        /// <value>The global color strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of color strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public GlobalColorStrings ColorStrings => GlobalColorStrings;
+        private bool ShouldSerializeColorStrings() => !GlobalColorStrings.IsDefault;
+        private void ResetColorStrings() => GlobalColorStrings.Reset();
 
         /// <summary>Gets the custom toolkit strings.</summary>
         /// <value>The custom toolkit strings.</value>
@@ -77,9 +311,9 @@ namespace Krypton.Toolkit
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public IntegratedToolBarStrings IntegratedToolBarStrings => ToolBarStrings;
-        private bool ShouldSerializeIntegratedToolBarStrings() => !ToolBarStrings.IsDefault;
-        private void ResetIntegratedToolBarStrings() => ToolBarStrings.Reset();
+        public IntegratedToolBarStrings ToolBarStrings => IntegratedToolBarStrings;
+        private bool ShouldSerializeToolBarStrings() => !IntegratedToolBarStrings.IsDefault;
+        private void ResetToolBarStrings() => IntegratedToolBarStrings.Reset();
 
         /// <summary>Gets the link behavior style strings.</summary>
         /// <value>The link behavior style strings.</value>
@@ -100,63 +334,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public LabelStyleStrings LabelStyleStrings => KryptonLabelStyleStrings;
-        private bool ShouldSerializeLabelStyleStrings() => !LabelStyleStrings.IsDefault;
-        private void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
-
-        /// <summary>Gets the palette back style strings.</summary>
-        /// <value>The palette back style strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette back style strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteBackStyleStrings PaletteBackStyleStrings => BackStyleStrings;
-        private bool ShouldSerializePaletteBackStyleStrings() => !BackStyleStrings.IsDefault;
-        private void ResetPaletteBackStyleStrings() => BackStyleStrings.Reset();
-
-        /// <summary>Gets the palette border style strings.</summary>
-        /// <value>The palette border style strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette border style strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteBorderStyleStrings PaletteBorderStyleStrings => BorderStyleStrings;
-        private bool ShouldSerializePaletteBorderStyleStrings() => !BorderStyleStrings.IsDefault;
-        private void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
-
-        /// <summary>Gets the palette button orientation strings.</summary>
-        /// <value>The palette button orientation strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette button orientation strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteButtonOrientationStrings PaletteButtonOrientationStrings => ButtonOrientationStrings;
-        private bool ShouldSerializePaletteButtonOrientationStrings() => !ButtonOrientationStrings.IsDefault;
-        private void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();
-
-        /// <summary>Gets the palette button spec style strings.</summary>
-        /// <value>The palette button spec style strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette button spec style strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteButtonSpecStyleStrings PaletteButtonSpecStyleStrings => ButtonSpecStyles;
-        private bool ShouldSerializePaletteButtonSpecStyleStrings() => !ButtonSpecStyles.IsDefault;
-        private void ResetPaletteButtonSpecStyleStrings() => ButtonSpecStyles.Reset();
-
-        /// <summary>Gets the palette button style strings.</summary>
-        /// <value>The palette button style strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of palette button style strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public PaletteButtonStyleStrings PaletteButtonStyleStrings => PaletteButtonStyles;
-        private bool ShouldSerializePaletteButtonStyleStrings() => !PaletteButtonStyles.IsDefault;
-        private void ResetPaletteButtonStyleStrings() => PaletteButtonStyles.Reset();
+        private bool ShouldSerializeLabelStyleStrings() => !KryptonLabelStyleStrings.IsDefault;
+        private void ResetLabelStyleStrings() => KryptonLabelStyleStrings.Reset();
 
         /// <summary>Gets the palette content style strings.</summary>
         /// <value>The palette content style strings.</value>
@@ -395,185 +574,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Static Strings
-
-        /// <summary>Gets the color strings.</summary>
-        /// <value>The color strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static GlobalColorStrings ColorStrings { get; } = new GlobalColorStrings();
-
-        /// <summary>Gets the spec style strings.</summary>
-        /// <value>The spec style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static ButtonStyleStrings ButtonStyles { get; } = new ButtonStyleStrings();
-
-        /// <summary>Gets the custom toolkit strings.</summary>
-        /// <value>The custom toolkit strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
-
-        /// <summary>Gets the general ribbon strings.</summary>
-        /// <value>The general ribbon strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static GeneralRibbonStrings GeneralRibbonStrings { get; } = new GeneralRibbonStrings();
-
-        /// <summary>Gets the strings.</summary>
-        /// <value>The strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static GeneralToolkitStrings GeneralToolkitStrings
-        { get; } = new GeneralToolkitStrings();
-
-        /// <summary>Gets the grid view style strings.</summary>
-        /// <value>The grid view style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static DataGridViewStyleStrings DataGridViewStyles { get; } = new DataGridViewStyleStrings();
-
-        /// <summary>Gets the style strings.</summary>
-        /// <value>The style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static GridStyleStrings GridStyles { get; } = new GridStyleStrings();
-
-        /// <summary>Gets the group collapsed target strings.</summary>
-        /// <value>The group collapsed target strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static HeaderGroupCollapsedTargetStrings GroupCollapsedTargetStrings { get; } =
-        new HeaderGroupCollapsedTargetStrings();
-
-        /// <summary>Gets the header styles.</summary>
-        /// <value>The header styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static HeaderStyleStrings HeaderStyles { get; } = new HeaderStyleStrings();
-
-        /// <summary>Gets the input control styles.</summary>
-        /// <value>The input control styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static InputControlStyleStrings InputControlStyles { get; } = new InputControlStyleStrings();
-
-        /// <summary>Gets the tool bar strings.</summary>
-        /// <value>The tool bar strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static IntegratedToolBarStrings ToolBarStrings { get; } = new IntegratedToolBarStrings();
-
-        /// <summary>Gets the link behavior strings.</summary>
-        /// <value>The link behavior strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonLinkBehaviorStrings KryptonLinkBehaviorStrings { get; } = new KryptonLinkBehaviorStrings();
-
-        /// <summary>Gets the krypton label style strings.</summary>
-        /// <value>The krypton label style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static LabelStyleStrings KryptonLabelStyleStrings { get; } = new LabelStyleStrings();
-
-        /// <summary>Gets the back style strings.</summary>
-        /// <value>The back style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteBackStyleStrings BackStyleStrings { get; } = new PaletteBackStyleStrings();
-
-        /// <summary>Gets the border style strings.</summary>
-        /// <value>The border style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteBorderStyleStrings BorderStyleStrings { get; } = new PaletteBorderStyleStrings();
-
-        /// <summary>Gets the button orientation strings.</summary>
-        /// <value>The button orientation strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteButtonOrientationStrings ButtonOrientationStrings { get; } =
-        new PaletteButtonOrientationStrings();
-
-        /// <summary>Gets the button spec styles.</summary>
-        /// <value>The button spec styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteButtonSpecStyleStrings ButtonSpecStyles { get; } = new PaletteButtonSpecStyleStrings();
-
-        /// <summary>Gets the button style strings.</summary>
-        /// <value>The button style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteButtonStyleStrings PaletteButtonStyles { get; } = new PaletteButtonStyleStrings();
-
-        /// <summary>Gets the content style strings.</summary>
-        /// <value>The content style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteContentStyleStrings ContentStyleStrings { get; } = new PaletteContentStyleStrings();
-
-        /// <summary>Gets the image effect strings.</summary>
-        /// <value>The image effect strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteImageEffectStrings ImageEffectStrings { get; } = new PaletteImageEffectStrings();
-
-        /// <summary>Gets the image style strings.</summary>
-        /// <value>The image style strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteImageStyleStrings ImageStyleStrings { get; } = new PaletteImageStyleStrings();
-
-        /// <summary>Gets the mode strings.</summary>
-        /// <value>The mode strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteModeStrings ModeStrings { get; } = new PaletteModeStrings();
-
-        /// <summary>Gets the text trim strings.</summary>
-        /// <value>The text trim strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteTextTrimStrings TextTrimStrings { get; } = new PaletteTextTrimStrings();
-
-        /// <summary>Gets the placement mode strings.</summary>
-        /// <value>The placement mode strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PlacementModeStrings PlacementModeStrings { get; } = new PlacementModeStrings();
-
-        /// <summary>Gets the separator styles.</summary>
-        /// <value>The separator styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static SeparatorStyleStrings SeparatorStyles { get; } = new SeparatorStyleStrings();
-
-        /// <summary>Gets the tab border styles.</summary>
-        /// <value>The tab border styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static TabBorderStyleStrings TabBorderStyles { get; } = new TabBorderStyleStrings();
-
-        /// <summary>Gets the tab styles.</summary>
-        /// <value>The tab styles.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
-
-        /// <summary>Gets the toast notification icon.</summary>
-        /// <value>The toast notification icon.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static ToastNotificationIconStrings ToastNotificationIcon { get; } = new ToastNotificationIconStrings();
-
-        /// <summary>Gets the basic application information strings.</summary>
-        /// <value>The basic application information strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonAboutBoxBasicApplicationInformationStrings KryptonAboutBoxBasicApplicationInformationStrings { get; } = new KryptonAboutBoxBasicApplicationInformationStrings();
-
-        /// <summary>Gets the about box strings.</summary>
-        /// <value>The about box strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonAboutBoxStrings KryptonAboutBoxStrings { get; } = new KryptonAboutBoxStrings();
-
-        /// <summary>Gets the miscellaneous theme strings.</summary>
-        /// <value>The miscellaneous theme strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
-        new KryptonMiscellaneousThemeStrings();
-
-        /// <summary>Gets the outlook grid strings.</summary>
-        /// <value>The outlook grid strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonOutlookGridStrings KryptonOutlookGridStrings { get; } = new KryptonOutlookGridStrings();
-
-        /// <summary>Gets the scroll bar strings.</summary>
-        /// <value>The scroll bar strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonScrollBarStrings KryptonScrollBarStrings { get; } = new KryptonScrollBarStrings();
-
-        /// <summary>Gets the toast notification strings.</summary>
-        /// <value>The toast notification strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
-            new KryptonToastNotificationStrings();
-
-        #endregion
-
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonGlobalToolkitStrings" /> class.</summary>
@@ -591,108 +591,64 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsDefault => !(ShouldSerializeCustomStrings() ||
-                                   ShouldSerializeGeneralRibbonStrings() ||
-                                   ShouldSerializeGeneralStrings() ||
-                                   ShouldSerializeColorStrings() ||
-                                   ShouldSerializePaletteModeStrings() ||
-                                   ShouldSerializeButtonSpecStyleStrings() ||
-                                   ShouldSerializeGridViewStyleStrings() ||
-                                   ShouldSerializeGridStyleStrings() ||
+        public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                                   ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
+                                   ShouldSerializeButtonOrientationStrings() ||
+                                   ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
+                                   ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
+                                   ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                                   ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
-                                   ShouldSerializeHeaderStyleStrings() ||
-                                   ShouldSerializeInputControlStyleStrings() ||
-                                   ShouldSerializeIntegratedToolBarStrings() ||
-                                   ShouldSerializeLinkBehaviorStrings() ||
-                                   ShouldSerializePaletteBackStyleStrings() ||
-                                   ShouldSerializePaletteBorderStyleStrings() ||
-                                   //ShouldSerializePaletteButtonOrientationStrings() ||
-                                   ShouldSerializePaletteButtonSpecStyleStrings() ||
-                                   ShouldSerializePaletteButtonStyleStrings() ||
+                                   ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
+                                   ShouldSerializeLabelStyleStrings() || ShouldSerializeLinkBehaviorStrings() ||
+                                   ShouldSerializeMiscellaneousThemeStrings() || ShouldSerializeOutlookGridStrings() ||
+                                   ShouldSerializePaletteButtonStyles() ||
                                    ShouldSerializePaletteContentStyleStrings() ||
                                    ShouldSerializePaletteImageEffectStrings() ||
-                                   ShouldSerializePaletteImageStyleStrings() ||
-                                   ShouldSerializePaletteTextTrimStrings() ||
-                                   ShouldSerializePlacementModeStrings() ||
-                                   ShouldSerializeSeparatorStyleStrings() ||
-                                   ShouldSerializeTabBorderStyleStrings() ||
-                                   ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializePaletteImageStyleStrings() || ShouldSerializePaletteModeStrings() ||
+                                   ShouldSerializePaletteTextTrimStrings() || ShouldSerializePlacementModeStrings() ||
+                                   ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeToastNotificationIconStrings() ||
-                                   ShouldSerializeAboutBoxBasicStrings() ||
-                                   ShouldSerializeAboutBoxStrings() ||
-                                   ShouldSerializeMiscellaneousThemeStrings() ||
-                                   ShouldSerializeOutlookGridStrings() ||
-                                   ShouldSerializeScrollBarStrings() ||
-                                   ShouldSerializeToastNotificationStrings());
+                                   ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
         {
-            ResetColorStrings();
-
-            ResetButtonSpecStyleStrings();
-
-            ResetCustomStrings();
-
-            ResetGeneralRibbonStrings();
-
-            ResetGeneralStrings();
-
-            ResetPaletteModeStrings();
-
-            ResetGridViewStyleStrings();
-
-            ResetGridStyleStrings();
-
-            ResetHeaderGroupCollapsedTargetStrings();
-
-            ResetHeaderStyleStrings();
-
-            ResetInputControlStyleStrings();
-
-            ResetIntegratedToolBarStrings();
-
-            ResetLinkBehaviorStrings();
-
-            ResetPaletteBackStyleStrings();
-
-            ResetPaletteBorderStyleStrings();
-
-            //ResetPaletteButtonOrientationStrings();
-
-            ResetPaletteButtonSpecStyleStrings();
-
-            ResetPaletteButtonStyleStrings();
-
-            ResetPaletteContentStyleStrings();
-
-            ResetPaletteImageEffectStrings();
-
-            ResetPaletteImageStyleStrings();
-
-            ResetPaletteTextTrimStrings();
-
-            ResetPlacementModeStrings();
-
-            ResetSeparatorStyleStrings();
-
-            ResetTabBorderStyleStrings();
-
-            ResetTabStyleStrings();
-
-            ResetToastNotificationIconStrings();
-
             ResetAboutBoxBasicStrings();
-
             ResetAboutBoxStrings();
-
+            ResetBackStyleStrings();
+            ResetBorderStyleStrings();
+            ResetButtonOrientationStrings();
+            ResetButtonSpecStyleStrings();
+            ResetButtonStyleStrings();
+            ResetColorStrings();
+            ResetCustomStrings();
+            ResetGeneralRibbonStrings();
+            ResetGeneralStrings();
+            ResetGridStyleStrings();
+            ResetGridViewStyleStrings();
+            ResetHeaderGroupCollapsedTargetStrings();
+            ResetHeaderStyleStrings();
+            ResetInputControlStyleStrings();
+            ResetLabelStyleStrings();
+            ResetLinkBehaviorStrings();
             ResetMiscellaneousThemeStrings();
-
             ResetOutlookGridStrings();
-
+            ResetPaletteButtonStyles();
+            ResetPaletteContentStyleStrings();
+            ResetPaletteImageEffectStrings();
+            ResetPaletteImageStyleStrings();
+            ResetPaletteModeStrings();
+            ResetPaletteTextTrimStrings();
+            ResetPlacementModeStrings();
             ResetScrollBarStrings();
-
+            ResetSeparatorStyleStrings();
+            ResetTabBorderStyleStrings();
+            ResetTabStyleStrings();
+            ResetToastNotificationIconStrings();
             ResetToastNotificationStrings();
+            ResetToolBarStrings();
         }
 
         #endregion
