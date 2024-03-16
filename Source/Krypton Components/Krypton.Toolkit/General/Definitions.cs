@@ -2346,4 +2346,38 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum KryptonToastNotificationResponseType
+
+    public enum KryptonToastNotificationResponseType
+    {
+        /// <summary>Returns a <see cref="bool"/> result.</summary>
+        Bool = 0,
+        /// <summary>Returns a <see cref="CheckBoxState"/> result.</summary>
+        CheckedState = 1,
+        /// <summary>Returns what ever value is selected in the <see cref="KryptonComboBox"/>.</summary>
+        ComboBox = 2,
+        /// <summary>Returns a <see cref="System.DateTime"/> result.</summary>
+        DateTime = 3,
+        /// <summary>Returns a <see cref="System.Windows.Forms.DialogResult"/> result.</summary>
+        DialogResult = 4,
+        /// <summary>Returns a time-out result.</summary>
+        Timeout = 5,
+        /// <summary>Returns a <see cref="string"/> result.</summary>
+        String = 6
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationType
+
+    public enum KryptonToastNotificationType
+    {
+        Basic = 0,
+        BasicWithProgressBar = 1,
+        UserInput = 2,
+        UserInputWithProgressBar = 3
+    }
+
+    #endregion
 }

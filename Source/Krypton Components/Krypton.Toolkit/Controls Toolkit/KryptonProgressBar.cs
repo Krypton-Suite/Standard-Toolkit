@@ -576,16 +576,16 @@ namespace Krypton.Toolkit
             // Set the style we want picked up from the base palette
             var (barPaletteState, barState) = GetBarPaletteState();
 
-                // Draw the background of the entire control over the entire client area. 
-                using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
-                {
-                    var panelState = !Parent!.Enabled
-                        ? PaletteState.Disabled
-                        : PaletteState.Normal;
-                    // Ask renderer to draw the background
-                    _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
-                        panelState, _mementoBackClientPanel);
-                }
+            // Draw the background of the entire control over the entire client area. 
+            using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
+            {
+                var panelState = !Parent!.Enabled
+                    ? PaletteState.Disabled
+                    : PaletteState.Normal;
+                // Ask renderer to draw the background
+                _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
+                    panelState, _mementoBackClientPanel);
+            }
 
             //////////////////////////////////////////////////////////////////////////////////
             // In case the border has a rounded effect we need to get the background path   //
@@ -621,41 +621,41 @@ namespace Krypton.Toolkit
                 {
                     case VisualOrientation.Top:
                     case VisualOrientation.Bottom:
-                    {
-                        int width = innerRect.Width;
+                        {
+                            int width = innerRect.Width;
 
-                        innerRect.X += (int)(ratio * width * lower);
-                        innerRect.Width = (int)(ratio * width * higher);
-                        // Now do special clipping handling for curved borders
-                        if (innerRect.Right > ClientRectangle.Right)
-                        {
-                            innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
+                            innerRect.X += (int)(ratio * width * lower);
+                            innerRect.Width = (int)(ratio * width * higher);
+                            // Now do special clipping handling for curved borders
+                            if (innerRect.Right > ClientRectangle.Right)
+                            {
+                                innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
+                            }
+                            if (innerRect.X > ClientRectangle.Right)
+                            {
+                                innerRect.X = ClientRectangle.Right;
+                            }
                         }
-                        if (innerRect.X > ClientRectangle.Right)
-                        {
-                            innerRect.X = ClientRectangle.Right;
-                        }
-                    }
                         break;
 
                     case VisualOrientation.Left:
                     case VisualOrientation.Right:
-                    {
-                        int height = innerRect.Height;
-
-                        innerRect.Y += (int)(ratio * height * lower);
-                        innerRect.Height = (int)(ratio * height * higher);
-                        // Now do special clipping handling for curved borders
-                        if (innerRect.Bottom > ClientRectangle.Bottom)
                         {
-                            innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
-                        }
+                            int height = innerRect.Height;
 
-                        if (innerRect.Y > ClientRectangle.Bottom)
-                        {
-                            innerRect.Y = ClientRectangle.Bottom;
+                            innerRect.Y += (int)(ratio * height * lower);
+                            innerRect.Height = (int)(ratio * height * higher);
+                            // Now do special clipping handling for curved borders
+                            if (innerRect.Bottom > ClientRectangle.Bottom)
+                            {
+                                innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
+                            }
+
+                            if (innerRect.Y > ClientRectangle.Bottom)
+                            {
+                                innerRect.Y = ClientRectangle.Bottom;
+                            }
                         }
-                    }
                         break;
                 }
             }
@@ -788,8 +788,8 @@ namespace Krypton.Toolkit
 
         private void UpdateTextWithValue(bool value)
         {
-            Text = value 
-                ? $@"{Value}%" 
+            Text = value
+                ? $@"{Value}%"
                 : string.Empty;
         }
 

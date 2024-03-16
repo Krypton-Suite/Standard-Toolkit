@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        
+
         private string _appButtonKeyTip;
 
         #endregion
@@ -46,6 +46,10 @@ namespace Krypton.Toolkit
         {
             Reset();
         }
+
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
 

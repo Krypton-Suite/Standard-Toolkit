@@ -33,6 +33,7 @@
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kchkShowDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkUseRTL = new Krypton.Toolkit.KryptonCheckBox();
             this.kcbtnBorderColor2 = new Krypton.Toolkit.KryptonColorButton();
             this.kcbtnBorderColor1 = new Krypton.Toolkit.KryptonColorButton();
@@ -78,10 +79,10 @@
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 464);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 478);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(864, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(878, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnShow
@@ -99,11 +100,12 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(864, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(878, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kchkShowDoNotShowAgain);
             this.kryptonPanel2.Controls.Add(this.kchkUseRTL);
             this.kryptonPanel2.Controls.Add(this.kcbtnBorderColor2);
             this.kryptonPanel2.Controls.Add(this.kcbtnBorderColor1);
@@ -129,12 +131,21 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(864, 464);
+            this.kryptonPanel2.Size = new System.Drawing.Size(878, 478);
             this.kryptonPanel2.TabIndex = 1;
+            // 
+            // kchkShowDoNotShowAgain
+            // 
+            this.kchkShowDoNotShowAgain.Location = new System.Drawing.Point(503, 197);
+            this.kchkShowDoNotShowAgain.Name = "kchkShowDoNotShowAgain";
+            this.kchkShowDoNotShowAgain.Size = new System.Drawing.Size(165, 20);
+            this.kchkShowDoNotShowAgain.TabIndex = 27;
+            this.kchkShowDoNotShowAgain.Values.Text = "Show Do Not Show Again";
+            this.kchkShowDoNotShowAgain.CheckedChanged += new System.EventHandler(this.kchkShowDoNotShowAgain_CheckedChanged);
             // 
             // kchkUseRTL
             // 
-            this.kchkUseRTL.Location = new System.Drawing.Point(365, 197);
+            this.kchkUseRTL.Location = new System.Drawing.Point(201, 274);
             this.kchkUseRTL.Name = "kchkUseRTL";
             this.kchkUseRTL.Size = new System.Drawing.Size(67, 20);
             this.kchkUseRTL.TabIndex = 26;
@@ -461,7 +472,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 514);
+            this.ClientSize = new System.Drawing.Size(878, 528);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "BasicToastNotificationTest";
@@ -518,5 +529,6 @@
         private Krypton.Toolkit.KryptonColorButton kcbtnBorderColor1;
         private Krypton.Toolkit.KryptonColorButton kcbtnBorderColor2;
         private Krypton.Toolkit.KryptonCheckBox kchkUseRTL;
+        private Krypton.Toolkit.KryptonCheckBox kchkShowDoNotShowAgain;
     }
 }

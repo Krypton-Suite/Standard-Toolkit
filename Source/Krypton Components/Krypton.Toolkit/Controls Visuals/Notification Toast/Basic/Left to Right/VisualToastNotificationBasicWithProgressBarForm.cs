@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private int _time;
+        private int _time, _countdownValue;
 
         private Timer _timer;
 
@@ -52,6 +52,14 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region Public
+
+        internal bool ReturnValue;
+
+        internal CheckState ReturnCheckBoxStateValue;
+
+        #endregion 
 
         #region Implementation
 
@@ -172,6 +180,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void UpdateDoNotShowAgainOptionChecked() =>
+            kchkDoNotShowAgain.Checked = _basicToastNotificationData.IsDoNotShowAgainOptionChecked;
+
+        private void UpdateDoNotShowAgainOptionCheckState() =>
+            kchkDoNotShowAgain.CheckState =
+                _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
+
         private void SetIcon(Bitmap? image) => pbxImage.Image = image;
 
         private void UpdateLocation()
@@ -231,11 +246,17 @@ namespace Krypton.Toolkit
             ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
+        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
+            => ReturnValue = kchkDoNotShowAgain.Checked;
+
+        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e)
+            => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
+
+        private void UpdateProgressBarText() => kpbCountDown.Text = _basicToastNotificationData.ShowCountDownSecondsOnProgressBar ? $@"{_basicToastNotificationData.CountDownSeconds - _time}" : string.Empty;
+
         public new void Show()
         {
             TopMost = _basicToastNotificationData.TopMost ?? true;
-
-            //Opacity = 0;
 
             UpdateText();
 
@@ -243,25 +264,25 @@ namespace Krypton.Toolkit
 
             if (_basicToastNotificationData.CountDownSeconds != 0)
             {
-                kpbCountDown.Maximum = _basicToastNotificationData.CountDownSeconds ?? 100;
+                _countdownValue = _basicToastNotificationData.CountDownSeconds ?? 60;
 
-                    kpbCountDown.Value = kpbCountDown.Maximum;
+                kpbCountDown.Maximum = _countdownValue;
 
-                kpbCountDown.Text = $@"{_basicToastNotificationData.CountDownSeconds - _time}";
+                kpbCountDown.Value = _countdownValue;
+
+                UpdateProgressBarText();
 
                 _timer = new Timer();
 
-                _timer.Interval = 1000;
+                _timer.Interval = _basicToastNotificationData.CountDownTimerInterval ?? 1000;
 
                 _timer.Tick += (sender, args) =>
                 {
                     _time++;
 
-                    //kpbCountDown.Increment(1);
+                    kpbCountDown.Value -= 1;
 
-                    kpbCountDown.Value = kpbCountDown.Value - 1;
-
-                    kpbCountDown.Text = $@"{_basicToastNotificationData.CountDownSeconds - _time}";
+                    UpdateProgressBarText();
 
                     if (kpbCountDown.Value == kpbCountDown.Minimum)
                     {
@@ -276,7 +297,81 @@ namespace Krypton.Toolkit
             base.Show();
         }
 
-        internal static void ShowToast(KryptonBasicToastNotificationData toastNotificationData)
+        public new DialogResult ShowDialog()
+        {
+            TopMost = _basicToastNotificationData.TopMost ?? true;
+
+            UpdateText();
+
+            UpdateIcon();
+
+            if (_basicToastNotificationData.IsDoNotShowAgainOptionChecked)
+            {
+                UpdateDoNotShowAgainOptionChecked();
+            }
+
+            if (_basicToastNotificationData.DoNotShowAgainOptionCheckState != null)
+            {
+                UpdateDoNotShowAgainOptionCheckState();
+            }
+
+            if (_basicToastNotificationData.CountDownSeconds != 0)
+            {
+                _countdownValue = _basicToastNotificationData.CountDownSeconds ?? 60;
+
+                kpbCountDown.Maximum = _countdownValue;
+
+                kpbCountDown.Value = _countdownValue;
+
+                UpdateProgressBarText();
+
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss}";
+
+                _timer = new Timer();
+
+                _timer.Interval = _basicToastNotificationData.CountDownTimerInterval ?? 1000;
+
+                _timer.Tick += (sender, args) =>
+                {
+                    _time++;
+
+                    kpbCountDown.Value -= 1;
+
+                    UpdateProgressBarText();
+
+                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss}";
+
+                    if (_time == _basicToastNotificationData.CountDownSeconds)
+                    {
+                        _timer.Stop();
+
+                        Close();
+                    }
+                };
+            }
+
+            return base.ShowDialog();
+        }
+
+        internal static bool InternalShowWithBooleanReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.ReturnValue
+                : false;
+        }
+
+        internal static CheckState InternalShowWithCheckStateReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.ReturnCheckBoxStateValue
+                : CheckState.Unchecked;
+        }
+
+        internal static void InternalShow(KryptonBasicToastNotificationData toastNotificationData)
         {
             var kt = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
 

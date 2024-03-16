@@ -21,10 +21,15 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="GenericImageStorage" /> class.</summary>
         public GenericImageStorage()
         {
             Reset();
         }
+
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
 

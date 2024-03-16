@@ -49,6 +49,10 @@ namespace Krypton.Toolkit
             Reset();
         }
 
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+
         #endregion
 
         #region IsDefault
@@ -77,29 +81,29 @@ namespace Krypton.Toolkit
                                    ShouldSerializeSystemWarning() ||
                                    ShouldSerializeWarning() ||
                                    ShouldSerializeWindowsLogo());
-                                  /*Application.Equals(DEFAULT_APPLICATION) &&
-                                 Asterisk.Equals(DEFAULT_ASTERISK) &&
-                                 Custom.Equals(DEFAULT_CUSTOM) &&
-                                 Error.Equals(DEFAULT_ERROR) &&
-                                 Exclamation.Equals(DEFAULT_EXCLAMATION) &&
-                                 Hand.Equals(DEFAULT_HAND) &&
-                                 Information.Equals(DEFAULT_INFORMATION) &&
-                                 None.Equals(DEFAULT_NONE) &&
-                                 Ok.Equals(DEFAULT_OK) &&
-                                 Question.Equals(DEFAULT_QUESTION) &&
-                                 Shield.Equals(DEFAULT_SHIELD) &&
-                                 Stop.Equals(DEFAULT_STOP) &&
-                                 SystemApplication.Equals(DEFAULT_SYSTEM_APPLICATION) &&
-                                 SystemAsterisk.Equals(DEFAULT_SYSTEM_ASTERISK) &&
-                                 SystemError.Equals(DEFAULT_SYSTEM_ERROR) &&
-                                 SystemExclamation.Equals(DEFAULT_SYSTEM_EXCLAMATION) &&
-                                 SystemHand.Equals(DEFAULT_SYSTEM_HAND) &&
-                                 SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
-                                 SystemQuestion.Equals(DEFAULT_SYSTEM_QUESTION) &&
-                                 SystemStop.Equals(DEFAULT_SYSTEM_STOP) &&
-                                 SystemWarning.Equals(DEFAULT_SYSTEM_WARNING) &&
-                                 Warning.Equals(DEFAULT_SYSTEM_WARNING) &&
-                                 WindowsLogo.Equals(DEFAULT_WINDOWS_LOGO);*/
+        /*Application.Equals(DEFAULT_APPLICATION) &&
+       Asterisk.Equals(DEFAULT_ASTERISK) &&
+       Custom.Equals(DEFAULT_CUSTOM) &&
+       Error.Equals(DEFAULT_ERROR) &&
+       Exclamation.Equals(DEFAULT_EXCLAMATION) &&
+       Hand.Equals(DEFAULT_HAND) &&
+       Information.Equals(DEFAULT_INFORMATION) &&
+       None.Equals(DEFAULT_NONE) &&
+       Ok.Equals(DEFAULT_OK) &&
+       Question.Equals(DEFAULT_QUESTION) &&
+       Shield.Equals(DEFAULT_SHIELD) &&
+       Stop.Equals(DEFAULT_STOP) &&
+       SystemApplication.Equals(DEFAULT_SYSTEM_APPLICATION) &&
+       SystemAsterisk.Equals(DEFAULT_SYSTEM_ASTERISK) &&
+       SystemError.Equals(DEFAULT_SYSTEM_ERROR) &&
+       SystemExclamation.Equals(DEFAULT_SYSTEM_EXCLAMATION) &&
+       SystemHand.Equals(DEFAULT_SYSTEM_HAND) &&
+       SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
+       SystemQuestion.Equals(DEFAULT_SYSTEM_QUESTION) &&
+       SystemStop.Equals(DEFAULT_SYSTEM_STOP) &&
+       SystemWarning.Equals(DEFAULT_SYSTEM_WARNING) &&
+       Warning.Equals(DEFAULT_SYSTEM_WARNING) &&
+       WindowsLogo.Equals(DEFAULT_WINDOWS_LOGO);*/
 
         #endregion
 
@@ -214,7 +218,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeQuestion() => Question != DEFAULT_QUESTION;
 
-        public void ResetQuestion() => Question = DEFAULT_QUESTION; 
+        public void ResetQuestion() => Question = DEFAULT_QUESTION;
 
         /// <summary>Gets or sets the shield icon string.</summary>
         [Localizable(true)]
