@@ -201,6 +201,8 @@ namespace Krypton.Toolkit
 
         private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
+            UpdateSizing();
+
             UpdateLocation();
 
             ReportToastLocation();
@@ -210,6 +212,20 @@ namespace Krypton.Toolkit
             _timer?.Start();
 
             _soundPlayer?.Play();
+        }
+
+        private void UpdateSizing()
+        {
+            // Add some height, if form border style equals 'None'
+
+            var width = Size.Width;
+
+            var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
+
+            if (FormBorderStyle == FormBorderStyle.None)
+            {
+                Size = new Size(width, height);
+            }
         }
 
         private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
@@ -389,6 +405,8 @@ namespace Krypton.Toolkit
             {
                 Hide();
             }
+
+
 
             base.OnLoad(e);
         }

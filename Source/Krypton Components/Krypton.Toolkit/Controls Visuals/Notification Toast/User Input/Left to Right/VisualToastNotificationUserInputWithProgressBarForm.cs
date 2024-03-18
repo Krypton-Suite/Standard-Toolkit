@@ -9,6 +9,7 @@
 
 using ContentAlignment = System.Drawing.ContentAlignment;
 using Timer = System.Windows.Forms.Timer;
+// ReSharper disable UnusedParameter.Local
 
 namespace Krypton.Toolkit
 {
@@ -379,6 +380,8 @@ namespace Krypton.Toolkit
 
             UpdateIcon();
 
+            UpdateFonts();
+
             if (_toastNotificationData.CountDownSeconds != 0)
             {
                 kpbCountDown.Maximum = _toastNotificationData.CountDownSeconds ?? 100;
@@ -420,6 +423,8 @@ namespace Krypton.Toolkit
             UpdateText();
 
             UpdateIcon();
+
+            UpdateFonts();
 
             if (_toastNotificationData.CountDownSeconds != 0)
             {
@@ -523,7 +528,7 @@ namespace Krypton.Toolkit
 
         public DateTime GetReturnDateTimeValue() => ReturnDateTimeValue;
 
-        private void SetReturnStringValue(string value) => ReturnStringValue = value;
+        private void SetReturnStringValue(string? value) => ReturnStringValue = value ?? string.Empty;
 
         public string GetReturnStringValue() => ReturnStringValue;
 
