@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressBarTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonProgressBar1 = new Krypton.Toolkit.KryptonProgressBar();
-            this.kryptonProgressBar2 = new Krypton.Toolkit.KryptonProgressBar();
+            this.kcbtnProgressBarColour = new Krypton.Toolkit.KryptonColorButton();
+            this.kcmbProgressBarStyle = new Krypton.Toolkit.KryptonComboBox();
             this.kchkUseProgressValueAsText = new Krypton.Toolkit.KryptonCheckBox();
             this.ktrkProgressValues = new Krypton.Toolkit.KryptonTrackBar();
-            this.kcmbProgressBarStyle = new Krypton.Toolkit.KryptonComboBox();
-            this.kcbtnProgressBarColour = new Krypton.Toolkit.KryptonColorButton();
+            this.kryptonProgressBar2 = new Krypton.Toolkit.KryptonProgressBar();
+            this.kryptonProgressBar1 = new Krypton.Toolkit.KryptonProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbProgressBarStyle)).BeginInit();
@@ -52,19 +52,54 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(481, 181);
+            this.kryptonPanel1.Size = new System.Drawing.Size(483, 183);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonProgressBar1
+            // kcbtnProgressBarColour
             // 
-            this.kryptonProgressBar1.Location = new System.Drawing.Point(13, 13);
-            this.kryptonProgressBar1.Name = "kryptonProgressBar1";
-            this.kryptonProgressBar1.Size = new System.Drawing.Size(456, 26);
-            this.kryptonProgressBar1.StateCommon.Back.Color1 = System.Drawing.Color.Green;
-            this.kryptonProgressBar1.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kryptonProgressBar1.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kryptonProgressBar1.TabIndex = 0;
-            this.kryptonProgressBar1.Values.Text = "";
+            this.kcbtnProgressBarColour.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
+            this.kcbtnProgressBarColour.Location = new System.Drawing.Point(13, 143);
+            this.kcbtnProgressBarColour.Name = "kcbtnProgressBarColour";
+            this.kcbtnProgressBarColour.SelectedColor = System.Drawing.Color.Green;
+            this.kcbtnProgressBarColour.Size = new System.Drawing.Size(165, 25);
+            this.kcbtnProgressBarColour.TabIndex = 16;
+            this.kcbtnProgressBarColour.Values.Image = ((System.Drawing.Image)(resources.GetObject("kcbtnProgressBarColour.Values.Image")));
+            this.kcbtnProgressBarColour.Values.RoundedCorners = 8;
+            this.kcbtnProgressBarColour.Values.Text = "ProgressBar Colour";
+            this.kcbtnProgressBarColour.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnProgressBarColour_SelectedColorChanged);
+            // 
+            // kcmbProgressBarStyle
+            // 
+            this.kcmbProgressBarStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbProgressBarStyle.DropDownWidth = 261;
+            this.kcmbProgressBarStyle.IntegralHeight = false;
+            this.kcmbProgressBarStyle.Location = new System.Drawing.Point(208, 117);
+            this.kcmbProgressBarStyle.Name = "kcmbProgressBarStyle";
+            this.kcmbProgressBarStyle.Size = new System.Drawing.Size(261, 21);
+            this.kcmbProgressBarStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kcmbProgressBarStyle.TabIndex = 15;
+            this.kcmbProgressBarStyle.SelectedIndexChanged += new System.EventHandler(this.kcmbProgressBarStyle_SelectedIndexChanged);
+            // 
+            // kchkUseProgressValueAsText
+            // 
+            this.kchkUseProgressValueAsText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kchkUseProgressValueAsText.Location = new System.Drawing.Point(15, 116);
+            this.kchkUseProgressValueAsText.Name = "kchkUseProgressValueAsText";
+            this.kchkUseProgressValueAsText.Size = new System.Drawing.Size(165, 20);
+            this.kchkUseProgressValueAsText.TabIndex = 14;
+            this.kchkUseProgressValueAsText.Values.Text = "Use progress value as text";
+            this.kchkUseProgressValueAsText.CheckedChanged += new System.EventHandler(this.kchkUseProgressValueAsText_CheckedChanged);
+            // 
+            // ktrkProgressValues
+            // 
+            this.ktrkProgressValues.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ktrkProgressValues.Location = new System.Drawing.Point(15, 77);
+            this.ktrkProgressValues.Maximum = 100;
+            this.ktrkProgressValues.Name = "ktrkProgressValues";
+            this.ktrkProgressValues.Size = new System.Drawing.Size(456, 33);
+            this.ktrkProgressValues.TabIndex = 13;
+            this.ktrkProgressValues.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.ktrkProgressValues.ValueChanged += new System.EventHandler(this.ktrkProgressValues_ValueChanged);
             // 
             // kryptonProgressBar2
             // 
@@ -78,57 +113,22 @@
             this.kryptonProgressBar2.TabIndex = 1;
             this.kryptonProgressBar2.Values.Text = "";
             // 
-            // kchkUseProgressValueAsText
+            // kryptonProgressBar1
             // 
-            this.kchkUseProgressValueAsText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.kchkUseProgressValueAsText.Location = new System.Drawing.Point(13, 116);
-            this.kchkUseProgressValueAsText.Name = "kchkUseProgressValueAsText";
-            this.kchkUseProgressValueAsText.Size = new System.Drawing.Size(165, 20);
-            this.kchkUseProgressValueAsText.TabIndex = 14;
-            this.kchkUseProgressValueAsText.Values.Text = "Use progress value as text";
-            this.kchkUseProgressValueAsText.CheckedChanged += new System.EventHandler(this.kchkUseProgressValueAsText_CheckedChanged);
-            // 
-            // ktrkProgressValues
-            // 
-            this.ktrkProgressValues.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ktrkProgressValues.Location = new System.Drawing.Point(13, 77);
-            this.ktrkProgressValues.Maximum = 100;
-            this.ktrkProgressValues.Name = "ktrkProgressValues";
-            this.ktrkProgressValues.Size = new System.Drawing.Size(456, 33);
-            this.ktrkProgressValues.TabIndex = 13;
-            this.ktrkProgressValues.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.ktrkProgressValues.ValueChanged += new System.EventHandler(this.ktrkProgressValues_ValueChanged);
-            // 
-            // kcmbProgressBarStyle
-            // 
-            this.kcmbProgressBarStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kcmbProgressBarStyle.DropDownWidth = 121;
-            this.kcmbProgressBarStyle.IntegralHeight = false;
-            this.kcmbProgressBarStyle.Location = new System.Drawing.Point(208, 117);
-            this.kcmbProgressBarStyle.Name = "kcmbProgressBarStyle";
-            this.kcmbProgressBarStyle.Size = new System.Drawing.Size(261, 21);
-            this.kcmbProgressBarStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kcmbProgressBarStyle.TabIndex = 15;
-            this.kcmbProgressBarStyle.SelectedIndexChanged += new System.EventHandler(this.kcmbProgressBarStyle_SelectedIndexChanged);
-            // 
-            // kcbtnProgressBarColour
-            // 
-            this.kcbtnProgressBarColour.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
-            this.kcbtnProgressBarColour.Location = new System.Drawing.Point(13, 143);
-            this.kcbtnProgressBarColour.Name = "kcbtnProgressBarColour";
-            this.kcbtnProgressBarColour.SelectedColor = System.Drawing.Color.Green;
-            this.kcbtnProgressBarColour.Size = new System.Drawing.Size(165, 25);
-            this.kcbtnProgressBarColour.TabIndex = 16;
-            this.kcbtnProgressBarColour.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonColorButton1.Values.Image")));
-            this.kcbtnProgressBarColour.Values.RoundedCorners = 8;
-            this.kcbtnProgressBarColour.Values.Text = "ProgressBar Colour";
-            this.kcbtnProgressBarColour.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnProgressBarColour_SelectedColorChanged);
+            this.kryptonProgressBar1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonProgressBar1.Name = "kryptonProgressBar1";
+            this.kryptonProgressBar1.Size = new System.Drawing.Size(456, 26);
+            this.kryptonProgressBar1.StateCommon.Back.Color1 = System.Drawing.Color.Green;
+            this.kryptonProgressBar1.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kryptonProgressBar1.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kryptonProgressBar1.TabIndex = 0;
+            this.kryptonProgressBar1.Values.Text = "";
             // 
             // ProgressBarTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 181);
+            this.ClientSize = new System.Drawing.Size(483, 183);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "ProgressBarTest";
             this.Text = "ProgressBarTest";

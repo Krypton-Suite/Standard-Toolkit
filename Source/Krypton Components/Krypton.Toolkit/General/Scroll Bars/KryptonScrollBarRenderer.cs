@@ -15,103 +15,103 @@ namespace Krypton.Toolkit
     /// <summary>
     /// The scrollbar renderer class.
     /// </summary>
-    internal static class ScrollBarKryptonRenderer
+    internal static class KryptonScrollBarRenderer
     {
-        #region fields
+        #region Instance Fields
 
         /// <summary>
         /// The colors of the thumb in the 3 states.
         /// </summary>
-        private static readonly Color[,] thumbColours = new Color[3, 8];
+        private static readonly Color[,] _thumbColors = new Color[3, 8];
 
         /// <summary>
         /// The arrow colors in the three states.
         /// </summary>
-        private static readonly Color[,] arrowColours = new Color[3, 8];
+        private static readonly Color[,] _arrowColors = new Color[3, 8];
 
         /// <summary>
         /// The arrow border colors.
         /// </summary>
-        private static readonly Color[] arrowBorderColours = new Color[4];
+        private static readonly Color[] _arrowBorderColors = new Color[4];
 
         /// <summary>
         /// The background colors.
         /// </summary>
-        private static readonly Color[] backgroundColours = new Color[5];
+        private static readonly Color[] _backgroundColors = new Color[5];
 
         /// <summary>
         /// The track colors.
         /// </summary>
-        private static readonly Color[] trackColours = new Color[2];
+        private static readonly Color[] _trackColors = new Color[2];
 
         /// <summary>
         /// The Border colors.
         /// </summary>
-        public static Color[] borderColours = new Color[2];
+        public static Color[] BorderColors = new Color[2];
 
         /// <summary>
         /// The Grip colors.
         /// </summary>
-        public static Color[] gripColours = new Color[2];
+        public static Color[] GripColors = new Color[2];
 
         private static PaletteBase _palette;
         private static PaletteRedirect _paletteRedirect;
         #endregion
 
-        #region constructor
+        #region Identity
 
         /// <summary>
-        /// Initializes static members of the <see cref="ScrollBarKryptonRenderer"/> class.
+        /// Initializes static members of the <see cref="KryptonScrollBarRenderer"/> class.
         /// </summary>
-        static ScrollBarKryptonRenderer()
+        static KryptonScrollBarRenderer()
         {
-            InitColours();
+            InitColors();
         }
 
-        public static void InitColours()
+        public static void InitColors()
         {
 
             // add Palette Handler
-            if (_palette != null)
-            {
-                _palette.PalettePaint += OnPalettePaint;
-            }
+            //if (_palette != null)
+            //{
+            //    _palette.PalettePaint += OnPalettePaint;
+            //}
 
-            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+            //KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect = new PaletteRedirect(_palette);
 
             //Init Colors
             // hot state
-            thumbColours[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
-            thumbColours[0, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(232, 233, 233); // left/top start color
-            thumbColours[0, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(230, 233, 241); // left/top end color
-            thumbColours[0, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(233, 237, 242); // right/bottom line color
-            thumbColours[0, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(209, 218, 228); // right/bottom start color
-            thumbColours[0, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(218, 227, 235); // right/bottom end color
-            thumbColours[0, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(190, 202, 219); // right/bottom middle color
-            thumbColours[0, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 11, 148); // left/top line color
+            _thumbColors[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
+            _thumbColors[0, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(232, 233, 233); // left/top start color
+            _thumbColors[0, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(230, 233, 241); // left/top end color
+            _thumbColors[0, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(233, 237, 242); // right/bottom line color
+            _thumbColors[0, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(209, 218, 228); // right/bottom start color
+            _thumbColors[0, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(218, 227, 235); // right/bottom end color
+            _thumbColors[0, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(190, 202, 219); // right/bottom middle color
+            _thumbColors[0, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 11, 148); // left/top line color
 
             // over state
-            thumbColours[1, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonCluster, PaletteState.Normal);//Color.FromArgb(60, 110, 176);
-            thumbColours[1, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal); //Color.FromArgb(187, 204, 228);
-            thumbColours[1, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(205, 227, 254);
-            thumbColours[1, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(252, 253, 255);
-            thumbColours[1, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(170, 207, 247);
-            thumbColours[1, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonAlternate, PaletteState.Normal);  //Color.FromArgb(219, 232, 251);
-            thumbColours[1, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(190, 202, 219);
-            thumbColours[1, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(233, 233, 235);
+            _thumbColors[1, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonCluster, PaletteState.Normal);//Color.FromArgb(60, 110, 176);
+            _thumbColors[1, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal); //Color.FromArgb(187, 204, 228);
+            _thumbColors[1, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(205, 227, 254);
+            _thumbColors[1, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(252, 253, 255);
+            _thumbColors[1, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(170, 207, 247);
+            _thumbColors[1, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonAlternate, PaletteState.Normal);  //Color.FromArgb(219, 232, 251);
+            _thumbColors[1, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(190, 202, 219);
+            _thumbColors[1, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonCluster, PaletteState.Normal);  //Color.FromArgb(233, 233, 235);
 
             // pressed state
-            thumbColours[2, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.CheckedNormal);//Color.FromArgb(23, 73, 138);
-            thumbColours[2, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(154, 184, 225);
-            thumbColours[2, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); // Color.FromArgb(166, 202, 250);
-            thumbColours[2, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal);//Color.FromArgb(221, 235, 251);
-            thumbColours[2, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(110, 166, 240);
-            thumbColours[2, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(194, 218, 248);
-            thumbColours[2, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(190, 202, 219);
-            thumbColours[2, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(194, 211, 231);
+            _thumbColors[2, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.CheckedNormal);//Color.FromArgb(23, 73, 138);
+            _thumbColors[2, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(154, 184, 225);
+            _thumbColors[2, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); // Color.FromArgb(166, 202, 250);
+            _thumbColors[2, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal);//Color.FromArgb(221, 235, 251);
+            _thumbColors[2, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(110, 166, 240);
+            _thumbColors[2, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(194, 218, 248);
+            _thumbColors[2, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(190, 202, 219);
+            _thumbColors[2, 7] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.CheckedNormal); //Color.FromArgb(194, 211, 231);
 
             /* picture of colors and indices
              *(0,0)
@@ -135,64 +135,64 @@ namespace Krypton.Toolkit
              */
 
             // hot state
-            arrowColours[0, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);//Color.FromArgb(223, 236, 252);
-            arrowColours[0, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(207, 225, 248);
-            arrowColours[0, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(245, 249, 255);
-            arrowColours[0, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(237, 244, 252);
-            arrowColours[0, 4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(244, 249, 255);
-            arrowColours[0, 5] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(244, 249, 255);
-            arrowColours[0, 6] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(251, 253, 255);
-            arrowColours[0, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(251, 253, 255);
+            _arrowColors[0, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);//Color.FromArgb(223, 236, 252);
+            _arrowColors[0, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(207, 225, 248);
+            _arrowColors[0, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(245, 249, 255);
+            _arrowColors[0, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(237, 244, 252);
+            _arrowColors[0, 4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(244, 249, 255);
+            _arrowColors[0, 5] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(244, 249, 255);
+            _arrowColors[0, 6] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(251, 253, 255);
+            _arrowColors[0, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(251, 253, 255);
 
             // over state
-            arrowColours[1, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);//Color.FromArgb(205, 222, 243); //Colore bottone sul tracking
-            arrowColours[1, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(186, 208, 235);
-            arrowColours[1, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(238, 244, 252);
-            arrowColours[1, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(229, 237, 247);
-            arrowColours[1, 4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(223, 234, 247);
-            arrowColours[1, 5] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(241, 246, 254);
-            arrowColours[1, 6] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(243, 247, 252);
-            arrowColours[1, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(250, 252, 255);
+            _arrowColors[1, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);//Color.FromArgb(205, 222, 243); //Colore bottone sul tracking
+            _arrowColors[1, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(186, 208, 235);
+            _arrowColors[1, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(238, 244, 252);
+            _arrowColors[1, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(229, 237, 247);
+            _arrowColors[1, 4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(223, 234, 247);
+            _arrowColors[1, 5] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(241, 246, 254);
+            _arrowColors[1, 6] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(243, 247, 252);
+            _arrowColors[1, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(250, 252, 255);
 
             // pressed state
-            arrowColours[2, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking);//Color.FromArgb(215, 220, 225);
-            arrowColours[2, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(195, 202, 210);
-            arrowColours[2, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(242, 244, 245);
-            arrowColours[2, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(232, 235, 238);
-            arrowColours[2, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(226, 228, 230);
-            arrowColours[2, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(230, 233, 236);
-            arrowColours[2, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(244, 245, 245);
-            arrowColours[2, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(245, 247, 248);
+            _arrowColors[2, 0] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking);//Color.FromArgb(215, 220, 225);
+            _arrowColors[2, 1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(195, 202, 210);
+            _arrowColors[2, 2] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(242, 244, 245);
+            _arrowColors[2, 3] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(232, 235, 238);
+            _arrowColors[2, 4] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(226, 228, 230);
+            _arrowColors[2, 5] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(230, 233, 236);
+            _arrowColors[2, 6] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(244, 245, 245);
+            _arrowColors[2, 7] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Tracking); //Color.FromArgb(245, 247, 248);
 
             // background colors
-            backgroundColours[0] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(235, 237, 239);
-            backgroundColours[1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(252, 252, 252);
-            backgroundColours[2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(247, 247, 247);
-            backgroundColours[3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(238, 238, 238);
-            backgroundColours[4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(240, 240, 240);
+            _backgroundColors[0] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(235, 237, 239);
+            _backgroundColors[1] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(252, 252, 252);
+            _backgroundColors[2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(247, 247, 247);
+            _backgroundColors[3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(238, 238, 238);
+            _backgroundColors[4] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(240, 240, 240);
 
             // track colors
-            trackColours[0] = _palette.ColorTable.StatusStripGradientEnd; //Color.FromArgb(204, 204, 204);
-            trackColours[1] = _palette.ColorTable.StatusStripGradientBegin; //Color.FromArgb(220, 220, 220);
+            _trackColors[0] = _palette.ColorTable.StatusStripGradientEnd; //Color.FromArgb(204, 204, 204);
+            _trackColors[1] = _palette.ColorTable.StatusStripGradientBegin; //Color.FromArgb(220, 220, 220);
 
             // arrow border colors
-            arrowBorderColours[0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(135, 146, 160);
-            arrowBorderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(140, 151, 165);
-            arrowBorderColours[2] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(128, 139, 153);
-            arrowBorderColours[3] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(99, 110, 125);
+            _arrowBorderColors[0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(135, 146, 160);
+            _arrowBorderColors[1] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(140, 151, 165);
+            _arrowBorderColors[2] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(128, 139, 153);
+            _arrowBorderColors[3] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(99, 110, 125);
 
             //Border colors
-            borderColours[0] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
-            borderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
+            BorderColors[0] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
+            BorderColors[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
 
             //Grip colors
-            gripColours[0] = _palette.ColorTable.GripLight;
-            gripColours[1] = _palette.ColorTable.GripDark;
+            GripColors[0] = _palette.ColorTable.GripLight;
+            GripColors[1] = _palette.ColorTable.GripDark;
 
         }
         #endregion
 
-        #region methods
+        #region Implementation
 
         #region public methods
 
@@ -352,14 +352,14 @@ namespace Krypton.Toolkit
             btm.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(btm);
 
-            g.DrawLine(new Pen(gripColours[1]), new Point(0, 0), new Point(8, 0));//dark
-            g.DrawLine(new Pen(gripColours[0]), new Point(1, 1), new Point(7, 1));//light
-            g.DrawLine(new Pen(gripColours[1]), new Point(0, 2), new Point(7, 2));//dark
-            g.DrawLine(new Pen(gripColours[0]), new Point(1, 3), new Point(7, 3));//light
-            g.DrawLine(new Pen(gripColours[1]), new Point(0, 4), new Point(7, 4));//dark
-            g.DrawLine(new Pen(gripColours[0]), new Point(1, 5), new Point(7, 5));//light
-            g.DrawLine(new Pen(gripColours[1]), new Point(0, 6), new Point(8, 6));//dark
-            g.DrawLine(new Pen(gripColours[0]), new Point(1, 7), new Point(7, 7));//light
+            g.DrawLine(new Pen(GripColors[1]), new Point(0, 0), new Point(8, 0));//dark
+            g.DrawLine(new Pen(GripColors[0]), new Point(1, 1), new Point(7, 1));//light
+            g.DrawLine(new Pen(GripColors[1]), new Point(0, 2), new Point(7, 2));//dark
+            g.DrawLine(new Pen(GripColors[0]), new Point(1, 3), new Point(7, 3));//light
+            g.DrawLine(new Pen(GripColors[1]), new Point(0, 4), new Point(7, 4));//dark
+            g.DrawLine(new Pen(GripColors[0]), new Point(1, 5), new Point(7, 5));//light
+            g.DrawLine(new Pen(GripColors[1]), new Point(0, 6), new Point(8, 6));//dark
+            g.DrawLine(new Pen(GripColors[0]), new Point(1, 7), new Point(7, 7));//light
 
             return btm;
         }
@@ -373,14 +373,14 @@ namespace Krypton.Toolkit
             img.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(img);
 
-            g.DrawLine(new Pen(gripColours[1]), new Point(0, 0), new Point(8, 0));//dark---------
-            g.DrawLine(new Pen(gripColours[1]), new Point(1, 1), new Point(7, 1));//dark -------
-            g.DrawLine(new Pen(gripColours[1]), new Point(2, 2), new Point(6, 2));//dark  -----
-            g.DrawLine(new Pen(gripColours[1]), new Point(3, 3), new Point(5, 3));//dark   ---
-            g.DrawLine(new Pen(gripColours[1]), new Point(4, 0), new Point(4, 4));//dark    -
+            g.DrawLine(new Pen(GripColors[1]), new Point(0, 0), new Point(8, 0));//dark---------
+            g.DrawLine(new Pen(GripColors[1]), new Point(1, 1), new Point(7, 1));//dark -------
+            g.DrawLine(new Pen(GripColors[1]), new Point(2, 2), new Point(6, 2));//dark  -----
+            g.DrawLine(new Pen(GripColors[1]), new Point(3, 3), new Point(5, 3));//dark   ---
+            g.DrawLine(new Pen(GripColors[1]), new Point(4, 0), new Point(4, 4));//dark    -
 
-            g.DrawLine(new Pen(gripColours[0]), new Point(3, 0), new Point(5, 0));//light
-            g.DrawLine(new Pen(gripColours[0]), new Point(4, 0), new Point(4, 1));//light
+            g.DrawLine(new Pen(GripColors[0]), new Point(3, 0), new Point(5, 0));//light
+            g.DrawLine(new Pen(GripColors[0]), new Point(4, 0), new Point(4, 1));//light
 
             return img;
         }
@@ -434,13 +434,13 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawBackgroundVertical(Graphics g, Rectangle rect)
         {
-            using (var p = new Pen(backgroundColours[0]))
+            using (var p = new Pen(_backgroundColors[0]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 1);
                 g.DrawLine(p, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 1);
             }
 
-            using (var p = new Pen(backgroundColours[1]))
+            using (var p = new Pen(_backgroundColors[1]))
             {
                 g.DrawLine(p, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 1);
             }
@@ -449,14 +449,14 @@ namespace Krypton.Toolkit
 
             var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
 
-            using (var brush = new LinearGradientBrush(firstRect, backgroundColours[2],
-                       backgroundColours[3], LinearGradientMode.Horizontal))
+            using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
+                       _backgroundColors[3], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, firstRect);
             }
 
-            using (var brush = new LinearGradientBrush(secondRect, backgroundColours[3],
-                       backgroundColours[4], LinearGradientMode.Horizontal))
+            using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
+                       _backgroundColors[4], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, secondRect);
             }
@@ -469,13 +469,13 @@ namespace Krypton.Toolkit
         /// <param name="rect">The rectangle in which to paint.</param>
         private static void DrawBackgroundHorizontal(Graphics g, Rectangle rect)
         {
-            using (var p = new Pen(backgroundColours[0]))
+            using (var p = new Pen(_backgroundColors[0]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Right - 1, rect.Top + 1);
                 g.DrawLine(p, rect.Left + 1, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 2);
             }
 
-            using (var p = new Pen(backgroundColours[1]))
+            using (var p = new Pen(_backgroundColors[1]))
             {
                 g.DrawLine(p, rect.Left + 1, rect.Top + 2, rect.Right - 1, rect.Top + 2);
             }
@@ -484,14 +484,14 @@ namespace Krypton.Toolkit
 
             var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
 
-            using (var brush = new LinearGradientBrush(firstRect, backgroundColours[2],
-                       backgroundColours[3], LinearGradientMode.Vertical))
+            using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
+                       _backgroundColors[3], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, firstRect);
             }
 
-            using (var brush = new LinearGradientBrush(secondRect, backgroundColours[3],
-                       backgroundColours[4], LinearGradientMode.Vertical))
+            using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
+                       _backgroundColors[4], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, secondRect);
             }
@@ -506,7 +506,7 @@ namespace Krypton.Toolkit
         {
             var innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
 
-            using var brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
+            using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
                 LinearGradientMode.Horizontal);
             g.FillRectangle(brush, innerRect);
         }
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
         {
             var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
 
-            using var brush = new LinearGradientBrush(innerRect, trackColours[0], trackColours[1],
+            using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
                 LinearGradientMode.Vertical);
             g.FillRectangle(brush, innerRect);
         }
@@ -587,8 +587,8 @@ namespace Krypton.Toolkit
             r.Height++;
 
             // draw left gradient
-            using (var brush = new LinearGradientBrush(r, thumbColours[index, 1],
-                       thumbColours[index, 2], LinearGradientMode.Horizontal))
+            using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
+                       _thumbColors[index, 2], LinearGradientMode.Horizontal))
             {
                 g.FillRectangle(brush, r);
             }
@@ -598,15 +598,15 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using var brush = new LinearGradientBrush(r, thumbColours[index, 4],
-                    thumbColours[index, 5], LinearGradientMode.Horizontal);
+                using var brush = new LinearGradientBrush(r, _thumbColors[index, 4],
+                    _thumbColors[index, 5], LinearGradientMode.Horizontal);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
                     Colors =
                     [
-                        thumbColours[index, 4],
-                        thumbColours[index, 6],
-                        thumbColours[index, 5]
+                        _thumbColors[index, 4],
+                        _thumbColors[index, 6],
+                        _thumbColors[index, 5]
                     ],
                     Positions = [0f, .5f, 1f]
                 };
@@ -615,28 +615,28 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using (var brush = new LinearGradientBrush(r, thumbColours[index, 4],
-                           thumbColours[index, 5], LinearGradientMode.Horizontal))
+                using (var brush = new LinearGradientBrush(r, _thumbColors[index, 4],
+                           _thumbColors[index, 5], LinearGradientMode.Horizontal))
                 {
                     g.FillRectangle(brush, r);
                 }
 
                 // draw left line
-                using (var p = new Pen(thumbColours[index, 7]))
+                using (var p = new Pen(_thumbColors[index, 7]))
                 {
                     g.DrawLine(p, innerRect.X, innerRect.Y, innerRect.X, innerRect.Bottom);
                 }
             }
 
             // draw right line
-            using (var p = new Pen(thumbColours[index, 3]))
+            using (var p = new Pen(_thumbColors[index, 3]))
             {
                 g.DrawLine(p, innerRect.Right, innerRect.Y, innerRect.Right, innerRect.Bottom);
             }
 
             using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             // draw border
-            using (var p = new Pen(thumbColours[index, 0]))
+            using (var p = new Pen(_thumbColors[index, 0]))
             {
                 using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
                 {
@@ -671,8 +671,8 @@ namespace Krypton.Toolkit
             r.Width++;
 
             // draw left gradient
-            using (var brush = new LinearGradientBrush(r, thumbColours[index, 1],
-                       thumbColours[index, 2], LinearGradientMode.Vertical))
+            using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
+                       _thumbColors[index, 2], LinearGradientMode.Vertical))
             {
                 g.FillRectangle(brush, r);
             }
@@ -682,15 +682,15 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using var brush = new LinearGradientBrush(r, thumbColours[index, 4],
-                    thumbColours[index, 5], LinearGradientMode.Vertical);
+                using var brush = new LinearGradientBrush(r, _thumbColors[index, 4],
+                    _thumbColors[index, 5], LinearGradientMode.Vertical);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
                     Colors =
                     [
-                        thumbColours[index, 4],
-                        thumbColours[index, 6],
-                        thumbColours[index, 5]
+                        _thumbColors[index, 4],
+                        _thumbColors[index, 6],
+                        _thumbColors[index, 5]
                     ],
                     Positions = [0f, .5f, 1f]
                 };
@@ -699,28 +699,28 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using (var brush = new LinearGradientBrush(r, thumbColours[index, 4],
-                           thumbColours[index, 5], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(r, _thumbColors[index, 4],
+                           _thumbColors[index, 5], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, r);
                 }
 
                 // draw left line
-                using (var p = new Pen(thumbColours[index, 7]))
+                using (var p = new Pen(_thumbColors[index, 7]))
                 {
                     g.DrawLine(p, innerRect.X, innerRect.Y, innerRect.Right, innerRect.Y);
                 }
             }
 
             // draw right line
-            using (var p = new Pen(thumbColours[index, 3]))
+            using (var p = new Pen(_thumbColors[index, 3]))
             {
                 g.DrawLine(p, innerRect.X, innerRect.Bottom, innerRect.Right, innerRect.Bottom);
             }
 
             using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             // draw border
-            using (var p = new Pen(thumbColours[index, 0]))
+            using (var p = new Pen(_thumbColors[index, 0]))
             {
                 using (GraphicsPath path = CreateRoundPath(rect, 2f, 2f))
                 {
@@ -808,8 +808,8 @@ namespace Krypton.Toolkit
 
             if (index != -1)
             {
-                using (Pen p1 = new Pen(arrowBorderColours[0]),
-                    p2 = new Pen(arrowBorderColours[1]))
+                using (Pen p1 = new Pen(_arrowBorderColors[0]),
+                    p2 = new Pen(_arrowBorderColors[1]))
                 {
                     g.DrawLine(p1, rect.X, rect.Y, rect.Right - 1, rect.Y);
                     g.DrawLine(p2, rect.X, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
@@ -817,17 +817,17 @@ namespace Krypton.Toolkit
 
                 rect.Inflate(0, -1);
 
-                using (var brush = new LinearGradientBrush(rect, arrowBorderColours[2],
-                           arrowBorderColours[1], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(rect, _arrowBorderColors[2],
+                           _arrowBorderColors[1], LinearGradientMode.Vertical))
                 {
                     var blend = new ColorBlend(3)
                     {
                         Positions = [0f, .5f, 1f],
                         Colors =
                         [
-                            arrowBorderColours[2],
-                            arrowBorderColours[3],
-                            arrowBorderColours[0]
+                            _arrowBorderColors[2],
+                            _arrowBorderColors[3],
+                            _arrowBorderColors[0]
                         ]
                     };
 
@@ -847,8 +847,8 @@ namespace Krypton.Toolkit
                 upper.Y++;
                 upper.Height = 7;
 
-                using (var brush = new LinearGradientBrush(upper, arrowColours[index, 2],
-                           arrowColours[index, 3], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(upper, _arrowColors[index, 2],
+                           _arrowColors[index, 3], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, upper);
                 }
@@ -856,8 +856,8 @@ namespace Krypton.Toolkit
                 upper.Inflate(-1, 0);
                 upper.Height = 6;
 
-                using (var brush = new LinearGradientBrush(upper, arrowColours[index, 0],
-                           arrowColours[index, 1], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(upper, _arrowColors[index, 0],
+                           _arrowColors[index, 1], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, upper);
                 }
@@ -867,16 +867,16 @@ namespace Krypton.Toolkit
                 lower.Y = 8;
                 lower.Height = 8;
 
-                using (var brush = new LinearGradientBrush(lower, arrowColours[index, 6],
-                           arrowColours[index, 7], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(lower, _arrowColors[index, 6],
+                           _arrowColors[index, 7], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, lower);
                 }
 
                 lower.Inflate(-1, 0);
 
-                using (var brush = new LinearGradientBrush(lower, arrowColours[index, 4],
-                           arrowColours[index, 5], LinearGradientMode.Vertical))
+                using (var brush = new LinearGradientBrush(lower, _arrowColors[index, 4],
+                           _arrowColors[index, 5], LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, lower);
                 }
@@ -946,7 +946,7 @@ namespace Krypton.Toolkit
 
         #region ... Krypton ...
 
-
+        /*
         //Krypton Palette Events
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
@@ -963,7 +963,7 @@ namespace Krypton.Toolkit
                 _palette.PalettePaint += OnPalettePaint;
                 //repaint with new values
 
-                InitColours();
+                InitColors();
             }
 
             //Invalidate();
@@ -973,7 +973,7 @@ namespace Krypton.Toolkit
         private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();
-        }
+        }*/
 
         #endregion
     }

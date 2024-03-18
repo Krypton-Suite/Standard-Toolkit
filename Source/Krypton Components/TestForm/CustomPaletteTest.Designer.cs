@@ -29,16 +29,32 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomPaletteTest));
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kryptonScrollBar1 = new Krypton.Toolkit.KryptonScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2007Blue;
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Copy = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Copy")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Cut = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Cut")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.New = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.New")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Open = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Open")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.PageSetup = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PageSetup")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Paste = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Paste")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Print = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Print")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Redo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Redo")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Save = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Save")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAll = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAll")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAs = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAs")));
+            this.kryptonManager1.ToolkitImages.ToolbarImages.Undo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Undo")));
             // 
             // kryptonCustomPaletteBase1
             // 
@@ -49,23 +65,37 @@
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DropDownWidth = 121;
+            this.kryptonThemeComboBox1.DropDownWidth = 301;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(239, 217);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(301, 21);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
+            // 
+            // kryptonScrollBar1
+            // 
+            this.kryptonScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
+            this.kryptonScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
+            this.kryptonScrollBar1.Location = new System.Drawing.Point(66, 33);
+            this.kryptonScrollBar1.Name = "kryptonScrollBar1";
+            this.kryptonScrollBar1.Opacity = 1D;
+            this.kryptonScrollBar1.Orientation = Krypton.Toolkit.ScrollBarOrientation.Horizontal;
+            this.kryptonScrollBar1.Size = new System.Drawing.Size(523, 19);
+            this.kryptonScrollBar1.TabIndex = 1;
+            this.kryptonScrollBar1.Text = "kryptonScrollBar1";
             // 
             // CustomPaletteTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 466);
+            this.ClientSize = new System.Drawing.Size(778, 428);
+            this.Controls.Add(this.kryptonScrollBar1);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Name = "CustomPaletteTest";
             this.Text = "CustomPaletteTest";
+            this.UseThemeFormChromeBorderWidth = false;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -76,5 +106,6 @@
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
+        private Krypton.Toolkit.KryptonScrollBar kryptonScrollBar1;
     }
 }
