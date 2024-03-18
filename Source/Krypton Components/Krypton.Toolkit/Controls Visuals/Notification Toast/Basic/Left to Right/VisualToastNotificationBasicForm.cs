@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
 
             kchkDoNotShowAgain.ThreeState = _basicToastNotificationData.UseDoNotShowAgainOptionThreeState ?? false;
 
-            kchkDoNotShowAgain.Text = KryptonManager.Strings.CustomStrings.DoNotShowAgain;
+            kchkDoNotShowAgain.Text = _basicToastNotificationData.OptionalCheckBoxText ?? KryptonManager.Strings.CustomStrings.DoNotShowAgain;
         }
 
         private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) => ReturnValue = kchkDoNotShowAgain.Checked;

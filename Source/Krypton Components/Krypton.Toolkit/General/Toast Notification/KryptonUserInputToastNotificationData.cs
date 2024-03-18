@@ -12,6 +12,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Contains the data and information required, to create a toast notification with user input.</summary>
     public struct KryptonUserInputToastNotificationData
     {
         #region Public
@@ -116,6 +117,10 @@ namespace Krypton.Toolkit
         /// <value>The toast notification cue text.</value>
         public string? ToastNotificationCueText { get; set; }
 
+        /// <summary>Gets or sets the optional CheckBox text.</summary>
+        /// <value>The optional CheckBox text.</value>
+        public string? OptionalCheckBoxText { get; set; }
+
         /// <summary>Gets or sets the user input item collection.</summary>
         /// <value>The user input item collection.</value>
         public ComboBox.ObjectCollection UserInputItemCollection { get; set; }
@@ -157,6 +162,8 @@ namespace Krypton.Toolkit
             BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
 
             CountDownTimerInterval = 1000;
+
+            OptionalCheckBoxText = KryptonManager.Strings.CustomStrings.DoNotShowAgain;
 
             ToastHost = null;
 

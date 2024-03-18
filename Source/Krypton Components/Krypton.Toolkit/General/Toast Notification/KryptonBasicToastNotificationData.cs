@@ -12,6 +12,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Contains the data and information required, to create a basic toast notification.</summary>
     public struct KryptonBasicToastNotificationData
     {
         #region Public
@@ -92,6 +93,10 @@ namespace Krypton.Toolkit
         /// <value>The notification title.</value>
         public string? NotificationTitle { get; set; }
 
+        /// <summary>Gets or sets the optional CheckBox text.</summary>
+        /// <value>The optional CheckBox text.</value>
+        public string? OptionalCheckBoxText { get; set; }
+
         /// <summary>Gets or sets the custom image.</summary>
         /// <value>The custom image.</value>
         public Bitmap? CustomImage { get; set; }
@@ -143,6 +148,8 @@ namespace Krypton.Toolkit
             BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
 
             BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
+
+            OptionalCheckBoxText = KryptonManager.Strings.CustomStrings.DoNotShowAgain;
 
             ToastHost = null;
 
