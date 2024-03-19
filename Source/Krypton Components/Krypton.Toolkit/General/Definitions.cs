@@ -2243,8 +2243,10 @@ namespace Krypton.Toolkit
         Ignore = DialogResult.Ignore,
         Yes = DialogResult.Yes,
         No = DialogResult.No,
-        Checked = 0x000003EE, // 1006
-        Indeterminate = 0x000003EF // 1007
+        // Assign values to 1000 or over, to avoid clashes
+        Checked = 1000,
+        Indeterminate = 1001,
+        Timeout = 1002
     }
 
     #endregion
