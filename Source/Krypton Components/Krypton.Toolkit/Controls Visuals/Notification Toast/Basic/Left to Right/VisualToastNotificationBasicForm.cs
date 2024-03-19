@@ -216,30 +216,30 @@ namespace Krypton.Toolkit
 
         private void UpdateSizing()
         {
-            // Add some height, if form border style equals 'None'
-
-            var width = Size.Width;
-
-            var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
-
             if (FormBorderStyle == FormBorderStyle.None)
             {
+                // Add some height, if form border style equals 'None'
+
+                var width = Size.Width;
+
+                // ToDo: Use scaling here, to support larger screens
+
+                var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
+
                 Size = new Size(width, height);
             }
         }
 
         private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Maximized)
+            WindowState = WindowState switch
             {
-                WindowState = FormWindowState.Normal;
-            }
+                FormWindowState.Maximized => FormWindowState.Normal,
+                _ => WindowState
+            };
         }
 
-        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e)
-        {
-            kbtnDismiss.Focus();
-        }
+        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e) => kbtnDismiss.Focus();
 
         private void VisualToastNotificationBasicForm_LocationChanged(object sender, EventArgs e)
         {
@@ -406,8 +406,6 @@ namespace Krypton.Toolkit
                 Hide();
             }
 
-
-
             base.OnLoad(e);
         }
 
@@ -417,6 +415,5 @@ namespace Krypton.Toolkit
         }
 
         #endregion
-
     }
 }

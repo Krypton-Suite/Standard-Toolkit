@@ -105,6 +105,15 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Public
+
+        public int ScrollBarWidth
+        {
+            get => Width; set => Width = value;
+        }
+
+        #endregion
+
         #region Identity
 
         /// <summary>
@@ -885,7 +894,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Performs the work of setting the specified bounds of this control.
         /// </summary>
         /// <param name="x">The new x value of the control.</param>
@@ -924,7 +933,7 @@ namespace Krypton.Toolkit
             {
                 SetUpScrollBar();
             }
-        }
+        }*/
 
         /// <summary>
         /// Raises the <see cref="Control.SizeChanged"/> event.

@@ -78,11 +78,10 @@
             // 
             this.kryptonScrollBar1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(140)))), ((int)(((byte)(201)))));
             this.kryptonScrollBar1.DisabledBorderColor = System.Drawing.Color.Gray;
-            this.kryptonScrollBar1.Location = new System.Drawing.Point(66, 33);
+            this.kryptonScrollBar1.Location = new System.Drawing.Point(66, 12);
             this.kryptonScrollBar1.Name = "kryptonScrollBar1";
             this.kryptonScrollBar1.Opacity = 1D;
-            this.kryptonScrollBar1.Orientation = Krypton.Toolkit.ScrollBarOrientation.Horizontal;
-            this.kryptonScrollBar1.Size = new System.Drawing.Size(523, 19);
+            this.kryptonScrollBar1.Size = new System.Drawing.Size(19, 404);
             this.kryptonScrollBar1.TabIndex = 1;
             this.kryptonScrollBar1.Text = "kryptonScrollBar1";
             // 
