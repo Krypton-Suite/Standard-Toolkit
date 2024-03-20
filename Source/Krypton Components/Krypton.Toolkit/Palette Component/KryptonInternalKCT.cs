@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public Color InternalMenuStripText
         {
-            get => _colors.Length > (int)PaletteColorIndex.MenuStripText ? _colors [(int)PaletteColorIndex.MenuStripText] : BaseKCT.MenuStripText;
+            get => _colors.Length > (int)PaletteColorIndex.MenuStripText ? _colors[(int)PaletteColorIndex.MenuStripText] : BaseKCT.MenuStripText;
             set => _colors[(int)PaletteColorIndex.MenuStripText] = value;
         }
         #endregion

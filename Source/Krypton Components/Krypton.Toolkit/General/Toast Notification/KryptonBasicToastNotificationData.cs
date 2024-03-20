@@ -8,9 +8,11 @@
 #endregion
 
 using ContentAlignment = System.Drawing.ContentAlignment;
+#pragma warning disable VSSpell001
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Contains the data and information required, to create a basic toast notification.</summary>
     public struct KryptonBasicToastNotificationData
     {
         #region Public
@@ -27,6 +29,22 @@ namespace Krypton.Toolkit
         /// <value>The show close box.</value>
         public bool? ShowCloseBox { get; set; }
 
+        /// <summary>Gets or sets the show do not show again option.</summary>
+        /// <value>The show do not show again option.</value>
+        public bool? ShowDoNotShowAgainOption { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether [show count down seconds on progress bar].</summary>
+        /// <value><c>true</c> if [show count down seconds on progress bar]; otherwise, <c>false</c>.</value>
+        public bool ShowCountDownSecondsOnProgressBar { get; set; }
+
+        /// <summary>Gets or sets the state of the use do not show again option three.</summary>
+        /// <value>The state of the use do not show again option three.</value>
+        public bool? UseDoNotShowAgainOptionThreeState { get; set; }
+
+        /// <summary>Gets or sets the do not show again option checked value.</summary>
+        /// <value>The do not show again option checked value.</value>
+        public bool IsDoNotShowAgainOptionChecked { get; set; }
+
         /// <summary>Gets or sets the report toast location. Use this for development purposes only.</summary>
         /// <value>Reports the toast location.</value>
         public bool ReportToastLocation { get; set; }
@@ -34,6 +52,10 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets a value indicating whether [use RTL reading].</summary>
         /// <value><c>true</c> if [use RTL reading]; otherwise, <c>false</c>.</value>
         public bool UseRtlReading { get; set; }
+
+        /// <summary>Gets or sets the state of the do not show again option check.</summary>
+        /// <value>The state of the do not show again option check.</value>
+        public CheckState? DoNotShowAgainOptionCheckState { get; set; }
 
         /// <summary>Gets or sets the first border color.</summary>
         /// <value>The first border color.</value>
@@ -55,9 +77,13 @@ namespace Krypton.Toolkit
         /// <value>The notification title font.</value>
         public Font? NotificationTitleFont { get; set; }
 
-        /// <summary>Gets or sets the count down seconds.</summary>
-        /// <value>The count down seconds.</value>
+        /// <summary>Gets or sets the count-down seconds.</summary>
+        /// <value>The count-down seconds.</value>
         public int? CountDownSeconds { get; set; }
+
+        /// <summary>Gets or sets the count-down timer interval.</summary>
+        /// <value>The count-down timer interval.</value>
+        public int? CountDownTimerInterval { get; set; }
 
         /// <summary>Gets or sets the content of the notification.</summary>
         /// <value>The content of the notification.</value>
@@ -67,6 +93,10 @@ namespace Krypton.Toolkit
         /// <value>The notification title.</value>
         public string? NotificationTitle { get; set; }
 
+        /// <summary>Gets or sets the optional CheckBox text.</summary>
+        /// <value>The optional CheckBox text.</value>
+        public string? OptionalCheckBoxText { get; set; }
+
         /// <summary>Gets or sets the custom image.</summary>
         /// <value>The custom image.</value>
         public Bitmap? CustomImage { get; set; }
@@ -74,6 +104,10 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the notification location.</summary>
         /// <value>The notification location.</value>
         public Point? NotificationLocation { get; set; }
+
+        /// <summary>Gets or sets the toast host.</summary>
+        /// <value>The toast host.</value>
+        public IWin32Window? ToastHost { get; set; }
 
         /// <summary>Gets or sets the right to left layout.</summary>
         /// <value>The right to left layout.</value>
@@ -97,9 +131,27 @@ namespace Krypton.Toolkit
 
             UseRtlReading = false;
 
+            ShowCountDownSecondsOnProgressBar = true;
+
+            #region Do Not Show Again Values
+
+            ShowDoNotShowAgainOption = false;
+
+            UseDoNotShowAgainOptionThreeState = false;
+
+            DoNotShowAgainOptionCheckState = CheckState.Unchecked;
+
+            #endregion
+
+            CountDownTimerInterval = 1000;
+
             BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
 
             BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
+
+            OptionalCheckBoxText = KryptonManager.Strings.CustomStrings.DoNotShowAgain;
+
+            ToastHost = null;
 
             RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
         }

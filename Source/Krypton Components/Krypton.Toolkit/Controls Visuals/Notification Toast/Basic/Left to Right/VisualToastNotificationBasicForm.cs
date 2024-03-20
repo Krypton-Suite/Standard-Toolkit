@@ -51,7 +51,17 @@ namespace Krypton.Toolkit
             UpdateFadeValues();
 
             UpdateFonts();
+
+            ShowDoNotShowAgainOption();
         }
+
+        #endregion
+
+        #region Public
+
+        internal bool ReturnValue;
+
+        internal CheckState ReturnCheckBoxStateValue;
 
         #endregion
 
@@ -174,42 +184,62 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void UpdateDoNotShowAgainOptionChecked() =>
+            kchkDoNotShowAgain.Checked = _basicToastNotificationData.IsDoNotShowAgainOptionChecked;
+
+        private void UpdateDoNotShowAgainOptionCheckState() => kchkDoNotShowAgain.CheckState =
+            _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
+
         private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
 
-        private void UpdateLocation()
-        {
+        private void UpdateLocation() =>
             //Once loaded, position the form, or position it to the bottom left of the screen with added padding
             Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
-        }
 
         private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
         private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
+            UpdateSizing();
+
             UpdateLocation();
 
             ReportToastLocation();
 
             ShowCloseButton();
 
-            _timer.Start();
+            _timer?.Start();
 
             _soundPlayer?.Play();
         }
 
-        private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
+        private void UpdateSizing()
         {
-            if (WindowState == FormWindowState.Maximized)
+            if (FormBorderStyle == FormBorderStyle.None)
             {
-                WindowState = FormWindowState.Normal;
+                // Add some height, if form border style equals 'None'
+
+                var width = Size.Width;
+
+                // ToDo: Use scaling here, to support larger screens
+
+                var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
+
+                Size = new Size(width, height);
             }
         }
 
-        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e)
+        private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
         {
-            kbtnDismiss.Focus();
+            WindowState = WindowState switch
+            {
+                FormWindowState.Maximized => FormWindowState.Normal,
+                _ => WindowState
+            };
         }
+
+        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e) => kbtnDismiss.Focus();
 
         private void VisualToastNotificationBasicForm_LocationChanged(object sender, EventArgs e)
         {
@@ -230,11 +260,28 @@ namespace Krypton.Toolkit
             ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
+        private void ShowDoNotShowAgainOption()
+        {
+            kchkDoNotShowAgain.Visible = _basicToastNotificationData.ShowDoNotShowAgainOption ?? false;
+
+            kchkDoNotShowAgain.Checked = _basicToastNotificationData.IsDoNotShowAgainOptionChecked;
+
+            kchkDoNotShowAgain.CheckState = _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
+
+            kchkDoNotShowAgain.ThreeState = _basicToastNotificationData.UseDoNotShowAgainOptionThreeState ?? false;
+
+            kchkDoNotShowAgain.Text = _basicToastNotificationData.OptionalCheckBoxText ?? KryptonManager.Strings.CustomStrings.DoNotShowAgain;
+        }
+
+        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) => ReturnValue = kchkDoNotShowAgain.Checked;
+
+        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e) => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
+
+        #region Show
+
         public new void Show()
         {
             TopMost = _basicToastNotificationData.TopMost ?? true;
-
-            //Opacity = 0;
 
             UpdateText();
 
@@ -246,7 +293,7 @@ namespace Krypton.Toolkit
 
                 _timer = new Timer();
 
-                _timer.Interval = 1000;
+                _timer.Interval = _basicToastNotificationData.CountDownTimerInterval ?? 1000;
 
                 _timer.Tick += (sender, args) =>
                 {
@@ -267,11 +314,104 @@ namespace Krypton.Toolkit
             base.Show();
         }
 
-        internal static void ShowToast(KryptonBasicToastNotificationData toastNotificationData)
+        public new DialogResult ShowDialog()
         {
-            var kt = new VisualToastNotificationBasicForm(toastNotificationData);
+            TopMost = _basicToastNotificationData.TopMost ?? true;
 
-            kt.Show();
+            UpdateText();
+
+            UpdateIcon();
+
+            if (_basicToastNotificationData.IsDoNotShowAgainOptionChecked)
+            {
+                UpdateDoNotShowAgainOptionChecked();
+            }
+
+            if (_basicToastNotificationData.DoNotShowAgainOptionCheckState != null)
+            {
+                UpdateDoNotShowAgainOptionCheckState();
+            }
+
+            if (_basicToastNotificationData.CountDownSeconds != 0)
+            {
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+
+                _timer = new Timer();
+
+                _timer.Interval = _basicToastNotificationData.CountDownTimerInterval ?? 1000;
+
+                _timer.Tick += (sender, args) =>
+                {
+                    _time++;
+
+                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+
+                    if (_time == _basicToastNotificationData.CountDownSeconds)
+                    {
+                        _timer.Stop();
+
+                        Close();
+                    }
+                };
+            }
+
+            return base.ShowDialog();
+        }
+
+        #endregion
+
+        #region Internal Show Methods
+
+        internal static bool InternalShowWithBooleanReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicForm(toastNotificationData);
+
+            if (toast.ShowDialog() == DialogResult.OK)
+            {
+                return toast.ReturnValue;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        internal static CheckState InternalShowWithCheckStateReturnValue(
+            KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.ReturnCheckBoxStateValue
+                : CheckState.Unchecked;
+        }
+
+        internal static void InternalShow(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            var toast = new VisualToastNotificationBasicForm(toastNotificationData);
+
+            toast.Show();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Protected Overrides
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if (_basicToastNotificationData.DoNotShowAgainOptionCheckState == CheckState.Checked || _basicToastNotificationData.IsDoNotShowAgainOptionChecked)
+            {
+                Hide();
+            }
+
+            base.OnLoad(e);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
         }
 
         #endregion

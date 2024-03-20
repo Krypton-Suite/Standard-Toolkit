@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginGradientBegin;
 
-            set 
+            set
             {
                 InternalKCT.InternalImageMarginGradientBegin = value;
                 PerformNeedPaint(false);
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// esets the ImageMarginGradientBegin property to its default value.
+        /// Resets the ImageMarginGradientBegin property to its default value.
         /// </summary>
         public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
@@ -115,8 +115,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -140,8 +140,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -165,8 +165,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginRevealedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -190,8 +190,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginRevealedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -215,8 +215,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalImageMarginRevealedGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -240,8 +240,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuBorder;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuBorder = value;
                 PerformNeedPaint(false);
             }
@@ -290,8 +290,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemBorder;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemBorder = value;
                 PerformNeedPaint(false);
             }
@@ -315,8 +315,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemPressedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -340,8 +340,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemPressedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -365,8 +365,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemPressedGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -390,8 +390,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemSelected;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelected = value;
                 PerformNeedPaint(false);
             }
@@ -415,8 +415,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemSelectedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelectedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -440,8 +440,8 @@ namespace Krypton.Toolkit
         {
             get => InternalKCT.InternalMenuItemSelectedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelectedGradientEnd = value;
                 PerformNeedPaint(false);
             }

@@ -30,6 +30,8 @@ namespace Krypton.Toolkit
         /// <summary>The global button padding</summary>
         public const int GLOBAL_BUTTON_PADDING = 10;
 
+        internal const int DEFAULT_PADDING = 10;
+
         /// <summary>The global default theme index</summary>
         public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
 

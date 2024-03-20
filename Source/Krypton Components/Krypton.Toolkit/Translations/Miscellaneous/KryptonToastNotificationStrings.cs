@@ -29,12 +29,16 @@ namespace Krypton.Toolkit
             Reset();
         }
 
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+
         #endregion
 
         #region IsDefault
 
         [Browsable(false)]
-        public bool IsDefault => DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) && 
+        public bool IsDefault => DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) &&
                                  Dismiss.Equals(DEFAULT_DISMISS);
 
         #endregion
@@ -47,7 +51,7 @@ namespace Krypton.Toolkit
         [Description(@"Dismiss string used for custom situations.")]
         [DefaultValue(DEFAULT_DO_NOT_SHOW_AGAIN)]
         public string DoNotShowAgain { get; set; }
-        
+
         /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]

@@ -13,6 +13,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedParameter.Local
 using ContentAlignment = System.Drawing.ContentAlignment;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
@@ -55,6 +56,12 @@ namespace Krypton.Toolkit
         private readonly bool? _useCheckBoxThreeState;
         private readonly CheckState? _checkBoxCheckState;
 
+        // Extra fields
+        private bool _hasTimedOut;
+        private Timer _timeOuTimer;
+        private int? _timeOut;
+        private int? _timerInterval;
+
         private KryptonMessageBoxResult _messageBoxResult;
 
         #endregion
@@ -95,7 +102,7 @@ namespace Krypton.Toolkit
                                        ContentAlignment? messageTextAlignment,
                                        bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
                                        bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
-                                       bool? showCloseButton)
+                                       bool? showCloseButton, int? timeOut, int? timerInterval)
         {
             // Store incoming values
             _text = text;
@@ -123,6 +130,11 @@ namespace Krypton.Toolkit
             _isCheckBoxChecked = isCheckBoxChecked ?? false;
             _checkBoxCheckState = checkBoxCheckState ?? CheckState.Unchecked;
             _showCloseButton = showCloseButton ?? true;
+
+            // For time out functionality
+            _timeOuTimer = new Timer();
+            _timeOut = timeOut ?? 0;
+            _timerInterval = timerInterval ?? 1000;
 
             // Create the form contents
             InitializeComponent();
