@@ -1974,10 +1974,7 @@ namespace Krypton.Toolkit
         Button3 = 512,
 
         /// <summary>Specifies that the Help button on the message box should be the default button.</summary>
-        Button4 = 768,
-
-        /// <summary>The accelerator button.</summary>
-        Button5 = 1024
+        Button4 = 768
     }
 
     #endregion
@@ -2242,11 +2239,7 @@ namespace Krypton.Toolkit
         Retry = DialogResult.Retry,
         Ignore = DialogResult.Ignore,
         Yes = DialogResult.Yes,
-        No = DialogResult.No,
-        // Assign values to 1000 or over, to avoid clashes
-        Checked = 1000,
-        Indeterminate = 1001,
-        Timeout = 1002
+        No = DialogResult.No
     }
 
     #endregion
