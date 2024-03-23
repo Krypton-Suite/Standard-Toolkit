@@ -45,6 +45,11 @@ namespace Krypton.Toolkit
         internal static string DEFAULT_TOOLKIT_FILE = @"Krypton.Toolkit.dll";
         internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
 
+        internal const string DEFAULT_NOT_IMPLEMENTED_YET_MESSAGE =
+            $"This feature has not been currently implemented yet.\nPlease check back again soon!";
+
+        internal static string DEFAULT_EMPTY_STRING = string.Empty;
+
         /// <summary>The OS major version</summary>
         public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 

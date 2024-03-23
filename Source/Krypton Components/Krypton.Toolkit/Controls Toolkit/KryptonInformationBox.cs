@@ -9,11 +9,12 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Provides a public facing API to the <see cref="VisualInformationBoxForm"/>.</summary>
     public class KryptonInformationBox
     {
         public KryptonInformationBox()
         {
-            DebugTools.NotImplemented(@"Please check back again soon.");
+            DebugTools.NotImplemented(GlobalStaticValues.DEFAULT_NOT_IMPLEMENTED_YET_MESSAGE);
         }
     }
 }
