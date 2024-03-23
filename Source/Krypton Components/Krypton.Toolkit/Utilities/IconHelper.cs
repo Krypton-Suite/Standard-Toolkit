@@ -80,35 +80,44 @@ namespace Krypton.Toolkit
                 case InformationBoxIcon.Hand:
                     return CreateIconFromImage(MessageBoxImageResources.GenericHand, null);
                 case InformationBoxIcon.SystemHand:
-                    break;
+                    return SystemIcons.Hand;
                 case InformationBoxIcon.Question:
-                    break;
+                    return CreateIconFromImage(MessageBoxImageResources.GenericQuestion, null);
                 case InformationBoxIcon.SystemQuestion:
-                    break;
+                    return SystemIcons.Question;
                 case InformationBoxIcon.Exclamation:
-                    break;
-                case InformationBoxIcon.SystemExclamation:
-                    break;
-                case InformationBoxIcon.Asterisk:
-                    break;
-                case InformationBoxIcon.SystemAsterisk:
-                    break;
-                case InformationBoxIcon.Stop:
-                    break;
-                case InformationBoxIcon.Error:
-                    break;
                 case InformationBoxIcon.Warning:
-                    break;
+                    return CreateIconFromImage(MessageBoxImageResources.GenericWarning, null);
+                case InformationBoxIcon.SystemExclamation:
+                    return SystemIcons.Exclamation;
+                case InformationBoxIcon.Asterisk:
+                    return CreateIconFromImage(MessageBoxImageResources.GenericAsterisk, null);
+                case InformationBoxIcon.SystemAsterisk:
+                    return SystemIcons.Asterisk;
+                case InformationBoxIcon.Stop:
+                case InformationBoxIcon.Error:
+                    return CreateIconFromImage(MessageBoxImageResources.GenericStop, null);
                 case InformationBoxIcon.Information:
-                    break;
+                    return CreateIconFromImage(MessageBoxImageResources.GenericInformation, null);
                 case InformationBoxIcon.Shield:
-                    break;
+                    if (OSUtilities.IsWindowsEleven)
+                    {
+                        return CreateIconFromImage(UACShieldIconResources.UACShieldWindows11, null);
+                    }
+                    else if (OSUtilities.IsWindowsTen)
+                    {
+                        return CreateIconFromImage(UACShieldIconResources.UACShieldWindows10, null);
+                    }
+                    else
+                    {
+                        return CreateIconFromImage(UACShieldIconResources.UACShieldWindows7881, null);
+                    }
                 case InformationBoxIcon.WindowsLogo:
                     break;
                 case InformationBoxIcon.Application:
                     break;
                 case InformationBoxIcon.SystemApplication:
-                    break;
+                    return SystemIcons.Application;
                 default:
                     DebugTools.NotImplemented(iconType.ToString());
                     return null;
