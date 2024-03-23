@@ -71,6 +71,52 @@ namespace Krypton.Toolkit
             }
         }
 
+        internal static Icon? GetIconFromEnum(InformationBoxIcon iconType)
+        {
+            switch (iconType)
+            {
+                case InformationBoxIcon.None:
+                    return null;
+                case InformationBoxIcon.Hand:
+                    return CreateIconFromImage(MessageBoxImageResources.GenericHand, null);
+                case InformationBoxIcon.SystemHand:
+                    break;
+                case InformationBoxIcon.Question:
+                    break;
+                case InformationBoxIcon.SystemQuestion:
+                    break;
+                case InformationBoxIcon.Exclamation:
+                    break;
+                case InformationBoxIcon.SystemExclamation:
+                    break;
+                case InformationBoxIcon.Asterisk:
+                    break;
+                case InformationBoxIcon.SystemAsterisk:
+                    break;
+                case InformationBoxIcon.Stop:
+                    break;
+                case InformationBoxIcon.Error:
+                    break;
+                case InformationBoxIcon.Warning:
+                    break;
+                case InformationBoxIcon.Information:
+                    break;
+                case InformationBoxIcon.Shield:
+                    break;
+                case InformationBoxIcon.WindowsLogo:
+                    break;
+                case InformationBoxIcon.Application:
+                    break;
+                case InformationBoxIcon.SystemApplication:
+                    break;
+                default:
+                    DebugTools.NotImplemented(iconType.ToString());
+                    return null;
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }
