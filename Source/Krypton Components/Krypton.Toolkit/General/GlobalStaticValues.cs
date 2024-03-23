@@ -13,6 +13,7 @@
 // ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
+    /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
         /// Used for 'Material' themes
