@@ -56,18 +56,6 @@ namespace Krypton.Toolkit
         /// <value>The show help button.</value>
         public bool? ShowHelpButton { get; set; }
 
-        /// <summary>Gets or sets the show action button.</summary>
-        /// <value>The show action button.</value>
-        public bool? ShowActionButton { get; set; }
-
-        /// <summary>Gets or sets the action button text.</summary>
-        /// <value>The action button text.</value>
-        public string? ActionButtonText { get; set; }
-
-        /// <summary>Gets or sets the action button command.</summary>
-        /// <value>The action button command.</value>
-        public KryptonCommand? ActionButtonCommand { get; set; }
-
         /// <summary>Gets or sets the application image.</summary>
         /// <value>The application image.</value>
         public Image? ApplicationImage { get; set; }
@@ -112,20 +100,8 @@ namespace Krypton.Toolkit
         /// <value>The help parameters.</value>
         public object? HelpParameters { get; set; }
 
-        /// <summary>Gets or sets the CheckBox text.</summary>
-        /// <value>The CheckBox text.</value>
-        public string? CheckBoxText { get; set; }
-
-        /// <summary>Gets or sets the CheckBox checked value.</summary>
-        /// <value>The CheckBox checked value.</value>
-        public bool? IsCheckBoxChecked { get; set; }
-
-        /// <summary>Gets or sets the state of the CheckBox <see cref="CheckState"/>.</summary>
-        /// <value>The state of the CheckBox <see cref="CheckState"/>.</value>
-        public CheckState? CheckBoxCheckState { get; set; }
-
-        public bool? UseCheckBoxThreeState { get; set; }
-
+        /// <summary>Gets or sets the show close button.</summary>
+        /// <value>The show close button.</value>
         public bool? ShowCloseButton { get; set; }
 
         #endregion

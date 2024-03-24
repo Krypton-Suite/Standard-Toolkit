@@ -36,10 +36,7 @@
             this._button3 = new Krypton.Toolkit.MessageButton();
             this._button1 = new Krypton.Toolkit.MessageButton();
             this._button2 = new Krypton.Toolkit.MessageButton();
-            this._button5 = new Krypton.Toolkit.MessageButton();
             this._messageIcon = new System.Windows.Forms.PictureBox();
-            this.tlpContentArea = new System.Windows.Forms.TableLayoutPanel();
-            this.kchkMessageboxCheckBox = new Krypton.Toolkit.KryptonCheckBox();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
             this.kwlblMessageText = new Krypton.Toolkit.KryptonWrapLabel();
             this.klwlblMessageText = new Krypton.Toolkit.KryptonLinkWrapLabel();
@@ -49,7 +46,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
             this._panelButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).BeginInit();
-            this.tlpContentArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).BeginInit();
             this.kpnlContentArea.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +57,7 @@
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(199, 104);
+            this.kryptonPanel1.Size = new System.Drawing.Size(219, 124);
             this.kryptonPanel1.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -72,7 +68,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this._panelButtons, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this._messageIcon, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tlpContentArea, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kpnlContentArea, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
@@ -80,7 +76,8 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(199, 104);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(219, 124);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _panelButtons
@@ -91,13 +88,12 @@
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
-            this._panelButtons.Controls.Add(this._button5);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelButtons.Location = new System.Drawing.Point(0, 83);
+            this._panelButtons.Location = new System.Drawing.Point(0, 103);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(199, 21);
+            this._panelButtons.Size = new System.Drawing.Size(219, 21);
             this._panelButtons.TabIndex = 0;
             // 
             // _borderEdge
@@ -107,7 +103,7 @@
             this._borderEdge.Location = new System.Drawing.Point(0, 0);
             this._borderEdge.Margin = new System.Windows.Forms.Padding(2);
             this._borderEdge.Name = "_borderEdge";
-            this._borderEdge.Size = new System.Drawing.Size(199, 1);
+            this._borderEdge.Size = new System.Drawing.Size(219, 1);
             this._borderEdge.Text = "kryptonBorderEdge1";
             // 
             // _button4
@@ -116,7 +112,7 @@
             this._button4.AutoSize = true;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
-            this._button4.Location = new System.Drawing.Point(199, 0);
+            this._button4.Location = new System.Drawing.Point(219, 0);
             this._button4.Margin = new System.Windows.Forms.Padding(0);
             this._button4.MinimumSize = new System.Drawing.Size(38, 21);
             this._button4.Name = "_button4";
@@ -131,7 +127,7 @@
             this._button3.AutoSize = true;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
-            this._button3.Location = new System.Drawing.Point(162, 0);
+            this._button3.Location = new System.Drawing.Point(182, 0);
             this._button3.Margin = new System.Windows.Forms.Padding(0);
             this._button3.MinimumSize = new System.Drawing.Size(38, 21);
             this._button3.Name = "_button3";
@@ -146,7 +142,7 @@
             this._button1.AutoSize = true;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
-            this._button1.Location = new System.Drawing.Point(86, 0);
+            this._button1.Location = new System.Drawing.Point(106, 0);
             this._button1.Margin = new System.Windows.Forms.Padding(0);
             this._button1.MinimumSize = new System.Drawing.Size(38, 21);
             this._button1.Name = "_button1";
@@ -161,7 +157,7 @@
             this._button2.AutoSize = true;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
-            this._button2.Location = new System.Drawing.Point(124, 0);
+            this._button2.Location = new System.Drawing.Point(144, 0);
             this._button2.Margin = new System.Windows.Forms.Padding(0);
             this._button2.MinimumSize = new System.Drawing.Size(38, 21);
             this._button2.Name = "_button2";
@@ -170,55 +166,17 @@
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
             // 
-            // _button5
-            // 
-            this._button5.AutoSize = true;
-            this._button5.Enabled = false;
-            this._button5.IgnoreAltF4 = false;
-            this._button5.Location = new System.Drawing.Point(0, 0);
-            this._button5.Margin = new System.Windows.Forms.Padding(0);
-            this._button5.MinimumSize = new System.Drawing.Size(38, 21);
-            this._button5.Name = "_button5";
-            this._button5.Size = new System.Drawing.Size(38, 23);
-            this._button5.TabIndex = 3;
-            this._button5.Values.Text = "B5";
-            this._button5.Visible = false;
-            // 
             // _messageIcon
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
             this._messageIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._messageIcon.Location = new System.Drawing.Point(158, 4);
+            this._messageIcon.Location = new System.Drawing.Point(178, 4);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
             this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(33, 75);
+            this._messageIcon.Size = new System.Drawing.Size(33, 95);
             this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._messageIcon.TabIndex = 0;
             this._messageIcon.TabStop = false;
-            // 
-            // tlpContentArea
-            // 
-            this.tlpContentArea.ColumnCount = 1;
-            this.tlpContentArea.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpContentArea.Controls.Add(this.kchkMessageboxCheckBox, 0, 1);
-            this.tlpContentArea.Controls.Add(this.kpnlContentArea, 0, 0);
-            this.tlpContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpContentArea.Location = new System.Drawing.Point(3, 3);
-            this.tlpContentArea.Name = "tlpContentArea";
-            this.tlpContentArea.RowCount = 2;
-            this.tlpContentArea.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpContentArea.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpContentArea.Size = new System.Drawing.Size(148, 77);
-            this.tlpContentArea.TabIndex = 1;
-            // 
-            // kchkMessageboxCheckBox
-            // 
-            this.kchkMessageboxCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kchkMessageboxCheckBox.Location = new System.Drawing.Point(3, 54);
-            this.kchkMessageboxCheckBox.Name = "kchkMessageboxCheckBox";
-            this.kchkMessageboxCheckBox.Size = new System.Drawing.Size(142, 20);
-            this.kchkMessageboxCheckBox.TabIndex = 0;
-            this.kchkMessageboxCheckBox.Values.Text = "kryptonCheckBox1";
             // 
             // kpnlContentArea
             // 
@@ -227,7 +185,7 @@
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContentArea.Location = new System.Drawing.Point(3, 3);
             this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(142, 45);
+            this.kpnlContentArea.Size = new System.Drawing.Size(168, 97);
             this.kpnlContentArea.TabIndex = 1;
             // 
             // kwlblMessageText
@@ -239,8 +197,8 @@
             this.kwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
             this.kwlblMessageText.Name = "kwlblMessageText";
-            this.kwlblMessageText.Size = new System.Drawing.Size(142, 45);
-            this.kwlblMessageText.Text = "kryptonWrapLabel1";
+            this.kwlblMessageText.Size = new System.Drawing.Size(168, 97);
+            this.kwlblMessageText.Text = "Message Text";
             this.kwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // klwlblMessageText
@@ -252,15 +210,15 @@
             this.klwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this.klwlblMessageText.Location = new System.Drawing.Point(0, 0);
             this.klwlblMessageText.Name = "klwlblMessageText";
-            this.klwlblMessageText.Size = new System.Drawing.Size(142, 45);
-            this.klwlblMessageText.Text = "kryptonLinkWrapLabel1";
+            this.klwlblMessageText.Size = new System.Drawing.Size(168, 97);
+            this.klwlblMessageText.Text = "Message Text";
             this.klwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // VisualMessageBoxRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(199, 104);
+            this.ClientSize = new System.Drawing.Size(219, 124);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
@@ -279,8 +237,6 @@
             this._panelButtons.ResumeLayout(false);
             this._panelButtons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
-            this.tlpContentArea.ResumeLayout(false);
-            this.tlpContentArea.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
             this.kpnlContentArea.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -297,12 +253,9 @@
         private MessageButton _button3;
         private MessageButton _button1;
         private MessageButton _button2;
-        private MessageButton _button5;
         private PictureBox _messageIcon;
-        private TableLayoutPanel tlpContentArea;
-        private KryptonCheckBox kchkMessageboxCheckBox;
         private KryptonPanel kpnlContentArea;
-        private KryptonWrapLabel kwlblMessageText;
         private KryptonLinkWrapLabel klwlblMessageText;
+        private KryptonWrapLabel kwlblMessageText;
     }
 }

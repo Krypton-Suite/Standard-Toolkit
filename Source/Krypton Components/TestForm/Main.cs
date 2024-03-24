@@ -80,7 +80,6 @@ namespace TestForm
                 Buttons = KryptonMessageBoxButtons.OK,
                 Icon = KryptonMessageBoxIcon.Information,
                 MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
-                ActionButtonCommand = kcmdMessageboxTest,
                 ShowCloseButton = kryptonCheckBox1.Checked,
                 //Options = MessageBoxOptions.RtlReading
             };
@@ -339,9 +338,9 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-           ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
+            ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
 
-           toastNotification.Show();
+            toastNotification.Show();
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)
@@ -358,7 +357,7 @@ namespace TestForm
 
         private void kcmdOpenImage_Execute(object sender, EventArgs e)
         {
-          
+
         }
     }
 }
