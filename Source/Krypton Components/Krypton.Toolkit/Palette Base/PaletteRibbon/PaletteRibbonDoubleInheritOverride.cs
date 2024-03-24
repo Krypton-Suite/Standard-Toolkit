@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor1(state);
                 }
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor2(state);
                 }
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor3(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor3(state);
                 }
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor4(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor4(state);
                 }
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor5(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor5(state);
                 }
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryText.GetRibbonTextColor(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupText.GetRibbonTextColor(state);
                 }

@@ -35,17 +35,18 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Draw == InheritBool.Inherit) &&
-                                           (GraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                           (Color1 == Color.Empty) &&
-                                           (Color2 == Color.Empty) &&
-                                           (ColorStyle == PaletteColorStyle.Inherit) &&
-                                           (ColorAlign == PaletteRectangleAlign.Inherit) &&
-                                           (ColorAngle == -1) &&
-                                           (Width == -1) &&
-                                           (Image == null) &&
-                                           (ImageStyle == PaletteImageStyle.Inherit) &&
-                                           (ImageAlign == PaletteRectangleAlign.Inherit);
+                                            (GraphicsHint == PaletteGraphicsHint.Inherit) &&
+                                            (Color1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Color2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (ColorStyle == PaletteColorStyle.Inherit) &&
+                                            (ColorAlign == PaletteRectangleAlign.Inherit) &&
+                                            (ColorAngle == -1) &&
+                                            (Width == -1) &&
+                                            (Image == null) &&
+                                            (ImageStyle == PaletteImageStyle.Inherit) &&
+                                            (ImageAlign == PaletteRectangleAlign.Inherit);
 
         #endregion
 

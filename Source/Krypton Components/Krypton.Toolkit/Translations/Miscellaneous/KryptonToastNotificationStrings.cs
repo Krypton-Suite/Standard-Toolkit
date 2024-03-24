@@ -23,30 +23,35 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonToastNotificationStrings" /> class.</summary>
         public KryptonToastNotificationStrings()
         {
             Reset();
         }
+
+        /// <summary>Converts to string.</summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
 
         #region IsDefault
 
         [Browsable(false)]
-        public bool IsDefault => DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) && 
+        public bool IsDefault => DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) &&
                                  Dismiss.Equals(DEFAULT_DISMISS);
 
         #endregion
 
         #region Public
 
-                /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
-                [Localizable(true)]
+        /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
+        [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Dismiss string used for custom situations.")]
         [DefaultValue(DEFAULT_DO_NOT_SHOW_AGAIN)]
         public string DoNotShowAgain { get; set; }
-        
+
         /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]

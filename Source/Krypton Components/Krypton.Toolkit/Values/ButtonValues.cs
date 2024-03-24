@@ -56,8 +56,8 @@ namespace Krypton.Toolkit
 
             // Set initial values
             _image = null;
-            _transparent = Color.Empty;
-            _dropDownArrowColor = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
+            _dropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
             _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
@@ -74,16 +74,17 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ImageStates.IsDefault &&
-                                           (Image == null) &&
-                                           (UseAsADialogButton == false) &&
-                                           (UseAsUACElevationButton == false) &&
-                                           (ShowSplitOption == false) &&
-                                           (DropDownArrowColor == Color.Empty) &&
-                                           //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
-                                           (ImageTransparentColor == Color.Empty) &&
-                                           (Text == DEFAULT_TEXT) &&
-                                           (ExtraText == _defaultExtraText);
+                                            (Image == null) &&
+                                            (UseAsADialogButton == false) &&
+                                            (UseAsUACElevationButton == false) &&
+                                            (ShowSplitOption == false) &&
+                                            (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Text == DEFAULT_TEXT) &&
+                                            (ExtraText == _defaultExtraText);
 
         #endregion
 
@@ -140,12 +141,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.

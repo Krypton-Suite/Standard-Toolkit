@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTrackBarDesigner : ControlDesigner
     {
         #region Instance Fields
-        private KryptonTrackBar _trackBar;
+        private KryptonTrackBar? _trackBar;
         #endregion
 
         #region Public Overrides
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                if (!_trackBar.AutoSize)
+                if (!_trackBar!.AutoSize)
                 {
                     return SelectionRules.AllSizeable | SelectionRules.Moveable;
                 }

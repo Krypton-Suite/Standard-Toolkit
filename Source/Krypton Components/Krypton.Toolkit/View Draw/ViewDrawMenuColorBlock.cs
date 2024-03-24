@@ -213,11 +213,11 @@ namespace Krypton.Toolkit
             }
 
             // If not in normal state, then need to adorn display
-            var outside = Color.Empty;
-            var inside = Color.Empty;
+            var outside = GlobalStaticValues.EMPTY_COLOR;
+            var inside = GlobalStaticValues.EMPTY_COLOR;
 
             // Is this element selected?
-            var selected = (KryptonContextMenuColorColumns.SelectedColor != Color.Empty) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+            var selected = (KryptonContextMenuColorColumns.SelectedColor != GlobalStaticValues.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
             switch (ElementState)
             {

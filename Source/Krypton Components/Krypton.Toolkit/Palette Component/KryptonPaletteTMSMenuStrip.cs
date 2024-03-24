@@ -35,10 +35,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalMenuStripText == Color.Empty) &&
-                                          (InternalKCT.InternalMenuStripFont == null) &&
-                                          (InternalKCT.InternalMenuStripGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuStripGradientEnd == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalMenuStripText == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuStripFont == null) &&
+                                            (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripText property to its default value.
         /// </summary>
-        public void ResetMenuStripText() => MenuStripText = Color.Empty;
+        public void ResetMenuStripText() => MenuStripText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuStripFont
@@ -127,7 +128,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = Color.Empty;
+        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuStripGradientEnd
@@ -152,7 +153,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = Color.Empty;
+        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

@@ -35,29 +35,30 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalButtonCheckedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalButtonCheckedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalButtonCheckedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalButtonCheckedHighlight == Color.Empty) &&
-                                          (InternalKCT.InternalButtonCheckedHighlightBorder == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedBorder == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedHighlight == Color.Empty) &&
-                                          (InternalKCT.InternalButtonPressedHighlightBorder == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedBorder == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedHighlight == Color.Empty) &&
-                                          (InternalKCT.InternalButtonSelectedHighlightBorder == Color.Empty) &&
-                                          (InternalKCT.InternalCheckBackground == Color.Empty) &&
-                                          (InternalKCT.InternalCheckPressedBackground == Color.Empty) &&
-                                          (InternalKCT.InternalCheckSelectedBackground == Color.Empty) &&
-                                          (InternalKCT.InternalOverflowButtonGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalOverflowButtonGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalOverflowButtonGradientMiddle == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalButtonCheckedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonCheckedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonPressedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalButtonSelectedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckPressedBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalCheckSelectedBackground == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalOverflowButtonGradientMiddle == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -115,7 +116,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientBegin() => ButtonCheckedGradientBegin = Color.Empty;
+        public void ResetButtonCheckedGradientBegin() => ButtonCheckedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonCheckedGradientEnd
@@ -140,7 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientEnd() => ButtonCheckedGradientEnd = Color.Empty;
+        public void ResetButtonCheckedGradientEnd() => ButtonCheckedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonCheckedGradientMiddle
@@ -165,7 +166,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonCheckedGradientMiddle() => ButtonCheckedGradientMiddle = Color.Empty;
+        public void ResetButtonCheckedGradientMiddle() => ButtonCheckedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonCheckedHighlight
@@ -190,7 +191,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonCheckedHighlight() => ButtonCheckedHighlight = Color.Empty;
+        public void ResetButtonCheckedHighlight() => ButtonCheckedHighlight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonCheckedHighlightBorder
@@ -215,7 +216,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonCheckedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonCheckedHighlightBorder() => ButtonCheckedHighlightBorder = Color.Empty;
+        public void ResetButtonCheckedHighlightBorder() => ButtonCheckedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedBorder
@@ -240,7 +241,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedBorder property to its default value.
         /// </summary>
-        public void ResetButtonPressedBorder() => ButtonPressedBorder = Color.Empty;
+        public void ResetButtonPressedBorder() => ButtonPressedBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedGradientBegin
@@ -265,7 +266,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientBegin() => ButtonPressedGradientBegin = Color.Empty;
+        public void ResetButtonPressedGradientBegin() => ButtonPressedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedGradientEnd
@@ -290,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientEnd() => ButtonPressedGradientEnd = Color.Empty;
+        public void ResetButtonPressedGradientEnd() => ButtonPressedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedGradientMiddle
@@ -315,7 +316,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonPressedGradientMiddle() => ButtonPressedGradientMiddle = Color.Empty;
+        public void ResetButtonPressedGradientMiddle() => ButtonPressedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedHighlight
@@ -340,7 +341,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonPressedHighlight() => ButtonPressedHighlight = Color.Empty;
+        public void ResetButtonPressedHighlight() => ButtonPressedHighlight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonPressedHighlightBorder
@@ -365,7 +366,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonPressedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonPressedHighlightBorder() => ButtonPressedHighlightBorder = Color.Empty;
+        public void ResetButtonPressedHighlightBorder() => ButtonPressedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedBorder
@@ -390,7 +391,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedBorder property to its default value.
         /// </summary>
-        public void ResetButtonSelectedBorder() => ButtonSelectedBorder = Color.Empty;
+        public void ResetButtonSelectedBorder() => ButtonSelectedBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedGradientBegin
@@ -415,7 +416,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientBegin property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientBegin() => ButtonSelectedGradientBegin = Color.Empty;
+        public void ResetButtonSelectedGradientBegin() => ButtonSelectedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedGradientEnd
@@ -440,7 +441,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientEnd property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientEnd() => ButtonSelectedGradientEnd = Color.Empty;
+        public void ResetButtonSelectedGradientEnd() => ButtonSelectedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedGradientMiddle
@@ -465,7 +466,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetButtonSelectedGradientMiddle() => ButtonSelectedGradientMiddle = Color.Empty;
+        public void ResetButtonSelectedGradientMiddle() => ButtonSelectedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedHighlight
@@ -490,7 +491,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedHighlight property to its default value.
         /// </summary>
-        public void ResetButtonSelectedHighlight() => ButtonSelectedHighlight = Color.Empty;
+        public void ResetButtonSelectedHighlight() => ButtonSelectedHighlight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ButtonSelectedHighlightBorder
@@ -515,7 +516,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ButtonSelectedHighlightBorder property to its default value.
         /// </summary>
-        public void ResetButtonSelectedHighlightBorder() => ButtonSelectedHighlightBorder = Color.Empty;
+        public void ResetButtonSelectedHighlightBorder() => ButtonSelectedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region CheckBackground
@@ -540,7 +541,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckBackground property to its default value.
         /// </summary>
-        public void ResetCheckBackground() => CheckBackground = Color.Empty;
+        public void ResetCheckBackground() => CheckBackground = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region CheckPressedBackground
@@ -565,7 +566,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckPressedBackground property to its default value.
         /// </summary>
-        public void ResetCheckPressedBackground() => CheckPressedBackground = Color.Empty;
+        public void ResetCheckPressedBackground() => CheckPressedBackground = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region CheckSelectedBackground
@@ -590,7 +591,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the CheckSelectedBackground property to its default value.
         /// </summary>
-        public void ResetCheckSelectedBackground() => CheckSelectedBackground = Color.Empty;
+        public void ResetCheckSelectedBackground() => CheckSelectedBackground = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region OverflowButtonGradientBegin
@@ -615,7 +616,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientBegin property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientBegin() => OverflowButtonGradientBegin = Color.Empty;
+        public void ResetOverflowButtonGradientBegin() => OverflowButtonGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region OverflowButtonGradientEnd
@@ -640,7 +641,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientEnd property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientEnd() => OverflowButtonGradientEnd = Color.Empty;
+        public void ResetOverflowButtonGradientEnd() => OverflowButtonGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region OverflowButtonGradientMiddle
@@ -665,7 +666,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the OverflowButtonGradientMiddle property to its default value.
         /// </summary>
-        public void ResetOverflowButtonGradientMiddle() => OverflowButtonGradientMiddle = Color.Empty;
+        public void ResetOverflowButtonGradientMiddle() => OverflowButtonGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

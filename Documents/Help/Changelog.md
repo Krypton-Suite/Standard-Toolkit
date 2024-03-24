@@ -3,6 +3,21 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* **[Breaking Change]:** The `RibbonStrings` options, usually located in `KryptonRibbon` has been moved to `KryptonManager` -> `ToolkitStrings` -> `RibbonStrings`
+* Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
+* Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
+* Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), Duplicate window titles when window maximized
+* Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), **[Regression]** Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
+* Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), **[Regression]** Duplicate window titles when window maximized
+* Resolved [#1361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1361), Opening an existing (Or creating a new) RibbonBar creates incorrect designer code for new `ToolBarImages` object(s)
+* Implemented [#1355](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1355), Ability to merge `KryptonRibbon`s
+    - **Note:** This feature is activated via the `KryptonRibbonMerger` API
+* Resolved issue whereby `CustomFormatMinimumColorButtonText` was assigned `null`, therefore flagging `KryptonOutlookGridStrings` as 'modified'
+* Resolved [#1351](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1351), **[Regression]** KryptonFolderBrowserDialog display and runtime errors
+* Implemented [#1343](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1343), Extend palette to accept `AppButton` colours
+* Resolved [#1337](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1337), ViewManager is visible in the designer as a readonly field, when it should be invisible !
+* Resolved [#1244](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1244), Should `IsDefault` set to be `internal`
+* Resolved [#1322](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1322), Exception at design time When Assigning CustomPalette to PropertyGrid / TreeGrid
 * Resolved [#1340](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1340), `KryptonPropertyGrid` Category header text colours
 * Resolved [#1331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1331), Fix white menu text in White themes (2010, 2013, 365); fixes to `KryptonPropertyGrid` and `KryptonThemeComboBox` with regard to theme switching
 * Resolved [#1313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1313), White background in tabs area
@@ -55,6 +70,11 @@
 * Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
 * Version bump `80.xx.xx.xx` -> `90.xx.xx.xx`
+
+=======
+
+## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+* Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======
 

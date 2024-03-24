@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+            public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
             /// <summary>
             /// Gets the content short text.
@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
                                                   int columnIndex,
                                                   out IPaletteBack paletteBack,
                                                   out IPaletteBorder paletteBorder,
-                                                  out IPaletteContent? paletteContent)
+                                                  out IPaletteContent paletteContent)
         {
             PaletteState retState;
 
@@ -1158,7 +1158,7 @@ namespace Krypton.Toolkit
                                                e.ColumnIndex,
                                                out IPaletteBack paletteBack,
                                                out IPaletteBorder paletteBorder,
-                                               out IPaletteContent? paletteContent);
+                                               out IPaletteContent paletteContent);
 
             try
             {
@@ -1518,7 +1518,7 @@ namespace Krypton.Toolkit
                                 focusCellBounds.X++;
                             }
 
-                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, Color.Empty, paletteContent!.GetContentShortTextColor1(state));
+                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, GlobalStaticValues.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
                         }
                     }
                 }
@@ -1927,12 +1927,12 @@ namespace Krypton.Toolkit
         {
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-            if ((ColumnHeadersDefaultCellStyle.BackColor == Color.Empty) ||
+            if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (ColumnHeadersDefaultCellStyle.BackColor == _columnBackColor))
             {
                 _columnBackColor = StateNormal.HeaderColumn.Back.Color1;
 
-                if (_columnBackColor == Color.Empty)
+                if (_columnBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _columnBackColor = StateNormal.HeaderColumn.Back.GetBackColor1(state);
                 }
@@ -1940,12 +1940,12 @@ namespace Krypton.Toolkit
                 ColumnHeadersDefaultCellStyle.BackColor = _columnBackColor;
             }
 
-            if ((RowHeadersDefaultCellStyle.BackColor == Color.Empty) ||
+            if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (RowHeadersDefaultCellStyle.BackColor == _rowBackColor))
             {
                 _rowBackColor = StateNormal.HeaderRow.Back.Color1;
 
-                if (_rowBackColor == Color.Empty)
+                if (_rowBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _rowBackColor = StateNormal.HeaderRow.Back.GetBackColor1(state);
                 }
@@ -1953,12 +1953,12 @@ namespace Krypton.Toolkit
                 RowHeadersDefaultCellStyle.BackColor = _rowBackColor;
             }
 
-            if ((DefaultCellStyle.BackColor == Color.Empty) ||
+            if ((DefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (DefaultCellStyle.BackColor == _dataCellBackColor))
             {
                 _dataCellBackColor = StateNormal.DataCell.Back.Color1;
 
-                if (_dataCellBackColor == Color.Empty)
+                if (_dataCellBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _dataCellBackColor = StateNormal.DataCell.Back.GetBackColor1(state);
                 }
@@ -1971,12 +1971,12 @@ namespace Krypton.Toolkit
         {
             PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-            if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == Color.Empty) ||
+            if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (ColumnHeadersDefaultCellStyle.SelectionBackColor == _columnSelBackColor))
             {
                 _columnSelBackColor = StateSelected.HeaderColumn.Back.Color1;
 
-                if (_columnSelBackColor == Color.Empty)
+                if (_columnSelBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _columnSelBackColor = StateSelected.HeaderColumn.Back.GetBackColor1(state);
                 }
@@ -1984,12 +1984,12 @@ namespace Krypton.Toolkit
                 ColumnHeadersDefaultCellStyle.SelectionBackColor = _columnSelBackColor;
             }
 
-            if ((RowHeadersDefaultCellStyle.SelectionBackColor == Color.Empty) ||
+            if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (RowHeadersDefaultCellStyle.SelectionBackColor == _rowSelBackColor))
             {
                 _rowSelBackColor = StateSelected.HeaderRow.Back.Color1;
 
-                if (_rowSelBackColor == Color.Empty)
+                if (_rowSelBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _rowSelBackColor = StateSelected.HeaderRow.Back.GetBackColor1(state);
                 }
@@ -1997,12 +1997,12 @@ namespace Krypton.Toolkit
                 RowHeadersDefaultCellStyle.SelectionBackColor = _rowSelBackColor;
             }
 
-            if ((DefaultCellStyle.SelectionBackColor == Color.Empty) ||
+            if ((DefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (DefaultCellStyle.SelectionBackColor == _dataCellSelBackColor))
             {
                 _dataCellSelBackColor = StateSelected.DataCell.Back.Color1;
 
-                if (_dataCellSelBackColor == Color.Empty)
+                if (_dataCellSelBackColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _dataCellSelBackColor = StateSelected.DataCell.Back.GetBackColor1(state);
                 }
@@ -2015,12 +2015,12 @@ namespace Krypton.Toolkit
         {
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-            if ((ColumnHeadersDefaultCellStyle.ForeColor == Color.Empty) ||
+            if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (ColumnHeadersDefaultCellStyle.ForeColor == _columnForeColor))
             {
                 _columnForeColor = StateNormal.HeaderColumn.Content.Color1;
 
-                if (_columnForeColor == Color.Empty)
+                if (_columnForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _columnForeColor = StateNormal.HeaderColumn.Content.GetContentShortTextColor1(state);
                 }
@@ -2028,12 +2028,12 @@ namespace Krypton.Toolkit
                 ColumnHeadersDefaultCellStyle.ForeColor = _columnForeColor;
             }
 
-            if ((RowHeadersDefaultCellStyle.ForeColor == Color.Empty) ||
+            if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (RowHeadersDefaultCellStyle.ForeColor == _rowForeColor))
             {
                 _rowForeColor = StateNormal.HeaderRow.Content.Color1;
 
-                if (_rowForeColor == Color.Empty)
+                if (_rowForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _rowForeColor = StateNormal.HeaderRow.Content.GetContentShortTextColor1(state);
                 }
@@ -2041,12 +2041,12 @@ namespace Krypton.Toolkit
                 RowHeadersDefaultCellStyle.ForeColor = _rowForeColor;
             }
 
-            if ((DefaultCellStyle.ForeColor == Color.Empty) ||
+            if ((DefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (DefaultCellStyle.ForeColor == _dataCellForeColor))
             {
                 _dataCellForeColor = StateNormal.DataCell.Content.Color1;
 
-                if (_dataCellForeColor == Color.Empty)
+                if (_dataCellForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _dataCellForeColor = StateNormal.DataCell.Content.GetContentShortTextColor1(state);
                 }
@@ -2059,12 +2059,12 @@ namespace Krypton.Toolkit
         {
             PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-            if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == Color.Empty) ||
+            if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (ColumnHeadersDefaultCellStyle.SelectionForeColor == _columnSelForeColor))
             {
                 _columnSelForeColor = StateSelected.HeaderColumn.Content.Color1;
 
-                if (_columnSelForeColor == Color.Empty)
+                if (_columnSelForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _columnSelForeColor = StateSelected.HeaderColumn.Content.GetContentShortTextColor1(state);
                 }
@@ -2072,12 +2072,12 @@ namespace Krypton.Toolkit
                 ColumnHeadersDefaultCellStyle.SelectionForeColor = _columnSelForeColor;
             }
 
-            if ((RowHeadersDefaultCellStyle.SelectionForeColor == Color.Empty) ||
+            if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (RowHeadersDefaultCellStyle.SelectionForeColor == _rowSelForeColor))
             {
                 _rowSelForeColor = StateSelected.HeaderRow.Content.Color1;
 
-                if (_rowSelForeColor == Color.Empty)
+                if (_rowSelForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _rowSelForeColor = StateSelected.HeaderRow.Content.GetContentShortTextColor1(state);
                 }
@@ -2085,12 +2085,12 @@ namespace Krypton.Toolkit
                 RowHeadersDefaultCellStyle.SelectionForeColor = _rowSelForeColor;
             }
 
-            if ((DefaultCellStyle.SelectionForeColor == Color.Empty) ||
+            if ((DefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
                 (DefaultCellStyle.SelectionForeColor == _dataCellSelForeColor))
             {
                 _dataCellSelForeColor = StateSelected.DataCell.Content.Color1;
 
-                if (_dataCellSelForeColor == Color.Empty)
+                if (_dataCellSelForeColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     _dataCellSelForeColor = StateSelected.DataCell.Content.GetContentShortTextColor1(state);
                 }

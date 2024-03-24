@@ -35,6 +35,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
         private const string DEFAULT_SYSTEM_INFORMATION = "S&ystem Information";
         private const string DEFAULT_CURRENT_THEME = @"Current Theme";
+        private const string DEFAULT_DO_NOT_SHOW_AGAIN = @"&Do not show again";
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -69,6 +70,7 @@ namespace Krypton.Toolkit
                                  Apply.Equals(DEFAULT_APPLY) &&
                                  Back.Equals(DEFAULT_BACK) &&
                                  Exit.Equals(DEFAULT_EXIT) &&
+                                 DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) &&
                                  Finish.Equals(DEFAULT_FINISH) &&
                                  Next.Equals(DEFAULT_NEXT) &&
                                  Previous.Equals(DEFAULT_PREVIOUS) &&
@@ -92,6 +94,7 @@ namespace Krypton.Toolkit
             Expand = DEFAULT_EXPAND;
             Apply = DEFAULT_APPLY;
             Back = DEFAULT_BACK;
+            DoNotShowAgain = DEFAULT_DO_NOT_SHOW_AGAIN;
             Exit = DEFAULT_EXIT;
             Finish = DEFAULT_FINISH;
             Next = DEFAULT_NEXT;
@@ -140,6 +143,15 @@ namespace Krypton.Toolkit
         [Description(@"Back string used for custom situations.")]
         [DefaultValue(DEFAULT_BACK)]
         public string Back { get; set; }
+
+        /// <summary>
+        /// Gets and sets the do not show again string used in custom situations.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Do not show again string used for custom situations.")]
+        [DefaultValue(DEFAULT_DO_NOT_SHOW_AGAIN)]
+        public string DoNotShowAgain { get; set; }
 
         /// <summary>
         /// Gets and sets the Exit string used in custom situations.

@@ -139,6 +139,27 @@ namespace Krypton.Toolkit
         public override Color GetRibbonMinimizeBarLight(PaletteState state) => _redirect.GetRibbonMinimizeBarLight(state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _redirect.GetRibbonTabRowBackgroundSolidColor(state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -179,6 +200,28 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state) => _redirect.GetRibbonQATButtonLight(state);
+		
+		/// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            _redirect.GetRibbonTabRowGradientColor1(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
+            _redirect.GetRibbonAppButtonDarkColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
+            _redirect.GetRibbonAppButtonLightColor(state);
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
+            _redirect.GetRibbonAppButtonTextColor(state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _redirect.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
     }

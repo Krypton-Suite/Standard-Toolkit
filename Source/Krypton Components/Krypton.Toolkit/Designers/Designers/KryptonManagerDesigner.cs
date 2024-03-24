@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private DesignerVerbCollection _verbCollection;
+        private DesignerVerbCollection? _verbCollection;
 
         private DesignerVerb _resetVerb;
 
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
             //_service.ComponentRemoving += OnComponentRemoving;
 
-            _service.ComponentChanged += OnComponentChanged;
+            _service!.ComponentChanged += OnComponentChanged;
         }
 
         /// <summary>

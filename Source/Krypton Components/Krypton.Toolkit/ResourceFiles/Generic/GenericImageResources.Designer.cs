@@ -73,6 +73,16 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AppButtonDefault {
+            get {
+                object obj = ResourceManager.GetObject("AppButtonDefault", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlackButtonCollapse {
             get {
                 object obj = ResourceManager.GetObject("BlackButtonCollapse", resourceCulture);

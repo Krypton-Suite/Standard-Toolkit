@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             _text = string.Empty;
             _extraText = string.Empty;
             _toolTipTitle = string.Empty;
-            _colorMap = Color.Empty;
+            _colorMap = GlobalStaticValues.EMPTY_COLOR;
             _allowInheritImage = true;
             _allowInheritText = true;
             _allowInheritExtraText = true;
@@ -59,17 +59,18 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           ImageStates.IsDefault &&
-                                           (Image == null) &&
-                                           (Text == string.Empty) &&
-                                           (ExtraText == string.Empty) &&
-                                           (ToolTipTitle == string.Empty) &&
-                                           (ColorMap == Color.Empty) &&
-                                           AllowInheritImage &&
-                                           AllowInheritText &&
-                                           AllowInheritExtraText &&
-                                           AllowInheritToolTipTitle;
+                                            ImageStates.IsDefault &&
+                                            (Image == null) &&
+                                            (Text == string.Empty) &&
+                                            (ExtraText == string.Empty) &&
+                                            (ToolTipTitle == string.Empty) &&
+                                            (ColorMap == GlobalStaticValues.EMPTY_COLOR) &&
+                                            AllowInheritImage &&
+                                            AllowInheritText &&
+                                            AllowInheritExtraText &&
+                                            AllowInheritToolTipTitle;
 
         #endregion
 
@@ -263,12 +264,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeColorMap() => ColorMap != Color.Empty;
+        private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ColorMap property to its default value.
         /// </summary>
-        public void ResetColorMap() => ColorMap = Color.Empty;
+        public void ResetColorMap() => ColorMap = GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 
@@ -450,7 +451,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
         public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style) =>
-            ColorMap != Color.Empty ? ColorMap : base.GetButtonSpecColorMap(style);
+            ColorMap != GlobalStaticValues.EMPTY_COLOR ? ColorMap : base.GetButtonSpecColorMap(style);
 
         #endregion
 

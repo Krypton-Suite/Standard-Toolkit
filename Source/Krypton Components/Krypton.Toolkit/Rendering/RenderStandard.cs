@@ -2544,9 +2544,9 @@ namespace Krypton.Toolkit
             Image? drawImage = palette.GetDropDownButtonImage(state);
             if (drawImage != null)
             {
-                DrawImageHelper(context, drawImage, Color.Empty,
+                DrawImageHelper(context, drawImage, GlobalStaticValues.EMPTY_COLOR,
                                 displayRect, orientation, PaletteImageEffect.Normal,
-                                Color.Empty, Color.Empty);
+                                GlobalStaticValues.EMPTY_COLOR, GlobalStaticValues.EMPTY_COLOR);
             }
         }
 
@@ -3049,7 +3049,7 @@ namespace Krypton.Toolkit
         public override Rectangle DrawGridSortGlyph([DisallowNull] RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    [DisallowNull] IPaletteContent? paletteContent,
+                                                    [DisallowNull] IPaletteContent paletteContent,
                                                     PaletteState state,
                                                     bool rtl)
         {
@@ -3205,7 +3205,7 @@ namespace Krypton.Toolkit
 
                 if (state == PaletteState.Disabled)
                 {
-                    ControlPaint.DrawImageDisabled(context.Graphics, errorImage, x, y, Color.Empty);
+                    ControlPaint.DrawImageDisabled(context.Graphics, errorImage, x, y, GlobalStaticValues.EMPTY_COLOR);
                 }
                 else
                 {
@@ -8025,7 +8025,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If c5 has a colour then use that to highlight the tab
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {
@@ -8302,7 +8302,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If c5 has a colour then use that to highlight the tab
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         c1 = c5;
                         c2 = CommonHelper.MergeColors(c2, 0.8f, ControlPaint.Light(c5), 0.2f);
@@ -9217,7 +9217,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If we have a context color to use then modify the drawing colors
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {
@@ -9249,7 +9249,7 @@ namespace Krypton.Toolkit
 
                 context.Graphics.FillPath(cache.CenterBrush, cache.OutsidePath);
 
-                if (c5 != Color.Empty)
+                if (c5 != GlobalStaticValues.EMPTY_COLOR)
                 {
                     context.Graphics.FillPath(cache.InsideBrush, cache.InsidePath);
                 }
@@ -10242,7 +10242,7 @@ namespace Krypton.Toolkit
                 Color topDark = palette.GetRibbonBackColor3(state);
                 Color bottomLight = palette.GetRibbonBackColor4(state);
                 Color bottomMedium = palette.GetRibbonBackColor5(state);
-                Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, Color.Empty, 0.22f);
+                Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, GlobalStaticValues.EMPTY_COLOR, 0.22f);
 
                 var generate = true;
                 MementoRibbonAppButton cache;
@@ -10712,7 +10712,7 @@ namespace Krypton.Toolkit
                                                                    90f);
 
                     cache.PressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
-                                                                    Color.FromArgb((dark ? Color.Empty : _whiten10).A, cache.C4),
+                                                                    Color.FromArgb((dark ? GlobalStaticValues.EMPTY_COLOR : _whiten10).A, cache.C4),
                                                                     Color.FromArgb((dark ? _darken38 : _darken16).A, cache.C5),
                                                                     90f);
                     cache.TrackFillBrush.Blend = _linear50Blend;

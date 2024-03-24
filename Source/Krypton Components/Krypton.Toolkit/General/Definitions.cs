@@ -1950,8 +1950,8 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
         /// </summary>
-#if NET60_OR_GREATER
-            CancelTryContinue = MessageBoxButtons.CancelTryContinue
+#if NET6_0_OR_GREATER
+        CancelTryContinue = MessageBoxButtons.CancelTryContinue
 #else
         CancelTryContinue = 0x00000006
 #endif
@@ -2243,8 +2243,10 @@ namespace Krypton.Toolkit
         Ignore = DialogResult.Ignore,
         Yes = DialogResult.Yes,
         No = DialogResult.No,
-        Checked = 0x000003EE, // 1006
-        Indeterminate = 0x000003EF // 1007
+        // Assign values to 1000 or over, to avoid clashes
+        Checked = 1000,
+        Indeterminate = 1001,
+        Timeout = 1002
     }
 
     #endregion
@@ -2333,6 +2335,50 @@ namespace Krypton.Toolkit
         /// The grid contains groups and nodes (no choice, choose this one !)
         /// </summary>
         GroupsAndNodes
+    }
+
+    #endregion
+
+    #region Enum PaletteSchemaVersion
+
+    public enum PaletteSchemaVersion
+    {
+        Version6To19,
+        Version19To20
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationResponseType
+
+    public enum KryptonToastNotificationResponseType
+    {
+        /// <summary>Returns a <see cref="bool"/> result.</summary>
+        Bool = 0,
+        /// <summary>Returns a <see cref="CheckBoxState"/> result.</summary>
+        CheckedState = 1,
+        /// <summary>Returns what ever value is selected in the <see cref="KryptonComboBox"/>.</summary>
+        ComboBox = 2,
+        /// <summary>Returns a <see cref="System.DateTime"/> result.</summary>
+        DateTime = 3,
+        /// <summary>Returns a <see cref="System.Windows.Forms.DialogResult"/> result.</summary>
+        DialogResult = 4,
+        /// <summary>Returns a time-out result.</summary>
+        Timeout = 5,
+        /// <summary>Returns a <see cref="string"/> result.</summary>
+        String = 6
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationType
+
+    public enum KryptonToastNotificationType
+    {
+        Basic = 0,
+        BasicWithProgressBar = 1,
+        UserInput = 2,
+        UserInputWithProgressBar = 3
     }
 
     #endregion

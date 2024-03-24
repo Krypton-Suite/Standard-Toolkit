@@ -119,6 +119,8 @@ namespace Krypton.Toolkit
             _recreateButtons = true;
             _firstCheckView = true;
             _lastNotNormal = false;
+            // Yes, we want to be drawn double buffered by default
+            base.DoubleBuffered = true;
 
             // Create storage objects
             ButtonSpecs = new FormButtonSpecCollection(this);
@@ -528,7 +530,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Just add to the docking edge requested
-                    _drawHeading.Add(element, style);
+                    _drawHeading.Add(element!, style);
                 }
             }
         }
@@ -744,7 +746,7 @@ namespace Krypton.Toolkit
         /// <returns>Transparent Color.</returns>
         public Color GetImageTransparentColor(PaletteState state) =>
             // We never mark any color as transparent
-            Color.Empty;
+            GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the short text used as the main caption title.
@@ -1292,7 +1294,7 @@ namespace Krypton.Toolkit
                     if (_headerStyle != _headerStylePrev)
                     {
                         // Ensure the header style matches the form border style
-                        SetHeaderStyle(_drawHeading, StateCommon.Header, _headerStyle);
+                        SetHeaderStyle(_drawHeading, StateCommon!.Header, _headerStyle);
 
                         // Remember last header style set
                         _headerStylePrev = _headerStyle;

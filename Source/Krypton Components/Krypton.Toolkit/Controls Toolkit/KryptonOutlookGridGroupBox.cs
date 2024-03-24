@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
 
             // Create storage that maps onto the inherit instances
             _border = new PaletteBorder(_paletteBorder, null);
-            _dragColumnToGroupText = KryptonManager.Strings.KryptonOutlookGridStrings.DragColumnToGroup;
+            _dragColumnToGroupText = KryptonManager.Strings.OutlookGridStrings.DragColumnToGroup;
 
             using (Graphics? g = CreateGraphics())
             {
@@ -976,20 +976,20 @@ namespace Krypton.Toolkit
 
                 #region Localisation
 
-                _menuSortAscending = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.SortAscending, SortingImageResources.sort_az_ascending2, OnSortAscending);
-                _menuSortDescending = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.SortDescending, SortingImageResources.sort_az_descending2, OnSortDescending);
+                _menuSortAscending = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.SortAscending, SortingImageResources.sort_az_ascending2, OnSortAscending);
+                _menuSortDescending = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.SortDescending, SortingImageResources.sort_az_descending2, OnSortDescending);
                 _menuSeparator1 = new KryptonContextMenuSeparator();
-                _menuExpand = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.Expand, ElementsImageResources.element_plus_16, OnGroupExpand);
-                _menuCollapse = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.Collapse, ElementsImageResources.element_minus_16, OnGroupCollapse);
-                _menuUnGroup = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.Ungroup, ElementsImageResources.element_delete, OnUngroup);
+                _menuExpand = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.Expand, ElementsImageResources.element_plus_16, OnGroupExpand);
+                _menuCollapse = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.Collapse, ElementsImageResources.element_minus_16, OnGroupCollapse);
+                _menuUnGroup = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.Ungroup, ElementsImageResources.element_delete, OnUngroup);
                 _menuSeparator2 = new KryptonContextMenuSeparator();
-                _menuFullExpand = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.FullExpand, ElementsImageResources.elements_plus_16, OnFullExpand);
-                _menuFullCollapse = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.FullCollapse, ElementsImageResources.elements_minus_16, OnFullCollapse);
+                _menuFullExpand = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.FullExpand, ElementsImageResources.elements_plus_16, OnFullExpand);
+                _menuFullCollapse = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.FullCollapse, ElementsImageResources.elements_minus_16, OnFullCollapse);
                 _menuSeparator3 = new KryptonContextMenuSeparator();
-                _menuClearGrouping = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.ClearGrouping, ElementsImageResources.element_selection_delete, OnClearGrouping);
-                _menuHideGroupBox = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.HideGroupBox, null, OnHideGroupBox);
-                _menuGroupInterval = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.GroupInterval);
-                _menuSortBySummary = new KryptonContextMenuItem(KryptonManager.Strings.KryptonOutlookGridStrings.SortBySummaryCount, null, OnSortBySummaryCount);
+                _menuClearGrouping = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.ClearGrouping, ElementsImageResources.element_selection_delete, OnClearGrouping);
+                _menuHideGroupBox = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.HideGroupBox, null, OnHideGroupBox);
+                _menuGroupInterval = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.GroupInterval);
+                _menuSortBySummary = new KryptonContextMenuItem(KryptonManager.Strings.OutlookGridStrings.SortBySummaryCount, null, OnSortBySummaryCount);
 
                 #endregion
 

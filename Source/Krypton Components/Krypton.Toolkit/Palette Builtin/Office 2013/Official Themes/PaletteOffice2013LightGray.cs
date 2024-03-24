@@ -19,6 +19,22 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Colors
+
+        private readonly Color _tabRowBackgroundColor = Color.FromArgb(212, 212, 212);
+
+        #endregion
+
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(147, 149, 158);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(195, 198, 209);
+
+        private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(24, 24, 24);
+
+        #endregion
+
         #region Image Lists
 
         private static readonly ImageList _checkBoxList;
@@ -275,12 +291,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 241, 242), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
-            Color.Empty, // RibbonTabTracking3
-            Color.Empty, // RibbonTabTracking4
-            Color.Empty, // RibbonGroupBorder3
-            Color.Empty, // RibbonGroupBorder4
-            Color.Empty, // RibbonDropArrowLight
-            Color.Empty, // RibbonDropArrowDark
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonDropArrowLight
+            GlobalStaticValues.EMPTY_COLOR, // RibbonDropArrowDark
             Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
             Color.FromArgb(207, 213, 220), // HeaderDockInactiveBack2
             Color.FromArgb(161, 169, 179), // ButtonNavigatorBorder
@@ -402,6 +418,40 @@ namespace Krypton.Toolkit
                                                      },
                                                      _ => base.GetButtonSpecImage(style, state)
                                                  };
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+
         #endregion
     }
 }

@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
 
             // Set initial values
             _image = null;
-            _transparent = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
             _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
         }
@@ -60,10 +60,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Image == null) &&
-                                           (ImageTransparentColor == Color.Empty) &&
-                                           (Text == DEFAULT_TEXT) &&
-                                           (ExtraText == _defaultExtraText);
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Text == DEFAULT_TEXT) &&
+                                            (ExtraText == _defaultExtraText);
 
         #endregion
 
@@ -128,12 +129,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.

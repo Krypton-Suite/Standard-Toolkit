@@ -994,7 +994,7 @@ namespace Krypton.Toolkit
         public static Color MergeColors(Color color1, float percent1,
                                         Color color2, float percent2) =>
             // Use existing three color merge
-            MergeColors(color1, percent1, color2, percent2, Color.Empty, 0f);
+            MergeColors(color1, percent1, color2, percent2, GlobalStaticValues.EMPTY_COLOR, 0f);
 
         /// <summary>
         /// Merge three colors together using relative percentages.

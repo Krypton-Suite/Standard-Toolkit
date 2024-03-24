@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the FixedContentValue class.
         /// </summary>
         public FixedContentValue()
-            : this(string.Empty, string.Empty, null, Color.Empty)
+            : this(string.Empty, string.Empty, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Color ImageTransparentColor { get; set; }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 

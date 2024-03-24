@@ -14,6 +14,7 @@ namespace TestForm
         private bool _topMost;
         private bool _useFade;
         private bool _reportToastLocation;
+        private bool _showDoNotShowAgainOption;
         private bool _useRtlReading;
         private Color _borderColor1;
         private Color _borderColor2;
@@ -45,6 +46,7 @@ namespace TestForm
                 NotificationTitleFont = _titleFont,
                 NotificationIcon = _notificationIcon,
                 NotificationLocation = null,
+                ShowDoNotShowAgainOption = _showDoNotShowAgainOption,
                 NotificationTitleAlignment = _titleAlignment,
                 TopMost = _topMost,
                 UseFade = _useFade,
@@ -88,6 +90,7 @@ namespace TestForm
             _topMost = true;
             _useFade = false;
             _reportToastLocation = false;
+            _showDoNotShowAgainOption = false;
             _titleAlignment = ContentAlignment.MiddleCenter;
             _contentFont = null;
             _titleFont = null;
@@ -198,6 +201,11 @@ namespace TestForm
         private void kchkUseRTL_CheckedChanged(object sender, EventArgs e)
         {
             _useRtlReading = kchkUseRTL.Checked;
+        }
+
+        private void kchkShowDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
+        {
+            _showDoNotShowAgainOption = kchkShowDoNotShowAgain.Checked;
         }
     }
 }

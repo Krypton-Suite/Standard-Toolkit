@@ -65,15 +65,16 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((CheckButtonStyle == ButtonStyle.NavigatorStack) &&
-                                           (BorderEdgeStyle == PaletteBorderStyle.ControlClient) &&
-                                           StackAnimation &&
-                                           (StackOrientation == Orientation.Vertical) &&
-                                           (StackAlignment == RelativePositionAlign.Center) &&
-                                           (ItemOrientation == ButtonOrientation.Auto) &&
-                                           (StackMapImage == MapKryptonPageImage.Small) &&
-                                           (StackMapText == MapKryptonPageText.TextTitle) &&
-                                           (StackMapExtraText == MapKryptonPageText.None));
+                                             (BorderEdgeStyle == PaletteBorderStyle.ControlClient) &&
+                                             StackAnimation &&
+                                             (StackOrientation == Orientation.Vertical) &&
+                                             (StackAlignment == RelativePositionAlign.Center) &&
+                                             (ItemOrientation == ButtonOrientation.Auto) &&
+                                             (StackMapImage == MapKryptonPageImage.Small) &&
+                                             (StackMapText == MapKryptonPageText.TextTitle) &&
+                                             (StackMapExtraText == MapKryptonPageText.None));
 
         #endregion
 

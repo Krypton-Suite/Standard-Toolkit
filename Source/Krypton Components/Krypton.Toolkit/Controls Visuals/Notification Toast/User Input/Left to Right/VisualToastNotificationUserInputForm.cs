@@ -47,9 +47,17 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Properties
+        #region Public
 
-        internal string UserResponse => _userResponse;
+        internal bool ReturnDoNotShowAgainCheckValue;
+
+        internal CheckState ReturnDoNotShowAgainCheckStateValue;
+
+        internal DateTime ReturnDateTimeValue;
+
+        internal string ReturnStringValue;
+
+        internal int ReturnIntegerValue;
 
         #endregion
 
@@ -67,9 +75,9 @@ namespace Krypton.Toolkit
 
         private void UpdateBorderColors()
         {
-            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? Color.Empty;
+            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
 
-            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? Color.Empty;
+            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _toastNotificationData.UseFade;
@@ -343,56 +351,32 @@ namespace Krypton.Toolkit
             Close();
         }
 
-        private void ktxtUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = ktxtUserInput.Text;
-        }
+        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) => SetReturnDoNotShowAgainCheckValue(kchkDoNotShowAgain.Checked);
 
-        private void knudUserInput_ValueChanged(object sender, EventArgs e)
-        {
-            _userResponse = knudUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
+        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e) => SetReturnDoNotShowAgainCheckStateValue(kchkDoNotShowAgain.CheckState);
 
-        private void kmtxtUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kmtxtUserInput.Text;
-        }
+        private void ktxtUserInput_TextChanged(object sender, EventArgs e) => SetReturnStringValue(kdudUserInput.Text);
 
-        private void kdudUserInput_SelectedItemChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdudUserInput.Text;
-        }
+        private void knudUserInput_ValueChanged(object sender, EventArgs e) => SetReturnIntegerValue((int)knudUserInput.Value);
 
-        private void kdudUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdudUserInput.Text;
-        }
+        private void kmtxtUserInput_TextChanged(object sender, EventArgs e) => SetReturnStringValue(kmtxtUserInput.Text);
 
-        private void kdtpUserInput_ValueChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
+        private void kdudUserInput_SelectedItemChanged(object sender, EventArgs e) => SetReturnStringValue(kdudUserInput.Text);
 
-        private void kdtpUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
+        private void kdudUserInput_TextChanged(object sender, EventArgs e) => SetReturnStringValue(kdudUserInput.Text);
 
-        private void kcmbUserInput_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _userResponse = kcmbUserInput.Text!;
-        }
+        private void kdtpUserInput_ValueChanged(object sender, EventArgs e) => SetReturnDateTimeValue(kdtpUserInput.Value);
+
+        private void kdtpUserInput_TextChanged(object sender, EventArgs e) => SetReturnDateTimeValue(kdtpUserInput.Value);
+
+        private void kcmbUserInput_SelectedIndexChanged(object sender, EventArgs e) => SetReturnStringValue(kcmbUserInput.Text!);
 
         private void kcmbUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kcmbUserInput.Text!;
-        }
+        => SetReturnStringValue(kcmbUserInput.Text!);
 
         public new DialogResult ShowDialog()
         {
             TopMost = _toastNotificationData.TopMost ?? true;
-
-            //Opacity = 0;
 
             UpdateText();
 
@@ -404,7 +388,7 @@ namespace Krypton.Toolkit
 
                 _timer = new Timer();
 
-                _timer.Interval = 1000;
+                _timer.Interval = _toastNotificationData.CountDownTimerInterval ?? 1000;
 
                 _timer.Tick += (sender, args) =>
                 {
@@ -424,12 +408,79 @@ namespace Krypton.Toolkit
             return base.ShowDialog();
         }
 
-        internal static string InternalShow(KryptonUserInputToastNotificationData toastNotificationData)
+        #region Shows the toast
+
+        internal static bool InternalShowWithBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
             using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : string.Empty;
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.GetReturnDoNotShowAgainCheckValue()
+                : false;
         }
+
+        internal static CheckState InternalShowWithCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.GetReturnDoNotShowAgainCheckStateValue()
+                : CheckState.Unchecked;
+        }
+
+        internal static DateTime InternalShowWithDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.GetReturnDateTimeValue()
+                : DateTime.Now;
+        }
+
+        internal static string InternalShowWithStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.GetReturnStringValue()
+                : string.Empty;
+        }
+
+        internal static int InternalShowWithIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.GetReturnIntegerValue()
+                : 0;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Setters & Getters
+
+        private void SetReturnDoNotShowAgainCheckValue(bool value) => ReturnDoNotShowAgainCheckValue = value;
+
+        public bool GetReturnDoNotShowAgainCheckValue() => ReturnDoNotShowAgainCheckValue;
+
+        private void SetReturnDoNotShowAgainCheckStateValue(CheckState value) =>
+            ReturnDoNotShowAgainCheckStateValue = value;
+
+        public CheckState GetReturnDoNotShowAgainCheckStateValue() => ReturnDoNotShowAgainCheckStateValue;
+
+        private void SetReturnDateTimeValue(DateTime value) => ReturnDateTimeValue = value;
+
+        public DateTime GetReturnDateTimeValue() => ReturnDateTimeValue;
+
+        private void SetReturnStringValue(string value) => ReturnStringValue = value;
+
+        public string GetReturnStringValue() => ReturnStringValue;
+
+        private void SetReturnIntegerValue(int value) => ReturnIntegerValue = value;
+
+        public int GetReturnIntegerValue() => ReturnIntegerValue;
 
         #endregion
     }

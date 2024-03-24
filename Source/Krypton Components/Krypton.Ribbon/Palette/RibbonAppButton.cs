@@ -20,6 +20,7 @@ namespace Krypton.Ribbon
         #region Static Fields
         private static readonly Image? _defaultAppImage = GenericImageResources.AppButtonDefault;
         private const string DEFAULT_APP_TEXT = @"File";
+        private readonly IPaletteRibbonGeneral _palette;
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
         #endregion
@@ -60,10 +61,14 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
+        /// <param name="palette">Source for palette values.</param>
+        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon, [DisallowNull] IPaletteRibbonGeneral palette)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon!;
+            Debug.Assert(palette != null);
+
+            _ribbon = ribbon;
+            _palette = palette;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
@@ -82,10 +87,10 @@ namespace Krypton.Ribbon
             AppButtonShowRecentDocs = true;
             _appButtonVisible = true;
             _formCloseBoxVisible = false;
-            _appButtonBaseColorDark = _defaultAppBaseColorDark;
-            _appButtonBaseColorLight = _defaultAppBaseColorLight;
-            _appButtonTextColor = Color.White;
-            _appButtonText = DEFAULT_APP_TEXT;
+            _appButtonBaseColorDark = _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal);
+            _appButtonBaseColorLight = _palette.GetRibbonAppButtonLightColor(PaletteState.Normal);
+            _appButtonTextColor = _palette.GetRibbonAppButtonTextColor(PaletteState.Normal);
+            _appButtonText = KryptonManager.Strings.RibbonStrings.AppButtonText;
         }
         #endregion
 
@@ -94,25 +99,26 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
-                                           (AppButtonText == DEFAULT_APP_TEXT) &&
-                                           (AppButtonBaseColorDark == _defaultAppBaseColorDark) &&
-                                           (AppButtonBaseColorLight == _defaultAppBaseColorLight) &&
-                                           (AppButtonTextColor == Color.White) &&
-                                           (AppButtonMenuItems.Count == 0) &&
-                                           (AppButtonRecentDocs.Count == 0) &&
-                                           AppButtonMinRecentSize.Equals(new Size(250, 250)) &&
-                                           AppButtonMaxRecentSize.Equals(new Size(350, 350)) &&
-                                           AppButtonShowRecentDocs &&
-                                           (AppButtonSpecs.Count == 0) &&
-                                           string.IsNullOrEmpty(AppButtonToolTipBody) &&
-                                           string.IsNullOrEmpty(AppButtonToolTipBody) &&
-                                           (AppButtonToolTipImage == null) &&
-                                           (AppButtonToolTipImageTransparentColor == Color.Empty) &&
-                                           (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
-                                           AppButtonVisible
-                                           && !IgnoreDoubleClickClose
-                                           && !FormCloseBoxVisible;
+                                            (AppButtonText == KryptonManager.Strings.RibbonStrings.AppButtonText) &&
+                                            (AppButtonBaseColorDark == _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal)) &&
+                                            (AppButtonBaseColorLight == _palette.GetRibbonAppButtonLightColor(PaletteState.Normal)) &&
+                                            (AppButtonTextColor == _palette.GetRibbonAppButtonTextColor(PaletteState.Normal)) &&
+                                            (AppButtonMenuItems.Count == 0) &&
+                                            (AppButtonRecentDocs.Count == 0) &&
+                                            AppButtonMinRecentSize.Equals(new Size(250, 250)) &&
+                                            AppButtonMaxRecentSize.Equals(new Size(350, 350)) &&
+                                            AppButtonShowRecentDocs &&
+                                            (AppButtonSpecs.Count == 0) &&
+                                            string.IsNullOrEmpty(AppButtonToolTipBody) &&
+                                            string.IsNullOrEmpty(AppButtonToolTipBody) &&
+                                            (AppButtonToolTipImage == null) &&
+                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
+                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
+                                            AppButtonVisible
+                                            && !IgnoreDoubleClickClose
+                                            && !FormCloseBoxVisible;
 
         #endregion
 
@@ -411,6 +417,7 @@ namespace Krypton.Ribbon
                         _ribbon.TabsArea?.AppButtonVisibleChanged();
                         _ribbon.CaptionArea.AppButtonVisibleChanged();
                         _ribbon.CaptionArea.PerformFormChromeCheck();
+                        _ribbon.PerformNeedPaint(true);
                     }
                 }
             }

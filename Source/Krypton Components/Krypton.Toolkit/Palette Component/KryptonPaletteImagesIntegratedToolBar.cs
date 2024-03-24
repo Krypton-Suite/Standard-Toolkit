@@ -66,6 +66,7 @@ namespace Krypton.Toolkit
         #region IsDefault
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault { get; }
 
         #endregion

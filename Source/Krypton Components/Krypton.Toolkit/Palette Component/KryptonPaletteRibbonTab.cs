@@ -59,15 +59,16 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => StateCommon.IsDefault &&
-                                          StateNormal.IsDefault &&
-                                          StateTracking.IsDefault &&
-                                          StateCheckedNormal.IsDefault &&
-                                          StateCheckedTracking.IsDefault &&
-                                          StateContextTracking.IsDefault &&
-                                          StateContextCheckedNormal.IsDefault &&
-                                          StateContextCheckedTracking.IsDefault &&
-                                          OverrideFocus.IsDefault;
+                                            StateNormal.IsDefault &&
+                                            StateTracking.IsDefault &&
+                                            StateCheckedNormal.IsDefault &&
+                                            StateCheckedTracking.IsDefault &&
+                                            StateContextTracking.IsDefault &&
+                                            StateContextCheckedNormal.IsDefault &&
+                                            StateContextCheckedTracking.IsDefault &&
+                                            OverrideFocus.IsDefault;
 
         #endregion
 

@@ -261,12 +261,12 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(236, 243, 251),    // RibbonGalleryBackTracking
                                                                       Color.FromArgb(193, 213, 241),    // RibbonGalleryBack1
                                                                       Color.FromArgb(215, 233, 251),    // RibbonGalleryBack2
-                                                                      Color.Empty,                      // RibbonTabTracking3
-                                                                      Color.Empty,                      // RibbonTabTracking4
-                                                                      Color.Empty,                      // RibbonGroupBorder3
-                                                                      Color.Empty,                      // RibbonGroupBorder4
-                                                                      Color.Empty,                      // RibbonDropArrowLight
-                                                                      Color.Empty // RibbonDropArrowDark
+                                                                      GlobalStaticValues.EMPTY_COLOR,                      // RibbonTabTracking3
+                                                                      GlobalStaticValues.EMPTY_COLOR,                      // RibbonTabTracking4
+                                                                      GlobalStaticValues.EMPTY_COLOR,                      // RibbonGroupBorder3
+                                                                      GlobalStaticValues.EMPTY_COLOR,                      // RibbonGroupBorder4
+                                                                      GlobalStaticValues.EMPTY_COLOR,                      // RibbonDropArrowLight
+                                                                      GlobalStaticValues.EMPTY_COLOR // RibbonDropArrowDark
         ];
         #endregion
 
@@ -420,6 +420,40 @@ namespace Krypton.Toolkit
 
             return base.GetRibbonBackColorStyle(style, state);
         }
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
         #endregion
     }
 }

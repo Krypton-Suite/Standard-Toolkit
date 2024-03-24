@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                    viewMetricPaddings, getRenderer, needPaint)
         {
             Debug.Assert(viewDockers != null);
-            Debug.Assert(viewDockers.Length == viewMetrics.Length);
+            Debug.Assert(viewDockers!.Length == viewMetrics.Length);
             Debug.Assert(viewDockers.Length == viewMetricPaddings.Length);
 
             // Remember references
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase? IndexDocker(int i) => _viewDockers[i];
+        protected override ViewBase IndexDocker(int i) => _viewDockers[i];
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.

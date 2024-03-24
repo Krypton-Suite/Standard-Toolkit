@@ -20,19 +20,21 @@ namespace Krypton.Toolkit
         {
             NeedPaint = needPaint;
 
-            CueColor = Color.Empty;
+            CueColor = GlobalStaticValues.EMPTY_COLOR;
 
             CueFont = null;
         }
 
         #endregion
-        public override bool IsDefault => (CueColor == Color.Empty) && (CueFont == null);
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (CueColor == GlobalStaticValues.EMPTY_COLOR) && (CueFont == null);
 
         #region Colour
 
         public Color CueColor { get; set; }
 
-        public void ResetCueColor() => CueColor = Color.Empty;
+        public void ResetCueColor() => CueColor = GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 

@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
         public abstract Rectangle DrawGridSortGlyph(RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    IPaletteContent? paletteContent,
+                                                    IPaletteContent paletteContent,
                                                     PaletteState state,
                                                     bool rtl);
 
@@ -974,13 +974,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Do we need to remap a colors in the bitmap?
-                if ((remapTransparent != Color.Empty) ||
-                    ((remapColor != Color.Empty) && (remapNew != Color.Empty)))
+                if ((remapTransparent != GlobalStaticValues.EMPTY_COLOR) ||
+                    ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR)))
                 {
                     var colorMaps = new List<ColorMap>();
 
                     // Create remapping for the transparent color
-                    if (remapTransparent != Color.Empty)
+                    if (remapTransparent != GlobalStaticValues.EMPTY_COLOR)
                     {
                         var remap = new ColorMap
                         {
@@ -991,7 +991,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create remapping from source to target colors
-                    if ((remapColor != Color.Empty) && (remapNew != Color.Empty))
+                    if ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR))
                     {
                         var remap = new ColorMap
                         {

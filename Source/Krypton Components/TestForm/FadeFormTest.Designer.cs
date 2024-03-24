@@ -40,7 +40,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(434, 450);
+            this.kryptonPanel1.Size = new System.Drawing.Size(436, 452);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonPropertyGrid1
@@ -60,7 +60,7 @@
             this.kryptonPropertyGrid1.Location = new System.Drawing.Point(13, 13);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.SelectedObject = this;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(405, 425);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(407, 427);
             this.kryptonPropertyGrid1.TabIndex = 0;
             this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.White;
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 450);
+            this.ClientSize = new System.Drawing.Size(436, 452);
             this.Controls.Add(this.kryptonPanel1);
             this.FadeValues.FadeSpeed = 5F;
             this.FadeValues.FadingEnabled = true;

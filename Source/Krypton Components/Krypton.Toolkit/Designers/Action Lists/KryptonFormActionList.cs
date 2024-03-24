@@ -12,5 +12,14 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonFormActionList;
+    internal class KryptonFormActionList : DesignerActionList
+    {
+        #region Identity
+
+        public KryptonFormActionList(KryptonFormDesigner owner) : base(owner.Component)
+        {
+        }
+
+        #endregion
+    }
 }

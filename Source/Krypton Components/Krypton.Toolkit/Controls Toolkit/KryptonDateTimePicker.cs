@@ -1351,7 +1351,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.

@@ -68,19 +68,19 @@ namespace Krypton.Toolkit
 
             kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
-            kcRichTextBoxCopy.Text = KryptonManager.Strings.IntegratedToolBarStrings.Copy;
+            kcRichTextBoxCopy.Text = KryptonManager.Strings.ToolBarStrings.Copy;
 
-            kcRichTextBoxCut.Text = KryptonManager.Strings.IntegratedToolBarStrings.Cut;
+            kcRichTextBoxCut.Text = KryptonManager.Strings.ToolBarStrings.Cut;
 
-            kcRichTextBoxPaste.Text = KryptonManager.Strings.IntegratedToolBarStrings.Paste;
+            kcRichTextBoxPaste.Text = KryptonManager.Strings.ToolBarStrings.Paste;
 
             kcRichTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
 
-            kcTextBoxCopy.Text = KryptonManager.Strings.IntegratedToolBarStrings.Copy;
+            kcTextBoxCopy.Text = KryptonManager.Strings.ToolBarStrings.Copy;
 
-            kcTextBoxCut.Text = KryptonManager.Strings.IntegratedToolBarStrings.Cut;
+            kcTextBoxCut.Text = KryptonManager.Strings.ToolBarStrings.Cut;
 
-            kcTextBoxPaste.Text = KryptonManager.Strings.IntegratedToolBarStrings.Paste;
+            kcTextBoxPaste.Text = KryptonManager.Strings.ToolBarStrings.Paste;
 
             kcTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
         }

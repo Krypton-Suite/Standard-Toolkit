@@ -82,10 +82,12 @@ namespace Krypton.Toolkit
         #endregion
 
         /// <inheritdoc/>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault
-             && string.IsNullOrWhiteSpace(CueHintText)
-             && (_shortTextV == PaletteRelativeAlign.Center)
-             && !ShouldSerializeHint();
+                                            && string.IsNullOrWhiteSpace(CueHintText)
+                                            && (_shortTextV == PaletteRelativeAlign.Center)
+                                            && !ShouldSerializeHint();
 
         /// <summary>
         /// Gets the actual content draw value.

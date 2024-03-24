@@ -58,11 +58,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => PrimaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          SecondaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          DockInactiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          DockActiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          (OverlayHeaders == InheritBool.Inherit);
+                                            SecondaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            DockInactiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            DockActiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            (OverlayHeaders == InheritBool.Inherit);
 
         #endregion
 

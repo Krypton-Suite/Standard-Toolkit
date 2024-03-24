@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             // Default the initial values
             _synchronizeDropDownWidth = false;
             _font = null;
-            _color1 = Color.Empty;
+            _color1 = GlobalStaticValues.EMPTY_COLOR;
             _padding = CommonHelper.InheritPadding;
             _shortTextH = PaletteRelativeAlign.Inherit;
         }
@@ -59,11 +59,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault =>  (SynchronizeDropDownWidth == false) &&
-                                           (Font == null) &&
-                                           (Color1.IsEmpty) &&
-                                           Padding.Equals(CommonHelper.InheritPadding)
-                                           && (TextH == PaletteRelativeAlign.Inherit);
+                                             (Font == null) &&
+                                             (Color1.IsEmpty) &&
+                                             Padding.Equals(CommonHelper.InheritPadding)
+                                             && (TextH == PaletteRelativeAlign.Inherit);
 
         #endregion
 

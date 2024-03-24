@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
                 ContentTextV = PaletteRelativeAlign.Inherit;
                 ContentTextMultiLineH = PaletteRelativeAlign.Inherit;
                 ContentTextMultiLine = InheritBool.Inherit;
-                ContentTextColor1 = Color.Empty;
-                ContentTextColor2 = Color.Empty;
+                ContentTextColor1 = GlobalStaticValues.EMPTY_COLOR;
+                ContentTextColor2 = GlobalStaticValues.EMPTY_COLOR;
                 ContentTextColorStyle = PaletteColorStyle.Inherit;
                 ContentTextColorAlign = PaletteRectangleAlign.Inherit;
                 ContentTextColorAngle = -1;
@@ -70,8 +70,8 @@ namespace Krypton.Toolkit
                                       (ContentTextV == PaletteRelativeAlign.Inherit) &&
                                       (ContentTextMultiLineH == PaletteRelativeAlign.Inherit) &&
                                       (ContentTextMultiLine == InheritBool.Inherit) &&
-                                      (ContentTextColor1 == Color.Empty) &&
-                                      (ContentTextColor2 == Color.Empty) &&
+                                      (ContentTextColor1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (ContentTextColor2 == GlobalStaticValues.EMPTY_COLOR) &&
                                       (ContentTextColorStyle == PaletteColorStyle.Inherit) &&
                                       (ContentTextColorAlign == PaletteRectangleAlign.Inherit) &&
                                       (ContentTextColorAngle == -1) &&
@@ -110,6 +110,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_storage == null) || _storage.IsDefault;
 
         #endregion
@@ -445,7 +446,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
-            get => _storage?.ContentTextColor1 ?? Color.Empty;
+            get => _storage?.ContentTextColor1 ?? GlobalStaticValues.EMPTY_COLOR;
 
             set
             {
@@ -460,7 +461,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {
@@ -485,7 +486,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
         {
-            get => _storage?.ContentTextColor2 ?? Color.Empty;
+            get => _storage?.ContentTextColor2 ?? GlobalStaticValues.EMPTY_COLOR;
 
             set
             {
@@ -500,7 +501,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {

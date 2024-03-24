@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonMaskedTextBoxColumnDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonDataGridViewMaskedTextBoxColumn _maskedTextBox;
-        private IComponentChangeService _changeService;
+        private KryptonDataGridViewMaskedTextBoxColumn? _maskedTextBox;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _maskedTextBox = component as KryptonDataGridViewMaskedTextBoxColumn;
 
             // Get access to the design services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 

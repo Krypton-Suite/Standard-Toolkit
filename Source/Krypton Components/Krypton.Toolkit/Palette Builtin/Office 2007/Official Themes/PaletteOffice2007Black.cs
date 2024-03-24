@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(37, 37, 37), // Top track
             Color.FromArgb(174, 174, 174), // Bottom track
             Color.FromArgb(131, 132, 132), // Fill track
-            Color.Empty, // Outside position
+            GlobalStaticValues.EMPTY_COLOR, // Outside position
             Color.FromArgb(35, 35, 35) // Border (normal) position
         ];
 
@@ -288,10 +288,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(247, 247, 247), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
-            Color.Empty, // RibbonTabTracking3
-            Color.Empty, // RibbonTabTracking4
-            Color.Empty, // RibbonGroupBorder3
-            Color.Empty, // RibbonGroupBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder4
             Color.FromArgb(225, 225, 225), // RibbonDropArrowLight
             Color.FromArgb(103, 103, 103) // RibbonDropArrowDark
         ];
@@ -605,6 +605,40 @@ namespace Krypton.Toolkit
             // Get style from the base class
             return base.GetRibbonBackColorStyle(style, state);
         }
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonLightColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonAppButtonTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
         #endregion
     }
 }

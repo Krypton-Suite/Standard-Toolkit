@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonComboBoxColumnDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonDataGridViewComboBoxColumn _comboBox;
-        private IComponentChangeService _changeService;
+        private KryptonDataGridViewComboBoxColumn? _comboBox;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _comboBox = component as KryptonDataGridViewComboBoxColumn;
 
             // Get access to the design services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion

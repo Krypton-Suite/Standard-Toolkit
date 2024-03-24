@@ -55,12 +55,13 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (!AllowPageToolTips &&
-                                           !AllowButtonSpecToolTips &&
-                                           !AllowButtonSpecToolTipPriority &&
-                                           (MapImage == MapKryptonPageImage.ToolTip) &&
-                                           (MapText == MapKryptonPageText.ToolTipTitle) &&
-                                           (MapExtraText == MapKryptonPageText.ToolTipBody));
+                                             !AllowButtonSpecToolTips &&
+                                             !AllowButtonSpecToolTipPriority &&
+                                             (MapImage == MapKryptonPageImage.ToolTip) &&
+                                             (MapText == MapKryptonPageText.ToolTipTitle) &&
+                                             (MapExtraText == MapKryptonPageText.ToolTipBody));
 
         #endregion
 

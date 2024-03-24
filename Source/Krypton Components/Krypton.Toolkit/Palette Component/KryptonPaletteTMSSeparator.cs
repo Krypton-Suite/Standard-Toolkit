@@ -35,8 +35,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalSeparatorDark == Color.Empty) &&
-                                          (InternalKCT.InternalSeparatorLight == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalSeparatorLight == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -73,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorDark property to its default value.
         /// </summary>
-        public void ResetSeparatorDark() => SeparatorDark = Color.Empty;
+        public void ResetSeparatorDark() => SeparatorDark = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region SeparatorLight
@@ -98,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorLight property to its default value.
         /// </summary>
-        public void ResetSeparatorLight() => SeparatorLight = Color.Empty;
+        public void ResetSeparatorLight() => SeparatorLight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

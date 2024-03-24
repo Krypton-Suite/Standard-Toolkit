@@ -61,16 +61,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => TabCommon.IsDefault &&
-                                          TabHighProfile.IsDefault &&
-                                          TabStandardProfile.IsDefault &&
-                                          TabLowProfile.IsDefault &&
-                                          TabDock.IsDefault &&
-                                          TabDockAutoHidden.IsDefault &&
-                                          TabOneNote.IsDefault &&
-                                          TabCustom1.IsDefault &&
-                                          TabCustom2.IsDefault &&
-                                          TabCustom3.IsDefault;
+                                            TabHighProfile.IsDefault &&
+                                            TabStandardProfile.IsDefault &&
+                                            TabLowProfile.IsDefault &&
+                                            TabDock.IsDefault &&
+                                            TabDockAutoHidden.IsDefault &&
+                                            TabOneNote.IsDefault &&
+                                            TabCustom1.IsDefault &&
+                                            TabCustom2.IsDefault &&
+                                            TabCustom3.IsDefault;
 
         #endregion
 

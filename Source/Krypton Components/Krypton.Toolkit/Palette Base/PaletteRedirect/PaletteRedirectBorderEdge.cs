@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         {
             PaletteBorderEdge inherit = GetInherit(state);
 
-            return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? Color.Empty;
+            return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         {
             PaletteBorderEdge inherit = GetInherit(state);
 
-            return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? Color.Empty;
+            return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         /// <summary>

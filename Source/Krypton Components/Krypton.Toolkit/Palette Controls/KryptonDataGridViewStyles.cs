@@ -47,6 +47,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => _gridStyle == DataGridViewStyle.List;
 
         #endregion

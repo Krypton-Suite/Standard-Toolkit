@@ -110,6 +110,7 @@ namespace TestForm
             this.kryptonCommand14 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny15 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonCommand15 = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -132,7 +133,7 @@ namespace TestForm
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1195, 417);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1179, 401);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonRichTextBox1
@@ -193,6 +194,7 @@ namespace TestForm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonPropertyGrid1.BackColor = System.Drawing.Color.White;
+            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.White;
             this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.Color.White;
             this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.Color.White;
             this.kryptonPropertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
@@ -204,7 +206,7 @@ namespace TestForm
             this.kryptonPropertyGrid1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(655, 367);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(639, 351);
             this.kryptonPropertyGrid1.TabIndex = 2;
             this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(179)))), ((int)(((byte)(236)))));
             this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(66)))), ((int)(((byte)(139)))));
@@ -226,7 +228,7 @@ namespace TestForm
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1195, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1179, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -492,11 +494,11 @@ namespace TestForm
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 417);
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 401);
             this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel2.Size = new System.Drawing.Size(1195, 66);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1179, 66);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonLabel2
@@ -516,11 +518,11 @@ namespace TestForm
             this.toolStripStatusLabel1,
             this.kryptonProgressBarToolStripItem1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 483);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 467);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 17, 0);
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(1195, 36);
+            this.statusStrip1.Size = new System.Drawing.Size(1179, 36);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -727,6 +729,13 @@ namespace TestForm
             // 
             this.kryptonCommand15.AssignedButtonSpec = this.buttonSpecAny15;
             // 
+            // kryptonCustomPaletteBase1
+            // 
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
+            this.kryptonCustomPaletteBase1.ThemeName = null;
+            this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
+            // 
             // ThemeTest
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -745,7 +754,7 @@ namespace TestForm
             this.ButtonSpecs.Add(this.buttonSpecAny13);
             this.ButtonSpecs.Add(this.buttonSpecAny14);
             this.ButtonSpecs.Add(this.buttonSpecAny15);
-            this.ClientSize = new System.Drawing.Size(1195, 519);
+            this.ClientSize = new System.Drawing.Size(1179, 503);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.statusStrip1);
@@ -850,5 +859,6 @@ namespace TestForm
         private System.Windows.Forms.ToolStripMenuItem themeBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leftToRightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rightToLeftToolStripMenuItem;
+        private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
     }
 }

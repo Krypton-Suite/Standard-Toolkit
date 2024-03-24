@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         private ScrollBarArrowButtonState _topButtonState = ScrollBarArrowButtonState.UpNormal;
         private ScrollBarArrowButtonState _bottomButtonState = ScrollBarArrowButtonState.DownNormal;
         private int _minimum;
-        private int _maximum = 100;
+        private int _maximum;
         private int _smallChange = 1;
         private int _largeChange = 10;
         private int _value;
@@ -78,6 +78,14 @@ namespace Krypton.Toolkit
         private Color _borderColor = Color.FromArgb(93, 140, 201);
         private Color _disabledBorderColor = Color.Gray;
 
+        private PaletteBase? _palette;
+
+        private readonly PaletteRedirect? _paletteRedirect;
+        private readonly PaletteInputControlTripleRedirect _stateCommon;
+        private readonly PaletteInputControlTripleStates _stateNormal;
+        private readonly PaletteInputControlTripleStates _stateDisabled;
+        private readonly PaletteInputControlTripleStates _stateActive;
+
         #region Context Menu Items
 
         private ContextMenuStrip _contextMenu;
@@ -94,6 +102,15 @@ namespace Krypton.Toolkit
         private ToolStripMenuItem _tsmiSmallDown;
 
         #endregion
+
+        #endregion
+
+        #region Public
+
+        public int ScrollBarWidth
+        {
+            get => Width; set => Width = value;
+        }
 
         #endregion
 
@@ -118,6 +135,23 @@ namespace Krypton.Toolkit
 
             // sets the scrollbar up
             SetUpScrollBar();
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint += OnPalettePaint;
+            }
+
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+
+            _palette = KryptonManager.CurrentGlobalPalette;
+
+            _paletteRedirect = new PaletteRedirect(_palette);
+
+            // Create the palette provider
+            _stateCommon = new PaletteInputControlTripleRedirect(_paletteRedirect, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.LabelNormalPanel, null);
+            _stateDisabled = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateNormal = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateActive = new PaletteInputControlTripleStates(_stateCommon, null);
 
             // timer for clicking and holding the mouse button
             // over/below the thumb and on the arrow buttons
@@ -500,23 +534,23 @@ namespace Krypton.Toolkit
                 rect.Height -= 2;
             }
 
-            ScrollBarKryptonRenderer.InitColours();
+            KryptonScrollBarRenderer.InitColors();
 
             // draws the background
-            ScrollBarKryptonRenderer.DrawBackground(
+            KryptonScrollBarRenderer.DrawBackground(
                e.Graphics,
                ClientRectangle,
                _orientation);
 
             // draws the track
-            ScrollBarKryptonRenderer.DrawTrack(
+            KryptonScrollBarRenderer.DrawTrack(
                e.Graphics,
                rect,
                ScrollBarState.Normal,
                _orientation);
 
             // draw thumb and grip
-            ScrollBarKryptonRenderer.DrawThumb(
+            KryptonScrollBarRenderer.DrawThumb(
                e.Graphics,
                _thumbRectangle,
                _thumbState,
@@ -524,21 +558,21 @@ namespace Krypton.Toolkit
 
             if (Enabled)
             {
-                ScrollBarKryptonRenderer.DrawThumbGrip(
+                KryptonScrollBarRenderer.DrawThumbGrip(
                    e.Graphics,
                    _thumbRectangle,
                    _orientation);
             }
 
             // draw arrows
-            ScrollBarKryptonRenderer.DrawArrowButton(
+            KryptonScrollBarRenderer.DrawArrowButton(
                e.Graphics,
                _topArrowRectangle,
                _topButtonState,
                true,
                _orientation);
 
-            ScrollBarKryptonRenderer.DrawArrowButton(
+            KryptonScrollBarRenderer.DrawArrowButton(
                e.Graphics,
                _bottomArrowRectangle,
                _bottomButtonState,
@@ -561,7 +595,7 @@ namespace Krypton.Toolkit
                        _thumbRectangle.X - _thumbTopLimit;
                 }
 
-                ScrollBarKryptonRenderer.DrawTrack(
+                KryptonScrollBarRenderer.DrawTrack(
                    e.Graphics,
                    _clickedBarRectangle,
                    ScrollBarState.Pressed,
@@ -582,7 +616,7 @@ namespace Krypton.Toolkit
                        _thumbBottomLimitBottom - _clickedBarRectangle.X + 1;
                 }
 
-                ScrollBarKryptonRenderer.DrawTrack(
+                KryptonScrollBarRenderer.DrawTrack(
                    e.Graphics,
                    _clickedBarRectangle,
                    ScrollBarState.Pressed,
@@ -590,7 +624,7 @@ namespace Krypton.Toolkit
             }
 
             // draw border
-            using var pen = new Pen(Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
+            using var pen = new Pen(Enabled ? KryptonScrollBarRenderer.BorderColors[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 
@@ -860,7 +894,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Performs the work of setting the specified bounds of this control.
         /// </summary>
         /// <param name="x">The new x value of the control.</param>
@@ -899,7 +933,7 @@ namespace Krypton.Toolkit
             {
                 SetUpScrollBar();
             }
-        }
+        }*/
 
         /// <summary>
         /// Raises the <see cref="Control.SizeChanged"/> event.
@@ -1384,23 +1418,47 @@ namespace Krypton.Toolkit
             {
                 _tsmiTop.Text = nameof(Top);
                 _tsmiBottom.Text = nameof(Bottom);
-                _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageDown;
-                _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageUp;
-                _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollDown;
-                _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollUp;
-                _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+                _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageDown;
+                _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageUp;
+                _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollDown;
+                _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollUp;
+                _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             }
             else
             {
                 _tsmiTop.Text = nameof(Left);
                 _tsmiBottom.Text = nameof(Right);
-                _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageLeft;
-                _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageRight;
-                _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollRight;
-                _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollLeft;
-                _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+                _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageLeft;
+                _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageRight;
+                _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollRight;
+                _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollLeft;
+                _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             }
         }
+
+        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        {
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+
+            _palette = KryptonManager.CurrentGlobalPalette;
+
+            _paletteRedirect!.Target = _palette;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint += OnPalettePaint;
+
+                // Repaint
+                KryptonScrollBarRenderer.InitColors();
+            }
+
+            Invalidate();
+        }
+
+        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
 
@@ -1447,7 +1505,7 @@ namespace Krypton.Toolkit
             _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiScrollHere.Name = nameof(_tsmiScrollHere);
             _tsmiScrollHere.Size = new Size(150, 22);
-            _tsmiScrollHere.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollHere;
+            _tsmiScrollHere.Text = KryptonManager.Strings.ScrollBarStrings.ScrollHere;
             _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
@@ -1481,7 +1539,7 @@ namespace Krypton.Toolkit
             _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeUp.Name = nameof(_tsmiLargeUp);
             _tsmiLargeUp.Size = new Size(150, 22);
-            _tsmiLargeUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageUp;
+            _tsmiLargeUp.Text = KryptonManager.Strings.ScrollBarStrings.PageUp;
             _tsmiLargeUp.Click += LargeUpClick;
             // 
             // tsmiLargeDown
@@ -1489,7 +1547,7 @@ namespace Krypton.Toolkit
             _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiLargeDown.Name = nameof(_tsmiLargeDown);
             _tsmiLargeDown.Size = new Size(150, 22);
-            _tsmiLargeDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.PageDown;
+            _tsmiLargeDown.Text = KryptonManager.Strings.ScrollBarStrings.PageDown;
             _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
@@ -1502,7 +1560,7 @@ namespace Krypton.Toolkit
             _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallUp.Name = nameof(_tsmiSmallUp);
             _tsmiSmallUp.Size = new Size(150, 22);
-            _tsmiSmallUp.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollUp;
+            _tsmiSmallUp.Text = KryptonManager.Strings.ScrollBarStrings.ScrollUp;
             _tsmiSmallUp.Click += SmallUpClick;
             // 
             // tsmiSmallDown
@@ -1510,7 +1568,7 @@ namespace Krypton.Toolkit
             _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             _tsmiSmallDown.Name = nameof(_tsmiSmallDown);
             _tsmiSmallDown.Size = new Size(150, 22);
-            _tsmiSmallDown.Text = KryptonManager.Strings.KryptonScrollBarStrings.ScrollDown;
+            _tsmiSmallDown.Text = KryptonManager.Strings.ScrollBarStrings.ScrollDown;
             _tsmiSmallDown.Click += SmallDownClick;
             _contextMenu.ResumeLayout(false);
             ResumeLayout(false);

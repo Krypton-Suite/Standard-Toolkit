@@ -35,10 +35,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalStatusStripText == Color.Empty) &&
-                                          (InternalKCT.InternalStatusStripFont == null) &&
-                                          (InternalKCT.InternalStatusStripGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalStatusStripGradientEnd == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalStatusStripText == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalStatusStripFont == null) &&
+                                            (InternalKCT.InternalStatusStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalStatusStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripText property to its default value.
         /// </summary>
-        public void ResetStatusStripText() => StatusStripText = Color.Empty;
+        public void ResetStatusStripText() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region StatusStripFont
@@ -102,7 +103,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripFont property to its default value.
         /// </summary>
-        public void ResetStatusStripFont() => StatusStripText = Color.Empty;
+        public void ResetStatusStripFont() => StatusStripText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region StatusStripGradientBegin
@@ -127,7 +128,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = Color.Empty;
+        public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region StatusStripGradientEnd
@@ -152,7 +153,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = Color.Empty;
+        public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

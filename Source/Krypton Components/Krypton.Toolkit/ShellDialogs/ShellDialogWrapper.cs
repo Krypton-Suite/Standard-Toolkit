@@ -106,8 +106,13 @@ namespace Krypton.Toolkit
 
         private protected virtual void FormResize(object sender, EventArgs e)
         {
+            if (_commonDialogHandler._wrapperForm == null)
+            {
+                return;
+            }
+            _commonDialogHandler._wrapperForm.SuspendLayout();
             // Align the button underneath the drop down
-            var clientSize = _commonDialogHandler._wrapperForm!.ClientSize;
+            var clientSize = _commonDialogHandler._wrapperForm.ClientSize;
             foreach (var button in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null))
             {
                 if (button.Button?.Parent is Panel panel)
@@ -118,17 +123,20 @@ namespace Krypton.Toolkit
                         case 1: // @"&Save"
                                 // case @"&Open":
                                 // case @"Select Folder":
-                            panel.Location = new Point((int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
+                            panel.Location = new Point(
+                                (int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
                         case 2:
                             //case @"Cancel":
-                            panel.Location = new Point((int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
+                            panel.Location = new Point(
+                                (int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
                     }
                 }
             }
+            _commonDialogHandler._wrapperForm.ResumeLayout(false);
         }
 
         private void WndCreated(object sender, CbtEventArgs e)
@@ -192,7 +200,7 @@ namespace Krypton.Toolkit
         [Description("Gets or sets the file dialog box Icon")]
         public Icon? Icon { get; set; }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <summary>
         /// <para>
         /// Gets or sets the GUID to associate with this dialog state. Typically, state such

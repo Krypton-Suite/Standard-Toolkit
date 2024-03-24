@@ -35,8 +35,8 @@ namespace Krypton.Toolkit
                 ContentImageH = PaletteRelativeAlign.Inherit;
                 ContentImageV = PaletteRelativeAlign.Inherit;
                 ContentEffect = PaletteImageEffect.Inherit;
-                ContentImageColorMap = Color.Empty;
-                ContentImageColorTo = Color.Empty;
+                ContentImageColorMap = GlobalStaticValues.EMPTY_COLOR;
+                ContentImageColorTo = GlobalStaticValues.EMPTY_COLOR;
             }
 
             /// <summary>
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
             public bool IsDefault => (ContentImageH == PaletteRelativeAlign.Inherit) &&
                                       (ContentImageV == PaletteRelativeAlign.Inherit) &&
                                       (ContentEffect == PaletteImageEffect.Inherit) &&
-                                      (ContentImageColorMap == Color.Empty) &&
-                                      (ContentImageColorTo == Color.Empty);
+                                      (ContentImageColorMap == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (ContentImageColorTo == GlobalStaticValues.EMPTY_COLOR);
         }
         #endregion
 
@@ -79,6 +79,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_storage == null) || _storage.IsDefault;
 
         #endregion
@@ -214,7 +215,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
         {
-            get => _storage?.ContentImageColorMap ?? Color.Empty;
+            get => _storage?.ContentImageColorMap ?? GlobalStaticValues.EMPTY_COLOR;
 
             set
             {
@@ -229,7 +230,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {
@@ -254,7 +255,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo
         {
-            get => _storage?.ContentImageColorTo ?? Color.Empty;
+            get => _storage?.ContentImageColorTo ?? GlobalStaticValues.EMPTY_COLOR;
 
             set
             {
@@ -269,7 +270,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {

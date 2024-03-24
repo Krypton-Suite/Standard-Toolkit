@@ -52,14 +52,19 @@ namespace Krypton.Toolkit
             _internalOpenFileDialog.AddExtension = false;
             _internalOpenFileDialog.CheckFileExists = false;
             _internalOpenFileDialog.DereferenceLinks = true;
-            _internalOpenFileDialog.Filter = @"folders|\n";
+            _internalOpenFileDialog.Filter = "folders|\n";
             _internalOpenFileDialog.Multiselect = false;
             _internalOpenFileDialog.ValidateNames = false;
             _internalOpenFileDialog.CheckPathExists = true;
             _internalOpenFileDialog.FileName = "Folder Selection.";
             var options = _ofd.GetField(@"options", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            var value = (int)options?.GetValue(_internalOpenFileDialog)!;
-            options.SetValue(_internalOpenFileDialog, value | (int)(FOS_.FORCEFILESYSTEM | FOS_.PICKFOLDERS));
+            // Check null: if this is running on core !!
+            options ??= _ofd.GetField(@"_options", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
+            if (options != null)
+            {
+                var value = (int)options.GetValue(_internalOpenFileDialog)!;
+                options.SetValue(_internalOpenFileDialog, value | (int)(FOS_.FORCEFILESYSTEM | FOS_.PICKFOLDERS));
+            }
 
             return _internalOpenFileDialog.ShowDialog(owner);
         }
@@ -70,7 +75,6 @@ namespace Krypton.Toolkit
 
             if (e.message == PI.WM_.INITDIALOG)
             {
-                // TODO: Also Disable the Combo filter drop down 
                 var button = _commonDialogHandler.Controls.FirstOrDefault(static ctl => ctl.DlgCtrlId == 1);
                 if (button?.Button != null)
                 {
@@ -81,8 +85,27 @@ namespace Krypton.Toolkit
                         panel.Width += (int)(30 * _scaleFactor);
                     }
                 }
+                // Also Hide the Combo filter drop down 
+                var filterCombo = _commonDialogHandler.Controls.FirstOrDefault(static ctl => ctl.DlgCtrlId == 0x470);
+                if (filterCombo != null)
+                {
+                    var fileNameCombo = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x47C);
+                    PI.ShowWindow(fileNameCombo.hWnd, PI.ShowWindowCommands.SW_HIDE);
+                    var fileNameText = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x442);
+                    PI.ShowWindow(fileNameText.hWnd, PI.ShowWindowCommands.SW_HIDE);
+                    PI.ShowWindow(filterCombo.hWnd, PI.ShowWindowCommands.SW_HIDE);
+                }
             }
         }
+
+#if NET6_0_OR_GREATER
+        /// <inheritdoc />
+        public override Guid? ClientGuid
+        {
+            get => _internalOpenFileDialog.ClientGuid;
+            set => _internalOpenFileDialog.ClientGuid = value;
+        }
+#endif
 
         /// <inheritdoc />
         [AllowNull]

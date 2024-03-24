@@ -60,6 +60,7 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (TextFont == null) && (TextHint == PaletteTextHint.Inherit);
 
         #endregion
@@ -193,6 +194,67 @@ namespace Krypton.Navigator
         public Color GetRibbonMinimizeBarLight(PaletteState state) => _inherit.GetRibbonMinimizeBarLight(state);
 
         #endregion
+
+        #region RibbonTabRowBackgroundGradientRaftingDark
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundGradientRaftingLight
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundSolidColor
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundSolidColor(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientRaftingAngle
+
+        /// <inheritdoc />
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _inherit.GetRibbonTabRowGradientRaftingAngle(state);
+
+        #endregion
+		
+		#region RibbonTabRowGradientColor1
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowGradientColor1(PaletteState state) => _inherit.GetRibbonTabRowGradientColor1(state);
+
+        #endregion
+
+        #region RibbonAppButtonDarkColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonDarkColor(PaletteState state) => _inherit.GetRibbonAppButtonDarkColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonLightColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonLightColor(PaletteState state) => _inherit.GetRibbonAppButtonLightColor(state);
+
+        #endregion
+
+        #region RibbonAppButtonTextColor
+
+        /// <inheritdoc />
+        public Color GetRibbonAppButtonTextColor(PaletteState state) => _inherit.GetRibbonAppButtonTextColor(state);
+
+        #endregion
+
 
         #region GetRibbonShape
         /// <summary>

@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         {
             _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != Color.Empty)
+            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
             {
                 _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
             }

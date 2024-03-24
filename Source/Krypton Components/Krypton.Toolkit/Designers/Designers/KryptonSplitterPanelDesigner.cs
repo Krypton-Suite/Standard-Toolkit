@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonSplitterPanel? _panel;
-        private ISelectionService _selectionService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public
@@ -36,10 +36,10 @@ namespace Krypton.Toolkit
             _panel = component as KryptonSplitterPanel;
 
             // Acquire service interfaces
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // Hook into changes in selected component
-            var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            var service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
             if (service != null)
             {
                 service.ComponentChanged += OnComponentChanged;
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             // If inside a Krypton split container then always lock the component from user size/location change
             if (_panel != null)
             {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+                PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
                 if ((descriptor != null) && (_panel.Parent is KryptonSplitContainer))
                 {
                     descriptor.SetValue(component, true);
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         {
             if (_panel?.Parent != null)
             {
-                _selectionService.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
+                _selectionService?.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
             }
         }
         #endregion
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Get access to the component change service
-                    var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                    var service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
                     // Must unhook our event from the service so we can be garbage collected
                     if (service != null)

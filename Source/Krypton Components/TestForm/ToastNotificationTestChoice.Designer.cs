@@ -29,30 +29,23 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
             this.kbtnUserInputNotification = new Krypton.Toolkit.KryptonButton();
+            this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
+            this.kbtnQuickNotificationTest = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnQuickNotificationTest);
             this.kryptonPanel1.Controls.Add(this.kbtnUserInputNotification);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicNotification);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(318, 227);
+            this.kryptonPanel1.Size = new System.Drawing.Size(320, 229);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kbtnBasicNotification
-            // 
-            this.kbtnBasicNotification.Location = new System.Drawing.Point(13, 13);
-            this.kbtnBasicNotification.Name = "kbtnBasicNotification";
-            this.kbtnBasicNotification.Size = new System.Drawing.Size(291, 25);
-            this.kbtnBasicNotification.TabIndex = 0;
-            this.kbtnBasicNotification.Values.Text = "Basic Notification";
-            this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
             // 
             // kbtnUserInputNotification
             // 
@@ -63,11 +56,29 @@
             this.kbtnUserInputNotification.Values.Text = "User Input Notification";
             this.kbtnUserInputNotification.Click += new System.EventHandler(this.kbtnUserInputNotification_Click);
             // 
+            // kbtnBasicNotification
+            // 
+            this.kbtnBasicNotification.Location = new System.Drawing.Point(13, 13);
+            this.kbtnBasicNotification.Name = "kbtnBasicNotification";
+            this.kbtnBasicNotification.Size = new System.Drawing.Size(291, 25);
+            this.kbtnBasicNotification.TabIndex = 0;
+            this.kbtnBasicNotification.Values.Text = "Basic Notification";
+            this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
+            // 
+            // kbtnQuickNotificationTest
+            // 
+            this.kbtnQuickNotificationTest.Location = new System.Drawing.Point(13, 75);
+            this.kbtnQuickNotificationTest.Name = "kbtnQuickNotificationTest";
+            this.kbtnQuickNotificationTest.Size = new System.Drawing.Size(291, 25);
+            this.kbtnQuickNotificationTest.TabIndex = 2;
+            this.kbtnQuickNotificationTest.Values.Text = "Quick Notification Test";
+            this.kbtnQuickNotificationTest.Click += new System.EventHandler(this.kbtnQuickNotificationTest_Click);
+            // 
             // ToastNotificationTestChoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 227);
+            this.ClientSize = new System.Drawing.Size(320, 229);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -84,5 +95,6 @@
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonButton kbtnBasicNotification;
         private Krypton.Toolkit.KryptonButton kbtnUserInputNotification;
+        private Krypton.Toolkit.KryptonButton kbtnQuickNotificationTest;
     }
 }

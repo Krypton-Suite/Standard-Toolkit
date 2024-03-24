@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             _textLine2 = string.Empty;
             _imageSmall = null;
             _imageLarge = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _commandType = KryptonCommandType.General;
             _assignedButtonSpec = null;
         }

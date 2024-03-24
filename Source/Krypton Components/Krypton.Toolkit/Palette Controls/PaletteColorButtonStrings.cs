@@ -47,11 +47,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => MoreColors.Equals(DEFAULT_MORE_COLORS) &&
-                                          NoColor.Equals(DEFAULT_NO_COLOR) &&
-                                          RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
-                                          StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                          ThemeColors.Equals(DEFAULT_THEME_COLORS);
+                                            NoColor.Equals(DEFAULT_NO_COLOR) &&
+                                            RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
+                                            StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
+                                            ThemeColors.Equals(DEFAULT_THEME_COLORS);
 
         #endregion
 

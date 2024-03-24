@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             var disabledFont = _stateDisabled.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
 
             Font = (Enabled ? normalFont : disabledFont)!;
-            BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled? PaletteState.Normal : PaletteState.Disabled);
+            BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
             var controlsCollection = Controls;
             var state = PaletteState.ContextNormal;
