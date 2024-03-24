@@ -11,6 +11,13 @@ namespace Krypton.Toolkit
 {
     internal partial class VisualInformationBoxForm : KryptonForm
     {
+        #region Static Fields
+
+        private const int ICON_PANEL_WIDTH = 68;
+
+        private const int BORDER_PADDING = GlobalStaticValues.DEFAULT_PADDING;
+
+        #endregion
         public VisualInformationBoxForm()
         {
             InitializeComponent();

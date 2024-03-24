@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal static Icon? GetIconFromEnum(InformationBoxIcon iconType)
+        internal static Icon? GetIconFromEnum(InformationBoxIcon iconType, Icon? customIcon = null)
         {
             switch (iconType)
             {
@@ -115,7 +115,9 @@ namespace Krypton.Toolkit
                 case InformationBoxIcon.WindowsLogo:
                     break;
                 case InformationBoxIcon.Application:
-                    break;
+                    Debug.Assert(customIcon != null);
+
+                    return customIcon ?? SystemIcons.Application;
                 case InformationBoxIcon.SystemApplication:
                     return SystemIcons.Application;
                 default:
@@ -124,6 +126,35 @@ namespace Krypton.Toolkit
             }
 
             return null;
+        }
+
+        internal static InformationBoxMessageSoundCategory GetCategory(InformationBoxIcon iconType)
+        {
+            switch (iconType)
+            {
+                case InformationBoxIcon.Hand:
+                case InformationBoxIcon.SystemHand:
+                case InformationBoxIcon.Asterisk:
+                case InformationBoxIcon.SystemAsterisk:
+                case InformationBoxIcon.Stop:
+                case InformationBoxIcon.Error:
+                    return InformationBoxMessageSoundCategory.Asterisk;
+                case InformationBoxIcon.Question:
+                case InformationBoxIcon.SystemQuestion:
+                    return InformationBoxMessageSoundCategory.Question;
+                case InformationBoxIcon.Exclamation:
+                case InformationBoxIcon.SystemExclamation:
+                case InformationBoxIcon.Warning:
+                    return InformationBoxMessageSoundCategory.Exclamation;
+                case InformationBoxIcon.Information:
+                case InformationBoxIcon.Shield:
+                case InformationBoxIcon.Application:
+                case InformationBoxIcon.SystemApplication:
+                case InformationBoxIcon.None:
+                case InformationBoxIcon.WindowsLogo:
+                default:
+                    return InformationBoxMessageSoundCategory.Other;
+            }
         }
 
         #endregion
