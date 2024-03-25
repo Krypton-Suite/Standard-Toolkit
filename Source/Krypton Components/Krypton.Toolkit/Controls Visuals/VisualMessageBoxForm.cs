@@ -38,29 +38,12 @@ namespace Krypton.Toolkit
         private readonly IWin32Window? _showOwner;
         private readonly HelpInfo? _helpInfo;
 
-        // Action button features (aka _button5)
-        private readonly bool _showActionButton;
-        private readonly string _actionButtonText;
-        private readonly KryptonCommand? _actionButtonCommand;
-
         // For the LinkLabel option
         private readonly MessageBoxContentAreaType? _contentAreaType;
         private readonly KryptonCommand? _linkLabelCommand;
         private readonly ProcessStartInfo? _linkLaunchArgument;
         private readonly ContentAlignment? _messageTextAlignment;
         private readonly LinkArea _contentLinkArea;
-
-        // For check box
-        private readonly string? _checkBoxText;
-        private readonly bool? _isCheckBoxChecked;
-        private readonly bool? _useCheckBoxThreeState;
-        private readonly CheckState? _checkBoxCheckState;
-
-        // Extra fields
-        private bool _hasTimedOut;
-        private Timer _timeOuTimer;
-        private int? _timeOut;
-        private int? _timerInterval;
 
         private KryptonMessageBoxResult _messageBoxResult;
 
@@ -91,8 +74,6 @@ namespace Krypton.Toolkit
                                        KryptonMessageBoxDefaultButton defaultButton,
                                        HelpInfo? helpInfo, bool? showCtrlCopy,
                                        bool? showHelpButton,
-                                       bool? showActionButton, string? actionButtonText,
-                                       KryptonCommand? actionButtonCommand,
                                        Image? applicationImage,
                                        string? applicationPath,
                                        MessageBoxContentAreaType? contentAreaType,
@@ -100,9 +81,8 @@ namespace Krypton.Toolkit
                                        ProcessStartInfo? linkLaunchArgument,
                                        LinkArea? contentLinkArea,
                                        ContentAlignment? messageTextAlignment,
-                                       bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
-                                       bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
-                                       bool? showCloseButton, int? timeOut, int? timerInterval)
+                                       bool? forceUseOfOperatingSystemIcons,
+                                       bool? showCloseButton)
         {
             // Store incoming values
             _text = text;
@@ -113,9 +93,6 @@ namespace Krypton.Toolkit
             _helpInfo = helpInfo;
             _showOwner = showOwner;
             _showHelpButton = showHelpButton ?? (helpInfo != null);
-            _showActionButton = showActionButton ?? false;
-            _actionButtonText = actionButtonText ?? string.Empty;
-            _actionButtonCommand = actionButtonCommand;
             _applicationImage = applicationImage;
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
@@ -126,15 +103,7 @@ namespace Krypton.Toolkit
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
-            _checkBoxText = checkBoxText ?? string.Empty;
-            _isCheckBoxChecked = isCheckBoxChecked ?? false;
-            _checkBoxCheckState = checkBoxCheckState ?? CheckState.Unchecked;
             _showCloseButton = showCloseButton ?? true;
-
-            // For time out functionality
-            _timeOuTimer = new Timer();
-            _timeOut = timeOut ?? 0;
-            _timerInterval = timerInterval ?? 1000;
 
             // Create the form contents
             InitializeComponent();
@@ -150,16 +119,8 @@ namespace Krypton.Toolkit
             UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
             UpdateContentLinkArea(contentLinkArea);
 
-            SetupActionButtonUI(_showActionButton);
-
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
-
-            UpdateCheckBox(_checkBoxText);
-
-            SetCheckBoxChecked(_isCheckBoxChecked);
-
-            SetCheckBoxCheckedState(_checkBoxCheckState);
 
             ShowCloseButton(showCloseButton);
         }
@@ -184,23 +145,6 @@ namespace Krypton.Toolkit
             UpdateContentAreaType(_messageBoxData.MessageContentAreaType);
             UpdateContentAreaTextAlignment(_messageBoxData.MessageContentAreaType, _messageBoxData.MessageTextAlignment);
             UpdateContentLinkArea(_messageBoxData.ContentLinkArea);
-
-            SetupActionButtonUI(_messageBoxData.ShowActionButton);
-
-            UpdateCheckBox(_messageBoxData.CheckBoxText);
-
-            UseCheckBoxThreeState(_messageBoxData.UseCheckBoxThreeState);
-
-            if (_messageBoxData.IsCheckBoxChecked != null)
-            {
-
-                SetCheckBoxChecked(_messageBoxData.IsCheckBoxChecked);
-            }
-
-            if (_messageBoxData.CheckBoxCheckState != null)
-            {
-                SetCheckBoxCheckedState(_messageBoxData.CheckBoxCheckState);
-            }
 
             ShowCloseButton(_messageBoxData.ShowCloseButton);
 
@@ -762,14 +706,6 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            if (_showActionButton)
-            {
-                _button5.Text = _actionButtonText;
-                _button5.Visible = true;
-                _button5.Enabled = true;
-                _button5.KryptonCommand = _actionButtonCommand;
-            }
-
             // Do we ignore the Alt+F4 on the buttons?
             if (!ControlBox)
             {
@@ -777,7 +713,6 @@ namespace Krypton.Toolkit
                 _button2.IgnoreAltF4 = true;
                 _button3.IgnoreAltF4 = true;
                 _button4.IgnoreAltF4 = true;
-                _button5.IgnoreAltF4 = true;
             }
         }
 
@@ -872,14 +807,6 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            if (_messageBoxData.ShowActionButton != null)
-            {
-                _button5.Text = _actionButtonText;
-                _button5.Visible = true;
-                _button5.Enabled = true;
-                _button5.KryptonCommand = _actionButtonCommand;
-            }
-
             // Do we ignore the Alt+F4 on the buttons?
             if (!ControlBox)
             {
@@ -887,7 +814,6 @@ namespace Krypton.Toolkit
                 _button2.IgnoreAltF4 = true;
                 _button3.IgnoreAltF4 = true;
                 _button4.IgnoreAltF4 = true;
-                _button5.IgnoreAltF4 = true;
             }
         }
 
@@ -909,9 +835,6 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
                     AcceptButton = _showHelpButton ? _button4 : _button1;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button5:
-                    AcceptButton = _showActionButton ? _button5 : _button1;
                     break;
                 case null:
                     AcceptButton = _button1;
@@ -940,10 +863,6 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
                     AcceptButton = _showHelpButton ? _button4 : _button1;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button5:
-                    AcceptButton = _showActionButton ? _button5 : _button1;
-
                     break;
                 default:
                     AcceptButton = _showHelpButton ? _button4 : _button1;
@@ -1161,27 +1080,10 @@ namespace Krypton.Toolkit
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
             }
 
-            // If Action button is visible
-            if (_button5.Enabled)
-            {
-                numButtons++;
-                Size actionButtonSize = _button5.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, actionButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
-                maxButtonSize.Height = Math.Max(maxButtonSize.Height, actionButtonSize.Height);
-            }
-
             // Start positioning buttons 10 pixels from right edge
             var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
-
-            // If Action button is visible
-            if (_button5.Enabled)
-            {
-                _button5.Location = new Point(left - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
-                _button5.Size = maxButtonSize;
-                left -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
-            }
 
             // If Button4 is visible
             if (_button4.Enabled)
@@ -1267,29 +1169,6 @@ namespace Krypton.Toolkit
             Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
-        /// <summary>Setups the action button UI.</summary>
-        /// <param name="visible">if set to <c>true</c> [visible].</param>
-        private void SetupActionButtonUI(bool? visible)
-        {
-            _button5.Visible = visible ?? false;
-
-            _button5.Enabled = visible ?? false;
-
-            _button5.Click += (sender, args) =>
-            {
-                try
-                {
-                    _actionButtonCommand?.PerformExecute();
-                }
-                catch (Exception e)
-                {
-                    Debug.Assert(true, e.StackTrace);
-
-                    DialogResult = DialogResult.None;
-                }
-            };
-        }
-
         private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -1361,55 +1240,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateCheckBox(string? checkBoxText)
-        {
-            if (!string.IsNullOrEmpty(checkBoxText))
-            {
-                kchkMessageboxCheckBox.Visible = true;
-
-                kchkMessageboxCheckBox.Text = checkBoxText;
-            }
-            else
-            {
-                kchkMessageboxCheckBox.Visible = false;
-            }
-        }
-
-        private void UseCheckBoxThreeState(bool? threeState) => kchkMessageboxCheckBox.ThreeState = threeState ?? false;
-
         private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;
-
-        #region Static Methods
-
-        private static void SetCheckBoxChecked(bool? isChecked)
-        {
-            var messageBox = new VisualMessageBoxForm();
-
-            messageBox.kchkMessageboxCheckBox.Checked = isChecked ?? false;
-        }
-
-        public static bool GetCheckBoxChecked()
-        {
-            var messageBox = new VisualMessageBoxForm();
-
-            return messageBox.kchkMessageboxCheckBox.Checked;
-        }
-
-        private static void SetCheckBoxCheckedState(CheckState? checkState)
-        {
-            var messageBox = new VisualMessageBoxForm();
-
-            messageBox.kchkMessageboxCheckBox.CheckState = checkState ?? CheckState.Unchecked;
-        }
-
-        public static CheckState GetCheckBoxCheckedState()
-        {
-            var messageBox = new VisualMessageBoxForm();
-
-            return messageBox.kchkMessageboxCheckBox.CheckState;
-        }
-
-        #endregion
 
         #region KryptonMessageBoxResult Methods
 
