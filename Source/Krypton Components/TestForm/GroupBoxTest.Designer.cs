@@ -74,7 +74,7 @@
             this.kryptonNavigator1.ControlKryptonFormFeatures = false;
             this.kryptonNavigator1.Location = new System.Drawing.Point(508, 33);
             this.kryptonNavigator1.Name = "kryptonNavigator1";
-            this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
+            this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.OutlookMini;
             this.kryptonNavigator1.Owner = null;
             this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
             this.kryptonNavigator1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -93,7 +93,7 @@
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(160, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(248, 124);
+            this.kryptonPage3.Size = new System.Drawing.Size(230, 125);
             this.kryptonPage3.Text = "kryptonPage3";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "a9189fdf28634a62853973875dd71869";
@@ -249,7 +249,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(856, 445);
+            this.ClientSize = new System.Drawing.Size(860, 449);
             this.Controls.Add(this.kryptonGroup1);
             this.Controls.Add(this.kryptonGroupBox2);
             this.Controls.Add(this.kryptonPanel1);

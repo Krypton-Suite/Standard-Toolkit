@@ -25,6 +25,16 @@ namespace Krypton.Toolkit
 
         public InformationBoxTitleIconStyle IconStyle { get; set; }
 
+        public InformationBoxPosition Position { get; set; }
+
+        public InformationBoxTitleIcon TitleIcon { get; set; }
+
+        public InformationBoxAutoSizeMode AutoSizeMode { get; set; }
+
+        public InformationBoxButtons Buttons { get; set; }
+
+        public InformationBoxBehavior Behavior { get; set; }
+
         #endregion
 
         #region Identity
