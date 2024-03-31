@@ -3,7 +3,8 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
-* Resolved [#1370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1370), KryptonForm background colour
+* Resolved [#1336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1336), **[Regression]** KryptonForm has "Black Line" under Titlebar when maximised
+* Resolved [#1370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1370), **[Regression]** KryptonForm background colour
 * **[Breaking Change]:** The `RibbonStrings` options, usually located in `KryptonRibbon` has been moved to `KryptonManager` -> `ToolkitStrings` -> `RibbonStrings`
 * Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
