@@ -1188,8 +1188,8 @@ namespace Krypton.Toolkit
             if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
             {
                 var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
-                xOffset = xOffset1;
-                yOffset = yOffset1;
+                xOffset = Math.Max(0, xOffset1);
+                yOffset = Math.Max(0, yOffset1);
             }
 
             var rect = new PI.RECT
@@ -1234,7 +1234,6 @@ namespace Krypton.Toolkit
             return (style & PI.WS_.MAXIMIZE) != 0;
         }
 
-
         /// <summary>
         /// Gets the real client rectangle of the list.
         /// </summary>
@@ -1251,7 +1250,6 @@ namespace Krypton.Toolkit
                                  windowRect.right - windowRect.left,
                                  windowRect.bottom - windowRect.top);
         }
-
 
         /// <summary>
         /// Find the appropriate content style to match the incoming label style.

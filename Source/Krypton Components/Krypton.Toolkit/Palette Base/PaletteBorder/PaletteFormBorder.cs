@@ -26,7 +26,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-
         #region Width
         internal bool UseThemeFormChromeBorderWidth { get; set; } = true;
         private FormBorderStyle _lastFormFormBorderStyle = FormBorderStyle.Sizable;

@@ -1760,7 +1760,6 @@ namespace Krypton.Toolkit
             ClientSize = new Size(284, 261);
             Name = "VisualForm";
             ResumeLayout(false);
-
         }
     }
 }

@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
             Saturday.Equals(DEFAULT_SATURDAY) &&
             Sunday.Equals(DEFAULT_SUNDAY) &&
             CustomFormatWindowTitle.Equals(DEFAULT_CUSTOM_FORMAT_WINDOW_TITLE) &&
-            CustomFormatFillLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FORMAT) &&
+            CustomFormatLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FORMAT) &&
             CustomFormatPreviewLabelText.Equals(DEFAULT_CUSTOM_FORMAT_PREVIEW) &&
             CustomFormatMinimumColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_MINIMUM_COLOR) &&
             CustomFormatIntermediateColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR) &&
