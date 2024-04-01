@@ -63,10 +63,16 @@ namespace Krypton.Docking
             if (pages != null)
             {
                 ObserveAutoHiddenSlideSize(pages);
-                // If there is no active cell...
+                // If there is no active cell, or cell is page-less...
                 KryptonWorkspaceCell? cell = SpaceControl?.ActiveCell;
-                if (cell == null)
+                if (cell == null || cell.Pages.Count == 0)
                 {
+                    // Remove the page-less cell if exists...
+                    if (cell?.Pages.Count == 0)
+                    {
+                        SpaceControl!.Root.Children!.Remove(cell);
+                    }
+
                     // ...create a new cell and place at the end of the root collection
                     cell = new KryptonWorkspaceCell();
                     SpaceControl!.Root.Children!.Add(cell);

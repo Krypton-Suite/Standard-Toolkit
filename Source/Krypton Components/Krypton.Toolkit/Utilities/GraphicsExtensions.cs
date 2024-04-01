@@ -139,13 +139,13 @@ namespace Krypton.Toolkit
             var hIconEx = new IntPtr[] { IntPtr.Zero };
             try
             {
-                int readIconCount = largeIcon 
-                    ? ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, hIconEx, null, 1) 
+                int readIconCount = largeIcon
+                    ? ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, hIconEx, null, 1)
                     : ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, null, hIconEx, 1);
                 if (readIconCount > 0 && hIconEx[0] != IntPtr.Zero)
                 {
                     // GET FIRST EXTRACTED ICON
-                    Icon extractedIcon = (Icon)Icon.FromHandle(hIconEx[0]).Clone();
+                    Icon? extractedIcon = Icon.FromHandle(hIconEx[0]).Clone() as Icon;
 
                     return extractedIcon;
                 }
@@ -185,6 +185,163 @@ namespace Krypton.Toolkit
         /// <summary>Gets the working area.</summary>
         /// <returns></returns>
         public static Rectangle GetWorkingArea() => Screen.PrimaryScreen.WorkingArea;
+
+        /// <summary>Gets the type of the krypton message box image.</summary>
+        /// <param name="iconType">Type of the icon.</param>
+        /// <param name="imageSize">Size of the image.</param>
+        /// <param name="customImage">The custom image.</param>
+        /// <returns>The image, based on the type chosen.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">iconType - null</exception>
+        public static Image? GetKryptonMessageBoxImageType(KryptonMessageBoxIcon iconType, Size? imageSize, Image? customImage = null)
+        {
+            var newSize = imageSize ?? new Size(32, 32);
+
+            switch (iconType)
+            {
+                case KryptonMessageBoxIcon.None:
+                    return null;
+                case KryptonMessageBoxIcon.Hand:
+                    return MessageBoxImageResources.GenericHand;
+                case KryptonMessageBoxIcon.SystemHand:
+                    return ScaleImage(SystemIcons.Hand.ToBitmap(), newSize);
+                case KryptonMessageBoxIcon.Question:
+                    return MessageBoxImageResources.GenericQuestion;
+                case KryptonMessageBoxIcon.SystemQuestion:
+                    return ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
+                case KryptonMessageBoxIcon.Exclamation:
+                    return MessageBoxImageResources.GenericWarning;
+                case KryptonMessageBoxIcon.Warning:
+                case KryptonMessageBoxIcon.SystemExclamation:
+                    return ScaleImage(SystemIcons.Exclamation.ToBitmap(), newSize);
+                case KryptonMessageBoxIcon.Asterisk:
+                    return MessageBoxImageResources.GenericAsterisk;
+                case KryptonMessageBoxIcon.SystemAsterisk:
+                    return ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
+                case KryptonMessageBoxIcon.Stop:
+                    return MessageBoxImageResources.GenericStop;
+                case KryptonMessageBoxIcon.Error:
+                    return MessageBoxImageResources.GenericCritical;
+                case KryptonMessageBoxIcon.Information:
+                    return MessageBoxImageResources.GenericInformation;
+                case KryptonMessageBoxIcon.Shield:
+                    if (OSUtilities.IsWindowsEleven)
+                    {
+                        return UACShieldIconResources.UACShieldWindows11;
+                    }
+                    else if (OSUtilities.IsWindowsTen)
+                    {
+                        return UACShieldIconResources.UACShieldWindows10;
+                    }
+                    else
+                    {
+                        return UACShieldIconResources.UACShieldWindows7881;
+                    }
+                case KryptonMessageBoxIcon.WindowsLogo:
+                    if (OSUtilities.IsWindowsEleven)
+                    {
+                        return MessageBoxImageResources.Windows11;
+                    }
+                    else if (OSUtilities.IsWindowsTen || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight)
+                    {
+                        return MessageBoxImageResources.Windows_8_and_10_Logo;
+                    }
+                    else
+                    {
+                        return ScaleImage(SystemIcons.WinLogo.ToBitmap(), newSize);
+                    }
+                case KryptonMessageBoxIcon.Application:
+                    return ScaleImage(customImage, newSize) ?? ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                case KryptonMessageBoxIcon.SystemApplication:
+                    return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                default:
+                    DebugTools.NotImplemented(iconType.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(iconType), iconType, null);
+            }
+        }
+
+        /// <summary>Gets the type of the toast notification icon.</summary>
+        /// <param name="notificationIconType">Type of the notification icon.</param>
+        /// <param name="customImage">The custom image.</param>
+        /// <param name="customSize">Size of the custom.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">notificationIconType - null</exception>
+        public static Image? GetToastNotificationIconType(KryptonToastNotificationIcon notificationIconType,
+            Image? customImage = null, Size? customSize = null)
+        {
+            Size newSize = customSize ?? new Size(128, 128);
+
+            switch (notificationIconType)
+            {
+                case KryptonToastNotificationIcon.None:
+                    return null;
+                case KryptonToastNotificationIcon.Hand:
+                    return ToastNotificationImageResources.Toast_Notification_Hand_128_x_128;
+                case KryptonToastNotificationIcon.SystemHand:
+                    return ScaleImage(SystemIcons.Hand.ToBitmap(), newSize);
+                case KryptonToastNotificationIcon.Question:
+                    return ToastNotificationImageResources.Toast_Notification_Question_128_x_128;
+                case KryptonToastNotificationIcon.SystemQuestion:
+                    return ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
+                case KryptonToastNotificationIcon.Exclamation:
+                    break;
+                case KryptonToastNotificationIcon.SystemExclamation:
+                case KryptonToastNotificationIcon.Warning:
+                    return ToastNotificationImageResources.Toast_Notification_Warning_128_x_115;
+                case KryptonToastNotificationIcon.Asterisk:
+                case KryptonToastNotificationIcon.Error:
+                    return ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128;
+                case KryptonToastNotificationIcon.SystemAsterisk:
+                    return ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
+                case KryptonToastNotificationIcon.Stop:
+                    return ToastNotificationImageResources.Toast_Notification_Stop_128_x_128;
+                case KryptonToastNotificationIcon.Information:
+                    return ToastNotificationImageResources.Toast_Notification_Information_128_x_128;
+                case KryptonToastNotificationIcon.Shield:
+                    if (OSUtilities.IsWindowsEleven)
+                    {
+                        return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128;
+                    }
+                    else if (OSUtilities.IsWindowsTen)
+                    {
+                        return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128;
+                    }
+                    else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+                    {
+                        return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128;
+                    }
+                    else
+                    {
+                        return ScaleImage(SystemIcons.Shield.ToBitmap(), newSize);
+                    }
+                case KryptonToastNotificationIcon.WindowsLogo:
+                    if (OSUtilities.IsWindowsEleven)
+                    {
+                        return ToastNotificationImageResources.Toast_Notification_Windows_11_128_x_128;
+                    }
+                    else if (OSUtilities.IsWindowsTen || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight)
+                    {
+                        return ToastNotificationImageResources.Toast_Notification_Windows_10_128_x_121;
+                    }
+                    else
+                    {
+                        return ScaleImage(SystemIcons.WinLogo.ToBitmap(), newSize);
+                    }
+                case KryptonToastNotificationIcon.Application:
+                    return customImage != null
+                        ? ScaleImage(customImage, newSize) : ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                case KryptonToastNotificationIcon.SystemApplication:
+                    return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                case KryptonToastNotificationIcon.Ok:
+                    return ToastNotificationImageResources.Toast_Notification_Ok_128_x_128;
+                case KryptonToastNotificationIcon.Custom:
+                    return customImage != null ? ScaleImage(customImage, newSize) : null;
+                default:
+                    DebugTools.NotImplemented(notificationIconType.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
+            }
+
+            return null;
+        }
     }
     #endregion
 }
