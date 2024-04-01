@@ -283,7 +283,6 @@ namespace Krypton.Toolkit
                 case KryptonToastNotificationIcon.SystemQuestion:
                     return ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
                 case KryptonToastNotificationIcon.Exclamation:
-                    break;
                 case KryptonToastNotificationIcon.SystemExclamation:
                 case KryptonToastNotificationIcon.Warning:
                     return ToastNotificationImageResources.Toast_Notification_Warning_128_x_115;
@@ -339,8 +338,6 @@ namespace Krypton.Toolkit
                     DebugTools.NotImplemented(notificationIconType.ToString());
                     throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
             }
-
-            return null;
         }
     }
     #endregion
