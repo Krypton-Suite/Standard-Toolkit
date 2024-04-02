@@ -2599,7 +2599,6 @@ namespace Krypton.Ribbon
 
             // Create tabs area containing the tabs, pendant buttons etc...
             TabsArea = new ViewLayoutRibbonTabsArea(this, Redirector, CaptionArea, CaptionArea.ContextTitles!, NeedPaintDelegate);
-            TabsArea.PaintBackground += OnTabsAreaPaintBackground;
 
             // Create groups area containing the groups of the selected tab
             GroupsArea = new ViewLayoutRibbonGroupsArea(this, Redirector, _needPaintGroups);
@@ -3172,8 +3171,6 @@ namespace Krypton.Ribbon
                 _kcmFinishDelegate = null;
             }
         }
-
-        private void OnTabsAreaPaintBackground(object sender, PaintEventArgs e) => MainPanel.PaintRectangle(e.Graphics, e.ClipRectangle, false, sender as Control);
         #endregion
     }
 }

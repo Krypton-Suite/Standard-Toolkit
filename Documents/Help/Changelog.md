@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
 * Resolved [#1336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1336), **[Regression]** KryptonForm has "Black Line" under Titlebar when maximised
 * Resolved [#1370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1370), **[Regression]** KryptonForm background colour

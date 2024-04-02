@@ -3251,7 +3251,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
+        internal static extern void AdjustWindowRectEx(ref RECT rect, uint dwStyle, bool hasMenu, int dwExSytle);
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

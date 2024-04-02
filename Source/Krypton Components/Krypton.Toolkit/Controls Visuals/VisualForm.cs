@@ -560,7 +560,6 @@ namespace Krypton.Toolkit
             }
         }
 
-
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
@@ -1196,7 +1195,7 @@ namespace Krypton.Toolkit
             if (m.WParam != IntPtr.Zero)
             {
                 // Get the border sizing needed around the client area
-                Padding borders = FormBorderStyle == FormBorderStyle.None ? Padding.Empty : RealWindowBorders;
+                Padding borders = RealWindowBorders;
 
                 // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
                 PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;

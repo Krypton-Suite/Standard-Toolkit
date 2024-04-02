@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             {
                 // Set to default values
                 BorderDraw = InheritBool.Inherit;
-                BorderDrawBorders = PaletteDrawBorders.All;
+                BorderDrawBorders = PaletteDrawBorders.Inherit;
                 BorderGraphicsHint = PaletteGraphicsHint.Inherit;
                 BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
                 BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
                                      (BorderColor2 == GlobalStaticValues.EMPTY_COLOR) &&
                                      (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                      (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
-                                     (BorderColorAngle == -1f) &&
+                                     (BorderColorAngle == -1) &&
                                      (BorderWidth == -1) &&
-                                     (BorderRounding == -1f) &&
+                                     (BorderRounding == -1) &&
                                      (BorderImage == null) &&
                                      (BorderImageStyle == PaletteImageStyle.Inherit) &&
                                      (BorderImageAlign == PaletteRectangleAlign.Inherit);

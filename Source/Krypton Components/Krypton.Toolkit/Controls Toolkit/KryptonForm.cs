@@ -1120,7 +1120,6 @@ namespace Krypton.Toolkit
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
 
-
                 // Is the mouse over the Application icon image area
                 if (_drawContent.ImageRectangle(context).Contains(windowPoint))
                 {
