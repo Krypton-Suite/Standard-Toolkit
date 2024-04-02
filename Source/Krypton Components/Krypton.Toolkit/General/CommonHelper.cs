@@ -1184,12 +1184,19 @@ namespace Krypton.Toolkit
         {
             int xOffset = 0;
             int yOffset = 0;
-
+            uint dwStyle = (uint)cp.Style;
             if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
             {
-                var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
-                xOffset = Math.Max(0, xOffset1);
-                yOffset = Math.Max(0, yOffset1);
+                if (!CommonHelper.IsFormMaximized(kryptonForm))
+                {
+                    var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                    xOffset = Math.Max(0, xOffset1);
+                    yOffset = Math.Max(0, yOffset1);
+                }
+                else //if (kryptonForm.FormBorderStyle == FormBorderStyle.None )
+                {
+                    dwStyle |= PI.WS_.CAPTION;
+                }
             }
 
             var rect = new PI.RECT
@@ -1201,7 +1208,7 @@ namespace Krypton.Toolkit
                 bottom = yOffset
             };
             // Adjust rectangle to add on the borders required
-            PI.AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle);
+            PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
             // Return the per side border values
             return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
@@ -1215,7 +1222,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return (style & PI.WS_.MINIMIZE) != 0;
         }
@@ -1229,7 +1236,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return (style & PI.WS_.MAXIMIZE) != 0;
         }
