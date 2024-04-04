@@ -320,11 +320,20 @@ namespace Krypton.Toolkit
 
             ShowCloseButton();
 
+            UpdateDoNotShowAgainOption();
+
             _timer.Start();
 
             _soundPlayer?.Play();
 
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+        }
+
+        private void UpdateDoNotShowAgainOption()
+        {
+            kchkDoNotShowAgain.Visible = _toastNotificationData.ShowDoNotShowAgainOption ?? false;
+
+            kchkDoNotShowAgain.Text = KryptonManager.Strings.ToastNotificationStrings.DoNotShowAgain;
         }
 
         private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) =>
