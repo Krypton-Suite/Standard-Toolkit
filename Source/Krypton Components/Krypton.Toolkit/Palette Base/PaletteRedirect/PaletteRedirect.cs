@@ -60,10 +60,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Renderer
-            /// <summary>
-            /// Gets the renderer to use for this palette.
-            /// </summary>
-            /// <returns>Renderer to use for drawing palette settings.</returns>
+        /// <summary>
+        /// Gets the renderer to use for this palette.
+        /// </summary>
+        /// <returns>Renderer to use for drawing palette settings.</returns>
         public override IRenderer GetRenderer() => _target!.GetRenderer();
 
         #endregion
@@ -940,8 +940,8 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state) => _target!.GetRibbonQATButtonLight(state);
-		
-		/// <inheritdoc />
+
+        /// <inheritdoc />
         public override Color GetRibbonTabRowGradientColor1(PaletteState state) => _target!.GetRibbonTabRowGradientColor1(state);
 
         /// <inheritdoc />

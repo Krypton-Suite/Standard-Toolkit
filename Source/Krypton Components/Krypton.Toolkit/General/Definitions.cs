@@ -1327,7 +1327,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the panel alternate input style.
         /// </summary>
-        PanelAlternate,
+        PanelAlternate
         /*
         /// <summary>
         /// Specifies the disabled input style.
@@ -2074,7 +2074,7 @@ namespace Krypton.Toolkit
         Ok = 13,
 
         /// <summary>Specify a custom icon.</summary>
-        Custom = 14,
+        Custom = 14
     }
 
     #endregion
@@ -2110,7 +2110,7 @@ namespace Krypton.Toolkit
     public enum KryptonToastNotificationActionButton
     {
         Button1 = 0,
-        Button2 = 1,
+        Button2 = 1
         //Button3 = 2
     }
 
@@ -2133,7 +2133,7 @@ namespace Krypton.Toolkit
     public enum KryptonToastNotificationDismissButtonLocation
     {
         Left = 0,
-        Right = 1,
+        Right = 1
     }
 
     #endregion
@@ -2257,7 +2257,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The InformationBoxResult is defined.
         /// </summary>
-        Result,
+        Result
     }
 
     #endregion
@@ -2277,7 +2277,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Uses an icon specified by the client.
         /// </summary>
-        UserDefined,
+        UserDefined
     }
 
     #endregion
@@ -2302,7 +2302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The <see cref="KryptonInformationBox"/> will be set according to existing line breaks.
         /// </summary>
-        None,
+        None
     }
 
     #endregion
@@ -2322,7 +2322,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The InformationBox is displayed as a modeless (non-blocking) window.
         /// </summary>
-        Modeless,
+        Modeless
     }
 
     #endregion
@@ -2388,7 +2388,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The message box contains three user-defined buttons.
         /// </summary>
-        User1User2User3,
+        User1User2User3
     }
 
     #endregion
@@ -2414,7 +2414,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The checkbox is right aligned.
         /// </summary>
-        RightAligned = 4,
+        RightAligned = 4
     }
 
     #endregion
@@ -2439,7 +2439,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The third button on the message box is the default button.
         /// </summary>
-        Button3,
+        Button3
     }
 
     #endregion
@@ -2530,7 +2530,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The <see cref="KryptonInformationBox"/> is first initialized from the current scope (if available) and then from the supplied parameters.
         /// </summary>
-        FromScopeAndParameters,
+        FromScopeAndParameters
     }
 
     #endregion
@@ -2565,7 +2565,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Question sound
         /// </summary>
-        Question,
+        Question
     }
 
     #endregion
@@ -2625,7 +2625,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Opacity is at 100%
         /// </summary>
-        NoFade,
+        NoFade
     }
 
     #endregion
@@ -2645,7 +2645,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the <see cref="KryptonInformationBox"/> as the top most window.
         /// </summary>
-        TopMost,
+        TopMost
     }
 
     #endregion
@@ -2665,7 +2665,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// the <see cref="KryptonInformationBox"/> will be centered on the screen.
         /// </summary>
-        CenterOnScreen,
+        CenterOnScreen
     }
 
     #endregion
@@ -2730,7 +2730,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The dialog box return value is User3 (usually sent from the third user-defined button).
         /// </summary>
-        User3,
+        User3
     }
 
     #endregion
@@ -2750,7 +2750,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Does not play default sound.
         /// </summary>
-        None,
+        None
     }
 
     #endregion
@@ -2775,7 +2775,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Use a custom icon.
         /// </summary>
-        Custom,
+        Custom
     }
 
     #endregion

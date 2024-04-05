@@ -2216,7 +2216,7 @@ namespace Krypton.Toolkit
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
         /// <param name="schemaVersion">The palette schema version to upgrade to.</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
-        public void ImportWithUpgrade(Stream stream, PaletteSchemaVersion? schemaVersion)
+        public void ImportWithUpgrade(Stream stream, PaletteSchemaVersion? schemaVersion = null)
         {
             var paletteVersion = schemaVersion ?? PaletteSchemaVersion.Version19To20;
 

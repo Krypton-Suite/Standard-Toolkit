@@ -49,6 +49,7 @@ namespace Krypton.Ribbon
 
         // Redirection
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppButtonInherit;
+        private readonly PaletteRibbonFileAppTabInheritRedirect _ribbonFileAppTabInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
@@ -104,7 +105,7 @@ namespace Krypton.Ribbon
 
             // Create the redirection instances
             _ribbonAppButtonInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppButton);
-            var ribbonFileAppTabInherit = new PaletteRibbonFileAppTabInheritRedirect(_redirect);
+            _ribbonFileAppTabInherit = new PaletteRibbonFileAppTabInheritRedirect(_redirect);
             _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuInner);
             _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuOuter);
             _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuDocs);
@@ -130,7 +131,7 @@ namespace Krypton.Ribbon
 
             // Create storage that maps onto the inherit instances
             _ribbonAppButton = new PaletteRibbonBack(_ribbonAppButtonInherit, needPaint);
-            RibbonFileAppTab = new PaletteRibbonFileAppTab(ribbonFileAppTabInherit, needPaint);
+            RibbonFileAppTab = new PaletteRibbonFileAppTab(_ribbonFileAppTabInherit, needPaint);
             _ribbonAppMenuInner = new PaletteRibbonBack(_ribbonAppMenuInnerInherit, needPaint);
             _ribbonAppMenuOuter = new PaletteRibbonBack(_ribbonAppMenuOuterInherit, needPaint);
             _ribbonAppMenuDocs = new PaletteRibbonBack(_ribbonAppMenuDocsInherit, needPaint);
@@ -174,6 +175,7 @@ namespace Krypton.Ribbon
             RibbonQATButton.SetRedirector(redirect);
             RibbonScroller.SetRedirector(redirect);
             _ribbonAppButtonInherit.SetRedirector(redirect);
+            _ribbonFileAppTabInherit.SetRedirector(redirect);
             _ribbonAppMenuInnerInherit.SetRedirector(redirect);
             _ribbonAppMenuOuterInherit.SetRedirector(redirect);
             _ribbonAppMenuDocsInherit.SetRedirector(redirect);

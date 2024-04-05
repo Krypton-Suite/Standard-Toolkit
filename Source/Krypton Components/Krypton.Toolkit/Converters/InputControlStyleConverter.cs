@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             {InputControlStyle.Custom2, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_TWO},
             {InputControlStyle.Custom3, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_THREE},
             {InputControlStyle.PanelClient, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT},
-            {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE},
+            {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE}
             // new(InputControlStyle.Disabled, "Disabled")
         });
 

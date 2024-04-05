@@ -132,6 +132,7 @@ namespace Krypton.Toolkit
         public void PopulateFromBase()
         {
             RibbonAppButton.PopulateFromBase();
+            RibbonFileAppTab.PopulateFromBase();
             RibbonAppMenuOuter.PopulateFromBase(PaletteState.Normal);
             RibbonAppMenuInner.PopulateFromBase(PaletteState.Normal);
             RibbonAppMenuDocs.PopulateFromBase(PaletteState.Normal);
