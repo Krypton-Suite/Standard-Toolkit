@@ -60,13 +60,13 @@ namespace Krypton.Toolkit
         #region AppButton Colors
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _ribbonAppButtonDarkColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

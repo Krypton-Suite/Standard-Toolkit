@@ -27,7 +27,6 @@ namespace Krypton.Ribbon
         private Rectangle _clipRect;
         private readonly Size _size;
         private readonly Size _sizeFull; // = new(39, 39);
-        private readonly Size _sizeTop; // = new(39, 22);
         private readonly Size _sizeBottom; // = new(39, 17);
         #endregion
 
@@ -42,12 +41,12 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             _sizeFull = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
-            _sizeTop = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
+            var sizeTop = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
             _sizeBottom = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _bottomHalf = bottomHalf;
-            _size = _bottomHalf ? _sizeBottom : _sizeTop;
+            _size = _bottomHalf ? _sizeBottom : sizeTop;
             _mementos = new IDisposable[3];
         }
 
@@ -109,7 +108,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             _clipRect = ClientRectangle;
 
             // Update to reflect full size of actual button
@@ -164,13 +163,13 @@ namespace Krypton.Ribbon
             }
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]!);
+            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
 
-            // If there is an application button to be drawn
-            if (_ribbon.RibbonAppButton.AppButtonImage != null)
+            // If there is an application button image to be drawn
+            Image? localImage = _ribbon.RibbonFileAppButton.AppButtonImage;
+            if (localImage != null)
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
-                Image? localImage = _ribbon.RibbonAppButton.AppButtonImage;
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 

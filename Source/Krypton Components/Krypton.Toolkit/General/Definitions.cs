@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
 
@@ -481,7 +479,7 @@ namespace Krypton.Toolkit
         KryptonCommandType CommandType { get; set; }
 
         /// <summary>
-        /// Generates a Execute event for a command.
+        /// Generates an Execute event for a command.
         /// </summary>
         void PerformExecute();
     }
@@ -1047,7 +1045,7 @@ namespace Krypton.Toolkit
         TitleControl,
 
         /// <summary>
-        /// Specifies a alternate label for use on a panel style background.
+        /// Specifies an alternate label for use on a panel style background.
         /// </summary>
         AlternatePanel,
 
@@ -1986,7 +1984,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Options for <see cref="KryptonMessageBox"/>.
     /// </summary>
-    public enum KryptonMessageBoxResult : int
+    public enum KryptonMessageBoxResult
     {
         None = DialogResult.None,
         Ok = DialogResult.OK,
@@ -2366,6 +2364,7 @@ namespace Krypton.Toolkit
         /// </summary>
         YesNoCancel,
 
+        // TODO: Remove User buttons
         /// <summary>
         /// The message box contains Yes, No, and a user-defined buttons.
         /// </summary>

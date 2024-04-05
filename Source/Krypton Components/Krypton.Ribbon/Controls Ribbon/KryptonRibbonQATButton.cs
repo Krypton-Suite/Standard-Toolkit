@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 

@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Main background color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Secondary background color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {

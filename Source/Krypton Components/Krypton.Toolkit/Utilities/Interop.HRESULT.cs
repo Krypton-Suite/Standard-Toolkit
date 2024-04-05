@@ -6,7 +6,7 @@ namespace System.Runtime.InteropServices
     internal static partial class Interop
     {
         // https://msdn.microsoft.com/en-us/library/cc231198.aspx
-        internal enum HRESULT : int
+        internal enum HRESULT
         {
             S_OK = 0,
             S_FALSE = 1,
