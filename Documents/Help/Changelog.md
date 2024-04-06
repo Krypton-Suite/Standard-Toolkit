@@ -2,6 +2,11 @@
 
 =======
 
+## 2024-03-04 - Build 24## (Patch ##) - ## 2024
+* Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
+
+=======
+
 ## 2024-03-04 - Build 2403 (Patch 2) - March 2024
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
