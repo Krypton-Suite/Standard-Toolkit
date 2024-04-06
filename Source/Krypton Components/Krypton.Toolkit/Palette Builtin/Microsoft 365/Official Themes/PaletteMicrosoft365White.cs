@@ -21,11 +21,11 @@ namespace Krypton.Toolkit
 
         #region Ribbon Specific Colors
 
-        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
+        private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
 
-        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
+        private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
 
-        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
+        private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
         #endregion
 
@@ -596,13 +596,13 @@ namespace Krypton.Toolkit
         #region AppButton Colors
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => _ribbonAppButtonDarkColor;
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _ribbonAppButtonDarkColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) => _ribbonAppButtonLightColor;
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

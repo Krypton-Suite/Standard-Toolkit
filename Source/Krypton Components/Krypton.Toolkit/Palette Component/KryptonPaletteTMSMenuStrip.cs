@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to draw text on the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripText
         {
             get => InternalKCT.InternalMenuStripText;
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used in the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripGradientBegin
         {
             get => InternalKCT.InternalMenuStripGradientBegin;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used in the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripGradientEnd
         {
             get => InternalKCT.InternalMenuStripGradientEnd;

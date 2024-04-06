@@ -291,42 +291,42 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the image is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentImageDisplayed(IDisposable memento);
+        public abstract bool GetContentImageDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentImageRectangle(IDisposable memento);
+        public abstract Rectangle GetContentImageRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the short text is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentShortTextDisplayed(IDisposable memento);
+        public abstract bool GetContentShortTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentShortTextRectangle(IDisposable memento);
+        public abstract Rectangle GetContentShortTextRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the long text is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentLongTextDisplayed(IDisposable memento);
+        public abstract bool GetContentLongTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentLongTextRectangle(IDisposable memento);
+        public abstract Rectangle GetContentLongTextRectangle(IDisposable? memento);
         #endregion
 
         #region RenderTabBorder
@@ -439,12 +439,12 @@ namespace Krypton.Toolkit
         /// <param name="paletteGeneral">Palette used for general ribbon settings.</param>
         /// <param name="paletteBack">Palette used for background ribbon settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public abstract IDisposable DrawRibbonTabContextTitle(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonTabContextTitle(PaletteRibbonShape shape,
                                                               RenderContext context,
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento);
+                                                              IDisposable? memento);
 
         /// <summary>
         /// Draw the application button.
@@ -455,30 +455,28 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public abstract IDisposable DrawRibbonApplicationButton(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonApplicationButton(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento);
+                                                                IDisposable? memento);
 
         /// <summary>
-        /// Draw the application tab.
+        /// Draw the "File application tab"
         /// </summary>
         /// <param name="shape">Ribbon shape.</param>
         /// <param name="context">Rendering context.</param>
         /// <param name="rect">Target rectangle.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="baseColor1">Base color1 used for drawing the ribbon tab.</param>
-        /// <param name="baseColor2">Base color2 used for drawing the ribbon tab.</param>
+        /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public abstract IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonFileApplicationTab(PaletteRibbonShape shape,
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             Color baseColor1,
-                                                             Color baseColor2,
-                                                             IDisposable memento);
+                                                             IPaletteRibbonFileAppTab palette,
+                                                             IDisposable? memento);
 
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.

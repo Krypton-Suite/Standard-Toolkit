@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
                                                       IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
                                                       IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
                                                     IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -458,7 +458,7 @@ namespace Krypton.Toolkit
         {
             using Clipping clip = new Clipping(context.Graphics, path);
             var generate = true;
-            MementoBackGlassThreeEdge? cache;
+            MementoBackGlassThreeEdge cache;
 
             // Access a cache instance and decide if cache resources need generating
             if (memento is MementoBackGlassThreeEdge glassThreeEdge)
@@ -657,7 +657,7 @@ namespace Krypton.Toolkit
                                                               IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
                                                               IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -768,7 +768,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
                                                                IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoTriple? cache;
+            MementoTriple cache;
 
             if (memento is MementoTriple triple)
             {
@@ -862,7 +862,7 @@ namespace Krypton.Toolkit
                                                                IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoTriple? cache;
+            MementoTriple cache;
 
             if (memento is MementoTriple triple)
             {
@@ -914,7 +914,7 @@ namespace Krypton.Toolkit
                                                                        IDisposable? memento)
         {
             using Clipping clip = new Clipping(context.Graphics, path);
-            MementoTriple? cache;
+            MementoTriple cache;
 
             if (memento is MementoTriple triple)
             {
@@ -1077,7 +1077,7 @@ namespace Krypton.Toolkit
                                                        float glassPercent,
                                                        IDisposable? memento)
         {
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -1414,7 +1414,7 @@ namespace Krypton.Toolkit
                 outerRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackGlassLinear? cache;
+                MementoBackGlassLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackGlassLinear glassLinear)

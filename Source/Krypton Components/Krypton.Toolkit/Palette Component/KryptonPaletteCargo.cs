@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied color value.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1 { get; set; }
 
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied color value.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2 { get; set; }
 
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied color value.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color3 { get; set; }
 
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied color value.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color4 { get; set; }
 
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied color value.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color5 { get; set; }
 

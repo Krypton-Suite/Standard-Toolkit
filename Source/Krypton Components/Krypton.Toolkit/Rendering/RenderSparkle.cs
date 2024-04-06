@@ -91,12 +91,12 @@ namespace Krypton.Toolkit
         /// <param name="paletteGeneral">Palette used for general ribbon settings.</param>
         /// <param name="paletteBack">Palette used for background ribbon settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public override IDisposable DrawRibbonTabContextTitle(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonTabContextTitle(PaletteRibbonShape shape,
                                                               RenderContext context,
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento) =>
+                                                              IDisposable? memento) =>
             DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
 
         /// <summary>
@@ -108,12 +108,12 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public override IDisposable DrawRibbonApplicationButton(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonApplicationButton(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento) =>
+                                                                IDisposable? memento) =>
             DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
 
         /// <summary>
@@ -315,11 +315,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabContext(RenderContext context,
+        protected override IDisposable? DrawRibbonTabContext(RenderContext context,
                                                             Rectangle rect,
                                                             IPaletteRibbonGeneral paletteGeneral,
                                                             IPaletteRibbonBack paletteBack,
-                                                            IDisposable memento)
+                                                            IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {

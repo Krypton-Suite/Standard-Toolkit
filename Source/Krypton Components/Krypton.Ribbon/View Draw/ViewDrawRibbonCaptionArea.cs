@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         private ViewLayoutSeparator _spaceInsteadOfAppButton;
         private ViewLayoutRibbonQATMini _captionQAT;
         private ViewLayoutRibbonQATMini _nonCaptionQAT;
-        private ViewLayoutRibbonContextTitles? _contextTiles;
+        private ViewLayoutRibbonContextTitles _contextTiles;
         private ViewDrawRibbonCompoRightBorder _compRightBorder;
         private AppButtonController? _appButtonController;
         private AppTabController? _appTabController;
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
                     {
                         _captionAppButton.OwnerForm = null;
                         _kryptonForm.AllowIconDisplay = true;
-                        _kryptonForm.RevokeViewElement(_contextTiles!, ViewDockStyle.Fill);
+                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
                         _kryptonForm.RevokeViewElement(_captionAppButton, ViewDockStyle.Left);
                         _kryptonForm.RevokeViewElement(_captionQAT, ViewDockStyle.Left);
                         _integrated = false;
@@ -192,7 +192,7 @@ namespace Krypton.Ribbon
         /// Update the visible state of the caption area based on integration, app button, contexts and qat location.
         /// </summary>
         public void UpdateVisible() => Visible = !_integrated &&
-                      (_ribbon.RibbonAppButton.AppButtonVisible ||
+                      (_ribbon.RibbonFileAppButton.AppButtonVisible ||
                        (_ribbon.QATLocation == QATLocation.Above) ||
                        (_ribbon.RibbonContexts.Count > 0));
         #endregion
@@ -242,7 +242,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void AppButtonVisibleChanged()
         {
-            var appButtonVisible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
+            var appButtonVisible = _ribbon.RibbonFileAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
             if (_captionAppButton.Visible != appButtonVisible)
             {
                 // Update visible state of the app button to reflect current state
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the layout view used for the context titles.
         /// </summary>
-        public ViewLayoutRibbonContextTitles? ContextTitles => _contextTiles;
+        public ViewLayoutRibbonContextTitles ContextTitles => _contextTiles;
 
         #endregion
 
@@ -547,13 +547,13 @@ namespace Krypton.Ribbon
                             _compoRightInjected = true;
                         }
 
-                        _kryptonForm.InjectViewElement(_contextTiles!, ViewDockStyle.Fill);
+                        _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
                     }
                     else
                     {
                         _captionAppButton.OwnerForm = null;
                         _captionQAT.OwnerForm = null;
-                        _kryptonForm.RevokeViewElement(_contextTiles!, ViewDockStyle.Fill);
+                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
 
                         // At runtime under vista we do not remove the compo right border
                         if (_ribbon.InDesignMode)
@@ -574,8 +574,8 @@ namespace Krypton.Ribbon
 
                 //TODO: call this function when palette is changing
                 var newAllowIconDisplay = !_integrated
-                                           || !_ribbon.RibbonAppButton.AppButtonVisible
-                                           || (_ribbon.RibbonAppButton.AppButtonVisible
+                                           || !_ribbon.RibbonFileAppButton.AppButtonVisible
+                                           || (_ribbon.RibbonFileAppButton.AppButtonVisible
                                                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                                            )
                                             ;

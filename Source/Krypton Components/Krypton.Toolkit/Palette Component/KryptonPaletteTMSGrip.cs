@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for shadow effects on the grip (move handle).")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color GripDark
         {
             get => InternalKCT.InternalGripDark;
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for highlight effects on the grip (move handle).")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color GripLight
         {
             get => InternalKCT.InternalGripLight;
