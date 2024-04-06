@@ -16,7 +16,7 @@ namespace Krypton.Workspace
     /// <summary>
     /// Specifies the compacting operations performed during layout.
     /// </summary>
-    [Flags()]
+    [Flags]
     public enum CompactFlags
     {
         /// <summary>

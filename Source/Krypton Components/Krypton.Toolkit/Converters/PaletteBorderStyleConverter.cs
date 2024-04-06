@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             {PaletteBorderStyle.TabDockAutoHidden, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_DOCK_AUTO_HIDDEN},
             {PaletteBorderStyle.TabCustom1, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM1},
             {PaletteBorderStyle.TabCustom2, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM2},
-            {PaletteBorderStyle.TabCustom3, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM3},
+            {PaletteBorderStyle.TabCustom3, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM3}
         });
 
         #endregion

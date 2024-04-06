@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
 
@@ -26,15 +24,15 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Border style.</param>
         /// <param name="contentStyle">Content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteTabButton(PaletteRedirect? redirect,
+        public KryptonPaletteTabButton(PaletteRedirect redirect,
                                        PaletteBackStyle backStyle,
                                        PaletteBorderStyle borderStyle,
                                        PaletteContentStyle contentStyle,
                                        NeedPaintHandler needPaint) 
         {
             // Create the storage objects
-            OverrideFocus = new PaletteTabTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
-            StateCommon = new PaletteTabTripleRedirect(redirect!, backStyle, borderStyle, contentStyle, needPaint);
+            OverrideFocus = new PaletteTabTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
+            StateCommon = new PaletteTabTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
             StateDisabled = new PaletteTabTriple(StateCommon, needPaint);
             StateNormal = new PaletteTabTriple(StateCommon, needPaint);
             StateTracking = new PaletteTabTriple(StateCommon, needPaint);

@@ -1,14 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -21,7 +17,7 @@ namespace Krypton.Ribbon
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
         private IComponentChangeService _changeService;
-        private DesignerVerbCollection _verbs;
+        private DesignerVerbCollection _verbs = [];
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _addTabVerb;
         private DesignerVerb _clearTabsVerb;
@@ -95,9 +91,9 @@ namespace Krypton.Ribbon
                 compound.AddRange(_ribbon!.ButtonSpecs);
                 compound.AddRange(_ribbon.QATButtons);
                 compound.AddRange(_ribbon.RibbonContexts);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonMenuItems);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonRecentDocs);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonSpecs);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonMenuItems);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonRecentDocs);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonSpecs);
 
                 // Add all the objects for each tab
                 foreach (KryptonRibbonTab ribbonTab in _ribbon.RibbonTabs)
@@ -135,9 +131,8 @@ namespace Krypton.Ribbon
             get
             {
                 // Create verbs first time around
-                if (_verbs == null)
+                if (_verbs.Count == 0)
                 {
-                    _verbs = [];
                     _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                     _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                     _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
@@ -241,7 +236,7 @@ namespace Krypton.Ribbon
 
         private void UpdateVerbStatus()
         {
-            if (_verbs != null)
+            if (_verbs.Count != 0)
             {
                 _clearTabsVerb.Enabled = _ribbon!.RibbonTabs.Count > 0;
             }
@@ -326,7 +321,7 @@ namespace Krypton.Ribbon
                 };
                 _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
 
-                // Force the layout to be update for any change in selection
+                // Force the layout to be updated for any change in selection
                 _ribbon?.PerformLayout();
             }
         }

@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Main background color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Secondary background color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {
@@ -510,7 +510,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image? GetBackImage(PaletteState state) => Image ?? _inherit.GetBackImage(state);
+        public Image? GetBackImage(PaletteState state) => Image ?? _inherit?.GetBackImage(state);
         #endregion
 
         #region ImageStyle

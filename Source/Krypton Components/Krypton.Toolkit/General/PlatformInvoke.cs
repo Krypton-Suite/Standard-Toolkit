@@ -286,7 +286,7 @@ namespace Krypton.Toolkit
         internal enum BOOL : int
         {
             FALSE = 0,
-            TRUE = 1,
+            TRUE = 1
         }
 
         internal enum CBN_
@@ -3667,9 +3667,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             // Values designating how Flip3D treats a given window.
             private enum DWMFLIP3DWINDOWPOLICY : uint
             {
-                Default, // Hide or include the window in Flip3D based on window style and visibility.
-                ExcludeBelow, // Display the window under Flip3D and disabled.
-                ExcludeAbove, // Display the window above Flip3D and enabled.
+                Default,        // Hide or include the window in Flip3D based on window style and visibility.
+                ExcludeBelow,   // Display the window under Flip3D and disabled.
+                ExcludeAbove    // Display the window above Flip3D and enabled.
             }
 
             [StructLayout(LayoutKind.Sequential)]
@@ -4093,7 +4093,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             SHAREVIOLATION = (FIRST - 0x0003), // -604
             HELP = (FIRST - 0x0004),
             FILEOK = (FIRST - 0x0005), // -606
-            TYPECHANGE = (FIRST - 0x0006),
+            TYPECHANGE = (FIRST - 0x0006)
         }
         #endregion
 

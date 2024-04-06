@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for shadow effects on the ToolStripSeparator.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color SeparatorDark
         {
             get => InternalKCT.InternalSeparatorDark;
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for highlight effects on the ToolStripSeparator.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color SeparatorLight
         {
             get => InternalKCT.InternalSeparatorLight;

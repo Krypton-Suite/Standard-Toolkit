@@ -58,7 +58,7 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.VisualStudio2010Render2007, typeof(PaletteVisualStudio2010Office2007Variation)},
             {PaletteMode.VisualStudio2010Render2010, typeof(PaletteVisualStudio2010Office2010Variation)},
             {PaletteMode.VisualStudio2010Render2013, typeof(PaletteVisualStudio2010Office2013Variation)},
-            {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)},
+            {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 

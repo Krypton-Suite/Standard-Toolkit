@@ -268,7 +268,7 @@ namespace Krypton.Toolkit
     {
         MenuItemText = 1,
         ContextMenuMargin = 2,
-        ContextMenuInner = 3,
+        ContextMenuInner = 3
     }
 
     #endregion

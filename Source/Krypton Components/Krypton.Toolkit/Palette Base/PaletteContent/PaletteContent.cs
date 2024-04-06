@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
 
@@ -86,7 +84,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -459,7 +457,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetContentShortTextColorAngle(PaletteState state) => ShortText.ColorAngle != -1
+        public float GetContentShortTextColorAngle(PaletteState state) => ShortText.ColorAngle != -1f
             ? ShortText.ColorAngle
             : _inherit.GetContentShortTextColorAngle(state);
 
@@ -630,7 +628,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentLongTextColorAngle(PaletteState state) =>
-            LongText.ColorAngle != -1
+            LongText.ColorAngle != -1f
             ? LongText.ColorAngle
             : _inherit.GetContentLongTextColorAngle(state);
 

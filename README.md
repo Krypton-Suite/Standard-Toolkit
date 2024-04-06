@@ -4,7 +4,6 @@
 
 <!-- Start Document Outline -->
 
-
 * [NuGet Information](#nuget-information)
 	* [Nightly](#nightly)
 	* [Canary](#canary)
@@ -180,6 +179,11 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
+- [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
+    - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
+    - `RibbonAppButton` has become `RibbonFileAppButton` 
+	- Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
+	- Colours for the `FileAppTab` have been moved into the `StateCommon` area
 - [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
 - [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), Move `GlobalPaletteMode` into `GlobalPalette` and rename 
   - BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
