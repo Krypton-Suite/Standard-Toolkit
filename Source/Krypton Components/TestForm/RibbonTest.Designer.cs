@@ -91,7 +91,7 @@ namespace TestForm
             this.kryptonRibbonQATButton3,
             this.kryptonRibbonQATButton4,
             this.kryptonRibbonQATButton5});
-            this.kryptonRibbon1.RibbonAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItems1});
             this.kryptonRibbon1.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.kryptonRibbonContext1,
@@ -105,9 +105,6 @@ namespace TestForm
             this.kryptonRibbon1.Size = new System.Drawing.Size(838, 115);
             this.kryptonRibbon1.StateCommon.RibbonGeneral.ContextTextColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.StateCommon.RibbonGeneral.DisabledDark = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonDarkColor = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonLightColor = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonTextColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.StateCommon.RibbonGeneral.TabRowBackgroundGradientFirstColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.TabIndex = 0;
             // 
