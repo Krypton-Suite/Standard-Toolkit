@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
+﻿using System.ComponentModel;
 
 namespace TestForm
 {

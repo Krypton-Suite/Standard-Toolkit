@@ -1,8 +1,4 @@
 ﻿using System.Globalization;
-using System;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace TestForm
 {

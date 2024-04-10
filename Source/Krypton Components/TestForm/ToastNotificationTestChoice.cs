@@ -1,8 +1,4 @@
-﻿using System;
-
-using Krypton.Toolkit;
-
-namespace TestForm
+﻿namespace TestForm
 {
     public partial class ToastNotificationTestChoice : KryptonForm
     {

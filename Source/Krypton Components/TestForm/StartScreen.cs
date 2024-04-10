@@ -1,9 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
-
-namespace TestForm
+﻿namespace TestForm
 {
     public partial class StartScreen : KryptonForm
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
+﻿using System.Diagnostics;
 
 namespace TestForm
 {

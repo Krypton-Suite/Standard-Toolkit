@@ -1,10 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
-
-namespace TestForm
+﻿namespace TestForm
 {
     public partial class BasicToastNotificationTest : KryptonForm
     {

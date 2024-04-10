@@ -1,10 +1,6 @@
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace TestForm
 {

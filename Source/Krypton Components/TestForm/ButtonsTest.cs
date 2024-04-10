@@ -1,6 +1,4 @@
-﻿using Krypton.Toolkit;
-
-namespace TestForm
+﻿namespace TestForm
 {
     public partial class ButtonsTest : KryptonForm
     {
