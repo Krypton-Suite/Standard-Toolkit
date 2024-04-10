@@ -1,28 +1,22 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
 
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Storage for application button related properties.
+    /// Storage for File application button related properties.
     /// </summary>
-    public class RibbonAppButton : Storage
+    public class RibbonFileAppButton : Storage
     {
         #region Static Fields
         private static readonly Image? _defaultAppImage = GenericImageResources.AppButtonDefault;
-        private const string DEFAULT_APP_TEXT = @"File";
-        private readonly IPaletteRibbonGeneral _palette;
-        private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
-        private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
         #endregion
 
         #region Type Definitions
@@ -50,25 +44,17 @@ namespace Krypton.Ribbon
         private readonly KryptonContextMenuItems _appButtonMenuItems;
         private bool _appButtonVisible;
         private bool _formCloseBoxVisible;
-        private Color _appButtonBaseColorDark;
-        private Color _appButtonBaseColorLight;
-        private Color _appButtonTextColor;
-        private string _appButtonText;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the RibbonAppButton class.
+        /// Initialize a new instance of the RibbonFileAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        /// <param name="palette">Source for palette values.</param>
-        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon, [DisallowNull] IPaletteRibbonGeneral palette)
+        public RibbonFileAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            Debug.Assert(palette != null);
-
-            _ribbon = ribbon;
-            _palette = palette;
+            _ribbon = ribbon!;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
@@ -81,16 +67,11 @@ namespace Krypton.Ribbon
             AppButtonToolTipTitle = string.Empty;
             AppButtonToolTipBody = string.Empty;
             AppButtonToolTipImageTransparentColor = Color.Empty;
-            AppButtonToolTipStyle = LabelStyle.SuperTip;
             AppButtonMinRecentSize = new Size(250, 250);
             AppButtonMaxRecentSize = new Size(350, 350);
             AppButtonShowRecentDocs = true;
             _appButtonVisible = true;
             _formCloseBoxVisible = false;
-            _appButtonBaseColorDark = _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal);
-            _appButtonBaseColorLight = _palette.GetRibbonAppButtonLightColor(PaletteState.Normal);
-            _appButtonTextColor = _palette.GetRibbonAppButtonTextColor(PaletteState.Normal);
-            _appButtonText = KryptonManager.Strings.RibbonStrings.AppButtonText;
         }
         #endregion
 
@@ -101,10 +82,6 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
-                                            (AppButtonText == KryptonManager.Strings.RibbonStrings.AppButtonText) &&
-                                            (AppButtonBaseColorDark == _palette.GetRibbonAppButtonDarkColor(PaletteState.Normal)) &&
-                                            (AppButtonBaseColorLight == _palette.GetRibbonAppButtonLightColor(PaletteState.Normal)) &&
-                                            (AppButtonTextColor == _palette.GetRibbonAppButtonTextColor(PaletteState.Normal)) &&
                                             (AppButtonMenuItems.Count == 0) &&
                                             (AppButtonRecentDocs.Count == 0) &&
                                             AppButtonMinRecentSize.Equals(new Size(250, 250)) &&
@@ -148,103 +125,6 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeAppButtonImage() => AppButtonImage != _defaultAppImage;
 
-        #endregion
-
-        #region AppButtonBaseColorDark
-        /// <summary>
-        /// Gets and sets the darker base color used for drawing an Office 2010 style application button.
-        /// </summary>
-        [Bindable(true)]
-        [Category(@"Appearance")]
-        [Description(@"Darker base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColor()]
-        [DefaultValue(typeof(Color), "31, 72, 161")]
-        public Color AppButtonBaseColorDark
-        {
-            get => _appButtonBaseColorDark;
-
-            set
-            {
-                if (_appButtonBaseColorDark != value)
-                {
-                    _appButtonBaseColorDark = value;
-                    _ribbon.PerformNeedPaint(true);
-                }
-            }
-        }
-        #endregion
-
-        #region AppButtonBaseColorLight
-        /// <summary>
-        /// Gets and sets the lighter base color used for drawing an Office 2010 style application button.
-        /// </summary>
-        [Bindable(true)]
-        [Category(@"Appearance")]
-        [Description(@"Lighter base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColor()]
-        [DefaultValue(typeof(Color), "84, 158, 243")]
-        public Color AppButtonBaseColorLight
-        {
-            get => _appButtonBaseColorLight;
-
-            set
-            {
-                if (_appButtonBaseColorLight != value)
-                {
-                    _appButtonBaseColorLight = value;
-                    _ribbon.PerformNeedPaint(true);
-                }
-            }
-        }
-        #endregion
-
-        #region AppButtonTextColor
-        /// <summary>
-        /// Gets and sets the text color used for drawing an Office 2010 style application button.
-        /// </summary>
-        [Bindable(true)]
-        [Category(@"Appearance")]
-        [Description(@"Text color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColor()]
-        [DefaultValue(typeof(Color), "White")]
-        public Color AppButtonTextColor
-        {
-            get => _appButtonTextColor;
-
-            set
-            {
-                if (_appButtonTextColor != value)
-                {
-                    _appButtonTextColor = value;
-                    _ribbon.PerformNeedPaint(true);
-                }
-            }
-        }
-        #endregion
-
-        #region AppButtonText
-        /// <summary>
-        /// Gets and sets the text used for drawing an Office 2010 style application button.
-        /// </summary>
-        [Bindable(true)]
-        [Category(@"Appearance")]
-        [Description(@"Text used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColor()]
-        [DefaultValue(nameof(File))]
-        [Localizable(true)]
-        public string AppButtonText
-        {
-            get => _appButtonText;
-
-            set
-            {
-                if (_appButtonText != value)
-                {
-                    _appButtonText = value;
-                    _ribbon.PerformNeedPaint(true);
-                }
-            }
-        }
         #endregion
 
         #region AppButtonContextMenu
@@ -316,6 +196,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region AppButtonToolTipStyle
+
         /// <summary>
         /// Gets and sets the tooltip label style for the application button.
         /// </summary>
@@ -323,8 +204,9 @@ namespace Krypton.Ribbon
         [Description(@"Tooltip style for the application button.")]
         [DefaultValue(typeof(LabelStyle), "SuperTip")]
         [Localizable(true)]
-        public LabelStyle AppButtonToolTipStyle { get; set; }
-
+        public LabelStyle AppButtonToolTipStyle { get; set; } = LabelStyle.SuperTip;
+        private void ResetAppButtonToolTipStyle() => AppButtonToolTipStyle = LabelStyle.SuperTip;
+        private bool ShouldSerializeAppButtonToolTipStyle() => AppButtonToolTipStyle != LabelStyle.SuperTip;
         #endregion
 
         #region ToolTipShadow
@@ -335,10 +217,8 @@ namespace Krypton.Ribbon
         [Description(@"Button tooltip Shadow.")]
         [DefaultValue(true)]
         public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
-
-        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
-
         private void ResetToolTipShadow() => ToolTipShadow = true;
+        private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
         #endregion
 
         #region AppButtonToolTipImage
@@ -361,7 +241,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [Localizable(true)]
         public Color AppButtonToolTipImageTransparentColor { get; set; }
 

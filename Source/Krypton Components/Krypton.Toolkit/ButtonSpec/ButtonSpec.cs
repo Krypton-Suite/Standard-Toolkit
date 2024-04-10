@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Button image transparent color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"ToolTip")]
         [Description(@"Button image transparent color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -530,7 +530,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Image color to remap to container foreground.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ColorMap
         {
             get => _colorMap;

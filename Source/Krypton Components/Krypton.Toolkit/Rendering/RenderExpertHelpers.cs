@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                                                          IDisposable? memento)
         {
             using var clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
             if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertShadow? cache;
+                MementoBackExpertShadow cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertShadow expertShadow)
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable? memento)
         {
             using var clip = new Clipping(context.Graphics, path);
-            MementoDouble? cache;
+            MementoDouble cache;
 
             if (memento is MementoDouble mementoDouble)
             {
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
             if (rect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertSquareHighlight? cache;
+                MementoBackExpertSquareHighlight cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertSquareHighlight highlight)
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
             if (drawRect is { Width: > 0, Height: > 0 })
             {
                 var generate = true;
-                MementoBackExpertChecked? cache;
+                MementoBackExpertChecked cache;
 
                 // Access a cache instance and decide if cache resources need generating
                 if (memento is MementoBackExpertChecked expertChecked)

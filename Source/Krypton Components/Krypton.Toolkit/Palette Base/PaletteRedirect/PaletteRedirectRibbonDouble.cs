@@ -18,18 +18,18 @@ namespace Krypton.Toolkit
     public class PaletteRedirectRibbonDouble : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteRibbonBack _disabledBack;
-        private IPaletteRibbonBack _normalBack;
-        private IPaletteRibbonBack _pressedBack;
-        private IPaletteRibbonBack _trackingBack;
-        private IPaletteRibbonBack _selectedBack;
-        private IPaletteRibbonBack _focusOverrideBack;
-        private IPaletteRibbonText _disabledText;
-        private IPaletteRibbonText _normalText;
-        private IPaletteRibbonText _pressedText;
-        private IPaletteRibbonText _trackingText;
-        private IPaletteRibbonText _selectedText;
-        private IPaletteRibbonText _focusOverrideText;
+        private IPaletteRibbonBack? _disabledBack;
+        private IPaletteRibbonBack? _normalBack;
+        private IPaletteRibbonBack? _pressedBack;
+        private IPaletteRibbonBack? _trackingBack;
+        private IPaletteRibbonBack? _selectedBack;
+        private IPaletteRibbonBack? _focusOverrideBack;
+        private IPaletteRibbonText? _disabledText;
+        private IPaletteRibbonText? _normalText;
+        private IPaletteRibbonText? _pressedText;
+        private IPaletteRibbonText? _trackingText;
+        private IPaletteRibbonText? _selectedText;
+        private IPaletteRibbonText? _focusOverrideText;
         #endregion
 
         #region Identity
@@ -61,18 +61,18 @@ namespace Krypton.Toolkit
         /// <param name="selectedText">Redirection for text selected states requests.</param>
         /// <param name="focusOverrideText">Redirection for text focus override state requests.</param>
         public PaletteRedirectRibbonDouble(PaletteBase target,
-                                           IPaletteRibbonBack disabledBack,
-                                           IPaletteRibbonBack normalBack,
-                                           IPaletteRibbonBack pressedBack,
-                                           IPaletteRibbonBack trackingBack,
-                                           IPaletteRibbonBack selectedBack,
-                                           IPaletteRibbonBack focusOverrideBack,
-                                           IPaletteRibbonText disabledText,
-                                           IPaletteRibbonText normalText,
-                                           IPaletteRibbonText pressedText,
-                                           IPaletteRibbonText trackingText,
-                                           IPaletteRibbonText selectedText,
-                                           IPaletteRibbonText focusOverrideText
+                                           IPaletteRibbonBack? disabledBack,
+                                           IPaletteRibbonBack? normalBack,
+                                           IPaletteRibbonBack? pressedBack,
+                                           IPaletteRibbonBack? trackingBack,
+                                           IPaletteRibbonBack? selectedBack,
+                                           IPaletteRibbonBack? focusOverrideBack,
+                                           IPaletteRibbonText? disabledText,
+                                           IPaletteRibbonText? normalText,
+                                           IPaletteRibbonText? pressedText,
+                                           IPaletteRibbonText? trackingText,
+                                           IPaletteRibbonText? selectedText,
+                                           IPaletteRibbonText? focusOverrideText
                                           )
             : base(target)
         {
@@ -166,9 +166,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColorStyle(state) ?? Target.GetRibbonBackColorStyle(style, state);
+            return inherit?.GetRibbonBackColorStyle(state) ?? Target!.GetRibbonBackColorStyle(style, state);
         }
         #endregion
 
@@ -181,9 +181,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor1(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor1(state) ?? Target.GetRibbonBackColor1(style, state);
+            return inherit?.GetRibbonBackColor1(state) ?? Target!.GetRibbonBackColor1(style, state);
         }
         #endregion
 
@@ -196,9 +196,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor2(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor2(state) ?? Target.GetRibbonBackColor2(style, state);
+            return inherit?.GetRibbonBackColor2(state) ?? Target!.GetRibbonBackColor2(style, state);
         }
         #endregion
 
@@ -211,9 +211,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor3(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor3(state) ?? Target.GetRibbonBackColor3(style, state);
+            return inherit?.GetRibbonBackColor3(state) ?? Target!.GetRibbonBackColor3(style, state);
         }
         #endregion
 
@@ -226,9 +226,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor4(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor4(state) ?? Target.GetRibbonBackColor4(style, state);
+            return inherit?.GetRibbonBackColor4(state) ?? Target!.GetRibbonBackColor4(style, state);
         }
         #endregion
 
@@ -241,9 +241,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor5(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor5(state) ?? Target.GetRibbonBackColor5(style, state);
+            return inherit?.GetRibbonBackColor5(state) ?? Target!.GetRibbonBackColor5(style, state);
         }
         #endregion
 
@@ -256,14 +256,14 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state)
         {
-            IPaletteRibbonText inherit = GetTextInherit(state);
+            IPaletteRibbonText? inherit = GetTextInherit(state);
 
-            return inherit?.GetRibbonTextColor(state) ?? Target.GetRibbonTextColor(style, state);
+            return inherit?.GetRibbonTextColor(state) ?? Target!.GetRibbonTextColor(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
         {
             switch (state)
             {
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IPaletteRibbonText GetTextInherit(PaletteState state)
+        private IPaletteRibbonText? GetTextInherit(PaletteState state)
         {
             switch (state)
             {

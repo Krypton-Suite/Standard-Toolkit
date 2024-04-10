@@ -49,6 +49,7 @@ namespace Krypton.Ribbon
 
         // Redirection
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppButtonInherit;
+        private readonly PaletteRibbonFileAppTabInheritRedirect _ribbonFileAppTabInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
@@ -89,46 +90,48 @@ namespace Krypton.Ribbon
             : base(redirect)
         {
             Debug.Assert(redirect != null);
-
+            var _redirect = redirect!;
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create the style redirection instances
-            RibbonGroupButton = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
-            RibbonGroupClusterButton = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
-            RibbonGroupCollapsedButton = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
-            RibbonGroupDialogButton = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
-            RibbonKeyTip = new PaletteTripleRedirect(redirect, PaletteBackStyle.ControlToolTip, PaletteBorderStyle.ControlToolTip, PaletteContentStyle.LabelKeyTip, needPaint);
-            RibbonQATButton = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
-            RibbonScroller = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
+            RibbonGroupButton = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
+            RibbonGroupClusterButton = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
+            RibbonGroupCollapsedButton = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
+            RibbonGroupDialogButton = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
+            RibbonKeyTip = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ControlToolTip, PaletteBorderStyle.ControlToolTip, PaletteContentStyle.LabelKeyTip, needPaint);
+            RibbonQATButton = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
+            RibbonScroller = new PaletteTripleRedirect(_redirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
 
             // Create the redirection instances
-            _ribbonAppButtonInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppButton);
-            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuInner);
-            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuOuter);
-            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuDocs);
-            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
-            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
-            _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(redirect);
-            _ribbonGroupBackAreaInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupArea);
-            _ribbonGroupButtonTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupButtonText);
-            _ribbonGroupCheckBoxTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupCheckBoxText);
-            _ribbonGroupCollapsedBackInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedBack);
-            _ribbonGroupCollapsedBorderInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedBorder);
-            _ribbonGroupCollapsedFrameBackInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack);
-            _ribbonGroupCollapsedFrameBorderInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder);
-            _ribbonGroupCollapsedTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupCollapsedText);
-            _ribbonGroupNormalBorderInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupNormalBorder);
-            _ribbonGroupNormalTitleInherit = new PaletteRibbonDoubleInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupNormalTitle, PaletteRibbonTextStyle.RibbonGroupNormalTitle);
-            _ribbonGroupRadioButtonTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupRadioButtonText);
-            _ribbonGroupLabelTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupLabelText);
-            _ribbonTabInherit = new PaletteRibbonDoubleInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonTab, PaletteRibbonTextStyle.RibbonTab);
-            _ribbonQATFullbarInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATFullbar);
-            _ribbonQATMinibarInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATMinibar);
-            _ribbonQATOverflowInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATOverflow);        
+            _ribbonAppButtonInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppButton);
+            _ribbonFileAppTabInherit = new PaletteRibbonFileAppTabInheritRedirect(_redirect);
+            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuInner);
+            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuOuter);
+            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonAppMenuDocs);
+            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
+            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
+            _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(_redirect);
+            _ribbonGroupBackAreaInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupArea);
+            _ribbonGroupButtonTextInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonGroupButtonText);
+            _ribbonGroupCheckBoxTextInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonGroupCheckBoxText);
+            _ribbonGroupCollapsedBackInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedBack);
+            _ribbonGroupCollapsedBorderInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedBorder);
+            _ribbonGroupCollapsedFrameBackInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack);
+            _ribbonGroupCollapsedFrameBorderInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder);
+            _ribbonGroupCollapsedTextInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonGroupCollapsedText);
+            _ribbonGroupNormalBorderInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupNormalBorder);
+            _ribbonGroupNormalTitleInherit = new PaletteRibbonDoubleInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonGroupNormalTitle, PaletteRibbonTextStyle.RibbonGroupNormalTitle);
+            _ribbonGroupRadioButtonTextInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonGroupRadioButtonText);
+            _ribbonGroupLabelTextInherit = new PaletteRibbonTextInheritRedirect(_redirect, PaletteRibbonTextStyle.RibbonGroupLabelText);
+            _ribbonTabInherit = new PaletteRibbonDoubleInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonTab, PaletteRibbonTextStyle.RibbonTab);
+            _ribbonQATFullbarInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonQATFullbar);
+            _ribbonQATMinibarInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonQATMinibar);
+            _ribbonQATOverflowInherit = new PaletteRibbonBackInheritRedirect(_redirect, PaletteRibbonBackStyle.RibbonQATOverflow);        
 
             // Create storage that maps onto the inherit instances
             _ribbonAppButton = new PaletteRibbonBack(_ribbonAppButtonInherit, needPaint);
+            RibbonFileAppTab = new PaletteRibbonFileAppTab(_ribbonFileAppTabInherit, needPaint);
             _ribbonAppMenuInner = new PaletteRibbonBack(_ribbonAppMenuInnerInherit, needPaint);
             _ribbonAppMenuOuter = new PaletteRibbonBack(_ribbonAppMenuOuterInherit, needPaint);
             _ribbonAppMenuDocs = new PaletteRibbonBack(_ribbonAppMenuDocsInherit, needPaint);
@@ -152,7 +155,7 @@ namespace Krypton.Ribbon
             _ribbonQATMinibarActive = new PaletteRibbonBack(_ribbonQATMinibarInherit, needPaint);
             _ribbonQATMinibarInactive = new PaletteRibbonBack(_ribbonQATMinibarInherit, needPaint);
             _ribbonQATOverflow = new PaletteRibbonBack(_ribbonQATOverflowInherit, needPaint);
-            _ribbonImages = new PaletteRibbonImages(redirect, NeedPaintDelegate);
+            _ribbonImages = new PaletteRibbonImages(_redirect, NeedPaintDelegate);
         }
         #endregion
 
@@ -172,6 +175,7 @@ namespace Krypton.Ribbon
             RibbonQATButton.SetRedirector(redirect);
             RibbonScroller.SetRedirector(redirect);
             _ribbonAppButtonInherit.SetRedirector(redirect);
+            _ribbonFileAppTabInherit.SetRedirector(redirect);
             _ribbonAppMenuInnerInherit.SetRedirector(redirect);
             _ribbonAppMenuOuterInherit.SetRedirector(redirect);
             _ribbonAppMenuDocsInherit.SetRedirector(redirect);
@@ -239,9 +243,18 @@ namespace Krypton.Ribbon
         [Description(@"Overrides for defining application button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppButton => _ribbonAppButton;
-
         private bool ShouldSerializeRibbonAppButton() => !_ribbonAppButton.IsDefault;
+        #endregion
 
+        #region RibbonFileAppTab
+        /// <summary>
+        /// Gets access to the application button palette details.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public virtual PaletteRibbonFileAppTab RibbonFileAppTab { get; }
+        private bool ShouldSerializeRibbonFileAppTab() => !RibbonFileAppTab.IsDefault;
         #endregion
 
         #region RibbonAppMenuOuter
@@ -343,9 +356,7 @@ namespace Krypton.Ribbon
         [Description(@"Overrides for defining ribbon group check box label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
-
         private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
-
         #endregion
 
         #region RibbonGroupButtonText

@@ -67,13 +67,13 @@ namespace Krypton.Toolkit
         public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;
 
         /// <summary>The default ribbon application button dark color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR = Color.FromArgb(31, 72, 161);
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR = Color.FromArgb(31, 72, 161);
 
         /// <summary>The default ribbon application button light color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR = Color.FromArgb(84, 158, 243);
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR = Color.FromArgb(84, 158, 243);
 
         /// <summary>The default ribbon application button text color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR = Color.White;
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR = Color.White;
 
         #region Arrays
 

@@ -1,30 +1,26 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Draws half of an application tab.
+    /// Draws the "File Application tab"
     /// </summary>
-    internal class ViewDrawRibbonAppTab : ViewComposite, 
+    internal class ViewDrawRibbonFileAppTab : ViewComposite, 
                                           IContentValues
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private IDisposable?[] _mementos;
         private readonly PaletteRibbonGeneral _paletteGeneral;
-        private readonly ApplicationTabToContent _contentProvider;
+        private readonly FileApplicationTabToContent _contentProvider;
         private readonly Padding _preferredBorder; // = new(17, 4, 17, 3);
         #endregion
 
@@ -33,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonAppTab class.
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
-        public ViewDrawRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
+        public ViewDrawRibbonFileAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
 
@@ -43,7 +39,7 @@ namespace Krypton.Ribbon
 
             // Use a class to convert from application tab to content interface
             _paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
-            _contentProvider = new ApplicationTabToContent(_ribbon, _paletteGeneral);
+            _contentProvider = new FileApplicationTabToContent(_ribbon, _paletteGeneral);
 
             // Create and add the draw content for display inside the tab
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
@@ -120,19 +116,41 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            var memento = State switch
+            IPaletteRibbonFileAppTab palette;
+            int memento;
+            var localState = State;
+            // Find the correct palette to use that matches the button state
+            switch (State)
             {
-                PaletteState.Tracking => 1,
-                PaletteState.Tracking | PaletteState.FocusOverride => 2,
-                PaletteState.Pressed => 3,
-                _ => 0
-            };
+                default:
+                case PaletteState.Normal:
+                    if (_ribbon.Enabled)
+                    {
+                        palette = _ribbon.StateNormal.RibbonFileAppTab;
+                        memento = 0;
+                    }
+                    else
+                    {
+                        localState = PaletteState.Disabled;
+                        palette = _ribbon.StateNormal.RibbonFileAppTab;
+                        memento = 3;
+                    }
+                    break;
+                case PaletteState.Tracking:
+                    palette = _ribbon.StateNormal.RibbonFileAppTab;
+                    memento = 1;
+                    break;
+                case PaletteState.Pressed:
+                    palette = _ribbon.StateNormal.RibbonFileAppTab;
+                    memento = 2;
+                    break;
+            }
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, State, 
-                                                                                        _ribbon.RibbonAppButton.AppButtonBaseColorDark,
-                                                                                        _ribbon.RibbonAppButton.AppButtonBaseColorLight, 
-                                                                                        _mementos[memento]!);
+            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonFileApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, 
+                localState,
+                palette,
+                _mementos[memento]);
         }
         #endregion
 
@@ -156,8 +174,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <returns>Title string.</returns>
         public string GetShortText() => _ribbon.RibbonShape == PaletteRibbonShape.Office2013
-            ? _ribbon.RibbonAppButton.AppButtonText.ToUpper()
-            : _ribbon.RibbonAppButton.AppButtonText;
+            ? _ribbon.RibbonFileAppTab.FileAppTabText.ToUpper()
+            : _ribbon.RibbonFileAppTab.FileAppTabText;
 
         /// <summary>
         /// Gets the long text used as the secondary ribbon title.

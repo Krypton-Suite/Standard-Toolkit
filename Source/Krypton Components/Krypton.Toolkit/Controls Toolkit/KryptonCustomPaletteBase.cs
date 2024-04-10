@@ -1750,16 +1750,16 @@ namespace Krypton.Toolkit
             GetPaletteRibbonGeneral(state).GetRibbonTabRowGradientColor1(state);
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
-            GetPaletteRibbonGeneral(state).GetRibbonAppButtonDarkColor(state);
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) =>
+            GetPaletteRibbonFileAppTab(state).GetRibbonFileAppTabBottomColor(state);
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
-            GetPaletteRibbonGeneral(state).GetRibbonAppButtonLightColor(state);
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) =>
+            GetPaletteRibbonFileAppTab(state).GetRibbonFileAppTabTopColor(state);
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
-            GetPaletteRibbonGeneral(state).GetRibbonAppButtonTextColor(state);
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) =>
+            GetPaletteRibbonFileAppTab(state).GetRibbonFileAppTabTextColor(state);
 
         /// <summary>
         /// Gets the font for the ribbon text.
@@ -2216,7 +2216,7 @@ namespace Krypton.Toolkit
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
         /// <param name="schemaVersion">The palette schema version to upgrade to.</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
-        public void ImportWithUpgrade(Stream stream, PaletteSchemaVersion? schemaVersion)
+        public void ImportWithUpgrade(Stream stream, PaletteSchemaVersion? schemaVersion = null)
         {
             var paletteVersion = schemaVersion ?? PaletteSchemaVersion.Version19To20;
 
@@ -3947,7 +3947,9 @@ namespace Krypton.Toolkit
 
         private IPaletteRibbonGeneral GetPaletteRibbonGeneral() => Ribbon.RibbonGeneral;
 
-        private IPaletteRibbonGeneral GetPaletteRibbonGeneral(PaletteState state) => Ribbon.RibbonGeneral;
+        private IPaletteRibbonGeneral GetPaletteRibbonGeneral(PaletteState _ /*state*/) => Ribbon.RibbonGeneral;
+
+        private IPaletteRibbonFileAppTab GetPaletteRibbonFileAppTab(PaletteState _ /*state*/) => Ribbon.RibbonFileAppTab;
 
         private IPaletteRibbonBack GetPaletteRibbonBack(PaletteRibbonBackStyle style, PaletteState state)
         {

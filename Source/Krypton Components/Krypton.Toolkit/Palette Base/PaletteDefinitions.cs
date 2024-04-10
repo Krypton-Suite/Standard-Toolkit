@@ -844,31 +844,45 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         Color GetRibbonQATButtonLight(PaletteState state);
-		
-		  /// <summary>Gets the ribbon tab row gradient first color.</summary>
+
+        /// <summary>Gets the ribbon tab row gradient first color.</summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>The gradient first color.</returns>
         Color GetRibbonTabRowGradientColor1(PaletteState state);
-
-        /// <summary>Gets the ribbon app button dark color.</summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>The app button dark color.</returns>
-        Color GetRibbonAppButtonDarkColor(PaletteState state);
-
-        /// <summary>Gets the ribbon app button light color.</summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>The app button light color.</returns>
-        Color GetRibbonAppButtonLightColor(PaletteState state);
-
-        /// <summary>Gets the ribbon app button text color.</summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>The app button text color.</returns>
-        Color GetRibbonAppButtonTextColor(PaletteState state);
 
         /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>The gradient rafting angle.</returns>
         float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
+    }
+    #endregion
+
+    #region IPaletteRibbonFileAppTab
+    /// <summary>
+    /// Exposes a palette source for ribbon background specifications.
+    /// </summary>
+    public interface IPaletteRibbonFileAppTab
+    {
+        /// <summary>
+        /// Gets the Application File Tab Top Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabTopColor(PaletteState state);
+
+        /// <summary>
+        /// Gets the Application File Tab Bottom Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabBottomColor(PaletteState state);
+
+        /// <summary>
+        /// Gets the Application File Tab Text Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabTextColor(PaletteState state);
     }
     #endregion
 
@@ -3083,7 +3097,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Specifies the an image is aligned.
     /// </summary>
-    [Flags()]
+    [Flags]
     [TypeConverter(typeof(PaletteDrawBordersConverter))]
     public enum PaletteDrawBorders
     {
@@ -3708,7 +3722,7 @@ namespace Krypton.Toolkit
     #endregion
 
     #region Enum PaletteColorIndex
-    internal enum PaletteColorIndex : int
+    internal enum PaletteColorIndex
     {
         ButtonCheckedGradientBegin = 0,
         ButtonCheckedGradientEnd,

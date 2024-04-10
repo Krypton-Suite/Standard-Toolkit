@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             }
             return new ArgumentOutOfRangeException(outOfRange)
             {
-                Source = callingMethod,
+                Source = callingMethod
             };
         }
 

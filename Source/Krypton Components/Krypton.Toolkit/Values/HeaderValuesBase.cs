@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _transparent;

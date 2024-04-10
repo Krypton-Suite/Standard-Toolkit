@@ -1,16 +1,12 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
-
-
 
 namespace Krypton.Toolkit
 {
@@ -44,9 +40,6 @@ namespace Krypton.Toolkit
         private Color _qatButtonLightColor;
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
-        private Color _ribbonAppButtonDarkColor;
-        private Color _ribbonAppButtonLightColor;
-        private Color _ribbonAppButtonTextColor;
         private Font? _textFont;
         private float _ribbonTabRowGradientRaftingAngle;
         private PaletteTextHint _textHint;
@@ -64,7 +57,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -95,9 +88,6 @@ namespace Krypton.Toolkit
             _textHint = PaletteTextHint.Inherit;
             _qatButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
             _qatButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
-            _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
-            _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
-            _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
         }
         #endregion
 
@@ -124,9 +114,6 @@ namespace Krypton.Toolkit
                                           !ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() &&
                                           !ShouldSerializeTabRowBackgroundGradientRaftingLightColor() &&
                                           !ShouldSerializeTabRowBackgroundGradientFirstColor() &&
-                                          !ShouldSerializeRibbonAppButtonDarkColor() &&
-                                          !ShouldSerializeRibbonAppButtonLightColor() &&
-                                          !ShouldSerializeRibbonAppButtonTextColor() &&
                                           !ShouldSerializeRibbonTabRowGradientRaftingAngle() &&
                                           !ShouldSerializeRibbonShape() &&
                                           !ShouldSerializeTabSeparatorColor() &&
@@ -169,9 +156,6 @@ namespace Krypton.Toolkit
             TabRowBackgroundGradientRaftingLightColor = GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState.Normal);
             TabRowBackgroundGradientFirstColor = GetRibbonTabRowGradientColor1(PaletteState.Normal);
             RibbonTabRowGradientRaftingAngle = GetRibbonTabRowGradientRaftingAngle(PaletteState.Normal);
-            RibbonAppButtonDarkColor = GetRibbonAppButtonDarkColor(PaletteState.Normal);
-            RibbonAppButtonLightColor = GetRibbonAppButtonLightColor(PaletteState.Normal);
-            RibbonAppButtonTextColor = GetRibbonAppButtonTextColor(PaletteState.Normal);
             RibbonShape = GetRibbonShape();
             TabSeparatorColor = GetRibbonTabSeparatorColor(PaletteState.Normal);
             TabSeparatorContextColor = GetRibbonTabSeparatorContextColor(PaletteState.Normal);
@@ -772,102 +756,6 @@ namespace Krypton.Toolkit
         public Color GetRibbonTabRowGradientColor1(PaletteState state) => ShouldSerializeTabRowBackgroundGradientFirstColor()
             ? TabRowBackgroundGradientFirstColor
             : _inherit.GetRibbonTabRowGradientColor1(state);
-
-        #endregion
-
-        #region RibbonAppButtonDarkColor
-
-        /// <summary>
-        /// Gets access to ribbon app button dark color.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Ribbon app button dark color.")]
-        [RefreshProperties(RefreshProperties.All)]
-        public Color RibbonAppButtonDarkColor
-        {
-            get => _ribbonAppButtonDarkColor;
-
-            set
-            {
-                if (_ribbonAppButtonDarkColor != value)
-                {
-                    _ribbonAppButtonDarkColor = value;
-                    PerformNeedPaint();
-                }
-            }
-        }
-        private void ResetRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
-        private bool ShouldSerializeRibbonAppButtonDarkColor() => RibbonAppButtonDarkColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonDarkColor(PaletteState state) => ShouldSerializeRibbonAppButtonDarkColor()
-            ? RibbonAppButtonDarkColor
-            : _inherit.GetRibbonAppButtonDarkColor(state);
-
-        #endregion
-
-        #region RibbonAppButtonLightColor
-
-        /// <summary>
-        /// Gets access to ribbon app button light color.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Ribbon app button light color.")]
-        [RefreshProperties(RefreshProperties.All)]
-        public Color RibbonAppButtonLightColor
-        {
-            get => _ribbonAppButtonLightColor;
-
-            set
-            {
-                if (_ribbonAppButtonLightColor != value)
-                {
-                    _ribbonAppButtonLightColor = value;
-                    PerformNeedPaint();
-                }
-            }
-        }
-        private void ResetRibbonAppButtonLightColor() => RibbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
-        private bool ShouldSerializeRibbonAppButtonLightColor() => RibbonAppButtonLightColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonLightColor(PaletteState state) => ShouldSerializeRibbonAppButtonLightColor()
-            ? RibbonAppButtonLightColor
-            : _inherit.GetRibbonAppButtonLightColor(state);
-
-        #endregion
-
-        #region RibbonAppButtonTextColor
-
-        /// <summary>
-        /// Gets access to ribbon app button text color.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Ribbon app button text color.")]
-        [RefreshProperties(RefreshProperties.All)]
-        public Color RibbonAppButtonTextColor
-        {
-            get => _ribbonAppButtonTextColor;
-
-            set
-            {
-                if (_ribbonAppButtonTextColor != value)
-                {
-                    _ribbonAppButtonTextColor = value;
-                    PerformNeedPaint();
-                }
-            }
-        }
-        private void ResetRibbonAppButtonTextColor() => RibbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
-        private bool ShouldSerializeRibbonAppButtonTextColor() => RibbonAppButtonTextColor != GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonTextColor(PaletteState state) => ShouldSerializeRibbonAppButtonTextColor()
-            ? RibbonAppButtonTextColor
-            : _inherit.GetRibbonAppButtonTextColor(state);
 
         #endregion
 
