@@ -1,4 +1,13 @@
-﻿namespace TestForm
+﻿#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace TestForm
 {
     partial class RibbonTest
     {
@@ -79,7 +88,7 @@
             this.kryptonRibbonQATButton3,
             this.kryptonRibbonQATButton4,
             this.kryptonRibbonQATButton5});
-            this.kryptonRibbon1.RibbonAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItems1});
             this.kryptonRibbon1.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.kryptonRibbonContext1,
@@ -93,9 +102,6 @@
             this.kryptonRibbon1.Size = new System.Drawing.Size(838, 115);
             this.kryptonRibbon1.StateCommon.RibbonGeneral.ContextTextColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.StateCommon.RibbonGeneral.DisabledDark = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonDarkColor = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonLightColor = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGeneral.RibbonAppButtonTextColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.StateCommon.RibbonGeneral.TabRowBackgroundGradientFirstColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.TabIndex = 0;
             // 

@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationUserInputForm : KryptonForm
+    internal partial class VisualToastNotificationUserInputRtlAwareForm : KryptonForm
     {
         #region Instance Fields
 
@@ -30,23 +30,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Identity
-
-        public VisualToastNotificationUserInputForm(KryptonUserInputToastNotificationData toastNotificationData)
-        {
-            _toastNotificationData = toastNotificationData;
-
-            InitializeComponent();
-
-            Resize += VisualToastNotificationUserInputForm_Resize;
-
-            GotFocus += VisualToastNotificationUserInputForm_GotFocus;
-
-            UpdateBorderColors();
-        }
-
-        #endregion
-
         #region Public
 
         internal bool ReturnDoNotShowAgainCheckValue;
@@ -58,6 +41,25 @@ namespace Krypton.Toolkit
         internal string ReturnStringValue;
 
         internal int ReturnIntegerValue;
+
+        #endregion
+
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationUserInputRtlAwareForm" /> class.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        public VisualToastNotificationUserInputRtlAwareForm(KryptonUserInputToastNotificationData toastNotificationData)
+        {
+            InitializeComponent();
+
+            _toastNotificationData = toastNotificationData;
+
+            Resize += Toast_Resize;
+
+            GotFocus += Toast_GotFocus;
+
+            UpdateBorderColors();
+        }
 
         #endregion
 
@@ -189,11 +191,11 @@ namespace Krypton.Toolkit
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
-        private void UpdateUserInputArea(KryptonToastNotificationInputAreaType inputAreaType)
+        private void UpdateUserInputArea()
         {
             ClearUserInputArea();
 
-            switch (inputAreaType)
+            switch (_toastNotificationData.NotificationInputAreaType)
             {
                 case KryptonToastNotificationInputAreaType.None:
                     kpnlUserInput.Visible = false;
@@ -309,20 +311,17 @@ namespace Krypton.Toolkit
             ControlBox = _toastNotificationData.ShowCloseBox ?? false;
         }
 
-        private void VisualToastNotificationUserInputForm_Load(object sender, EventArgs e)
+        private void VisualToastNotificationUserInputRtlAwareForm_Load(object sender, EventArgs e)
         {
-            KryptonToastNotificationInputAreaType inputAreaType = _toastNotificationData.NotificationInputAreaType ??
-                                                                  KryptonToastNotificationInputAreaType.None;
-
             UpdateIcon();
 
-            UpdateUserInputArea(inputAreaType);
+            UpdateUserInputArea();
 
             UpdateLocation();
 
-            ShowCloseButton();
-
             UpdateDoNotShowAgainOption();
+
+            ShowCloseButton();
 
             _timer.Start();
 
@@ -336,7 +335,7 @@ namespace Krypton.Toolkit
             kchkDoNotShowAgain.Text = KryptonManager.Strings.ToastNotificationStrings.DoNotShowAgain;
         }
 
-        private void VisualToastNotificationUserInputForm_GotFocus(object sender, EventArgs e)
+        private void Toast_GotFocus(object sender, EventArgs e)
         {
             if (_toastNotificationData.FocusOnUserInputArea is { } or false)
             {
@@ -348,7 +347,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationUserInputForm_Resize(object sender, EventArgs e)
+        private void Toast_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -495,5 +494,6 @@ namespace Krypton.Toolkit
         public int GetReturnIntegerValue() => ReturnIntegerValue;
 
         #endregion
+
     }
 }

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -7,14 +7,10 @@
  */
 #endregion
 
-namespace TestForm
-{
-    public partial class RibbonTest : KryptonForm
-    {
-        public RibbonTest()
-        {
-            InitializeComponent();
-        }
+// Global using directives
 
-    }
-}
+global using System;
+global using System.Drawing;
+global using System.Windows.Forms;
+
+global using Krypton.Toolkit;
