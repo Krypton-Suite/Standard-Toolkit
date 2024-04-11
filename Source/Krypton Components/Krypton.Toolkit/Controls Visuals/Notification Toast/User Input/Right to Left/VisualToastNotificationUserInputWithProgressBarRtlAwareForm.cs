@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
 
                     ktxtUserInput.Visible = false;
                     break;
-                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     kcmbUserInput.Visible = false;
 
                     kdudUserInput.Visible = true;
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
                 case KryptonToastNotificationInputAreaType.ComboBox:
                     kcmbUserInput.Focus();
                     break;
-                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     kdudUserInput.Focus();
                     break;
                 case KryptonToastNotificationInputAreaType.NumericDropDown:

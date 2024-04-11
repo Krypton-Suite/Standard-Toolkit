@@ -2097,7 +2097,7 @@ namespace Krypton.Toolkit
     {
         None = 0,
         ComboBox = 1,
-        DomainDropDown = 2,
+        DomainUpDown = 2,
         NumericDropDown = 3,
         MaskedTextBox = 4,
         TextBox = 5

@@ -89,7 +89,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
@@ -129,7 +129,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
@@ -172,7 +172,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
 
@@ -212,7 +212,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
 
