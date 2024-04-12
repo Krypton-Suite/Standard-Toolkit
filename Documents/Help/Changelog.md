@@ -81,7 +81,8 @@
 
 =======
 
-## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+## 2024-##-## - Build 24## (Patch #) - # 2024
+* Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======

@@ -143,10 +143,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(74, 74, 74), // FormBorderHeaderActive2
             Color.FromArgb(146, 146, 146), // FormBorderHeaderInctive1
             Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
-            Color.FromArgb(174, 209, 255), // FormHeaderShortActive
-            Color.FromArgb(225, 225, 225), // FormHeaderShortInactive
+            Color.FromArgb(255, 255, 255), // FormHeaderShortActive
+            Color.FromArgb(41, 41, 41), // FormHeaderShortInactive
             Color.White, // FormHeaderLongActive
-            Color.FromArgb(225, 225, 225), // FormHeaderLongInactive
+            Color.FromArgb(41, 41, 41), // FormHeaderLongInactive
             Color.FromArgb(88, 95, 104), // FormButtonBorderTrack
             Color.FromArgb(91, 105, 123), // FormButtonBack1Track
             Color.FromArgb(173, 199, 214), // FormButtonBack2Track
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
             Color.Violet, // LinkVisitedOverridePanel
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
-            Color.FromArgb(10, 10, 10), // RibbonTabTextNormal
+            Color.White, // RibbonTabTextNormal
             Color.FromArgb(41, 41, 41), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(199, 250, 254), // RibbonTabSelected2
