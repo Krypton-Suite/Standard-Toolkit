@@ -93,7 +93,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
 
@@ -131,7 +131,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
 
@@ -172,7 +172,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithIntegerReturnValue(data);
 
@@ -210,7 +210,7 @@ namespace TestForm
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithIntegerReturnValue(data);
 

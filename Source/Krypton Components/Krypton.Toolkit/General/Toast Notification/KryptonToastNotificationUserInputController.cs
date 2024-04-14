@@ -25,7 +25,30 @@ namespace Krypton.Toolkit
                     return ReturnStringInput(data);
                 case KryptonToastNotificationInputAreaType.DateTime:
                     return ReturnDateTimeInput(data);
-                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
+                    return ReturnIntegerInput(data);
+                case null:
+                    throw new ArgumentNullException();
+                default:
+                    DebugTools.NotImplemented(data.ToString());
+                    break;
+            }
+
+            return new object();
+        }
+
+        internal static object ShowToastWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    return ReturnStringInput(data);
+                case KryptonToastNotificationInputAreaType.DateTime:
+                    return ReturnDateTimeInput(data);
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
                     return ReturnIntegerInput(data);
                 case null:
                     throw new ArgumentNullException();
@@ -39,17 +62,50 @@ namespace Krypton.Toolkit
 
         internal static DateTime ReturnDateTimeInput(KryptonUserInputToastNotificationData data)
         {
-            return DateTime.Now;
+            DateTime result = CreateDateTimeToastNotification(data);
+
+            return result;
+        }
+
+        private static DateTime CreateDateTimeToastNotification(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
         }
 
         internal static int ReturnIntegerInput(KryptonUserInputToastNotificationData data)
         {
-            return 0;
+            int result = CreateIntegerToastNotification(data);
+
+            return result;
+        }
+
+        private static int CreateIntegerToastNotification(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
         }
 
         internal static string ReturnStringInput(KryptonUserInputToastNotificationData data)
         {
-            return GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            string result = CreateStringToastNotification(data);
+
+            return result;
+        }
+
+        private static string CreateStringToastNotification(KryptonUserInputToastNotificationData data)
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                    break;
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
+                    break;
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                    break;
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    break;
+            }
+
+            throw new NotImplementedException();
         }
 
         #endregion

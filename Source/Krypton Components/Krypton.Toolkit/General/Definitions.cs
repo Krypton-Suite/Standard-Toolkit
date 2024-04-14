@@ -2102,7 +2102,7 @@ namespace Krypton.Toolkit
         /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDomainUpDown"/> user input.</summary>
         DomainUpDown = 2,
         /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonNumericUpDown"/> user input.</summary>
-        NumericDropDown = 3,
+        NumericUpDown = 3,
         /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonMaskedTextBox"/> user input.</summary>
         MaskedTextBox = 4,
         /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonTextBox"/> user input.</summary>
