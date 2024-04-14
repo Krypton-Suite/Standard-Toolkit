@@ -11,9 +11,13 @@ namespace Krypton.Toolkit
 {
     public partial class VisualToastNotificationDomainUpDownUserInputForm : KryptonForm
     {
-        public VisualToastNotificationDomainUpDownUserInputForm()
+        #region Identity
+
+        public VisualToastNotificationDomainUpDownUserInputForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
         }
+
+        #endregion
     }
 }
