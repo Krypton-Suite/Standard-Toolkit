@@ -19,16 +19,14 @@ namespace Krypton.Toolkit
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastNotificationInputAreaType.ComboBox:
-                    break;
-                case KryptonToastNotificationInputAreaType.DateTime:
-                    break;
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
-                    break;
-                case KryptonToastNotificationInputAreaType.NumericDropDown:
-                    break;
                 case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                    break;
                 case KryptonToastNotificationInputAreaType.TextBox:
+                    return ReturnStringInput(data);
+                case KryptonToastNotificationInputAreaType.DateTime:
+                    return ReturnDateTimeInput(data);
+                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                    return ReturnIntegerInput(data);
                 case null:
                     throw new ArgumentNullException();
                 default:
@@ -37,6 +35,21 @@ namespace Krypton.Toolkit
             }
 
             return new object();
+        }
+
+        internal static DateTime ReturnDateTimeInput(KryptonUserInputToastNotificationData data)
+        {
+            return DateTime.Now;
+        }
+
+        internal static int ReturnIntegerInput(KryptonUserInputToastNotificationData data)
+        {
+            return 0;
+        }
+
+        internal static string ReturnStringInput(KryptonUserInputToastNotificationData data)
+        {
+            return GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
         #endregion
