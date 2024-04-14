@@ -94,9 +94,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        public new DialogResult ShowDialog(IWin32Window owner)
+        public new DialogResult ShowDialog()
         {
-            return base.ShowDialog(owner);
+            return base.ShowDialog();
         }
 
         internal static string ShowNotification(KryptonUserInputToastNotificationData data)
