@@ -81,8 +81,6 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
@@ -121,8 +119,6 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
@@ -164,8 +160,6 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
@@ -204,8 +198,6 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);

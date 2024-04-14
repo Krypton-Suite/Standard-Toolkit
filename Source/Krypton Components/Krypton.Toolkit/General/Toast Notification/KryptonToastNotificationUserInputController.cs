@@ -18,9 +18,6 @@ namespace Krypton.Toolkit
         {
             switch (data.NotificationInputAreaType)
             {
-                case KryptonToastNotificationInputAreaType.None:
-                case null:
-                    break;
                 case KryptonToastNotificationInputAreaType.ComboBox:
                     break;
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
@@ -30,6 +27,7 @@ namespace Krypton.Toolkit
                 case KryptonToastNotificationInputAreaType.MaskedTextBox:
                     break;
                 case KryptonToastNotificationInputAreaType.TextBox:
+                case null:
                     break;
                 default:
                     DebugTools.NotImplemented(data.ToString());

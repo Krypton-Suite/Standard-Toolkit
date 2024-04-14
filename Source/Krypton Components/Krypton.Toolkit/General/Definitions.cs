@@ -2095,11 +2095,17 @@ namespace Krypton.Toolkit
 
     public enum KryptonToastNotificationInputAreaType
     {
-        None = 0,
-        ComboBox = 1,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonComboBox"/> user input.</summary>
+        ComboBox = 0,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDateTimePicker"/> user input.</summary>
+        DateTime = 1,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDomainUpDown"/> user input.</summary>
         DomainUpDown = 2,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonNumericUpDown"/> user input.</summary>
         NumericDropDown = 3,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonMaskedTextBox"/> user input.</summary>
         MaskedTextBox = 4,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonTextBox"/> user input.</summary>
         TextBox = 5
     }
 
