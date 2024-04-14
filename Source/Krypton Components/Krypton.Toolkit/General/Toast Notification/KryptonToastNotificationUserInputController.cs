@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonToastNotificationInputAreaType.TextBox:
                 case null:
-                    break;
+                    throw new ArgumentNullException();
                 default:
                     DebugTools.NotImplemented(data.ToString());
                     break;
