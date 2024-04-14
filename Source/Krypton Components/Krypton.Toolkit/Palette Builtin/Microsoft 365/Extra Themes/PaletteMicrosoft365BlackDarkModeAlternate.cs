@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(31, 31, 31), // InputControlBackNormal
             SystemColors.Control, // InputControlBackDisabled
-            Color.FromArgb(232, 232, 232), // InputControlBackInactive
+            Color.FromArgb(78, 78, 80), // InputControlBackInactive
             Color.FromArgb(91, 91, 91), // InputDropDownNormal1
             Color.FromArgb(88, 88, 88), // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
