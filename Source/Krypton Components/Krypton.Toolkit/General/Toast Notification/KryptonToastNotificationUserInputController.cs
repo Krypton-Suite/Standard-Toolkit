@@ -20,6 +20,8 @@ namespace Krypton.Toolkit
             {
                 case KryptonToastNotificationInputAreaType.ComboBox:
                     break;
+                case KryptonToastNotificationInputAreaType.DateTime:
+                    break;
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
                     break;
                 case KryptonToastNotificationInputAreaType.NumericDropDown:
