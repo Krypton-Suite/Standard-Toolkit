@@ -9,13 +9,89 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class VisualToastNotificationComboBoxUserInputForm : KryptonForm
+    internal partial class VisualToastNotificationComboBoxUserInputForm : KryptonForm
     {
+        #region Instance Fields
+
+        private KryptonUserInputToastNotificationData _data;
+
+        #endregion
+
+        #region Internal
+
+        internal string UserResponse => kcmbUserInput.Text ?? string.Empty;
+
+        #endregion
+
         #region Identity
 
         public VisualToastNotificationComboBoxUserInputForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
+
+            _data = data;
+
+            UpdateText();
+
+            UpdateIcon();
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void UpdateText()
+        {
+
+        }
+
+        private void UpdateIcon()
+        {
+            switch (_data.NotificationIcon)
+            {
+                case KryptonToastNotificationIcon.None:
+                    break;
+                case KryptonToastNotificationIcon.Hand:
+                    break;
+                case KryptonToastNotificationIcon.SystemHand:
+                    break;
+                case KryptonToastNotificationIcon.Question:
+                    break;
+                case KryptonToastNotificationIcon.SystemQuestion:
+                    break;
+                case KryptonToastNotificationIcon.Exclamation:
+                    break;
+                case KryptonToastNotificationIcon.SystemExclamation:
+                    break;
+                case KryptonToastNotificationIcon.Asterisk:
+                    break;
+                case KryptonToastNotificationIcon.SystemAsterisk:
+                    break;
+                case KryptonToastNotificationIcon.Stop:
+                    break;
+                case KryptonToastNotificationIcon.Error:
+                    break;
+                case KryptonToastNotificationIcon.Warning:
+                    break;
+                case KryptonToastNotificationIcon.Information:
+                    break;
+                case KryptonToastNotificationIcon.Shield:
+                    break;
+                case KryptonToastNotificationIcon.WindowsLogo:
+                    break;
+                case KryptonToastNotificationIcon.Application:
+                    break;
+                case KryptonToastNotificationIcon.SystemApplication:
+                    break;
+                case KryptonToastNotificationIcon.Ok:
+                    break;
+                case KryptonToastNotificationIcon.Custom:
+                    break;
+                case null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         #endregion
