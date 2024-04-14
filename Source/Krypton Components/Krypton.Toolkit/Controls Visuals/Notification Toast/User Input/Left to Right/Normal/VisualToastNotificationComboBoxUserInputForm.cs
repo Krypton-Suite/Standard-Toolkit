@@ -94,6 +94,22 @@ namespace Krypton.Toolkit
             }
         }
 
+        public new DialogResult ShowDialog(IWin32Window owner)
+        {
+            return base.ShowDialog(owner);
+        }
+
+        internal static string ShowNotification(KryptonUserInputToastNotificationData data)
+        {
+            IWin32Window owner = data.Owner ?? FromHandle(PI.GetActiveWindow());
+
+            using var toast = new VisualToastNotificationComboBoxUserInputForm(data);
+
+            //toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+            return toast.ShowDialog(owner) == DialogResult.OK ? toast.UserResponse : string.Empty;
+        }
+
         #endregion
     }
 }
