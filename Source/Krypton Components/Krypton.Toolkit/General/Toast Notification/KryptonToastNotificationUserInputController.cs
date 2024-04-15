@@ -14,30 +14,9 @@ namespace Krypton.Toolkit
     {
         #region Implementation
 
+        #region Normal Left to Right Toasts
+
         public static object ShowToast(KryptonUserInputToastNotificationData data)
-        {
-            switch (data.NotificationInputAreaType)
-            {
-                case KryptonToastNotificationInputAreaType.ComboBox:
-                case KryptonToastNotificationInputAreaType.DomainUpDown:
-                case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                case KryptonToastNotificationInputAreaType.TextBox:
-                    return ReturnStringInput(data);
-                case KryptonToastNotificationInputAreaType.DateTime:
-                    return ReturnDateTimeInput(data);
-                case KryptonToastNotificationInputAreaType.NumericUpDown:
-                    return ReturnIntegerInput(data);
-                case null:
-                    throw new ArgumentNullException();
-                default:
-                    DebugTools.NotImplemented(data.ToString());
-                    break;
-            }
-
-            return new object();
-        }
-
-        internal static object ShowToastWithProgressBar(KryptonUserInputToastNotificationData data)
         {
             switch (data.NotificationInputAreaType)
             {
@@ -69,7 +48,9 @@ namespace Krypton.Toolkit
 
         private static DateTime CreateDateTimeToastNotification(KryptonUserInputToastNotificationData data)
         {
-            throw new NotImplementedException();
+            var ktdtp = new VisualToastNotificationDateTimeUserInputForm(data);
+
+            return ktdtp.ShowNotification(data);
         }
 
         internal static int ReturnIntegerInput(KryptonUserInputToastNotificationData data)
@@ -81,7 +62,9 @@ namespace Krypton.Toolkit
 
         private static int CreateIntegerToastNotification(KryptonUserInputToastNotificationData data)
         {
-            throw new NotImplementedException();
+            var ktnud = new VisualToastNotificationNumericUpDownUserInputForm(data);
+
+            return ktnud.ShowNotification(data);
         }
 
         internal static string ReturnStringInput(KryptonUserInputToastNotificationData data)
@@ -96,17 +79,90 @@ namespace Krypton.Toolkit
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastNotificationInputAreaType.ComboBox:
-                    break;
+                    var ktcb = new VisualToastNotificationComboBoxUserInputForm(data);
+
+                    return ktcb.ShowNotification(data);
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
-                    break;
+                    var ktdud = new VisualToastNotificationDomainUpDownUserInputForm(data);
+
+                    return ktdud.ShowNotification(data);
                 case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                    break;
+                    var ktmtxt = new VisualToastNotificationMaskedTextBoxUserInputForm(data);
+
+                    return ktmtxt.ShowNotification(data);
                 case KryptonToastNotificationInputAreaType.TextBox:
+                    var kttxt = new VisualToastNotificationTextBoxUserInputForm(data);
+
+                    return kttxt.ShowNotification(data);
+            }
+
+            return string.Empty;
+        }
+
+        #endregion
+
+        #region Left to Right Toasts with Progress Bars
+
+        public static object ShowToastWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    return ReturnStringInputWithProgressBar(data);
+                case KryptonToastNotificationInputAreaType.DateTime:
+                    return ReturnDateTimeInputWithProgressBar(data);
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
+                    return ReturnIntegerInputWithProgressBar(data);
+                case null:
+                    throw new ArgumentNullException();
+                default:
+                    DebugTools.NotImplemented(data.ToString());
                     break;
             }
 
+            return new object();
+        }
+
+        private static DateTime ReturnDateTimeInputWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            DateTime result = CreateDateTimeToastWithProgressBarNotification(data);
+
+            return result;
+        }
+
+        private static DateTime CreateDateTimeToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
+        {
             throw new NotImplementedException();
         }
+
+        private static int ReturnIntegerInputWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            int result = CreateIntegerToastWithProgressBarNotification(data);
+
+            return result;
+        }
+
+        private static int CreateIntegerToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string ReturnStringInputWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            string result = CreateStringToastWithProgressBarNotification(data);
+
+            return result;
+        }
+
+        private static string CreateStringToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #endregion
     }

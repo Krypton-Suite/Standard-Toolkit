@@ -41,7 +41,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonWrapLabel1 = new Krypton.Toolkit.KryptonWrapLabel();
             this.kryptonWrapLabel2 = new Krypton.Toolkit.KryptonWrapLabel();
-            this.kryptonNumericUpDown1 = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.knudUserInput = new Krypton.Toolkit.KryptonNumericUpDown();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pbxIcon = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -184,7 +184,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.kryptonWrapLabel1, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.kryptonWrapLabel2, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.kryptonNumericUpDown1, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.knudUserInput, 0, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(141, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -219,29 +219,29 @@
             this.kryptonWrapLabel2.Text = "kryptonWrapLabel2";
             this.kryptonWrapLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // kryptonNumericUpDown1
+            // knudUserInput
             // 
-            this.kryptonNumericUpDown1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonNumericUpDown1.Increment = new decimal(new int[] {
+            this.knudUserInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.knudUserInput.Increment = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.kryptonNumericUpDown1.Location = new System.Drawing.Point(3, 296);
-            this.kryptonNumericUpDown1.Maximum = new decimal(new int[] {
+            this.knudUserInput.Location = new System.Drawing.Point(3, 296);
+            this.knudUserInput.Maximum = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.kryptonNumericUpDown1.Minimum = new decimal(new int[] {
+            this.knudUserInput.Minimum = new decimal(new int[] {
             0,
             0,
             0,
             0});
-            this.kryptonNumericUpDown1.Name = "kryptonNumericUpDown1";
-            this.kryptonNumericUpDown1.Size = new System.Drawing.Size(464, 22);
-            this.kryptonNumericUpDown1.TabIndex = 2;
-            this.kryptonNumericUpDown1.Value = new decimal(new int[] {
+            this.knudUserInput.Name = "knudUserInput";
+            this.knudUserInput.Size = new System.Drawing.Size(464, 22);
+            this.knudUserInput.TabIndex = 2;
+            this.knudUserInput.Value = new decimal(new int[] {
             0,
             0,
             0,
@@ -369,6 +369,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private KryptonWrapLabel kwlNotificationTitle;
         private KryptonWrapLabel kwlNotificationContent;
-        private KryptonNumericUpDown kryptonNumericUpDown1;
+        private KryptonNumericUpDown knudUserInput;
     }
 }

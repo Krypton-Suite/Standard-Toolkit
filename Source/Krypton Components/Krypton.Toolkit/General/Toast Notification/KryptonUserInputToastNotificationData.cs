@@ -17,6 +17,10 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        /// <summary>Gets or sets the ComboBox items.</summary>
+        /// <value>The ComboBox items.</value>
+        public ArrayList ComboBoxItems { get; set; }
+
         /// <summary>Gets or sets the use fade.</summary>
         /// <value>The use fade.</value>
         public bool UseFade { get; set; }
@@ -101,6 +105,10 @@ namespace Krypton.Toolkit
         /// <value>The notification location.</value>
         public Point? NotificationLocation { get; set; }
 
+        /// <summary>Gets or sets the application icon.</summary>
+        /// <value>The application icon.</value>
+        public Icon ApplicationIcon { get; set; }
+
         /// <summary>Gets or sets the toast host.</summary>
         /// <value>The toast host.</value>
         public IWin32Window? ToastHost { get; set; }
@@ -120,10 +128,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the optional CheckBox text.</summary>
         /// <value>The optional CheckBox text.</value>
         public string? OptionalCheckBoxText { get; set; }
-
-        /// <summary>Gets or sets the user input item collection.</summary>
-        /// <value>The user input item collection.</value>
-        public ComboBox.ObjectCollection UserInputItemCollection { get; set; }
 
         /// <summary>Gets or sets the user input list.</summary>
         /// <value>The user input list.</value>

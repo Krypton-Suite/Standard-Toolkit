@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    public partial class VisualToastNotificationDomainUpDownUserInputForm : KryptonForm
+    public partial class VisualToastNotificationNumericUpDownUserInputWithProgressBarForm : KryptonForm
     {
         #region Instance Fields
 
@@ -25,22 +25,15 @@ namespace Krypton.Toolkit
 
         #region Internal
 
-        internal string UserResponse => kdudUserInput.Text ?? string.Empty;
+        internal int UserResponse => Convert.ToInt32(knudUserInput.Value);
 
         #endregion
 
-        #region Identity
-
-        public VisualToastNotificationDomainUpDownUserInputForm(KryptonUserInputToastNotificationData data)
+        public VisualToastNotificationNumericUpDownUserInputWithProgressBarForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
-        }
 
-        #endregion
-
-        internal string ShowNotification(KryptonUserInputToastNotificationData data)
-        {
-            throw new NotImplementedException();
+            _data = data;
         }
     }
 }

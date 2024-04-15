@@ -7,10 +7,28 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit
 {
     public partial class VisualToastNotificationDateTimeUserInputForm : KryptonForm
     {
+        #region Instance Fields
+
+        private int _time;
+
+        private Timer _timer;
+
+        private readonly KryptonUserInputToastNotificationData _data;
+
+        #endregion
+
+        #region Internal
+
+        internal DateTime UserResponse => kdtpUserInput.Value;
+
+        #endregion
+
         #region Identity
 
         public VisualToastNotificationDateTimeUserInputForm(KryptonUserInputToastNotificationData data)
@@ -19,5 +37,10 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        internal DateTime ShowNotification(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
