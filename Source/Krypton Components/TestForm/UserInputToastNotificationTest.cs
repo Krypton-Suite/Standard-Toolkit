@@ -81,21 +81,19 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
 
@@ -121,21 +119,19 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult = KryptonToastNotification
                                 .ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
 
@@ -164,21 +160,19 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowRtlUserInputNotificationWithIntegerReturnValue(data);
 
@@ -204,21 +198,19 @@ namespace TestForm
                 {
                     switch (GetInputAreaType())
                     {
-                        case KryptonToastNotificationInputAreaType.None:
-                            break;
                         case KryptonToastNotificationInputAreaType.ComboBox:
                             _stringResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.DomainDropDown:
+                        case KryptonToastNotificationInputAreaType.DomainUpDown:
                             _stringResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
 
                             KryptonMessageBox.Show($"Result = {_stringResult}");
                             break;
-                        case KryptonToastNotificationInputAreaType.NumericDropDown:
+                        case KryptonToastNotificationInputAreaType.NumericUpDown:
                             _integerResult =
                                 KryptonToastNotification.ShowUserInputNotificationWithIntegerReturnValue(data);
 

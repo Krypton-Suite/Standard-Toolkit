@@ -111,6 +111,12 @@ namespace Krypton.Toolkit
         public static int ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithIntegerReturnValue(toastNotificationData);
 
+        public static object ShowUserInputNotification(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowToast(data);
+
+        public static object ShowUserInputNotificationWithProgressBar(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowToastWithProgressBar(data);
+
         #endregion
 
         #region Right to Left Reading

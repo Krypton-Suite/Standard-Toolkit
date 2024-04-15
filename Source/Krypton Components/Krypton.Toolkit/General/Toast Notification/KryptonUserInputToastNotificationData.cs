@@ -133,6 +133,10 @@ namespace Krypton.Toolkit
         /// <value>The index of the selected user input.</value>
         public int? SelectedIndex { get; set; }
 
+        /// <summary>Gets the owner.</summary>
+        /// <value>The owner.</value>
+        public IWin32Window? Owner { get; internal set; }
+
         #endregion
 
         #region Identity

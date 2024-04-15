@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(74, 74, 74), // FormBorderHeaderActive2
             Color.FromArgb(146, 146, 146), // FormBorderHeaderInctive1
             Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
-            Color.FromArgb(174, 209, 255), // FormHeaderShortActive
-            Color.FromArgb(225, 225, 225), // FormHeaderShortInactive
+            Color.FromArgb(255, 255, 255), // FormHeaderShortActive
+            Color.FromArgb(41, 41, 41), // FormHeaderShortInactive
             Color.White, // FormHeaderLongActive
             Color.FromArgb(225, 225, 225), // FormHeaderLongInactive
             Color.FromArgb(88, 95, 104), // FormButtonBorderTrack
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
             SystemColors.Control, // InputControlBackDisabled
-            Color.FromArgb(232, 232, 232), // InputControlBackInactive
+            Color.FromArgb(78, 78, 80), // InputControlBackInactive
             Color.FromArgb(91, 91, 91), // InputDropDownNormal1
             Color.FromArgb(88, 88, 88), // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
@@ -4931,7 +4931,7 @@ namespace Krypton.Toolkit
                             break;
                     }
                     break;
-                
+
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBack:
                     return state switch
                     {

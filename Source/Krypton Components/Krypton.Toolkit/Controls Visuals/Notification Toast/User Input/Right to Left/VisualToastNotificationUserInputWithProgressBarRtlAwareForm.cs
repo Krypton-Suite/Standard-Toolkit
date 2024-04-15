@@ -195,9 +195,6 @@ namespace Krypton.Toolkit
 
             switch (_toastNotificationData.NotificationInputAreaType)
             {
-                case KryptonToastNotificationInputAreaType.None:
-                    kpnlUserInput.Visible = false;
-                    break;
                 case KryptonToastNotificationInputAreaType.ComboBox:
                     kcmbUserInput.Visible = true;
 
@@ -209,7 +206,7 @@ namespace Krypton.Toolkit
 
                     ktxtUserInput.Visible = false;
                     break;
-                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     kcmbUserInput.Visible = false;
 
                     kdudUserInput.Visible = true;
@@ -220,7 +217,7 @@ namespace Krypton.Toolkit
 
                     ktxtUserInput.Visible = false;
                     break;
-                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
                     kcmbUserInput.Visible = false;
 
                     kdudUserInput.Visible = false;
@@ -283,16 +280,13 @@ namespace Krypton.Toolkit
         {
             switch (inputAreaType)
             {
-                case KryptonToastNotificationInputAreaType.None:
-                    kbtnDismiss.Focus();
-                    break;
                 case KryptonToastNotificationInputAreaType.ComboBox:
                     kcmbUserInput.Focus();
                     break;
-                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     kdudUserInput.Focus();
                     break;
-                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
                     knudUserInput.Focus();
                     break;
                 case KryptonToastNotificationInputAreaType.MaskedTextBox:
@@ -311,7 +305,7 @@ namespace Krypton.Toolkit
 
         private void Toast_GotFocus(object sender, EventArgs e) =>
             SetUserInputFocus(_toastNotificationData.NotificationInputAreaType ??
-                              KryptonToastNotificationInputAreaType.None);
+                              KryptonToastNotificationInputAreaType.TextBox);
 
         private void Toast_Resize(object sender, EventArgs e)
         {

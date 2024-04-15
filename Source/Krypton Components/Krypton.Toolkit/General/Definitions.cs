@@ -2095,11 +2095,17 @@ namespace Krypton.Toolkit
 
     public enum KryptonToastNotificationInputAreaType
     {
-        None = 0,
-        ComboBox = 1,
-        DomainDropDown = 2,
-        NumericDropDown = 3,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonComboBox"/> user input.</summary>
+        ComboBox = 0,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDateTimePicker"/> user input.</summary>
+        DateTime = 1,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonDomainUpDown"/> user input.</summary>
+        DomainUpDown = 2,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonNumericUpDown"/> user input.</summary>
+        NumericUpDown = 3,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonMaskedTextBox"/> user input.</summary>
         MaskedTextBox = 4,
+        /// <summary>A <see cref="KryptonToastNotification"/> with a <see cref="KryptonTextBox"/> user input.</summary>
         TextBox = 5
     }
 
@@ -2362,33 +2368,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The message box contains Yes, No, and Cancel buttons.
         /// </summary>
-        YesNoCancel,
-
-        // TODO: Remove User buttons
-        /// <summary>
-        /// The message box contains Yes, No, and a user-defined buttons.
-        /// </summary>
-        YesNoUser1,
-
-        /// <summary>
-        /// The message box contains OK, Cancel, and a user-defined buttons.
-        /// </summary>
-        OKCancelUser1,
-
-        /// <summary>
-        /// The message box contains two user-defined buttons.
-        /// </summary>
-        User1User2,
-
-        /// <summary>
-        /// The message box contains one user-defined button.
-        /// </summary>
-        User1,
-
-        /// <summary>
-        /// The message box contains three user-defined buttons.
-        /// </summary>
-        User1User2User3
+        YesNoCancel
     }
 
     #endregion
