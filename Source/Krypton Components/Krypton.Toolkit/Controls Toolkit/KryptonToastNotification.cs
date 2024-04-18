@@ -64,58 +64,36 @@ namespace Krypton.Toolkit
 
         #region Left to Right Reading
 
-        /// <summary>Shows the user input notification with boolean return value.</summary>
-        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <summary>Shows the notification with ComboBox.</summary>
+        /// <param name="data">The data.</param>
         /// <returns></returns>
-        public static bool ShowUserInputNotificationWithBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputForm.InternalShowWithBooleanReturnValue(toastNotificationData);
+        public static string ShowNotificationWithComboBox(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowNotificationWithComboBox(data);
 
-        public static bool ShowUserInputNotificationWithProgressBarAndBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithBooleanReturnValue(
-                toastNotificationData);
-
-        /// <summary>Shows the user input notification with check state return value.</summary>
-        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <summary>Shows the notification with ComboBox.</summary>
+        /// <param name="owner">The owner.</param>
+        /// <param name="notificationMessage">The notification message.</param>
+        /// <param name="notificationTitle">The notification title.</param>
+        /// <param name="icon">The icon.</param>
+        /// <param name="userInputItemList">The user input item list.</param>
+        /// <param name="initialSelectedIndex">Initial index of the selected.</param>
+        /// <param name="inputBoxStyle">The input box style.</param>
+        /// <param name="borderColorOne">The border color one.</param>
+        /// <param name="borderColorTwo">The border color two.</param>
+        /// <param name="countDownSeconds">The count-down seconds.</param>
         /// <returns></returns>
-        public static CheckState ShowUserInputNotificationWithCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputForm.InternalShowWithCheckStateReturnValue(toastNotificationData);
-
-        public static CheckState ShowUserInputNotificationWithProgressBarAndCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithCheckStateReturnValue(
-                toastNotificationData);
-
-        /// <summary>Shows the user input notification with date time return value.</summary>
-        /// <param name="toastNotificationData">The toast notification data.</param>
-        /// <returns></returns>
-        public static DateTime ShowUserInputNotificationWithDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
-
-        public static DateTime ShowUserInputNotificationWithProgressBarAndDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
-
-        /// <summary>Shows the user input notification with string return value.</summary>
-        /// <param name="toastNotificationData">The toast notification data.</param>
-        /// <returns></returns>
-        public static string ShowUserInputNotificationWithStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputForm.InternalShowWithStringReturnValue(toastNotificationData);
-
-        public static string ShowUserInputNotificationWithProgressBarAndStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithStringReturnValue(toastNotificationData);
-
-        /// <summary>Shows the user input notification with integer return value.</summary>
-        /// <param name="toastNotificationData">The toast notification data.</param>
-        /// <returns></returns>
-        public static int ShowUserInputNotificationWithIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputForm.InternalShowWithIntegerReturnValue(toastNotificationData);
-
-        public static int ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
-            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithIntegerReturnValue(toastNotificationData);
-
-        public static object ShowUserInputNotification(KryptonUserInputToastNotificationData data) =>
-            KryptonToastNotificationUserInputController.ShowToast(data);
-
-        public static object ShowUserInputNotificationWithProgressBar(KryptonUserInputToastNotificationData data) =>
-            KryptonToastNotificationUserInputController.ShowToastWithProgressBar(data);
+        public static string ShowNotificationWithComboBox(IWin32Window? owner,
+            string notificationMessage,
+            string? notificationTitle,
+            KryptonToastNotificationIcon? icon,
+            ArrayList userInputItemList,
+            int? initialSelectedIndex,
+            ComboBoxStyle? inputBoxStyle,
+            Color? borderColorOne,
+            Color? borderColorTwo,
+            int? countDownSeconds) => KryptonToastNotificationUserInputController.ShowNotificationWithComboBox(owner,
+            notificationMessage, notificationTitle, icon, userInputItemList, initialSelectedIndex, inputBoxStyle,
+            borderColorOne, borderColorTwo, countDownSeconds);
 
         #endregion
 

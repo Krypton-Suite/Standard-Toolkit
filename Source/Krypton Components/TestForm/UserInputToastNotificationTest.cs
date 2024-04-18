@@ -117,41 +117,7 @@ namespace TestForm
                 }
                 else
                 {
-                    switch (GetInputAreaType())
-                    {
-                        case KryptonToastNotificationInputAreaType.ComboBox:
-                            _stringResult = KryptonToastNotification
-                                .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.DomainUpDown:
-                            _stringResult = KryptonToastNotification
-                                .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.NumericUpDown:
-                            _integerResult = KryptonToastNotification
-                                .ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_integerResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                            _stringResult = KryptonToastNotification
-                                .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.TextBox:
-                            _stringResult = KryptonToastNotification
-                                .ShowUserInputNotificationWithProgressBarAndStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
                 }
             }
             else
@@ -196,41 +162,7 @@ namespace TestForm
                 }
                 else
                 {
-                    switch (GetInputAreaType())
-                    {
-                        case KryptonToastNotificationInputAreaType.ComboBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.DomainUpDown:
-                            _stringResult =
-                                KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.NumericUpDown:
-                            _integerResult =
-                                KryptonToastNotification.ShowUserInputNotificationWithIntegerReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_integerResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.TextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowUserInputNotificationWithStringReturnValue(data);
-
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
                 }
             }
         }

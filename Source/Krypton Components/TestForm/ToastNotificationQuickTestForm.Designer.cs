@@ -38,18 +38,20 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnBasicNotificationCheckState = new Krypton.Toolkit.KryptonButton();
-            this.kbtnBasicNotificationChecked = new Krypton.Toolkit.KryptonButton();
-            this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicNotificationWithProgressBarCheckState = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicNotificationWithProgressBarChecked = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicNotificationWithProgressBar = new Krypton.Toolkit.KryptonButton();
+            this.kbtnBasicNotificationCheckState = new Krypton.Toolkit.KryptonButton();
+            this.kbtnBasicNotificationChecked = new Krypton.Toolkit.KryptonButton();
+            this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
+            this.kbtnComboBoxNotificaton = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnComboBoxNotificaton);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicNotificationWithProgressBarCheckState);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicNotificationWithProgressBarChecked);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicNotificationWithProgressBar);
@@ -61,33 +63,6 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1083, 470);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kbtnBasicNotificationCheckState
-            // 
-            this.kbtnBasicNotificationCheckState.Location = new System.Drawing.Point(520, 13);
-            this.kbtnBasicNotificationCheckState.Name = "kbtnBasicNotificationCheckState";
-            this.kbtnBasicNotificationCheckState.Size = new System.Drawing.Size(288, 25);
-            this.kbtnBasicNotificationCheckState.TabIndex = 2;
-            this.kbtnBasicNotificationCheckState.Values.Text = "Basic Notification (CheckState)";
-            this.kbtnBasicNotificationCheckState.Click += new System.EventHandler(this.kbtnBasicNotificationCheckState_Click);
-            // 
-            // kbtnBasicNotificationChecked
-            // 
-            this.kbtnBasicNotificationChecked.Location = new System.Drawing.Point(241, 13);
-            this.kbtnBasicNotificationChecked.Name = "kbtnBasicNotificationChecked";
-            this.kbtnBasicNotificationChecked.Size = new System.Drawing.Size(273, 25);
-            this.kbtnBasicNotificationChecked.TabIndex = 1;
-            this.kbtnBasicNotificationChecked.Values.Text = "Basic Notification (Checked)";
-            this.kbtnBasicNotificationChecked.Click += new System.EventHandler(this.kbtnBasicNotificationChecked_Click);
-            // 
-            // kbtnBasicNotification
-            // 
-            this.kbtnBasicNotification.Location = new System.Drawing.Point(13, 13);
-            this.kbtnBasicNotification.Name = "kbtnBasicNotification";
-            this.kbtnBasicNotification.Size = new System.Drawing.Size(222, 25);
-            this.kbtnBasicNotification.TabIndex = 0;
-            this.kbtnBasicNotification.Values.Text = "Basic Notification";
-            this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
             // 
             // kbtnBasicNotificationWithProgressBarCheckState
             // 
@@ -116,6 +91,43 @@ namespace TestForm
             this.kbtnBasicNotificationWithProgressBar.Values.Text = "Basic Notification with ProgressBar";
             this.kbtnBasicNotificationWithProgressBar.Click += new System.EventHandler(this.kbtnBasicNotificationWithProgressBar_Click);
             // 
+            // kbtnBasicNotificationCheckState
+            // 
+            this.kbtnBasicNotificationCheckState.Location = new System.Drawing.Point(520, 13);
+            this.kbtnBasicNotificationCheckState.Name = "kbtnBasicNotificationCheckState";
+            this.kbtnBasicNotificationCheckState.Size = new System.Drawing.Size(288, 25);
+            this.kbtnBasicNotificationCheckState.TabIndex = 2;
+            this.kbtnBasicNotificationCheckState.Values.Text = "Basic Notification (CheckState)";
+            this.kbtnBasicNotificationCheckState.Click += new System.EventHandler(this.kbtnBasicNotificationCheckState_Click);
+            // 
+            // kbtnBasicNotificationChecked
+            // 
+            this.kbtnBasicNotificationChecked.Location = new System.Drawing.Point(241, 13);
+            this.kbtnBasicNotificationChecked.Name = "kbtnBasicNotificationChecked";
+            this.kbtnBasicNotificationChecked.Size = new System.Drawing.Size(273, 25);
+            this.kbtnBasicNotificationChecked.TabIndex = 1;
+            this.kbtnBasicNotificationChecked.Values.Text = "Basic Notification (Checked)";
+            this.kbtnBasicNotificationChecked.Click += new System.EventHandler(this.kbtnBasicNotificationChecked_Click);
+            // 
+            // kbtnBasicNotification
+            // 
+            this.kbtnBasicNotification.Location = new System.Drawing.Point(13, 13);
+            this.kbtnBasicNotification.Name = "kbtnBasicNotification";
+            this.kbtnBasicNotification.Size = new System.Drawing.Size(222, 25);
+            this.kbtnBasicNotification.TabIndex = 0;
+            this.kbtnBasicNotification.Values.Text = "Basic Notification";
+            this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
+            // 
+            // kbtnComboBoxNotificaton
+            // 
+            this.kbtnComboBoxNotificaton.Location = new System.Drawing.Point(13, 76);
+            this.kbtnComboBoxNotificaton.Name = "kbtnComboBoxNotificaton";
+            this.kbtnComboBoxNotificaton.Size = new System.Drawing.Size(222, 25);
+            this.kbtnComboBoxNotificaton.TabIndex = 6;
+            this.kbtnComboBoxNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnComboBoxNotificaton.Values.Text = "ComboBox Notificaton";
+            this.kbtnComboBoxNotificaton.Click += new System.EventHandler(this.kbtnComboBoxNotificaton_Click);
+            // 
             // ToastNotificationQuickTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -139,5 +151,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnBasicNotificationWithProgressBarCheckState;
         private Krypton.Toolkit.KryptonButton kbtnBasicNotificationWithProgressBarChecked;
         private Krypton.Toolkit.KryptonButton kbtnBasicNotificationWithProgressBar;
+        private KryptonButton kbtnComboBoxNotificaton;
     }
 }

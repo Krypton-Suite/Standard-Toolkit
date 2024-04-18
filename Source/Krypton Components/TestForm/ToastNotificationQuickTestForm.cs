@@ -7,6 +7,7 @@
  */
 #endregion
 
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -119,6 +120,39 @@ namespace TestForm
                 KryptonToastNotification.ShowBasicProgressBarNotificationWithCheckStateReturnValue(data);
 
             KryptonMessageBox.Show($"Result = {result}");
+        }
+
+        private void kbtnComboBoxNotificaton_Click(object sender, EventArgs e)
+        {
+            KryptonUserInputToastNotificationData comboBoxNotificationData = new KryptonUserInputToastNotificationData()
+            {
+                NotificationTitle = @"Hello World!",
+                NotificationContent = @"This is a simple test...",
+                NotificationIcon = KryptonToastNotificationIcon.Information,
+                UserInputList = GetItems(),
+                NotificationInputAreaType = KryptonToastNotificationInputAreaType.ComboBox,
+                CountDownSeconds = 60
+            };
+
+            string result = KryptonToastNotification.ShowNotificationWithComboBox(comboBoxNotificationData);
+
+            //string result = KryptonToastNotification.ShowNotificationWithComboBox(null,
+            //    @"This is a simple test...", @"Hello World!", KryptonToastNotificationIcon.Exclamation, GetItems(), 1,
+            //    ComboBoxStyle.DropDown, null, null, 60);
+
+            KryptonMessageBox.Show($"Result = {result}");
+        }
+
+        private ArrayList GetItems()
+        {
+            ArrayList items = new ArrayList();
+
+            for (int i = 0; i < 10; i++)
+            {
+                items.Add(i);
+            }
+
+            return items;
         }
     }
 }

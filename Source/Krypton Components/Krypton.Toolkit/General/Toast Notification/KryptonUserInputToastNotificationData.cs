@@ -139,7 +139,39 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the owner.</summary>
         /// <value>The owner.</value>
-        public IWin32Window? Owner { get; internal set; }
+        public IWin32Window? Owner { get; set; }
+
+        /// <summary>Gets or sets the initial date time value.</summary>
+        /// <value>The initial date time value.</value>
+        public DateTime? InitialDateTimeValue { get; set; }
+
+        /// <summary>Gets or sets the date time format.</summary>
+        /// <value>The date time format.</value>
+        public DateTimePickerFormat? DateTimeFormat { get; set; }
+
+        /// <summary>Gets or sets the custom date time format.</summary>
+        /// <value>The custom date time format.</value>
+        public string? CustomDateTimeFormat { get; set; }
+
+        /// <summary>Gets or sets the color of the toast notification cue.</summary>
+        /// <value>The color of the toast notification cue.</value>
+        public Color? ToastNotificationCueColor { get; set; }
+
+        /// <summary>Gets or sets the initial numeric up down value.</summary>
+        /// <value>The initial numeric up down value.</value>
+        public int? InitialNumericUpDownValue { get; set; }
+
+        /// <summary>Gets or sets the maximum numeric up down value.</summary>
+        /// <value>The maximum numeric up down value.</value>
+        public int? MaximumNumericUpDownValue { get; set; }
+
+        /// <summary>Gets or sets the minimum numeric up down value.</summary>
+        /// <value>The minimum numeric up down value.</value>
+        public int? MinimumNumericUpDownValue { get; set; }
+
+        /// <summary>Gets or sets the drop-down style.</summary>
+        /// <value>The drop-down style.</value>
+        public ComboBoxStyle? DropDownStyle { get; set; }
 
         #endregion
 
@@ -176,6 +208,17 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             SelectedIndex = 0;
+        }
+
+        #endregion
+
+        #region Implementation
+
+        internal readonly void DisplayDebugData(KryptonUserInputToastNotificationData data)
+        {
+            Console.WriteLine($"ComboBox Items: {ComboBoxItems}");
+
+            Console.ReadLine();
         }
 
         #endregion

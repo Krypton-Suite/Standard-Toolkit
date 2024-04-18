@@ -38,9 +38,9 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnQuickNotificationTest = new Krypton.Toolkit.KryptonButton();
             this.kbtnUserInputNotification = new Krypton.Toolkit.KryptonButton();
             this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
-            this.kbtnQuickNotificationTest = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +55,15 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(320, 229);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnQuickNotificationTest
+            // 
+            this.kbtnQuickNotificationTest.Location = new System.Drawing.Point(13, 75);
+            this.kbtnQuickNotificationTest.Name = "kbtnQuickNotificationTest";
+            this.kbtnQuickNotificationTest.Size = new System.Drawing.Size(291, 25);
+            this.kbtnQuickNotificationTest.TabIndex = 2;
+            this.kbtnQuickNotificationTest.Values.Text = "Quick Notification Test";
+            this.kbtnQuickNotificationTest.Click += new System.EventHandler(this.kbtnQuickNotificationTest_Click);
             // 
             // kbtnUserInputNotification
             // 
@@ -74,15 +83,6 @@ namespace TestForm
             this.kbtnBasicNotification.Values.Text = "Basic Notification";
             this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
             // 
-            // kbtnQuickNotificationTest
-            // 
-            this.kbtnQuickNotificationTest.Location = new System.Drawing.Point(13, 75);
-            this.kbtnQuickNotificationTest.Name = "kbtnQuickNotificationTest";
-            this.kbtnQuickNotificationTest.Size = new System.Drawing.Size(291, 25);
-            this.kbtnQuickNotificationTest.TabIndex = 2;
-            this.kbtnQuickNotificationTest.Values.Text = "Quick Notification Test";
-            this.kbtnQuickNotificationTest.Click += new System.EventHandler(this.kbtnQuickNotificationTest_Click);
-            // 
             // ToastNotificationTestChoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -92,6 +92,7 @@ namespace TestForm
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "ToastNotificationTestChoice";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ToastNotificationTestChoice";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);

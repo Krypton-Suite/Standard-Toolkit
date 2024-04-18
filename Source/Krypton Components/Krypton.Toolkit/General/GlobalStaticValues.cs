@@ -16,6 +16,9 @@ namespace Krypton.Toolkit
     /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
+        /// <summary>The default date and time value</summary>
+        public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
+
         /// Used for 'Material' themes
         public const float DEFAULT_MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1f;
 

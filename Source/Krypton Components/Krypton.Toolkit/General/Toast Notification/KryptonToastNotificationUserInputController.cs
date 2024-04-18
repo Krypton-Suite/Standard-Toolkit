@@ -79,9 +79,7 @@ namespace Krypton.Toolkit
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastNotificationInputAreaType.ComboBox:
-                    var ktcb = new VisualToastNotificationComboBoxUserInputForm(data);
-
-                    return ktcb.ShowNotification(data);
+                    return VisualToastNotificationComboBoxUserInputForm.ShowNotification(data);
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
                     var ktdud = new VisualToastNotificationDomainUpDownUserInputForm(data);
 
@@ -97,6 +95,36 @@ namespace Krypton.Toolkit
             }
 
             return string.Empty;
+        }
+
+        /// <summary>Shows the notification with ComboBox.</summary>
+        /// <param name="owner">The owner.</param>
+        /// <param name="notificationMessage">The notification message.</param>
+        /// <param name="notificationTitle">The notification title.</param>
+        /// <param name="icon">The icon.</param>
+        /// <param name="userInputItemList">The user input item list.</param>
+        /// <param name="initialSelectedIndex">Initial index of the selected.</param>
+        /// <param name="inputBoxStyle">The input box style.</param>
+        /// <param name="borderColorOne">The border color one.</param>
+        /// <param name="borderColorTwo">The border color two.</param>
+        /// <param name="countDownSeconds">The count-down seconds.</param>
+        /// <returns></returns>
+        internal static string ShowNotificationWithComboBox(IWin32Window? owner,
+            string notificationMessage,
+            string? notificationTitle,
+            KryptonToastNotificationIcon? icon,
+            ArrayList userInputItemList,
+            int? initialSelectedIndex,
+            ComboBoxStyle? inputBoxStyle,
+            Color? borderColorOne,
+            Color? borderColorTwo,
+            int? countDownSeconds) => VisualToastNotificationComboBoxUserInputForm.ShowNotification(owner,
+            notificationMessage, notificationTitle, icon, userInputItemList, initialSelectedIndex, inputBoxStyle,
+            borderColorOne, borderColorTwo, countDownSeconds);
+
+        internal static string ShowNotificationWithComboBox(KryptonUserInputToastNotificationData data)
+        {
+            return VisualToastNotificationComboBoxUserInputForm.ShowNotification(data);
         }
 
         #endregion
