@@ -34,17 +34,30 @@ namespace Krypton.Toolkit
         public VisualToastNotificationMaskedTextBoxUserInputForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
+
+            _data = data;
+
+            GotFocus += (sender, args) => kmtxtUserInput.Focus();
+
+            UpdateBorderColors();
         }
 
         #endregion
 
         #region Implementation
 
+        private void UpdateBorderColors()
+        {
+            StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+
+            StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        }
+
         private void UpdateText()
         {
             kwlNotificationTitle.Text = _data.NotificationTitle;
 
-            kwlNotificationContent.Text = _data.NotificationContent;
+            kwlNotificationMessage.Text = _data.NotificationContent;
         }
 
         private void UpdateInitialValues()
@@ -53,7 +66,7 @@ namespace Krypton.Toolkit
             kmtxtUserInput.Text = GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
-        private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
+        private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
 
         private void UpdateLocation()
         {
@@ -155,6 +168,26 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void VisualToastNotificationMaskedTextBoxUserInputForm_Load(object sender, EventArgs e)
+        {
+            UpdateIcon();
+
+            UpdateLocation();
+
+            ShowCloseButton();
+
+            _timer.Start();
+        }
+
+        private void ShowCloseButton()
+        {
+            CloseBox = _data.ShowCloseBox ?? false;
+
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _data.ShowCloseBox ?? false;
+        }
+
         public new DialogResult ShowDialog()
         {
             TopMost = _data.TopMost ?? true;
@@ -229,7 +262,7 @@ namespace Krypton.Toolkit
             return base.ShowDialog(owner);
         }
 
-        internal string ShowNotification(KryptonUserInputToastNotificationData data)
+        internal static string ShowNotification(KryptonUserInputToastNotificationData data)
         {
             var owner = data.Owner ?? FromHandle(PI.GetActiveWindow());
 

@@ -62,7 +62,9 @@ namespace Krypton.Toolkit
 
         private void UpdateBorderColors()
         {
+            StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
 
+            StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         private void LoadData()
@@ -78,7 +80,7 @@ namespace Krypton.Toolkit
         {
             kwlNotificationTitle.Text = _notificationTitleText;
 
-            kwlNotificationContent.Text = _notificationContentText;
+            kwlNotificationMessage.Text = _notificationContentText;
         }
 
         private void UpdateCueValues()
@@ -90,7 +92,7 @@ namespace Krypton.Toolkit
             ktxtUserInput.CueHint.Color1 = _data.ToastNotificationCueColor ?? Color.Gray;
         }
 
-        private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
+        private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
 
         private void UpdateLocation()
         {
@@ -202,6 +204,26 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void VisualToastNotificationTextBoxUserInputForm_Load(object sender, EventArgs e)
+        {
+            UpdateIcon();
+
+            UpdateLocation();
+
+            ShowCloseButton();
+
+            _timer.Start();
+        }
+
+        private void ShowCloseButton()
+        {
+            CloseBox = _data.ShowCloseBox ?? false;
+
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _data.ShowCloseBox ?? false;
+        }
+
         public new DialogResult ShowDialog()
         {
             TopMost = _data.TopMost ?? true;
@@ -276,7 +298,7 @@ namespace Krypton.Toolkit
             return base.ShowDialog(owner);
         }
 
-        internal string ShowNotification(KryptonUserInputToastNotificationData data)
+        internal static string ShowNotification(KryptonUserInputToastNotificationData data)
         {
             var owner = data.Owner ?? FromHandle(PI.GetActiveWindow());
 

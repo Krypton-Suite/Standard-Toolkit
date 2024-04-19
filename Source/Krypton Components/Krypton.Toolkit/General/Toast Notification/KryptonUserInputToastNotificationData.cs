@@ -65,6 +65,10 @@ namespace Krypton.Toolkit
         /// <value>The notification title alignment.</value>
         public ContentAlignment? NotificationTitleAlignment { get; set; }
 
+        /// <summary>Gets or sets the user input ComboBox style.</summary>
+        /// <value>The user input ComboBox style.</value>
+        public ComboBoxStyle? UserInputComboBoxStyle { get; set; }
+
         /// <summary>Gets or sets the first border color.</summary>
         /// <value>The first border color.</value>
         public Color? BorderColor1 { get; set; }
@@ -72,6 +76,18 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the second border color.</summary>
         /// <value>The second border color.</value>
         public Color? BorderColor2 { get; set; }
+
+        /// <summary>Gets or sets the minimum date time value.</summary>
+        /// <value>The minimum date time value.</value>
+        public DateTime? MinimumDateTimeValue { get; set; }
+
+        /// <summary>Gets or sets the maximum date time value.</summary>
+        /// <value>The maximum date time value.</value>
+        public DateTime? MaximumDateTimeValue { get; set; }
+
+        /// <summary>Gets or sets the initial date time value.</summary>
+        /// <value>The initial date time value.</value>
+        public DateTime? InitialDateTimeValue { get; set; }
 
         /// <summary>Gets or sets the notification content font.</summary>
         /// <value>The notification content font.</value>
@@ -140,10 +156,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets the owner.</summary>
         /// <value>The owner.</value>
         public IWin32Window? Owner { get; set; }
-
-        /// <summary>Gets or sets the initial date time value.</summary>
-        /// <value>The initial date time value.</value>
-        public DateTime? InitialDateTimeValue { get; set; }
 
         /// <summary>Gets or sets the date time format.</summary>
         /// <value>The date time format.</value>
