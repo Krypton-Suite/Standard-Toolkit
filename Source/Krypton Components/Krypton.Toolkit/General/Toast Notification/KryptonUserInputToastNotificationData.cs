@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     {
         #region Public
 
-        /// <summary>Gets or sets the ComboBox items.</summary>
-        /// <value>The ComboBox items.</value>
-        public ArrayList ComboBoxItems { get; set; }
-
         /// <summary>Gets or sets the use fade.</summary>
         /// <value>The use fade.</value>
         public bool UseFade { get; set; }
@@ -153,10 +149,6 @@ namespace Krypton.Toolkit
         /// <value>The index of the selected user input.</value>
         public int? SelectedIndex { get; set; }
 
-        /// <summary>Gets the owner.</summary>
-        /// <value>The owner.</value>
-        public IWin32Window? Owner { get; set; }
-
         /// <summary>Gets or sets the date time format.</summary>
         /// <value>The date time format.</value>
         public DateTimePickerFormat? DateTimeFormat { get; set; }
@@ -180,10 +172,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the minimum numeric up down value.</summary>
         /// <value>The minimum numeric up down value.</value>
         public int? MinimumNumericUpDownValue { get; set; }
-
-        /// <summary>Gets or sets the drop-down style.</summary>
-        /// <value>The drop-down style.</value>
-        public ComboBoxStyle? DropDownStyle { get; set; }
 
         #endregion
 
@@ -228,7 +216,7 @@ namespace Krypton.Toolkit
 
         internal readonly void DisplayDebugData(KryptonUserInputToastNotificationData data)
         {
-            Console.WriteLine($"ComboBox Items: {ComboBoxItems}");
+            Console.WriteLine($"ComboBox Items: {UserInputList}");
 
             Console.ReadLine();
         }

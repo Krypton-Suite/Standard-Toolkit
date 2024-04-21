@@ -139,5 +139,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #endregion
+
+        public static object ShowNotificationWithProgressBar(KryptonUserInputToastNotificationData data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

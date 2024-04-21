@@ -268,7 +268,7 @@ namespace Krypton.Toolkit
 
         internal static int ShowNotification(KryptonUserInputToastNotificationData data)
         {
-            var owner = data.Owner ?? FromHandle(PI.GetActiveWindow());
+            var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
             using var toast = new VisualToastNotificationNumericUpDownUserInputForm(data);
 
