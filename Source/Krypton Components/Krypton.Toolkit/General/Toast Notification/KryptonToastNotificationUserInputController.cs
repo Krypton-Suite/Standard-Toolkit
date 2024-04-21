@@ -115,10 +115,7 @@ namespace Krypton.Toolkit
             return result;
         }
 
-        private static DateTime CreateDateTimeToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
-        {
-            throw new NotImplementedException();
-        }
+        private static DateTime CreateDateTimeToastWithProgressBarNotification(KryptonUserInputToastNotificationData data) => VisualToastNotificationDateTimeUserInputWithProgressBarForm.ShowToast(data);
 
         private static int ReturnIntegerInputWithProgressBar(KryptonUserInputToastNotificationData data)
         {
@@ -127,10 +124,7 @@ namespace Krypton.Toolkit
             return result;
         }
 
-        private static int CreateIntegerToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
-        {
-            throw new NotImplementedException();
-        }
+        private static int CreateIntegerToastWithProgressBarNotification(KryptonUserInputToastNotificationData data) => VisualToastNotificationNumericUpDownUserInputWithProgressBarForm.ShowToast(data);
 
         private static string ReturnStringInputWithProgressBar(KryptonUserInputToastNotificationData data)
         {
@@ -141,7 +135,19 @@ namespace Krypton.Toolkit
 
         private static string CreateStringToastWithProgressBarNotification(KryptonUserInputToastNotificationData data)
         {
-            throw new NotImplementedException();
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                    return VisualToastNotificationComboBoxUserInputWithProgressBarForm.ShowNotification(data);
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
+                    return VisualToastNotificationDomianUpDownInputWithProgressBarForm.ShowNotification(data);
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                    return VisualToastNotificationMaskedTextBoxInputWithProgressBarForm.ShowNotification(data);
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    return VisualToastNotificationTextBoxUserInputWithProgressBarForm.ShowNotification(data);
+            }
+
+            return string.Empty;
         }
 
         #endregion

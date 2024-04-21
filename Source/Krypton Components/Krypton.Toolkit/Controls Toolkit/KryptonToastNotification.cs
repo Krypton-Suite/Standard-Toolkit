@@ -70,6 +70,12 @@ namespace Krypton.Toolkit
         public static object ShowNotification(KryptonUserInputToastNotificationData data) =>
             KryptonToastNotificationUserInputController.ShowToast(data);
 
+        /// <summary>Shows the notification with progress bar.</summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static object ShowNotificationWithProgressBar(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowToastWithProgressBar(data);
+
         #endregion
 
         #region Right to Left Reading
@@ -139,10 +145,5 @@ namespace Krypton.Toolkit
         #endregion
 
         #endregion
-
-        public static object ShowNotificationWithProgressBar(KryptonUserInputToastNotificationData data)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

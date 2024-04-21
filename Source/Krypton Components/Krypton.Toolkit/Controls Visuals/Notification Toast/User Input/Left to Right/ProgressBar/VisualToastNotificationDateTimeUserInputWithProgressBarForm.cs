@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationComboBoxUserInputWithProgressBarForm : KryptonForm
+    internal partial class VisualToastNotificationDateTimeUserInputWithProgressBarForm : KryptonForm
     {
         #region Instance Fields
 
@@ -25,21 +25,21 @@ namespace Krypton.Toolkit
 
         #region Internal
 
-        internal string UserResponse => kcmbUserInput.Text ?? string.Empty;
+        internal DateTime UserResponse => kdtpUserInput.Value;
 
         #endregion
 
         #region Identity
 
-        public VisualToastNotificationComboBoxUserInputWithProgressBarForm(KryptonUserInputToastNotificationData data)
+        public VisualToastNotificationDateTimeUserInputWithProgressBarForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
 
             _data = data;
 
-            GotFocus += (sender, args) => kcmbUserInput.Focus();
+            GotFocus += (sender, args) => kdtpUserInput.Focus();
 
-            Resize += VisualToastNotificationComboBoxUserInputWithProgressBarForm_Resize;
+            Resize += VisualToastNotificationDateTimeUserInputWithProgressBarForm_Resize;
 
             UpdateBorderColors();
         }
@@ -62,19 +62,18 @@ namespace Krypton.Toolkit
             kwlNotificationMessage.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
-        private void UpdateComboBoxItems()
+        private void UpdateInitialValues()
         {
-            if (_data.UserInputList.Count > 0)
-            {
-                foreach (var item in _data.UserInputList)
-                {
-                    kcmbUserInput.Items.Add(item);
-                }
+            // Set initial date and time values
+            kdtpUserInput.Value = _data.InitialDateTimeValue ?? GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
 
-                kcmbUserInput.SelectedIndex = _data.SelectedIndex ?? 1;
-            }
+            kdtpUserInput.Format = _data.DateTimeFormat ?? DateTimePickerFormat.Long;
 
-            kcmbUserInput.DropDownStyle = _data.UserInputComboBoxStyle ?? ComboBoxStyle.DropDown;
+            kdtpUserInput.CustomFormat = _data.CustomDateTimeFormat ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+
+            kdtpUserInput.MaxDate = _data.MaximumDateTimeValue ?? DateTime.MaxValue;
+
+            kdtpUserInput.MinDate = _data.MinimumDateTimeValue ?? DateTime.MinValue;
         }
 
         private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
@@ -179,16 +178,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShowCloseButton()
-        {
-            CloseBox = _data.ShowCloseBox ?? false;
-
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-            ControlBox = _data.ShowCloseBox ?? false;
-        }
-
-        private void VisualToastNotificationComboBoxUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationDateTimeUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -196,7 +186,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationComboBoxUserInputWithProgressBarForm_Load(object sender, EventArgs e)
+        private void VisualToastNotificationDateTimeUserInputWithProgressBarForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
 
@@ -207,8 +197,15 @@ namespace Krypton.Toolkit
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
             _timer.Start();
+        }
 
-            _data.DisplayDebugData(_data);
+        private void ShowCloseButton()
+        {
+            CloseBox = _data.ShowCloseBox ?? false;
+
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _data.ShowCloseBox ?? false;
         }
 
         public new DialogResult ShowDialog()
@@ -219,7 +216,7 @@ namespace Krypton.Toolkit
 
             UpdateIcon();
 
-            UpdateComboBoxItems();
+            UpdateInitialValues();
 
             UpdateLocation();
 
@@ -263,7 +260,7 @@ namespace Krypton.Toolkit
 
             UpdateIcon();
 
-            UpdateComboBoxItems();
+            UpdateInitialValues();
 
             if (_data.CountDownSeconds != 0)
             {
@@ -297,21 +294,21 @@ namespace Krypton.Toolkit
             return base.ShowDialog(owner);
         }
 
-        internal static string ShowNotification(KryptonUserInputToastNotificationData data)
+        internal static DateTime ShowNotification(KryptonUserInputToastNotificationData data)
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
-            using var toast = new VisualToastNotificationComboBoxUserInputForm(data);
+            using var toast = new VisualToastNotificationDateTimeUserInputForm(data);
 
             if (owner != null)
             {
                 toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-                return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : string.Empty;
+                return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
             }
             else
             {
-                return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : string.Empty;
+                return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
             }
         }
 
