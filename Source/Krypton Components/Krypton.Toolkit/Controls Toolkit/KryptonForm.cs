@@ -1009,19 +1009,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            var borders = FormBorderStyle switch
-            {
-                FormBorderStyle.None
-                    or FormBorderStyle.Fixed3D
-                    or FormBorderStyle.FixedDialog
-                    or FormBorderStyle.FixedSingle
-                    or FormBorderStyle.FixedToolWindow => Padding.Empty,
-
-                _ => WindowState == FormWindowState.Maximized
-                    ? Padding.Empty
-                    : RealWindowBorders // When maximized we do not have any borders around the client
-            };
-
+            var borders = RealWindowBorders;
             // Restrict the top border to the same size as the left as we are using
             // the values for the size of the border hit testing for resizing the window
             // and not the size of the border for drawing purposes.
@@ -1131,7 +1119,6 @@ namespace Krypton.Toolkit
 
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
-
 
                 // Is the mouse over the Application icon image area
                 if (_drawContent.ImageRectangle(context).Contains(windowPoint))

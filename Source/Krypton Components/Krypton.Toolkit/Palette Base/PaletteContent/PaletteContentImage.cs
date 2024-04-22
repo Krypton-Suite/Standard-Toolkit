@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color to remap in the image.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
         {
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color to use in place of the image map.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo
         {

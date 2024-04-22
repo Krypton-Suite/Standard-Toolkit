@@ -13,6 +13,7 @@
 // ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
+    /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
         /// Used for 'Material' themes
@@ -45,6 +46,11 @@ namespace Krypton.Toolkit
         internal static string DEFAULT_TOOLKIT_FILE = @"Krypton.Toolkit.dll";
         internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
 
+        internal const string DEFAULT_NOT_IMPLEMENTED_YET_MESSAGE =
+            $"This feature has not been currently implemented yet.\nPlease check back again soon!";
+
+        internal static string DEFAULT_EMPTY_STRING = string.Empty;
+
         /// <summary>The OS major version</summary>
         public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
@@ -61,13 +67,13 @@ namespace Krypton.Toolkit
         public static readonly Color TAB_ROW_GRADIENT_FIRST_COLOR = Color.Transparent;
 
         /// <summary>The default ribbon application button dark color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR = Color.FromArgb(31, 72, 161);
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR = Color.FromArgb(31, 72, 161);
 
         /// <summary>The default ribbon application button light color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR = Color.FromArgb(84, 158, 243);
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR = Color.FromArgb(84, 158, 243);
 
         /// <summary>The default ribbon application button text color</summary>
-        public static readonly Color DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR = Color.White;
+        public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR = Color.White;
 
         #region Arrays
 

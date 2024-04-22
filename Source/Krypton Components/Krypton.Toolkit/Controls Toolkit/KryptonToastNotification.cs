@@ -7,6 +7,8 @@
  */
 #endregion
 
+#pragma warning disable VSSpell001
+
 namespace Krypton.Toolkit
 {
     /// <summary>The public interface to the <see cref="VisualToastForm"/> class.</summary>
@@ -58,82 +60,130 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Notification with Return Values
+
+        #region Left to Right Reading
+
+        /// <summary>Shows the user input notification with boolean return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
         public static bool ShowUserInputNotificationWithBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputForm.InternalShowWithBooleanReturnValue(toastNotificationData);
 
+        public static bool ShowUserInputNotificationWithProgressBarAndBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithBooleanReturnValue(
+                toastNotificationData);
+
+        /// <summary>Shows the user input notification with check state return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
         public static CheckState ShowUserInputNotificationWithCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputForm.InternalShowWithCheckStateReturnValue(toastNotificationData);
 
+        public static CheckState ShowUserInputNotificationWithProgressBarAndCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithCheckStateReturnValue(
+                toastNotificationData);
+
+        /// <summary>Shows the user input notification with date time return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
         public static DateTime ShowUserInputNotificationWithDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
 
+        public static DateTime ShowUserInputNotificationWithProgressBarAndDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
+
+        /// <summary>Shows the user input notification with string return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
         public static string ShowUserInputNotificationWithStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputForm.InternalShowWithStringReturnValue(toastNotificationData);
 
+        public static string ShowUserInputNotificationWithProgressBarAndStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithStringReturnValue(toastNotificationData);
+
+        /// <summary>Shows the user input notification with integer return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
         public static int ShowUserInputNotificationWithIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
             VisualToastNotificationUserInputForm.InternalShowWithIntegerReturnValue(toastNotificationData);
 
+        public static int ShowUserInputNotificationWithProgressBarAndIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarForm.InternalShowWithIntegerReturnValue(toastNotificationData);
+
+        public static object ShowUserInputNotification(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowToast(data);
+
+        public static object ShowUserInputNotificationWithProgressBar(KryptonUserInputToastNotificationData data) =>
+            KryptonToastNotificationUserInputController.ShowToastWithProgressBar(data);
+
         #endregion
 
-        #region Implementation
+        #region Right to Left Reading
 
-        internal static bool InternalShowBasicNotificationReturnBool(KryptonCommonToastNotificationData commonData)
-        {
-            return false;
-        }
+        /// <summary>Shows the user input notification with boolean return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static bool ShowRtlUserInputNotificationWithBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputRtlAwareForm.InternalShowWithBooleanReturnValue(toastNotificationData);
 
-        internal static CheckState InternalShowBasicNotificationReturnCheckState(KryptonCommonToastNotificationData commonData)
-        {
-            return CheckState.Unchecked;
-        }
+        /// <summary>Shows the RTL user input notification with progress bar and boolean return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns> </returns>
+        public static bool ShowRtlUserInputNotificationWithProgressBarAndBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarRtlAwareForm.InternalShowWithBooleanReturnValue(toastNotificationData);
 
-        internal static DateTime InternalShowBasicNotificationReturnDateTime(KryptonCommonToastNotificationData commonData)
-        {
-            return DateTime.Now;
-        }
+        /// <summary>Shows the user input notification with check state return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static CheckState ShowRtlUserInputNotificationWithCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputRtlAwareForm.InternalShowWithCheckStateReturnValue(toastNotificationData);
 
-        internal static void InternalShowBasicNotification(KryptonBasicToastNotificationData toastNotificationData)
-        {
-            if (toastNotificationData.UseRtlReading)
-            {
-                var ktbnRtl = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+        /// <summary>Shows the RTL user input notification with progress bar and check state return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static CheckState ShowRtlUserInputNotificationWithProgressBarAndCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarRtlAwareForm.InternalShowWithCheckStateReturnValue(toastNotificationData);
 
-                ktbnRtl.Show();
-            }
-            else
-            {
-                var kbtn = new VisualToastNotificationBasicForm(toastNotificationData);
+        /// <summary>Shows the user input notification with date time return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static DateTime ShowRtlUserInputNotificationWithDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputRtlAwareForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
 
-                kbtn.Show();
-            }
-        }
+        /// <summary>Shows the RTL user input notification with progress bar and date time return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static DateTime ShowRtlUserInputNotificationWithProgressBarAndDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarRtlAwareForm.InternalShowWithDateTimeReturnValue(toastNotificationData);
 
-        internal static KryptonToastNotificationResponseType ShowToastNotification(
-            KryptonCommonToastNotificationData commonData, KryptonToastNotificationResponseType responseType)
-        {
-            switch (responseType)
-            {
-                case KryptonToastNotificationResponseType.Bool:
-                    break;
-                case KryptonToastNotificationResponseType.CheckedState:
-                    break;
-                case KryptonToastNotificationResponseType.ComboBox:
-                    break;
-                case KryptonToastNotificationResponseType.DateTime:
-                    break;
-                case KryptonToastNotificationResponseType.DialogResult:
-                    break;
-                case KryptonToastNotificationResponseType.Timeout:
-                    break;
-                case KryptonToastNotificationResponseType.String:
-                    break;
-                default:
-                    DebugTools.NotImplemented(responseType.ToString());
-                    break;
-            }
+        /// <summary>Shows the user input notification with string return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static string ShowRtlUserInputNotificationWithStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputRtlAwareForm.InternalShowWithStringReturnValue(toastNotificationData);
 
-            return responseType;
-        }
+        /// <summary>Shows the RTL user input notification with progress bar and string return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static string ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarRtlAwareForm.InternalShowWithStringReturnValue(toastNotificationData);
+
+        /// <summary>Shows the user input notification with integer return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static int ShowRtlUserInputNotificationWithIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputRtlAwareForm.InternalShowWithIntegerReturnValue(toastNotificationData);
+
+        /// <summary>Shows the RTL user input notification with progress bar and integer return value.</summary>
+        /// <param name="toastNotificationData">The toast notification data.</param>
+        /// <returns></returns>
+        public static int ShowRtlUserInputNotificationWithProgressBarAndIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData) =>
+            VisualToastNotificationUserInputWithProgressBarRtlAwareForm.InternalShowWithIntegerReturnValue(toastNotificationData);
+
+        #endregion
+
+        #endregion
 
         #endregion
     }

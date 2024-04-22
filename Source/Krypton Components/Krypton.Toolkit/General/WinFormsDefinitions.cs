@@ -510,7 +510,7 @@ namespace System.Drawing
         /// <summary>
         ///  Blends the icon with the system highlight color.
         /// </summary>
-        Selected = 0x000010000,
+        Selected = 0x000010000
     }
 
     #endregion

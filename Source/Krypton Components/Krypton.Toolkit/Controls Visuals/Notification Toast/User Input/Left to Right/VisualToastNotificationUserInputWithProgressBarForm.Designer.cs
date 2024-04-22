@@ -234,7 +234,7 @@
             0,
             0});
             this.knudUserInput.Name = "knudUserInput";
-            this.knudUserInput.Size = new System.Drawing.Size(480, 22);
+            this.knudUserInput.Size = new System.Drawing.Size(480, 26);
             this.knudUserInput.TabIndex = 4;
             this.knudUserInput.Value = new decimal(new int[] {
             0,
@@ -258,7 +258,7 @@
             this.kdudUserInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdudUserInput.Location = new System.Drawing.Point(0, 0);
             this.kdudUserInput.Name = "kdudUserInput";
-            this.kdudUserInput.Size = new System.Drawing.Size(480, 22);
+            this.kdudUserInput.Size = new System.Drawing.Size(480, 26);
             this.kdudUserInput.TabIndex = 2;
             this.kdudUserInput.Text = "kryptonDomainUpDown1";
             this.kdudUserInput.SelectedItemChanged += new System.EventHandler(this.kdudUserInput_SelectedItemChanged);
@@ -269,7 +269,7 @@
             this.kdtpUserInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdtpUserInput.Location = new System.Drawing.Point(0, 0);
             this.kdtpUserInput.Name = "kdtpUserInput";
-            this.kdtpUserInput.Size = new System.Drawing.Size(480, 21);
+            this.kdtpUserInput.Size = new System.Drawing.Size(480, 26);
             this.kdtpUserInput.TabIndex = 1;
             this.kdtpUserInput.ValueChanged += new System.EventHandler(this.kdtpUserInput_ValueChanged);
             this.kdtpUserInput.TextChanged += new System.EventHandler(this.kdtpUserInput_TextChanged);
@@ -278,7 +278,7 @@
             // 
             this.kcmbUserInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kcmbUserInput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kcmbUserInput.DropDownWidth = 476;
+            this.kcmbUserInput.DropDownWidth = 480;
             this.kcmbUserInput.IntegralHeight = false;
             this.kcmbUserInput.Location = new System.Drawing.Point(0, 0);
             this.kcmbUserInput.Name = "kcmbUserInput";

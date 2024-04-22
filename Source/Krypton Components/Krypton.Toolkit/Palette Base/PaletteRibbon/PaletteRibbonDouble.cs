@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonDouble([DisallowNull] IPaletteRibbonBack inheritBack,
                                    [DisallowNull] IPaletteRibbonText inheritText,
-                                   NeedPaintHandler needPaint) 
+                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(inheritBack != null);
             Debug.Assert(inheritText != null);

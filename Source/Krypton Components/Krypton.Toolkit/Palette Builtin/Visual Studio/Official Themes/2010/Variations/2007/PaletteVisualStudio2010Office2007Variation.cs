@@ -294,6 +294,16 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(16, 22, 33);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(53, 73, 109);
+
+        private static readonly Color _ribbonAppButtonTextColor = Color.White;
+
+        #endregion
+
         #endregion
 
         #region Identity
@@ -427,13 +437,13 @@ namespace Krypton.Toolkit
         #region AppButton Colors
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _ribbonAppButtonDarkColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
         #endregion
     }

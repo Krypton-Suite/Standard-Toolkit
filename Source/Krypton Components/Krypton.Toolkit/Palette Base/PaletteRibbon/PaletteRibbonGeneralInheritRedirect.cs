@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         public PaletteRibbonGeneralInheritRedirect([DisallowNull] PaletteRedirect redirect)
         {
             Debug.Assert(redirect != null);
-            _redirect = redirect;
+            _redirect = redirect!;
         }
         #endregion
 
@@ -204,18 +204,6 @@ namespace Krypton.Toolkit
 		/// <inheritdoc />
         public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
             _redirect.GetRibbonTabRowGradientColor1(state);
-
-        /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) =>
-            _redirect.GetRibbonAppButtonDarkColor(state);
-
-        /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) =>
-            _redirect.GetRibbonAppButtonLightColor(state);
-
-        /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) =>
-            _redirect.GetRibbonAppButtonTextColor(state);
 
         /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
         /// <param name="state">Palette value should be applicable to this state.</param>

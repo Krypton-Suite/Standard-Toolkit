@@ -149,11 +149,14 @@ namespace Krypton.Docking
         /// </param>
         public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
+            var countToUse = Math.Min(Count, uniqueNames?.Length ?? 0); // Do not modify! because: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (var i = Count - 1; i >= 0; i--)
+            for (var i = countToUse - 1; i >= 0; i--)
             {
-                this[i]?.PropogateAction(action, uniqueNames);
+                {
+                    this[i]!.PropogateAction(action, uniqueNames);
+                }
             }
         }
 

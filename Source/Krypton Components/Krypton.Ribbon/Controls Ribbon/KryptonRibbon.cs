@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -46,12 +44,10 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Static Fields
-
         private static readonly MethodInfo _containerSelect;
         #endregion
 
         #region Instance Fields
-        // Private
         private NeedPaintHandler _needPaintGroups;
         private VisualPopupMinimized? _minimizedPopup;
         private KryptonContextMenu? _kcm;
@@ -100,7 +96,6 @@ namespace Krypton.Ribbon
         private PaletteBackStyle _backInactiveStyle;
         private KryptonRibbonTab? _minSelectedTab;
         private KryptonRibbonTab? _selectedTab;
-
         #endregion
 
         #region Events
@@ -698,7 +693,17 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public RibbonAppButton RibbonAppButton { get; private set; }
+        public RibbonFileAppButton RibbonFileAppButton { get; private set; }
+
+        /// <summary>
+        /// Gets the set of ribbon application button display strings.
+        /// </summary>
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon 'File app tab' settings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public RibbonFileAppTab RibbonFileAppTab { get; private set; }
 
         /// <summary>
         /// Gets the styles for various ribbon elements.
@@ -1406,7 +1411,7 @@ namespace Krypton.Ribbon
             }
 
             // Check if a shortcut is triggered on the application button context menu
-            if (RibbonAppButton.AppButtonMenuItems.ProcessShortcut(keyData))
+            if (RibbonFileAppButton.AppButtonMenuItems.ProcessShortcut(keyData))
             {
                 ActionOccurred();
                 return true;
@@ -2563,7 +2568,9 @@ namespace Krypton.Ribbon
 
             _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(Redirector);
 
-            RibbonAppButton = new RibbonAppButton(this, _ribbonGeneralInherit);
+            RibbonFileAppButton = new RibbonFileAppButton(this);
+            RibbonFileAppTab = new RibbonFileAppTab(this);
+
             RibbonStyles = new PaletteRibbonStyles(this, NeedPaintPaletteDelegate);
             StateCommon = new PaletteRibbonRedirect(Redirector, PaletteBackStyle.PanelClient, NeedPaintPaletteDelegate);
             StateDisabled = new PaletteRibbonDisabled(StateCommon, NeedPaintPaletteDelegate);
@@ -2598,8 +2605,7 @@ namespace Krypton.Ribbon
             CaptionArea = new ViewDrawRibbonCaptionArea(this, Redirector, NeedPaintDelegate);
 
             // Create tabs area containing the tabs, pendant buttons etc...
-            TabsArea = new ViewLayoutRibbonTabsArea(this, Redirector, CaptionArea, CaptionArea.ContextTitles!, NeedPaintDelegate);
-            TabsArea.PaintBackground += OnTabsAreaPaintBackground;
+            TabsArea = new ViewLayoutRibbonTabsArea(this, Redirector, CaptionArea, CaptionArea.ContextTitles, NeedPaintDelegate);
 
             // Create groups area containing the groups of the selected tab
             GroupsArea = new ViewLayoutRibbonGroupsArea(this, Redirector, _needPaintGroups);
@@ -3172,8 +3178,6 @@ namespace Krypton.Ribbon
                 _kcmFinishDelegate = null;
             }
         }
-
-        private void OnTabsAreaPaintBackground(object sender, PaintEventArgs e) => MainPanel.PaintRectangle(e.Graphics, e.ClipRectangle, false, sender as Control);
         #endregion
     }
 }

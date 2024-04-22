@@ -1,14 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -34,11 +30,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Identity
+
         /// <summary>
         ///  Initialize a new instance of the VisualPopupAppMenu class.
         /// </summary>
         /// <param name="ribbon">Owning ribbon instance.</param>
-        /// <param name="appButton">Originating app button instance.</param>
         /// <param name="palette">Local palette setting to use initially.</param>
         /// <param name="paletteMode">Palette mode setting to use initially.</param>
         /// <param name="redirector">Redirector used for obtaining palette values.</param>
@@ -46,7 +42,6 @@ namespace Krypton.Ribbon
         /// <param name="rectAppButtonBottomHalf">Screen location of the lower half of the app button.</param>
         /// <param name="keyboardActivated">Was the context menu activated by a keyboard action.</param>
         public VisualPopupAppMenu(KryptonRibbon ribbon,
-                                  RibbonAppButton appButton,
                                   PaletteBase? palette,
                                   PaletteMode paletteMode,
                                   PaletteRedirect redirector,
@@ -72,7 +67,7 @@ namespace Krypton.Ribbon
 
             // Create provider instance
             _provider = new AppButtonMenuProvider((ViewContextMenuManager)ViewManager,
-                                                  _ribbon.RibbonAppButton.AppButtonMenuItems,
+                _ribbon.RibbonFileAppButton.AppButtonMenuItems,
                                                   _viewColumns, palette, paletteMode,
                                                   redirector, NeedPaintDelegate);
 
@@ -82,12 +77,12 @@ namespace Krypton.Ribbon
 
             CreateAppButtonBottom();
             CreateButtonSpecView();
-            CreateContextMenuView(appButton);
+            CreateContextMenuView(_ribbon.RibbonFileAppButton);
             CreateRecentDocumentsView();
             CreateInnerBacking(CreateInsideCanvas());
             CreateOuterBacking();
             CreateOutsideDocker();
-            CreateButtonManager(appButton);
+            CreateButtonManager(_ribbon.RibbonFileAppButton);
 
             // With keyboard activate we select the first valid item
             if (keyboardActivated)
@@ -100,7 +95,7 @@ namespace Krypton.Ribbon
             // Layout docker used to contain the generated button specs
             _viewButtonSpecDocker = new ViewLayoutDocker();
 
-        private void CreateContextMenuView(RibbonAppButton appButton)
+        private void CreateContextMenuView(RibbonFileAppButton fileAppButton)
         {
             // Ask the top level collection to generate the child view elements
             var topCollection = new KryptonContextMenuCollection();
@@ -109,7 +104,7 @@ namespace Krypton.Ribbon
                 ImageColumn = false
             };
             topCollection.Add(topItems);
-            foreach (KryptonContextMenuItemBase item in appButton.AppButtonMenuItems)
+            foreach (KryptonContextMenuItemBase item in fileAppButton.AppButtonMenuItems)
             {
                 topItems.Items.Add(item);
             }
@@ -119,7 +114,7 @@ namespace Krypton.Ribbon
         private void CreateRecentDocumentsView()
         {
             // Do we need to add the recent docs view?
-            if (_ribbon.RibbonAppButton.AppButtonShowRecentDocs)
+            if (_ribbon.RibbonFileAppButton.AppButtonShowRecentDocs)
             {
                 // Create a dummy vertical menu separator for separating recent documents from menu items
                 var dummySep1 = new KryptonContextMenuSeparator
@@ -127,7 +122,7 @@ namespace Krypton.Ribbon
                     Horizontal = false
                 };
                 _viewColumns.Add(new ViewDrawMenuSeparator(dummySep1, _provider.ProviderStateCommon.Separator));
-                _viewColumns.Add(new ViewLayoutSeparator(0, _ribbon.RibbonAppButton.AppButtonMinRecentSize.Height));
+                _viewColumns.Add(new ViewLayoutSeparator(0, _ribbon.RibbonFileAppButton.AppButtonMinRecentSize.Height));
 
                 // Use a layout that draws the background color of the recent docs area
                 var recentDocsBack = new ViewDrawRibbonAppMenuDocs(_ribbon);
@@ -138,7 +133,7 @@ namespace Krypton.Ribbon
                 recentDocsBack.Add(documentStack);
 
                 // Use fixed width separator to enforce a minimum width to column
-                documentStack.Add(new ViewLayoutSeparator(_ribbon.RibbonAppButton.AppButtonMinRecentSize.Width, 0));
+                documentStack.Add(new ViewLayoutSeparator(_ribbon.RibbonFileAppButton.AppButtonMinRecentSize.Width, 0));
 
                 // Add the recent document title
                 documentStack.Add(new ViewDrawRibbonRecentDocs(_ribbon));
@@ -150,9 +145,9 @@ namespace Krypton.Ribbon
 
                 // Then generate an item per recent document entry
                 var index = 1;
-                foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonAppButton.AppButtonRecentDocs)
+                foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonFileAppButton.AppButtonRecentDocs)
                 {
-                    documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
+                    documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
                 }
 
                 // Add separator entry which is then used to fill remained space
@@ -212,10 +207,10 @@ namespace Krypton.Ribbon
             ViewManager!.Root = _drawOutsideDocker;
         }
 
-        private void CreateButtonManager(RibbonAppButton appButton)
+        private void CreateButtonManager(RibbonFileAppButton fileAppButton)
         {
             _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager!,
-                                                                  this, Redirector, appButton.AppButtonSpecs, null,
+                                                                  this, Redirector, fileAppButton.AppButtonSpecs, null,
                                                                   [_viewButtonSpecDocker],
                                                                   [_ribbon.StateCommon],
                                                                   [PaletteMetricInt.None],
@@ -235,11 +230,12 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Must unhook from the palette paint event
-                if (_palette != null)
+                if (_palette != null!)
                 {
                     _palette.PalettePaint -= OnPaletteNeedPaint;
                     _palette.BasePaletteChanged -= OnBaseChanged;
                     _palette.BaseRendererChanged -= OnBaseChanged;
+                    _palette = null!;
                 }
 
                 if (_buttonManager != null!)
@@ -334,7 +330,7 @@ namespace Krypton.Ribbon
             if (_appButtonBottom.Visible)
             {
                 // If mouse is over the top half of the button (which is in the non-client area of
-                // the owner ribbon) then we do not want to end all tracking from this method. Otherwise
+                // the owner ribbon) then we do not want to end all tracking from this method. Otherwise,
                 // if the mouse is inside the bottom half of the button then we do end tracking!
                 if (RectangleToClient(_rectAppButtonTopHalf).Contains(pt))
                 {
@@ -489,7 +485,7 @@ namespace Krypton.Ribbon
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette != null!)
                 {
                     _palette.PalettePaint -= OnPaletteNeedPaint;
                     _palette.BasePaletteChanged -= OnBaseChanged;
@@ -500,13 +496,13 @@ namespace Krypton.Ribbon
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                if (Redirector != null)
+                if (Redirector != null!)
                 {
                     Redirector.Target = _palette;
                 }
 
                 // Hook to new palette events
-                if (_palette != null)
+                if (_palette != null!)
                 {
                     // Get the renderer associated with the palette
                     Renderer = _palette.GetRenderer();
@@ -519,7 +515,7 @@ namespace Krypton.Ribbon
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();
+            Renderer = _palette.GetRenderer();
 
         private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 

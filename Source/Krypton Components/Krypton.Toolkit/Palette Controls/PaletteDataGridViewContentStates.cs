@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Main color for the text.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Secondary color for the text.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
         {

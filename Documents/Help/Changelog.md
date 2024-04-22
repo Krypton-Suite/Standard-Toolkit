@@ -3,6 +3,11 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
+* Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
+* Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
+* Resolved [#1336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1336), **[Regression]** KryptonForm has "Black Line" under Titlebar when maximised
+* Resolved [#1370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1370), **[Regression]** KryptonForm background colour
 * **[Breaking Change]:** The `RibbonStrings` options, usually located in `KryptonRibbon` has been moved to `KryptonManager` -> `ToolkitStrings` -> `RibbonStrings`
 * Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
@@ -15,8 +20,9 @@
 * Resolved issue whereby `CustomFormatMinimumColorButtonText` was assigned `null`, therefore flagging `KryptonOutlookGridStrings` as 'modified'
 * Resolved [#1351](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1351), **[Regression]** KryptonFolderBrowserDialog display and runtime errors
 * Implemented [#1343](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1343), Extend palette to accept `AppButton` colours
-* Resolved [#1337](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1337), ViewManager is visible in the designer as a readonly field, when it should be invisible !
+* Resolved [#1337](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1337), ViewManager is visible in the designer as a readonly field, when it should be invisible!
 * Resolved [#1244](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1244), Should `IsDefault` set to be `internal`
+* Implemented [#1329](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1329), Adjust Ribbon colours for tab row
 * Resolved [#1322](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1322), Exception at design time When Assigning CustomPalette to PropertyGrid / TreeGrid
 * Resolved [#1340](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1340), `KryptonPropertyGrid` Category header text colours
 * Resolved [#1331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1331), Fix white menu text in White themes (2010, 2013, 365); fixes to `KryptonPropertyGrid` and `KryptonThemeComboBox` with regard to theme switching
@@ -38,9 +44,12 @@
 * Implemented [#327](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), (Name) and other Standard-Properties in KryptonContextMenu Items Editor
 * Resolved [#1247](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1247),`VisualMessageBoxForm` Throws Exception when run from Example Code
 * Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s
+    - [#1237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1237), Core 'Toast' UI
+    - [#1238](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1238), New `KryptonToastManager`
+    - [#1239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1239), Toasts should behave like a `KryptonMessageBox`
     - [#1240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1240), New fade in/out ability for `KryptonForm`s
         - **Note:** The developer must explicitly enable this feature, as it is turned off by default
-    - [#1237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1237), Core 'Toast' UI
+    - [#1292](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1292), `KryptonToastNotification`: Add support for border colouring
 * Resolved [#238](https://github.com/Krypton-Suite/Standard-Toolkit/issues/238), Dark / light Mode themes do not modify the calendar control background
 * Implemented [#139](https://github.com/Krypton-Suite/Standard-Toolkit/issues/139), Themes (via KryptonManager design option) should have option to respect Current Metrics for Form Border widths
 * Implemented [#124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/124), **[Breaking Change]** When setting AllowFormChrome = false, then the Form Bar should still be Theme rendered
@@ -73,7 +82,8 @@
 
 =======
 
-## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+## 2024-##-## - Build 24## (Patch #) - # 2024
+* Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======

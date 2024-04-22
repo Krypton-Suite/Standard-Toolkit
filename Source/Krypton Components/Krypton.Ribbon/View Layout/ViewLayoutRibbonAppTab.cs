@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
 
-            AppTab = new ViewDrawRibbonAppTab(ribbon);
+            AppTab = new ViewDrawRibbonFileAppTab(ribbon);
 
             // Dock it against the appropriate edge
             Add(AppTab, ViewDockStyle.Bottom);
@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view element that represents the button.
         /// </summary>
-        public ViewDrawRibbonAppTab AppTab { get; }
+        public ViewDrawRibbonFileAppTab AppTab { get; }
 
         #endregion
     }

@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
-                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
-                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;

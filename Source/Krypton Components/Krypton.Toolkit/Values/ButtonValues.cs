@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _transparent;

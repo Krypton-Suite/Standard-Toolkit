@@ -70,7 +70,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class SeparatorController : ButtonController,
                                        IDisposable
-
     {
         #region Types
         /// <summary>

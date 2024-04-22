@@ -1,14 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -247,8 +243,8 @@ namespace Krypton.Ribbon
         public void AppButtonVisibleChanged()
         {
             // Update visible state of the app button/tab to reflect current state
-            LayoutAppButton.Visible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
-            LayoutAppTab.Visible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape != PaletteRibbonShape.Office2007);
+            LayoutAppButton.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
+            LayoutAppTab.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible && (_ribbon.RibbonShape != PaletteRibbonShape.Office2007);
             _leftSeparator.SeparatorSize = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007) ? new Size(BUTTON_TAB_GAP_2007, BUTTON_TAB_GAP_2007) : new Size(BUTTON_TAB_GAP_2010, BUTTON_TAB_GAP_2010);
 
             // If no app button then need separator to stop first tab being to close to the left edge
@@ -256,9 +252,9 @@ namespace Krypton.Ribbon
             ViewDrawRibbonCaptionArea? viewDrawRibbonCaptionArea = _ribbon.CaptionArea;
             if (viewDrawRibbonCaptionArea?.KryptonForm != null)
             {
-                if (viewDrawRibbonCaptionArea.KryptonForm.CloseBox != _ribbon.RibbonAppButton.FormCloseBoxVisible)
+                if (viewDrawRibbonCaptionArea.KryptonForm.CloseBox != _ribbon.RibbonFileAppButton.FormCloseBoxVisible)
                 {
-                    viewDrawRibbonCaptionArea.KryptonForm.CloseBox = _ribbon.RibbonAppButton.FormCloseBoxVisible;
+                    viewDrawRibbonCaptionArea.KryptonForm.CloseBox = _ribbon.RibbonFileAppButton.FormCloseBoxVisible;
                     viewDrawRibbonCaptionArea.PerformFormChromeCheck();
                 }
             }
@@ -539,8 +535,8 @@ namespace Krypton.Ribbon
                 [_ribbon.StateCommon],
                 [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
                 [PaletteMetricPadding.RibbonButtonPadding],
-                                                               _ribbon.CreateToolStripRenderer,
-                                                               NeedPaintDelegate);
+                _ribbon.CreateToolStripRenderer,
+                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
@@ -551,7 +547,7 @@ namespace Krypton.Ribbon
 
         private void SetupParentMonitoring()
         {
-            // We have to know when the parent of the ribbon changes so we can then hook
+            // We have to know when the parent of the ribbon changes, so we can then hook
             // into monitoring the mdi active child status of the top level form, this is
             // required to get the pendant buttons to operate as needed.
             _ribbon.ParentChanged += OnRibbonParentChanged;
@@ -574,7 +570,7 @@ namespace Krypton.Ribbon
                 _formContainer.MdiChildActivate -= OnRibbonMdiChildActivate;
             }
 
-            // Find the new top level form (which might be an mdi container)
+            // Find the new top level form (which might be a mdi container)
             _formContainer = _ribbon.FindForm();
 
             // Monitor changes in active mdi child
@@ -722,7 +718,7 @@ namespace Krypton.Ribbon
                         }
 
                         // Create the actual control used to show the context menu
-                        _appMenu = new VisualPopupAppMenu(_ribbon, _ribbon.RibbonAppButton,
+                        _appMenu = new VisualPopupAppMenu(_ribbon,
                                                           _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
                                                           _ribbon.GetRedirector(),
                                                           appRectTop, appRectBottom,
@@ -809,7 +805,7 @@ namespace Krypton.Ribbon
                         case ViewLayoutRibbonAppButton:
                         case ViewLayoutRibbonAppTab:
                             {
-                                // Create a content that recovers values from a the ribbon for the app button/tab
+                                // Create a content that recovers values from the ribbon for the app button/tab
                                 var appButtonContent = new AppButtonToolTipToContent(_ribbon);
 
                                 // Is there actually anything to show for the tooltip
@@ -818,8 +814,8 @@ namespace Krypton.Ribbon
                                     sourceContent = appButtonContent;
 
                                     // Grab the style from the app button settings
-                                    toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
-                                    shadow = _ribbon.RibbonAppButton.ToolTipShadow;
+                                    toolTipStyle = _ribbon.RibbonFileAppButton.AppButtonToolTipStyle;
+                                    shadow = _ribbon.RibbonFileAppButton.ToolTipShadow;
 
                                     // Display below the mouse cursor
                                     screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
@@ -884,7 +880,7 @@ namespace Krypton.Ribbon
                                     {
                                         sourceContent = groupItem.ToolTipValues;
 
-                                        // Grab the style from the group radio button button settings
+                                        // Grab the style from the group radio button settings
                                         toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
                                         shadow = groupItem.ToolTipValues.ToolTipShadow;
 
@@ -917,7 +913,7 @@ namespace Krypton.Ribbon
 
                         _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 
-                        // The popup tooltip control always adds on a border above/below so we negate that here.
+                        // The popup tooltip control always adds on a border above/below, so we negate that here.
                         screenRect.Height -= 20;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, screenRect.Location);
                     }
@@ -935,7 +931,7 @@ namespace Krypton.Ribbon
             var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
-            // Not showing a popup page any more
+            // Not showing a popup page anymore
             _visualPopupToolTip = null;
         }
 

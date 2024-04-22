@@ -6,7 +6,7 @@ namespace System.Runtime.InteropServices
     internal static partial class Interop
     {
         // https://msdn.microsoft.com/en-us/library/cc231198.aspx
-        internal enum HRESULT : int
+        internal enum HRESULT
         {
             S_OK = 0,
             S_FALSE = 1,
@@ -19,7 +19,7 @@ namespace System.Runtime.InteropServices
             STG_E_INVALIDPARAMETER = unchecked((int)0x80030057),
             STG_E_INVALIDFLAG = unchecked((int)0x800300FF),
             E_ACCESSDENIED = unchecked((int)0x80070005),
-            E_INVALIDARG = unchecked((int)0x80070057),
+            E_INVALIDARG = unchecked((int)0x80070057)
         }
     }
 }

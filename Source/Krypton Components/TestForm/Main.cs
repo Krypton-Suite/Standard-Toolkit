@@ -1,10 +1,15 @@
-using System;
+#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  
+ */
+#endregion
+
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace TestForm
 {
@@ -80,7 +85,6 @@ namespace TestForm
                 Buttons = KryptonMessageBoxButtons.OK,
                 Icon = KryptonMessageBoxIcon.Information,
                 MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
-                ActionButtonCommand = kcmdMessageboxTest,
                 ShowCloseButton = kryptonCheckBox1.Checked,
                 //Options = MessageBoxOptions.RtlReading
             };
@@ -339,9 +343,9 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-           ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
+            ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
 
-           toastNotification.Show();
+            toastNotification.Show();
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)
@@ -358,7 +362,7 @@ namespace TestForm
 
         private void kcmdOpenImage_Execute(object sender, EventArgs e)
         {
-          
+
         }
     }
 }

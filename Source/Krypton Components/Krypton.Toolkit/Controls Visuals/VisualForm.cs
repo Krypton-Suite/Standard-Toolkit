@@ -560,7 +560,6 @@ namespace Krypton.Toolkit
             }
         }
 
-
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
@@ -598,8 +597,8 @@ namespace Krypton.Toolkit
         }
 #endif
 
-        /// <summary>Gets or sets the tool bar manager.</summary>
-        /// <value>The tool bar manager.</value>
+        /// <summary>Gets or sets the toolbar manager.</summary>
+        /// <value>The toolbar manager.</value>
         [DefaultValue(null), Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
         public KryptonIntegratedToolBarManager? ToolBarManager { get; set; }
 
@@ -874,19 +873,20 @@ namespace Krypton.Toolkit
             base.OnShown(e);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    base.OnPaint(e);
+        //}
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            //if (AcrylicValues.EnableAcrylic)
-            //{
-            //    e.Graphics.Clear(Color.Transparent);
-            //}
-        }
+        //protected override void OnPaintBackground(PaintEventArgs e)
+        //{
+        //    if (AcrylicValues.EnableAcrylic)
+        //    {
+        //        e.Graphics.Clear(Color.Transparent);
+        //    }
+        //}
 
+        /// <inheritdoc />
         protected override void OnLoad(EventArgs e)
         {
             if (FadeValues.FadingEnabled)
@@ -901,6 +901,7 @@ namespace Krypton.Toolkit
             base.OnLoad(e);
         }
 
+        /// <inheritdoc />
         protected override void OnClosing(CancelEventArgs e)
         {
             if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
@@ -1194,7 +1195,7 @@ namespace Krypton.Toolkit
             if (m.WParam != IntPtr.Zero)
             {
                 // Get the border sizing needed around the client area
-                Padding borders = FormBorderStyle == FormBorderStyle.None ? Padding.Empty : RealWindowBorders;
+                Padding borders = RealWindowBorders;
 
                 // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
                 PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
@@ -1758,7 +1759,6 @@ namespace Krypton.Toolkit
             ClientSize = new Size(284, 261);
             Name = "VisualForm";
             ResumeLayout(false);
-
         }
     }
 }

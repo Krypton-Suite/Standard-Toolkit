@@ -1,8 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
+﻿#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  
+ */
+#endregion
 
-using Krypton.Toolkit;
+using System.Diagnostics;
 
 namespace TestForm
 {
@@ -22,7 +27,6 @@ namespace TestForm
                 Buttons = KryptonMessageBoxButtons.OK,
                 Icon = KryptonMessageBoxIcon.Information,
                 MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
-                ActionButtonCommand = kcmdMessageboxTest,
                 ShowCloseButton = kryptonCheckBox1.Checked,
                 //Options = MessageBoxOptions.RtlReading
             };
@@ -32,7 +36,8 @@ namespace TestForm
                 linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
 
             KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, options: MessageBoxOptions.RtlReading, contentAreaType: MessageBoxContentAreaType.LinkLabel,
+                KryptonMessageBoxIcon.Information, options: MessageBoxOptions.RtlReading,
+                contentAreaType: MessageBoxContentAreaType.LinkLabel,
                 linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
         }
 

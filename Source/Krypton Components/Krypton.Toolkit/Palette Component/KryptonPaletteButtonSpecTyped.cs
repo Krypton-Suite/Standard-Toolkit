@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Image color to remap to container foreground.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ColorMap
         {
             get => _colorMap;

@@ -4315,13 +4315,13 @@ namespace Krypton.Toolkit
         #region AppButton Colors
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonDarkColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_DARK_COLOR;
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonLightColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_LIGHT_COLOR;
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
 
         /// <inheritdoc />
-        public override Color GetRibbonAppButtonTextColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_APP_BUTTON_TEXT_COLOR;
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
         #endregion
     }

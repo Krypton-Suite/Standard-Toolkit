@@ -36,6 +36,7 @@ namespace Krypton.Ribbon
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {
+            RibbonFileAppTab = new PaletteRibbonFileAppTab(inherit.RibbonFileAppTab, needPaint);
             // Create storage that maps onto the inherit instances
             _ribbonGroupCheckBoxText = new PaletteRibbonText(inherit.RibbonGroupCheckBoxText, needPaint);
             _ribbonGroupButtonText = new PaletteRibbonText(inherit.RibbonGroupButtonText, needPaint);
@@ -87,6 +88,17 @@ namespace Krypton.Ribbon
         }
         #endregion
 
+
+        /// <summary>
+        /// Gets the set of ribbon application button display strings.
+        /// </summary>
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon 'File app button' settings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public virtual PaletteRibbonFileAppTab RibbonFileAppTab { get; }
+        private bool ShouldSerializeRibbonFileAppTab() => !RibbonFileAppTab.IsDefault;
+
         #region RibbonGroupCheckBoxText
         /// <summary>
         /// Gets access to the ribbon group check box label palette details.
@@ -95,7 +107,6 @@ namespace Krypton.Ribbon
         [Description(@"Overrides for defining ribbon group check box label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
-
         private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
 
         #endregion

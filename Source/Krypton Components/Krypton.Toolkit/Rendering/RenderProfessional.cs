@@ -146,11 +146,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabContext(RenderContext context,
+        protected override IDisposable? DrawRibbonTabContext(RenderContext context,
                                                             Rectangle rect,
                                                             IPaletteRibbonGeneral paletteGeneral,
                                                             IPaletteRibbonBack paletteBack,
-                                                            IDisposable memento)
+                                                            IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {

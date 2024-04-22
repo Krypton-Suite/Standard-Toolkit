@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
  */
 #endregion
 
@@ -39,7 +37,7 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect);
+            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect!);
 
             // Set default values
             _textFont = null;
@@ -226,35 +224,13 @@ namespace Krypton.Navigator
             _inherit.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
-		
-		#region RibbonTabRowGradientColor1
+
+        #region RibbonTabRowGradientColor1
 
         /// <inheritdoc />
         public Color GetRibbonTabRowGradientColor1(PaletteState state) => _inherit.GetRibbonTabRowGradientColor1(state);
 
         #endregion
-
-        #region RibbonAppButtonDarkColor
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonDarkColor(PaletteState state) => _inherit.GetRibbonAppButtonDarkColor(state);
-
-        #endregion
-
-        #region RibbonAppButtonLightColor
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonLightColor(PaletteState state) => _inherit.GetRibbonAppButtonLightColor(state);
-
-        #endregion
-
-        #region RibbonAppButtonTextColor
-
-        /// <inheritdoc />
-        public Color GetRibbonAppButtonTextColor(PaletteState state) => _inherit.GetRibbonAppButtonTextColor(state);
-
-        #endregion
-
 
         #region GetRibbonShape
         /// <summary>
