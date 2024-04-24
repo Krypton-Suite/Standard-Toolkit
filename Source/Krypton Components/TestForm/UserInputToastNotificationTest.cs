@@ -77,92 +77,77 @@ namespace TestForm
 
             if (_useProgressBar)
             {
-                if (_useRTLReading)
+                switch (GetInputAreaType())
                 {
-                    switch (GetInputAreaType())
-                    {
-                        case KryptonToastNotificationInputAreaType.ComboBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
+                    case KryptonToastNotificationInputAreaType.ComboBox:
+                        _stringResult = (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.DomainUpDown:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.DomainUpDown:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.NumericUpDown:
-                            _integerResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndIntegerReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.NumericUpDown:
+                        _integerResult =
+                            (int)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_integerResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_integerResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.TextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithProgressBarAndStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.TextBox:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-                else
-                {
-
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             else
             {
-                if (_useRTLReading)
+                switch (GetInputAreaType())
                 {
-                    switch (GetInputAreaType())
-                    {
-                        case KryptonToastNotificationInputAreaType.ComboBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
+                    case KryptonToastNotificationInputAreaType.ComboBox:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.DomainUpDown:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.DomainUpDown:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.NumericUpDown:
-                            _integerResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithIntegerReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.NumericUpDown:
+                        _integerResult =
+                            (int)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_integerResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.MaskedTextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_integerResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        case KryptonToastNotificationInputAreaType.TextBox:
-                            _stringResult =
-                                KryptonToastNotification.ShowRtlUserInputNotificationWithStringReturnValue(data);
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    case KryptonToastNotificationInputAreaType.TextBox:
+                        _stringResult =
+                            (string)KryptonToastNotification.ShowNotification(data);
 
-                            KryptonMessageBox.Show($"Result = {_stringResult}");
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-                else
-                {
-
+                        KryptonMessageBox.Show($"Result = {_stringResult}");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

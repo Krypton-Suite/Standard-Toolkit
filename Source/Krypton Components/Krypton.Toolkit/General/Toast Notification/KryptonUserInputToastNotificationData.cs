@@ -163,15 +163,15 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the initial numeric up down value.</summary>
         /// <value>The initial numeric up down value.</value>
-        public int? InitialNumericUpDownValue { get; set; }
+        public decimal? InitialNumericUpDownValue { get; set; }
 
         /// <summary>Gets or sets the maximum numeric up down value.</summary>
         /// <value>The maximum numeric up down value.</value>
-        public int? MaximumNumericUpDownValue { get; set; }
+        public decimal? MaximumNumericUpDownValue { get; set; }
 
         /// <summary>Gets or sets the minimum numeric up down value.</summary>
         /// <value>The minimum numeric up down value.</value>
-        public int? MinimumNumericUpDownValue { get; set; }
+        public decimal? MinimumNumericUpDownValue { get; set; }
 
         #endregion
 

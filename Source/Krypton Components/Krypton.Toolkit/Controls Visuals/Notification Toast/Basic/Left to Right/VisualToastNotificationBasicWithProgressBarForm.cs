@@ -55,9 +55,9 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        internal bool ReturnValue;
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
 
-        internal CheckState ReturnCheckBoxStateValue;
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
 
         #endregion 
 
@@ -246,12 +246,6 @@ namespace Krypton.Toolkit
             ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
-        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
-            => ReturnValue = kchkDoNotShowAgain.Checked;
-
-        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e)
-            => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
-
         private void UpdateProgressBarText() => kpbCountDown.Text = _basicToastNotificationData.ShowCountDownSecondsOnProgressBar ? $@"{_basicToastNotificationData.CountDownSeconds - _time}" : string.Empty;
 
         public new void Show()
@@ -357,9 +351,7 @@ namespace Krypton.Toolkit
         {
             using var toast = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.ReturnValue
-                : false;
+            return toast.ShowDialog() == DialogResult.OK && toast.ReturnValue;
         }
 
         internal static CheckState InternalShowWithCheckStateReturnValue(KryptonBasicToastNotificationData toastNotificationData)

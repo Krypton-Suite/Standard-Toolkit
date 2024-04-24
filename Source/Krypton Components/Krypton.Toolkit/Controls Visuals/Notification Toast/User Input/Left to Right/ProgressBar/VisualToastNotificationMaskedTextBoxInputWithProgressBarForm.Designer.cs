@@ -38,10 +38,10 @@
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tlpContent = new System.Windows.Forms.TableLayoutPanel();
             this.kwlNotificationTitle = new Krypton.Toolkit.KryptonWrapLabel();
-            this.kwlNotificationContent = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kwlNotificationMessage = new Krypton.Toolkit.KryptonWrapLabel();
             this.kmtxtUserInput = new Krypton.Toolkit.KryptonMaskedTextBox();
             this.kpbCountDown = new Krypton.Toolkit.KryptonProgressBar();
-            this.pbxIcon = new System.Windows.Forms.PictureBox();
+            this.pbxNotificationIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -49,7 +49,7 @@
             this.kpnlMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.tlpContent.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // kpnlButtons
@@ -140,7 +140,7 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.tlpContent, 1, 0);
             this.tlpMain.Controls.Add(this.kpbCountDown, 0, 1);
-            this.tlpMain.Controls.Add(this.pbxIcon, 0, 0);
+            this.tlpMain.Controls.Add(this.pbxNotificationIcon, 0, 0);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Name = "tlpMain";
@@ -155,7 +155,7 @@
             this.tlpContent.ColumnCount = 1;
             this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpContent.Controls.Add(this.kwlNotificationTitle, 0, 0);
-            this.tlpContent.Controls.Add(this.kwlNotificationContent, 0, 1);
+            this.tlpContent.Controls.Add(this.kwlNotificationMessage, 0, 1);
             this.tlpContent.Controls.Add(this.kmtxtUserInput, 0, 2);
             this.tlpContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpContent.Location = new System.Drawing.Point(141, 3);
@@ -179,17 +179,17 @@
             this.kwlNotificationTitle.Text = "kryptonWrapLabel1";
             this.kwlNotificationTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // kwlNotificationContent
+            // kwlNotificationMessage
             // 
-            this.kwlNotificationContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlNotificationContent.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kwlNotificationContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kwlNotificationContent.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlNotificationContent.Location = new System.Drawing.Point(3, 25);
-            this.kwlNotificationContent.Name = "kwlNotificationContent";
-            this.kwlNotificationContent.Size = new System.Drawing.Size(480, 277);
-            this.kwlNotificationContent.Text = "kryptonWrapLabel2";
-            this.kwlNotificationContent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kwlNotificationMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlNotificationMessage.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlNotificationMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlNotificationMessage.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlNotificationMessage.Location = new System.Drawing.Point(3, 25);
+            this.kwlNotificationMessage.Name = "kwlNotificationMessage";
+            this.kwlNotificationMessage.Size = new System.Drawing.Size(480, 277);
+            this.kwlNotificationMessage.Text = "kryptonWrapLabel2";
+            this.kwlNotificationMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // kmtxtUserInput
             // 
@@ -213,16 +213,16 @@
             this.kpbCountDown.Text = "kryptonProgressBar1";
             this.kpbCountDown.Values.Text = "kryptonProgressBar1";
             // 
-            // pbxIcon
+            // pbxNotificationIcon
             // 
-            this.pbxIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbxIcon.Location = new System.Drawing.Point(5, 5);
-            this.pbxIcon.Margin = new System.Windows.Forms.Padding(5);
-            this.pbxIcon.Name = "pbxIcon";
-            this.pbxIcon.Size = new System.Drawing.Size(128, 327);
-            this.pbxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbxIcon.TabIndex = 0;
-            this.pbxIcon.TabStop = false;
+            this.pbxNotificationIcon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbxNotificationIcon.Location = new System.Drawing.Point(5, 5);
+            this.pbxNotificationIcon.Margin = new System.Windows.Forms.Padding(5);
+            this.pbxNotificationIcon.Name = "pbxNotificationIcon";
+            this.pbxNotificationIcon.Size = new System.Drawing.Size(128, 327);
+            this.pbxNotificationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxNotificationIcon.TabIndex = 0;
+            this.pbxNotificationIcon.TabStop = false;
             // 
             // VisualToastNotificationMaskedTextBoxInputWithProgressBarForm
             // 
@@ -238,6 +238,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Load += new System.EventHandler(this.VisualToastNotificationMaskedTextBoxInputWithProgressBarForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
             this.kpnlButtons.PerformLayout();
@@ -248,7 +249,7 @@
             this.tlpMain.ResumeLayout(false);
             this.tlpContent.ResumeLayout(false);
             this.tlpContent.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -265,9 +266,9 @@
         private TableLayoutPanel tlpMain;
         private TableLayoutPanel tlpContent;
         private KryptonWrapLabel kwlNotificationTitle;
-        private KryptonWrapLabel kwlNotificationContent;
+        private KryptonWrapLabel kwlNotificationMessage;
         private KryptonProgressBar kpbCountDown;
-        private PictureBox pbxIcon;
+        private PictureBox pbxNotificationIcon;
         private KryptonMaskedTextBox kmtxtUserInput;
     }
 }

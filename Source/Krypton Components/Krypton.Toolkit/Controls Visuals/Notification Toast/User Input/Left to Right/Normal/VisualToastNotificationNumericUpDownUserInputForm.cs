@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
             return base.ShowDialog(owner);
         }
 
-        internal static int ShowNotification(KryptonUserInputToastNotificationData data)
+        internal static decimal ShowNotification(KryptonUserInputToastNotificationData data)
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 

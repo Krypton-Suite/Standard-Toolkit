@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         private void UpdateInitialValues()
         {
             // Set initial date and time values
-            if (_data.UserInputList.Count > 0 || _data.UserInputList != null)
+            if (_data.UserInputList.Count > 0)
             {
                 foreach (var item in _data.UserInputList)
                 {

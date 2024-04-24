@@ -207,6 +207,16 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void VisualToastNotificationComboBoxUserInputForm_LocationChanged(object sender, EventArgs e)
+        {
+            if (_data.ReportToastLocation)
+            {
+                ReportToastLocation();
+            }
+        }
+
+        private void ReportToastLocation() => klblToastLocation.Text = _data.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+
         private void UpdateInputBoxStyle() =>
             kcmbUserInput.DropDownStyle = _data.UserInputComboBoxStyle ?? ComboBoxStyle.DropDown;
 

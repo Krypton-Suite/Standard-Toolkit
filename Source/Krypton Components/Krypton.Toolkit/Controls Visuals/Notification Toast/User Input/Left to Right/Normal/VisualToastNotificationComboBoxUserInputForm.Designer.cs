@@ -271,6 +271,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.VisualToastNotificationComboBoxUserInputForm_Load);
+            this.LocationChanged += new System.EventHandler(this.VisualToastNotificationComboBoxUserInputForm_LocationChanged);
             this.Resize += new System.EventHandler(this.VisualToastNotificationComboBoxUserInputForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);

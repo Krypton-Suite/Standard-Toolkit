@@ -417,47 +417,57 @@ namespace Krypton.Toolkit
 
         internal static bool InternalShowWithBooleanReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            //using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.GetReturnDoNotShowAgainCheckValue()
-                : false;
+            //return toast.ShowDialog() == DialogResult.OK
+            //    ? toast.GetReturnDoNotShowAgainCheckValue()
+            //    : false;
+
+            return false;
         }
 
         internal static CheckState InternalShowWithCheckStateReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            //using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.GetReturnDoNotShowAgainCheckStateValue()
-                : CheckState.Unchecked;
+            //return toast.ShowDialog() == DialogResult.OK
+            //    ? toast.GetReturnDoNotShowAgainCheckStateValue()
+            //    : CheckState.Unchecked;
+
+            return CheckState.Unchecked;
         }
 
         internal static DateTime InternalShowWithDateTimeReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            //using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.GetReturnDateTimeValue()
-                : DateTime.Now;
+            //return toast.ShowDialog() == DialogResult.OK
+            //    ? toast.GetReturnDateTimeValue()
+            //    : DateTime.Now;
+
+            return DateTime.MinValue;
         }
 
         internal static string InternalShowWithStringReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            //using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.GetReturnStringValue()
-                : string.Empty;
+            //return toast.ShowDialog() == DialogResult.OK
+            //    ? toast.GetReturnStringValue()
+            //    : string.Empty;
+
+            return string.Empty;
         }
 
         internal static int InternalShowWithIntegerReturnValue(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            //using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.GetReturnIntegerValue()
-                : 0;
+            //return toast.ShowDialog() == DialogResult.OK
+            //    ? toast.GetReturnIntegerValue()
+            //    : 0;
+
+            return 0;
         }
 
         #endregion
