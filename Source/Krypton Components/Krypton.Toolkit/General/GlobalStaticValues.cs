@@ -358,5 +358,21 @@ namespace Krypton.Toolkit
         /// The group image side size
         /// </summary>
         public static int GroupImageSide = 16;
+
+        #region Methods
+        /// <summary>
+        /// Helper method that returns a generic message when a variable is null.
+        /// </summary>
+        /// <param name="variableName">Name of the variable to be inserted into the text.</param>
+        /// <returns>The message.</returns>
+        public static string VariableCannotBeNull( string variableName ) => $"Variable {variableName} cannot be null.";
+
+        /// <summary>
+        /// Helper method that returns a generic message when a property is null.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to be inserted into the text.</param>
+        /// <returns>The message.</returns>
+        public static string PropertyCannotBeNull( string propertyName ) => $"Property {propertyName} cannot be null.";
+        #endregion
     }
 }

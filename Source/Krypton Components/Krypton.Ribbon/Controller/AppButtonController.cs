@@ -30,7 +30,6 @@ namespace Krypton.Ribbon
         private bool _fixedPressed;
         private bool _hasFocus;
         private readonly Timer _updateTimer;
-        protected readonly string _ribbonTabsAreaCannotBeNull = "Property ribbon.TabsArea cannot be null";
         #endregion
 
         #region Events
@@ -251,8 +250,18 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            var ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("ribbon"));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
+            }
 
             if (ribbon.TabsArea == null)
             {
@@ -377,11 +386,16 @@ namespace Krypton.Ribbon
         /// Perform actual selection of the item.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public void KeyTipSelect(KryptonRibbon ribbon)
+        public void KeyTipSelect(KryptonRibbon? ribbon)
         {
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("ribbon"));
+            }
+
             if (ribbon.TabsArea is null)
             {
-                throw new NullReferenceException(_ribbonTabsAreaCannotBeNull);
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
             }
 
             // We leave key tips usage whenever we use the application button
