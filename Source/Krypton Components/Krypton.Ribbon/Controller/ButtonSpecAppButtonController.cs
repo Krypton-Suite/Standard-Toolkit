@@ -50,15 +50,15 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public override void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
-            Debug.Assert(c != null);
-            Debug.Assert(e != null);
+            Debug.Assert(c is not null);
+            Debug.Assert(e is not null);
 
             // Validate incoming references
-            if (c == null)
+            if (c is null)
             {
                 throw new ArgumentNullException(nameof(c));
             }
-            if (e == null)
+            if (e is null)
             {
                 throw new ArgumentNullException(nameof(e));
             }
