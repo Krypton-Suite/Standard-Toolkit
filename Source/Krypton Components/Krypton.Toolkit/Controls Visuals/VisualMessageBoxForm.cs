@@ -12,8 +12,6 @@
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedParameter.Local
-using ContentAlignment = System.Drawing.ContentAlignment;
-using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
@@ -22,8 +20,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly bool _showHelpButton;
-        private readonly string _text;
-        private readonly string _caption;
+        private readonly string? _text;
+        private readonly string? _caption;
         private readonly string _applicationPath;
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
@@ -42,7 +40,6 @@ namespace Krypton.Toolkit
         private readonly MessageBoxContentAreaType? _contentAreaType;
         private readonly KryptonCommand? _linkLabelCommand;
         private readonly ProcessStartInfo? _linkLaunchArgument;
-        private readonly ContentAlignment? _messageTextAlignment;
         private readonly LinkArea _contentLinkArea;
 
         private KryptonMessageBoxResult _messageBoxResult;
@@ -68,7 +65,7 @@ namespace Krypton.Toolkit
         }
 
 
-        internal VisualMessageBoxForm(IWin32Window? showOwner, string text, string caption,
+        internal VisualMessageBoxForm(IWin32Window? showOwner, string? text, string? caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton,
@@ -80,7 +77,6 @@ namespace Krypton.Toolkit
                                        KryptonCommand? linkLabelCommand,
                                        ProcessStartInfo? linkLaunchArgument,
                                        LinkArea? contentLinkArea,
-                                       ContentAlignment? messageTextAlignment,
                                        bool? forceUseOfOperatingSystemIcons,
                                        bool? showCloseButton)
         {
@@ -101,7 +97,6 @@ namespace Krypton.Toolkit
                 ? new LinkArea(0, 0)
                 : contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
-            _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
             _showCloseButton = showCloseButton ?? true;
 
@@ -116,7 +111,6 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
-            UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
             UpdateContentLinkArea(contentLinkArea);
 
             // Finally calculate and set form sizing
@@ -143,7 +137,6 @@ namespace Krypton.Toolkit
             UpdateHelp(_messageBoxData.ShowHelpButton);
             UpdateTextExtra(_messageBoxData.ShowCtrlCopy);
             UpdateContentAreaType(_messageBoxData.MessageContentAreaType);
-            UpdateContentAreaTextAlignment(_messageBoxData.MessageContentAreaType, _messageBoxData.MessageTextAlignment);
             UpdateContentLinkArea(_messageBoxData.ContentLinkArea);
 
             ShowCloseButton(_messageBoxData.ShowCloseButton);
@@ -156,7 +149,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void UpdateText(string caption, string? text, MessageBoxOptions options, MessageBoxContentAreaType? contentAreaType)
+        private void UpdateText(string? caption, string? text, MessageBoxOptions options, MessageBoxContentAreaType? contentAreaType)
         {
             // Set the text of the form
             Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
@@ -376,7 +369,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
-                        // we need to rely on a image instead
+                        // we need to rely on an image instead
                         if (OSUtilities.IsWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
@@ -572,7 +565,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
-                        // we need to rely on a image instead
+                        // we need to rely on an image instead
                         if (OSUtilities.IsWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
@@ -610,9 +603,7 @@ namespace Krypton.Toolkit
                         break;
                 }
             }
-
             _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
-
         }
 
         private void UpdateButtons()
@@ -999,7 +990,6 @@ namespace Krypton.Toolkit
             {
                 // Do nothing if failure to send to Parent
             }
-
         }
 
         private void UpdateSizing(IWin32Window? showOwner)
@@ -1023,7 +1013,6 @@ namespace Krypton.Toolkit
                 SizeF scaledMonitorSize = screen!.Bounds.Size;
                 scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
-                kwlblMessageText.UpdateFont();
                 SizeF messageSize = g.MeasureString(_text, kwlblMessageText.Font, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
                 SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", kwlblMessageText.Font, scaledMonitorSize);
@@ -1083,7 +1072,7 @@ namespace Krypton.Toolkit
             // Start positioning buttons 10 pixels from right edge
             var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
-            var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            //var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             // If Button4 is visible
             if (_button4.Enabled)
@@ -1138,7 +1127,6 @@ namespace Krypton.Toolkit
 
             const string DIVIDER = @"---------------------------";
             const string BUTTON_TEXT_SPACER = @"   ";
-
             // Pressing Ctrl+C should copy message text into the clipboard
             var sb = new StringBuilder();
 
@@ -1208,24 +1196,6 @@ namespace Krypton.Toolkit
                     klwlblMessageText.Visible = false;
 
                     kwlblMessageText.Visible = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
-            }
-        }
-
-        private void UpdateContentAreaTextAlignment(MessageBoxContentAreaType? contentAreaType, ContentAlignment? messageTextAlignment)
-        {
-            switch (contentAreaType)
-            {
-                case MessageBoxContentAreaType.Normal:
-                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case MessageBoxContentAreaType.LinkLabel:
-                    klwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case null:
-                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
