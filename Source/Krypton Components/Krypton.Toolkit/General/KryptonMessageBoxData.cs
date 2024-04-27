@@ -7,8 +7,6 @@
  */
 #endregion
 
-using ContentAlignment = System.Drawing.ContentAlignment;
-
 namespace Krypton.Toolkit
 {
     /// <summary>A structure that contains basic information for <see cref="VisualMessageBoxForm"/>.</summary>
@@ -26,7 +24,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the window caption.</summary>
         /// <value>The window caption.</value>
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
 
         /// <summary>Gets or sets the buttons.</summary>
         /// <value>The buttons.</value>
@@ -79,10 +77,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the content link area.</summary>
         /// <value>The content link area.</value>
         public LinkArea? ContentLinkArea { get; set; }
-
-        /// <summary>Gets or sets the message text alignment.</summary>
-        /// <value>The message text alignment.</value>
-        public ContentAlignment? MessageTextAlignment { get; set; }
 
         /// <summary>Gets or sets the force use of operating system icons.</summary>
         /// <value>Forces the use of operating system icons.</value>

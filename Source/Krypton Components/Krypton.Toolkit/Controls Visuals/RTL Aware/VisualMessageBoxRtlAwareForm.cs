@@ -7,8 +7,6 @@
  */
 #endregion
 
-using ContentAlignment = System.Drawing.ContentAlignment;
-
 namespace Krypton.Toolkit
 {
     internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
@@ -16,8 +14,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly bool _showHelpButton;
-        private readonly string _text;
-        private readonly string _caption;
+        private readonly string? _text;
+        private readonly string? _caption;
         private readonly string _applicationPath;
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
@@ -37,7 +35,6 @@ namespace Krypton.Toolkit
         private readonly MessageBoxContentAreaType? _contentAreaType;
         private readonly KryptonCommand? _linkLabelCommand;
         private readonly ProcessStartInfo? _linkLaunchArgument;
-        private readonly ContentAlignment? _messageTextAlignment;
         private readonly LinkArea _contentLinkArea;
 
         private KryptonMessageBoxResult _messageBoxResult;
@@ -62,7 +59,7 @@ namespace Krypton.Toolkit
             InitializeComponent();
         }
 
-        public VisualMessageBoxRtlAwareForm(IWin32Window? showOwner, string text, string caption,
+        public VisualMessageBoxRtlAwareForm(IWin32Window? showOwner, string? text, string? caption,
             KryptonMessageBoxButtons buttons,
             KryptonMessageBoxIcon icon,
             KryptonMessageBoxDefaultButton defaultButton,
@@ -74,7 +71,6 @@ namespace Krypton.Toolkit
             KryptonCommand? linkLabelCommand,
             ProcessStartInfo? linkLaunchArgument,
             LinkArea? contentLinkArea,
-            ContentAlignment? messageTextAlignment,
             bool? forceUseOfOperatingSystemIcons,
             bool? showCloseButton)
         {
@@ -95,7 +91,6 @@ namespace Krypton.Toolkit
                 ? new LinkArea(0, 0)
                 : contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
-            _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
             _showCloseButton = showCloseButton ?? true;
 
@@ -110,7 +105,6 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
-            UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
             UpdateContentLinkArea(contentLinkArea);
 
             // Finally calculate and set form sizing
@@ -133,7 +127,6 @@ namespace Krypton.Toolkit
             UpdateHelp(_messageBoxData.ShowHelpButton);
             UpdateTextExtra(_messageBoxData.ShowCtrlCopy);
             UpdateContentAreaType(_messageBoxData.MessageContentAreaType);
-            UpdateContentAreaTextAlignment(_messageBoxData.MessageContentAreaType, _messageBoxData.MessageTextAlignment);
             UpdateContentLinkArea(_messageBoxData.ContentLinkArea);
 
             ShowCloseButton(_messageBoxData.ShowCloseButton);
@@ -353,7 +346,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
-                        // we need to rely on a image instead
+                        // we need to rely on an image instead
                         if (OSUtilities.IsWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
@@ -549,7 +542,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
-                        // we need to rely on a image instead
+                        // we need to rely on an image instead
                         if (OSUtilities.IsWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
@@ -1060,7 +1053,7 @@ namespace Krypton.Toolkit
             // Start positioning buttons 10 pixels from right edge
             var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
-            var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            //var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             // If Button4 is visible
             if (_button4.Enabled)
@@ -1185,24 +1178,6 @@ namespace Krypton.Toolkit
                     klwlblMessageText.Visible = false;
 
                     kwlblMessageText.Visible = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
-            }
-        }
-
-        private void UpdateContentAreaTextAlignment(MessageBoxContentAreaType? contentAreaType, ContentAlignment? messageTextAlignment)
-        {
-            switch (contentAreaType)
-            {
-                case MessageBoxContentAreaType.Normal:
-                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case MessageBoxContentAreaType.LinkLabel:
-                    klwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case null:
-                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
