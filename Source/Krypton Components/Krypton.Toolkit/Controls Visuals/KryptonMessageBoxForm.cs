@@ -62,7 +62,6 @@ namespace Krypton.Toolkit
             InitializeComponent();
         }
 
-
         internal KryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
@@ -77,8 +76,7 @@ namespace Krypton.Toolkit
                                        MessageBoxContentAreaType? contentAreaType,
                                        KryptonCommand? linkLabelCommand,
                                        ProcessStartInfo? linkLaunchArgument,
-                                       LinkArea? contentLinkArea,
-                                       ContentAlignment? messageTextAlignment)
+                                       LinkArea? contentLinkArea)
         {
             // Store incoming values
             _text = text;
@@ -99,7 +97,6 @@ namespace Krypton.Toolkit
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
-            _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
 
             // Create the form contents
             InitializeComponent();
@@ -114,7 +111,6 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
-            UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
             UpdateContentLinkArea(contentLinkArea);
 
             SetupActionButtonUI(_showActionButton);
@@ -358,9 +354,7 @@ namespace Krypton.Toolkit
                         break;
                 }
             }
-
             _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
-
         }
 
         private void UpdateButtons()
@@ -564,7 +558,6 @@ namespace Krypton.Toolkit
             {
                 // Do nothing if failure to send to Parent
             }
-
         }
 
         private void UpdateSizing(IWin32Window? showOwner)
@@ -588,7 +581,6 @@ namespace Krypton.Toolkit
                 SizeF scaledMonitorSize = screen.Bounds.Size;
                 scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
-                _messageText.UpdateFont();
                 SizeF messageSize = g.MeasureString(_text, _messageText.Font, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
                 SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
@@ -656,7 +648,6 @@ namespace Krypton.Toolkit
 
             // Start positioning buttons 10 pixels from right edge
             var right = _panelButtons.Right - GAP;
-
             var left = _panelButtons.Left - GAP;
 
             // If Action button is visible
@@ -720,7 +711,6 @@ namespace Krypton.Toolkit
 
             const string DIVIDER = @"---------------------------";
             const string BUTTON_TEXT_SPACER = @"   ";
-
             // Pressing Ctrl+C should copy message text into the clipboard
             var sb = new StringBuilder();
 
@@ -756,9 +746,7 @@ namespace Krypton.Toolkit
         private void SetupActionButtonUI(bool visible)
         {
             _button5.Visible = visible;
-
             _button5.Enabled = visible;
-
             _button5.Click += (sender, args) =>
             {
                 try
@@ -809,24 +797,6 @@ namespace Krypton.Toolkit
 
                     _messageText.Visible = false;
                     break;
-            }
-        }
-
-        private void UpdateContentAreaTextAlignment(MessageBoxContentAreaType? contentAreaType, ContentAlignment? messageTextAlignment)
-        {
-            switch (contentAreaType)
-            {
-                case MessageBoxContentAreaType.Normal:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case MessageBoxContentAreaType.LinkLabel:
-                    _linkLabelMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case null:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
             }
         }
 

@@ -172,6 +172,10 @@ Follow the links to see the different objects and layouts that this framework al
 
 # Breaking Changes
 
+## V85.## (2024-##-## - Build 24## - ##)
+* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+  - The optional `ContentAlignment` for a `KryptonMessageBox.Show` cammand is no longer possible.
+
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
 
