@@ -179,6 +179,8 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
+- [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+  - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
 - [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
     - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
     - `RibbonAppButton` has become `RibbonFileAppButton` 
