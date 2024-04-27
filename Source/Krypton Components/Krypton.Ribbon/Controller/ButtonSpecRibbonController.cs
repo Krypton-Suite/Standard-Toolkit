@@ -44,8 +44,18 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public override void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            var ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             // Get the button spec associated with this controller
             var viewButton = (ViewDrawButton)Target;
