@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         public ContextTitleController([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
         }
         #endregion
 

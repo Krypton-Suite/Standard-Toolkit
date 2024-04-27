@@ -39,13 +39,9 @@ namespace Krypton.Ribbon
                                   [DisallowNull] KryptonRibbonGroupComboBox comboBox,
                                   [DisallowNull] ViewDrawRibbonGroupComboBox target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(comboBox != null);
-            Debug.Assert(target != null);
-
-            _ribbon = ribbon;
-            _comboBox = comboBox;
-            _target = target;
+            _ribbon = ribbon ?? throw new Exception( GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            _comboBox = comboBox ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_comboBox)));
+            _target = target ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_target)));
         }
         #endregion
 
@@ -56,7 +52,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if (_comboBox.LastComboBox.ComboBox is { CanFocus: true })
+            if (_comboBox.LastComboBox!.ComboBox is { CanFocus: true })
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _comboBox.LastComboBox.ComboBox.Focus();
@@ -124,7 +120,7 @@ namespace Krypton.Ribbon
         public void KeyTipSelect(KryptonRibbon ribbon)
         {
             // Can the combobox take the focus
-            if (_comboBox.LastComboBox.CanFocus)
+            if (_comboBox.LastComboBox!.CanFocus)
             {
                 // Prevent the ribbon from killing keyboard mode when it loses the focus,
                 // as this causes the tracking windows to be killed and we want them kept
@@ -151,9 +147,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

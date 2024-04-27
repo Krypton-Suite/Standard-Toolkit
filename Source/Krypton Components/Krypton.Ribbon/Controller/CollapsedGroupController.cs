@@ -52,9 +52,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _target = target!;
+            _needPaint = needPaint!;
         }
         #endregion
 
@@ -242,9 +242,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
