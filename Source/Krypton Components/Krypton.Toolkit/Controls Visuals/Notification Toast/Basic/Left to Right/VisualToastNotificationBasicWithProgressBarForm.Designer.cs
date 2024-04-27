@@ -190,8 +190,6 @@
             this.kchkDoNotShowAgain.TabIndex = 4;
             this.kchkDoNotShowAgain.Values.Text = "CB1";
             this.kchkDoNotShowAgain.Visible = false;
-            this.kchkDoNotShowAgain.CheckedChanged += new System.EventHandler(this.kchkDoNotShowAgain_CheckedChanged);
-            this.kchkDoNotShowAgain.CheckStateChanged += new System.EventHandler(this.kchkDoNotShowAgain_CheckStateChanged);
             // 
             // kpnlFooter
             // 

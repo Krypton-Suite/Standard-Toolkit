@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
 
         private readonly NeedPaintHandler _needPaint;
         private QATButtonToView _qatButtonToView;
-        private ViewDrawRibbonQATExtraButton _extraButton;
+        private ViewDrawRibbonQATExtraButton? _extraButton;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
-            
+
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
@@ -133,15 +133,15 @@ namespace Krypton.Ribbon
             }
 
             // If integrated into the caption area then get the caption area height
-            var borders =  ownerForm.RealWindowBorders;
+            var borders = ownerForm.RealWindowBorders;
 
             var keyTipList = new KeyTipInfoList();
 
             foreach (ViewBase child in this)
             {
                 // If visible and we have another key tip available on stack
-                if (child.Visible 
-                    && (keyTipsPool.Count > 0) 
+                if (child.Visible
+                    && (keyTipsPool.Count > 0)
                     && (child is ViewDrawRibbonQATButton viewQAT)
                     )
                 {
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
                         viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
-                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt, 
+                    keyTipList.Add(new KeyTipInfo(viewQAT.Enabled, keyTipsPool.Pop(), screenPt,
                                                   viewQAT.ClientRectangle, viewQAT.KeyTipTarget));
                 }
             }
@@ -257,7 +257,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;
@@ -479,13 +479,13 @@ namespace Krypton.Ribbon
             // Extract the set of views into an array
             var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
             _qatButtonToView.Values.CopyTo(qatViews, 0);
-            
+
             // Search the list in reverse order
             for (var i = qatViews.Length - 1; i >= 0; i--)
             {
                 // Extract the correct view to test
                 ViewDrawRibbonQATButton qatView = qatViews[i];
-                
+
                 if (!found)
                 {
                     found = qatView == qatButton;

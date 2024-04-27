@@ -21,7 +21,8 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private int _width;
+        // Note: Do we need _width?
+        // private int _width;
         private readonly int _spacingGap; // = 10;
         #endregion
 

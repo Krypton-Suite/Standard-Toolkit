@@ -102,7 +102,7 @@ namespace TestForm
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(160, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(248, 124);
+            this.kryptonPage3.Size = new System.Drawing.Size(248, 123);
             this.kryptonPage3.Text = "kryptonPage3";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "a9189fdf28634a62853973875dd71869";

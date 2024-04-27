@@ -40,9 +40,9 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalendarTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonMonthCalendar1 = new Krypton.Toolkit.KryptonMonthCalendar();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonDateTimePicker1 = new Krypton.Toolkit.KryptonDateTimePicker();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kryptonMonthCalendar1 = new Krypton.Toolkit.KryptonMonthCalendar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -59,24 +59,6 @@ namespace TestForm
             this.kryptonPanel1.Size = new System.Drawing.Size(253, 263);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonMonthCalendar1
-            // 
-            this.kryptonMonthCalendar1.Location = new System.Drawing.Point(13, 41);
-            this.kryptonMonthCalendar1.Name = "kryptonMonthCalendar1";
-            this.kryptonMonthCalendar1.Size = new System.Drawing.Size(230, 182);
-            this.kryptonMonthCalendar1.TabIndex = 1;
-            // 
-            // kryptonThemeComboBox1
-            // 
-            this.kryptonThemeComboBox1.DropDownWidth = 121;
-            this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 230);
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = true;
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(230, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox1.TabIndex = 2;
-            // 
             // kryptonDateTimePicker1
             // 
             this.kryptonDateTimePicker1.CustomFormat = "dd/MM/yyyy HH:MM:SS tt";
@@ -85,6 +67,25 @@ namespace TestForm
             this.kryptonDateTimePicker1.Name = "kryptonDateTimePicker1";
             this.kryptonDateTimePicker1.Size = new System.Drawing.Size(230, 21);
             this.kryptonDateTimePicker1.TabIndex = 3;
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DropDownWidth = 230;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 230);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = true;
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(230, 21);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 2;
+            // 
+            // kryptonMonthCalendar1
+            // 
+            this.kryptonMonthCalendar1.Location = new System.Drawing.Point(13, 41);
+            this.kryptonMonthCalendar1.Name = "kryptonMonthCalendar1";
+            this.kryptonMonthCalendar1.Size = new System.Drawing.Size(230, 182);
+            this.kryptonMonthCalendar1.TabIndex = 1;
+            this.kryptonMonthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.kryptonMonthCalendar1_DateSelected);
             // 
             // CalendarTest
             // 

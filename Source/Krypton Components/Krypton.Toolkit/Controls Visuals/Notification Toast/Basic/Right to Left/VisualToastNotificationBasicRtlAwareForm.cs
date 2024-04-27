@@ -28,6 +28,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Public
+
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
+
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
+
+        #endregion 
+
         #region Identity
 
         public VisualToastNotificationBasicRtlAwareForm(KryptonBasicToastNotificationData toastNotificationData)
@@ -266,6 +274,29 @@ namespace Krypton.Toolkit
 
 
             base.Show();
+        }
+
+        internal static bool InternalShowWithBooleanReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK && toast.ReturnValue;
+        }
+
+        internal static CheckState InternalShowWithCheckStateReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.ReturnCheckBoxStateValue
+                : CheckState.Unchecked;
+        }
+
+        internal static void InternalShow(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            toast.Show();
         }
 
         #endregion

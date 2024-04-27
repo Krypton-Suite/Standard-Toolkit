@@ -1684,6 +1684,39 @@ namespace Krypton.Toolkit
     }
     #endregion
 
+    #region Enum KryptonTaskDialogResult
+
+    /// <summary>Specifies what indicator to return for a <see cref="KryptonTaskDialog"/>.</summary>
+    public enum KryptonTaskDialogResult
+    {
+        /// <summary>No button was selected.</summary>
+        None = 0,
+        /// <summary>The "Ok" button was selected.</summary>
+        Ok = KryptonMessageBoxResult.Ok,
+        /// <summary>The "Cancel" button was selected.</summary>
+        Cancel = KryptonMessageBoxResult.Cancel,
+        /// <summary>The "Yes" button was selected.</summary>
+        Yes = KryptonMessageBoxResult.Yes,
+        /// <summary>The "No" button was selected.</summary>
+        No = KryptonMessageBoxResult.No,
+        /// <summary>The "Retry" button was selected.</summary>b
+        Retry = KryptonMessageBoxResult.Retry,
+        /// <summary>The "Abort" button was selected.</summary>
+        Abort = KryptonMessageBoxResult.Abort,
+        /// <summary>The "Ignore" button was selected.</summary>
+        Ignore = KryptonMessageBoxResult.Ignore,
+        /// <summary>The "Close" button was selected.</summary>
+        Close = KryptonMessageBoxResult.Close,
+        /// <summary>The "Help" button was selected.</summary>
+        Help = KryptonMessageBoxResult.Help,
+        /// <summary>The "Try Again" button was selected.</summary>
+        TryAgain = KryptonMessageBoxResult.TryAgain,
+        /// <summary>The "Continue" button was selected.</summary>
+        Continue = KryptonMessageBoxResult.Continue
+    }
+
+    #endregion
+
     #region CheckedSelectionMode
     /// <summary>
     /// Specifies selection mode of the KryptonCheckedListBox.
@@ -1993,7 +2026,16 @@ namespace Krypton.Toolkit
         Retry = DialogResult.Retry,
         Ignore = DialogResult.Ignore,
         Yes = DialogResult.Yes,
-        No = DialogResult.No
+        No = DialogResult.No,
+        Close = 8,
+        Help = 9,
+#if NET6_0_OR_GREATER
+        TryAgain = DialogResult.TryAgain,
+        Continue = DialogResult.Continue,
+#else
+        TryAgain = 10,
+        Continue = 11
+#endif
     }
 
     #endregion

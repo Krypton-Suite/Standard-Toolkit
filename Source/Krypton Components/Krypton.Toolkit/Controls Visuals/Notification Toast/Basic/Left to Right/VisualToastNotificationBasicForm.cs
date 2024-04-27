@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        internal bool ReturnValue;
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
 
-        internal CheckState ReturnCheckBoxStateValue;
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
 
         #endregion
 
@@ -272,10 +272,6 @@ namespace Krypton.Toolkit
 
             kchkDoNotShowAgain.Text = _basicToastNotificationData.OptionalCheckBoxText ?? KryptonManager.Strings.CustomStrings.DoNotShowAgain;
         }
-
-        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) => ReturnValue = kchkDoNotShowAgain.Checked;
-
-        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e) => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
 
         #region Show
 

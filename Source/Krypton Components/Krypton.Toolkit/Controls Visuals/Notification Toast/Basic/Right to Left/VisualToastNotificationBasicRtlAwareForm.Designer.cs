@@ -39,6 +39,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.kwlToastHeader = new Krypton.Toolkit.KryptonWrapLabel();
             this.kwlToastContent = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kchkDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -63,11 +64,13 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.kbtnDismiss, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.klblToastLocation, 0, 0);
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.kbtnDismiss, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.klblToastLocation, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.kchkDoNotShowAgain, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 1);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -91,7 +94,7 @@
             // klblToastLocation
             // 
             this.klblToastLocation.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.klblToastLocation.Location = new System.Drawing.Point(561, 23);
+            this.klblToastLocation.Location = new System.Drawing.Point(496, 23);
             this.klblToastLocation.Margin = new System.Windows.Forms.Padding(10);
             this.klblToastLocation.Name = "klblToastLocation";
             this.klblToastLocation.Size = new System.Drawing.Size(6, 2);
@@ -183,6 +186,17 @@
             this.kwlToastContent.Text = "kryptonWrapLabel2";
             this.kwlToastContent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // kchkDoNotShowAgain
+            // 
+            this.kchkDoNotShowAgain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kchkDoNotShowAgain.Location = new System.Drawing.Point(522, 10);
+            this.kchkDoNotShowAgain.Margin = new System.Windows.Forms.Padding(10);
+            this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
+            this.kchkDoNotShowAgain.Size = new System.Drawing.Size(45, 29);
+            this.kchkDoNotShowAgain.TabIndex = 5;
+            this.kchkDoNotShowAgain.Values.Text = "CB1";
+            this.kchkDoNotShowAgain.Visible = false;
+            // 
             // VisualToastNotificationBasicRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,5 +241,6 @@
         private KryptonLabel klblToastLocation;
         private KryptonWrapLabel kwlToastHeader;
         private KryptonWrapLabel kwlToastContent;
+        private KryptonCheckBox kchkDoNotShowAgain;
     }
 }

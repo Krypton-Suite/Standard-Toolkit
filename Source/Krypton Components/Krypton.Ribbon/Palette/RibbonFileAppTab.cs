@@ -22,7 +22,6 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonFileAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        /// <param name="palette">Source for palette values.</param>
         public RibbonFileAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);

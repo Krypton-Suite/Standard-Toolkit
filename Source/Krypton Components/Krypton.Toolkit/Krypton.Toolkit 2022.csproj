@@ -463,6 +463,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -869,6 +874,10 @@
         <EmbeddedResource Update="ResourceFiles\VisualStudio\VisualStudioImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>

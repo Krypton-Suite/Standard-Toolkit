@@ -61,6 +61,10 @@ namespace Krypton.Toolkit
         /// <value>The notification title alignment.</value>
         public ContentAlignment? NotificationTitleAlignment { get; set; }
 
+        /// <summary>Gets or sets the user input ComboBox style.</summary>
+        /// <value>The user input ComboBox style.</value>
+        public ComboBoxStyle? UserInputComboBoxStyle { get; set; }
+
         /// <summary>Gets or sets the first border color.</summary>
         /// <value>The first border color.</value>
         public Color? BorderColor1 { get; set; }
@@ -68,6 +72,18 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the second border color.</summary>
         /// <value>The second border color.</value>
         public Color? BorderColor2 { get; set; }
+
+        /// <summary>Gets or sets the minimum date time value.</summary>
+        /// <value>The minimum date time value.</value>
+        public DateTime? MinimumDateTimeValue { get; set; }
+
+        /// <summary>Gets or sets the maximum date time value.</summary>
+        /// <value>The maximum date time value.</value>
+        public DateTime? MaximumDateTimeValue { get; set; }
+
+        /// <summary>Gets or sets the initial date time value.</summary>
+        /// <value>The initial date time value.</value>
+        public DateTime? InitialDateTimeValue { get; set; }
 
         /// <summary>Gets or sets the notification content font.</summary>
         /// <value>The notification content font.</value>
@@ -101,6 +117,10 @@ namespace Krypton.Toolkit
         /// <value>The notification location.</value>
         public Point? NotificationLocation { get; set; }
 
+        /// <summary>Gets or sets the application icon.</summary>
+        /// <value>The application icon.</value>
+        public Icon ApplicationIcon { get; set; }
+
         /// <summary>Gets or sets the toast host.</summary>
         /// <value>The toast host.</value>
         public IWin32Window? ToastHost { get; set; }
@@ -121,10 +141,6 @@ namespace Krypton.Toolkit
         /// <value>The optional CheckBox text.</value>
         public string? OptionalCheckBoxText { get; set; }
 
-        /// <summary>Gets or sets the user input item collection.</summary>
-        /// <value>The user input item collection.</value>
-        public ComboBox.ObjectCollection UserInputItemCollection { get; set; }
-
         /// <summary>Gets or sets the user input list.</summary>
         /// <value>The user input list.</value>
         public ArrayList UserInputList { get; set; }
@@ -133,9 +149,29 @@ namespace Krypton.Toolkit
         /// <value>The index of the selected user input.</value>
         public int? SelectedIndex { get; set; }
 
-        /// <summary>Gets the owner.</summary>
-        /// <value>The owner.</value>
-        public IWin32Window? Owner { get; internal set; }
+        /// <summary>Gets or sets the date time format.</summary>
+        /// <value>The date time format.</value>
+        public DateTimePickerFormat? DateTimeFormat { get; set; }
+
+        /// <summary>Gets or sets the custom date time format.</summary>
+        /// <value>The custom date time format.</value>
+        public string? CustomDateTimeFormat { get; set; }
+
+        /// <summary>Gets or sets the color of the toast notification cue.</summary>
+        /// <value>The color of the toast notification cue.</value>
+        public Color? ToastNotificationCueColor { get; set; }
+
+        /// <summary>Gets or sets the initial numeric up down value.</summary>
+        /// <value>The initial numeric up down value.</value>
+        public decimal? InitialNumericUpDownValue { get; set; }
+
+        /// <summary>Gets or sets the maximum numeric up down value.</summary>
+        /// <value>The maximum numeric up down value.</value>
+        public decimal? MaximumNumericUpDownValue { get; set; }
+
+        /// <summary>Gets or sets the minimum numeric up down value.</summary>
+        /// <value>The minimum numeric up down value.</value>
+        public decimal? MinimumNumericUpDownValue { get; set; }
 
         #endregion
 
@@ -172,6 +208,17 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             SelectedIndex = 0;
+        }
+
+        #endregion
+
+        #region Implementation
+
+        internal readonly void DisplayDebugData(KryptonUserInputToastNotificationData data)
+        {
+            Console.WriteLine($"ComboBox Items: {UserInputList}");
+
+            Console.ReadLine();
         }
 
         #endregion

@@ -70,6 +70,11 @@ namespace Krypton.Toolkit
         [Description(@"Occurs when the selected date changes.")]
         public event DateRangeEventHandler? DateChanged;
 
+        /// <summary>Occurs when the date is selected.</summary>
+        [Category(@"Action")]
+        [Description(@"Occurs when the date is selected.")]
+        public event DateRangeEventHandler? DateSelected;
+
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
@@ -1415,6 +1420,8 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged?.Invoke(this, e);
 
+        protected virtual void OnDateSelected(DateRangeEventArgs e) => DateSelected?.Invoke(this, e);
+
         /// <summary>
         /// Raises when the SelectionStartChanged event.
         /// </summary>
@@ -1715,6 +1722,8 @@ namespace Krypton.Toolkit
             {
                 OnDateChanged(new DateRangeEventArgs(_selectionStart, _selectionEnd));
             }
+
+            OnDateSelected(new DateRangeEventArgs(minDate, maxDate));
 
             SetFocusDay();
         }

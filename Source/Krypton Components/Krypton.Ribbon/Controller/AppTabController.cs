@@ -245,6 +245,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             ViewBase? newView = null;
+            
             var ribbon = c as KryptonRibbon;
 
             if (ribbon is null)
