@@ -23,6 +23,7 @@
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
 		* [`KryptonInputBox`](#kryptoninputbox)
+		* [Building the Toolkit](#building-the-toolkit)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -214,10 +215,13 @@ As of V90.##, support for .NET 6 and 7 has been removed due to their release cad
 Some properties previously found in the root such as, `ShowSplitOption`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
 
 ### API Changes
-If using `KryptonAboutToolkit`, please note that this has been superceeded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
+If using `KryptonAboutToolkit`, please note that this has been superceded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
 
 ### `KryptonInputBox`
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
+
+### Building the Toolkit
+As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here]().
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
