@@ -43,19 +43,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="target">Target for state changes.</param>
-        public RepeatButtonController([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] ViewBase target,
-                                      NeedPaintHandler needPaint)
+        public RepeatButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] ViewBase? target,
+                                      [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
 
             // Remember incoming references
-            _target = target;
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             _repeatTimer = new Timer
             {
