@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public override void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        public override void KeyDown([DisallowNull] Control? c, [DisallowNull] KeyEventArgs? e)
         {
             Debug.Assert(c is not null);
             Debug.Assert(e is not null);
@@ -58,6 +58,7 @@ namespace Krypton.Ribbon
             {
                 throw new ArgumentNullException(nameof(c));
             }
+
             if (e is null)
             {
                 throw new ArgumentNullException(nameof(e));
