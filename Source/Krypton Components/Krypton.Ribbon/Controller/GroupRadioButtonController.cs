@@ -53,20 +53,20 @@ namespace Krypton.Ribbon
         /// <param name="targetMain">Target for main element changes.</param>
         /// <param name="targetImage">Target for image state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupRadioButtonController([DisallowNull] KryptonRibbon ribbon,
-                                          [DisallowNull] ViewBase targetMain,
-                                          [DisallowNull] ViewDrawRibbonGroupRadioButtonImage targetImage,
-                                          [DisallowNull] NeedPaintHandler needPaint)
+        public GroupRadioButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                          [DisallowNull] ViewBase? targetMain,
+                                          [DisallowNull] ViewDrawRibbonGroupRadioButtonImage? targetImage,
+                                          [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(targetMain != null);
-            Debug.Assert(targetImage != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(targetMain is not null);
+            Debug.Assert(targetImage is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            TargetMain = targetMain;
-            _targetImage = targetImage;
-            NeedPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            TargetMain = targetMain ?? throw new ArgumentNullException(nameof(targetMain));
+            _targetImage = targetImage ?? throw new ArgumentNullException(nameof(targetImage));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
@@ -440,6 +440,16 @@ namespace Krypton.Ribbon
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

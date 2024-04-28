@@ -41,19 +41,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LeftUpButtonController([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] ViewBase target,
-                                      NeedPaintHandler needPaint)
+        public LeftUpButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] ViewBase? target,
+                                      [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
 
             // Remember target for state changes
-            Ribbon = ribbon;
-            Target = target;
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            Target = target ?? throw new ArgumentNullException(nameof(target));
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
