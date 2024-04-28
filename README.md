@@ -221,7 +221,7 @@ If using `KryptonAboutToolkit`, please note that this has been superceded by `Kr
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ### Building the Toolkit
-As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here]().
+As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Allowing-for-Longer-Path-and-File-Names.md).
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
