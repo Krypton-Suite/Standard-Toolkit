@@ -156,7 +156,12 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
+
+            if (Ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
