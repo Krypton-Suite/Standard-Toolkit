@@ -263,11 +263,6 @@ namespace Krypton.Ribbon
                 throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
             }
 
-            if (ribbon.TabsArea == null)
-            {
-                throw new NullReferenceException(_ribbonTabsAreaCannotBeNull);
-            }
-
             switch (e.KeyData)
             {
                 case Keys.Tab:
