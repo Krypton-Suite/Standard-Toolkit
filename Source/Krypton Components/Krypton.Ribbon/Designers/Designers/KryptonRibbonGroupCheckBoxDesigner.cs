@@ -60,18 +60,18 @@ namespace Krypton.Ribbon
             // Let base class do standard stuff
             base.Initialize(component);
 
-            Debug.Assert(component != null);
+            Debug.Assert(component is not null);
 
             // Cast to correct type
             _ribbonCheckBox = component as KryptonRibbonGroupCheckBox;
-            if (_ribbonCheckBox != null)
+            if (_ribbonCheckBox is not null)
             {
                 _ribbonCheckBox.DesignTimeContextMenu += OnContextMenu;
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -162,10 +162,12 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null
+                && _ribbonCheckBox.Ribbon is not null
+                && _ribbonCheckBox.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveFirst");
@@ -173,12 +175,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer!)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the check box
-                    items!.Remove(_ribbonCheckBox);
+                    items.Remove(_ribbonCheckBox);
                     items.Insert(0, _ribbonCheckBox);
                     UpdateVerbStatus();
 
@@ -194,10 +196,13 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null
+                && _ribbonCheckBox.Ribbon is not null
+                && _ribbonCheckBox.RibbonContainer is not null)
+
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MovePrevious");
@@ -205,7 +210,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer!)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -228,10 +233,12 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null
+                && _ribbonCheckBox.Ribbon is not null
+                && _ribbonCheckBox.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveNext");
@@ -239,12 +246,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer!)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items!.IndexOf(_ribbonCheckBox) + 1;
+                    var index = items.IndexOf(_ribbonCheckBox) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonCheckBox);
                     items.Insert(index, _ribbonCheckBox);
@@ -262,10 +269,12 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null
+                && _ribbonCheckBox.Ribbon is not null
+                && _ribbonCheckBox.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveLast");
@@ -273,12 +282,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer!)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    items!.Remove(_ribbonCheckBox);
+                    items.Remove(_ribbonCheckBox);
                     items.Insert(items.Count, _ribbonCheckBox);
                     UpdateVerbStatus();
 
@@ -294,10 +303,12 @@ namespace Krypton.Ribbon
 
         private void OnDeleteCheckBox(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null
+                && _ribbonCheckBox.Ribbon is not null
+                && _ribbonCheckBox.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox DeleteCheckBox");
@@ -305,14 +316,14 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer!)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
 
                     // Remove the check box from the group
-                    items!.Remove(_ribbonCheckBox);
+                    items.Remove(_ribbonCheckBox);
 
                     // Get designer to destroy it
                     _designerHost.DestroyComponent(_ribbonCheckBox);
@@ -330,7 +341,8 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Visible, !_ribbonCheckBox.Visible);
                 _ribbonCheckBox.Visible = !_ribbonCheckBox.Visible;
@@ -339,7 +351,7 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Enabled, !_ribbonCheckBox.Enabled);
                 _ribbonCheckBox.Enabled = !_ribbonCheckBox.Enabled;
@@ -348,7 +360,7 @@ namespace Krypton.Ribbon
 
         private void OnAutoCheck(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.AutoCheck, !_ribbonCheckBox.AutoCheck);
                 _ribbonCheckBox.AutoCheck = !_ribbonCheckBox.AutoCheck;
@@ -357,7 +369,7 @@ namespace Krypton.Ribbon
 
         private void OnThreeState(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.ThreeState, !_ribbonCheckBox.ThreeState);
                 _ribbonCheckBox.ThreeState = !_ribbonCheckBox.ThreeState;
@@ -366,7 +378,7 @@ namespace Krypton.Ribbon
 
         private void OnChecked(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox!.Ribbon != null)
+            if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Checked, !_ribbonCheckBox.Checked);
                 _ribbonCheckBox.Checked = !_ribbonCheckBox.Checked;
@@ -435,9 +447,9 @@ namespace Krypton.Ribbon
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(_ribbonCheckBox.RibbonContainer.ToString());
+                        DebugTools.NotImplemented(_ribbonCheckBox.RibbonContainer!.ToString());
                         return null;
                 }
             }

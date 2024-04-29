@@ -60,7 +60,8 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown;
+            _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+
             if (_ribbonNumericUpDown != null)
             {
                 _ribbonNumericUpDown.NumericUpDownDesigner = this;
@@ -81,8 +82,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_designerHost"));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_changeService"));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -204,7 +205,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonNumericUpDown.Ribbon != null)
             {
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonNumericUpDown) > 0;
                 movePrev = items.IndexOf(_ribbonNumericUpDown) > 0;
                 moveNext = items.IndexOf(_ribbonNumericUpDown) < (items.Count - 1);
@@ -228,27 +229,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonNumericUpDown.Ribbon != null)
+            if (_ribbonNumericUpDown.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveFirst");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
+                    if (_ribbonNumericUpDown.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the numeric up-down
-                    items.Remove(_ribbonNumericUpDown);
-                    items.Insert(0, _ribbonNumericUpDown);
-                    UpdateVerbStatus();
+                        // Move position of the numeric up-down
+                        items.Remove(_ribbonNumericUpDown);
+                        items.Insert(0, _ribbonNumericUpDown);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -260,29 +264,31 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonNumericUpDown.Ribbon != null)
+            if (_ribbonNumericUpDown.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MovePrevious");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
+                    if (_ribbonNumericUpDown.RibbonContainer is not null)
+                    {// Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the numeric up-down
-                    var index = items.IndexOf(_ribbonNumericUpDown) - 1;
-                    index = Math.Max(index, 0);
-                    items.Remove(_ribbonNumericUpDown);
-                    items.Insert(index, _ribbonNumericUpDown);
-                    UpdateVerbStatus();
+                        // Move position of the numeric up-down
+                        var index = items.IndexOf(_ribbonNumericUpDown) - 1;
+                        index = Math.Max(index, 0);
+                        items.Remove(_ribbonNumericUpDown);
+                        items.Insert(index, _ribbonNumericUpDown);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -294,29 +300,32 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonNumericUpDown.Ribbon != null)
+            if (_ribbonNumericUpDown.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveNext");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
+                    if (_ribbonNumericUpDown.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the numeric up-down
-                    var index = items.IndexOf(_ribbonNumericUpDown) + 1;
-                    index = Math.Min(index, items.Count - 1);
-                    items.Remove(_ribbonNumericUpDown);
-                    items.Insert(index, _ribbonNumericUpDown);
-                    UpdateVerbStatus();
+                        // Move position of the numeric up-down
+                        var index = items.IndexOf(_ribbonNumericUpDown) + 1;
+                        index = Math.Min(index, items.Count - 1);
+                        items.Remove(_ribbonNumericUpDown);
+                        items.Insert(index, _ribbonNumericUpDown);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -328,27 +337,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonNumericUpDown.Ribbon != null)
+            if (_ribbonNumericUpDown.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveLast");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
+                    if (_ribbonNumericUpDown.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the numeric up-down
-                    items.Remove(_ribbonNumericUpDown);
-                    items.Insert(items.Count, _ribbonNumericUpDown);
-                    UpdateVerbStatus();
+                        // Move position of the numeric up-down
+                        items.Remove(_ribbonNumericUpDown);
+                        items.Insert(items.Count, _ribbonNumericUpDown);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -363,27 +375,30 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown DeleteNumericUpDown");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
+                    if (_ribbonNumericUpDown.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonNumericUpDown.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(null);
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(null);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Remove the numeric up-down from the group
-                    items.Remove(_ribbonNumericUpDown);
+                        // Remove the numeric up-down from the group
+                        items.Remove(_ribbonNumericUpDown);
 
-                    // Get designer to destroy it
-                    _designerHost.DestroyComponent(_ribbonNumericUpDown);
+                        // Get designer to destroy it
+                        _designerHost.DestroyComponent(_ribbonNumericUpDown);
 
-                    RaiseComponentChanged(propertyItems, null, null);
-                    RaiseComponentChanged(null, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(null, null, null);
+                    }
                 }
                 finally
                 {
@@ -397,8 +412,8 @@ namespace Krypton.Ribbon
         {
             if (_ribbonNumericUpDown.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Enabled)];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonNumericUpDown);
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+                var oldValue = (bool?)propertyEnabled.GetValue(_ribbonNumericUpDown);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonNumericUpDown, newValue);
@@ -409,8 +424,8 @@ namespace Krypton.Ribbon
         {
             if (_ribbonNumericUpDown.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Visible)];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonNumericUpDown);
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+                var oldValue = (bool?)propertyVisible.GetValue(_ribbonNumericUpDown);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonNumericUpDown, newValue);
@@ -471,9 +486,9 @@ namespace Krypton.Ribbon
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(_ribbonNumericUpDown.RibbonContainer.ToString());
+                        DebugTools.NotImplemented(_ribbonNumericUpDown.RibbonContainer!.ToString());
                         return null;
                 }
             }
