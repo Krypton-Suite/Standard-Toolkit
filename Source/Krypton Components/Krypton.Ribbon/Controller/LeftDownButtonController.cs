@@ -43,17 +43,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
-        public LeftDownButtonController([DisallowNull] KryptonRibbon ribbon,
-                                        [DisallowNull] ViewBase target,
-                                        [DisallowNull] NeedPaintHandler needPaint)
+        public LeftDownButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                        [DisallowNull] ViewBase? target,
+                                        [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(needPaint is not null);
 
-            Ribbon = ribbon;
-            Target = target;
-            _needPaint = needPaint;
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            Target = target ?? throw new ArgumentNullException(nameof(target));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             _updateTimer = new Timer
             {
