@@ -35,7 +35,13 @@ namespace Krypton.Ribbon
             [DisallowNull] IPaletteRibbonText ribbonRecentTitleText)
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonRecentTitleText != null);
+            Debug.Assert(ribbonRecentTitleText is not null);
+
+            if (ribbonRecentTitleText is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonRecentTitleText)));
+            }
+
             _ribbonRecentTitleText = ribbonRecentTitleText;
         }
 

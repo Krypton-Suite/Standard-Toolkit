@@ -17,8 +17,8 @@ namespace Krypton.Ribbon
     internal class ViewRibbonQATOverflowManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        private ViewBase _focusView;
+        private readonly KryptonRibbon? _ribbon;
+        private ViewBase? _focusView;
         private bool _layingOut;
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a the view that handles the overflow items.
         /// </summary>
-        public ViewLayoutRibbonQATContents QATContents { get; }
+        public ViewLayoutRibbonQATContents? QATContents { get; }
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
                                               Size proposedSize)
         {
             // Update the calculated values used during layout calls
-            _ribbon.CalculatedValues.Recalculate();
+            _ribbon!.CalculatedValues.Recalculate();
 
             // Let base class perform standard preferred sizing actions
             return base.GetPreferredSize(renderer, proposedSize);
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
                 _layingOut = true;
 
                 // Update the calculated values used during layout calls
-                _ribbon.CalculatedValues.Recalculate();
+                _ribbon!.CalculatedValues.Recalculate();
 
                 // Let base class perform standard layout actions
                 base.Layout(context);
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 
@@ -148,12 +148,12 @@ namespace Krypton.Ribbon
                 if (_focusView != value)
                 {
                     // Remove focus from existing view
-                    _focusView?.LostFocus(Root.OwningControl);
+                    _focusView?.LostFocus(Root.OwningControl!);
 
                     _focusView = value;
 
                     // Add focus to the new view
-                    _focusView?.GotFocus(Root.OwningControl);
+                    _focusView?.GotFocus(Root.OwningControl!);
                 }
             }
         }

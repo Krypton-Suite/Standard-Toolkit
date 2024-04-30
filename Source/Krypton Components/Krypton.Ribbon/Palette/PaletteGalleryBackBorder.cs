@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
                                               IPaletteBorder
     {
         #region Instance Fields
-        private PaletteGalleryState _state;
+        private PaletteGalleryState? _state;
         #endregion
 
         #region Identity
@@ -65,14 +65,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor1(state);
+        public Color GetBackColor1(PaletteState state) => _state!.RibbonGalleryBack.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second back color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor2(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor2(state);
+        public Color GetBackColor2(PaletteState state) => _state!.RibbonGalleryBack.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.
@@ -145,14 +145,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor1(state);
+        public Color GetBorderColor1(PaletteState state) => _state!.RibbonGalleryBorder.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor2(state);
+        public Color GetBorderColor2(PaletteState state) => _state!.RibbonGalleryBorder.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.

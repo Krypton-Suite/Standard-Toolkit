@@ -19,8 +19,10 @@ namespace Krypton.Ribbon
         private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
         private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();
 
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
         private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
         private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
 
 
         public BiDictionary(IDictionary<TFirst, TSecond> dictionary)

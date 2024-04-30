@@ -30,9 +30,20 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonStyles([DisallowNull] KryptonRibbon ribbon,
-                                   NeedPaintHandler needPaint)
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(ribbon != null);
+            Debug.Assert(_ribbon is not null);
+
+            if (_ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            }
+
+            if (needPaint is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            }
+
             _ribbon = ribbon;
 
             // Store the provided paint notification delegate

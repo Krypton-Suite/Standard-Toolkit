@@ -31,10 +31,20 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Inheritence redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
         public PaletteRibbonFocus([DisallowNull] PaletteRedirect redirect,
-                                  NeedPaintHandler needPaint)
+                                  [DisallowNull] NeedPaintHandler needPaint)
             : base(redirect)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
+
+            if (redirect is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(redirect)));
+            }
+
+            if (needPaint is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            }
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

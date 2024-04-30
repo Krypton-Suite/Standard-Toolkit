@@ -27,7 +27,13 @@ namespace Krypton.Ribbon
         /// <param name="qatButton">Source for button values.</param>
         public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
         {
-            Debug.Assert(qatButton != null);
+            Debug.Assert(qatButton is not null);
+
+            if (qatButton is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(qatButton)));
+            }
+
             _qatButton = qatButton;
         }
         #endregion
@@ -89,14 +95,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextFont(PaletteState state) => null;
+        public Font? GetContentShortTextFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextNewFont(PaletteState state) => null;
+        public Font? GetContentShortTextNewFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -208,14 +214,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextFont(PaletteState state) => null;
+        public Font? GetContentLongTextFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => null;
+        public Font? GetContentLongTextNewFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the rendering hint for the long text.

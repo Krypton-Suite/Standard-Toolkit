@@ -40,10 +40,30 @@ namespace Krypton.Ribbon
 
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonGroupTextNormal != null);
-            Debug.Assert(ribbonGroupTextDisabled != null);
-            Debug.Assert(ribbonLabelTextNormal != null);
-            Debug.Assert(ribbonLabelTextDisabled != null);
+            Debug.Assert(ribbonGroupTextNormal is not null);
+            Debug.Assert(ribbonGroupTextDisabled is not null);
+            Debug.Assert(ribbonLabelTextNormal is not null);
+            Debug.Assert(ribbonLabelTextDisabled is not null);
+
+            if (ribbonGroupTextNormal is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroupTextNormal)));
+            }
+
+            if (ribbonGroupTextDisabled is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroupTextDisabled)));
+            }
+
+            if (ribbonLabelTextNormal is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonLabelTextNormal)));
+            }
+
+            if (ribbonLabelTextDisabled is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonLabelTextDisabled)));
+            }
 
             _ribbonGroupTextNormal = ribbonGroupTextNormal;
             _ribbonGroupTextDisabled = ribbonGroupTextDisabled;
