@@ -31,10 +31,11 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="start">Is this is cluster start separator.</param>
-        public ViewDrawRibbonGroupClusterSeparator([DisallowNull] KryptonRibbon ribbon, bool start)
+        public ViewDrawRibbonGroupClusterSeparator([DisallowNull] KryptonRibbon? ribbon, bool start)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon )));
             _start = start;
             _preferredSize = new Size((int)(1 * FactorDpiX), (int)(4 * FactorDpiY));
         }
@@ -62,10 +63,10 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 

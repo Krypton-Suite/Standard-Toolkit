@@ -154,7 +154,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase SeparatorView { get; set; }
+        public ViewBase? SeparatorView { get; set; }
 
         #endregion
 

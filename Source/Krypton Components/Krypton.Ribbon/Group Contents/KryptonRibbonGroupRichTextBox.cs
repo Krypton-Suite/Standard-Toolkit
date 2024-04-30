@@ -1198,7 +1198,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase RichTextBoxView { get; set; }
+        public ViewBase? RichTextBoxView { get; set; }
 
         #endregion
 

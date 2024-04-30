@@ -33,14 +33,14 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to ribbon group button definition.</param>
         /// <param name="large">Show the large image.</param>
-        public ViewDrawRibbonGroupButtonImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupButton ribbonButton,
+        public ViewDrawRibbonGroupButtonImage([DisallowNull] KryptonRibbon ribbon,
+                                              [DisallowNull] KryptonRibbonGroupButton ribbonButton,
                                               bool large)
             : base(ribbon)
         {
             Debug.Assert(ribbonButton != null);
 
-            _ribbonButton = ribbonButton;
+            _ribbonButton = ribbonButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonButton)));
             _large = large;
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));

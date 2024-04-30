@@ -566,7 +566,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase DomainUpDownView { get; set; }
+        public ViewBase? DomainUpDownView { get; set; }
 
         #endregion
 

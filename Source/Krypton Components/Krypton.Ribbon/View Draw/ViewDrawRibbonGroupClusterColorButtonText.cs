@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupClusterColorButton _ribbonColorButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private int _heightExtra;
         private Size _preferredSize;
         private Rectangle _displayRect;
@@ -39,15 +39,15 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonColorButton">Group cluster color button to display title for.</param>
-        public ViewDrawRibbonGroupClusterColorButtonText([DisallowNull] KryptonRibbon ribbon,
-                                                         [DisallowNull] KryptonRibbonGroupClusterColorButton ribbonColorButton)
+        public ViewDrawRibbonGroupClusterColorButtonText([DisallowNull] KryptonRibbon? ribbon,
+                                                         [DisallowNull] KryptonRibbonGroupClusterColorButton? ribbonColorButton)
                                              
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonColorButton != null);
 
-            _ribbon = ribbon;
-            _ribbonColorButton = ribbonColorButton;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbonColorButton = ribbonColorButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonColorButton)));
 
             // Use a class to convert from ribbon group to content interface
             _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,
@@ -146,10 +146,10 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

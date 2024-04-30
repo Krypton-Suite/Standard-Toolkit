@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly DomainUpDownController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -36,18 +36,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonDomainUpDown">Reference to source domain up-down.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDomainUpDown([DisallowNull] KryptonRibbon ribbon,
-                                               [DisallowNull] KryptonRibbonGroupDomainUpDown ribbonDomainUpDown,
-                                               [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupDomainUpDown([DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] KryptonRibbonGroupDomainUpDown? ribbonDomainUpDown,
+                                               [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonDomainUpDown != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonDomainUpDown is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupDomainUpDown = ribbonDomainUpDown;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            GroupDomainUpDown = ribbonDomainUpDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonDomainUpDown)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
             _currentSize = GroupDomainUpDown.ItemSizeCurrent;
 
             // Hook into the domain up-down events
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the domain up-down for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager!.LayoutBefore += OnLayoutAction;
             _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the domain up-down definition
@@ -108,7 +108,7 @@ namespace Krypton.Ribbon
                     GroupDomainUpDown.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupDomainUpDown.ViewPaintDelegate = null;
                     GroupDomainUpDown.PropertyChanged -= OnDomainUpDownPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
@@ -125,7 +125,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group domain up-down instance.
         /// </summary>
-        public KryptonRibbonGroupDomainUpDown GroupDomainUpDown { get; private set; }
+        public KryptonRibbonGroupDomainUpDown? GroupDomainUpDown { get; private set; }
 
         #endregion
 
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
-            _ribbon.HideFocus(GroupDomainUpDown.DomainUpDown);
+            _ribbon.HideFocus(GroupDomainUpDown!.DomainUpDown);
             base.LostFocus(c);
         }
         #endregion
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem() => GroupDomainUpDown is { Visible: true, LastDomainUpDown.DomainUpDown.CanSelect: true }
                 ? this
-                : null;
+                : null!;
         #endregion
 
         #region GetNextFocusItem
@@ -181,7 +181,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList, int lineHint)
         {
             // Only provide a key tip if we are visible and the target control can accept focus
-            if (Visible && LastDomainUpDown.CanFocus)
+            if (Visible && LastDomainUpDown!.CanFocus)
             {
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupDomainUpDown.Enabled, 
+                keyTipList.Add(new KeyTipInfo(GroupDomainUpDown!.Enabled, 
                                               GroupDomainUpDown.KeyTip,
                                               screenPt, 
                                               ClientRectangle,
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize() => _currentSize = GroupDomainUpDown.ItemSizeCurrent;
+        public void ResetGroupItemSize() => _currentSize = GroupDomainUpDown!.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -259,7 +259,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a domain up-down associated then ask for its requested size
             if (LastDomainUpDown != null)
@@ -293,10 +293,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastDomainUpDown?.SetBounds(ClientLocation.X + 1,
@@ -320,7 +320,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // If we do not have a domain up-down
-            if (GroupDomainUpDown.DomainUpDown == null)
+            if (GroupDomainUpDown!.DomainUpDown == null)
             {
                 // And we are in design time
                 if (_ribbon.InDesignMode)
@@ -331,7 +331,7 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the domain up-down will be
-                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
                     context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupDomainUpDown.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupDomainUpDown!.OnDesignTimeContextMenu(e);
 
         private void OnDomainUpDownPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -375,10 +375,10 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    UpdateEnabled(LastDomainUpDown);
+                    UpdateEnabled(LastDomainUpDown!);
                     break;
                 case nameof(Visible):
-                    UpdateVisible(LastDomainUpDown);
+                    UpdateVisible(LastDomainUpDown!);
                     updateLayout = true;
                     break;
                 case "CustomControl":
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupDomainUpDown.RibbonTab != null) &&
+                if ((GroupDomainUpDown!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupDomainUpDown.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -417,14 +417,14 @@ namespace Krypton.Ribbon
 
         private Control LastParentControl
         {
-            get => GroupDomainUpDown.LastParentControl;
-            set => GroupDomainUpDown.LastParentControl = value;
+            get => GroupDomainUpDown!.LastParentControl;
+            set => GroupDomainUpDown!.LastParentControl = value;
         }
 
         private KryptonDomainUpDown? LastDomainUpDown
         {
-            get => GroupDomainUpDown.LastDomainUpDown;
-            set => GroupDomainUpDown.LastDomainUpDown = value;
+            get => GroupDomainUpDown!.LastDomainUpDown;
+            set => GroupDomainUpDown!.LastDomainUpDown = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -432,10 +432,10 @@ namespace Krypton.Ribbon
             // Is there a change in the domain up-down or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastDomainUpDown != GroupDomainUpDown.DomainUpDown))
+                (LastDomainUpDown != GroupDomainUpDown!.DomainUpDown))
             {
                 // We only modify the parent and visible state if processing for correct container
-                if ((GroupDomainUpDown.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
+                if ((GroupDomainUpDown!.RibbonContainer!.RibbonGroup!.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupDomainUpDown.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custrom control to a parent before
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupDomainUpDown.Enabled;
+                var enabled = GroupDomainUpDown!.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
@@ -492,7 +492,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDomainUpDown.Visible;
+                var visible = GroupDomainUpDown!.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
@@ -512,7 +512,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDomainUpDown.Visible;
+                var visible = GroupDomainUpDown!.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
@@ -539,7 +539,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if (GroupDomainUpDown.RibbonContainer.RibbonGroup.IsCollapsed &&
+                            if (GroupDomainUpDown.RibbonContainer!.RibbonGroup!.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupDomainUpDown.DomainUpDown) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupDomainUpDown.DomainUpDown) is VisualPopupMinimized)))
                             {
@@ -561,7 +561,7 @@ namespace Krypton.Ribbon
                                     }
 
                                     // Move up a level
-                                    container = container.RibbonContainer;
+                                    container = container.RibbonContainer!;
                                 }
                             }
                         }
@@ -578,7 +578,7 @@ namespace Krypton.Ribbon
             if (GroupDomainUpDown != null)
             {
                 // Change in selected tab requires a retest of the control visibility
-                UpdateVisible(LastDomainUpDown);
+                UpdateVisible(LastDomainUpDown!);
             }
         }
 
@@ -588,10 +588,10 @@ namespace Krypton.Ribbon
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            ViewBase? parent = Parent;
 
             // Keep going till we get to the top or find a group
-            while (parent != null)
+            while (parent is not null)
             {
                 if (parent is ViewDrawRibbonGroup ribGroup)
                 {
@@ -604,7 +604,7 @@ namespace Krypton.Ribbon
             }
 
             // If we found a group we are inside
-            if (_activeGroup != null)
+            if (_activeGroup is not null)
             {
                 _activeGroup.Tracking = true;
                 _needPaint(this, new NeedLayoutEventArgs(false, _activeGroup.ClientRectangle));

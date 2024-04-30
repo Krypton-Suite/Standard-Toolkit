@@ -31,13 +31,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to ribbon group button definition.</param>
-        public ViewDrawRibbonGroupClusterButtonImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton)
+        public ViewDrawRibbonGroupClusterButtonImage([DisallowNull] KryptonRibbon? ribbon,
+                                                     [DisallowNull] KryptonRibbonGroupClusterButton? ribbonButton)
             : base(ribbon)
         {
-            Debug.Assert(ribbonButton != null);
+            Debug.Assert(ribbonButton is not null);
 
-            _ribbonButton = ribbonButton;
+            _ribbonButton = ribbonButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
         }
 

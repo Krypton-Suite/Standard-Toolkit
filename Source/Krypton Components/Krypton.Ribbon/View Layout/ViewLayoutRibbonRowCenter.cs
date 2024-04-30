@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
                 if (child.Visible)
                 {
                     // Ask child for it's own preferred size
-                    Size childPreferred = child.GetPreferredSize(context);
+                    Size childPreferred = child.GetPreferredSize(context!);
 
                     // Cache the child preferred size for use in layout
                     switch (CurrentSize)

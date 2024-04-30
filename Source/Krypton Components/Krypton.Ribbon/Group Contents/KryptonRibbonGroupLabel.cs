@@ -359,7 +359,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase LabelView { get; set; }
+        public ViewBase? LabelView { get; set; }
 
         #endregion
 

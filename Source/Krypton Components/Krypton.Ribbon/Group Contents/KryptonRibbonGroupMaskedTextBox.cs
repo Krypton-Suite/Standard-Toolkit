@@ -851,7 +851,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase MaskedTextBoxView { get; set; }
+        public ViewBase? MaskedTextBoxView { get; set; }
 
         #endregion
 

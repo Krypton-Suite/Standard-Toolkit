@@ -38,11 +38,11 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon? ribbon,
                                          bool bottomHalf)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
 
             AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
             _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);

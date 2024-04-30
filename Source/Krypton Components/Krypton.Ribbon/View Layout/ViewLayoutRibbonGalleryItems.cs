@@ -56,25 +56,25 @@ namespace Krypton.Ribbon
         /// <param name="buttonUp">Reference to the up button.</param>
         /// <param name="buttonDown">Reference to the down button.</param>
         /// <param name="buttonContext">Reference to the context button.</param>
-        public ViewLayoutRibbonGalleryItems([DisallowNull] PaletteBase palette,
-                                            [DisallowNull] KryptonGallery gallery,
-                                            [DisallowNull] NeedPaintHandler needPaint,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonUp,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonDown,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonContext)
+        public ViewLayoutRibbonGalleryItems([DisallowNull] PaletteBase? palette,
+                                            [DisallowNull] KryptonGallery? gallery,
+                                            [DisallowNull] NeedPaintHandler? needPaint,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton? buttonUp,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton? buttonDown,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton? buttonContext)
         {
-            Debug.Assert(palette != null);
-            Debug.Assert(gallery != null);
-            Debug.Assert(needPaint != null);
-            Debug.Assert(buttonUp != null);
-            Debug.Assert(buttonDown != null);
-            Debug.Assert(buttonContext != null);
+            Debug.Assert(palette is not null);
+            Debug.Assert(gallery is not null);
+            Debug.Assert(needPaint is not null);
+            Debug.Assert(buttonUp is not null);
+            Debug.Assert(buttonDown is not null);
+            Debug.Assert(buttonContext is not null);
 
-            _gallery = gallery;
-            _needPaint = needPaint;
-            _buttonUp = buttonUp;
-            _buttonDown = buttonDown;
-            _buttonContext = buttonContext;
+            _gallery = gallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(gallery)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _buttonUp = buttonUp ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonUp)));
+            _buttonDown = buttonDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonDown)));
+            _buttonContext = buttonContext ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonContext)));
             _bringIntoView = -1;
             ScrollIntoView = true;
 
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
 
             // Create triple that can be used by the draw button
             _style = ButtonStyle.LowProfile;
-            _triple = new PaletteTripleToPalette(palette,
+            _triple = new PaletteTripleToPalette(palette!,
                                                  PaletteBackStyle.ButtonLowProfile,
                                                  PaletteBorderStyle.ButtonLowProfile,
                                                  PaletteContentStyle.ButtonLowProfile);
@@ -371,7 +371,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Ask child for its own preferred size
-                preferredSize = this[0]!.GetPreferredSize(context);
+                preferredSize = this[0]!.GetPreferredSize(context!);
 
                 // Find preferred size from the preferred item size
                 preferredSize.Width *= _gallery.PreferredItemSize.Width;

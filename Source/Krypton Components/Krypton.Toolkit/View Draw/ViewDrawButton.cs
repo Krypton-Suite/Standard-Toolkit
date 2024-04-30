@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteNormal,
                               IPaletteTriple paletteTracking,
                               IPaletteTriple palettePressed,
-                              IPaletteMetric paletteMetric,
+                              IPaletteMetric? paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteCheckedNormal,
                               IPaletteTriple paletteCheckedTracking,
                               IPaletteTriple paletteCheckedPressed,
-                              IPaletteMetric paletteMetric,
+                              IPaletteMetric? paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
 
             // Our view contains background and border with content inside
             _drawContent = new ViewDrawContent(_paletteNormal.PaletteContent, buttonValues, orientation);
-            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder!, paletteMetric, PaletteMetricPadding.None, orientation);
+            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder!, paletteMetric!, PaletteMetricPadding.None, orientation);
 
             // Use a docker layout to organize the contents of the canvas
             LayoutDocker = new ViewLayoutDocker

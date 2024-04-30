@@ -45,11 +45,11 @@ namespace Krypton.Ribbon
                                                [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
                                                bool firstText)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonCheckBox != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonCheckBox is not null);
 
-            _ribbon = ribbon;
-            _ribbonCheckBox = ribbonCheckBox;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbonCheckBox = ribbonCheckBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCheckBox )));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -147,12 +147,12 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

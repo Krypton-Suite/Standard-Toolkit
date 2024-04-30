@@ -33,18 +33,18 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
         /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control parentControl,
-                                               KryptonRibbon ribbon,
-                                               NeedPaintHandler needPaint,
+        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control? parentControl,
+                                               [DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] NeedPaintHandler? needPaint,
                                                bool showExtraButton,
-                                               [DisallowNull] ViewLayoutRibbonQATContents contents)
+                                               [DisallowNull] ViewLayoutRibbonQATContents? contents)
             : base(ribbon, needPaint, showExtraButton)
         {
-            Debug.Assert(parentControl != null);
-            Debug.Assert(contents != null);
+            Debug.Assert(parentControl is not null);
+            Debug.Assert(contents is not null);
             
-            _contents = contents;
-            ParentControl = parentControl;
+            _contents = contents ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(contents)));
+            ParentControl = parentControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(parentControl)));
         }
         #endregion
 
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
                     // If the button requests to be shown...
                     if (qatButton.GetVisible())
                     {
-                        ViewBase qatView = _contents.ViewForButton(qatButton);
+                        ViewBase? qatView = _contents.ViewForButton(qatButton);
 
                         //...but the view is not displayed, then show on overflow
                         if (qatView is { Visible: false })
