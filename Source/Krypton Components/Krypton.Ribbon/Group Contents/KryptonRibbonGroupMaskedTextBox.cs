@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _visible;
         private bool _enabled;
-        private string _keyTip;
+        private string? _keyTip;
         private GroupItemSize _itemSizeCurrent;
 
         #endregion
@@ -275,7 +275,7 @@ namespace Krypton.Ribbon
         [Description(@"Ribbon group masked text box key tip.")]
         [DefaultValue("X")]
         [AllowNull]
-        public string KeyTip
+        public string? KeyTip
         {
             get => _keyTip;
 
@@ -286,7 +286,7 @@ namespace Krypton.Ribbon
                     value = @"X";
                 }
 
-                _keyTip = value.ToUpper();
+                _keyTip = value?.ToUpper();
             }
         }
 
