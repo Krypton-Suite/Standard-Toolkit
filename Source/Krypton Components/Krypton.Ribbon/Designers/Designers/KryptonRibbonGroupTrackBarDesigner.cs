@@ -60,8 +60,9 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonTrackBar = component as KryptonRibbonGroupTrackBar;
-            if (_ribbonTrackBar != null)
+            _ribbonTrackBar = component as KryptonRibbonGroupTrackBar ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+
+            if (_ribbonTrackBar is not null && _ribbonTrackBar.TrackBar is not null)
             {
                 _ribbonTrackBar.TrackBarDesigner = this;
 
@@ -81,8 +82,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -157,7 +158,7 @@ namespace Krypton.Ribbon
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                var descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = (PropertyDescriptor?)properties[strArray[i]];
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupTrackBarDesigner), descrip, attributes);
@@ -185,7 +186,7 @@ namespace Krypton.Ribbon
         private void UpdateVerbStatus()
         {
             // Create verbs first time around
-            if (_verbs == null)
+            if (_verbs is null)
             {
                 _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
@@ -205,7 +206,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonTrackBar.Ribbon != null)
             {
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonTrackBar) > 0;
                 movePrev = items.IndexOf(_ribbonTrackBar) > 0;
                 moveNext = items.IndexOf(_ribbonTrackBar) < (items.Count - 1);
@@ -229,27 +230,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveFirst");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
+                    if (_ribbonTrackBar.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the trackbar
-                    items.Remove(_ribbonTrackBar);
-                    items.Insert(0, _ribbonTrackBar);
-                    UpdateVerbStatus();
+                        // Move position of the trackbar
+                        items.Remove(_ribbonTrackBar);
+                        items.Insert(0, _ribbonTrackBar);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -261,29 +265,32 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MovePrevious");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
+                    if (_ribbonTrackBar.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the trackbar
-                    var index = items.IndexOf(_ribbonTrackBar) - 1;
-                    index = Math.Max(index, 0);
-                    items.Remove(_ribbonTrackBar);
-                    items.Insert(index, _ribbonTrackBar);
-                    UpdateVerbStatus();
+                        // Move position of the trackbar
+                        var index = items.IndexOf(_ribbonTrackBar) - 1;
+                        index = Math.Max(index, 0);
+                        items.Remove(_ribbonTrackBar);
+                        items.Insert(index, _ribbonTrackBar);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -295,29 +302,32 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveNext");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
+                    if (_ribbonTrackBar.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the trackbar
-                    var index = items.IndexOf(_ribbonTrackBar) + 1;
-                    index = Math.Min(index, items.Count - 1);
-                    items.Remove(_ribbonTrackBar);
-                    items.Insert(index, _ribbonTrackBar);
-                    UpdateVerbStatus();
+                        // Move position of the trackbar
+                        var index = items.IndexOf(_ribbonTrackBar) + 1;
+                        index = Math.Min(index, items.Count - 1);
+                        items.Remove(_ribbonTrackBar);
+                        items.Insert(index, _ribbonTrackBar);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -329,27 +339,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar MoveLast");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
+                    if (_ribbonTrackBar.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the trackbar
-                    items.Remove(_ribbonTrackBar);
-                    items.Insert(items.Count, _ribbonTrackBar);
-                    UpdateVerbStatus();
+                        // Move position of the trackbar
+                        items.Remove(_ribbonTrackBar);
+                        items.Insert(items.Count, _ribbonTrackBar);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -361,30 +374,33 @@ namespace Krypton.Ribbon
 
         private void OnDeleteTrackBar(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTrackBar DeleteTrackBar");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
+                    if (_ribbonTrackBar.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTrackBar.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(null);
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(null);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Remove the trackbar from the group
-                    items.Remove(_ribbonTrackBar);
+                        // Remove the trackbar from the group
+                        items.Remove(_ribbonTrackBar);
 
-                    // Get designer to destroy it
-                    _designerHost.DestroyComponent(_ribbonTrackBar);
+                        // Get designer to destroy it
+                        _designerHost.DestroyComponent(_ribbonTrackBar);
 
-                    RaiseComponentChanged(propertyItems, null, null);
-                    RaiseComponentChanged(null, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(null, null, null);
+                    }
                 }
                 finally
                 {
@@ -396,10 +412,10 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonTrackBar);
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+                var oldValue = (bool?)propertyEnabled.GetValue(_ribbonTrackBar);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonTrackBar, newValue);
@@ -408,10 +424,10 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonTrackBar);
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+                var oldValue = (bool?)propertyVisible.GetValue(_ribbonTrackBar);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonTrackBar, newValue);
@@ -422,7 +438,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonTrackBar.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon is not null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -465,16 +481,16 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonTrackBar.RibbonContainer)
+                switch (_ribbonTrackBar.RibbonContainer!)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(_ribbonTrackBar.RibbonContainer.ToString());
+                        DebugTools.NotImplemented(_ribbonTrackBar.RibbonContainer!.ToString());
                         return null;
                 }
             }

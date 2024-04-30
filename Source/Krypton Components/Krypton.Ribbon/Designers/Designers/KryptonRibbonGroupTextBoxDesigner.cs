@@ -60,7 +60,8 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonTextBox = component as KryptonRibbonGroupTextBox;
+            _ribbonTextBox = component as KryptonRibbonGroupTextBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+
             if (_ribbonTextBox != null)
             {
                 _ribbonTextBox.TextBoxDesigner = this;
@@ -81,8 +82,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -157,7 +158,7 @@ namespace Krypton.Ribbon
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                var descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = (PropertyDescriptor?)properties[strArray[i]];
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupTextBoxDesigner), descrip, attributes);
@@ -205,7 +206,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonTextBox.Ribbon != null)
             {
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonTextBox) > 0;
                 movePrev = items.IndexOf(_ribbonTextBox) > 0;
                 moveNext = items.IndexOf(_ribbonTextBox) < (items.Count - 1);
@@ -229,27 +230,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveFirst");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
+                    if (_ribbonTextBox.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the textbox
-                    items.Remove(_ribbonTextBox);
-                    items.Insert(0, _ribbonTextBox);
-                    UpdateVerbStatus();
+                        // Move position of the textbox
+                        items.Remove(_ribbonTextBox);
+                        items.Insert(0, _ribbonTextBox);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -264,26 +268,29 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MovePrevious");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
+                    if (_ribbonTextBox.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the textbox
-                    var index = items.IndexOf(_ribbonTextBox) - 1;
-                    index = Math.Max(index, 0);
-                    items.Remove(_ribbonTextBox);
-                    items.Insert(index, _ribbonTextBox);
-                    UpdateVerbStatus();
+                        // Move position of the textbox
+                        var index = items.IndexOf(_ribbonTextBox) - 1;
+                        index = Math.Max(index, 0);
+                        items.Remove(_ribbonTextBox);
+                        items.Insert(index, _ribbonTextBox);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -295,29 +302,32 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveNext");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
+                    if (_ribbonTextBox.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the textbox
-                    var index = items.IndexOf(_ribbonTextBox) + 1;
-                    index = Math.Min(index, items.Count - 1);
-                    items.Remove(_ribbonTextBox);
-                    items.Insert(index, _ribbonTextBox);
-                    UpdateVerbStatus();
+                        // Move position of the textbox
+                        var index = items.IndexOf(_ribbonTextBox) + 1;
+                        index = Math.Min(index, items.Count - 1);
+                        items.Remove(_ribbonTextBox);
+                        items.Insert(index, _ribbonTextBox);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -329,27 +339,30 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveLast");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
+                    if (_ribbonTextBox.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Move position of the textbox
-                    items.Remove(_ribbonTextBox);
-                    items.Insert(items.Count, _ribbonTextBox);
-                    UpdateVerbStatus();
+                        // Move position of the textbox
+                        items.Remove(_ribbonTextBox);
+                        items.Insert(items.Count, _ribbonTextBox);
+                        UpdateVerbStatus();
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -361,30 +374,33 @@ namespace Krypton.Ribbon
 
         private void OnDeleteTextBox(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox DeleteTextBox");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
+                    if (_ribbonTextBox.RibbonContainer is not null)
+                    {
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTextBox.RibbonContainer)[@"Items"];
 
-                    RaiseComponentChanging(null);
-                    RaiseComponentChanging(propertyItems);
+                        RaiseComponentChanging(null);
+                        RaiseComponentChanging(propertyItems);
 
-                    // Remove the textbox from the group
-                    items.Remove(_ribbonTextBox);
+                        // Remove the textbox from the group
+                        items.Remove(_ribbonTextBox);
 
-                    // Get designer to destroy it
-                    _designerHost.DestroyComponent(_ribbonTextBox);
+                        // Get designer to destroy it
+                        _designerHost.DestroyComponent(_ribbonTextBox);
 
-                    RaiseComponentChanged(propertyItems, null, null);
-                    RaiseComponentChanged(null, null, null);
+                        RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanged(null, null, null);
+                    }
                 }
                 finally
                 {
@@ -396,10 +412,10 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Enabled)];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonTextBox);
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+                var oldValue = (bool?)propertyEnabled.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonTextBox, newValue);
@@ -408,10 +424,10 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonTextBox.Ribbon != null)
+            if (_ribbonTextBox.Ribbon is not null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Visible)];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonTextBox);
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+                var oldValue = (bool?)propertyVisible.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonTextBox, newValue);
@@ -465,16 +481,16 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonTextBox.RibbonContainer)
+                switch (_ribbonTextBox!.RibbonContainer)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(_ribbonTextBox.RibbonContainer.ToString());
+                        DebugTools.NotImplemented(_ribbonTextBox.RibbonContainer!.ToString());
                         return null;
                 }
             }

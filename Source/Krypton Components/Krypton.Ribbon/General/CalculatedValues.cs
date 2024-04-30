@@ -49,10 +49,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the CalculatedValues class.
         /// </summary>
         /// <param name="ribbon">Source control instance.</param>
-        public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
+        public CalculatedValues([DisallowNull] KryptonRibbon? ribbon)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             _lastShape = PaletteRibbonShape.Inherit;
         }
@@ -239,7 +239,7 @@ namespace Krypton.Ribbon
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(groupLine.ToString());
                     screenPt = new Point(viewRect.X, viewRect.Y);
