@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (DateTimePicker != null)
+                if (DateTimePicker is not null)
                 {
                     UnmonitorControl(DateTimePicker);
                     DateTimePicker.Dispose();

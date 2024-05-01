@@ -28,12 +28,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonTabText is not null);
 
-            if (ribbonTabText is null)
-            {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonTabText)));
-            }
-
-            PaletteRibbonText = ribbonTabText;
+            PaletteRibbonText = ribbonTabText ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonTabText)));
         }
         #endregion
         

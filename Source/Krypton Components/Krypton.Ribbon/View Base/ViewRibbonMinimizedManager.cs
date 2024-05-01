@@ -36,20 +36,20 @@ namespace Krypton.Ribbon
         /// <param name="root">Root of the view hierarchy.</param>
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
-        public ViewRibbonMinimizedManager(KryptonRibbon control,
-            [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
-            [DisallowNull] ViewBase root,
+        public ViewRibbonMinimizedManager([DisallowNull] KryptonRibbon control,
+                                          [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
+                                          [DisallowNull] ViewBase root,
                                           bool minimizedMode,
                                           [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
-            Debug.Assert(viewGroups != null);
-            Debug.Assert(root != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(viewGroups is not null);
+            Debug.Assert(root is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = control;
-            _viewGroups = viewGroups;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = control ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            _viewGroups = viewGroups ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_viewGroups)));
+            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
             _active = true;
             _minimizedMode = minimizedMode;
         }

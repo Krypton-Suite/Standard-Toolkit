@@ -45,7 +45,9 @@ namespace Krypton.Ribbon
 
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
-            _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
+            _border = new ViewDrawRibbonQATBorder(_ribbon, 
+                                                  needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate))), 
+                                                  true);
 
             // Create minibar content that synchs with ribbon collection
             _borderContents = new ViewLayoutRibbonQATFromRibbon(_ribbon, needPaintDelegate, false);

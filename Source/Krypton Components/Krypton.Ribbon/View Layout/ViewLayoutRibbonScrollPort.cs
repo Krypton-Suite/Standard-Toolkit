@@ -612,7 +612,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.SelectedTab != null)
                 {
                     // Cast to correct type
-                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab)!;
 
                     // If a scroll change is required to bring it into view
                     if (ScrollIntoView(viewTab.ClientRectangle, false))

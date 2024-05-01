@@ -179,8 +179,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the numeric up-down as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    NumericUpDown!.PaletteMode = Ribbon!.PaletteMode;
-                    NumericUpDown.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+                    NumericUpDown!.PaletteMode = Ribbon.PaletteMode;
+                    NumericUpDown.LocalCustomPalette = Ribbon.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
