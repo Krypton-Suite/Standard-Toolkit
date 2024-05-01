@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class ViewRibbonQATOverflowManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private ViewBase? _focusView;
         private bool _layingOut;
         #endregion
@@ -36,11 +36,11 @@ namespace Krypton.Ribbon
                                             ViewBase root)
             : base(control, root)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(qatContents != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(qatContents is not null);
             
-            _ribbon = ribbon;
-            QATContents = qatContents;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            QATContents = qatContents ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(qatContents)));
         }
 
         /// <summary>

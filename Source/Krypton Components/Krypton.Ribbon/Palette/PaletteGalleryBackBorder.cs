@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
                                               IPaletteBorder
     {
         #region Instance Fields
-        private PaletteGalleryState? _state;
+        private PaletteGalleryState _state;
         #endregion
 
         #region Identity
@@ -26,10 +26,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteGalleryBackBorder class.
         /// </summary>
         /// <param name="state">Initial state for background/border.</param>
-        public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState state)
+        public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
         {
-            Debug.Assert(state != null);
-            _state = state;
+            Debug.Assert(state is not null);
+            _state = state ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(state)));
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         public void SetState([DisallowNull] PaletteGalleryState state)
         {
             Debug.Assert(state != null);
-            _state = state;
+            _state = state ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(state)));
         }
         #endregion
 

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private ViewDrawRibbonTab? _lastTab;
+        private ViewDrawRibbonTab _lastTab;
 
         #endregion
 
@@ -31,15 +31,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Reference to first tab of the set.</param>
         /// <param name="context">Reference to owning context details.</param>
-        public ContextTabSet([DisallowNull] ViewDrawRibbonTab tab,
-                             [DisallowNull] KryptonRibbonContext context)
+        public ContextTabSet([DisallowNull] ViewDrawRibbonTab? tab,
+                             [DisallowNull] KryptonRibbonContext? context)
         {
-            Debug.Assert(tab != null);
-            Debug.Assert(context != null);
+            Debug.Assert(tab is not null);
+            Debug.Assert(context is not null);
 
-            FirstTab = tab;
+            FirstTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
             _lastTab = tab;
-            Context = context;
+
+            Context = context ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
         }
         #endregion
 
@@ -47,7 +48,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the first tab.
         /// </summary>
-        public ViewDrawRibbonTab? FirstTab { get; }
+        public ViewDrawRibbonTab FirstTab { get; }
 
         /// <summary>
         /// Gets a value indicating if the tab is the first in set.
@@ -76,8 +77,8 @@ namespace Krypton.Ribbon
         /// <param name="tab">Reference to new last tab.</param>
         public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
         {
-            Debug.Assert(tab != null);
-            _lastTab = tab;
+            Debug.Assert(tab is not null);
+            _lastTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetLeftScreenPosition()
         {
-            var ret = FirstTab!.ClientLocation with { X = FirstTab.ClientLocation.X - 1 };
+            var ret = FirstTab.ClientLocation with { X = FirstTab.ClientLocation.X - 1 };
 
             if (FirstTab.OwningControl != null)
             {
@@ -102,7 +103,7 @@ namespace Krypton.Ribbon
         /// <returns>Screen position.</returns>
         public Point GetRightScreenPosition()
         {
-            var ret = _lastTab!.ClientLocation with { X = _lastTab.ClientRectangle.Right + 1 };
+            var ret = _lastTab.ClientLocation with { X = _lastTab.ClientRectangle.Right + 1 };
 
             if (_lastTab.OwningControl != null)
             {
@@ -115,22 +116,22 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the context component.
         /// </summary>
-        public KryptonRibbonContext? Context { get; }
+        public KryptonRibbonContext Context { get; }
 
         /// <summary>
         /// Gets the name of the context.
         /// </summary>
-        public string ContextName => Context!.ContextName;
+        public string ContextName => Context.ContextName;
 
         /// <summary>
         /// Gets the name of the context.
         /// </summary>
-        public Color ContextColor => Context!.ContextColor;
+        public Color ContextColor => Context.ContextColor;
 
         /// <summary>
         /// Gets the title of the context.
         /// </summary>
-        public string ContextTitle => Context!.ContextTitle;
+        public string ContextTitle => Context.ContextTitle;
 
         #endregion
     }

@@ -17,8 +17,8 @@ namespace Krypton.Ribbon
     internal class ViewRibbonPopupGroupManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
-        private readonly ViewDrawRibbonGroup? _viewGroup;
+        private readonly KryptonRibbon _ribbon;
+        private readonly ViewDrawRibbonGroup _viewGroup;
         private readonly NeedPaintHandler? _needPaintDelegate;
         private ViewBase? _focusView;
         private bool _layingOut;
@@ -34,19 +34,19 @@ namespace Krypton.Ribbon
         /// <param name="viewGroup">Group to track.</param>
         /// <param name="needPaintDelegate">Delegate for performing painting.</param>
         public ViewRibbonPopupGroupManager(Control control,
-            [DisallowNull] KryptonRibbon ribbon,
+                                           [DisallowNull] KryptonRibbon ribbon,
                                            ViewBase root,
                                            [DisallowNull] ViewDrawRibbonGroup viewGroup,
                                            [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(viewGroup != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(viewGroup is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = ribbon;
-            _viewGroup = viewGroup;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _viewGroup = viewGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(viewGroup)));
+            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
                                               Size proposedSize)
         {
             // Update the calculated values used during layout calls
-            _ribbon!.CalculatedValues.Recalculate();
+            _ribbon.CalculatedValues.Recalculate();
 
             // Let base class perform standard preferred sizing actions
             return base.GetPreferredSize(renderer, proposedSize);
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
                 _layingOut = true;
 
                 // Update the calculated values used during layout calls
-                _ribbon!.CalculatedValues.Recalculate();
+                _ribbon.CalculatedValues.Recalculate();
 
                 // Let base class perform standard layout actions
                 base.Layout(context);
