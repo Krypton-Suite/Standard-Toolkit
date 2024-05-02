@@ -33,8 +33,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to ribbon control.</param>
         public PaletteRibbonContextDouble([DisallowNull] KryptonRibbon ribbon)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
             LightBackground = false;
         }
         #endregion

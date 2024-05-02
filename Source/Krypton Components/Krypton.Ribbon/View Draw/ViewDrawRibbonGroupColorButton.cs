@@ -51,18 +51,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonColorButton">Reference to source color button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupColorButton([DisallowNull] KryptonRibbon ribbon,
-                                              [DisallowNull] KryptonRibbonGroupColorButton ribbonColorButton,
-                                              [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupColorButton([DisallowNull] KryptonRibbon? ribbon,
+                                              [DisallowNull] KryptonRibbonGroupColorButton? ribbonColorButton,
+                                              [DisallowNull] NeedPaintHandler? needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonColorButton != null);
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupColorButton = ribbonColorButton;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon )));
+            GroupColorButton = ribbonColorButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonColorButton)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
             _currentSize = GroupColorButton.ItemSizeCurrent;
 
             // Associate this view with the source component (required for design time selection)
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the connected color button definition.
         /// </summary>
-        public KryptonRibbonGroupColorButton GroupColorButton { get; private set; }
+        public KryptonRibbonGroupColorButton? GroupColorButton { get; private set; }
 
         #endregion
 
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -187,7 +187,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -222,8 +222,8 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupColorButton.Enabled, GroupColorButton.KeyTip,
-                                              screenPt, this[0].ClientRectangle, controller));
+                keyTipList.Add(new KeyTipInfo(GroupColorButton!.Enabled, GroupColorButton.KeyTip,
+                                              screenPt, this[0]!.ClientRectangle, controller));
             }
         }
         #endregion
@@ -249,9 +249,9 @@ namespace Krypton.Ribbon
             var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio;
 
             // Update the views with the type of button being used
-            _viewLarge.ButtonType = GroupColorButton.ButtonType;
+            _viewLarge.ButtonType = GroupColorButton!.ButtonType;
             _viewLarge.DrawNonTrackingAreas = drawNonTrackingAreas;
-            _viewMediumSmall.ButtonType = GroupColorButton.ButtonType;
+            _viewMediumSmall.ButtonType = GroupColorButton!.ButtonType;
             _viewMediumSmall.DrawNonTrackingAreas = drawNonTrackingAreas;
 
             // Get the preferred size of button view
@@ -270,7 +270,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Update our enabled and checked state
             UpdateEnabledState();
@@ -278,13 +278,13 @@ namespace Krypton.Ribbon
             UpdateDropDownState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
 
             // For split buttons we need to calculate the split button areas
-            if (GroupColorButton.ButtonType == GroupButtonType.Split)
+            if (GroupColorButton!.ButtonType == GroupButtonType.Split)
             {
                 // Find the start positions of the split areas for both views
                 var largeSplitTop = _viewLargeImage.ClientRectangle.Bottom + 2;
@@ -332,9 +332,9 @@ namespace Krypton.Ribbon
         private void CreateLargeButtonView()
         {
             // Create the background and border view
-            _viewLarge = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupColorButton,
+            _viewLarge = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupColorButton!,
                                                                  _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
-                                                                 _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
+                                                                 _ribbon.StateCommon.RibbonGroupButton.PaletteBorder!,
                                                                  false, _needPaint)
             {
                 SplitVertical = true
@@ -351,7 +351,7 @@ namespace Krypton.Ribbon
             var contentLayout = new ViewLayoutDocker();
 
             // Add the large button at the top
-            _viewLargeImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton, true);
+            _viewLargeImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton!, true);
             var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
@@ -359,12 +359,12 @@ namespace Krypton.Ribbon
             contentLayout.Add(largeImagePadding, ViewDockStyle.Top);
 
             // Add the first line of text
-            _viewLargeText1 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton, true);
+            _viewLargeText1 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton!, true);
             contentLayout.Add(_viewLargeText1, ViewDockStyle.Bottom);
 
             // Add the second line of text
             _viewLargeCenter = new ViewLayoutRibbonRowCenter();
-            _viewLargeText2 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton, false);
+            _viewLargeText2 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton!, false);
             _viewLargeDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewLargeText2Sep1 = new ViewLayoutRibbonSeparator(4, false);
             _viewLargeText2Sep2 = new ViewLayoutRibbonSeparator(4, false);
@@ -381,16 +381,16 @@ namespace Krypton.Ribbon
             _viewLarge.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                _viewLarge, _viewLarge.MouseController);
         }
 
         private void CreateMediumSmallButtonView()
         {
             // Create the background and border view
-            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupColorButton,
+            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupColorButton!,
                                                                        _ribbon.StateCommon.RibbonGroupButton.PaletteBack,
-                                                                       _ribbon.StateCommon.RibbonGroupButton.PaletteBorder,
+                                                                       _ribbon.StateCommon.RibbonGroupButton.PaletteBorder!,
                                                                        false, _needPaint)
             {
                 SplitVertical = false
@@ -407,9 +407,9 @@ namespace Krypton.Ribbon
             var contentLayout = new ViewLayoutDocker();
 
             // Create the image and drop down content
-            _viewMediumSmallImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton, false);
-            _viewMediumSmallText1 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton, true);
-            _viewMediumSmallText2 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton, false);
+            _viewMediumSmallImage = new ViewDrawRibbonGroupColorButtonImage(_ribbon, GroupColorButton!, false);
+            _viewMediumSmallText1 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton!, true);
+            _viewMediumSmallText2 = new ViewDrawRibbonGroupColorButtonText(_ribbon, GroupColorButton!, false);
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep3 = new ViewLayoutRibbonSeparator(3, false);
@@ -436,7 +436,7 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
@@ -449,13 +449,13 @@ namespace Krypton.Ribbon
             Add(view);
 
             // Provide back reference to the button definition
-            GroupColorButton.ColorButtonView = view;
+            GroupColorButton!.ColorButtonView = view;
         }
 
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            var buttonEnabled = GroupColorButton.Enabled;
+            var buttonEnabled = GroupColorButton!.Enabled;
             if (GroupColorButton.KryptonCommand != null)
             {
                 buttonEnabled = GroupColorButton.KryptonCommand.Enabled;
@@ -483,7 +483,7 @@ namespace Krypton.Ribbon
             var checkedState = false;
 
             // Only show as checked if also a check type button
-            if (GroupColorButton.ButtonType == GroupButtonType.Check)
+            if (GroupColorButton!.ButtonType == GroupButtonType.Check)
             {
                 checkedState = GroupColorButton.KryptonCommand?.Checked ?? GroupColorButton.Checked;
             }
@@ -495,7 +495,7 @@ namespace Krypton.Ribbon
         private void UpdateDropDownState()
         {
             // Only show the drop down if the button is the correct type
-            var dropDown = GroupColorButton.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
+            var dropDown = GroupColorButton!.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
 
             // Only show text line 2 separators is a drop down is showing with no text
             var separators = dropDown && (!string.IsNullOrEmpty(GroupColorButton.TextLine2));
@@ -511,7 +511,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallText2Sep3.Visible = dropDown;
         }
 
-        private void UpdateItemSizeState() => UpdateItemSizeState(GroupColorButton.ItemSizeCurrent);
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupColorButton!.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -534,15 +534,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeButtonClick(object sender, EventArgs e) => GroupColorButton.PerformClick(_viewLarge.FinishDelegate);
+        private void OnLargeButtonClick(object sender, EventArgs e) => GroupColorButton!.PerformClick(_viewLarge.FinishDelegate);
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupColorButton.PerformDropDown(_viewLarge.FinishDelegate);
+        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewLarge.FinishDelegate);
 
-        private void OnMediumSmallButtonClick(object sender, EventArgs e) => GroupColorButton.PerformClick(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonClick(object sender, EventArgs e) => GroupColorButton!.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnMediumSmallButtonDropDown(object sender, EventArgs e) => GroupColorButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonDropDown(object sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupColorButton.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupColorButton!.OnDesignTimeContextMenu(e);
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -613,7 +613,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupColorButton.RibbonTab != null) &&
+                if ((GroupColorButton!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupColorButton.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -624,7 +624,7 @@ namespace Krypton.Ribbon
             if (updatePaint)
             {
                 // If this button is actually defined as visible...
-                if (GroupColorButton.Visible || _ribbon.InDesignMode)
+                if (GroupColorButton!.Visible || _ribbon.InDesignMode)
                 {
                     // ...and on the currently selected tab then...
                     if ((GroupColorButton.RibbonTab != null) &&

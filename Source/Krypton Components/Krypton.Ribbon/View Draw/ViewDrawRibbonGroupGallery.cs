@@ -46,18 +46,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to source gallery.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupGallery([DisallowNull] KryptonRibbon ribbon,
-                                          [DisallowNull] KryptonRibbonGroupGallery ribbonGallery,
-                                          [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupGallery([DisallowNull] KryptonRibbon? ribbon,
+                                          [DisallowNull] KryptonRibbonGroupGallery? ribbonGallery,
+                                          [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGallery != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGallery is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupGallery = ribbonGallery;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            GroupGallery = ribbonGallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGallery)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
             _currentSize = GroupGallery.ItemSizeCurrent;
 
             // Create the button view used in small setting
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
                 }
             }
                 
-            return null;
+            return null!;
         }
         #endregion
 
@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
         #endregion
 
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -294,9 +294,9 @@ namespace Krypton.Ribbon
         public ItemSizeWidth[] GetPossibleSizes(ViewLayoutContext context)
         {
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
-            if (LastGallery != null)
+            if (LastGallery is not null)
             {
                 Size originalItemSize = LastGallery.PreferredItemSize;
                 GroupItemSize originalSize = _currentSize;
@@ -421,7 +421,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             if (_currentSize == GroupItemSize.Small)
             {
@@ -462,7 +462,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
             if (!context.ViewManager!.DoNotLayoutControls)
@@ -500,12 +500,12 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the gallery will be
-                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
                     context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
 
-            base.Render(context);
+            base.Render(context!);
         }
         #endregion
 
@@ -587,7 +587,7 @@ namespace Krypton.Ribbon
             _viewLarge.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!,
+            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager?.ToolTipManager!,
                                                                _viewLarge, _viewLarge.MouseController);
 
             // Add as a child view but as hidden, will become visible only in small mode

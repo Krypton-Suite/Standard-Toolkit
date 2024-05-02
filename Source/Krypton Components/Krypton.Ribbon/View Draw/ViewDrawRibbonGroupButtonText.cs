@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupButton _ribbonButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -48,8 +48,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonButton != null);
 
-            _ribbon = ribbon;
-            _ribbonButton = ribbonButton;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbonButton = ribbonButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonButton)));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (_memento != null)
+                if (_memento is not null)
                 {
                     _memento.Dispose();
                     _memento = null;
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

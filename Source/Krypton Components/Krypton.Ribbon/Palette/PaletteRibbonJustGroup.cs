@@ -37,12 +37,17 @@ namespace Krypton.Ribbon
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonJustGroup([DisallowNull] PaletteRibbonRedirect inherit,
-                                      NeedPaintHandler needPaint)
+                                      [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(inherit != null);
+            Debug.Assert(inherit is not null);
+
+            if (inherit is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
+            }
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
 
             // Create storage that maps onto the inherit instances
             _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);

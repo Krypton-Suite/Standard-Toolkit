@@ -48,18 +48,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTab">RibbonTab to organize groups.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] KryptonRibbonTab ribbonTab,
-                                      [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] KryptonRibbonTab? ribbonTab,
+                                      [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonTab != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonTab is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonTab = ribbonTab;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbonTab = ribbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonTab)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
 
             // Create initial lookup table
             _groupToView = new GroupToView();
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Search each group until one of them returns a focus item
             foreach (ViewDrawRibbonGroup group in _groupToView.Values)
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];
             _groupToView.Values.CopyTo(groups, 0);
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
             var matched = false;
 
             // Search each group until one of them returns a focus item
@@ -250,7 +250,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -262,7 +262,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
             var matched = false;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];
@@ -273,7 +273,9 @@ namespace Krypton.Ribbon
             {
                 // Already matched means we need the next item we come across,
                 // otherwise we continue with the attempt to find previous
-                view = matched ? groups[i].GetLastFocusItem() : groups[i].GetPreviousFocusItem(current, ref matched);
+                view = matched 
+                    ? groups[i].GetLastFocusItem() 
+                    : groups[i].GetPreviousFocusItem(current, ref matched);
 
                 if (view != null)
                 {
@@ -281,7 +283,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -308,7 +310,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
 

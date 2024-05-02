@@ -30,8 +30,9 @@ namespace Krypton.Ribbon
         /// <param name="qatButton">Source quick access toolbar button.</param>
         public QATButtonToolTipToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
         {
-            Debug.Assert(qatButton != null);
-            _qatButton = qatButton;
+            Debug.Assert(qatButton is not null);
+
+            _qatButton = qatButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(qatButton)));
         }
         #endregion
 

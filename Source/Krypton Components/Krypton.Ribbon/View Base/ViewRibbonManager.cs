@@ -18,8 +18,8 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
-        private ViewDrawRibbonGroup _activeGroup;
+        private readonly ViewDrawRibbonGroupsBorderSynch? _viewGroups;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly NeedPaintHandler? _needPaintDelegate;
         private readonly bool _minimizedMode;
         private bool _active;
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
             // Prevent reentrancy
             if (!_layingOut)
             {
-                Form ownerForm = _ribbon.FindForm();
+                Form? ownerForm = _ribbon.FindForm();
 
                 // We do not need to layout if inside a control that is minimized or if we are not inside a form at all
                 if ((ownerForm == null) || (ownerForm.WindowState == FormWindowState.Minimized))
@@ -151,7 +151,7 @@ namespace Krypton.Ribbon
                     if (_minimizedMode == _ribbon.RealMinimizedMode)
                     {
                         // Get the view group instance that matches this point
-                        ViewDrawRibbonGroup viewGroup = _viewGroups.ViewGroupFromPoint(new Point(e.X, e.Y));
+                        ViewDrawRibbonGroup? viewGroup = _viewGroups!.ViewGroupFromPoint(new Point(e.X, e.Y));
 
                         // Is there a change in active group?
                         if (viewGroup != _activeGroup)
@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
                 if (!MouseCaptured)
                 {
                     // Then get the view under the mouse
-                    ViewBase mouseView = Root.ViewFromPoint(pt);
+                    ViewBase? mouseView = Root.ViewFromPoint(pt);
 
                     // We only allow application button views to be interacted with
                     ActiveView = mouseView is ViewDrawRibbonAppButton ? mouseView : null;

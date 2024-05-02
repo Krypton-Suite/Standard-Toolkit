@@ -31,15 +31,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Reference to first tab of the set.</param>
         /// <param name="context">Reference to owning context details.</param>
-        public ContextTabSet([DisallowNull] ViewDrawRibbonTab tab,
-                             [DisallowNull] KryptonRibbonContext context)
+        public ContextTabSet([DisallowNull] ViewDrawRibbonTab? tab,
+                             [DisallowNull] KryptonRibbonContext? context)
         {
-            Debug.Assert(tab != null);
-            Debug.Assert(context != null);
+            Debug.Assert(tab is not null);
+            Debug.Assert(context is not null);
 
-            FirstTab = tab;
+            FirstTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
             _lastTab = tab;
-            Context = context;
+
+            Context = context ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
         }
         #endregion
 
@@ -76,8 +77,8 @@ namespace Krypton.Ribbon
         /// <param name="tab">Reference to new last tab.</param>
         public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
         {
-            Debug.Assert(tab != null);
-            _lastTab = tab;
+            Debug.Assert(tab is not null);
+            _lastTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
         }
 
         /// <summary>

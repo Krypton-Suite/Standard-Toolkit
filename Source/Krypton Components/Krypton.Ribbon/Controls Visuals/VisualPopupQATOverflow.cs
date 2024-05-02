@@ -34,10 +34,10 @@ namespace Krypton.Ribbon
                                       IRenderer renderer)
             : base(renderer, true)
         {
-            Debug.Assert(ribbon != null);
+            Debug.Assert(ribbon is not null);
 
             // Remember references needed later
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
 
             // Create a view element for drawing the group
             _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView);
+            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the first item
             if (view == null)
@@ -150,10 +150,10 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView);
+            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the last item
-            if (view == null)
+            if (view is null)
             {
                 SetLastFocusItem();
             }

@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly CustomControlController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -36,18 +36,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonCustom">Reference to source custom definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupCustomControl([DisallowNull] KryptonRibbon ribbon,
-                                                [DisallowNull] KryptonRibbonGroupCustomControl ribbonCustom,
-                                                [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupCustomControl([DisallowNull] KryptonRibbon? ribbon,
+                                                [DisallowNull] KryptonRibbonGroupCustomControl? ribbonCustom,
+                                                [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonCustom != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonCustom is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupCustomControl = ribbonCustom;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            GroupCustomControl = ribbonCustom ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCustom)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
             _currentSize = GroupCustomControl.ItemSizeCurrent;
 
             // Hook into the custom control events
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the custom control for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager!.LayoutBefore += OnLayoutAction;
             _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Provide back reference to the custom control definition
@@ -108,11 +108,11 @@ namespace Krypton.Ribbon
                     GroupCustomControl.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupCustomControl.ViewPaintDelegate = null;
                     GroupCustomControl.PropertyChanged -= OnCustomPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
-                    GroupCustomControl.CustomControlView = null;
+                    GroupCustomControl.CustomControlView = null!;
                     GroupCustomControl = null;
                 }
             }
@@ -125,7 +125,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group custom instance.
         /// </summary>
-        public KryptonRibbonGroupCustomControl GroupCustomControl { get; private set; }
+        public KryptonRibbonGroupCustomControl? GroupCustomControl { get; private set; }
 
         #endregion
 
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
-            _ribbon.HideFocus(GroupCustomControl.CustomControl);
+            _ribbon.HideFocus(GroupCustomControl!.CustomControl);
             base.LostFocus(c);
         }
         #endregion
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -204,7 +204,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupCustomControl.Enabled, 
+                keyTipList.Add(new KeyTipInfo(GroupCustomControl!.Enabled, 
                                               GroupCustomControl.KeyTip,
                                               screenPt, 
                                               ClientRectangle,
@@ -256,7 +256,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize() => _currentSize = GroupCustomControl.ItemSizeCurrent;
+        public void ResetGroupItemSize() => _currentSize = GroupCustomControl!.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a custom control associated then ask for its requested size
             if (LastCustomControl != null)
@@ -301,10 +301,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastCustomControl?.SetBounds(ClientLocation.X + 1,
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // If we do not have a custom control
-            if (GroupCustomControl.CustomControl == null)
+            if (GroupCustomControl!.CustomControl == null)
             {
                 // And we are in design time
                 if (_ribbon.InDesignMode)
@@ -339,7 +339,7 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the custom control will be
-                    context.Graphics.FillRectangle(Brushes.Salmon, drawRect);
+                    context!.Graphics.FillRectangle(Brushes.Salmon, drawRect);
                     context.Graphics.DrawRectangle(Pens.Red, drawRect);
                 }
             }
@@ -373,7 +373,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupCustomControl.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupCustomControl!.OnDesignTimeContextMenu(e);
 
         private void OnCustomPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -383,10 +383,10 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    UpdateEnabled(LastCustomControl);
+                    UpdateEnabled(LastCustomControl!);
                     break;
                 case nameof(Visible):
-                    UpdateVisible(LastCustomControl);
+                    UpdateVisible(LastCustomControl!);
                     updateLayout = true;
                     break;
                 case "CustomControl":
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupCustomControl.RibbonTab != null) &&
+                if ((GroupCustomControl!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupCustomControl.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -425,14 +425,14 @@ namespace Krypton.Ribbon
 
         private Control LastParentControl
         {
-            get => GroupCustomControl.LastParentControl;
-            set => GroupCustomControl.LastParentControl = value;
+            get => GroupCustomControl!.LastParentControl;
+            set => GroupCustomControl!.LastParentControl = value;
         }
 
         private Control? LastCustomControl
         {
-            get => GroupCustomControl.LastCustomControl;
-            set => GroupCustomControl.LastCustomControl = value;
+            get => GroupCustomControl!.LastCustomControl;
+            set => GroupCustomControl!.LastCustomControl = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -440,10 +440,10 @@ namespace Krypton.Ribbon
             // Is there a change in the custom control or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastCustomControl != GroupCustomControl.CustomControl))
+                (LastCustomControl != GroupCustomControl!.CustomControl))
             {
                 // We only modify the parent and visible state if processing for correct container
-                if ((GroupCustomControl.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
+                if ((GroupCustomControl!.RibbonContainer!.RibbonGroup!.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupCustomControl.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custrom control to a parent before
@@ -483,7 +483,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupCustomControl.Enabled;
+                var enabled = GroupCustomControl!.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
@@ -501,7 +501,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupCustomControl.Visible;
+                var visible = GroupCustomControl!.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
@@ -521,7 +521,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupCustomControl.Visible;
+                var visible = GroupCustomControl!.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
@@ -548,7 +548,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if (GroupCustomControl.RibbonContainer.RibbonGroup.IsCollapsed &&
+                            if (GroupCustomControl.RibbonContainer!.RibbonGroup!.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupCustomControl.LastCustomControl) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupCustomControl.LastCustomControl) is VisualPopupMinimized)))
                             {
@@ -570,7 +570,7 @@ namespace Krypton.Ribbon
                                     }
 
                                     // Move up a level
-                                    container = container.RibbonContainer;
+                                    container = container.RibbonContainer!;
                                 }
                             }
                         }
@@ -587,8 +587,8 @@ namespace Krypton.Ribbon
             if (GroupCustomControl != null)
             {
                 // Change in selected tab requires a retest of the control visibility/enabled
-                UpdateVisible(LastCustomControl);
-                UpdateEnabled(LastCustomControl);
+                UpdateVisible(LastCustomControl!);
+                UpdateEnabled(LastCustomControl!);
             }
         }
 
@@ -598,10 +598,10 @@ namespace Krypton.Ribbon
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            ViewBase? parent = Parent;
 
             // Keep going till we get to the top or find a group
-            while (parent != null)
+            while (parent is not null)
             {
                 if (parent is ViewDrawRibbonGroup popGroup)
                 {

@@ -32,11 +32,12 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the ViewControl class.
             /// </summary>
             /// <param name="ribbon">Top level ribbon control.</param>
-            public RibbonViewControl([DisallowNull] KryptonRibbon ribbon)
+            public RibbonViewControl([DisallowNull] KryptonRibbon? ribbon)
                 : base(ribbon)
             {
-                Debug.Assert(ribbon != null);
-                _ribbon = ribbon;
+                Debug.Assert(ribbon is not null);
+                
+                _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
 
                 // Create and add a hidden button to act as the focus target
                 _hiddenFocusTarget = new Button
@@ -52,7 +53,7 @@ namespace Krypton.Ribbon
             /// <summary>
             /// Hide focus by giving it to the hidden control.
             /// </summary>
-            public void HideFocus() => _hiddenFocusTarget.Focus();
+            public void HideFocus() => _hiddenFocusTarget!.Focus();
             #endregion
 
             #region Protected
@@ -68,7 +69,7 @@ namespace Krypton.Ribbon
                 Control? c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
-                ViewBase focusView = null;
+                ViewBase? focusView = null;
                 switch (c)
                 {
                     case VisualPopupGroup popGroup:
@@ -148,22 +149,22 @@ namespace Krypton.Ribbon
         /// <param name="insetForTabs">Should scoller be inset for use in tabs area.</param>
         /// <param name="scrollSpeed">Scrolling speed.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout requests.</param>
-        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon? ribbon,
                                           Orientation orientation,
-                                          [DisallowNull] ViewBase viewFiller,
+                                          [DisallowNull] ViewBase? viewFiller,
                                           bool insetForTabs,
                                           int scrollSpeed,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(viewFiller != null);
             Debug.Assert(needPaintDelegate != null);
 
             // Remember initial settings
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
             _orientation = orientation;
-            _viewFiller = viewFiller;
-            _needPaintDelegate = needPaintDelegate;
+            _viewFiller = viewFiller ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(viewFiller)));
+            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
             _scrollSpeed = scrollSpeed;
             _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 
@@ -174,9 +175,9 @@ namespace Krypton.Ribbon
             // filler are clipped to the control size. This is needed if the child view
             // contains controls and need clipping inside this area and so prevent them
             // from drawing over the end scrollers.
-            _viewControlContent = new RibbonViewControl(ribbon);
+            _viewControlContent = new RibbonViewControl(ribbon!);
             _viewControlContent.PaintBackground += OnViewControlPaintBackground;
-            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon, _viewFiller);
+            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon!, _viewFiller!);
 
             // Removed because of this
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/372
@@ -189,8 +190,8 @@ namespace Krypton.Ribbon
             //}
 
             // Create the two scrollers used when not enough space for filler
-            _nearScroller = new ViewLayoutRibbonScroller(ribbon, NearOrientation, insetForTabs, needPaintDelegate);
-            _farScroller = new ViewLayoutRibbonScroller(ribbon, FarOrientation, insetForTabs, needPaintDelegate);
+            _nearScroller = new ViewLayoutRibbonScroller(ribbon!, NearOrientation, insetForTabs, needPaintDelegate!);
+            _farScroller = new ViewLayoutRibbonScroller(ribbon!, FarOrientation, insetForTabs, needPaintDelegate!);
 
             // Hook into scroller events
             _nearScroller.Click += OnNearClick;
@@ -216,7 +217,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the paint delegate to redraw the owning control.
         /// </summary>
-        public NeedPaintHandler ViewControlPaintDelegate => ViewLayoutControl.ChildPaintDelegate;
+        public NeedPaintHandler ViewControlPaintDelegate => ViewLayoutControl.ChildPaintDelegate!;
 
         #endregion
 
@@ -339,7 +340,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -354,7 +355,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -365,7 +366,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -380,7 +381,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -392,7 +393,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -407,7 +408,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -419,7 +420,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -434,7 +435,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -459,7 +460,7 @@ namespace Krypton.Ribbon
             Enabled = _ribbon.Enabled;
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
             var controlRect = new Rectangle(Point.Empty, ClientSize);
@@ -611,7 +612,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.SelectedTab != null)
                 {
                     // Cast to correct type
-                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab)!;
 
                     // If a scroll change is required to bring it into view
                     if (ScrollIntoView(viewTab.ClientRectangle, false))
@@ -660,7 +661,7 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        child.Render(context);
+                        child.Render(context!);
                     }
                 }
             }

@@ -37,13 +37,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to source ribbon control.</param>
         /// <param name="captionArea">Reference to view element that tracks the top level form.</param>
-        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon ribbon,
-                                             [DisallowNull] ViewDrawRibbonCaptionArea captionArea)
+        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon? ribbon,
+                                             [DisallowNull] ViewDrawRibbonCaptionArea? captionArea)
         {
-            Debug.Assert(captionArea != null);
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            Debug.Assert(captionArea is not null);
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _captionArea = captionArea ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(captionArea)));
 
             // Create cache of draw elements
             _contextTitlesCache = [];
@@ -100,7 +101,7 @@ namespace Krypton.Ribbon
             SyncChildrenToContexts();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find any filler child
             ViewBase? filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
@@ -113,7 +114,7 @@ namespace Krypton.Ribbon
             foreach (ViewDrawRibbonContextTitle childContextTitle in this.Where(static child => child.Visible).OfType<ViewDrawRibbonContextTitle>())
             {
                 // Get the context set it is representing
-                ContextTabSet tabContext = childContextTitle.ContextTabSet;
+                ContextTabSet tabContext = childContextTitle.ContextTabSet!;
 
                 // Get the screen position of the left and right hand positions
                 Point leftTab = tabContext.GetLeftScreenPosition();
@@ -128,7 +129,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Convert the screen to our own coordinates
-                leftTab = context.TopControl.PointToClient(leftTab);
+                leftTab = context.TopControl!.PointToClient(leftTab);
                 rightTab = context.TopControl.PointToClient(rightTab);
 
                 // Calculate the position of the child and layout

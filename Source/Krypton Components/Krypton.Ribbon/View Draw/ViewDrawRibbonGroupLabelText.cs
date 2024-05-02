@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupLabel _ribbonLabel;
         private readonly RibbonGroupLabelTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -41,15 +41,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonLabel">Group label to display title for.</param>
         /// <param name="firstText">Should show the first button text.</param>
-        public ViewDrawRibbonGroupLabelText([DisallowNull] KryptonRibbon ribbon,
-                                            [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
+        public ViewDrawRibbonGroupLabelText([DisallowNull] KryptonRibbon? ribbon,
+                                            [DisallowNull] KryptonRibbonGroupLabel? ribbonLabel,
                                             bool firstText)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonLabel != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonLabel is not null);
 
-            _ribbon = ribbon;
-            _ribbonLabel = ribbonLabel;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbonLabel = ribbonLabel ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonLabel)));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -154,7 +154,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

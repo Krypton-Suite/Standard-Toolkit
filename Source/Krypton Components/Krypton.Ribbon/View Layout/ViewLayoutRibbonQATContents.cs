@@ -38,15 +38,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
-        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull] NeedPaintHandler needPaint,
+        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon? ribbon,
+                                           [DisallowNull] NeedPaintHandler? needPaint,
                                            bool showExtraButton)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(needPaint is not null);
 
-            Ribbon = ribbon;
-            _needPaint = needPaint;
+            Ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
             }
 
             // If showing the extra button, then use that
-            return _extraButton;
+            return _extraButton!;
         }
         #endregion
 
@@ -428,7 +428,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
         #endregion
 
@@ -461,7 +461,7 @@ namespace Krypton.Ribbon
                 return _extraButton;
             }
 
-            return null;
+            return null!;
         }
         #endregion
 
@@ -496,7 +496,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
         #endregion
 

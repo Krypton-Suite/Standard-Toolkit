@@ -36,14 +36,18 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
-                                       NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon? ribbon,
+                                       [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
-            _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
+            _border = new ViewDrawRibbonQATBorder(_ribbon, 
+                                                  needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate))), 
+                                                  true);
 
             // Create minibar content that synchs with ribbon collection
             _borderContents = new ViewLayoutRibbonQATFromRibbon(_ribbon, needPaintDelegate, false);
@@ -131,13 +135,13 @@ namespace Krypton.Ribbon
             var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
-            keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
+            keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm!));
 
             // If we have the extra button and it is in overflow appearance
             if (_extraButton is {Overflow : true })
             {
                 // If integrated into the caption area then get the caption area height
-                var borders = OwnerForm.RealWindowBorders;
+                var borders = OwnerForm!.RealWindowBorders;
 
                 // Get the screen location of the extra button
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
@@ -201,7 +205,7 @@ namespace Krypton.Ribbon
                 view = _extraButton;
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -241,7 +245,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -284,7 +288,7 @@ namespace Krypton.Ribbon
 
             // If integrated into the caption area
             // Adjust for the height/width of borders
-            Padding borders = OwnerForm.RealWindowBorders;
+            Padding borders = OwnerForm!.RealWindowBorders;
             screenRect.X -= borders.Left;
             screenRect.Y -= borders.Top;
 

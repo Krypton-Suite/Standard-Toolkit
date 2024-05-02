@@ -23,8 +23,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         public RibbonToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral)
         {
-            Debug.Assert(ribbonGeneral != null);
-            RibbonGeneral = ribbonGeneral;
+            Debug.Assert(ribbonGeneral is not null);
+
+            RibbonGeneral = ribbonGeneral ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGeneral)));
         }
         #endregion
 

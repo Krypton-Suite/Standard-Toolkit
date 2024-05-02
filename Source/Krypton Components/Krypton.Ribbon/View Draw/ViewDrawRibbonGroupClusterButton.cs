@@ -43,18 +43,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to source button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupClusterButton([DisallowNull] KryptonRibbon ribbon,
-                                                [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton,
-                                                [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupClusterButton([DisallowNull] KryptonRibbon? ribbon,
+                                                [DisallowNull] KryptonRibbonGroupClusterButton? ribbonButton,
+                                                [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonButton != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonButton is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupClusterButton = ribbonButton;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon )));
+            GroupClusterButton = ribbonButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonButton)));
+            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
             _currentSize = GroupClusterButton.ItemSizeCurrent;
 
             // Associate this view with the source component (required for design time selection)
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the connected button definition.
         /// </summary>
-        public KryptonRibbonGroupClusterButton GroupClusterButton { get; private set; }
+        public KryptonRibbonGroupClusterButton? GroupClusterButton { get; private set; }
 
         #endregion
 
@@ -176,7 +176,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -195,7 +195,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -247,8 +247,8 @@ namespace Krypton.Ribbon
                 // Determine the screen position of the key tip dependant on item location
                 Point screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
 
-                keyTipList.Add(new KeyTipInfo(GroupClusterButton.Enabled, GroupClusterButton.KeyTip, screenPt, 
-                                              this[0].ClientRectangle, _viewMediumSmall.Controller));
+                keyTipList.Add(new KeyTipInfo(GroupClusterButton!.Enabled, GroupClusterButton.KeyTip, screenPt, 
+                                              this[0]!.ClientRectangle, _viewMediumSmall.Controller));
             }
         }
         #endregion
@@ -283,7 +283,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Update our enabled and checked state
             UpdateEnabledState();
@@ -291,13 +291,13 @@ namespace Krypton.Ribbon
             UpdateDropDownState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
 
             // For split buttons we need to calculate the split button areas
-            if (GroupClusterButton.ButtonType == GroupButtonType.Split)
+            if (GroupClusterButton!.ButtonType == GroupButtonType.Split)
             {
                 // Find the position of the split area
                 var smallSplitRight = _viewMediumSmallText2Sep1.ClientLocation.X;
@@ -344,7 +344,7 @@ namespace Krypton.Ribbon
             _borderForced = new PaletteBorderInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder);
 
             // Create the background and border view
-            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterButton, _backForced, _borderForced, true, _needPaint)
+            _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterButton!, _backForced, _borderForced, true, _needPaint)
             {
                 SplitVertical = false
             };
@@ -360,8 +360,8 @@ namespace Krypton.Ribbon
             var contentLayout = new ViewLayoutDocker();
 
             // Create the image and drop down content
-            _viewMediumSmallImage = new ViewDrawRibbonGroupClusterButtonImage(_ribbon, GroupClusterButton);
-            _viewMediumSmallText1 = new ViewDrawRibbonGroupClusterButtonText(_ribbon, GroupClusterButton)
+            _viewMediumSmallImage = new ViewDrawRibbonGroupClusterButtonImage(_ribbon, GroupClusterButton!);
+            _viewMediumSmallText1 = new ViewDrawRibbonGroupClusterButtonText(_ribbon, GroupClusterButton!)
             {
                 Visible = _currentSize != GroupItemSize.Small
             };
@@ -390,17 +390,17 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(contentLayout);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
 
             // Provide back reference to the button definition
-            GroupClusterButton.ClusterButtonView = _viewMediumSmall;
+            GroupClusterButton!.ClusterButtonView = _viewMediumSmall;
 
             // Define the actual view
             Add(_viewMediumSmall);
         }
 
-        private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterButton.ItemSizeCurrent);
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterButton!.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -412,7 +412,7 @@ namespace Krypton.Ribbon
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            var buttonEnabled = GroupClusterButton.Enabled;
+            var buttonEnabled = GroupClusterButton!.Enabled;
             if (GroupClusterButton.KryptonCommand != null)
             {
                 buttonEnabled = GroupClusterButton.KryptonCommand.Enabled;
@@ -432,7 +432,7 @@ namespace Krypton.Ribbon
             var checkedState = false;
 
             // Only show as checked if also a check type button
-            if (GroupClusterButton.ButtonType == GroupButtonType.Check)
+            if (GroupClusterButton!.ButtonType == GroupButtonType.Check)
             {
                 checkedState = GroupClusterButton.KryptonCommand?.Checked ?? GroupClusterButton.Checked;
             }
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
 
         private void UpdateDropDownState()
         {
-            var dropDown = GroupClusterButton.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
+            var dropDown = GroupClusterButton!.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
 
             var splitDown = GroupClusterButton.ButtonType == GroupButtonType.Split;
 
@@ -454,11 +454,11 @@ namespace Krypton.Ribbon
             _viewMediumSmall.ButtonType = GroupClusterButton.ButtonType;
         }
 
-        private void OnSmallButtonClick(object sender, EventArgs e) => GroupClusterButton.PerformClick(_viewMediumSmall.FinishDelegate);
+        private void OnSmallButtonClick(object sender, EventArgs e) => GroupClusterButton!.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnSmallButtonDropDown(object sender, EventArgs e) => GroupClusterButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
+        private void OnSmallButtonDropDown(object sender, EventArgs e) => GroupClusterButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupClusterButton.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupClusterButton!.OnDesignTimeContextMenu(e);
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -506,7 +506,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupClusterButton.RibbonTab != null) &&
+                if ((GroupClusterButton!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupClusterButton.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             if (updatePaint)
             {
                 // If this button is actually defined as visible...
-                if (GroupClusterButton.Visible || _ribbon.InDesignMode)
+                if (GroupClusterButton!.Visible || _ribbon.InDesignMode)
                 {
                     // ...and on the currently selected tab then...
                     if ((GroupClusterButton.RibbonTab != null) &&

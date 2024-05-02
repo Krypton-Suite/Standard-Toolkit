@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning control instance.</param>
         public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
 
             AppTab = new ViewDrawRibbonFileAppTab(ribbon);
 

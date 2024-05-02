@@ -31,13 +31,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to ribbon group gallery definition.</param>
-        public ViewDrawRibbonGroupGalleryImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupGallery ribbonGallery)
+        public ViewDrawRibbonGroupGalleryImage([DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] KryptonRibbonGroupGallery? ribbonGallery)
             : base(ribbon)
         {
-            Debug.Assert(ribbonGallery != null);
+            Debug.Assert(ribbonGallery is not null);
 
-            _ribbonGallery = ribbonGallery;
+            _ribbonGallery = ribbonGallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGallery)));
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
         }        
 

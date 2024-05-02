@@ -38,16 +38,27 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon ribbon,
-                                          [DisallowNull] PaletteRedirect redirect,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon? ribbon,
+                                          [DisallowNull] PaletteRedirect? redirect,
+                                          [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(redirect != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(redirect is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
             // Remember the incoming reference
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+
+            if (redirect is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(redirect)));
+            }
+
+            if (needPaintDelegate is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+            }
+
 
             // Create access to the redirector and use as our palette source
             _backInherit = new PaletteBackInheritRedirect(redirect, PaletteBackStyle.PanelClient);
@@ -119,7 +130,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find the correct padding to use
             Padding padding = _ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding;

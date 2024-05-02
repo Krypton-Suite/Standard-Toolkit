@@ -58,10 +58,10 @@ namespace Krypton.Ribbon
         /// <param name="paletteBorder">Palette to use for the border.</param>
         /// <param name="constantBorder">Should the border be a constant normal state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon ribbon,
-                                                   [DisallowNull] KryptonRibbonGroupItem groupItem,
-                                                   [DisallowNull] IPaletteBack paletteBack,
-                                                   [DisallowNull] IPaletteBorder paletteBorder,
+        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon? ribbon,
+                                                   [DisallowNull] KryptonRibbonGroupItem? groupItem,
+                                                   [DisallowNull] IPaletteBack? paletteBack,
+                                                   [DisallowNull] IPaletteBorder? paletteBorder,
                                                    bool constantBorder,
                                                    NeedPaintHandler needPaint)
         {
@@ -71,17 +71,20 @@ namespace Krypton.Ribbon
             Debug.Assert(paletteBorder != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupItem = groupItem;
-            _paletteBack = paletteBack;
+            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            GroupItem = groupItem ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(groupItem)));
+            _paletteBack = paletteBack ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteBack)));
+            
             _paletteBackDraw = new PaletteBackInheritForced(paletteBack)
             {
                 ForceDraw = InheritBool.True
             };
+
             _paletteBackLight = new PaletteBackLightenColors(paletteBack);
             _paletteBorderAll = new PaletteBorderInheritForced(paletteBorder);
             _paletteBorderAll.ForceBorderEdges(PaletteDrawBorders.All);
-            _paletteBorder = paletteBorder;
+
+            _paletteBorder = paletteBorder ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteBorder)));
             ConstantBorder = constantBorder;
 
             // Default other fields
@@ -159,8 +162,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public Rectangle SplitRectangle
         {
-            get => Controller.SplitRectangle;
-            set => Controller.SplitRectangle = value;
+            get => Controller!.SplitRectangle;
+            set => Controller!.SplitRectangle = value;
         }
         #endregion
 
@@ -170,8 +173,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public GroupButtonType ButtonType
         {
-            get => Controller.ButtonType;
-            set => Controller.ButtonType = value;
+            get => Controller!.ButtonType;
+            set => Controller!.ButtonType = value;
         }
         #endregion
 
@@ -212,12 +215,12 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -292,7 +295,7 @@ namespace Krypton.Ribbon
             // We need the rectangle that represents just the split area
             var partialHeight = ClientHeight / 3 * 2;
             var partialRect = new Rectangle(ClientLocation, new Size(ClientWidth, partialHeight));
-            var splitRectangle = Controller.SplitRectangle;
+            var splitRectangle = Controller!.SplitRectangle;
             var aboveSplitRect = new Rectangle(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));
             var splitterRect = new Rectangle(splitRectangle.Location, new Size(ClientWidth, 1));
             var belowSplitRect = splitRectangle with { X = ClientLocation.X, Width = ClientWidth };
@@ -478,7 +481,7 @@ namespace Krypton.Ribbon
         private void DrawHorizontalSplit(RenderContext context, PaletteState drawState)
         {
             // We need the rectangle that represents just the split area
-            var splitRectangle = Controller.SplitRectangle;
+            var splitRectangle = Controller!.SplitRectangle;
             var beforeSplitRect = new Rectangle(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
             var splitterRect = new Rectangle(splitRectangle.Location, new Size(1, ClientHeight));
             var afterSplitRect = splitRectangle with { Y = ClientLocation.Y, Height = ClientHeight };
@@ -742,7 +745,7 @@ namespace Krypton.Ribbon
             }
 
             // Remove the fixed pressed appearance
-            Controller.RemoveFixed();
+            Controller!.RemoveFixed();
         }
 
         private void OnClick(object sender, EventArgs e) => Click?.Invoke(this, e);
