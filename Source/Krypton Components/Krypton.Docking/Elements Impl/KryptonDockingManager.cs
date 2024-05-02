@@ -4093,9 +4093,15 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
             // Piggyback the name of the changed property in the unique name parameter
-            PropogateAction(DockingPropogateAction.StringChanged, new[] { e.PropertyName });
+            string[]? uniqueNames = e.PropertyName is null
+                ? null
+                : new string[] { e.PropertyName };
+
+            PropogateAction(DockingPropogateAction.StringChanged, uniqueNames);
+        }
 
         private void OnDropDownWorkspaceClicked(object sender, EventArgs e)
         {
