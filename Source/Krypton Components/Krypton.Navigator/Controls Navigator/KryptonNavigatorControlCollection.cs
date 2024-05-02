@@ -35,16 +35,14 @@ namespace Krypton.Navigator
         /// Adds the specified control to the control collection.
         /// </summary>
         /// <param name="value">The KryptonPage to add to the control collection.</param>
-        public override void Add([DisallowNull] Control value)
+        public override void Add(Control? value)
         {
-            Debug.Assert(value != null);
+            Debug.Assert(value is not null);
 
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-
-            // Cast to correct type
 
             // We only allow KryptonPage controls to be added
             if (value is not KryptonPage)

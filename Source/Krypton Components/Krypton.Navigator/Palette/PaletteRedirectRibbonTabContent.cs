@@ -45,9 +45,9 @@ namespace Krypton.Navigator
         /// <param name="target">Initial palette target for redirection.</param>
         public PaletteRedirectRibbonTabContent(PaletteBase target)
             : this(target,
-                   null, null, null, null, null, null,
-                   null, null, null, null, null, null,
-                   null, null, null, null, null, null)
+                   null!, null!, null!, null!, null!, null!,
+                   null!, null!, null!, null!, null!, null!,
+                   null!, null!, null!, null!, null!, null!)
         {
         }
 
@@ -160,24 +160,24 @@ namespace Krypton.Navigator
         /// </summary>
         public virtual void ResetRedirectStates()
         {
-            _disabledBack = null;
-            _normalBack = null;
-            _pressedBack = null;
-            _trackingBack = null;
-            _selectedBack = null;
-            _focusOverrideBack = null;
-            _disabledText = null;
-            _normalText = null;
-            _pressedText = null;
-            _trackingText = null;
-            _selectedText = null;
-            _focusOverrideText = null;
-            _disabledContent = null;
-            _normalContent = null;
-            _pressedContent = null;
-            _trackingContent = null;
-            _selectedContent = null;
-            _focusOverrideContent = null;
+            _disabledBack = null!;
+            _normalBack = null!;
+            _pressedBack = null!;
+            _trackingBack = null!;
+            _selectedBack = null!;
+            _focusOverrideBack = null!;
+            _disabledText = null!;
+            _normalText = null!;
+            _pressedText = null!;
+            _trackingText = null!;
+            _selectedText = null!;
+            _focusOverrideText = null!;
+            _disabledContent = null!;
+            _normalContent = null!;
+            _pressedContent = null!;
+            _trackingContent = null!;
+            _selectedContent = null!;
+            _focusOverrideContent = null!;
         }
         #endregion
 
@@ -352,7 +352,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextFont(state) ?? Target!.GetContentShortTextFont(style, state);
+            return inherit?.GetContentShortTextFont(state) ?? Target!.GetContentShortTextFont(style, state) ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextFont(state) ?? Target!.GetContentLongTextFont(style, state);
+            return inherit?.GetContentLongTextFont(state) ?? Target!.GetContentLongTextFont(style, state) ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
         }
 
         /// <summary>
