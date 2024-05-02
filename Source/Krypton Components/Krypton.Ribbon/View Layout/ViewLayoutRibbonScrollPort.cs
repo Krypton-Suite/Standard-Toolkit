@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
             {
                 Debug.Assert(ribbon is not null);
                 
-                _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+                _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
                 // Create and add a hidden button to act as the focus target
                 _hiddenFocusTarget = new Button
@@ -161,10 +161,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember initial settings
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
             _orientation = orientation;
-            _viewFiller = viewFiller ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(viewFiller)));
-            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+            _viewFiller = viewFiller ?? throw new ArgumentNullException(nameof(viewFiller));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _scrollSpeed = scrollSpeed;
             _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 

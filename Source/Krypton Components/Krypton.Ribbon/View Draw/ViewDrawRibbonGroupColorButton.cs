@@ -60,9 +60,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon )));
-            GroupColorButton = ribbonColorButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonColorButton)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
+            GroupColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupColorButton.ItemSizeCurrent;
 
             // Associate this view with the source component (required for design time selection)

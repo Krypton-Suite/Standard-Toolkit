@@ -47,16 +47,16 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate is not null);
 
             // Remember the incoming reference
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             if (redirect is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(redirect)));
+                throw new ArgumentNullException(nameof(redirect));
             }
 
             if (needPaintDelegate is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+                throw new ArgumentNullException(nameof(needPaintDelegate));
             }
 
 

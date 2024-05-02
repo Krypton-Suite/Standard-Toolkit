@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
         {
             Debug.Assert(state is not null);
-            _state = state ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(state)));
+            _state = state ?? throw new ArgumentNullException(nameof(state));
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         public void SetState([DisallowNull] PaletteGalleryState state)
         {
             Debug.Assert(state != null);
-            _state = state ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(state)));
+            _state = state ?? throw new ArgumentNullException(nameof(state));
         }
         #endregion
 

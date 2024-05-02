@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonLabel is not null);
 
-            _ribbonLabel = ribbonLabel ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonLabel)));
+            _ribbonLabel = ribbonLabel ?? throw new ArgumentNullException(nameof(ribbonLabel));
             _large = large;
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));

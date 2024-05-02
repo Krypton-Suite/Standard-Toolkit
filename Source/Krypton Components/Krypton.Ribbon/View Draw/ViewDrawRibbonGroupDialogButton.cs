@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGroup is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonGroup = ribbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroup)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
 
             // Attach a controller to this element for the pressing of the button
             var controller = new DialogLauncherButtonController(ribbon, this, needPaint!);

@@ -55,9 +55,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupGallery = ribbonGallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGallery)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupGallery = ribbonGallery ?? throw new ArgumentNullException(nameof(ribbonGallery));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupGallery.ItemSizeCurrent;
 
             // Create the button view used in small setting

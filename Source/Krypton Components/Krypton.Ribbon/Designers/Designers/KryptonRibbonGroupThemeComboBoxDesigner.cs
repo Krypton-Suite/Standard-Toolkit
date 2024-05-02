@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonThemeComboBox = component as KryptonRibbonGroupThemeComboBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonThemeComboBox = component as KryptonRibbonGroupThemeComboBox ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonThemeComboBox != null)
             {

@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
 
             if (ribbon is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+                throw new ArgumentNullException(nameof(ribbon));
             }
 
             if (ribbon.TabsArea is null)

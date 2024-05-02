@@ -48,8 +48,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon is not null);
             Debug.Assert(ribbonRadioButton is not null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonRadioButton = ribbonRadioButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonRadioButton)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonRadioButton = ribbonRadioButton ?? throw new ArgumentNullException(nameof(ribbonRadioButton));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface

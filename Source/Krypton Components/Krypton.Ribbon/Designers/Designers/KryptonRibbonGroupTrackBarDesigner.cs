@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonTrackBar = component as KryptonRibbonGroupTrackBar ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonTrackBar = component as KryptonRibbonGroupTrackBar ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonTrackBar is not null && _ribbonTrackBar.TrackBar is not null)
             {

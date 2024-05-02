@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupCustomControl = ribbonCustom ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCustom)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupCustomControl = ribbonCustom ?? throw new ArgumentNullException(nameof(ribbonCustom));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupCustomControl.ItemSizeCurrent;
 
             // Hook into the custom control events

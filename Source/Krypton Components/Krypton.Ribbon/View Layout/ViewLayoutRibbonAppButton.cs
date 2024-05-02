@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
                                          bool bottomHalf)
         {
             Debug.Assert(ribbon is not null);
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
             _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);

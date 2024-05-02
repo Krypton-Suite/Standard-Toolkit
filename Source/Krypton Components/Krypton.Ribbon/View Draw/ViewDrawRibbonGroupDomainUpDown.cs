@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupDomainUpDown = ribbonDomainUpDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonDomainUpDown)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupDomainUpDown = ribbonDomainUpDown ?? throw new ArgumentNullException(nameof(ribbonDomainUpDown));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupDomainUpDown.ItemSizeCurrent;
 
             // Hook into the domain up-down events

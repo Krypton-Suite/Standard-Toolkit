@@ -377,9 +377,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Helper method that returns a generic message when a parameter is null.
         /// </summary>
-        /// <param name="propertyName">Name of the parameter to be inserted into the text.</param>
+        /// <param name="parameterName">Name of the parameter to be inserted into the text.</param>
         /// <returns>The message.</returns>
-        public static string ParameterCannotBeNull(string propertyName) => $"Property {propertyName} cannot be null.";
+        public static string ParameterCannotBeNull(string parameterName) => $"Parameter {parameterName} cannot be null.";
         #endregion
     }
 }

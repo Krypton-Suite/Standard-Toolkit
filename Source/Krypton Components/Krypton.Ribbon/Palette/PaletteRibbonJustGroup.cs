@@ -43,11 +43,11 @@ namespace Krypton.Ribbon
 
             if (inherit is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
+                throw new ArgumentNullException(nameof(inherit));
             }
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create storage that maps onto the inherit instances
             _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);

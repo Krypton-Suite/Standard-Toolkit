@@ -37,10 +37,10 @@ namespace Krypton.Ribbon
             Debug.Assert(tab is not null);
             Debug.Assert(context is not null);
 
-            FirstTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
+            FirstTab = tab ?? throw new ArgumentNullException(nameof(tab));
             _lastTab = tab;
 
-            Context = context ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
         {
             Debug.Assert(tab is not null);
-            _lastTab = tab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tab)));
+            _lastTab = tab ?? throw new ArgumentNullException(nameof(tab));
         }
 
         /// <summary>

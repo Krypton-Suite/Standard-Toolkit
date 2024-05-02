@@ -38,9 +38,9 @@ namespace Krypton.Ribbon
                                               bool large)
             : base(ribbon)
         {
-            Debug.Assert(ribbonButton != null);
+            Debug.Assert(ribbonButton is not null);
 
-            _ribbonButton = ribbonButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonButton)));
+            _ribbonButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
             _large = large;
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));

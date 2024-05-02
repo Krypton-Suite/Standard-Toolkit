@@ -71,9 +71,9 @@ namespace Krypton.Ribbon
             Debug.Assert(paletteBorder != null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupItem = groupItem ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(groupItem)));
-            _paletteBack = paletteBack ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteBack)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupItem = groupItem ?? throw new ArgumentNullException(nameof(groupItem));
+            _paletteBack = paletteBack ?? throw new ArgumentNullException(nameof(paletteBack));
             
             _paletteBackDraw = new PaletteBackInheritForced(paletteBack)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
             _paletteBorderAll = new PaletteBorderInheritForced(paletteBorder);
             _paletteBorderAll.ForceBorderEdges(PaletteDrawBorders.All);
 
-            _paletteBorder = paletteBorder ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteBorder)));
+            _paletteBorder = paletteBorder ?? throw new ArgumentNullException(nameof(paletteBorder));
             ConstantBorder = constantBorder;
 
             // Default other fields

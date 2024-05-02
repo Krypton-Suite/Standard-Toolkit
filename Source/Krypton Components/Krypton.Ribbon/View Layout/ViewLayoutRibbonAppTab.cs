@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon is not null);
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new(nameof(ribbon));
 
             AppTab = new ViewDrawRibbonFileAppTab(ribbon);
 

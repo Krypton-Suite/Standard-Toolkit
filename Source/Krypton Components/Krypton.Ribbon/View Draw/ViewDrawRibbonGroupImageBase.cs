@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon is not null);
-            Ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
         }        
 
         /// <summary>
