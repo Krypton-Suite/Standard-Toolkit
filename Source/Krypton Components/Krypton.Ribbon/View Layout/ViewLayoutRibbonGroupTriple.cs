@@ -55,9 +55,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonTriple = ribbonTriple ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonTriple)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonTriple = ribbonTriple ?? throw new ArgumentNullException(nameof(ribbonTriple));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate the component with this view element for design time selection
             Component = _ribbonTriple;

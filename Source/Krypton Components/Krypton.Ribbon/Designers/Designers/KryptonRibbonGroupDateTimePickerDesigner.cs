@@ -60,9 +60,9 @@ namespace Krypton.Ribbon
             Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbonDateTimePicker = component as KryptonRibbonGroupDateTimePicker ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonDateTimePicker = component as KryptonRibbonGroupDateTimePicker ?? throw new ArgumentNullException(nameof(component));
 
-            if (_ribbonDateTimePicker != null)
+            if (_ribbonDateTimePicker is not null && _ribbonDateTimePicker.DateTimePicker is not null)
             {
                 _ribbonDateTimePicker.DateTimePickerDesigner = this;
 

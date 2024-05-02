@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGroup != null);
             Debug.Assert(viewGroup != null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonGroup = ribbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroup)));
-            _viewGroup = viewGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(viewGroup)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
             _viewSize2007 = new Size((int)(30 * FactorDpiX), (int)(31 * FactorDpiY));
             _viewSize2010 = new Size((int)(31 * FactorDpiX), (int)(31 * FactorDpiY));
             _imageSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));

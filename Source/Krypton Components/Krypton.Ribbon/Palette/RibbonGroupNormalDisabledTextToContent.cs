@@ -38,12 +38,12 @@ namespace Krypton.Ribbon
 
             if (ribbonGroupTextNormal is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroupTextNormal)));
+                throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
             }
 
             if (ribbonGroupTextDisabled is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroupTextDisabled)));
+                throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
             }
 
             _ribbonGroupTextNormal = ribbonGroupTextNormal;

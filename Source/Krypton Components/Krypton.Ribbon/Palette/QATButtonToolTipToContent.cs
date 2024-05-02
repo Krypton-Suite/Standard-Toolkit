@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(qatButton is not null);
 
-            _qatButton = qatButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(qatButton)));
+            _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
         }
         #endregion
 

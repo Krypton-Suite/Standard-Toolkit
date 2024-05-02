@@ -46,8 +46,8 @@ namespace Krypton.Ribbon
             Debug.Assert(captionArea is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _captionArea = captionArea ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(captionArea)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _captionArea = captionArea ?? throw new ArgumentNullException(nameof(captionArea));
         }
 
         /// <summary>

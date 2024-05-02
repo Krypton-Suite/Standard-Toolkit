@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbonRichTextBox = component as KryptonRibbonGroupRichTextBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonRichTextBox = component as KryptonRibbonGroupRichTextBox ?? throw new ArgumentNullException(nameof(component));
             
             if (_ribbonRichTextBox is not null)
             {
@@ -75,7 +75,7 @@ namespace Krypton.Ribbon
                 _ribbonRichTextBox.Enabled = true;
 
                 // Tell the embedded text box it is in design mode
-                _ribbonRichTextBox.RichTextBox.InRibbonDesignMode = true;
+                _ribbonRichTextBox.RichTextBox!.InRibbonDesignMode = true;
 
                 // Hook into events
                 _ribbonRichTextBox.DesignTimeContextMenu += OnContextMenu;

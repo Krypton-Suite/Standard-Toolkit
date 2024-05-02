@@ -30,22 +30,22 @@ namespace Krypton.Ribbon
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
-                                      ViewLayoutRibbonQATContents contents,
+                                      [DisallowNull] ViewLayoutRibbonQATContents? contents,
                                       IRenderer renderer)
             : base(renderer, true)
         {
             Debug.Assert(ribbon is not null);
 
             // Remember references needed later
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             // Create a view element for drawing the group
             _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);
 
             // Create and add the element used to synch and draw the actual contents
             ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon,
-                                                                   NeedPaintDelegate,
-                                                                   true, contents);
+                                                                  NeedPaintDelegate,
+                                                                  true, contents);
             _viewQAT.Add(ViewQATContents);
 
             // Attach the root to the view manager instance

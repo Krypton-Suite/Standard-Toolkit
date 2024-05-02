@@ -43,12 +43,12 @@ namespace Krypton.Ribbon
 
             if (redirect is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(redirect)));
+                throw new ArgumentNullException(nameof(redirect));
             }
 
             if (needPaint is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+                throw new ArgumentNullException(nameof(needPaint));
             }
 
             // Store the provided paint notification delegate

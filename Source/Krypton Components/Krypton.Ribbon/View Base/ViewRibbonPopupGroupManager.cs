@@ -44,9 +44,9 @@ namespace Krypton.Ribbon
             Debug.Assert(viewGroup is not null);
             Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _viewGroup = viewGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(viewGroup)));
-            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
         }
 
         /// <summary>

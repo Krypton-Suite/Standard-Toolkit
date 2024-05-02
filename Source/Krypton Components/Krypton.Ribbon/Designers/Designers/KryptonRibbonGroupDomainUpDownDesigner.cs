@@ -57,12 +57,12 @@ namespace Krypton.Ribbon
             // Let base class do standard stuff
             base.Initialize(component);
 
-            Debug.Assert(component != null);
+            Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbonDomainUpDown = component as KryptonRibbonGroupDomainUpDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonDomainUpDown = component as KryptonRibbonGroupDomainUpDown ?? throw new ArgumentNullException(nameof(component));
 
-            if (_ribbonDomainUpDown != null)
+            if (_ribbonDomainUpDown is not null)
             {
                 _ribbonDomainUpDown.DomainUpDownDesigner = this;
 
@@ -75,7 +75,7 @@ namespace Krypton.Ribbon
                 _ribbonDomainUpDown.Enabled = true;
 
                 // Tell the embedded domain up-down control it is in design mode
-                _ribbonDomainUpDown.DomainUpDown.InRibbonDesignMode = true;
+                _ribbonDomainUpDown.DomainUpDown!.InRibbonDesignMode = true;
 
                 // Hook into events
                 _ribbonDomainUpDown.DesignTimeContextMenu += OnContextMenu;

@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonRecentDocEntryText is not null);
             
-            _ribbonRecentDocEntryText = ribbonRecentDocEntryText ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonRecentDocEntryText)));
+            _ribbonRecentDocEntryText = ribbonRecentDocEntryText ?? throw new ArgumentNullException(nameof(ribbonRecentDocEntryText));
         }
         #endregion
 

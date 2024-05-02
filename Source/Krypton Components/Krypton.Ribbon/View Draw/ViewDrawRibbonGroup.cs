@@ -79,9 +79,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Cache source of state specific settings
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonGroup = ribbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroup)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate this view with the source component (required for design time selection)
             Component = _ribbonGroup;
@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
 
             if (current is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(current)));
+                throw new ArgumentNullException(nameof(current));
             }
 
             if (Collapsed)
@@ -291,7 +291,7 @@ namespace Krypton.Ribbon
 
             if (current is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(current)));
+                throw new ArgumentNullException(nameof(current));
             }
 
             if (Collapsed)
@@ -700,7 +700,7 @@ namespace Krypton.Ribbon
         {
             if (context is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
+                throw new ArgumentNullException(nameof(context));
             }
 
             Rectangle drawRect = ClientRectangle;
@@ -847,7 +847,7 @@ namespace Krypton.Ribbon
         {
             if (context is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
+                throw new ArgumentNullException(nameof(context));
             }
 
             switch (_lastRibbonShape)

@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon is not null);
             Debug.Assert(needPaint is not null);
 
-            Ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();

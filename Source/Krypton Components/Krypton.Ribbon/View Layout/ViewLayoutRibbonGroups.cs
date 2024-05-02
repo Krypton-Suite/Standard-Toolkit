@@ -57,9 +57,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonTab = ribbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonTab)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonTab = ribbonTab ?? throw new ArgumentNullException(nameof(ribbonTab));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create initial lookup table
             _groupToView = new GroupToView();

@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
 
             if ( context is null)
             {
-                 throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(context)));
+                 throw new ArgumentNullException(nameof(context));
             }
 
             // If this item is being tracked, then show as tracking

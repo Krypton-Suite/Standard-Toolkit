@@ -61,9 +61,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonCluster = ribbonCluster ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCluster)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonCluster = ribbonCluster ?? throw new ArgumentNullException(nameof(ribbonCluster));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupItemSize.Medium;
 
             // Associate the component with this view element for design time selection

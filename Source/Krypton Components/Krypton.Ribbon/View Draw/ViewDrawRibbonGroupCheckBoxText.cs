@@ -48,8 +48,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon is not null);
             Debug.Assert(ribbonCheckBox is not null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonCheckBox = ribbonCheckBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCheckBox )));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox ));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface

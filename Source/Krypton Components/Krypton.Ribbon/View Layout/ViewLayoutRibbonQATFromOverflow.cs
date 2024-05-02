@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
             Debug.Assert(parentControl is not null);
             Debug.Assert(contents is not null);
             
-            _contents = contents ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(contents)));
-            ParentControl = parentControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(parentControl)));
+            _contents = contents ?? throw new ArgumentNullException(nameof(contents));
+            ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
         }
         #endregion
 

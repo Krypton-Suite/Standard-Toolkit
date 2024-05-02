@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonGeneral is not null);
 
-            RibbonGeneral = ribbonGeneral ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGeneral)));
+            RibbonGeneral = ribbonGeneral ?? throw new ArgumentNullException(nameof(ribbonGeneral));
         }
         #endregion
 

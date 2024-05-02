@@ -38,11 +38,11 @@ namespace Krypton.Ribbon
 
             if (redirect is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(redirect)));
+                throw new ArgumentNullException(nameof(redirect));
             }
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create the redirection instances
             _ribbonTabInherit = new PaletteRibbonDoubleInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonTab, PaletteRibbonTextStyle.RibbonTab);

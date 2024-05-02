@@ -56,9 +56,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonGroup = ribbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroup)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Use hashtable to store relationships
             _containerToView = new ContainerToView();
