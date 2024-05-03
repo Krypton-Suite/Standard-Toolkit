@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupRadioButton _ribbonRadioButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -41,15 +41,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonRadioButton">Group radio button to display title for.</param>
         /// <param name="firstText">Should show the first button text.</param>
-        public ViewDrawRibbonGroupRadioButtonText([DisallowNull] KryptonRibbon ribbon,
-                                                  [DisallowNull] KryptonRibbonGroupRadioButton ribbonRadioButton,
+        public ViewDrawRibbonGroupRadioButtonText([DisallowNull] KryptonRibbon? ribbon,
+                                                  [DisallowNull] KryptonRibbonGroupRadioButton? ribbonRadioButton,
                                                   bool firstText)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonRadioButton != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonRadioButton is not null);
 
-            _ribbon = ribbon;
-            _ribbonRadioButton = ribbonRadioButton;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonRadioButton = ribbonRadioButton ?? throw new ArgumentNullException(nameof(ribbonRadioButton));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

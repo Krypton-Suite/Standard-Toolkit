@@ -49,18 +49,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonCheckBox">Reference to source check box definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupCheckBox([DisallowNull] KryptonRibbon ribbon,
-                                           [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
-                                           [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupCheckBox([DisallowNull] KryptonRibbon? ribbon,
+                                           [DisallowNull] KryptonRibbonGroupCheckBox? ribbonCheckBox,
+                                           [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonCheckBox != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonCheckBox is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupCheckBox = ribbonCheckBox;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupCheckBox.ItemSizeCurrent;
 
             // Create delegate used to process end of click action
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -188,7 +188,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
-            return null;
+            return null!;
         }
         #endregion
 
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
             UpdateItemSizeState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -338,7 +338,7 @@ namespace Krypton.Ribbon
             _viewLarge.KeyController = _viewLargeController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager!.ToolTipManager!, 
+            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!, 
                                                                _viewLarge, _viewLarge.MouseController);
         }
 
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
             _viewMediumSmall.KeyController = _viewMediumSmallController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager!.ToolTipManager!,
+            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 

@@ -591,7 +591,7 @@ namespace Krypton.Ribbon
 
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                if ((PaletteState?)stateValues.GetValue(i) == state)
                 {
                     return i;
                 }

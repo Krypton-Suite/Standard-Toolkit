@@ -67,18 +67,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonLines">Reference to lines definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupLines([DisallowNull] KryptonRibbon ribbon,
-                                          [DisallowNull] KryptonRibbonGroupLines ribbonLines,
-                                          [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupLines([DisallowNull] KryptonRibbon? ribbon,
+                                          [DisallowNull] KryptonRibbonGroupLines? ribbonLines,
+                                          [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonLines != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonLines is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonLines = ribbonLines;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonLines = ribbonLines ?? throw new ArgumentNullException(nameof(ribbonLines));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate the component with this view element for design time selection
             Component = _ribbonLines;
@@ -163,7 +163,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -240,7 +240,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -290,7 +290,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -340,7 +340,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -602,7 +602,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are there any children to layout?
             if (Count > 0)

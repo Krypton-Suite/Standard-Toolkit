@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -204,7 +204,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -217,7 +217,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList, int lineHint)
         {
             // Only provide a key tip if we are visible and the target control can accept focus
-            if (Visible && LastTextBox.CanFocus)
+            if (Visible && LastTextBox!.CanFocus)
             {
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupTextBox.Enabled, 
+                keyTipList.Add(new KeyTipInfo(GroupTextBox!.Enabled, 
                                               GroupTextBox.KeyTip,
                                               screenPt, 
                                               ClientRectangle,
@@ -256,7 +256,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize() => _currentSize = GroupTextBox.ItemSizeCurrent;
+        public void ResetGroupItemSize() => _currentSize = GroupTextBox!.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a textbox associated then ask for its requested size
             if (LastTextBox != null)
@@ -301,10 +301,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastTextBox?.SetBounds(ClientLocation.X + 1,
@@ -325,10 +325,10 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void Render([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // If we do not have a textbox
-            if (GroupTextBox.TextBox == null)
+            if (GroupTextBox!.TextBox is null)
             {
                 // And we are in design time
                 if (_ribbon.InDesignMode)
@@ -339,7 +339,7 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the textbox will be
-                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
                     context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
@@ -373,7 +373,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupTextBox.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupTextBox!.OnDesignTimeContextMenu(e);
 
         private void OnTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupTextBox.RibbonTab != null) &&
+                if ((GroupTextBox!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupTextBox.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -425,14 +425,14 @@ namespace Krypton.Ribbon
 
         private Control LastParentControl
         {
-            get => GroupTextBox.LastParentControl;
-            set => GroupTextBox.LastParentControl = value;
+            get => GroupTextBox!.LastParentControl;
+            set => GroupTextBox!.LastParentControl = value;
         }
 
         private KryptonTextBox? LastTextBox
         {
-            get => GroupTextBox.LastTextBox;
-            set => GroupTextBox.LastTextBox = value;
+            get => GroupTextBox!.LastTextBox;
+            set => GroupTextBox!.LastTextBox = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -440,10 +440,10 @@ namespace Krypton.Ribbon
             // Is there a change in the textbox or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastTextBox != GroupTextBox.TextBox))
+                (LastTextBox != GroupTextBox!.TextBox))
             {
                 // We only modify the parent and visible state if processing for correct container
-                if ((GroupTextBox!.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
+                if ((GroupTextBox!.RibbonContainer!.RibbonGroup!.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupTextBox.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custrom control to a parent before

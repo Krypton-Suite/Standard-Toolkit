@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly Size _preferredSize2007; // = new(4, 4);
         private readonly Size _preferredSize2010; // = new(7, 4);
         private readonly KryptonRibbon _ribbon;
-        private KryptonRibbonGroupSeparator _ribbonSeparator;
+        private KryptonRibbonGroupSeparator? _ribbonSeparator;
         private readonly NeedPaintHandler _needPaint;
         private Size _preferredSize;
         private PaletteRibbonShape _lastShape;
@@ -37,17 +37,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonSeparator">Reference to group separator definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon ribbon,
-                                            [DisallowNull] KryptonRibbonGroupSeparator ribbonSeparator,
-                                            [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon? ribbon,
+                                            [DisallowNull] KryptonRibbonGroupSeparator? ribbonSeparator,
+                                            [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonSeparator != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonSeparator is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            _ribbonSeparator = ribbonSeparator;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonSeparator = ribbonSeparator ?? throw new ArgumentNullException(nameof(ribbonSeparator));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate this view with the source component (required for design time selection)
             Component = _ribbonSeparator;
@@ -91,7 +91,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Must unhook to prevent memory leaks
-                _ribbonSeparator.PropertyChanged -= OnSeparatorPropertyChanged;
+                _ribbonSeparator!.PropertyChanged -= OnSeparatorPropertyChanged;
 
                 // Remove association with definition
                 _ribbonSeparator.SeparatorView = null;
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem() =>
             // We never have any child items that can take focus
-            null;
+            null!;
 
         #endregion
 
@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem() =>
             // We never have any child items that can take focus
-            null;
+            null!;
 
         #endregion
 
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
-            null;
+            null!;
 
         #endregion
 
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
-            null;
+            null!;
 
         #endregion
 
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonSeparator.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonSeparator!.OnDesignTimeContextMenu(e);
 
         private void OnSeparatorPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -263,7 +263,7 @@ namespace Krypton.Ribbon
             {
                 case nameof(Visible):
                     // If we are on the currently selected tab then...
-                    if ((_ribbonSeparator.RibbonTab != null) &&
+                    if ((_ribbonSeparator!.RibbonTab != null) &&
                         (_ribbon.SelectedTab == _ribbonSeparator.RibbonTab))
                     {
                         // ...layout so the visible change is made

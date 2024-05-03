@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonGallery _gallery;
         private readonly GalleryItemController _controller;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private Image? _image;
         private int _imageIndex;
         #endregion
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
             {
                 if (_imageList != value)
                 {
-                    if (_image != null)
+                    if (_image is not null)
                     {
                         _image.Dispose();
                         _image = null;
@@ -158,9 +158,14 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render([DisallowNull] RenderContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if ( context is null)
+            {
+                 throw new ArgumentNullException(nameof(context));
+            }
 
             // If this item is being tracked, then show as tracking
             PaletteState tempState = ElementState;

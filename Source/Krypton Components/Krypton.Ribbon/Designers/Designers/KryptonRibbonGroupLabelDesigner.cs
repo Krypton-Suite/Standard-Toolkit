@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonLabel = component as KryptonRibbonGroupLabel ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonLabel = component as KryptonRibbonGroupLabel ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonLabel != null)
             {

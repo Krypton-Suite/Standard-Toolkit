@@ -42,12 +42,12 @@ namespace Krypton.Ribbon
                                     IRenderer renderer)
             : base(viewManager, renderer, true)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(captionArea != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(captionArea is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _captionArea = captionArea ?? throw new ArgumentNullException(nameof(captionArea));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the last item
             if (newView == null)

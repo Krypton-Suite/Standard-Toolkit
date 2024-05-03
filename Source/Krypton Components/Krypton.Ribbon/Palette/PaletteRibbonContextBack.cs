@@ -31,7 +31,13 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to ribbon control.</param>
         public PaletteRibbonContextBack([DisallowNull] KryptonRibbon ribbon)
         {
-            Debug.Assert(ribbon != null);
+            Debug.Assert(ribbon is not null);
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
             _ribbon = ribbon;
         }
         #endregion
@@ -161,13 +167,12 @@ namespace Krypton.Ribbon
             return retColor;
         }
         #endregion
-
         #region Implementation
         private Color CheckForContextColor()
         {
             // We need an associated ribbon tab
             // Does the ribbon tab have a context setting?
-            if (_ribbon.SelectedTab != null)
+            if (_ribbon is not null && _ribbon.SelectedTab is not null)
             {
                 KryptonRibbonTab selectedTab = _ribbon.SelectedTab;
                 if (!string.IsNullOrEmpty(selectedTab?.ContextName))

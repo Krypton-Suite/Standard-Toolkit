@@ -36,18 +36,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonNumericUpDown">Reference to source numeric up-down.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupNumericUpDown([DisallowNull] KryptonRibbon ribbon,
-                                                [DisallowNull] KryptonRibbonGroupNumericUpDown ribbonNumericUpDown,
-                                                [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupNumericUpDown([DisallowNull] KryptonRibbon? ribbon,
+                                                [DisallowNull] KryptonRibbonGroupNumericUpDown? ribbonNumericUpDown,
+                                                [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonNumericUpDown != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonNumericUpDown is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupNumericUpDown = ribbonNumericUpDown;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupNumericUpDown = ribbonNumericUpDown ?? throw new (nameof(ribbonNumericUpDown));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
             // Hook into the numeric up-down events
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -204,7 +204,7 @@ namespace Krypton.Ribbon
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a numeric up-down associated then ask for its requested size
             if (LastNumericUpDown != null)
@@ -301,7 +301,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
             if (!context.ViewManager!.DoNotLayoutControls)

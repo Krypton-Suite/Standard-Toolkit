@@ -26,8 +26,9 @@ namespace Krypton.Ribbon
                                         [DisallowNull] IPaletteRibbonText ribbonGroupText)
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonGroupText != null);
-            PaletteRibbonGroup = ribbonGroupText;
+            Debug.Assert(ribbonGroupText is not null);
+
+            PaletteRibbonGroup = ribbonGroupText ?? throw new ArgumentNullException(nameof(ribbonGroupText));
         }
         #endregion
 
