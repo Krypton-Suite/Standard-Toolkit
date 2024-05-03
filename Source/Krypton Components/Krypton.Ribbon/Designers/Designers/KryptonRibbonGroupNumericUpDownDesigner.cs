@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonNumericUpDown != null)
             {
@@ -75,7 +75,7 @@ namespace Krypton.Ribbon
                 _ribbonNumericUpDown.Enabled = true;
 
                 // Tell the embedded numeric up-down control it is in design mode
-                _ribbonNumericUpDown.NumericUpDown.InRibbonDesignMode = true;
+                _ribbonNumericUpDown.NumericUpDown!.InRibbonDesignMode = true;
 
                 // Hook into events
                 _ribbonNumericUpDown.DesignTimeContextMenu += OnContextMenu;

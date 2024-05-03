@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupCheckBox = ribbonCheckBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonCheckBox)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupCheckBox.ItemSizeCurrent;
 
             // Create delegate used to process end of click action

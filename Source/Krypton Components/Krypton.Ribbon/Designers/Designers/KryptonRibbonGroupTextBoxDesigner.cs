@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonTextBox = component as KryptonRibbonGroupTextBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonTextBox = component as KryptonRibbonGroupTextBox ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonTextBox != null)
             {
@@ -75,7 +75,7 @@ namespace Krypton.Ribbon
                 _ribbonTextBox.Enabled = true;
 
                 // Tell the embedded text box it is in design mode
-                _ribbonTextBox.TextBox.InRibbonDesignMode = true;
+                _ribbonTextBox.TextBox!.InRibbonDesignMode = true;
 
                 // Hook into events
                 _ribbonTextBox.DesignTimeContextMenu += OnContextMenu;

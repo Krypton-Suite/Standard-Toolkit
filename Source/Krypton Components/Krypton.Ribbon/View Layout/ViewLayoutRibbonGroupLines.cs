@@ -71,14 +71,14 @@ namespace Krypton.Ribbon
                                           [DisallowNull] KryptonRibbonGroupLines? ribbonLines,
                                           [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonLines != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonLines is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonLines = ribbonLines ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonLines)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonLines = ribbonLines ?? throw new ArgumentNullException(nameof(ribbonLines));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate the component with this view element for design time selection
             Component = _ribbonLines;

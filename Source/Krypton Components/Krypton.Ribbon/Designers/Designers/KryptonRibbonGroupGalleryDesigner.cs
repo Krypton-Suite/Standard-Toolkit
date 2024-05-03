@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonGallery = component as KryptonRibbonGroupGallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonGallery = component as KryptonRibbonGroupGallery ?? throw new ArgumentNullException(nameof(component));
 
             if (_ribbonGallery != null)
             {

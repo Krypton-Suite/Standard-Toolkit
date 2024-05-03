@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
             : base(ribbon)
         {
             Debug.Assert(ribbonColorButton is not null);
-            _ribbonColorButton = ribbonColorButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonColorButton)));
+            _ribbonColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
             _selectedColor = ribbonColorButton.SelectedColor;
             _emptyBorderColor = ribbonColorButton.EmptyBorderColor;
             _selectedRect = ribbonColorButton.SelectedRect;

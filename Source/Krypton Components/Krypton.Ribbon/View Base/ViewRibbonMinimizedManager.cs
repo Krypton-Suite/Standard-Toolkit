@@ -47,9 +47,9 @@ namespace Krypton.Ribbon
             Debug.Assert(root is not null);
             Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = control ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
-            _viewGroups = viewGroups ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_viewGroups)));
-            _needPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+            _ribbon = control ?? throw new ArgumentNullException(nameof(_ribbon));
+            _viewGroups = viewGroups ?? throw new ArgumentNullException(nameof(_viewGroups));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _active = true;
             _minimizedMode = minimizedMode;
         }

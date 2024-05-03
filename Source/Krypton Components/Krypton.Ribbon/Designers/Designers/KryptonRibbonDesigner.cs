@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbon = component as KryptonRibbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            _ribbon = component as KryptonRibbon ?? throw new ArgumentNullException(nameof(_ribbon));
 
             if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
             {

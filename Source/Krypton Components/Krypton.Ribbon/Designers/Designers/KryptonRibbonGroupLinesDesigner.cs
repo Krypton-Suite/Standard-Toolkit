@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbonLines = component as KryptonRibbonGroupLines ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
+            _ribbonLines = component as KryptonRibbonGroupLines ?? throw new ArgumentNullException(nameof(component));
             if (_ribbonLines != null)
             {
                 _ribbonLines.DesignTimeAddButton += OnAddButton;

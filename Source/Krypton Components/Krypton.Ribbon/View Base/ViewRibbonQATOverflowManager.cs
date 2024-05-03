@@ -39,8 +39,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon is not null);
             Debug.Assert(qatContents is not null);
             
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            QATContents = qatContents ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(qatContents)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            QATContents = qatContents ?? throw new ArgumentNullException(nameof(qatContents));
         }
 
         /// <summary>

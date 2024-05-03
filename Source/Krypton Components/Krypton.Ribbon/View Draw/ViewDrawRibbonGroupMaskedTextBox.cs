@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            GroupMaskedTextBox = ribbonMaskedTextBox ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonMaskedTextBox)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupMaskedTextBox = ribbonMaskedTextBox ?? throw new (nameof(ribbonMaskedTextBox));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupMaskedTextBox.ItemSizeCurrent;
 
             // Hook into the masked textbox events

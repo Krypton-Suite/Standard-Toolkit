@@ -70,8 +70,8 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonGroup = component as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(component)));
-            if (_ribbonGroup != null)
+            _ribbonGroup = component as KryptonRibbonGroup ?? throw new ArgumentNullException(nameof(component));
+            if (_ribbonGroup is not null)
             {
                 _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
                 _ribbonGroup.DesignTimeAddLines += OnAddLines;

@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(palette != null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon )));
-            _palette = palette ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(palette)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
+            _palette = palette ?? throw new ArgumentNullException(nameof(palette));
         }
         #endregion
 

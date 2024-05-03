@@ -47,8 +47,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate is not null);
 
             // Remember incoming references
-            Ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            NeedPaintDelegate = needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate)));
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            NeedPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _borderOutside = borderOutside;
             _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));

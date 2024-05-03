@@ -70,11 +70,16 @@ namespace Krypton.Ribbon
             Debug.Assert(buttonDown is not null);
             Debug.Assert(buttonContext is not null);
 
-            _gallery = gallery ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(gallery)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
-            _buttonUp = buttonUp ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonUp)));
-            _buttonDown = buttonDown ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonDown)));
-            _buttonContext = buttonContext ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(buttonContext)));
+            if (palette is null)
+            {
+                throw new ArgumentNullException(nameof(palette));
+            }
+
+            _gallery = gallery ?? throw new ArgumentNullException(nameof(gallery));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+            _buttonUp = buttonUp ?? throw new ArgumentNullException(nameof(buttonUp));
+            _buttonDown = buttonDown ?? throw new ArgumentNullException(nameof(buttonDown));
+            _buttonContext = buttonContext ?? throw new ArgumentNullException(nameof(buttonContext));
             _bringIntoView = -1;
             ScrollIntoView = true;
 
@@ -85,7 +90,7 @@ namespace Krypton.Ribbon
 
             // Create triple that can be used by the draw button
             _style = ButtonStyle.LowProfile;
-            _triple = new PaletteTripleToPalette(palette!,
+            _triple = new PaletteTripleToPalette(palette,
                                                  PaletteBackStyle.ButtonLowProfile,
                                                  PaletteBorderStyle.ButtonLowProfile,
                                                  PaletteContentStyle.ButtonLowProfile);

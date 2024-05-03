@@ -41,13 +41,16 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon is not null);
             
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+
+            if (needPaintDelegate is null)
+            {
+                throw new ArgumentNullException(nameof(needPaintDelegate));
+            }
 
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
-            _border = new ViewDrawRibbonQATBorder(_ribbon, 
-                                                  needPaintDelegate ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaintDelegate))), 
-                                                  true);
+            _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
 
             // Create minibar content that synchs with ribbon collection
             _borderContents = new ViewLayoutRibbonQATFromRibbon(_ribbon, needPaintDelegate, false);

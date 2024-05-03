@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGroup is not null);
 
             // Remember references needed later
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonGroup = ribbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonGroup)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
 
             // Create a view element for drawing the group
             ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)

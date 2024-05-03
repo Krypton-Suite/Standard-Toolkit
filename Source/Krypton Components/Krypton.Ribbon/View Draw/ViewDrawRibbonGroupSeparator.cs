@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonSeparator is not null);
             Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
-            _ribbonSeparator = ribbonSeparator ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbonSeparator)));
-            _needPaint = needPaint ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(needPaint)));
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonSeparator = ribbonSeparator ?? throw new ArgumentNullException(nameof(ribbonSeparator));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate this view with the source component (required for design time selection)
             Component = _ribbonSeparator;
