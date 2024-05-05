@@ -49,10 +49,10 @@ namespace Krypton.Navigator
         public NavigatorButton([DisallowNull] KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

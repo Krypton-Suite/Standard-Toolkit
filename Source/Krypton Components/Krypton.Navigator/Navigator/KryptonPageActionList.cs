@@ -32,7 +32,7 @@ namespace Krypton.Navigator
             _page = (KryptonPage)owner.Component;
 
             // Cache service used to notify when a property has changed
-            _serviceComponentChange = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _serviceComponentChange = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_serviceComponentChange)));
         }
         #endregion
         

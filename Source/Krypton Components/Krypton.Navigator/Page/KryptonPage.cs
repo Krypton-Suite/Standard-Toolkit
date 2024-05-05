@@ -287,7 +287,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBase Palette
+        public new PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => base.Palette;
@@ -818,15 +818,15 @@ namespace Krypton.Navigator
 
             _redirectNavigatorCheckButton?.SetRedirectStates(disabled.CheckButton, normal.CheckButton,
                 pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton,
-                selected.CheckButton, focus.CheckButton, null);
+                selected.CheckButton, focus.CheckButton, null!);
 
             _redirectNavigatorOverflowButton?.SetRedirectStates(disabled.OverflowButton, normal.OverflowButton,
                 pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton,
-                selected.OverflowButton, focus.OverflowButton, null);
+                selected.OverflowButton, focus.OverflowButton, null!);
 
             _redirectNavigatorMiniButton?.SetRedirectStates(disabled.MiniButton, normal.MiniButton,
                 pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton,
-                selected.MiniButton, focus.MiniButton, null);
+                selected.MiniButton, focus.MiniButton, null!);
 
             _redirectNavigatorBar?.SetRedirectStates(common!.Bar, common.Bar);
 
@@ -834,7 +834,7 @@ namespace Krypton.Navigator
                 normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
 
             _redirectNavigatorTab?.SetRedirectStates(disabled.Tab, normal.Tab, pressed.Tab, tracking.Tab,
-                selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
+                selected.Tab, selected.Tab, selected.Tab, focus.Tab, null!);
 
             _redirectNavigatorRibbonTab?.SetRedirectStates(disabled.RibbonTab, normal.RibbonTab, pressed.RibbonTab,
                 tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);

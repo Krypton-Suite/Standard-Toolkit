@@ -66,15 +66,19 @@ namespace Krypton.Navigator
         /// <param name="inheritNavigator">Source for inheriting.</param>
         public void SetInherit(PaletteNavigator inheritNavigator)
         {
+            if ( inheritNavigator is null)
+            {
+                 throw new ArgumentNullException(nameof(inheritNavigator));
+            }
             // Setup inheritance references for storage objects
             base.SetInherit(inheritNavigator);
-            PalettePage?.SetInherit(inheritNavigator?.PalettePage);
-            HeaderGroup?.SetInherit(inheritNavigator?.HeaderGroup);
+            PalettePage?.SetInherit(inheritNavigator.PalettePage);
+            HeaderGroup?.SetInherit(inheritNavigator.HeaderGroup);
             CheckButton.SetInherit(inheritNavigator.CheckButton);
             OverflowButton.SetInherit(inheritNavigator.OverflowButton);
             MiniButton.SetInherit(inheritNavigator.MiniButton);
             BorderEdge.SetInherit(inheritNavigator.BorderEdge);
-            Separator?.SetInherit(inheritNavigator?.Separator);
+            Separator?.SetInherit(inheritNavigator.Separator);
             Tab.SetInherit(inheritNavigator.Tab);
             RibbonTab.SetInherit(inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.Content);
         }

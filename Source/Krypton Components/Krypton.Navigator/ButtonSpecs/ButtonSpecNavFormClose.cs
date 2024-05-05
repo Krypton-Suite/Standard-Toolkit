@@ -62,7 +62,7 @@ namespace Krypton.Navigator
         public override bool GetVisible(PaletteBase palette)
         {
             // Have all buttons been turned off?
-            return _navigator.Owner.ControlBox && _navigator.Owner.CloseBox;
+            return _navigator.Owner!.ControlBox && _navigator.Owner.CloseBox;
         }
 
         public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
