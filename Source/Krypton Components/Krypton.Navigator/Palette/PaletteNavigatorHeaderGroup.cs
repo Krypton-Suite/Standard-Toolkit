@@ -36,8 +36,13 @@ namespace Krypton.Navigator
             : base(inheritHeaderGroup, inheritHeaderPrimary,
                    inheritHeaderSecondary, needPaint)
         {
-            Debug.Assert(inheritHeaderBar != null);
+            Debug.Assert(inheritHeaderBar is not null);
 
+            if (inheritHeaderBar is null)
+            {
+                throw new ArgumentNullException(nameof(inheritHeaderBar));
+            }
+            
             // Create the palette storage
             HeaderBar = new PaletteTripleMetric(inheritHeaderBar, needPaint);
             HeaderOverflow = new PaletteTripleMetric(inheritHeaderOverflow, needPaint);

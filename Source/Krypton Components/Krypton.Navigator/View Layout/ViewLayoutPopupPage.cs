@@ -73,11 +73,11 @@ namespace Krypton.Navigator
         {
             Debug.Assert(context is not null);
 
-            if ( context is null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
-
+            
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 

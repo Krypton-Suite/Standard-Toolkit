@@ -38,13 +38,13 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public NavigatorPopupPages([DisallowNull] KryptonNavigator navigator,
-            [DisallowNull] NeedPaintHandler needPaint)
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(navigator is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

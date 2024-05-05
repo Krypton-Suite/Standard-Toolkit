@@ -65,7 +65,7 @@ namespace Krypton.Navigator
         public DragManager(PaletteBase? target = null)
         {
             _redirector = new PaletteRedirect(target);
-            StateCommon = new PaletteDragDrop(target, null);
+            StateCommon = new PaletteDragDrop(target!, null);
             _paletteMode = PaletteMode.Global;
             DragTargetProviders = new DragTargetProviderCollection();
             _dragTargets = new DragTargetList();
@@ -427,7 +427,7 @@ namespace Krypton.Navigator
             StateCommon.SetInherit(_dragPalette);
 
             // Get the renderer associated with the palette
-            _dragRenderer = _dragPalette?.GetRenderer();
+            _dragRenderer = _dragPalette?.GetRenderer()!;
         }
 
         private void ResolveDragFeedback()
@@ -488,8 +488,8 @@ namespace Krypton.Navigator
 
         private void EndDragging()
         {
-            _dragPalette = null;
-            _dragRenderer = null;
+            _dragPalette = null!;
+            _dragRenderer = null!;
             _pageDragEndData = null;
             IsDragging = false;
         }
