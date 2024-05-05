@@ -55,12 +55,12 @@ namespace Krypton.Navigator
             Debug.Assert(backupContent != null);
 
             // Remember values
-            _primaryBack = primaryBack;
-            _primaryText = primaryText;
-            _primaryContent = primaryContent;
-            _backupBack = backupBack;
-            _backupText = backupText;
-            _backupContent = backupContent;
+            _primaryBack = primaryBack ?? throw new ArgumentNullException(nameof(primaryBack));
+            _primaryText = primaryText ?? throw new ArgumentNullException(nameof(primaryText));
+            _primaryContent = primaryContent ?? throw new ArgumentNullException(nameof(primaryContent));
+            _backupBack = backupBack ?? throw new ArgumentNullException(nameof(backupBack));
+            _backupText = backupText ?? throw new ArgumentNullException(nameof(backupText));
+            _backupContent = backupContent ?? throw new ArgumentNullException(nameof(backupContent));
 
             // Default state
             Apply = false;
@@ -443,13 +443,14 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Font ret = _primaryContent.GetContentShortTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextFont(state);
+                Font ret = _primaryContent.GetContentShortTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextFont(state) 
+                    ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentShortTextFont(state);
+                return _backupContent.GetContentShortTextFont(state) ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
             }
         }
 
@@ -462,14 +463,14 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Font ret = _primaryContent.GetContentShortTextNewFont(Override ? OverrideState : state) ??
-                           _backupContent.GetContentShortTextNewFont(state);
+                Font ret = _primaryContent.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextNewFont(state)
+                    ?? throw new NullReferenceException("The result of GetContentShortTextNewFont() cannot be null.");
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentShortTextNewFont(state);
+                return _backupContent.GetContentShortTextNewFont(state) ?? throw new NullReferenceException("The result of GetContentShortTextNewFont() cannot be null.");
             }
         }
 
@@ -837,13 +838,15 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Font ret = _primaryContent.GetContentLongTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextFont(state);
+                Font ret = _primaryContent.GetContentLongTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextFont(state)
+                    ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentLongTextFont(state);
+                return _backupContent.GetContentLongTextFont(state)
+                    ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
             }
         }
 
@@ -856,13 +859,15 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Font ret = _primaryContent.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextNewFont(state);
+                Font ret = _primaryContent.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextNewFont(state)
+                     ?? throw new NullReferenceException("The result of GetContentLongTextNewFont() cannot be null.");
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentLongTextNewFont(state);
+                return _backupContent.GetContentLongTextNewFont(state) ?? throw new NullReferenceException("The result of GetContentLongTextNewFont() cannot be null.");
+
             }
         }
 

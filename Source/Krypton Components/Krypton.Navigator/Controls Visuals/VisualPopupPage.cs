@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         /// <param name="page">Reference to page for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupPage([DisallowNull] KryptonNavigator navigator,
-            [DisallowNull] KryptonPage page,
+                               [DisallowNull] KryptonPage page,
                                IRenderer renderer)
             : base(renderer, true)
         {
@@ -48,8 +48,8 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Remember references needed later
-            _navigator = navigator;
-            _page = page;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            _page = page ?? throw new ArgumentNullException(nameof(page));
 
             // Always var the layout that positions the actual page
             var layoutPage = new ViewLayoutPopupPage(_navigator, _page!);
