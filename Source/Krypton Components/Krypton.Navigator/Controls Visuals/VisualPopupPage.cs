@@ -143,7 +143,7 @@ namespace Krypton.Navigator
             Rectangle borderRect = ClientRectangle;
             if (_navigator.StateNormal?.HeaderGroup != null)
             {
-                using var gh = new GraphicsHint( context.Graphics,
+                using var gh = new GraphicsHint(context.Graphics,
                     _navigator.StateNormal.HeaderGroup.Border.GetBorderGraphicsHint(PaletteState.Normal));
                 GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
                 borderRect.Inflate(-1, -1);
