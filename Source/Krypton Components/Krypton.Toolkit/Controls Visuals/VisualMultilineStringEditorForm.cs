@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
             _collection = null;
         }
 
-        private void SetupIputCanvas()
+        private void SetupInputCanvas()
         {
             if (_useRichTextBox)
             {

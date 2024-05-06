@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
                                     bool enabled,
                                     bool keyboardActivated,
                                     Rectangle dropScreenRect)
-            : base(contextMenu, palette, paletteMode, redirector, redirectorImages, 
+            : base(contextMenu, palette, paletteMode, redirector, redirectorImages,
                    items, enabled, keyboardActivated) =>
             _dropScreenRect = dropScreenRect;
 

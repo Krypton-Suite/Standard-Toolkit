@@ -139,10 +139,10 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void UpdateText(string caption, string? text, MessageBoxContentAreaType? contentAreaType)
+        private void UpdateText(string? caption, string? text, MessageBoxContentAreaType? contentAreaType)
         {
             // Set the text of the form
-            Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
+            Text = string.IsNullOrEmpty(caption) ? string.Empty : caption!.Split(Environment.NewLine.ToCharArray())[0];
 
             switch (contentAreaType)
             {
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
+            Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption!.Split(Environment.NewLine.ToCharArray())[0];
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {

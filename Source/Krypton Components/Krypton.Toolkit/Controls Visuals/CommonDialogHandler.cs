@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
                         var labelLogFont = _labelFont.ToHfont();
                         //var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         //var buttonLogFont = buttonFont.ToHfont();
-                        var editFont = KryptonManager.CurrentGlobalPalette?.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                        var editFont = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
                         var editLogFont = editFont!.ToHfont();
                         foreach (Attributes control in _controls)
                         {
