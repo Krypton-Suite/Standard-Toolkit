@@ -58,7 +58,11 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_defaultPalette == value) return;
+                if (_defaultPalette == value)
+                {
+                    return;
+                }
+
                 if (_handleCreated)
                 {
                     // Safe to directly access UI thread now
@@ -149,7 +153,10 @@ namespace Krypton.Toolkit
         private void KryptonThemeComboBox_HandleCreated(object sender, EventArgs e)
         {
             _handleCreated = true;
-            if (!_pendingPaletteUpdate) return;
+            if (!_pendingPaletteUpdate)
+            {
+                return;
+            }
 
             _pendingPaletteUpdate = false;
             DefaultPalette = _pendingPaletteMode;
@@ -157,7 +164,11 @@ namespace Krypton.Toolkit
 
         private void UpdateDefaultPaletteIndex(PaletteMode mode)
         {
-            if (_isUpdating) return;
+            if (_isUpdating)
+            {
+                return;
+            }
+
             _isUpdating = true;
 
             var selectedText = ThemeManager.ReturnPaletteModeAsString(mode);
