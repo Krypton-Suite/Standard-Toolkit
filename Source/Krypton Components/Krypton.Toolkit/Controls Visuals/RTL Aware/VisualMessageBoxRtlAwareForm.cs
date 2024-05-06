@@ -43,6 +43,8 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        /// <summary>Gets or sets the message box result.</summary>
+        /// <value>The message box result.</value>
         public KryptonMessageBoxResult MessageBoxResult
         {
             get => _messageBoxResult;
@@ -89,7 +91,7 @@ namespace Krypton.Toolkit
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _contentLinkArea = string.IsNullOrEmpty(text)
                 ? new LinkArea(0, 0)
-                : contentLinkArea ?? new LinkArea(0, text.Length);
+                : contentLinkArea ?? new LinkArea(0, text!.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
             _showCloseButton = showCloseButton ?? true;
@@ -139,10 +141,10 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void UpdateText(string caption, string? text, MessageBoxContentAreaType? contentAreaType)
+        private void UpdateText(string? caption, string? text, MessageBoxContentAreaType? contentAreaType)
         {
             // Set the text of the form
-            Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
+            Text = string.IsNullOrEmpty(caption) ? string.Empty : caption!.Split(Environment.NewLine.ToCharArray())[0];
 
             switch (contentAreaType)
             {
@@ -162,7 +164,7 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
+            Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption!.Split(Environment.NewLine.ToCharArray())[0];
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {

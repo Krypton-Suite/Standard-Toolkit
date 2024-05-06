@@ -59,11 +59,11 @@ namespace Krypton.Navigator
 
         #region ButtonSpecNavFixed Implementation
 
-        public override bool GetVisible(PaletteBase palette)
-        {
+        /// <inheritdoc />
+        public override bool GetVisible(PaletteBase palette) =>
             // Have all buttons been turned off?
-            return _navigator.Owner!.ControlBox && _navigator.Owner.CloseBox;
-        }
+            _navigator.Owner!.ControlBox && _navigator.Owner.CloseBox;
+
 
         public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 

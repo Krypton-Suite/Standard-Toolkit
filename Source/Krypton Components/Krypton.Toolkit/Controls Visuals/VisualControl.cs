@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
-    public abstract class VisualControl : VisualControlBase, 
+    public abstract class VisualControl : VisualControlBase,
                                           ISupportInitializeNotification
     {
         #region Events

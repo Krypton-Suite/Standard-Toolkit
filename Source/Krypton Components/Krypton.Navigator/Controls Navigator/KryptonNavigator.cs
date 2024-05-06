@@ -1649,7 +1649,7 @@ namespace Krypton.Navigator
                                     break;
 
                                 default:
-    // Should never happen!
+                                    // Should never happen!
                                     Debug.Assert(false);
                                     DebugTools.NotImplemented(e.Action.ToString());
                                     break;
@@ -1916,7 +1916,7 @@ namespace Krypton.Navigator
                 var pos = Pages.IndexOf(page);
 
                 // Search backwards towards start of pages collection
-                for (var i = pos - 1 ; i >= 0 ; i--)
+                for (var i = pos - 1; i >= 0; i--)
                 {
                     if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                     {
@@ -1939,7 +1939,7 @@ namespace Krypton.Navigator
                 var pos = Pages.IndexOf(page);
 
                 // Search towards end of pages collection
-                for (var i = pos + 1 ; i < Pages.Count ; i++)
+                for (var i = pos + 1; i < Pages.Count; i++)
                 {
                     if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                     {

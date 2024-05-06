@@ -1254,7 +1254,7 @@ namespace Krypton.Toolkit
             return true;
         }
 
-        
+
         /// <summary>
         /// Process the WM_NCACTIVATE message when overriding window chrome.
         /// </summary>
