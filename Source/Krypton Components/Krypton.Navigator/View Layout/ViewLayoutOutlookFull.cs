@@ -49,8 +49,8 @@ namespace Krypton.Navigator
                    metricPadding, metricOvers, orientation, alignment, animateChange,
                    vertical, needPaintDelegate)
         {
-            Debug.Assert(viewBuilder != null);
-            ViewBuilder = viewBuilder;
+            Debug.Assert(viewBuilder is not null);
+            ViewBuilder = viewBuilder ?? throw new ArgumentNullException(nameof(viewBuilder));
         }
 
         /// <summary>

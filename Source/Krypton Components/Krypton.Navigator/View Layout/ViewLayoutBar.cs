@@ -296,9 +296,14 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // Reset the largest child size to empty
             _maximumItem = Size.Empty;
@@ -317,7 +322,7 @@ namespace Krypton.Navigator
                 var lineGap = (gap < 0 ? 0 : gap);
 
                 // Do we need to apply right to left by positioning children in reverse order?
-                var reversed = (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes));
+                var reversed = (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes));
 
                 // Allocate caching for size of each child element
                 _childSizes = new Size[Count];
@@ -820,7 +825,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
@@ -841,7 +851,7 @@ namespace Krypton.Navigator
                 var reversePosition = false;
 
                 // Do we need to apply right to left by positioning children in reverse order?
-                if (!BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+                if (!BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
                 {
                     if (IsOneLine)
                     {
@@ -1008,7 +1018,7 @@ namespace Krypton.Navigator
             RelativePositionAlign align = ItemAlignment;
 
             // Do we need to apply right to left by aligning in opposite direction?
-            if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+            if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
             {
                 switch (align)
                 {
@@ -1051,7 +1061,7 @@ namespace Krypton.Navigator
             RelativePositionAlign align = ItemAlignment;
 
             // Do we need to apply right to left by aligning in opposite direction?
-            if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+            if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
             {
                 switch (align)
                 {
