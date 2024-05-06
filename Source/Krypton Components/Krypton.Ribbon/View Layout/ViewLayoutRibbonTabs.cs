@@ -55,15 +55,15 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon ribbon,
-                                    [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon? ribbon,
+                                    [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create cache of draw elements
             _tabCache = [];
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
+        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab is null
                 ? null
                 : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
 
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return null;
+            return null!;
         }
         #endregion
 
@@ -443,7 +443,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonTabs();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
 

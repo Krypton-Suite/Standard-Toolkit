@@ -41,15 +41,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonGallery">Group gallery button to display title for.</param>
         /// <param name="firstText">Should show the first button text.</param>
-        public ViewDrawRibbonGroupGalleryText([DisallowNull] KryptonRibbon ribbon,
-                                              [DisallowNull] KryptonRibbonGroupGallery ribbonGallery,
+        public ViewDrawRibbonGroupGalleryText([DisallowNull] KryptonRibbon? ribbon,
+                                              [DisallowNull] KryptonRibbonGroupGallery? ribbonGallery,
                                               bool firstText)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGallery != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGallery is not null);
 
-            _ribbon = ribbon;
-            _ribbonGallery = ribbonGallery;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGallery = ribbonGallery ?? throw new ArgumentNullException(nameof(ribbonGallery));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)

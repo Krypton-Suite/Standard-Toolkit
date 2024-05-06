@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="textBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public TextBoxController([DisallowNull] KryptonRibbon ribbon,
-                                 [DisallowNull] KryptonRibbonGroupTextBox textBox,
-                                 [DisallowNull] ViewDrawRibbonGroupTextBox target)
+        public TextBoxController([DisallowNull] KryptonRibbon? ribbon,
+                                 [DisallowNull] KryptonRibbonGroupTextBox? textBox,
+                                 [DisallowNull] ViewDrawRibbonGroupTextBox? target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(textBox != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(textBox is not null);
+            Debug.Assert(target is not null);
 
-            _ribbon = ribbon;
-            _textBox = textBox;
-            _target = target;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _textBox = textBox ?? throw new ArgumentNullException(nameof(textBox));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
         #endregion
 
@@ -155,6 +155,16 @@ namespace Krypton.Ribbon
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

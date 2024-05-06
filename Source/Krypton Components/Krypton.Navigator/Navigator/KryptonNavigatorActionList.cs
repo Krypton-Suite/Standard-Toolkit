@@ -35,16 +35,16 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonNavigatorActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonNavigatorActionList(KryptonNavigatorDesigner owner)
+        public KryptonNavigatorActionList([DisallowNull] KryptonNavigatorDesigner owner)
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _designer = owner;
-            _navigator = (KryptonNavigator)owner.Component;
+            _designer = owner ?? throw new ArgumentNullException(nameof(owner));
+            _navigator = owner.Component as KryptonNavigator ?? throw new ArgumentNullException(nameof(owner.Component));
 
             // Cache service used to notify when a property has changed
-            _serviceComponentChange = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _serviceDesignerAction = (DesignerActionUIService)GetService(typeof(DesignerActionUIService));
+            _serviceComponentChange = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_serviceComponentChange)));
+            _serviceDesignerAction = (DesignerActionUIService?)GetService(typeof(DesignerActionUIService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_serviceDesignerAction)));
         }
         #endregion
 

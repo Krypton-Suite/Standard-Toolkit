@@ -40,15 +40,15 @@ namespace Krypton.Ribbon
 
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonGroupTextNormal != null);
-            Debug.Assert(ribbonGroupTextDisabled != null);
-            Debug.Assert(ribbonLabelTextNormal != null);
-            Debug.Assert(ribbonLabelTextDisabled != null);
+            Debug.Assert(ribbonGroupTextNormal is not null);
+            Debug.Assert(ribbonGroupTextDisabled is not null);
+            Debug.Assert(ribbonLabelTextNormal is not null);
+            Debug.Assert(ribbonLabelTextDisabled is not null);
 
-            _ribbonGroupTextNormal = ribbonGroupTextNormal;
-            _ribbonGroupTextDisabled = ribbonGroupTextDisabled;
-            _ribbonLabelTextNormal = ribbonLabelTextNormal;
-            _ribbonLabelTextDisabled = ribbonLabelTextDisabled;
+            _ribbonGroupTextNormal = ribbonGroupTextNormal ?? throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
+            _ribbonGroupTextDisabled = ribbonGroupTextDisabled ?? throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
+            _ribbonLabelTextNormal = ribbonLabelTextNormal ?? throw new ArgumentNullException(nameof(ribbonLabelTextNormal));
+            _ribbonLabelTextDisabled = ribbonLabelTextDisabled ?? throw new ArgumentNullException(nameof(ribbonLabelTextDisabled));
         }
         #endregion
 

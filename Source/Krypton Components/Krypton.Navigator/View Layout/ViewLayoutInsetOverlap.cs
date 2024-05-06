@@ -29,7 +29,12 @@ namespace Krypton.Navigator
         /// </summary>
         public ViewLayoutInsetOverlap([DisallowNull] ViewDrawCanvas drawCanvas)
         {
-            Debug.Assert(drawCanvas != null);
+            Debug.Assert(drawCanvas is not null);
+
+            if (drawCanvas is null)
+            {
+                throw new ArgumentNullException(nameof(drawCanvas));
+            }
 
             // Remember source of the rounding values
             _drawCanvas = drawCanvas;
@@ -94,7 +99,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // Get the preferred size requested by the children
             Size size = base.GetPreferredSize(context);
@@ -120,7 +130,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;

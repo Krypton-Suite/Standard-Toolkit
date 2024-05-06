@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
-            using var toast = new VisualToastNotificationDateTimeUserInputForm(data);
+            using var toast = new VisualToastNotificationDateTimeUserInputWithProgressBarForm(data);
 
             if (owner != null)
             {

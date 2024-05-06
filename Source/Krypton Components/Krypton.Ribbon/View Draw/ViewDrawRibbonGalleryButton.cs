@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
         private IDisposable? _mementoBack;
-        private IDisposable _mementoContent;
+        private IDisposable? _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion
 
@@ -118,13 +118,13 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Dispose of any current memento
-            if (_mementoContent != null)
+            if (_mementoContent is not null)
             {
                 _mementoContent.Dispose();
                 _mementoContent = null;
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                    _mementoContent, VisualOrientation.Top, 
+                    _mementoContent!, VisualOrientation.Top, 
                     State,  false);
             }
 

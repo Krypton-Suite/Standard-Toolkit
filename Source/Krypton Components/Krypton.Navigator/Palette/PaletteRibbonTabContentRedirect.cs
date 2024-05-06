@@ -32,8 +32,12 @@ namespace Krypton.Navigator
         public PaletteRibbonTabContentRedirect([DisallowNull] PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
+            if (redirect is null)
+            {
+                throw new ArgumentNullException(nameof(redirect));
+            }
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 

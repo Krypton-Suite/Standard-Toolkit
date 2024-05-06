@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="trackBar">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public TrackBarController([DisallowNull] KryptonRibbon ribbon,
-                                  [DisallowNull] KryptonRibbonGroupTrackBar trackBar,
-                                  [DisallowNull] ViewDrawRibbonGroupTrackBar target)
+        public TrackBarController([DisallowNull] KryptonRibbon? ribbon,
+                                  [DisallowNull] KryptonRibbonGroupTrackBar? trackBar,
+                                  [DisallowNull] ViewDrawRibbonGroupTrackBar? target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(trackBar != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(trackBar is not null);
+            Debug.Assert(target is not null);
 
-            _ribbon = ribbon;
-            _trackBar = trackBar;
-            _target = target;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _trackBar = trackBar ?? throw new ArgumentNullException(nameof(trackBar));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
         #endregion
 
@@ -151,9 +151,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

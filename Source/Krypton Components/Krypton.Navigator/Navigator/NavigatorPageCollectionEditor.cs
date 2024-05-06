@@ -34,10 +34,10 @@ namespace Krypton.Navigator
         /// <param name="editValue">The collection to edit.</param>
         /// <param name="value">An array of objects to set as the collection items.</param>
         /// <returns>The newly created collection object.</returns>
-        protected override object SetItems(object editValue, object[] value)
+        protected override object? SetItems(object? editValue, object[]? value)
         {
             // Cast the context into the expected control type
-            var navigator = (KryptonNavigator)Context.Instance;
+            var navigator = Context!.Instance as KryptonNavigator;
 
             // Suspend changes until collection has been updated
             navigator?.SuspendLayout();

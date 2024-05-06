@@ -77,7 +77,7 @@ namespace Krypton.Navigator
             MousePoint = CommonHelper.NullPoint;
             AllowDragging = true;
             _dragging = false;
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             _lastClick = DateTime.Now.AddDays(-1);
         }
         #endregion

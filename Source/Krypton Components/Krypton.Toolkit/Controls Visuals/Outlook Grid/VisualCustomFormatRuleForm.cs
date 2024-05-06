@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         {
             var tag = (kcmbFormatStyle.Items[kcmbFormatStyle.SelectedIndex] as KryptonListItem)?.Tag;
 
-            if (tag != null)
+            if (tag is not null)
             {
                 _conditionalFormatType = (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), tag.ToString());
             }

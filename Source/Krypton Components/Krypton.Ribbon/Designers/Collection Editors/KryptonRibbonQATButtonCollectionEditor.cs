@@ -36,18 +36,18 @@ namespace Krypton.Ribbon
         /// <param name="editValue">The collection to edit.</param>
         /// <param name="value">An array of objects to set as the collection items.</param>
         /// <returns>The newly created collection object.</returns>
-        protected override object SetItems(object editValue, object[] value)
+        protected override object? SetItems(object? editValue, object[]? value)
         {
             // Cast the context into the expected control type
-            var ribbon = (KryptonRibbon)Context.Instance;
+            var ribbon = Context?.Instance as KryptonRibbon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("ribbon"));
 
             // Suspend changes until collection has been updated
-            ribbon?.SuspendLayout();
+            ribbon.SuspendLayout();
 
             // Let base class update the collection
             var ret = base.SetItems(editValue, value);
 
-            ribbon?.ResumeLayout(true);
+            ribbon.ResumeLayout(true);
 
             return ret;
         }

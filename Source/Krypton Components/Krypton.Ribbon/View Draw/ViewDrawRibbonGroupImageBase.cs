@@ -25,10 +25,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonGroupImageBase class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon ribbon)
+        public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon? ribbon)
         {
-            Debug.Assert(ribbon != null);
-            Ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
         }        
 
         /// <summary>

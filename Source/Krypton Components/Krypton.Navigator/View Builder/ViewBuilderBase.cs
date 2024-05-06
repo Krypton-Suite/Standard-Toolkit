@@ -81,17 +81,17 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public virtual void Construct([DisallowNull] KryptonNavigator navigator,
                                       [DisallowNull] ViewManager manager,
-                                       PaletteRedirect redirector)
+                                      [DisallowNull] PaletteRedirect redirector)
         {
-            Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
-            Debug.Assert(manager != null);
-            Debug.Assert(redirector != null);
+            Debug.Assert(navigator is not null, $"{nameof(navigator)} != null");
+            Debug.Assert(manager is not null);
+            Debug.Assert(redirector is not null);
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator;
-            ViewManager = manager;
-            Redirector = redirector;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            ViewManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            Redirector = redirector ?? throw new ArgumentNullException(nameof(redirector));
             _constructed = true;
 
             // Hook into the navigator events
@@ -104,10 +104,10 @@ namespace Krypton.Navigator
         public virtual void Destruct()
         {
             Debug.Assert(_constructed);
-            Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
+            Debug.Assert(Navigator is not null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
-            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -725,7 +725,7 @@ namespace Krypton.Navigator
                     }
 
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
-                    Navigator.StateCommon!.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
+                    Navigator.StateCommon!.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBorderStyle":

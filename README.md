@@ -9,6 +9,7 @@
 	* [Canary](#canary)
 	* [Stable](#stable)
 	* [Documentation](#documentation)
+	    * [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
 	* [Package Support Information](#package-support-information)
 		* [Release Cadence](#release-cadence)
 		* [Package Descriptions](#package-descriptions)
@@ -103,6 +104,10 @@ The online help will give an overview of what the toolkit is capable of.
 If you require the full API reference, you can download the latest version by clicking the link below.
 
 <a href="https://github.com/Krypton-Suite/Help-Files/releases"><img src="https://img.shields.io/badge/Documentation-API Reference-9cf.svg?style=flat-square" alt="API Reference" /></a>
+
+#### Contributing to the Standard Toolkit
+
+If you are interested in contributing to the Standard Toolkit, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Contributing-Guidelines.md) first.
 
 =======
 

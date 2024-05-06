@@ -58,7 +58,15 @@ namespace Krypton.Ribbon
     /// <para>
     /// Other mathematical functions are included, such as <see cref="Sin(float)"/>, <see cref="Cos(float)"/>, <see cref="Tan(float)"/>, etc... 
     /// </para>
+    /// <para>
+    /// CS3002 Warning<br/>
+    /// Extensions handling NON CLS-compliant data types have been disabled.<br/>
+    /// This goes for all unsigned types, except byte.<br/>
+    /// The attribute [System.CLSCompliant(true)] has been added to the class header<br/>
+    /// See: <see href="https://learn.microsoft.com/en-us/dotnet/csharp/misc/cs3002?f1url=%3FappId%3Droslyn%26k%3Dk(CS3002)"></see>
+    /// </para>
     /// </remarks>
+    [System.CLSCompliant(true)]  
     public static class MathExtensions
     {
         #region Constants.
@@ -180,6 +188,7 @@ namespace Krypton.Ribbon
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte Min(this byte value1, byte value2) => (value1 < value2) ? value1 : value2;
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the maximum value between two <see cref="ushort"/> values.
         /// </summary>
@@ -188,7 +197,9 @@ namespace Krypton.Ribbon
         /// <returns>The larger of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Max(this ushort value1, ushort value2) => (value1 > value2) ? value1 : value2;
+        */
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the minimum value between two <see cref="ushort"/> values.
         /// </summary>
@@ -197,7 +208,7 @@ namespace Krypton.Ribbon
         /// <returns>The smaller of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Min(this ushort value1, ushort value2) => (value1 < value2) ? value1 : value2;
-
+        */
         /// <summary>
         /// Function to return the maximum value between two <see cref="short"/> values.
         /// </summary>
@@ -216,6 +227,7 @@ namespace Krypton.Ribbon
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Min(this short value1, short value2) => (value1 < value2) ? value1 : value2;
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the maximum value between two <see cref="uint"/> values.
         /// </summary>
@@ -224,7 +236,9 @@ namespace Krypton.Ribbon
         /// <returns>The larger of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Max(this uint value1, uint value2) => (value1 > value2) ? value1 : value2;
+        */
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the minimum value between two <see cref="uint"/> values.
         /// </summary>
@@ -233,6 +247,7 @@ namespace Krypton.Ribbon
         /// <returns>The smaller of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Min(this uint value1, uint value2) => (value1 < value2) ? value1 : value2;
+        */
 
         /// <summary>
         /// Function to return the maximum value between two <see cref="int"/> values.
@@ -252,6 +267,7 @@ namespace Krypton.Ribbon
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this int value1, int value2) => (value1 < value2) ? value1 : value2;
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the maximum value between two <see cref="ulong"/> values.
         /// </summary>
@@ -260,7 +276,9 @@ namespace Krypton.Ribbon
         /// <returns>The larger of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Max(this ulong value1, ulong value2) => (value1 > value2) ? value1 : value2;
+        */
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the minimum value between two <see cref="ulong"/> values.
         /// </summary>
@@ -269,6 +287,7 @@ namespace Krypton.Ribbon
         /// <returns>The smaller of the two values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Min(this ulong value1, ulong value2) => (value1 < value2) ? value1 : value2;
+        */
 
         /// <summary>
         /// Function to return the maximum value between two <see cref="long"/> values.
@@ -889,6 +908,7 @@ namespace Krypton.Ribbon
 #pragma warning restore IDE0046 // Convert to conditional expression
         }
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to return the sign of a <see cref="sbyte"/> value.
         /// </summary>
@@ -902,10 +922,11 @@ namespace Krypton.Ribbon
             {
                 return 0;
             }
-
+            
             return value < 0 ? -1 : 1;
 #pragma warning restore IDE0046 // Convert to conditional expression
         }
+        */
 
         /// <summary>
         /// Function to return the sign of a <see cref="short"/> value.
@@ -1007,6 +1028,7 @@ namespace Krypton.Ribbon
             return value.Max(minValue);
         }
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.
         /// </summary>
@@ -1020,7 +1042,7 @@ namespace Krypton.Ribbon
             value = value.Min(maxValue);
             return value.Max(minValue);
         }
-
+        */
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.
         /// </summary>
@@ -1035,6 +1057,7 @@ namespace Krypton.Ribbon
             return value.Max(minValue);
         }
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.
         /// </summary>
@@ -1048,6 +1071,7 @@ namespace Krypton.Ribbon
             value = value.Min(maxValue);
             return value.Max(minValue);
         }
+        */
 
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.
@@ -1063,6 +1087,7 @@ namespace Krypton.Ribbon
             return value.Max(minValue);
         }
 
+        /* Disabled CLS Non Compliant
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.
         /// </summary>
@@ -1070,12 +1095,13 @@ namespace Krypton.Ribbon
         /// <param name="minValue">The minimum value.</param>
         /// <param name="maxValue">The maximum value.</param>
         /// <returns>The clamped value.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Clamp(this ulong value, ulong minValue, ulong maxValue)
+        [methodimpl(methodimploptions.aggressiveinlining)]
+        public static ulong clamp(this ulong value, ulong minvalue, ulong maxvalue)
         {
-            value = value.Min(maxValue);
-            return value.Max(minValue);
+            value = value.min(maxvalue);
+            return value.max(minvalue);
         }
+        */
 
         /// <summary>
         /// Function to clamp a value to the range specified by the minimum and maximum value.

@@ -26,10 +26,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteGalleryBackBorder class.
         /// </summary>
         /// <param name="state">Initial state for background/border.</param>
-        public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState state)
+        public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
         {
-            Debug.Assert(state != null);
-            _state = state;
+            Debug.Assert(state is not null);
+            _state = state ?? throw new ArgumentNullException(nameof(state));
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         public void SetState([DisallowNull] PaletteGalleryState state)
         {
             Debug.Assert(state != null);
-            _state = state;
+            _state = state ?? throw new ArgumentNullException(nameof(state));
         }
         #endregion
 
@@ -65,14 +65,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor1(state);
+        public Color GetBackColor1(PaletteState state) => _state!.RibbonGalleryBack.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second back color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor2(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor2(state);
+        public Color GetBackColor2(PaletteState state) => _state!.RibbonGalleryBack.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.
@@ -145,14 +145,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor1(state);
+        public Color GetBorderColor1(PaletteState state) => _state!.RibbonGalleryBorder.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor2(state);
+        public Color GetBorderColor2(PaletteState state) => _state!.RibbonGalleryBorder.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.

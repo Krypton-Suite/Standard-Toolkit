@@ -36,19 +36,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon ribbon,
-                                               [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                               NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] KryptonRibbonGroup? ribbonGroup,
+                                               NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGroup != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGroup is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
 
             // Attach a controller to this element for the pressing of the button
-            var controller = new DialogLauncherButtonController(ribbon, this, needPaint);
+            var controller = new DialogLauncherButtonController(ribbon, this, needPaint!);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -122,7 +122,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;
-            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
+            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder!;
             IPaletteRibbonGeneral paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
 
             // Do we need to draw the background?

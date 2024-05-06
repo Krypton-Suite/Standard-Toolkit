@@ -24,8 +24,8 @@ namespace Krypton.Navigator
         /// <param name="viewBuilder">View builder reference.</param>
         public ViewLayoutOutlookMini([DisallowNull] ViewBuilderOutlookBase viewBuilder)
         {
-            Debug.Assert(viewBuilder != null);
-            ViewBuilder = viewBuilder;
+            Debug.Assert(viewBuilder is not null);
+            ViewBuilder = viewBuilder ?? throw new ArgumentNullException(nameof(viewBuilder));
         }
 
         /// <summary>

@@ -46,18 +46,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonLabel">Reference to source label definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupLabel([DisallowNull] KryptonRibbon ribbon,
-                                        [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
-                                        [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupLabel([DisallowNull] KryptonRibbon? ribbon,
+                                        [DisallowNull] KryptonRibbonGroupLabel? ribbonLabel,
+                                        [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonLabel != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonLabel is not null);
+            Debug.Assert(needPaint is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupLabel = ribbonLabel;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            GroupLabel = ribbonLabel ?? throw new ArgumentNullException(nameof(ribbonLabel));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupLabel;
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group label instance.
         /// </summary>
-        public KryptonRibbonGroupLabel GroupLabel { get; private set; }
+        public KryptonRibbonGroupLabel? GroupLabel { get; private set; }
 
         #endregion
 
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem() =>
             // A label can never have the focus
-            null;
+            null!;
 
         #endregion
 
@@ -140,7 +140,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem() =>
             // A label can never have the focus
-            null;
+            null!;
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            null;
+            null!;
 
         #endregion
 
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            null;
+            null!;
 
         #endregion
 
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
             UpdateImageSmallState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
             }
 
             // Add the large button at the top
-            _viewLargeLabelImage = new ViewDrawRibbonGroupLabelImage(_ribbon, GroupLabel, true);
+            _viewLargeLabelImage = new ViewDrawRibbonGroupLabelImage(_ribbon, GroupLabel!, true);
             _viewLargeImage = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeLabelImage
@@ -279,18 +279,18 @@ namespace Krypton.Ribbon
             _viewLarge.Add(_viewLargeImage, ViewDockStyle.Top);
 
             // Add the first line of text
-            _viewLargeText1 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, true);
+            _viewLargeText1 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel!, true);
             _viewLarge.Add(_viewLargeText1, ViewDockStyle.Bottom);
 
             // Add the second line of text
-            _viewLargeText2 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, false);
+            _viewLargeText2 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel!, false);
             _viewLarge.Add(_viewLargeText2, ViewDockStyle.Bottom);
 
             // Add a 1 pixel separator at bottom of button before the text
             _viewLarge.Add(new ViewLayoutRibbonSeparator(1, false), ViewDockStyle.Bottom);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                _viewLarge, _viewLarge.MouseController);
         }
 
@@ -308,9 +308,9 @@ namespace Krypton.Ribbon
             }
 
             // Create the image and drop down content
-            _viewMediumSmallLabelImage = new ViewDrawRibbonGroupLabelImage(_ribbon, GroupLabel, false);
-            _viewMediumSmallText1 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, true);
-            _viewMediumSmallText2 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, false);
+            _viewMediumSmallLabelImage = new ViewDrawRibbonGroupLabelImage(_ribbon, GroupLabel!, false);
+            _viewMediumSmallText1 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel!, true);
+            _viewMediumSmallText2 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel!, false);
             _viewMediumSmallImage = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallLabelImage
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(_viewMediumSmallCenter, ViewDockStyle.Fill);
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea!.ButtonSpecManager!.ToolTipManager!,
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
@@ -341,14 +341,14 @@ namespace Krypton.Ribbon
             Add(view);
 
             // Provide back reference to the button definition
-            GroupLabel.LabelView = view;
+            GroupLabel!.LabelView = view;
         }
 
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            var buttonEnabled = GroupLabel.Enabled;
-            if (GroupLabel.KryptonCommand != null)
+            var buttonEnabled = GroupLabel!.Enabled;
+            if (GroupLabel.KryptonCommand is not null)
             {
                 buttonEnabled = GroupLabel.KryptonCommand.Enabled;
             }
@@ -371,9 +371,9 @@ namespace Krypton.Ribbon
             _viewMediumSmallText2.Enabled = enabled;
         }
 
-        private void UpdateImageSmallState() => _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
+        private void UpdateImageSmallState() => _viewMediumSmallImage.Visible = GroupLabel!.ImageSmall != null;
 
-        private void UpdateItemSizeState() => UpdateItemSizeState(GroupLabel.ItemSizeCurrent);
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupLabel!.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -395,7 +395,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupLabel.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupLabel!.OnDesignTimeContextMenu(e);
 
         private void OnLabelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -446,7 +446,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupLabel.RibbonTab != null) &&
+                if ((GroupLabel!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupLabel.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -457,7 +457,7 @@ namespace Krypton.Ribbon
             if (updatePaint)
             {
                 // If this button is actually defined as visible...
-                if (GroupLabel.Visible || _ribbon.InDesignMode)
+                if (GroupLabel!.Visible || _ribbon.InDesignMode)
                 {
                     // ...and on the currently selected tab then...
                     if ((GroupLabel.RibbonTab != null) &&
