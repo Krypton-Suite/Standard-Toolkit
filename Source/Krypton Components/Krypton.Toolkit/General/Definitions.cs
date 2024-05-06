@@ -1885,7 +1885,10 @@ namespace Krypton.Toolkit
         /// <summary>Specify a hand icon.</summary>
         Hand = 1,
 
-        /// <summary>Specify the system hand icon.</summary>
+        /// <summary>
+        /// Specify the system hand icon.
+        /// The message box contains a symbol consisting of a white X in a circle with a red background.
+        /// </summary>
         SystemHand = MessageBoxIcon.Hand,
 
         /// <summary>Specify a question icon.</summary>
@@ -1903,19 +1906,28 @@ namespace Krypton.Toolkit
         /// <summary>Specify an asterisk icon.</summary>
         Asterisk = 4,
 
-        /// <summary>Specify the system asterisk icon.</summary>
+        /// <summary>
+        /// Specify the system asterisk icon.
+        /// The message box contains a symbol consisting of a lowercase letter i in a circle.
+        /// </summary>
         SystemAsterisk = MessageBoxIcon.Asterisk,
 
         /// <summary>Specify a stop icon.</summary>
         Stop = 5,
 
-        /// <summary>Specify the system stop icon.</summary>
+        /// <summary>
+        /// Specify the system hand icon.
+        /// The message box contains a symbol consisting of a white X in a circle with a red background.
+        /// </summary>
         SystemStop = MessageBoxIcon.Stop,
 
         /// <summary>Specify a error icon.</summary>
         Error = 6,
 
-        /// <summary>Specify the system error icon.</summary>
+        /// <summary>
+        /// Specify the system hand icon.
+        /// The message box contains a symbol consisting of a white X in a circle with a red background.
+        /// </summary>
         SystemError = MessageBoxIcon.Error,
 
         /// <summary>Specify a warning icon.</summary>

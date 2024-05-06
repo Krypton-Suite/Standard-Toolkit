@@ -78,7 +78,9 @@ namespace Krypton.Toolkit
             cloned._imageSize = _imageSize;
             // Move the button specs over to the new clone
             foreach (ButtonSpec bs in ButtonSpecs)
+            {
                 cloned.ButtonSpecs.Add(bs.Clone());
+            }
 
             return cloned;
         }

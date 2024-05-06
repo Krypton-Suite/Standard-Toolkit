@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
                     }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case KryptonToastNotificationIcon.WindowsLogo:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         SetIcon(WindowsLogoImageResources.Windows_11_128_128);
                     }

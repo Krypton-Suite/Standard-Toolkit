@@ -2370,8 +2370,15 @@ namespace Krypton.Navigator
                 ViewDrawBorderEdge? buttonEdge = _buttonEdgeLookup?[page];
 
                 // Add to the end of the collection
-                if (buttonEdge != null) _viewLayout.Add(buttonEdge, dockFar);
-                if (checkButton != null) _viewLayout.Add(checkButton, dockFar);
+                if (buttonEdge != null)
+                {
+                    _viewLayout.Add(buttonEdge, dockFar);
+                }
+
+                if (checkButton != null)
+                {
+                    _viewLayout.Add(checkButton, dockFar);
+                }
             }
         }
         #endregion

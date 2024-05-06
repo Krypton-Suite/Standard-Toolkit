@@ -1,11 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -321,7 +317,7 @@ namespace Krypton.Toolkit
         /// <summary>Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.</summary>
         /// <param name="messageBoxData">The message box data.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(KryptonMessageBoxData messageBoxData) => ShowCore(messageBoxData);
+        public static DialogResult Show(KryptonMessageBoxDataDep messageBoxData) => ShowCore(messageBoxData);
 
         #endregion
 
@@ -396,7 +392,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static DialogResult ShowCore(KryptonMessageBoxData messageBoxData)
+        private static DialogResult ShowCore(KryptonMessageBoxDataDep messageBoxData)
         {
             messageBoxData.Caption = string.IsNullOrEmpty(messageBoxData.Caption) ? @" " : messageBoxData.Caption;
 

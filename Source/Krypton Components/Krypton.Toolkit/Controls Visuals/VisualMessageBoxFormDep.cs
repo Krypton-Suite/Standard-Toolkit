@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
         private readonly Image? _applicationImage;
         private readonly bool? _forceUseOfOperatingSystemIcons;
-        private readonly KryptonMessageBoxData _messageBoxData;
+        private readonly KryptonMessageBoxDataDep _messageBoxData;
         private readonly bool? _showCloseButton;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
             ShowCloseButton(showCloseButton);
         }
 
-        public VisualMessageBoxFormDep(KryptonMessageBoxData messageBoxData)
+        public VisualMessageBoxFormDep(KryptonMessageBoxDataDep messageBoxData)
         {
             // Store incoming values
             _messageBoxData = messageBoxData;
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
 
         private void UpdateIcon(KryptonMessageBoxIcon icon)
         {
-            if (OSUtilities.IsWindowsEleven)
+            if (OSUtilities.IsAtLeastWindowsEleven)
             {
                 switch (icon)
                 {
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _messageIcon.Image = OSUtilities.IsWindowsEleven
+                        _messageIcon.Image = OSUtilities.IsAtLeastWindowsEleven
                             ? MessageBoxImageResources.Asterisk_Windows_11
                             : MessageBoxImageResources.GenericAsterisk;
                         SystemSounds.Asterisk.Play();
@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
                         }
@@ -369,7 +369,7 @@ namespace Krypton.Toolkit
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on an image instead
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
                         }
@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
 
         private void UpdateIcon()
         {
-            if (OSUtilities.IsWindowsEleven)
+            if (OSUtilities.IsAtLeastWindowsEleven)
             {
                 switch (_kryptonMessageBoxIcon)
                 {
@@ -523,7 +523,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _messageIcon.Image = OSUtilities.IsWindowsEleven
+                        _messageIcon.Image = OSUtilities.IsAtLeastWindowsEleven
                             ? MessageBoxImageResources.Asterisk_Windows_11
                             : MessageBoxImageResources.GenericAsterisk;
                         SystemSounds.Asterisk.Play();
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
                         }
@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on an image instead
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _messageIcon.Image = MessageBoxImageResources.Windows11;
                         }
@@ -896,8 +896,12 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel => _button4,
+                KryptonMessageBoxButtons.OKCancel
+                    or KryptonMessageBoxButtons.YesNo
+                    or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore
+                    or KryptonMessageBoxButtons.YesNoCancel
+                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (helpButton != null)
@@ -924,8 +928,8 @@ namespace Krypton.Toolkit
                     Control? control = FromHandle(owner.Handle);
 
                     var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
-                        Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
-                    mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
+                        Type.DefaultBinder, [typeof(HelpEventArgs)], null);
+                    mInfoMethod?.Invoke(control, [new HelpEventArgs(MousePosition)]);
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
@@ -946,9 +950,8 @@ namespace Krypton.Toolkit
             }
             catch
             {
-                // Do nothing if failure to send to Parent
+                // Do nothing
             }
-
         }
 
         /// <summary>
@@ -965,8 +968,8 @@ namespace Krypton.Toolkit
                     Control? control = FromHandle(_showOwner.Handle);
 
                     var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
-                        Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
-                    mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
+                        Type.DefaultBinder, [typeof(HelpEventArgs)], null);
+                    mInfoMethod?.Invoke(control, [new HelpEventArgs(MousePosition)]);
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
@@ -987,7 +990,7 @@ namespace Krypton.Toolkit
             }
             catch
             {
-                // Do nothing if failure to send to Parent
+                // Do nothing
             }
         }
 

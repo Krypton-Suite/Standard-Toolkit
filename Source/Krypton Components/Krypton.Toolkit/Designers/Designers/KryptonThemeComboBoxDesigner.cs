@@ -83,16 +83,11 @@ namespace Krypton.Toolkit
         {
             if (_themeComboBox != null)
             {
-                KryptonMessageBoxData data = new KryptonMessageBoxData()
-                {
-                    MessageText =
-                        @"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
-                    Caption = @"Reset Theme",
-                    Icon = KryptonMessageBoxIcon.Question,
-                    Buttons = KryptonMessageBoxButtons.YesNo
-                };
-
-                DialogResult result = KryptonMessageBox.Show(data);
+                DialogResult result = KryptonMessageBox.Show(@"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
+                    @"Reset Theme",
+                    KryptonMessageBoxButtons.YesNo,
+                    KryptonMessageBoxIcon.Question
+                );
 
                 if (result == DialogResult.Yes)
                 {
