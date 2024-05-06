@@ -34,14 +34,14 @@ namespace Krypton.Navigator
                                        [DisallowNull] ViewLayoutInsetOverlap layoutOverlap,
                                        [DisallowNull] ViewLayoutBarForTabs layoutTabs)
         {
-            Debug.Assert(drawCanvas != null);
-            Debug.Assert(layoutOverlap != null);
-            Debug.Assert(layoutTabs != null);
+            Debug.Assert(drawCanvas is not null);
+            Debug.Assert(layoutOverlap is not null);
+            Debug.Assert(layoutTabs is not null);
 
             // Remember provided references
-            _drawCanvas = drawCanvas;
-            _layoutOverlap = layoutOverlap;
-            _layoutTabs = layoutTabs;
+            _drawCanvas = drawCanvas ?? throw new ArgumentNullException(nameof(_drawCanvas));
+            _layoutOverlap = layoutOverlap ?? throw new ArgumentNullException(nameof(_layoutOverlap));
+            _layoutTabs = layoutTabs ?? throw new ArgumentNullException(nameof(_layoutTabs));
         }
 
         /// <summary>

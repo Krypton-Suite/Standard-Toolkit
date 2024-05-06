@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewletHeaderGroup([DisallowNull] KryptonNavigator navigator,
-                                  PaletteRedirect redirector,
+                                  [DisallowNull] PaletteRedirect redirector,
                                   [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(navigator != null);
@@ -44,9 +44,9 @@ namespace Krypton.Navigator
             Debug.Assert(needPaintDelegate != null);
 
             // Remember references
-            Navigator = navigator;
-            Redirector = redirector;
-            _needPaintDelegate = needPaintDelegate;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            Redirector = redirector ?? throw new ArgumentNullException(nameof(redirector));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
         }
         #endregion
 
