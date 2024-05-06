@@ -122,7 +122,7 @@ internal class PaletteClassTypeConverter : EnumConverter
         }
 
         // Let base class perform default conversion
-        return base.ConvertFrom(context!, culture!, value);
+        return base.ConvertFrom(context!, culture!, value!);
     }
     #endregion
 }

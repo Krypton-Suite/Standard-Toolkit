@@ -41,18 +41,16 @@ namespace Krypton.Toolkit
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public CheckBoxController([DisallowNull] ViewDrawCheckBox target,
-            [DisallowNull] ViewBase top,
+                                  [DisallowNull] ViewBase top,
                                   NeedPaintHandler needPaint)
         {
-            Debug.Assert(target != null);
-            Debug.Assert(top != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(target is not null);
+            Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target;
-            _top = top;
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            _top = top ?? throw new ArgumentNullException(nameof(top));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

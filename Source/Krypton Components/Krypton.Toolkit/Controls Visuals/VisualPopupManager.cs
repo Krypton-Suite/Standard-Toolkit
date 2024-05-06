@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <param name="popup">Popup instance to track.</param>
         public void StartTracking([DisallowNull] VisualPopup popup)
         {
-            Debug.Assert(popup != null);
+            Debug.Assert(popup is not null);
             Debug.Assert(!popup!.IsDisposed);
             Debug.Assert(popup.IsHandleCreated);
             Debug.Assert(_suspended == 0);

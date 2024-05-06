@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _contentLinkArea = string.IsNullOrEmpty(text)
                 ? new LinkArea(0, 0)
-                : contentLinkArea ?? new LinkArea(0, text.Length);
+                : contentLinkArea ?? new LinkArea(0, text!.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
             _showCloseButton = showCloseButton ?? true;
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
             InitializeComponent();
 
             // Update contents to match requirements
-            UpdateText(_messageBoxData.Caption, _messageBoxData.MessageText, _messageBoxData.MessageContentAreaType);
+            UpdateText(_messageBoxData.Caption!, _messageBoxData.MessageText, _messageBoxData.MessageContentAreaType);
             UpdateIcon(_messageBoxData.Icon);
             UpdateButtons(_messageBoxData.Buttons);
             UpdateDefault(_messageBoxData.DefaultButton);

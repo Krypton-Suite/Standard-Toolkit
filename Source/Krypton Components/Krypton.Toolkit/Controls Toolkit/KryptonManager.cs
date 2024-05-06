@@ -1107,7 +1107,10 @@ namespace Krypton.Toolkit
                     break;
                 default:
                     // Should not happen!
-                    Debug.Assert(paletteMode != null);
+                    
+                    // Disable since palette mode is an enum and is not nullable
+                    //Debug.Assert(paletteMode is not null); 
+                    
                     DebugTools.NotImplemented(paletteMode.ToString());
                     break;
             }

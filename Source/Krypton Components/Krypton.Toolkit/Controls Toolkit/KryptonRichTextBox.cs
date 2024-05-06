@@ -777,7 +777,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Rtf
         {
-            get => _richTextBox.Rtf;
+            get => _richTextBox.Rtf is null ? string.Empty : _richTextBox.Rtf;
 
             set
             {
@@ -907,7 +907,9 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Font SelectionFont
         {
-            get => _richTextBox.SelectionFont;
+             // Tested that: the System.WWindows.Forms.RichTextBox returns RichtTextBox.Font when no text has been selected.
+             // Null forgiving operator removes the warning.
+            get => _richTextBox.SelectionFont!;
 
             set
             {

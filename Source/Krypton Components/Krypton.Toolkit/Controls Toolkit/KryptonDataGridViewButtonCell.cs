@@ -47,13 +47,12 @@ namespace Krypton.Toolkit
         /// <returns>New object instance.</returns>
         public override object Clone()
         {
-            var dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell;
-            if (dataGridViewCell != null)
-            {
-                dataGridViewCell._styleSet = _styleSet;
-                dataGridViewCell._shortTextValue = _shortTextValue;
-                dataGridViewCell._buttonStyle = _buttonStyle;
-            }
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dataGridViewCell"));
+
+            dataGridViewCell._styleSet = _styleSet;
+            dataGridViewCell._shortTextValue = _shortTextValue;
+            dataGridViewCell._buttonStyle = _buttonStyle;
+
             return dataGridViewCell;
         }
 
@@ -70,7 +69,7 @@ namespace Krypton.Toolkit
             {
                 _buttonStyle = value;
                 _styleSet = true;
-                DataGridView.InvalidateCell(this);
+                DataGridView?.InvalidateCell(this);
             }
         }
         #endregion
@@ -104,13 +103,13 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Create the view elements and palette structure
-                CreateViewAndPalettes(kDGV);
+                CreateViewAndPalettes(kDGV!);
 
                 // Is this cell the currently active cell
-                var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                var currentCell = (rowIndex == DataGridView!.CurrentCellAddress.Y) &&
                                   (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                 // Is this cell the same as the one with the mouse inside it
@@ -141,21 +140,21 @@ namespace Krypton.Toolkit
                 }
 
                 // Update the display text
-                if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn { UseColumnTextForButtonValue: true } col) && !kDGV.Rows[rowIndex].IsNewRow)
+                if ((kDGV!.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn { UseColumnTextForButtonValue: true } col) && !kDGV.Rows[rowIndex].IsNewRow)
                 {
-                    _shortTextValue.ShortText = col.Text;
+                    _shortTextValue!.ShortText = col.Text;
                 }
                 else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
                 {
-                    _shortTextValue.ShortText = FormattedValue.ToString();
+                    _shortTextValue!.ShortText = FormattedValue!.ToString();
                 }
                 else
                 {
-                    _shortTextValue.ShortText = string.Empty;
+                    _shortTextValue!.ShortText = string.Empty;
                 }
 
                 // Position the button element inside the available cell area
-                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer!);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -190,23 +189,23 @@ namespace Krypton.Toolkit
         /// <param name="advancedBorderStyle">A DataGridViewAdvancedBorderStyle that contains border styles for the cell that is being painted.</param>
         /// <param name="paintParts">A bitwise combination of the DataGridViewPaintParts values that specifies which parts of the cell need to be painted.</param>
         protected override void Paint(Graphics graphics,
-            Rectangle clipBounds,
-            Rectangle cellBounds,
-            int rowIndex,
-            DataGridViewElementStates cellState,
-            object value,
-            object formattedValue,
-            string errorText,
-            DataGridViewCellStyle cellStyle,
-            DataGridViewAdvancedBorderStyle advancedBorderStyle,
-            DataGridViewPaintParts paintParts)
+                                      Rectangle clipBounds,
+                                      Rectangle cellBounds,
+                                      int rowIndex,
+                                      DataGridViewElementStates cellState,
+                                      object? value,
+                                      object? formattedValue,
+                                      string? errorText,
+                                      DataGridViewCellStyle cellStyle,
+                                      DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                                      DataGridViewPaintParts paintParts)
         {
             if (DataGridView is KryptonDataGridView kDgv)
             {
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer!);
                     // Create the view elements and palette structure
                     CreateViewAndPalettes(kDgv);
 
@@ -250,15 +249,15 @@ namespace Krypton.Toolkit
                             UseColumnTextForButtonValue: true
                         } col) && !kDgv.Rows[rowIndex].IsNewRow)
                     {
-                        _shortTextValue.ShortText = col.Text;
+                        _shortTextValue!.ShortText = col.Text;
                     }
                     else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
                     {
-                        _shortTextValue.ShortText = FormattedValue.ToString();
+                        _shortTextValue!.ShortText = FormattedValue!.ToString();
                     }
                     else
                     {
-                        _shortTextValue.ShortText = string.Empty;
+                        _shortTextValue!.ShortText = string.Empty;
                     }
 
                     // Prevent button overlapping the bottom/right border
@@ -279,7 +278,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height -= cellStyle.Padding.Vertical;
 
                     // Position the button element inside the available cell area
-                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer!))
                     {
                         // Define the available area for layout
                         layoutContext.DisplayRectangle = cellBounds;

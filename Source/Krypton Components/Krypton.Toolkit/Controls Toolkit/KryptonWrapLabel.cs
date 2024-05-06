@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private PaletteBase _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private LabelStyle _labelStyle;
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -334,7 +334,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -408,7 +408,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -416,7 +416,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Update the font property.
@@ -784,12 +784,12 @@ namespace Krypton.Toolkit
 
         /// <summary>Sets the palette.</summary>
         /// <param name="palette">The palette.</param>
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint -= OnPaletteNeedPaint;
                     _palette.BasePaletteChanged -= OnBaseChanged;
@@ -797,13 +797,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Remember the new palette
-                _palette = palette;
+                _palette = palette!;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette?.GetRenderer();
+                Renderer = _palette?.GetRenderer()!;
 
                 // Hook to new palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint += OnPaletteNeedPaint;
                     _palette.BasePaletteChanged += OnBaseChanged;
@@ -815,7 +815,7 @@ namespace Krypton.Toolkit
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) => NeedPaint(e);
 
         // Change in base renderer or base palette require we fetch the latest renderer
-        private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette?.GetRenderer();
+        private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette?.GetRenderer()!;
 
         /// <summary>Called when [global palette changed].</summary>
         /// <param name="sender">The sender.</param>

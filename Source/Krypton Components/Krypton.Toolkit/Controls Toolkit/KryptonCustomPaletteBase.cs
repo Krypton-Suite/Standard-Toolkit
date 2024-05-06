@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         private int _suspendCount;
         private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
-        private PaletteBase _basePalette;
+        private PaletteBase? _basePalette;
         //private PaletteMode _basePaletteMode;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
@@ -131,10 +131,13 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Must unhook from the palette paint event
-                _basePalette.PalettePaint -= OnPalettePaint;
-                _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
-                _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
-                _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
+                if (_basePalette is not null)
+                {
+                    _basePalette.PalettePaint -= OnPalettePaint;
+                    _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
+                    _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
+                    _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
+                }
             }
 
             base.Dispose(disposing);
@@ -151,9 +154,9 @@ namespace Krypton.Toolkit
         [DefaultValue(InheritBool.Inherit)]
         public new InheritBool UseThemeFormChromeBorderWidth
         {
-            get => _basePalette.UseThemeFormChromeBorderWidth;
+            get => _basePalette!.UseThemeFormChromeBorderWidth;
 
-            set => _basePalette.UseThemeFormChromeBorderWidth = value;
+            set => _basePalette!.UseThemeFormChromeBorderWidth = value;
         }
         #endregion
 
@@ -511,7 +514,7 @@ namespace Krypton.Toolkit
         public override IRenderer GetRenderer()
         => _baseRenderMode switch
         {
-            RendererMode.Inherit => _basePalette.GetRenderer(),
+            RendererMode.Inherit => _basePalette!.GetRenderer(),
             RendererMode.Custom => _baseRenderer!,
             _ => KryptonManager.GetRendererForMode(_baseRenderMode)
         };
@@ -2789,7 +2792,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"KryptonPalette used to inherit from.")]
         [DefaultValue(null)]
-        public PaletteBase BasePalette
+        public PaletteBase? BasePalette
         {
             get => _basePalette;
 
@@ -2822,14 +2825,16 @@ namespace Krypton.Toolkit
                         _basePalette = tempPalette;
                     }
 
-                    // Use the provided palette value
-                    SetPalette(value);
-
                     // If no custom palette is required
                     if (value == null)
                     {
                         // Get the appropriate palette for the global mode
                         SetPalette(KryptonManager.GetPaletteForMode(PaletteMode.Microsoft365Blue/*_basePaletteMode*/));
+                    }
+                    else
+                    {
+                        // Use the provided palette value
+                        SetPalette(value);
                     }
 
                     // Indicate the palette values have changed
@@ -2932,27 +2937,28 @@ namespace Krypton.Toolkit
         [DisallowNull]
         public new Font BaseFont
         {
-            get => _basePalette.BaseFont;
-            set => _basePalette.BaseFont = value;
+            get => _basePalette!.BaseFont;
+            set => _basePalette!.BaseFont = value;
         }
-        private new void ResetBaseFont() => _basePalette.ResetBaseFont();
-        private new bool ShouldSerializeBaseFont() => _basePalette.ShouldSerializeBaseFont();
+
+        private new void ResetBaseFont() => _basePalette!.ResetBaseFont();
+        private new bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
 
         /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new string ThemeName
         {
-            get => _basePalette.ThemeName;
-            set => _basePalette.ThemeName = value;
+            get => _basePalette!.ThemeName;
+            set => _basePalette!.ThemeName = value;
         }
 
         /// <inheritdoc />
         [Browsable(false)]
         public new BasePaletteType BasePaletteType
         {
-            get => _basePalette.BasePaletteType;
-            set => _basePalette.BasePaletteType = value;
+            get => _basePalette!.BasePaletteType;
+            set => _basePalette!.BasePaletteType = value;
         }
         #endregion
 
@@ -3502,21 +3508,21 @@ namespace Krypton.Toolkit
                     var imageElement = (XmlElement)image;
 
                     // Check the element is the expected type and has the required data
-                    if (imageElement != null &&
+                    if (imageElement is not null &&
                         imageElement.HasAttribute(@"Name") &&
                         imageElement.ChildNodes.Count == 1 &&
-                        imageElement.ChildNodes[0].NodeType == XmlNodeType.CDATA)
+                        imageElement.ChildNodes[0]!.NodeType == XmlNodeType.CDATA)
                     {
                         try
                         {
                             // Extract the image name
-                            var name = imageElement.GetAttribute(@"Name");
+                            string name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
+                            XmlCDataSection cdata = (imageElement.ChildNodes[0] as XmlCDataSection)!;
 
                             // Convert to back from a string to bytes
-                            var bytes = Convert.FromBase64String(cdata!.Value);
+                            byte[] bytes = Convert.FromBase64String(cdata.Value!);
 
                             // Convert the bytes back into an Image
                             using var memory = new MemoryStream(bytes);
@@ -3585,13 +3591,13 @@ namespace Krypton.Toolkit
                                 // Test if the object contains only default values?
                                 if (ignoreDefaults)
                                 {
-                                    var propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
+                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj!)[nameof(IsDefault)]!;
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
                                     if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
                                     {
                                         // If the object 'IsDefault' then no need to persist it
-                                        if ((bool)propertyIsDefault.GetValue(childObj))
+                                        if ((bool)propertyIsDefault.GetValue(childObj)!)
                                         {
                                             childObj = null;
                                         }
@@ -3764,9 +3770,9 @@ namespace Krypton.Toolkit
                                 if (prop.CanRead)
                                 {
                                     // Grab the property object
-                                    var childObj = prop.GetValue(obj, null);
+                                    object? childObj = prop.GetValue(obj, null);
 
-                                    var propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
+                                    var propertyIsDefault = TypeDescriptor.GetProperties(childObj!)[nameof(IsDefault)];
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
                                     if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
@@ -5846,10 +5852,10 @@ namespace Krypton.Toolkit
         {
             if (basePalette != _basePalette)
             {
-                Debug.Assert(_basePalette != null);
+                Debug.Assert(_basePalette is not null);
 
                 // Unhook from current palette events
-                if (_basePalette != null)
+                if (_basePalette is not null)
                 {
                     _basePalette.PalettePaint -= OnPalettePaint;
                     _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;

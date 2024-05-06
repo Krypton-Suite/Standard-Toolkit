@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _checkBox = owner.Component as KryptonCheckBox;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 

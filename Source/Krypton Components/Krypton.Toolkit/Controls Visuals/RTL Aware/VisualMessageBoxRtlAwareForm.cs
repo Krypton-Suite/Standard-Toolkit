@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
             InitializeComponent();
 
             // Update contents to match requirements
-            UpdateText(_messageBoxData.Caption, _messageBoxData.MessageText, _messageBoxData.MessageContentAreaType);
+            UpdateText(_messageBoxData.Caption!, _messageBoxData.MessageText, _messageBoxData.MessageContentAreaType);
             UpdateIcon(_messageBoxData.Icon);
             UpdateButtons(_messageBoxData.Buttons);
             UpdateDefault(_messageBoxData.DefaultButton);

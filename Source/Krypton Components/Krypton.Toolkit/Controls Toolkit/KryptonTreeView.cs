@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             public void ResetIndent()
             {
                 // Only grab the required reference once
-                if (_miRI == null)
+                if (_miRI is null)
                 {
                     // Use reflection so we can call the TreeView private method
                     _miRI = typeof(TreeView).GetMethod(nameof(ResetIndent),
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
                                                         Array.Empty<Type>(), null);
                 }
 
-                _miRI.Invoke(this, Array.Empty<object>());
+                _miRI!.Invoke(this, Array.Empty<object>());
             }
             #endregion
 
@@ -535,15 +535,15 @@ namespace Krypton.Toolkit
             StateCommon = new PaletteTreeStateRedirect(Redirector, commonBack, backInherit, commonBorder, borderInherit, NeedPaintDelegate);
 
             var disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateDisabled = new PaletteTreeState(StateCommon, disabledBack, disabledBorder, NeedPaintDelegate);
 
             var normalBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateNormal = new PaletteTreeState(StateCommon, normalBack, normalBorder, NeedPaintDelegate);
 
             var activeBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateActive = new PaletteDouble(StateCommon, activeBack, activeBorder, NeedPaintDelegate);
 
             OverrideFocus = new PaletteTreeNodeTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
@@ -1089,7 +1089,7 @@ namespace Krypton.Toolkit
         [Description(@"First fully-visible node.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
-        public TreeNode TopNode
+        public TreeNode? TopNode
         {
             get => _treeView.TopNode;
             set => _treeView.TopNode = value;
@@ -1102,7 +1102,7 @@ namespace Krypton.Toolkit
         [Description(@"IComparer used to perform custom sorting.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
-        public IComparer TreeViewNodeSorter
+        public IComparer? TreeViewNodeSorter
         {
             get => _treeView.TreeViewNodeSorter;
             set => _treeView.TreeViewNodeSorter = value;
@@ -1397,7 +1397,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">The Point to evaluate and retrieve the node from. </param>
         /// <returns>The TreeNode at the specified point, in tree view (client) coordinates, or null if there is no node at that location.</returns>
-        public TreeNode GetNodeAt(Point pt) => _treeView.GetNodeAt(pt);
+        public TreeNode? GetNodeAt(Point pt) => _treeView.GetNodeAt(pt);
 
         /// <summary>
         /// Retrieves the tree node at the point with the specified coordinates.
@@ -1405,7 +1405,7 @@ namespace Krypton.Toolkit
         /// <param name="x">The X position to evaluate and retrieve the node from.</param>
         /// <param name="y">The Y position to evaluate and retrieve the node from.</param>
         /// <returns>The TreeNode at the specified location, in tree view (client) coordinates, or null if there is no node at that location.</returns>
-        public TreeNode GetNodeAt(int x, int y) => _treeView.GetNodeAt(x, y);
+        public TreeNode? GetNodeAt(int x, int y) => _treeView.GetNodeAt(x, y);
 
         /// <summary>
         /// Retrieves the number of tree nodes, optionally including those in all subtrees, assigned to the tree view control.
@@ -1532,7 +1532,7 @@ namespace Krypton.Toolkit
         {
             if (!_isRecreating)
             {
-                if (_multiSelect)
+                if (_multiSelect && e.Node is not null)
                 {
                     e.Node.Checked = !e.Node.Checked;
                 }
@@ -1783,7 +1783,10 @@ namespace Krypton.Toolkit
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
         protected override void OnPaint(PaintEventArgs? e)
         {
-            Paint?.Invoke(this, e);
+            if ( Paint is not null && e is not null)
+            {
+                Paint.Invoke(this, e);
+            }
 
             base.OnPaint(e);
         }
@@ -1953,27 +1956,30 @@ namespace Krypton.Toolkit
         {
             _overrideNormalNode.TreeNode = node;
 
-            if (node != null)
+            if (_contentValues is not null)
             {
-                // Get information from the node
-                _contentValues.ShortText = node.Text;
-                _contentValues.LongText = string.Empty;
-                _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
-
-                if (node is KryptonTreeNode kryptonNode)
+                if (node is not null)
                 {
-                    // Get long text from the Krypton extension
-                    _contentValues.LongText = kryptonNode.LongText;
+                    // Get information from the node
+                    _contentValues.ShortText = node.Text;
+                    _contentValues.LongText = string.Empty;
+                    _contentValues.Image = null;
+                    _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+
+                    if (node is KryptonTreeNode kryptonNode)
+                    {
+                        // Get long text from the Krypton extension
+                        _contentValues.LongText = kryptonNode.LongText;
+                    }
                 }
-            }
-            else
-            {
-                // Get the text string for the item
-                _contentValues.ShortText = @"A";
-                _contentValues.LongText = string.Empty;
-                _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+                else
+                {
+                    // Get the text string for the item
+                    _contentValues.ShortText = @"A";
+                    _contentValues.LongText = string.Empty;
+                    _contentValues.Image = null;
+                    _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+                }
             }
         }
 
@@ -1984,7 +1990,7 @@ namespace Krypton.Toolkit
                 // Get the correct palette settings to use
                 IPaletteDouble doubleState = GetDoubleState();
                 _treeView.ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
-                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder);
+                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder!);
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
@@ -2013,10 +2019,10 @@ namespace Krypton.Toolkit
 
             // Count depth of our node in tree
             TreeNode current = node;
-            while (current != null)
+            while (current is not null)
             {
                 depth++;
-                current = current.Parent;
+                current = current.Parent!;
             }
 
             // Do we need the root level indent?

@@ -200,9 +200,9 @@ namespace Krypton.Toolkit
                                    NeedPaintHandler needPaint)
             : base(target, needPaint)
         {
-            Debug.Assert(source != null);
+            Debug.Assert(source is not null);
 
-            _source = source;
+            _source = source ?? throw new ArgumentNullException(nameof(source));
             _splitCursors = splitCursors;
             _drawIndicator = drawIndicator;
         }
@@ -679,9 +679,9 @@ namespace Krypton.Toolkit
         /// <param name="controller">Owning class instance.</param>
         public SeparatorMessageFilter([DisallowNull] SeparatorController controller)
         {
-            Debug.Assert(controller != null);
+            Debug.Assert(controller is not null);
 
-            _controller = controller;
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }
         #endregion
 

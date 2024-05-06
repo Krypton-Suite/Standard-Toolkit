@@ -82,17 +82,17 @@ namespace Krypton.Toolkit
         /// <param name="disabledImage">The disabled image.</param>
         /// <param name="normalImage">The normal image.</param>
         /// <param name="pressedImage">The pressed image.</param>
-        private void AddImageStates(Image activeImage, Image? disabledImage, Image? normalImage, Image pressedImage)
+        private void AddImageStates(Image? activeImage, Image? disabledImage, Image? normalImage, Image? pressedImage)
         {
             if (_helpButtonSpec != null)
             {
                 _helpButtonSpec.ImageStates.ImageDisabled = disabledImage;
 
-                _helpButtonSpec.ImageStates.ImageTracking = activeImage ?? null;
+                _helpButtonSpec.ImageStates.ImageTracking = activeImage;
 
                 _helpButtonSpec.ImageStates.ImageNormal = normalImage;
 
-                _helpButtonSpec.ImageStates.ImagePressed = pressedImage ?? null;
+                _helpButtonSpec.ImageStates.ImagePressed = pressedImage;
             }
         }
 
@@ -631,7 +631,7 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentOutOfRangeException">mode - null</exception>
         private void UpdateImageStates(PaletteMode mode)
         {
-            if (_helpButtonSpec != null)
+            if (_helpButtonSpec is not null)
             {
                 switch (mode)
                 {

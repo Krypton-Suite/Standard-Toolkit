@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _wrapLabel = owner.Component as KryptonWrapLabel;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _wrapLabel.LabelStyle;
+            get => _wrapLabel!.LabelStyle;
 
             set
             {
-                if (_wrapLabel.LabelStyle != value)
+                if (_wrapLabel!.LabelStyle != value)
                 {
                     _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.LabelStyle, value);
                     _wrapLabel.LabelStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _wrapLabel.PaletteMode;
+            get => _wrapLabel!.PaletteMode;
 
             set
             {
-                if (_wrapLabel.PaletteMode != value)
+                if (_wrapLabel!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.PaletteMode, value);
                     _wrapLabel.PaletteMode = value;
@@ -74,11 +74,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font Font
         {
-            get => _wrapLabel.StateCommon.Font;
+            get => _wrapLabel!.StateCommon.Font!;
 
             set
             {
-                if (_wrapLabel.StateCommon.Font != value)
+                if (_wrapLabel!.StateCommon.Font != value)
                 {
                     _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.StateCommon.Font, value);
 

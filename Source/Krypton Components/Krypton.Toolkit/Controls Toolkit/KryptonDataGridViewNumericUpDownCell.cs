@@ -259,8 +259,9 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
-            if (dataGridView?.EditingControl == null)
+            DataGridView dataGridView = DataGridView!;
+
+            if (dataGridView?.EditingControl is null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
             }
@@ -285,12 +286,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
+            object? initialFormattedValue,
             DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonNumericUpDown numericUpDown)
+            if (DataGridView!.EditingControl is KryptonNumericUpDown numericUpDown)
             {
                 numericUpDown.DecimalPlaces = DecimalPlaces;
                 numericUpDown.Increment = Increment;
@@ -343,7 +344,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -365,11 +366,11 @@ namespace Krypton.Toolkit
         /// Customized implementation of the GetFormattedValue function in order to include the decimal and thousand separator
         /// characters in the formatted representation of the cell value.
         /// </summary>
-        protected override object GetFormattedValue(object value,
+        protected override object GetFormattedValue(object? value,
             int rowIndex,
             ref DataGridViewCellStyle cellStyle,
-            TypeConverter valueTypeConverter,
-            TypeConverter formattedValueTypeConverter,
+            TypeConverter? valueTypeConverter,
+            TypeConverter? formattedValueTypeConverter,
             DataGridViewDataErrorContexts context)
         {
             // By default, the base implementation converts the Decimal 1234.5 into the string "1234.5"
@@ -409,7 +410,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewNumericUpDownEditingControl? EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
+        private KryptonDataGridViewNumericUpDownEditingControl? EditingNumericUpDown => DataGridView!.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
 
         private decimal Constrain(decimal value)
         {

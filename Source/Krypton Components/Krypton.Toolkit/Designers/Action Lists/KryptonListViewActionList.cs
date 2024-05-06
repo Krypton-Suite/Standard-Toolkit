@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _listView = (KryptonListView)owner.Component;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _listView.StateCommon.Item.Content.ShortText.Font;
+            get => _listView.StateCommon.Item.Content.ShortText.Font!;
 
             set
             {

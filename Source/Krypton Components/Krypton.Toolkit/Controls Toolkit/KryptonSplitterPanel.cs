@@ -80,9 +80,9 @@ namespace Krypton.Toolkit
         /// <param name="container">Reference to owning container.</param>
         public KryptonSplitterPanel([DisallowNull] KryptonSplitContainer container)
         {
-            Debug.Assert(container != null);
+            Debug.Assert(container is not null);
 
-            Owner = container;
+            Owner = container ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(container)));
         }
         #endregion
 
