@@ -18,7 +18,7 @@ namespace Krypton.Workspace
     public class DragTargetWorkspaceCellTransfer : DragTargetWorkspace
     {
         #region Instance Fields
-        private KryptonWorkspaceCell _cell;
+        private KryptonWorkspaceCell? _cell;
         private int _notDraggedPagesFromCell;
         #endregion
 
@@ -73,12 +73,15 @@ namespace Krypton.Workspace
             {
                 // Search for any pages that are not from this cell
                 _notDraggedPagesFromCell = 0;
-                foreach (KryptonPage page in dragEndData.Pages)
+                if (dragEndData is not null)
                 {
-                    if (!_cell.Pages.Contains(page))
+                    foreach (KryptonPage page in dragEndData.Pages)
                     {
-                        _notDraggedPagesFromCell = 1;
-                        break;
+                        if (_cell is not null && !_cell.Pages.Contains(page))
+                        {
+                            _notDraggedPagesFromCell = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -109,12 +112,12 @@ namespace Krypton.Workspace
             if (page != null)
             {
                 // Does the cell allow the selection of tabs?
-                if (_cell.AllowTabSelect)
+                if (_cell is not null && _cell.AllowTabSelect)
                 {
                     _cell.SelectedPage = page;
                 }
 
-                if (!_cell.IsDisposed)
+                if (_cell is not null && !_cell.IsDisposed)
                 {
                     // Without this DoEvents() call the dropping of multiple pages in a complex arrangement causes an exception for
                     // a complex reason that is hard to work out (i.e. I'm not entirely sure). Something to do with using select to
