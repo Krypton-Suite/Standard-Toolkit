@@ -1067,7 +1067,7 @@ namespace Krypton.Workspace
                 object[] rootItems = new object[_treeView.Nodes.Count];
                 for (var i = 0; i < rootItems.Length; i++)
                 {
-                    rootItems[i] = (_treeView.Nodes[i] as MenuTreeNode)!.Item!;
+                    rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item!;
                 }
 
                 // Cache a lookup of all items after changes are made
@@ -1338,8 +1338,9 @@ namespace Krypton.Workspace
                 var page = (KryptonPage)CreateInstance(typeof(KryptonPage));
                 TreeNode newNode = new MenuTreeNode(page);
 
-                var selectedNode = _treeView.SelectedNode as MenuTreeNode;
-                if (selectedNode!.CellItem != null)
+                var selectedNode = (MenuTreeNode)_treeView.SelectedNode!;
+                
+                if (selectedNode.CellItem != null)
                 {
                     // Selected node is a cell, so append page to end of cells page collection
                     selectedNode.CellItem.Pages.Add(page);
@@ -1348,8 +1349,8 @@ namespace Krypton.Workspace
                 else if (selectedNode.PageItem != null)
                 {
                     // Selected node is a page, so insert after this page
-                    var selectedParentNode = selectedNode.Parent as MenuTreeNode;
-                    var selectedIndex = selectedParentNode!.Nodes.IndexOf(selectedNode);
+                    var selectedParentNode = (MenuTreeNode)selectedNode.Parent!;
+                    var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                     selectedParentNode.CellItem!.Pages.Insert(selectedIndex + 1, page);
                     selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
                 }
@@ -1376,7 +1377,8 @@ namespace Krypton.Workspace
                 newNode.Expand();
 
                 var selectedNode = _treeView.SelectedNode as MenuTreeNode;
-                if (selectedNode == null)
+
+                if (selectedNode is null)
                 {
                     // Nothing is selected, so add to the root
                     _treeView.Nodes.Add(newNode);
@@ -1387,9 +1389,9 @@ namespace Krypton.Workspace
                     selectedNode.SequenceItem.Children!.Add(cell);
                     selectedNode.Nodes.Add(newNode);
                 }
-                else if (selectedNode.CellItem != null)
+                else if (selectedNode.CellItem is not null)
                 {
-                    if (selectedNode.Parent == null)
+                    if (selectedNode.Parent is null)
                     {
                         // Selected node is cell in root, so insert after it in the root
                         _treeView.Nodes.Insert(_treeView.Nodes.IndexOf(selectedNode) + 1, newNode);
@@ -1459,9 +1461,9 @@ namespace Krypton.Workspace
             {
                 if (_treeView.SelectedNode is not null)
                 {
-                    var treeNode = _treeView.SelectedNode as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)_treeView.SelectedNode!;
 
-                    if (treeNode!.Parent is null)
+                    if (treeNode.Parent is null)
                     {
                         // Remove from the root collection
                         _treeView.Nodes.Remove(treeNode);

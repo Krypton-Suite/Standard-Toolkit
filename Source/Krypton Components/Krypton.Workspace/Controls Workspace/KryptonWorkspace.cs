@@ -2804,7 +2804,7 @@ namespace Krypton.Workspace
                                      Point splitter)
         {
             // Get the sequence that contains the items moved
-            var parentSequence = separator.WorkspaceItem.WorkspaceParent as KryptonWorkspaceSequence;
+            var parentSequence = (KryptonWorkspaceSequence)separator.WorkspaceItem.WorkspaceParent!;
             SeparatorToItems(separator, out IWorkspaceItem after, out IWorkspaceItem? before);
 
             // At design time we can get null references
@@ -2825,7 +2825,7 @@ namespace Krypton.Workspace
                 if (offset != 0)
                 {
                     // Update the sizing value for each item in the sequence
-                    foreach (Component child in parentSequence!.Children!)
+                    foreach (Component child in parentSequence.Children!)
                     {
                         // Can only process IWorkspaceItem items
                         if (child is IWorkspaceItem item)
@@ -2899,7 +2899,11 @@ namespace Krypton.Workspace
                     }
 
                     // Calling DragStart will cause the drag targets to be created from the target providers
-                    e.Cancel = !_dragManager.DragStart(e.ScreenPoint, new PageDragEndData((sender as KryptonNavigator)!, e.Pages));
+                    PageDragEndData? dragEndData = sender is KryptonNavigator kn
+                        ? new PageDragEndData(kn, e.Pages)
+                        : null;
+
+                    e.Cancel = !_dragManager.DragStart(e.ScreenPoint, dragEndData);
                 }
             }
         }
@@ -3430,7 +3434,8 @@ namespace Krypton.Workspace
                         case KryptonWorkspaceSequence child:
                             // Search inside the sequence for the first leaf in the specified direction
                             KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                            if (ret != null)
+                            
+                            if (ret is not null)
                             {
                                 return ret;
                             }
@@ -3495,11 +3500,11 @@ namespace Krypton.Workspace
             after = separator.WorkspaceItem;
 
             // Workspace item before the separator (to the left or above)
-            var beforeSequence = after.WorkspaceParent as KryptonWorkspaceSequence;
+            var beforeSequence = (KryptonWorkspaceSequence)after.WorkspaceParent!;
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;
-            for (var i = beforeSequence!.Children!.IndexOf(after) - 1; i >= 0; i--)
+            for (var i = beforeSequence.Children!.IndexOf(after) - 1; i >= 0; i--)
             {
                 if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                 {
