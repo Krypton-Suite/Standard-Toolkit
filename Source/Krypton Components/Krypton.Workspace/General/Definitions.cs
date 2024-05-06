@@ -70,7 +70,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Reference to owning workspace item.
         /// </summary>
-        IWorkspaceItem WorkspaceParent { get; }
+        IWorkspaceItem? WorkspaceParent { get; }
 
         /// <summary>
         /// Should the item be Displayed in the workspace.

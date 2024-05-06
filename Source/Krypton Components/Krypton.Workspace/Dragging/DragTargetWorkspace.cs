@@ -55,7 +55,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the target workspace control.
         /// </summary>
-        public KryptonWorkspace Workspace { get; private set; }
+        public KryptonWorkspace? Workspace { get; private set; }
 
         #endregion
 
@@ -67,27 +67,32 @@ namespace Krypton.Workspace
         /// <param name="target">Target workspace cell instance.</param>
         /// <param name="data">Dragged page data.</param>
         /// <returns>Last page to be transferred.</returns>
-        protected KryptonPage? ProcessDragEndData(KryptonWorkspace workspace,
-                                                 KryptonWorkspaceCell target,
+        protected KryptonPage? ProcessDragEndData(KryptonWorkspace? workspace,
+                                                 KryptonWorkspaceCell? target,
                                                  PageDragEndData? data)
         {
             KryptonPage? ret = null;
 
             // Add each source page to the target
-            foreach (KryptonPage? page in data.Pages)
+            if (data is not null 
+                && workspace is not null 
+                &&target is not null )
             {
-                // Only add the page if one of the allow flags is set
-                if ((page.Flags & (int)AllowFlags) != 0)
+                foreach (KryptonPage? page in data.Pages)
                 {
-                    // Use event to allow decision on if the page should be dropped
-                    // (or even swap the page for a different page to be dropped)
-                    var e = new PageDropEventArgs(page);
-                    workspace.OnPageDrop(e);
-
-                    if (e is { Cancel: false, Page: not null })
+                    // Only add the page if one of the allow flags is set
+                    if ((page.Flags & (int)AllowFlags) != 0)
                     {
-                        target.Pages.Add(e.Page);
-                        ret = e.Page;
+                        // Use event to allow decision on if the page should be dropped
+                        // (or even swap the page for a different page to be dropped)
+                        var e = new PageDropEventArgs(page);
+                        workspace.OnPageDrop(e);
+
+                        if (e is { Cancel: false, Page: not null })
+                        {
+                            target.Pages.Add(e.Page);
+                            ret = e.Page;
+                        }
                     }
                 }
             }
