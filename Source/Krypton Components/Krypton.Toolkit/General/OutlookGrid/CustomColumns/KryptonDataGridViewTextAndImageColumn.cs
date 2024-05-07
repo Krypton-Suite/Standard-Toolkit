@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// Create a cloned copy of the column.
         /// </summary>
         /// <returns></returns>
-        public override object? Clone()
+        public override object Clone()
         {
             KryptonDataGridViewTextAndImageColumn? cloned = base.Clone() as KryptonDataGridViewTextAndImageColumn;
             cloned!._imageValue = _imageValue;
@@ -178,9 +178,9 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
-            get => base.CellTemplate;
+            get => base.CellTemplate!;
 
             set
             {
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewTextAndImageCell TextBoxCellTemplate => (KryptonDataGridViewTextAndImageCell)CellTemplate;
+        private KryptonDataGridViewTextAndImageCell TextBoxCellTemplate => (KryptonDataGridViewTextAndImageCell)CellTemplate!;
 
         #endregion
 

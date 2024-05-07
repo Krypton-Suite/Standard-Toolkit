@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private VScrollBar VSB;
         private HScrollBar HSC;
 
-        private static PaletteBase _palette;
+        private static PaletteBase? _palette;
         private readonly PaletteRedirect _paletteRedirect;
 
         #endregion
@@ -182,7 +182,10 @@ namespace Krypton.Toolkit
         /// <remarks></remarks>
         private void scrollSkin_ControlAdded(object sender, ControlEventArgs e)
         {
-            if ((Controls.Count != 1) && (_win == null))
+            if (e is not null
+                && e.Control is not null
+                && Controls.Count != 1
+                && _win == null)
             {
                 _win = e.Control;
                 if (_win!.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
@@ -523,7 +526,7 @@ namespace Krypton.Toolkit
         /// <remarks></remarks>
         protected override void WndProc(ref Message m)
         {
-            if (!DesignMode && !(!Parent.CanFocus | (_win == null)))
+            if (!DesignMode && !(!Parent!.CanFocus | (_win == null)))
             {
 
                 //int listStyle = WIN32ScrollBars.GetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE);
@@ -532,7 +535,7 @@ namespace Krypton.Toolkit
                 //listStyle |= WIN32ScrollBars.WS_HSCROLL;
                 //listStyle = WIN32ScrollBars.SetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
 
-                var wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                var wndStyle = PI.GetWindowLong(_win!.Handle, PI.GWL_.STYLE);
                 var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
                 var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 

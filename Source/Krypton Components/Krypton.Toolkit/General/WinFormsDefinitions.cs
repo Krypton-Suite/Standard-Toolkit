@@ -6,7 +6,7 @@ namespace System.Drawing
     #region Enum StockIconId
 
     /// <summary>
-    ///  Icon identifiers for use with <see cref="SystemIconsCustom.GetStockIcon(StockIconId, StockIconOptions)"/>.
+    ///  Icon identifiers for use with "SystemIconsCustom.GetStockIcon(StockIconId, StockIconOptions)"s/>.
     /// </summary>
     public enum StockIconId
     {
@@ -481,7 +481,7 @@ namespace System.Drawing
     #region Enum StockIconOptions
 
     /// <summary>
-    ///  Options for use with <see cref="SystemIconsCustom.GetStockIcon(StockIconId, StockIconOptions)"/>.
+    ///  Options for use with "SystemIconsCustom.GetStockIcon(StockIconId, StockIconOptions)"/>.
     /// </summary>
     [Flags]
     public enum StockIconOptions

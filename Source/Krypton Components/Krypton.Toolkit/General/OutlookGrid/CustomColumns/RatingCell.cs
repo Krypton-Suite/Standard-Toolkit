@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="formattedValueTypeConverter"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override object? GetFormattedValue(object value, int rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter valueTypeConverter, TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
+        protected override object? GetFormattedValue(object? value, int rowIndex, ref DataGridViewCellStyle cellStyle, TypeConverter? valueTypeConverter, TypeConverter? formattedValueTypeConverter, DataGridViewDataErrorContexts context)
         {
             if (value == null)
             {
@@ -79,12 +79,12 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle"></param>
         /// <param name="advancedBorderStyle"></param>
         /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
-            Image? cellImage = (Image)formattedValue;
+            Image? cellImage = formattedValue as Image;
             if (!ReadOnly)
             {
-                int starNumber = GetStarFromMouse(cellBounds, DataGridView.PointToClient(Control.MousePosition));
+                int starNumber = GetStarFromMouse(cellBounds, DataGridView!.PointToClient(Control.MousePosition));
 
                 if (starNumber != -1)
                 {
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             base.OnContentClick(e);
             if (!ReadOnly)
             {
-                int starNumber = GetStarFromMouse(DataGridView.GetCellDisplayRectangle(DataGridView.CurrentCellAddress.X, DataGridView.CurrentCellAddress.Y, false), DataGridView.PointToClient(Control.MousePosition));
+                int starNumber = GetStarFromMouse(DataGridView!.GetCellDisplayRectangle(DataGridView.CurrentCellAddress.X, DataGridView.CurrentCellAddress.Y, false), DataGridView.PointToClient(Control.MousePosition));
 
                 if (starNumber != -1)
                 {
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseLeave(int rowIndex)
         {
             base.OnMouseLeave(rowIndex);
-            DataGridView.InvalidateCell(this);
+            DataGridView!.InvalidateCell(this);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
         {
             base.OnMouseMove(e);
-            DataGridView.InvalidateCell(this);
+            DataGridView!.InvalidateCell(this);
         }
         #endregion
 

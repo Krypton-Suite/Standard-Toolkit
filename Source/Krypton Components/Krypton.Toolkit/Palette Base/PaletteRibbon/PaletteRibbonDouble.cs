@@ -41,12 +41,12 @@ namespace Krypton.Toolkit
                                    [DisallowNull] IPaletteRibbonText inheritText,
                                    NeedPaintHandler needPaint)
         {
-            Debug.Assert(inheritBack != null);
-            Debug.Assert(inheritText != null);
+            Debug.Assert(inheritBack is not null);
+            Debug.Assert(inheritText is not null);
 
             // Remember inheritance
-            _inheritBack = inheritBack;
-            _inheritText = inheritText;
+            _inheritBack = inheritBack ?? throw new ArgumentNullException(nameof(inheritBack));
+            _inheritText = inheritText ?? throw new ArgumentNullException(nameof(inheritText));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

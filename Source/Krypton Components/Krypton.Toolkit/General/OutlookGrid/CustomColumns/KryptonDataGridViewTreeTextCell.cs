@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                OutlookGridRow row = (OutlookGridRow)OwningRow;
+                OutlookGridRow row = (OutlookGridRow)OwningRow!;
                 return row.NodeLevel + 1; //during calculation 0 level must be 1 for multiplication
             }
         }
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle">The cell style.</param>
         /// <param name="advancedBorderStyle">The advanced border style.</param>
         /// <param name="paintParts">The paint parts.</param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             OutlookGridRow? node = OwningNode;
             // Console.WriteLine(DateTime.Now.ToString() + " " + node.ToString());
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
             //}
 
             // Paint tree lines			
-            if (node != null && ((KryptonOutlookGrid)node.DataGridView).ShowLines)
+            if (node != null && (node.DataGridView as KryptonOutlookGrid)!.ShowLines)
             {
                 using (Pen linePen = new(SystemBrushes.ControlDark, 1.0f))
                 {
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
             OutlookGridRow? node = OwningNode;
             if (node != null)
             {
-                ((KryptonOutlookGrid)node.DataGridView).InExpandCollapseMouseCapture = false;
+                (node.DataGridView as KryptonOutlookGrid)!.InExpandCollapseMouseCapture = false;
             }
         }
         /// <summary>
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param>
         protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
         {
-            Rectangle dis = DataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+            Rectangle dis = DataGridView!.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
             Rectangle glyphRect = new(dis.X + GlyphMargin, dis.Y, INDENT_WIDTH, dis.Height - 1);
 
             //if (e.X > this.InheritedStyle.Padding.Left)
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
                 OutlookGridRow? node = OwningNode;
                 if (node != null)
                 {
-                    ((KryptonOutlookGrid)node.DataGridView).InExpandCollapseMouseCapture = true;
+                    (node.DataGridView as KryptonOutlookGrid)!.InExpandCollapseMouseCapture = true;
 
                     if (node.Collapsed)
                     {

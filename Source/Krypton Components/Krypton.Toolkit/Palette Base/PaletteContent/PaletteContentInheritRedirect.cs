@@ -30,8 +30,10 @@ namespace Krypton.Toolkit
         public PaletteContentInheritRedirect(PaletteContentStyle style)
             : this(null, style)
         {
+            // Given the need of a valid PaletteRedirect in this. 
+            // This call actually invalid and shoudl be removed.
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the PaletteContentInheritRedirect class.
         /// </summary>
@@ -46,10 +48,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="style">Style used in requests.</param>
-        public PaletteContentInheritRedirect(PaletteRedirect redirect,
+        public PaletteContentInheritRedirect(PaletteRedirect? redirect,
                                              PaletteContentStyle style)
         {
-            _redirect = redirect;
+            _redirect = redirect!;
             Style = style;
         }
         #endregion

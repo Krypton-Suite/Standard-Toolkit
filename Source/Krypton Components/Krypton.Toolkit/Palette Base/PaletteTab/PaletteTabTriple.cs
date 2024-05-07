@@ -32,10 +32,15 @@ namespace Krypton.Toolkit
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
+            if (inherit is null)
+            {
+                throw new ArgumentNullException(nameof(inherit));
+            }
+
             // Create storage that maps onto the inherit instances
             Back = new PaletteBack(inherit.PaletteBack, needPaint);
-            Border = new PaletteTabBorder(inherit.PaletteBorder, needPaint);
-            Content = new PaletteContent(inherit.PaletteContent, needPaint);
+            Border = new PaletteTabBorder(inherit.PaletteBorder!, needPaint);
+            Content = new PaletteContent(inherit.PaletteContent!, needPaint);
         }
         #endregion
 
@@ -58,8 +63,8 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteTriple inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
-            Border.SetInherit(inherit.PaletteBorder);
-            Content.SetInherit(inherit.PaletteContent);
+            Border.SetInherit(inherit.PaletteBorder!);
+            Content.SetInherit(inherit.PaletteContent!);
         }
         #endregion
 

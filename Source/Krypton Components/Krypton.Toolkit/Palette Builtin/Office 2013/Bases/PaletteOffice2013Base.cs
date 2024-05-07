@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                                         [DisallowNull] ImageList checkBoxList,
                                         [DisallowNull] ImageList galleryButtonList,
                                         [DisallowNull] Image?[] radioButtonArray,
-                                        Color[] trackBarColors)
+                                        Color[]? trackBarColors)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -4031,7 +4031,7 @@ namespace Krypton.Toolkit
         public override Color GetElementColor1(PaletteElement element, PaletteState state)
         {
             // We do not provide override values
-            if (CommonHelper.IsOverrideState(state))
+            if (CommonHelper.IsOverrideState(state) || _trackBarColors is null || _trackBarColors.Length == 0)
             {
                 return GlobalStaticValues.EMPTY_COLOR;
             }
@@ -4066,7 +4066,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetElementColor2(PaletteElement element, PaletteState state)
         {
-            if (CommonHelper.IsOverrideState(state))
+            if (CommonHelper.IsOverrideState(state) || _trackBarColors is null || _trackBarColors.Length == 0)
             {
                 return GlobalStaticValues.EMPTY_COLOR;
             }
@@ -4104,7 +4104,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetElementColor3(PaletteElement element, PaletteState state)
         {
-            if (CommonHelper.IsOverrideState(state))
+            if (CommonHelper.IsOverrideState(state) || _trackBarColors is null || _trackBarColors.Length == 0)
             {
                 return GlobalStaticValues.EMPTY_COLOR;
             }
@@ -4142,6 +4142,11 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetElementColor4(PaletteElement element, PaletteState state)
         {
+            if (_trackBarColors is null || _trackBarColors.Length == 0)
+            {
+                return GlobalStaticValues.EMPTY_COLOR;
+            }
+            
             switch (element)
             {
                 case PaletteElement.TrackBarTick:
@@ -4190,6 +4195,11 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetElementColor5(PaletteElement element, PaletteState state)
         {
+            if (_trackBarColors is null || _trackBarColors.Length == 0)
+            {
+                return GlobalStaticValues.EMPTY_COLOR;
+            }
+
             switch (element)
             {
                 case PaletteElement.TrackBarTick:

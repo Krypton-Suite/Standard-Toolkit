@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
 
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.outsidePath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 //switch (orientation)
                 //{
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
                 // Draw the border
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.borderPath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 // Fill the inside area
                 //context.Graphics.FillPath(cache.insideBrush, cache.insidePath);

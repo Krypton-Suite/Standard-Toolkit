@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle"></param>
         /// <param name="advancedBorderStyle"></param>
         /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             float factorX = graphics.DpiX > 96 ? 1f * graphics.DpiX / 96 : 1f;
             float factorY = graphics.DpiY > 96 ? 1f * graphics.DpiY / 96 : 1f;
@@ -70,18 +70,21 @@ namespace Krypton.Toolkit
             int nextPosition = cellBounds.X + (int)(1 * factorX);
             Font? f = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.GridDataCellList, PaletteState.Normal);
 
-            foreach (Token tok in (List<Token>)Value)
+            if (value is List<Token> tokens)
             {
-                Rectangle rectangle = new();
-                Size s = TextRenderer.MeasureText(tok.Text, f);
-                rectangle.Width = s.Width + (int)(10 * factorX);
-                rectangle.X = nextPosition;
-                rectangle.Y = cellBounds.Y + (int)(2 * factorY);
-                rectangle.Height = (int)(17 * factorY);
-                nextPosition += rectangle.Width + (int)(5 * factorX);
+                foreach (Token tok in tokens)
+                {
+                    Rectangle rectangle = new();
+                    Size s = TextRenderer.MeasureText(tok.Text, f);
+                    rectangle.Width = s.Width + (int)(10 * factorX);
+                    rectangle.X = nextPosition;
+                    rectangle.Y = cellBounds.Y + (int)(2 * factorY);
+                    rectangle.Height = (int)(17 * factorY);
+                    nextPosition += rectangle.Width + (int)(5 * factorX);
 
-                graphics.FillRectangle(new SolidBrush(tok.BackColor), rectangle);
-                TextRenderer.DrawText(graphics, tok.Text, f, rectangle, tok.ForeColor);
+                    graphics.FillRectangle(new SolidBrush(tok.BackColor), rectangle);
+                    TextRenderer.DrawText(graphics, tok.Text, f, rectangle, tok.ForeColor);
+                }
             }
         }
 

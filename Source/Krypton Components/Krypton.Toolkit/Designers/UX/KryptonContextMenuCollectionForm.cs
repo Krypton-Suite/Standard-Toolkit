@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent? Component { get; }
+                public IComponent Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
 
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    _propertyGrid1.Site = new PropertyGridSite(Context, _propertyGrid1);
+                    _propertyGrid1.Site = new PropertyGridSite(Context!, _propertyGrid1);
 
                     // Add all the top level clones
                     _treeView.Nodes.Clear();
@@ -704,23 +704,21 @@ namespace Krypton.Toolkit
                 _treeView.Nodes.Clear();
 
                 // Inform designer of changes in component items
-                SynchronizeCollections(_beforeItems, afterItems, Context);
+                SynchronizeCollections(_beforeItems, afterItems, Context!);
 
                 // Notify container that the value has been changed
-                Context.OnComponentChanged();
+                Context!.OnComponentChanged();
             }
 
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at the root level then move up in the root items collection
-                    if (node.Parent == null)
+                    if (node.Parent is null)
                     {
                         var index = _treeView.Nodes.IndexOf(node);
                         _treeView.Nodes.Remove(node);
@@ -730,7 +728,7 @@ namespace Krypton.Toolkit
                     {
                         var index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
-                        var treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = (MenuTreeNode)parentNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -759,12 +757,10 @@ namespace Krypton.Toolkit
 
             private void buttonMoveDown_Click(object sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at the root level then move down in the root items collection
                     if (node.Parent == null)
@@ -830,12 +826,10 @@ namespace Krypton.Toolkit
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -876,9 +870,11 @@ namespace Krypton.Toolkit
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = _treeView.SelectedNode;
-                var propertyObject = ((MenuTreeNode)node)?.PropertyObject!;
-                _propertyGrid1.SelectedObject = propertyObject;
+                if (_treeView.SelectedNode is MenuTreeNode node)
+                {
+                    var propertyObject = ((MenuTreeNode)node)?.PropertyObject!;
+                    _propertyGrid1.SelectedObject = propertyObject;
+                }
             }
 
             private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode? parent)
@@ -960,9 +956,9 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    var treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
-                                    var items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    var treeSelectedNode = (MenuTreeNode)selectedNode;
+                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItem);
+                                    var items = (KryptonContextMenuItem)treeSelectedNode.Item;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
@@ -976,8 +972,8 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    var treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
+                                    var treeSelectedNode = (MenuTreeNode)selectedNode;
+                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItems);
                                     var items = treeSelectedNode.Item as KryptonContextMenuItems;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);

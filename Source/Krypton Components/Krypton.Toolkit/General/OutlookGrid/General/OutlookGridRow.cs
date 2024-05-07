@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
         {
             if (_isGroupRow)
             {
-                KryptonOutlookGrid grid = (KryptonOutlookGrid)DataGridView;
-                int rowHeadersWidth = grid.RowHeadersVisible ? grid.RowHeadersWidth : 0;
+                KryptonOutlookGrid grid = (KryptonOutlookGrid)DataGridView!;
+                int rowHeadersWidth = grid!.RowHeadersVisible ? grid.RowHeadersWidth : 0;
                 int groupLevelIndentation = _group!.Level * GlobalStaticValues.GroupLevelMultiplier;
 
                 int gridwidth = grid.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
@@ -273,9 +273,9 @@ namespace Krypton.Toolkit
                     state = PaletteState.CheckedNormal;
                 }
 
-                using (RenderContext renderContext = new(grid, graphics, myRowBounds, grid.Renderer))
+                using (RenderContext renderContext = new(grid, graphics, myRowBounds, grid.Renderer!))
                 {
-                    using (GraphicsPath path = grid.Renderer.RenderStandardBorder.GetBackPath(renderContext, myRowBounds, paletteBorder, VisualOrientation.Top, PaletteState.Normal))
+                    using (GraphicsPath path = grid.Renderer!.RenderStandardBorder.GetBackPath(renderContext, myRowBounds, paletteBorder, VisualOrientation.Top, PaletteState.Normal))
                     {
                         //Back
                         IDisposable? unused = grid.Renderer.RenderStandardBack.DrawBack(renderContext,
@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
                 Visible = true;
 
                 //When collapsing the first row still seeing it.
-                if (Index < DataGridView.FirstDisplayedScrollingRowIndex)
+                if (Index < DataGridView!.FirstDisplayedScrollingRowIndex)
                 {
                     DataGridView.FirstDisplayedScrollingRowIndex = Index;
                 }
@@ -575,7 +575,7 @@ namespace Krypton.Toolkit
                 Visible = true;
 
                 //When collapsing the first row still seeing it.
-                if (Index < DataGridView.FirstDisplayedScrollingRowIndex)
+                if (Index < DataGridView!.FirstDisplayedScrollingRowIndex)
                 {
                     DataGridView.FirstDisplayedScrollingRowIndex = Index;
                 }
@@ -587,7 +587,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Collapse()
         {
-            ((KryptonOutlookGrid)DataGridView).CollapseNode(this);
+            ((KryptonOutlookGrid)DataGridView!).CollapseNode(this);
         }
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Expand()
         {
-            ((KryptonOutlookGrid)DataGridView).ExpandNode(this);
+            ((KryptonOutlookGrid)DataGridView!).ExpandNode(this);
         }
 
         #endregion

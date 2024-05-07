@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
                 case null:
                     throw new ArgumentNullException();
                 default:
-                    DebugTools.NotImplemented(data.ToString());
+                    DebugTools.NotImplemented(data.ToString()!);
                     break;
             }
 
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
                 case null:
                     throw new ArgumentNullException();
                 default:
-                    DebugTools.NotImplemented(data.ToString());
+                    DebugTools.NotImplemented(data.ToString()!);
                     break;
             }
 

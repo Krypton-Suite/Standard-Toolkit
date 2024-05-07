@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         {
             var modeConverter = new PaletteModeConverter();
 
-            return (PaletteMode)modeConverter.ConvertFrom(themeName);
+            return (PaletteMode)modeConverter.ConvertFrom(themeName)!;
         }
 
         /// <summary>Sets the index of the theme.</summary>

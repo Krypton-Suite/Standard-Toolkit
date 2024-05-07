@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the name of the method that this item is associated with.
         /// </summary>
-        public override string MemberName => null;
+        public override string? MemberName => null;
 
         #endregion
     }

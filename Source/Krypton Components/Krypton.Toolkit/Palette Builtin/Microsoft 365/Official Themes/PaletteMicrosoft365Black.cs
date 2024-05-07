@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Variables
-        private KryptonColorTable365 _table;
+        private KryptonColorTable365? _table;
 
         private readonly Color[] _ribbonColours;
 
@@ -5190,7 +5190,7 @@ namespace Krypton.Toolkit
 
             Header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
             Header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont!.SizeInPoints!, FontStyle.Regular);
             Header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
             Header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             ButtonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);

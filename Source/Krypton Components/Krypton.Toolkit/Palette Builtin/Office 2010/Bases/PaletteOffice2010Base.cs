@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        protected KryptonColorTable2010 Table { get; set; }
+        protected KryptonColorTable2010? Table { get; set; }
         private readonly Color[] _ribbonColors;
         private readonly Color[] _trackBarColors;
         private readonly ImageList _checkBoxList;

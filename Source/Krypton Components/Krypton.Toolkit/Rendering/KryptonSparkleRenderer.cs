@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
                 // Create a path that is used to fill the arrow
                 if (e != null)
                 {
-                    using GraphicsPath arrowPath = CreateArrowPath(e.Item,
+                    using GraphicsPath arrowPath = CreateArrowPath(e.Item!,
                         e.ArrowRectangle,
                         e.Direction);
                     // Get the rectangle that encloses the arrow and expand slightly
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                     Color color2 = _disabled;
 
                     // If not disabled then need to decide on actual colors
-                    if (e.Item.Enabled)
+                    if (e.Item!.Enabled)
                     {
                         // If the arrow is on a context menu
                         if ((e.Item.Owner is ContextMenuStrip or ToolStripDropDownMenu) || (e.Item.OwnerItem is ToolStripOverflowButton))
@@ -211,7 +211,9 @@ namespace Krypton.Toolkit
             // Cast to correct type
             var button = (ToolStripButton)e.Item;
 
-            if (button.Selected || button.Pressed || button.Checked)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (button.Selected || button.Pressed || button.Checked))
             {
                 RenderToolButtonBackground(e.Graphics, button, e.ToolStrip);
             }
@@ -225,7 +227,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 RenderToolDropButtonBackground(e.Graphics, e.Item, e.ToolStrip);
             }
@@ -495,7 +499,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 // Cast to correct type
                 var splitButton = (ToolStripSplitButton)e.Item;
@@ -515,7 +521,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                base.OnRenderSplitButtonBackground(e);
+                base.OnRenderSplitButtonBackground(e!);
             }
         }
         #endregion

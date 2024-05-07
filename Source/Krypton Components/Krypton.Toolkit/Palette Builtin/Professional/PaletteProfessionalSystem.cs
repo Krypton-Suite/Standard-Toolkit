@@ -208,9 +208,9 @@ namespace Krypton.Toolkit
         private Color[] _appButtonNormal;
         private Color[] _appButtonTrack;
         private Color[] _appButtonPressed;
-        private Image _galleryImageUp;
-        private Image _galleryImageDown;
-        private Image _galleryImageDropDown;
+        private Image? _galleryImageUp;
+        private Image? _galleryImageDown;
+        private Image? _galleryImageDropDown;
         #endregion
 
         #region Identity
@@ -2945,7 +2945,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state) => ButtonFont;
+        public override Font GetRibbonContextTextFont(PaletteState state) => ButtonFont!;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -3043,7 +3043,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state) => ButtonFont;
+        public override Font GetRibbonTextFont(PaletteState state) => ButtonFont!;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.

@@ -26,7 +26,12 @@ namespace Krypton.Toolkit
         public KryptonPaletteTabButtons([DisallowNull] PaletteRedirect redirector,
                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirector != null);
+            Debug.Assert(redirector is not null);
+
+            if (redirector is null)
+            {
+                throw new ArgumentNullException(nameof(redirector));
+            }
 
             // Create the button style specific and common palettes
             TabCommon = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabHighProfile, PaletteBorderStyle.TabHighProfile, PaletteContentStyle.TabHighProfile, needPaint);

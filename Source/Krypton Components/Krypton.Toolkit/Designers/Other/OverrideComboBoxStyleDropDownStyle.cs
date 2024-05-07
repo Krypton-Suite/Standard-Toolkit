@@ -29,20 +29,23 @@ namespace Krypton.Toolkit
 
         public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
         {
-            var svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
-            if (svc != null)
+            if (provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService svc)
             {
                 var ctrl = new UserControl();
-                var clb = new ListBox { Dock = DockStyle.Fill };
-                clb.Items.Add(ComboBoxStyle.DropDown);
-                clb.Items.Add(ComboBoxStyle.DropDownList);
-                clb.SelectedIndexChanged += delegate
-                    {
-                        value = Enum.Parse(typeof(ComboBoxStyle), clb.SelectedItem.ToString());
-                        svc.CloseDropDown();
-                    };
-                ctrl.Controls.Add(clb);
-                svc.DropDownControl(ctrl);
+                ListBox clb = new ListBox { Dock = DockStyle.Fill };
+                
+                if (clb is not null && value is not null)
+                {
+                    clb.Items.Add(ComboBoxStyle.DropDown);
+                    clb.Items.Add(ComboBoxStyle.DropDownList);
+                    clb.SelectedIndexChanged += delegate
+                        {
+                            value = Enum.Parse(typeof(ComboBoxStyle), clb.SelectedItem!.ToString()!);
+                            svc.CloseDropDown();
+                        };
+                    ctrl.Controls.Add(clb);
+                    svc.DropDownControl(ctrl);
+                }
             }
 
             return value;

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// <param name="y">The y.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">OutlookGridRowComparer:  + this.ToString()</exception>
-        public int Compare(OutlookGridRow x, OutlookGridRow y)
+        public int Compare(OutlookGridRow? x, OutlookGridRow? y)
         {
             int compareResult = 0, orderModifier;
 
@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
                     {
                         orderModifier = _sortColumnIndexAndOrder[i].Item2 == SortOrder.Ascending ? 1 : -1;
 
-                        var o1 = x.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
-                        var o2 = y.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
+                        var o1 = x!.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
+                        var o2 = y!.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
                         if (_sortColumnIndexAndOrder[i].Item3 != null)
                         {
                             compareResult = _sortColumnIndexAndOrder[i].Item3.Compare(o1, o2) * orderModifier;

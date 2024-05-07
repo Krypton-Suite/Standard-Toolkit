@@ -62,14 +62,19 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleJustImageRedirect(PaletteRedirect redirect,
+        public PaletteTripleJustImageRedirect(PaletteRedirect? redirect,
                                               PaletteBackStyle backStyle,
                                               PaletteBorderStyle borderStyle,
                                               PaletteContentStyle contentStyle,
-                                              NeedPaintHandler needPaint)
+                                              NeedPaintHandler? needPaint)
         {
+            if (redirect is null)
+            {
+                throw new ArgumentNullException(nameof(redirect));
+            }
+
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);

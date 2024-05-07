@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static Color ConvertTwoRange(double value, double min, double max, TwoColorsParams? par)
         {
-            ColorHelper.HSVColor a = ColorToHSV(par.MinimumColor);
+            ColorHelper.HSVColor a = ColorToHSV(par!.MinimumColor);
             ColorHelper.HSVColor b = ColorToHSV(par.MaximumColor);
 
             //Ratio

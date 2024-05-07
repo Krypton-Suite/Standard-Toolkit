@@ -35,17 +35,22 @@ namespace Krypton.Toolkit
                                           [DisallowNull] IDesigner relatedDesigner)
             : base(new KryptonSplitContainerBehavior(relatedDesigner))
         {
-            Debug.Assert(selectionService != null);
-            Debug.Assert(behaviorService != null);
-            Debug.Assert(adorner != null);
-            Debug.Assert(relatedDesigner != null);
+            Debug.Assert(selectionService is not null);
+            Debug.Assert(behaviorService is not null);
+            Debug.Assert(adorner is not null);
+            Debug.Assert(relatedDesigner is not null);
 
             // Remember incoming references
-            _selectionService = selectionService;
-            _behaviorService = behaviorService;
-            _adorner = adorner;
+            _selectionService = selectionService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(selectionService)));
+            _behaviorService = behaviorService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(behaviorService)));
+            _adorner = adorner ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(adorner)));
 
             // Find the related control
+            if ( relatedDesigner is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(relatedDesigner)));
+            }
+
             _splitContainer = relatedDesigner.Component as KryptonSplitContainer;
 
             // We want to know whenever the selection has changed or a property has changed
@@ -117,7 +122,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private void OnSelectionChanged(object sender, EventArgs e)
         {
-            if (_splitContainer != null)
+            if (_splitContainer is not null && _selectionService is not null)
             {
                 // Make sure there is no splitter movement occuring
                 _splitContainer.DesignAbortMoving();

@@ -694,18 +694,18 @@ namespace Krypton.Toolkit
                                              [DisallowNull] Image?[] radioButtonArray,
                                              Color[] trackBarColors)
         {
-            Debug.Assert(schemeColors != null);
-            Debug.Assert(checkBoxList != null);
-            Debug.Assert(galleryButtonList != null);
-            Debug.Assert(radioButtonArray != null);
+            Debug.Assert(schemeColors is not null);
+            Debug.Assert(checkBoxList is not null);
+            Debug.Assert(galleryButtonList is not null);
+            Debug.Assert(radioButtonArray is not null);
 
             // Remember incoming sets of values
             ThemeName = nameof(PaletteOffice2013WhiteBase);
-            _ribbonColors = schemeColors;
-            _checkBoxList = checkBoxList;
-            _galleryButtonList = galleryButtonList;
-            _radioButtonArray = radioButtonArray;
-            _trackBarColors = trackBarColors;
+            _ribbonColors = schemeColors ?? throw new ArgumentNullException(nameof(schemeColors));
+            _checkBoxList = checkBoxList ?? throw new ArgumentNullException(nameof(CheckedListBox));
+            _galleryButtonList = galleryButtonList ?? throw new ArgumentNullException(nameof(galleryButtonList));
+            _radioButtonArray = radioButtonArray ?? throw new ArgumentNullException(nameof(radioButtonArray));
+            _trackBarColors = trackBarColors ?? throw new ArgumentNullException(nameof(trackBarColors));
 
             // Get the font settings from the system
             DefineFonts();

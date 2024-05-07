@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming alternatives
-            _primary = primary;
-            _backup = backup;
+            _primary = primary ?? throw new ArgumentNullException(nameof(primary));
+            _backup = backup ?? throw new ArgumentNullException(nameof(backup));
 
             // Default other state
             Apply = true;

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteDoubleMetric class.
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
-        public PaletteDoubleMetric(PaletteDoubleMetricRedirect? inherit)
+        public PaletteDoubleMetric(PaletteDoubleMetricRedirect inherit)
             : this(inherit, null)
         {
         }
@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDoubleMetric([DisallowNull] PaletteDoubleMetricRedirect inherit,
-                                   NeedPaintHandler needPaint)
+                                   NeedPaintHandler? needPaint)
             : base(inherit, needPaint)
         {
             Debug.Assert(inherit != null);
             
             // Remember inheritance for metric values
-            _inherit = inherit;
+            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
         }
         #endregion
 
