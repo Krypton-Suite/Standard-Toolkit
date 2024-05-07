@@ -1338,7 +1338,7 @@ namespace Krypton.Toolkit
         public object? SelectedValue
         {
             get => _listBox.SelectedValue;
-            set => _listBox.SelectedValue = value;
+            set => _listBox.SelectedValue = value!;
         }
 
         /// <summary>
@@ -1850,7 +1850,7 @@ namespace Krypton.Toolkit
         /// <returns>If the DisplayMember property is not specified,
         /// the value returned by GetItemText is the value of the item's ToString method.
         /// Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object? item) => _listBox.GetItemText(item);
+        public string? GetItemText(object? item) => _listBox.GetItemText(item);
 
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.

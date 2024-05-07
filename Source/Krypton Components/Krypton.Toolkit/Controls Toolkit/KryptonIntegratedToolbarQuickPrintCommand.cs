@@ -86,17 +86,17 @@ namespace Krypton.Toolkit
         /// <param name="disabledImage">The disabled image.</param>
         /// <param name="normalImage">The normal image.</param>
         /// <param name="pressedImage">The pressed image.</param>
-        private void AddImageStates(Image activeImage, Image? disabledImage, Image? normalImage, Image pressedImage)
+        private void AddImageStates(Image? activeImage, Image? disabledImage, Image? normalImage, Image? pressedImage)
         {
             if (_quickPrintButtonSpec != null)
             {
                 _quickPrintButtonSpec.ImageStates.ImageDisabled = disabledImage;
 
-                _quickPrintButtonSpec.ImageStates.ImageTracking = activeImage ?? null;
+                _quickPrintButtonSpec.ImageStates.ImageTracking = activeImage;
 
                 _quickPrintButtonSpec.ImageStates.ImageNormal = normalImage;
 
-                _quickPrintButtonSpec.ImageStates.ImagePressed = pressedImage ?? null;
+                _quickPrintButtonSpec.ImageStates.ImagePressed = pressedImage;
             }
         }
 

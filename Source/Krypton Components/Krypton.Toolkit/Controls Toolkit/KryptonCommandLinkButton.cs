@@ -176,10 +176,9 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text
+        public new string Text
         {
             get => CommandLinkTextValues.Heading;
-
             set => CommandLinkTextValues.Heading = value;
         }
 

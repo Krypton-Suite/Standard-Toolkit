@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         public ButtonController([DisallowNull] ViewBase target,
                                 NeedPaintHandler needPaint)
         {
-            Debug.Assert(target != null);
+            Debug.Assert(target is not null);
 
             MousePoint = CommonHelper.NullPoint;
             SplitRectangle = CommonHelper.NullRectangle;
@@ -98,9 +98,9 @@ namespace Krypton.Toolkit
             AllowDragging = false;
             _dragging = false;
             ClickOnDown = false;
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             Repeat = false;
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                     _toolTipValues.Image = args.Icon;
 
                     // Create the actual tooltip popup object
-                    var renderer = _provider.ProviderRedirector.Target.GetRenderer();
+                    var renderer = _provider.ProviderRedirector.Target!.GetRenderer();
                     _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
                         _toolTipValues,
                         renderer,

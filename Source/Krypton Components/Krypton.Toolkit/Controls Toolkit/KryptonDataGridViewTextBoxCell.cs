@@ -145,19 +145,19 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
+            object? initialFormattedValue,
             DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonTextBox textBox)
+            if (DataGridView!.EditingControl is KryptonTextBox textBox)
             {
                 textBox.Text = initialFormattedValue as string ?? string.Empty;
 
                 DataGridViewTriState wrapMode = Style.WrapMode;
                 if (wrapMode == DataGridViewTriState.NotSet)
                 {
-                    wrapMode = OwningColumn.DefaultCellStyle.WrapMode;
+                    wrapMode = OwningColumn!.DefaultCellStyle.WrapMode;
                 }
 
                 textBox.WordWrap = textBox.Multiline = wrapMode == DataGridViewTriState.True;
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -231,13 +231,13 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewTextBoxEditingControl? EditingTextBox => DataGridView.EditingControl as KryptonDataGridViewTextBoxEditingControl;
+        private KryptonDataGridViewTextBoxEditingControl? EditingTextBox => DataGridView!.EditingControl as KryptonDataGridViewTextBoxEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = DataGridView.EditingControl.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+            var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
             _multiline = value;
             if (OwnsEditingTextBox(rowIndex))
             {
-                EditingTextBox.Multiline = value;
+                EditingTextBox!.Multiline = value;
             }
         }
 
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
             _multilineStringEditor = value;
             if (OwnsEditingTextBox(rowIndex))
             {
-                EditingTextBox.MultilineStringEditor = value;
+                EditingTextBox!.MultilineStringEditor = value;
             }
         }
         #endregion

@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             return cloned;
         }
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -724,7 +724,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewMaskedTextBoxCell
         /// </summary>
-        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
+        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => CellTemplate as KryptonDataGridViewMaskedTextBoxCell;
 
         #endregion
 

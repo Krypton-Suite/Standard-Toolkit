@@ -53,10 +53,11 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("coned"));
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
+
             return cloned;
         }
 
@@ -90,8 +91,9 @@ namespace Krypton.Toolkit
             {
                 if (MaxInputLength != value)
                 {
-                    TextBoxCellTemplate.MaxInputLength = value;
-                    if (DataGridView != null)
+                    TextBoxCellTemplate!.MaxInputLength = value;
+
+                    if (DataGridView is not null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
                         var count = rows.Count;
@@ -124,16 +126,16 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override DataGridViewCell CellTemplate
         {
-            get => base.CellTemplate;
+            get => base.CellTemplate!;
 
             set
             {
-                if ((value != null) && value is not KryptonDataGridViewTextBoxCell)
+                if ((value is not null) && value is not KryptonDataGridViewTextBoxCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
                 }
 
-                base.CellTemplate = value;
+                base.CellTemplate = value as KryptonDataGridViewTextBoxCell;
             }
         }
 
@@ -150,11 +152,13 @@ namespace Krypton.Toolkit
             set
             {
                 base.DefaultCellStyle = value;
+
                 if ((value.WrapMode != DataGridViewTriState.True)
                     || DataGridView == null)
                 {
                     return;
                 }
+
                 // https://stackoverflow.com/questions/16514352/multiple-lines-in-a-datagridview-cell/16514393
                 switch (DataGridView.AutoSizeRowsMode)
                 {

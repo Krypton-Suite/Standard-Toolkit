@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         {
             _scrollBar = owner.Component as KryptonScrollBar;
 
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
 
         #endregion
@@ -36,11 +36,11 @@ namespace Krypton.Toolkit
 
         public int Maximum
         {
-            get => _scrollBar.Maximum;
+            get => _scrollBar!.Maximum;
 
             set
             {
-                if (_scrollBar.Maximum != value)
+                if (_scrollBar!.Maximum != value)
                 {
                     _service.OnComponentChanged(_scrollBar, null, _scrollBar.Maximum, value);
 
@@ -51,11 +51,11 @@ namespace Krypton.Toolkit
 
         public int Minimum
         {
-            get => _scrollBar.Minimum;
+            get => _scrollBar!.Minimum;
 
             set
             {
-                if (_scrollBar.Minimum != value)
+                if (_scrollBar!.Minimum != value)
                 {
                     _service.OnComponentChanged(_scrollBar, null, _scrollBar.Minimum, value);
 
@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
 
         public int Value
         {
-            get => _scrollBar.Value;
+            get => _scrollBar!.Value;
 
             set
             {
-                if (_scrollBar.Value != value)
+                if (_scrollBar!.Value != value)
                 {
                     _service.OnComponentChanged(_scrollBar, null, _scrollBar.Value, value);
 
@@ -83,11 +83,11 @@ namespace Krypton.Toolkit
         /// <value>The orientation.</value>
         public ScrollBarOrientation Orientation
         {
-            get => _scrollBar.Orientation;
+            get => _scrollBar!.Orientation;
 
             set
             {
-                if (_scrollBar.Orientation != value)
+                if (_scrollBar!.Orientation != value)
                 {
                     _service.OnComponentChanged(_scrollBar, null, _scrollBar.Orientation, value);
 

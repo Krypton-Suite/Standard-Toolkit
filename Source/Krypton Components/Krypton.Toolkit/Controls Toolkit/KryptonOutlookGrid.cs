@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
                 //handles drag/drop operations
                 if (AllowDrop)
                 {
-                    if ((e.Button & MouseButtons.Left) == MouseButtons.Left && Cursor.Current != Cursors.SizeWE)
+                    if ((e.Button & MouseButtons.Left) == MouseButtons.Left && Cursor.Current! != Cursors.SizeWE)
                     {
                         if (_dragDropRectangle != Rectangle.Empty && !_dragDropRectangle.Contains(e.X, e.Y))
                         {
@@ -543,7 +543,7 @@ namespace Krypton.Toolkit
                                 }
                                 //column drag/drop
                                 string info =
-                                    $"{col.Name}|{col.DataGridViewColumn.HeaderText}|{col.DataGridViewColumn.HeaderCell.SortGlyphDirection}|{col.DataGridViewColumn.SortMode.ToString()}|{groupType}|{groupInterval}|{groupSortBySummaryCount}";
+                                    $"{col.Name}|{col.DataGridViewColumn!.HeaderText}|{col.DataGridViewColumn.HeaderCell.SortGlyphDirection}|{col.DataGridViewColumn.SortMode.ToString()}|{groupType}|{groupInterval}|{groupSortBySummaryCount}";
                                 DragDropEffects dropEffect = DoDragDrop(info, DragDropEffects.Move);
                                 dragDropDone = true;
                             }
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
                             //*************************************************
                             //'SourceColumn' is null after the line of code
                             //below executes... Why? This works fine for rows!!
-                            if (drgevent.Data.GetData(typeof(string)) is string r)
+                            if (drgevent.Data!.GetData(typeof(string)) is string r)
                             {
                                 string[] res = r.Split('|');
                                 DataGridViewColumn? sourceColumn = Columns[res[0]];
@@ -829,7 +829,7 @@ namespace Krypton.Toolkit
                 else if (e.Button == MouseButtons.Left)
                 {
                     OutlookGridColumn col = _internalColumns.FindFromColumnIndex(e.ColumnIndex);
-                    if (col.DataGridViewColumn.SortMode != DataGridViewColumnSortMode.NotSortable)
+                    if (col.DataGridViewColumn!.SortMode != DataGridViewColumnSortMode.NotSortable)
                     {
                         SortOrder previousSort = col.SortDirection;
                         //Reset all sorting column only if not Ctrl or Shift or the column is grouped
@@ -1101,7 +1101,7 @@ namespace Krypton.Toolkit
             ConditionalFormatting newformat = (item.Tag as List<ConditionalFormatting>)![item.SelectedIndex];
             if (format == null)
             {
-                _formatConditions.Add(new ConditionalFormatting(col.DataGridViewColumn.Name, newformat.FormatType, newformat.FormatParams));
+                _formatConditions.Add(new ConditionalFormatting(col.DataGridViewColumn!.Name, newformat.FormatType, newformat.FormatParams));
             }
             else
             {
@@ -1124,7 +1124,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1146,7 +1146,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1173,7 +1173,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1195,7 +1195,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1221,7 +1221,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1243,7 +1243,7 @@ namespace Krypton.Toolkit
                     ConditionalFormatting? format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
                     if (format == null)
                     {
-                        ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
+                        ConditionalFormatting newformat = new(col.DataGridViewColumn!.Name, EnumConditionalFormatType.Bar, new BarParams(fm.MinimumColor, fm.Gradient));
                         _formatConditions.Add(newformat);
                     }
                     else
@@ -1341,7 +1341,7 @@ namespace Krypton.Toolkit
             Console.WriteLine(@"OutlookGrid - Receives ColumnSortChangedEvent : " + e.Column.Name + @" " + e.Column.SortDirection);
 #endif
             _internalColumns[e.Column.Name].SortDirection = e.Column.SortDirection;
-            _internalColumns[e.Column.Name].DataGridViewColumn.HeaderCell.SortGlyphDirection = e.Column.SortDirection;
+            _internalColumns[e.Column.Name].DataGridViewColumn!.HeaderCell.SortGlyphDirection = e.Column.SortDirection;
             Fill();
         }
 
@@ -1580,7 +1580,7 @@ namespace Krypton.Toolkit
             {
                 _internalColumns.Add(col);
                 //Already reflect the SortOrder on the column
-                col.DataGridViewColumn.HeaderCell.SortGlyphDirection = col.SortDirection;
+                col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = col.SortDirection;
                 if (col.GroupingType != null && _hideColumnOnGrouping && col.GroupIndex > -1 && col.GroupingType.AllowHiddenWhenGrouped)
                 {
                     col.DataGridViewColumn.Visible = false;
@@ -1647,7 +1647,7 @@ namespace Krypton.Toolkit
                 }
 
                 col.SortDirection = sortDirection;
-                col.DataGridViewColumn.HeaderCell.SortGlyphDirection = sortDirection;
+                col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = sortDirection;
                 if (gr != null)
                 {
                     col.GroupingType = gr;
@@ -1679,7 +1679,7 @@ namespace Krypton.Toolkit
             {
                 _internalColumns.RemoveGroupIndex(col);
                 col.SortDirection = SortOrder.None;
-                col.DataGridViewColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
+                col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = SortOrder.None;
                 if (col.GroupingType != null)
                 {
                     col.GroupingType.Collapsed = false;
@@ -1709,7 +1709,7 @@ namespace Krypton.Toolkit
 
             //Change the order in all cases
             col.SortDirection = sort;
-            col.DataGridViewColumn.HeaderCell.SortGlyphDirection = sort;
+            col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = sort;
 #if DEBUG
             _internalColumns.DebugOutput();
 #endif
@@ -1726,7 +1726,7 @@ namespace Krypton.Toolkit
             {
                 _internalColumns.RemoveSortIndex(col);
                 col.SortDirection = SortOrder.None;
-                col.DataGridViewColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
+                col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = SortOrder.None;
             }
 #if DEBUG
             _internalColumns.DebugOutput();
@@ -1808,7 +1808,7 @@ namespace Krypton.Toolkit
             {
                 if (_internalColumns[i].IsGrouped)
                 {
-                    _internalColumns[i].DataGridViewColumn.Visible = true;
+                    _internalColumns[i].DataGridViewColumn!.Visible = true;
                 }
 
                 _internalColumns[i].GroupIndex = -1;
@@ -1841,7 +1841,7 @@ namespace Krypton.Toolkit
         /// <returns>A list of OutlookGridRows</returns>
         public List<OutlookGridRow> GetSubRows(ref List<OutlookGridRow> list, IOutlookGridGroup? groupRow)
         {
-            list.AddRange(groupRow.Rows);
+            list.AddRange(groupRow!.Rows);
             for (int i = 0; i < groupRow.Children.Count; i++)
             {
                 if (groupRow.Children.Count > 0)
@@ -2199,7 +2199,7 @@ namespace Krypton.Toolkit
             // Update the individual menu options
             if (col != null)
             {
-                _menuSortAscending.Visible = col.DataGridViewColumn.SortMode != DataGridViewColumnSortMode.NotSortable;
+                _menuSortAscending.Visible = col.DataGridViewColumn!.SortMode != DataGridViewColumnSortMode.NotSortable;
                 _menuSortAscending.Checked = col.SortDirection == SortOrder.Ascending ? true : false;
                 _menuSortDescending.Checked = col.SortDirection == SortOrder.Descending ? true : false;
                 _menuSortDescending.Visible = col.DataGridViewColumn.SortMode != DataGridViewColumnSortMode.NotSortable;
@@ -2222,7 +2222,7 @@ namespace Krypton.Toolkit
                     string? currentInterval = Enum.GetName(typeof(DateInterval), ((col.GroupingType as OutlookGridDateTimeGroup)!).Interval);
                     foreach (KryptonContextMenuItem item in ((KryptonContextMenuItems)_menuGroupInterval.Items[0]).Items)
                     {
-                        item.Checked = item.Tag.ToString() == currentInterval;
+                        item.Checked = item.Tag!.ToString() == currentInterval;
                     }
                 }
                 _menuUngroupByThisColumn.Visible = col.IsGrouped && col.DataGridViewColumn.SortMode != DataGridViewColumnSortMode.NotSortable;
@@ -2236,11 +2236,12 @@ namespace Krypton.Toolkit
                     _menuConditionalFormatting.Visible = true;
 
                     //Get the format condition
-                    ConditionalFormatting format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name);
+                    ConditionalFormatting format = _formatConditions.FirstOrDefault(x => x.ColumnName == col.Name)!;
 
                     for (int i = 0; i < _menuConditionalFormatting.Items[0].ItemChildCount; i++)
                     {
-                        if (format != null && ((KryptonContextMenuItems)_menuConditionalFormatting.Items[0]).Items[i].Tag.ToString().Equals(format.FormatType.ToString()))
+                        if (format != null 
+                            && (_menuConditionalFormatting.Items[0] as KryptonContextMenuItems)!.Items[i].Tag!.ToString()!.Equals(format.FormatType.ToString()))
                         {
                             ((KryptonContextMenuItem)((KryptonContextMenuItems)_menuConditionalFormatting.Items[0]).Items[i]).Checked = true;
                         }
@@ -2300,7 +2301,7 @@ namespace Krypton.Toolkit
             {
                 if (!col.IsGrouped && col.SortDirection != SortOrder.None)
                 {
-                    col.DataGridViewColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
+                    col.DataGridViewColumn!.HeaderCell.SortGlyphDirection = SortOrder.None;
                     col.SortDirection = SortOrder.None;
                     col.SortIndex = -1;
                 }
@@ -2913,7 +2914,7 @@ namespace Krypton.Toolkit
                             }
 
                             //Gets the stored value
-                            object? value = list[j].Cells[groupedColumns[i].DataGridViewColumn.Index].Value;
+                            object? value = list[j].Cells[groupedColumns[i].DataGridViewColumn!.Index].Value;
                             object? formattedValue;
 
                             //We get the formatting value according to the type of group (Alphabetic, DateTime,...)
@@ -2932,7 +2933,7 @@ namespace Krypton.Toolkit
                                     gr.Column = groupedColumns[i];
                                     gr.Value = value;
                                     gr.FormatStyle =
-                                        groupedColumns[i].DataGridViewColumn.DefaultCellStyle
+                                        groupedColumns[i].DataGridViewColumn!.DefaultCellStyle
                                             .Format; //We can the formatting applied to the cell to the group
                                     if (value is TextAndImage)
                                     {
@@ -3172,11 +3173,11 @@ namespace Krypton.Toolkit
                     writer.WriteElementString("SortDirection", col.SortDirection.ToString());
                     writer.WriteElementString("GroupIndex", col.GroupIndex.ToString());
                     writer.WriteElementString("SortIndex", col.SortIndex.ToString());
-                    writer.WriteElementString("Visible", col.DataGridViewColumn.Visible.ToString());
+                    writer.WriteElementString("Visible", col.DataGridViewColumn!.Visible.ToString());
                     writer.WriteElementString("Width", col.DataGridViewColumn.Width.ToString());
                     writer.WriteElementString("Index", col.DataGridViewColumn.Index.ToString());
                     writer.WriteElementString("DisplayIndex", col.DataGridViewColumn.DisplayIndex.ToString());
-                    writer.WriteElementString("RowsComparer", col != null && col.RowsComparer == null ? "" : col?.RowsComparer.GetType().AssemblyQualifiedName);
+                    writer.WriteElementString("RowsComparer", col != null && col.RowsComparer == null ? "" : col?.RowsComparer!.GetType().AssemblyQualifiedName);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();

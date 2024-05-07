@@ -75,10 +75,10 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Is this cell the currently active cell
-                var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                var currentCell = (rowIndex == DataGridView!.CurrentCellAddress.Y) &&
                                   (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                 // Is this cell the same as the one with the mouse inside it
@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
                 var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using var viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
-                Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
+                using var viewContent = new ViewLayoutContext(kDGV!, kDGV!.Renderer!);
+                Size checkBoxSize = kDGV.Renderer!.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                     kDGV.Redirector,
                     kDGV.Enabled,
                     CheckState.Unchecked,
@@ -131,9 +131,9 @@ namespace Krypton.Toolkit
             Rectangle cellBounds,
             int rowIndex,
             DataGridViewElementStates cellState,
-            object value,
-            object formattedValue,
-            string errorText,
+            object? value,
+            object? formattedValue,
+            string? errorText,
             DataGridViewCellStyle cellStyle,
             DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
@@ -171,11 +171,11 @@ namespace Krypton.Toolkit
                     var tracking = mouseCell && MouseInContentBoundsInternal;
                     var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer!);
                     Size checkBoxSize;
 
                     // Find out the requested size of the check box drawing
-                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer!))
                     {
                         checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return _piButtonState != null ? (ButtonState)_piButtonState.GetValue(this, null) : ButtonState.Normal;
+                return _piButtonState != null ? (ButtonState)_piButtonState!.GetValue(this, null)! : ButtonState.Normal;
             }
         }
 
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (bool)_fiMouseInContentBounds.GetValue(this);
+                return (bool)_fiMouseInContentBounds!.GetValue(this)!;
             }
         }
 
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress.GetValue(base.DataGridView, null);
+                return (Point)_piMouseEnteredCellAddress!.GetValue(base.DataGridView, null)!;
                 // ReSharper restore RedundantBaseQualifier
             }
         }

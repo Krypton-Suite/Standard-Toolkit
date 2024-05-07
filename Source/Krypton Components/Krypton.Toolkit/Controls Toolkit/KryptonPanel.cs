@@ -60,14 +60,14 @@ namespace Krypton.Toolkit
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
-            Debug.Assert(stateCommon != null);
-            Debug.Assert(stateDisabled != null);
-            Debug.Assert(stateNormal != null);
+            Debug.Assert(stateCommon is not null);
+            Debug.Assert(stateDisabled is not null);
+            Debug.Assert(stateNormal is not null);
 
             // Remember the palette storage
-            _stateCommon = stateCommon;
-            _stateDisabled = stateDisabled;
-            _stateNormal = stateNormal;
+            _stateCommon = stateCommon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateCommon)));
+            _stateDisabled = stateDisabled ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateDisabled)));
+            _stateNormal = stateNormal ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateNormal)));
 
             Construct();
         }

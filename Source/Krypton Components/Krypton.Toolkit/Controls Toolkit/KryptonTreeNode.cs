@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                         // Have to do this as RowBounds is not accessible ! and the check box is on the left, normally !
                         Rectangle nodeWidth = Rectangle.FromLTRB(0, callOnce.Top, callOnce.Right + callOnce.Left,
                             callOnce.Bottom);
-                        TreeView.Invalidate(nodeWidth);
+                        TreeView!.Invalidate(nodeWidth);
                         TreeView.Update();
                     }
                 }

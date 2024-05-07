@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
             if (tag is not null)
             {
                 _conditionalFormatType =
-                    (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), tag.ToString());
+                    (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), tag.ToString()!);
             }
 
             UpdateFormatType(_conditionalFormatType);

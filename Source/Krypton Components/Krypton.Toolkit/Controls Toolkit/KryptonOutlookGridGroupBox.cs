@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
 
             InitializeComponent();
 
-            _columnsList = new List<OutlookGridGroupBoxColumn>();
+            _columnsList = new List<OutlookGridGroupBoxColumn?>();
 
             // Cache the current global palette setting
             _palette = KryptonManager.CurrentGlobalPalette;
@@ -1090,7 +1090,8 @@ namespace Krypton.Toolkit
             {
                 if (list[i].IsGrouped)
                 {
-                    colToAdd = new OutlookGridGroupBoxColumn(list[i].DataGridViewColumn?.Name, list[i].DataGridViewColumn?.HeaderText, list[i].SortDirection, list[i].GroupingType?.GetType().Name);
+                    colToAdd = new OutlookGridGroupBoxColumn(list[i].DataGridViewColumn?.Name, list[i].DataGridViewColumn?.HeaderText, list[i].SortDirection, list[i].GroupingType?.GetType().Name!);
+                    
                     if (colToAdd.GroupingType == nameof(OutlookGridDateTimeGroup))
                     {
                         colToAdd.GroupInterval = (list[i].GroupingType! as OutlookGridDateTimeGroup)?.Interval.ToString();

@@ -55,18 +55,18 @@ namespace Krypton.Toolkit
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
         public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
-            [DisallowNull] IContentValues contentValues,
-                                    IRenderer renderer,
-                                    PaletteBackStyle backStyle,
-                                    PaletteBorderStyle borderStyle,
-                                    PaletteContentStyle contentStyle,
-                                    bool shadow)
+                                  [DisallowNull] IContentValues contentValues,
+                                  IRenderer renderer,
+                                  PaletteBackStyle backStyle,
+                                  PaletteBorderStyle borderStyle,
+                                  PaletteContentStyle contentStyle,
+                                  bool shadow)
             : base(renderer, shadow)
         {
-            Debug.Assert(contentValues != null);
+            Debug.Assert(contentValues is not null);
 
             // Remember references needed later
-            _contentValues = contentValues!;
+            _contentValues = contentValues ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(contentValues)));
 
             // Create the triple redirector needed by view elements
             _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);

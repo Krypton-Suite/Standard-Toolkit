@@ -569,7 +569,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // Get the renderer associated with this palette
-            IRenderer renderer = _palette.GetRenderer();
+            IRenderer renderer = _palette!.GetRenderer();
 
             // Create the rendering context that is passed into all renderer calls
             using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
@@ -599,7 +599,7 @@ namespace Krypton.Toolkit
                        barState))
             {
                 // Ask renderer to draw the background
-                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder.GetBorderGraphicsHint(barState));
+                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
                 _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
                     fullLozengePath, barPaletteState.PaletteBack,
                     Orientation, barState, _mementoBackProgressBar);
@@ -707,7 +707,7 @@ namespace Krypton.Toolkit
 
             // Last of all we draw the content over the top of the border and background
             renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent, _mementoContent,
+                    barPaletteState.PaletteContent!, _mementoContent!,
                     Orientation, barState, false);
 
             base.OnPaint(e);

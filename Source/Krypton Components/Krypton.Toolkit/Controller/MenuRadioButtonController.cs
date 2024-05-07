@@ -49,15 +49,15 @@ namespace Krypton.Toolkit
                                          [DisallowNull] ViewDrawMenuRadioButton radioButton,
                                          [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(radioButton != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(radioButton is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuRadioButton = radioButton;
-            NeedPaint = needPaint;
+            ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            _menuRadioButton = radioButton ?? throw new ArgumentNullException(nameof(radioButton));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

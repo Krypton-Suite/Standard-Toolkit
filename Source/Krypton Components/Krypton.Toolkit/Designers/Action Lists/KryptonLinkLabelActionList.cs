@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 
@@ -49,11 +49,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _linkLabel.LabelStyle;
+            get => _linkLabel!.LabelStyle;
 
             set
             {
-                if (_linkLabel.LabelStyle != value)
+                if (_linkLabel!.LabelStyle != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.LabelStyle, value);
                     _linkLabel.LabelStyle = value;
@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _linkLabel.Orientation;
+            get => _linkLabel!.Orientation;
 
             set
             {
-                if (_linkLabel.Orientation != value)
+                if (_linkLabel!.Orientation != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.Orientation, value);
                     _linkLabel.Orientation = value;
@@ -83,11 +83,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonLinkBehavior LinkBehavior
         {
-            get => _linkLabel.LinkBehavior;
+            get => _linkLabel!.LinkBehavior;
 
             set
             {
-                if (_linkLabel.LinkBehavior != value)
+                if (_linkLabel!.LinkBehavior != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.LinkBehavior, value);
                     _linkLabel.LinkBehavior = value;
@@ -100,11 +100,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool LinkVisited
         {
-            get => _linkLabel.LinkVisited;
+            get => _linkLabel!.LinkVisited;
 
             set
             {
-                if (_linkLabel.LinkVisited != value)
+                if (_linkLabel!.LinkVisited != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.LinkVisited, value);
                     _linkLabel.LinkVisited = value;
@@ -117,11 +117,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Text
         {
-            get => _linkLabel.Values.Text;
+            get => _linkLabel!.Values.Text;
 
             set
             {
-                if (_linkLabel.Values.Text != value)
+                if (_linkLabel!.Values.Text != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Text, value);
                     _linkLabel.Values.Text = value;
@@ -134,11 +134,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string ExtraText
         {
-            get => _linkLabel.Values.ExtraText;
+            get => _linkLabel!.Values.ExtraText;
 
             set
             {
-                if (_linkLabel.Values.ExtraText != value)
+                if (_linkLabel!.Values.ExtraText != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.ExtraText, value);
                     _linkLabel.Values.ExtraText = value;
@@ -151,11 +151,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _linkLabel.Values.Image;
+            get => _linkLabel!.Values.Image;
 
             set
             {
-                if (_linkLabel.Values.Image != value)
+                if (_linkLabel!.Values.Image != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Image, value);
                     _linkLabel.Values.Image = value;
@@ -168,11 +168,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _linkLabel.PaletteMode;
+            get => _linkLabel!.PaletteMode;
 
             set
             {
-                if (_linkLabel.PaletteMode != value)
+                if (_linkLabel!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.PaletteMode, value);
                     _linkLabel.PaletteMode = value;
@@ -184,11 +184,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _linkLabel.StateCommon.ShortText.Font;
+            get => _linkLabel!.StateCommon.ShortText.Font!;
 
             set
             {
-                if (_linkLabel.StateCommon.ShortText.Font != value)
+                if (_linkLabel!.StateCommon.ShortText.Font != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.ShortText.Font, value);
 
@@ -201,11 +201,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _linkLabel.StateCommon.LongText.Font;
+            get => _linkLabel!.StateCommon.LongText.Font!;
 
             set
             {
-                if (_linkLabel.StateCommon.LongText.Font != value)
+                if (_linkLabel!.StateCommon.LongText.Font != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.LongText.Font, value);
 
@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
             if (sender is DesignerVerb)
             {
                 // Invert the visited setting
-                _linkLabel.LinkVisited = !_linkLabel.LinkVisited;
+                _linkLabel!.LinkVisited = !_linkLabel.LinkVisited;
 
                 // Decide on the next action to take given the new setting
                 _action = _linkLabel.LinkVisited ? "Link has not been visited" : "Link has been visited";
