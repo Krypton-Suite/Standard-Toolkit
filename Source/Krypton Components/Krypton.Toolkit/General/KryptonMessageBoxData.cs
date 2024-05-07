@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>A structure that contains basic information for <see cref="VisualMessageBoxForm"/>.</summary>
-    public struct KryptonMessageBoxData
+    public struct KryptonMessageBoxDataDep
     {
         #region Public
 
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the application path.</summary>
         /// <value>The application path.</value>
-        public string? ApplicationPath { get; set; }
+        public string? ExtractIconFromFilePath { get; set; }
 
         /// <summary>Gets or sets the type of the message content area.</summary>
         /// <value>The type of the message content area.</value>
@@ -102,8 +102,8 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxData" /> struct.</summary>
-        public KryptonMessageBoxData()
+        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxDataDep" /> struct.</summary>
+        public KryptonMessageBoxDataDep()
         {
             ShowCloseButton = true;
         }

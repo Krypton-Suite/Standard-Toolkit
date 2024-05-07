@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
 
             if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
             {
-                using var kmbrtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
+                using var kmbrtl = new VisualMessageBoxRtlAwareFormDep(showOwner, text, caption, buttons, icon,
                     defaultButton, helpInfo, showCtrlCopy, showHelpButton, applicationImage, applicationPath,
                     contentAreaType, linkLabelCommand,
                     linkLaunchArgument, contentLinkArea,
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
+                using var kmb = new VisualMessageBoxFormDep(showOwner, text, caption, buttons, icon,
                     defaultButton, helpInfo, showCtrlCopy, showHelpButton, applicationImage, applicationPath,
                     contentAreaType, linkLabelCommand,
                     linkLaunchArgument, contentLinkArea,
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public static DialogResult ShowCore(KryptonMessageBoxData messageBoxData)
+        public static DialogResult ShowCore(KryptonMessageBoxDataDep messageBoxData)
         {
             messageBoxData.Caption = string.IsNullOrEmpty(messageBoxData.Caption) ? @" " : messageBoxData.Caption;
 
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
 
             if (messageBoxData.Options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
             {
-                using var kmbrtl = new VisualMessageBoxRtlAwareForm(messageBoxData);
+                using var kmbrtl = new VisualMessageBoxRtlAwareFormDep(messageBoxData);
 
                 kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using var kmb = new VisualMessageBoxForm(messageBoxData);
+                using var kmb = new VisualMessageBoxFormDep(messageBoxData);
 
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
