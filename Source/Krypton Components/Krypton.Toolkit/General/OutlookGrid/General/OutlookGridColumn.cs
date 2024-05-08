@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         /// <summary>Defines Equals method (interface IEquatable)</summary>
         /// <param name="other">The OutlookGridColumn to compare with</param>
         /// <returns></returns>
-        public bool Equals(OutlookGridColumn? other) => DataGridViewColumn!.Name.Equals(other!.DataGridViewColumn!.Name!);
+        public bool Equals([DisallowNull] OutlookGridColumn other) => DataGridViewColumn!.Name.Equals(other.DataGridViewColumn.Name);
 
         #endregion
     }
