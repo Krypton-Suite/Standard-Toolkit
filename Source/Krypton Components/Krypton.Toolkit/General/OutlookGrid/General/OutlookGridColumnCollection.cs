@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="columnName">The column name.</param>
         /// <returns>OutlookGridColumn</returns>
-        public OutlookGridColumn? this[string columnName] => Find( c => c.DataGridViewColumn!.Name.Equals(columnName) );
+        public OutlookGridColumn? this[string columnName] => Find( c => c.DataGridViewColumn.Name.Equals(columnName) );
 
         /// <summary>
         /// Gets or Sets the maximum GroupIndex in the collection
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
             {
                 if (col.IsGrouped && col.GroupIndex > -1)
                 {
-                    res.Add(Tuple.Create<int, SortOrder, IComparer>(col.DataGridViewColumn!.Index, col.SortDirection, col.RowsComparer!));
+                    res.Add(Tuple.Create<int, SortOrder, IComparer>(col.DataGridViewColumn.Index, col.SortDirection, col.RowsComparer!));
                 }
             }
             return res;
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">The index</param>
         /// <returns>The OutlookGridColumn.</returns>
-        public OutlookGridColumn? FindFromColumnIndex(int index) => this.FirstOrDefault(c => c.DataGridViewColumn!.Index == index);
+        public OutlookGridColumn? FindFromColumnIndex(int index) => this.FirstOrDefault(c => c.DataGridViewColumn.Index == index);
 
         /// <summary>
         /// Gets the column from its name
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             {
                 if (!col.IsGrouped && col.SortIndex > -1)
                 {
-                    res.Add(Tuple.Create(col.DataGridViewColumn!.Index, col.SortDirection, col.RowsComparer));
+                    res.Add(Tuple.Create(col.DataGridViewColumn.Index, col.SortDirection, col.RowsComparer));
                 }
             }
             return res;

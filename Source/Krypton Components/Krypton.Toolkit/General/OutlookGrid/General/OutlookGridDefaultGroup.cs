@@ -229,7 +229,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the associated DataGridView column.
         /// </summary>
-        public virtual OutlookGridColumn Column { get => _column!; set => _column = value; }
+        [DisallowNull]
+        public virtual OutlookGridColumn Column 
+        {
+            get => _column!;
+            set => _column = value ?? throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(this.Column)));
+        }
 
         /// <summary>
         /// Gets or set the number of items in this group.
@@ -343,7 +348,8 @@ namespace Krypton.Toolkit
         {
             int orderModifier = Column.SortDirection == SortOrder.Ascending ? 1 : -1;
             int compareResult = 0;
-            object? o2 = (obj as OutlookGridDefaultGroup)!.Value;
+            
+            object? o2 = (obj as OutlookGridDefaultGroup)?.Value;
 
             if ((_val == null || _val == DBNull.Value) && o2 != null && o2 != DBNull.Value)
             {

@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
             //}
 
             // Paint tree lines			
-            if (node != null && (node.DataGridView as KryptonOutlookGrid)!.ShowLines)
+            if (node != null && ((KryptonOutlookGrid)node.DataGridView).ShowLines)
             {
                 using (Pen linePen = new(SystemBrushes.ControlDark, 1.0f))
                 {

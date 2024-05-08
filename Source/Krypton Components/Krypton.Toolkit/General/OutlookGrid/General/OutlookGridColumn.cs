@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the associated DataGridViewColumn
         /// </summary>
-        public DataGridViewColumn? DataGridViewColumn { get; set; }
+        public DataGridViewColumn DataGridViewColumn { get; set; }
 
         /// <summary>
         /// Gets or sets the group
