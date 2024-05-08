@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
 
         #region IComparer Members
 
-        public int Compare([DisallowNull] IOutlookGridGroup x, [DisallowNull] IOutlookGridGroup? y)
+        public int Compare([DisallowNull] IOutlookGridGroup x, [DisallowNull] IOutlookGridGroup y)
         {
             int compareResult;
             try
