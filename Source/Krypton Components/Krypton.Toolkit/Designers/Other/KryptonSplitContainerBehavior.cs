@@ -50,6 +50,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the message was handled; otherwise, false.</returns>
         public override bool OnMouseDown(Glyph? g, MouseButtons button, Point pt)
         {
+            /*
+             * base.OnMouseMove expects valid references/params and does not handle nulls
+             * base is in class/assembly System.Windows.Forms.Design.Behavior.Behavior and of course cannot be altered.
+             */
+
             // Glyph g cannot be null, also not in base.OnMouseDown
             if (g is not null && _splitContainer is not null)
             {
@@ -78,6 +83,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the message was handled; otherwise, false.</returns>
         public override bool OnMouseMove(Glyph? g, MouseButtons button, Point pt)
         {
+            /*
+             * base.OnMouseMove expects valid references/params and does not handle nulls
+             * base is in class/assembly System.Windows.Forms.Design.Behavior.Behavior and of course cannot be altered.
+             */
+
             // Glyph g cannot be null, also not in base.OnMouseDown
             if (g is not null && _splitContainer is not null)
             {
