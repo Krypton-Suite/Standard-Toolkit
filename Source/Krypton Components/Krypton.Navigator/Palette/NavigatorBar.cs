@@ -56,7 +56,12 @@ namespace Krypton.Navigator
         public NavigatorBar([DisallowNull] KryptonNavigator navigator,
                             NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
+
+            if (navigator is null)
+            {
+                throw new ArgumentNullException(nameof(navigator));
+            }
 
             // Remember back reference
             _navigator = navigator;

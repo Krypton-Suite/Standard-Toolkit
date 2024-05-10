@@ -169,6 +169,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // If there is a selected tab and it is a context tab use the context specific palette
             if (!string.IsNullOrEmpty(Ribbon.SelectedTab?.ContextName))
             {

@@ -74,8 +74,13 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             IPaletteElementColor elementColors = State switch
             {
                 PaletteState.Normal => _drawTrackBar.StateNormal.Position,

@@ -413,8 +413,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-        [AllowNull]
-        public string? Text
+        public string Text
         {
             get => ComboBox.Text;
             set => ComboBox.Text = value;

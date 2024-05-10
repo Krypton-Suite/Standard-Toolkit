@@ -685,10 +685,15 @@ namespace Krypton.Ribbon
         }
 
         private void DrawBackground(IPaletteBack paletteBack,
-                                    RenderContext context,
+                                    [DisallowNull] RenderContext context,
                                     Rectangle rect,
                                     PaletteState state)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
@@ -708,10 +713,15 @@ namespace Krypton.Ribbon
         }
 
         private void DrawBorder(IPaletteBorder paletteBorder,
-                                RenderContext context,
+                                [DisallowNull] RenderContext context,
                                 Rectangle rect,
                                 PaletteState state)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Do we need to draw the border?
             if (paletteBorder.GetBorderDraw(state) == InheritBool.True)
             {

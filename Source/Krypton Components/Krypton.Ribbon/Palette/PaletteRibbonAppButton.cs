@@ -37,7 +37,12 @@ namespace Krypton.Ribbon
         public PaletteRibbonAppButton([DisallowNull] PaletteRibbonRedirect inherit,
                                       NeedPaintHandler needPaint)
         {
-            Debug.Assert(inherit != null);
+            Debug.Assert(inherit is not null);
+
+            if (inherit is null)
+            {
+                throw new ArgumentNullException(nameof(inherit));
+            }
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

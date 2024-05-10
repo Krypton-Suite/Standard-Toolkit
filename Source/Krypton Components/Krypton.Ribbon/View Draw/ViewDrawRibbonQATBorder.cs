@@ -182,6 +182,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // We never draw the background/border for Office 2010 shape QAT
             if (_minibar && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010))
             {

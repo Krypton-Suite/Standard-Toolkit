@@ -7,6 +7,9 @@
  */
 #endregion
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using System;
+
 namespace Krypton.Toolkit
 {
     /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
@@ -56,7 +59,10 @@ namespace Krypton.Toolkit
                 {
                     dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion!.Build).AddSeconds(assemblyVersion.Revision * 2);
 
-                    if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
+                     // if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
+                     // Timezone is deprecated and replaces by TimeZoneInfo
+
+                    if (TimeZoneInfo.Local.IsDaylightSavingTime(dateTime))
                     {
                         dateTime = dateTime.AddHours(1);
                     }
@@ -174,7 +180,13 @@ namespace Krypton.Toolkit
             // codebase
             try
             {
-                nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
+                // Warning SYSLIB0012 'Assembly.EscapedCodeBase' is obsolete:
+                // 'Assembly.CodeBase and Assembly.EscapedCodeBase are only included for .NET Framework compatibility.
+                // Use Assembly.Location.' Krypton.Toolkit 2022(net6.0 - windows), Krypton.Toolkit 2022(net8.0 - windows), Krypton.Toolkit 2022(net9.0 - windows)
+                //nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
+
+                string? s = assembly.Location.Replace("file:///", "");
+                nvc.Add("CodeBase",  s is not null ? s : string.Empty );
             }
             catch (NotSupportedException)
             {
@@ -230,7 +242,10 @@ namespace Krypton.Toolkit
 
             Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.ImageRuntimeVersion}", assembly.ImageRuntimeVersion);
 
-            Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.LoadedFromGlobalAssemblyCache}", $@"{assembly.GlobalAssemblyCache}");
+            // Global assembly cache APIs are obsolete
+            // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/global-assembly-cache-apis-obsolete
+            // Statement below commented out to remove the corresponding warning.
+            // Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.LoadedFromGlobalAssemblyCache}", $@"{assembly.GlobalAssemblyCache}");
 
             NameValueCollection collection = AssemblyAttribs(assembly);
 

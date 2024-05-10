@@ -149,12 +149,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public bool IsImageDisplayed([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var isDisplayed = false;
@@ -178,12 +183,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public Rectangle ImageRectangle([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var imageRect = Rectangle.Empty;
@@ -210,9 +220,14 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var textRect = Rectangle.Empty;
@@ -236,12 +251,17 @@ namespace Krypton.Toolkit
         /// <returns>Rectangle of short text drawing.</returns>
         public Rectangle LongTextRect([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var textRect = Rectangle.Empty;
@@ -265,19 +285,24 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // By default we take up no space at all
             var preferredSize = Size.Empty;
 
             // If we have some content to encompass
-            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent?.GetContentDraw(State) == InheritBool.True)
             {
                 // Ask the renderer for the contents preferred size
                 preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context,
@@ -297,12 +322,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // We take on all the available display area
@@ -337,12 +367,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // Do we need to draw the content?
@@ -372,7 +407,7 @@ namespace Krypton.Toolkit
                                                                          BindingFlags.NonPublic);
             }
 
-            return (bool)_pi!.GetValue(c, null);
+            return (bool)_pi!.GetValue(c, null)!;
         }
         #endregion
 

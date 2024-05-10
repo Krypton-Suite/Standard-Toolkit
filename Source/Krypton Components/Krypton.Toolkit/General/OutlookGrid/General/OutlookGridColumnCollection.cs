@@ -137,15 +137,15 @@ namespace Krypton.Toolkit
         /// Gets a list of columns which are sorted and not grouped.
         /// </summary>
         /// <returns>List of Column indexes and SortDirection ordered by SortIndex.</returns>
-        public List<Tuple<int, SortOrder, IComparer?>> GetIndexAndSortSortedOnlyColumns()
+        public List<Tuple<int, SortOrder, IComparer>> GetIndexAndSortSortedOnlyColumns()
         {
-            var res = new List<Tuple<int, SortOrder, IComparer?>>();
+            var res = new List<Tuple<int, SortOrder, IComparer>>();
             var tmp = this.OrderBy(x => x.SortIndex);
             foreach (OutlookGridColumn col in tmp)
             {
                 if (!col.IsGrouped && col.SortIndex > -1)
                 {
-                    res.Add(Tuple.Create(col.DataGridViewColumn.Index, col.SortDirection, col.RowsComparer));
+                    res.Add(Tuple.Create(col.DataGridViewColumn.Index, col.SortDirection, (IComparer)col.RowsComparer!));
                 }
             }
             return res;

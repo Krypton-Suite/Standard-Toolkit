@@ -99,6 +99,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Create a border offset down and right for drawing a shadow
             Rectangle shadowRect = ClientRectangle;
             shadowRect.X++;

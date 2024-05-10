@@ -305,6 +305,11 @@ namespace Krypton.Navigator
                 throw new ArgumentNullException(nameof(context));
             }
 
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Reset the largest child size to empty
             _maximumItem = Size.Empty;
 
@@ -830,6 +835,11 @@ namespace Krypton.Navigator
             if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // We take on all the available display area

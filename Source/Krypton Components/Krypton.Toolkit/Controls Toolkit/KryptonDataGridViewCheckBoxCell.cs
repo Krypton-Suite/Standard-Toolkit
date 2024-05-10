@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
                     // Find out the requested size of the check box drawing
                     using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer!))
                     {
-                        checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
+                        checkBoxSize = renderContext.Renderer!.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,
                             kDgv.Enabled && !base.ReadOnly,
                             checkState,

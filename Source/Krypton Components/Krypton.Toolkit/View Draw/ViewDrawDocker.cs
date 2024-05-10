@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public ViewDrawDocker(IPaletteBack? paletteBack,
-                              IPaletteBorder? paletteBorder)
+        public ViewDrawDocker(IPaletteBack paletteBack,
+                              IPaletteBorder paletteBorder)
             : this(paletteBack, paletteBorder, null, PaletteMetricBool.None)
         {
         }
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawDocker(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric paletteMetric,
+                              IPaletteMetric? paletteMetric,
                               PaletteMetricBool metricOverlay,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
@@ -214,7 +214,12 @@ namespace Krypton.Toolkit
         /// <param name="dock">DockStyle setting.</param>
         public void SetDock([DisallowNull] ViewBase child, ViewDockStyle dock)
         {
-            Debug.Assert(child != null);
+            Debug.Assert(child is not null);
+
+            if (child is null)
+            {
+                throw new ArgumentNullException(nameof(child));
+            }
 
             // If the lookup is not already defined
             if (!_childDocking.ContainsKey(child!))
@@ -254,7 +259,12 @@ namespace Krypton.Toolkit
         /// <returns>True if transparent areas exist; otherwise false.</returns>
         public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // Check with the base canvas first
             if (base.EvalTransparentPaint(context!))
@@ -299,7 +309,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public Size GetNonChildSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Remember the original display rectangle provided
             var originalRect = context!.DisplayRectangle;
@@ -358,7 +378,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Remember the original display rectangle provided
             var originalRect = context!.DisplayRectangle;
@@ -510,7 +540,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // We take on all the available display area
             ClientRectangle = context!.DisplayRectangle;

@@ -696,11 +696,11 @@ namespace Krypton.Ribbon
             _layoutCollapsedImagePadding.Add(drawCollapsedImage);
         }
 
-        private void RenderNormalBefore(RenderContext context)
+        private void RenderNormalBefore([DisallowNull] RenderContext context)
         {
-            if (context is null)
+            if (context.Renderer is null)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             Rectangle drawRect = ClientRectangle;
@@ -785,8 +785,13 @@ namespace Krypton.Ribbon
             _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
-        private void RenderCollapsedBefore(RenderContext context)
+        private void RenderCollapsedBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             Rectangle drawRect = ClientRectangle;
 
             IPaletteRibbonBack paletteBack;
@@ -843,11 +848,11 @@ namespace Krypton.Ribbon
             _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
-        private void RenderCollapsedPressedBefore(RenderContext? context)
+        private void RenderCollapsedPressedBefore([DisallowNull] RenderContext context)
         {
-            if (context is null)
+            if (context.Renderer is null)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             switch (_lastRibbonShape)

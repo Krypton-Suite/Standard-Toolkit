@@ -156,6 +156,7 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc/>
         [DefaultValue("")]
+        [AllowNull]
         public override string Text
         {
             get => KryptonProgressBarHost.Text;

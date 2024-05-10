@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text
+        public new virtual string Text
         {
             get => base.Text;
             set => base.Text = value;
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font
+        public new virtual Font Font
         {
             get => base.Font;
             set => base.Font = value;

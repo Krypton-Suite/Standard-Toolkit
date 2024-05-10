@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public new virtual DataGridViewCell CellTemplate
         {
             get => base.CellTemplate!;
 
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
                 }
 
-                base.CellTemplate = value as KryptonDataGridViewTextBoxCell;
+                base.CellTemplate = (KryptonDataGridViewTextBoxCell)value!;
             }
         }
 
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         [Category(@"Appearance")]
         [Description(@"DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
-        public override DataGridViewCellStyle DefaultCellStyle
+        public new virtual DataGridViewCellStyle DefaultCellStyle
         {
             get => base.DefaultCellStyle;
 

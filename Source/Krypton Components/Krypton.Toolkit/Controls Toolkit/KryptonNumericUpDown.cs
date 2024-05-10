@@ -655,7 +655,7 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = ButtonElementState(upRect);
                 _viewButton.Layout(layoutContext);
                 _viewButton.Render(renderContext);
-                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                renderContext.Renderer!.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
                 // Down button
                 layoutContext.DisplayRectangle = downRect;

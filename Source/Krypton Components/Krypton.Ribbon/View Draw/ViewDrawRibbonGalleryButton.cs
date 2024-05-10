@@ -106,11 +106,18 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) =>
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Grab the required size for the content images
-            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent,
                 this, VisualOrientation.Top,
                 State);
+        }
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -119,6 +126,17 @@ namespace Krypton.Ribbon
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
 
             // We take on all the available display area
             ClientRectangle = context!.DisplayRectangle;
@@ -143,8 +161,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Reduce background to fit inside the border
             Rectangle backRect = ClientRectangle;
             backRect.Inflate(-1, -1);

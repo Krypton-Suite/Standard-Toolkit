@@ -213,7 +213,7 @@ namespace Krypton.Docking
         protected override void LoadDockingElement(XmlReader xmlReader, KryptonPageCollection pages)
         {
             // Grab the requested size and location
-            Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute(@"L"));
+            Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute(@"L")!);
             Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S")!);
 
             // Find the size of the floating window borders

@@ -192,12 +192,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void RenderBefore([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate reference parameter
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // Ensure we are using the correct palette

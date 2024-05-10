@@ -285,7 +285,7 @@ namespace Krypton.Ribbon
                 popupSize.Height);
 
             // Get the view element for the currently selected tab
-            ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+            ViewDrawRibbonTab viewTab = (ViewDrawRibbonTab)tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab)!;
 
             // Convert the view tab client area to screen coordinates
             Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab.ClientRectangle);

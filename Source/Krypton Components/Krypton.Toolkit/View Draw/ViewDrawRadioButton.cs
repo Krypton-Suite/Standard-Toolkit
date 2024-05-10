@@ -74,10 +74,20 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+            
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer for the required size of the check box
-            return context!.Renderer.RenderGlyph.GetRadioButtonPreferredSize(context, _palette, 
+            return context.Renderer.RenderGlyph.GetRadioButtonPreferredSize(context, _palette, 
                                                                             Enabled, CheckState, 
                                                                             Tracking, Pressed);
         }
@@ -107,11 +117,18 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) =>
-            context.Renderer.RenderGlyph.DrawRadioButton(context, ClientRectangle, 
-                _palette, Enabled, 
-                CheckState, Tracking, 
+        public override void RenderBefore([DisallowNull] RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            context.Renderer.RenderGlyph.DrawRadioButton(context, ClientRectangle,
+                _palette, Enabled,
+                CheckState, Tracking,
                 Pressed);
+        }
 
         #endregion
     }

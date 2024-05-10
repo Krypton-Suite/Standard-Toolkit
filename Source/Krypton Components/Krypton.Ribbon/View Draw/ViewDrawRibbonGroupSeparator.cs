@@ -228,11 +228,19 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) => context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,
+        public override void RenderBefore(RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,
                                                                   context,
                                                                   ClientRectangle,
                                                                   _ribbon.StateCommon.RibbonGeneral,
                                                                   State);
+        }
         #endregion
 
         #region Protected

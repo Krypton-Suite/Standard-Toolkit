@@ -239,9 +239,9 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull]
-        public override string? Text
+        public override string Text
         {
+            //nullable operator removed
             get => base.Text;
             set => base.Text = value;
         }

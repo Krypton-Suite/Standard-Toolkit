@@ -63,11 +63,18 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) =>
+        public override void RenderBefore(RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Draw the application menu outer background
             _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
                                                                     _ribbon.StateCommon.RibbonAppMenuDocs,
                                                                     VisualOrientation.Top, _memento);
+        }
         #endregion
     }
 }
