@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle">The cell style.</param>
         /// <param name="advancedBorderStyle">The advanced border style.</param>
         /// <param name="paintParts">The paint parts.</param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
         {
             if (FormatParams != null)  // null can happen when cell set to Formatting but no condition has been set !

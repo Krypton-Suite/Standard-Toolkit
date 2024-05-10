@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         public RenderContext(Control? control,
                              Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : this(null, control, control, graphics, clipRect, renderer)
         {
         }
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
                              Control? alignControl,
                              Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : this(null, control, alignControl, graphics, clipRect, renderer)
         {
         }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
                              Control? alignControl,
                              Graphics? graphics,
                              Rectangle clipRect,
-                             IRenderer renderer)
+                             IRenderer? renderer)
             : base(manager, control, alignControl, graphics, renderer) =>
             ClipRect = clipRect;
 
@@ -93,14 +93,14 @@ namespace Krypton.Toolkit
                     return local;
                 case PaletteRectangleAlign.Control:
                     Rectangle clientRect = (AlignControl == Control)
-                        ? Control.ClientRectangle
-                        : Control.RectangleToClient(AlignControl.RectangleToScreen(AlignControl.ClientRectangle));
+                        ? Control!.ClientRectangle
+                        : Control!.RectangleToClient(AlignControl!.RectangleToScreen(AlignControl.ClientRectangle));
 
                     clientRect.Inflate(2, 2);
                     return clientRect;
                 case PaletteRectangleAlign.Form:
                     // Gradient should cover the owning control (most likely a Form)
-                    Rectangle formRect = Control.RectangleToClient(TopControl.RectangleToScreen(AlignControl.ClientRectangle));
+                    Rectangle formRect = Control!.RectangleToClient(TopControl!.RectangleToScreen(AlignControl!.ClientRectangle));
                     formRect.Inflate(2, 2);
                     return formRect;
                 case PaletteRectangleAlign.Inherit:

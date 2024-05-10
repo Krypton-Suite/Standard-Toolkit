@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         {
             // Get the values and set into storage
             Draw = GetContentDraw(state);
-            Image.ImageH = GetContentImageH(state);
+            Image!.ImageH = GetContentImageH(state);
             Image.ImageV = GetContentImageV(state);
             Image.Effect = GetContentImageEffect(state);
             Image.ImageColorMap = GetContentImageColorMap(state);

@@ -46,13 +46,13 @@ namespace Krypton.Toolkit
         public PaletteDoubleMetricRedirect(PaletteRedirect redirect,
                                            PaletteBackStyle backStyle,
                                            PaletteBorderStyle borderStyle,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
             : base(redirect,
                    backStyle,
                    borderStyle,
                    needPaint) =>
             // Remember the redirect reference
-            _redirect = redirect;
+            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
 
         #endregion
 

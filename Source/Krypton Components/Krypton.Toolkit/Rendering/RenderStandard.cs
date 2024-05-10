@@ -1033,19 +1033,24 @@ namespace Krypton.Toolkit
             VisualOrientation orientation,
             PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(palette != null);
-            Debug.Assert(values != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(palette is not null);
+            Debug.Assert(values is not null);
 
             // Validate parameter references
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (palette == null)
+            if (palette is null)
             {
                 throw new ArgumentNullException(nameof(palette));
+            }
+
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
             }
 
             Debug.Assert(context.Control != null);
@@ -1129,9 +1134,9 @@ namespace Krypton.Toolkit
             VisualOrientation orientation,
             PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(palette != null);
-            Debug.Assert(values != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(palette is not null);
+            Debug.Assert(values is not null);
 
             // Validate parameter references
             if (context == null)
@@ -1142,6 +1147,11 @@ namespace Krypton.Toolkit
             if (palette == null)
             {
                 throw new ArgumentNullException(nameof(palette));
+            }
+
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
             }
 
             Debug.Assert(context.Control != null);
@@ -1303,7 +1313,7 @@ namespace Krypton.Toolkit
             Debug.Assert(!context.Control!.IsDisposed);
 
             // Cast the incoming memento to the correct type
-            StandardContentMemento standard = (StandardContentMemento)memento;
+            StandardContentMemento standard = (StandardContentMemento)memento!;
 
             if (standard.DrawImage)
             {
@@ -1339,10 +1349,10 @@ namespace Krypton.Toolkit
                             context.Control.RightToLeft,
                             standard.Orientation,
                             state,
-                            standard.ShortTextMemento))
+                            standard.ShortTextMemento!))
                     {
                         // Failed to draw means the font is likely to be invalid, get a fresh font
-                        standard.ShortTextMemento.Font = palette.GetContentShortTextNewFont(state);
+                        standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
 
                         // Try again using the new font
                         AccurateText.DrawString(context.Graphics,
@@ -1355,7 +1365,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                Image shortImage = palette.GetContentShortTextImage(state);
+                Image shortImage = palette.GetContentShortTextImage(state)!;
                 PaletteImageStyle shortImageStyle = palette.GetContentShortTextImageStyle(state);
 
                 // Do we need to draw the image?
@@ -1372,10 +1382,10 @@ namespace Krypton.Toolkit
                             context.Control.RightToLeft,
                             standard.Orientation,
                             state,
-                            standard.ShortTextMemento))
+                            standard.ShortTextMemento!))
                     {
                         // Failed to draw means the font is likely to be invalid, get a fresh font
-                        standard.ShortTextMemento.Font = palette.GetContentShortTextNewFont(state);
+                        standard.ShortTextMemento!.Font = palette.GetContentShortTextNewFont(state)!;
 
                         AccurateText.DrawString(context.Graphics,
                             imageBrush,
@@ -1410,10 +1420,10 @@ namespace Krypton.Toolkit
                             context.Control.RightToLeft,
                             standard.Orientation,
                             state,
-                            standard.LongTextMemento))
+                            standard.LongTextMemento!))
                     {
                         // Failed to draw means the font is likely to be invalid, get a fresh font
-                        standard.LongTextMemento.Font = palette.GetContentLongTextNewFont(state);
+                        standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
 
                         AccurateText.DrawString(context.Graphics,
                             colorBrush,
@@ -1425,7 +1435,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                Image longImage = palette.GetContentLongTextImage(state);
+                Image longImage = palette.GetContentLongTextImage(state)!;
                 PaletteImageStyle longImageStyle = palette.GetContentLongTextImageStyle(state);
 
                 // Do we need to draw the image?
@@ -1442,10 +1452,10 @@ namespace Krypton.Toolkit
                             context.Control.RightToLeft,
                             standard.Orientation,
                             state,
-                            standard.LongTextMemento))
+                            standard.LongTextMemento!))
                     {
                         // Failed to draw means the font is likely to be invalid, get a fresh font
-                        standard.LongTextMemento.Font = palette.GetContentLongTextNewFont(state);
+                        standard.LongTextMemento!.Font = palette.GetContentLongTextNewFont(state)!;
 
                         AccurateText.DrawString(context.Graphics,
                             imageBrush,
@@ -1672,7 +1682,7 @@ namespace Krypton.Toolkit
             var borderWidth = palette.GetBorderWidth(state);
 
             // Cache the right to left setting
-            var rtl = context.Control.RightToLeft == RightToLeft.Yes;
+            var rtl = context.Control!.RightToLeft == RightToLeft.Yes;
 
             Padding ret = Padding.Empty;
 
@@ -1965,7 +1975,7 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    Image borderImage = palette.GetBorderImage(state);
+                    Image? borderImage = palette.GetBorderImage(state);
 
                     // Do we need to draw the image?
                     if (ShouldDrawImage(borderImage))
@@ -1977,7 +1987,7 @@ namespace Krypton.Toolkit
                         PaletteImageStyle borderImageStyle = palette.GetBorderImageStyle(state);
 
                         // Use standard helper routine to create appropriate image brush
-                        using var borderPen = new Pen(CreateImageBrush(imageRect, borderImage, borderImageStyle),
+                        using var borderPen = new Pen(CreateImageBrush(imageRect, borderImage!, borderImageStyle),
                             borderWidth);
                         context.Graphics.DrawPath(borderPen, borderPath);
                     }
@@ -2193,8 +2203,8 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Draw inside of the border edge in a lighter version of the border
-            using var drawBrush = new SolidBrush(paletteBack.GetBackColor1(state));
-            context.Graphics.FillRectangle(drawBrush, displayRect);
+            using var drawBrush = new SolidBrush(paletteBack!.GetBackColor1(state));
+            context!.Graphics.FillRectangle(drawBrush, displayRect);
         }
         #endregion
 
@@ -2250,7 +2260,7 @@ namespace Krypton.Toolkit
                                                                                                VisualOrientation.Left;
 
                 // Ask the border renderer for a path that encloses the border
-                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, displayRect, paletteBorder, borderOrientation, state);
+                using GraphicsPath borderPath = context.Renderer!.RenderStandardBorder.GetBackPath(context, displayRect, paletteBorder, borderOrientation, state);
                 // Get the padding needed for the drawing area inside the border
                 Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, state, borderOrientation);
 
@@ -2272,7 +2282,7 @@ namespace Krypton.Toolkit
                 VisualOrientation vo = (orientation == Orientation.Horizontal) ? VisualOrientation.Top : VisualOrientation.Left;
 
                 // Render the border over the background and children
-                context.Renderer.RenderStandardBorder.DrawBorder(context, displayRect, paletteBorder, vo, state);
+                context.Renderer!.RenderStandardBorder.DrawBorder(context, displayRect, paletteBorder, vo, state);
             }
         }
 
@@ -2553,13 +2563,13 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlNumericUpGlyph(RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent? paletteContent,
+                                                            IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
             if (context == null)
@@ -2596,9 +2606,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlNumericDownGlyph(RenderContext context,
                                                               Rectangle cellRect,
-                                                              [DisallowNull] IPaletteContent? paletteContent,
+                                                              IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2639,13 +2649,13 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlDropDownGlyph(RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent? paletteContent,
+                                                           IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
             if (context == null)
@@ -2707,63 +2717,63 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
+                {
+                    using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
+                           lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
                     {
-                        using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
-                               lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
-                        {
-                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                                displayRect.Top);
-                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                                displayRect.Top);
-                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
-                                displayRect.Left + 1, displayRect.Top + 1);
-                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
-                                displayRect.Left + 5, displayRect.Top + 1);
-                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
-                                displayRect.Right - 1, displayRect.Bottom - 1);
-                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                                displayRect.Right - 4, displayRect.Bottom - 1);
-                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                                displayRect.Right - 4, displayRect.Bottom - 5);
-                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                                displayRect.Right - 2, displayRect.Bottom - 2);
-                            context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                                displayRect.Right - 3, displayRect.Bottom - 3);
-                            context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                                displayRect.Right - 2, displayRect.Bottom - 5);
-                            context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                                displayRect.Right - 3, displayRect.Bottom - 4);
-                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                                displayRect.Right - 3, displayRect.Bottom - 3);
-                        }
+                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                            displayRect.Top);
+                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                            displayRect.Top);
+                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
+                            displayRect.Left + 1, displayRect.Top + 1);
+                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
+                            displayRect.Left + 5, displayRect.Top + 1);
+                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
+                            displayRect.Right - 1, displayRect.Bottom - 1);
+                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                            displayRect.Right - 4, displayRect.Bottom - 1);
+                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                            displayRect.Right - 4, displayRect.Bottom - 5);
+                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                            displayRect.Right - 2, displayRect.Bottom - 2);
+                        context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                            displayRect.Right - 2, displayRect.Bottom - 5);
+                        context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                            displayRect.Right - 3, displayRect.Bottom - 4);
+                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                            displayRect.Right - 3, displayRect.Bottom - 3);
                     }
-                    break;
+                }
+                break;
                 case PaletteRibbonShape.Office2010:
-                    {
-                        var dialogBrush = new LinearGradientBrush(
-                            new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                                displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
-                            paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
+                {
+                    var dialogBrush = new LinearGradientBrush(
+                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                            displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
+                        paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
 
-                        using (var dialogPen = new Pen(dialogBrush))
-                        {
-                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                                displayRect.Top);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                                displayRect.Top);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                                displayRect.Right - 2, displayRect.Bottom - 2);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                                displayRect.Right - 3, displayRect.Bottom - 3);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                                displayRect.Right - 2, displayRect.Bottom - 5);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                                displayRect.Right - 3, displayRect.Bottom - 4);
-                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                                displayRect.Right - 3, displayRect.Bottom - 3);
-                        }
+                    using (var dialogPen = new Pen(dialogBrush))
+                    {
+                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                            displayRect.Top);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                            displayRect.Top);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                            displayRect.Right - 2, displayRect.Bottom - 2);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                            displayRect.Right - 2, displayRect.Bottom - 5);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                            displayRect.Right - 3, displayRect.Bottom - 4);
+                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                            displayRect.Right - 3, displayRect.Bottom - 3);
                     }
-                    break;
+                }
+                break;
             }
         }
 
@@ -2806,38 +2816,38 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
+                {
+                    using (Pen darkPen = new Pen(darkColor),
+                           lightPen = new Pen(lightColor))
                     {
-                        using (Pen darkPen = new Pen(darkColor),
-                               lightPen = new Pen(lightColor))
-                        {
-                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
-                                displayRect.Top);
-                            context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
-                                displayRect.Left + 3, displayRect.Top + 1);
-                            context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
-                                displayRect.Left + 2, displayRect.Top + 2);
-                            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
-                                displayRect.Top + 3);
-                            context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
-                                displayRect.Left + 4, displayRect.Top + 1);
-                        }
+                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
+                            displayRect.Top);
+                        context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
+                            displayRect.Left + 3, displayRect.Top + 1);
+                        context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
+                            displayRect.Left + 2, displayRect.Top + 2);
+                        context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
+                            displayRect.Top + 3);
+                        context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
+                            displayRect.Left + 4, displayRect.Top + 1);
                     }
-                    break;
+                }
+                break;
                 case PaletteRibbonShape.Office2010:
+                {
+                    using (var fillBrush = new LinearGradientBrush(
+                               new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                   displayRect.Height + 2), lightColor, darkColor, 45f))
                     {
-                        using (var fillBrush = new LinearGradientBrush(
-                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                                       displayRect.Height + 2), lightColor, darkColor, 45f))
+                        context.Graphics.FillPolygon(fillBrush, new Point[]
                         {
-                            context.Graphics.FillPolygon(fillBrush, new Point[]
-                            {
                             new Point(displayRect.Left - 1, displayRect.Top - 1),
                             new Point(displayRect.Left + 2, displayRect.Top + 3),
                             new Point(displayRect.Left + 5, displayRect.Top)
-                            });
-                        }
+                        });
                     }
-                    break;
+                }
+                break;
             }
         }
 
@@ -2997,37 +3007,37 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
+                {
+                    using (Pen darkPen = new Pen(darkColor),
+                           lightPen = new Pen(lightColor))
                     {
-                        using (Pen darkPen = new Pen(darkColor),
-                               lightPen = new Pen(lightColor))
-                        {
-                            context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
-                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
-                        }
+                        context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
+                        context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
                     }
-                    break;
+                }
+                break;
                 case PaletteRibbonShape.Office2010:
+                {
+                    using (LinearGradientBrush darkBrush =
+                           new LinearGradientBrush(
+                               new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
+                                   displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
+                           lightBrush = new LinearGradientBrush(
+                               new RectangleF(displayRect.X - 1, displayRect.Y - 1,
+                                   displayRect.Width + 2, displayRect.Height + 2),
+                               Color.FromArgb(128, lightColor), lightColor, 90f))
                     {
-                        using (LinearGradientBrush darkBrush =
-                               new LinearGradientBrush(
-                                   new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
-                                       displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
-                               lightBrush = new LinearGradientBrush(
-                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1,
-                                       displayRect.Width + 2, displayRect.Height + 2),
-                                   Color.FromArgb(128, lightColor), lightColor, 90f))
-                        {
-                            darkBrush.SetSigmaBellShape(0.5f);
-                            lightBrush.SetSigmaBellShape(0.5f);
+                        darkBrush.SetSigmaBellShape(0.5f);
+                        lightBrush.SetSigmaBellShape(0.5f);
 
-                            using (var darkPen = new Pen(darkBrush))
-                            {
-                                context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
-                                context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
-                            }
+                        using (var darkPen = new Pen(darkBrush))
+                        {
+                            context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
+                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
                         }
                     }
-                    break;
+                }
+                break;
             }
         }
 
@@ -3062,7 +3072,7 @@ namespace Krypton.Toolkit
                 var x = rtl ? cellRect.X : cellRect.Right - sortImage.Width;
 
                 // Grab the foreground color to use for the image
-                Color imageColor = paletteContent.GetContentShortTextColor1(state);
+                Color imageColor = paletteContent!.GetContentShortTextColor1(state);
 
                 // Draw the image with remapping the image color to the foreground color
                 using (var attribs = new ImageAttributes())
@@ -3074,7 +3084,7 @@ namespace Krypton.Toolkit
                     };
                     attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
-                    context.Graphics.DrawImage(sortImage,
+                    context!.Graphics.DrawImage(sortImage,
                                                new Rectangle(x, y, sortImage.Width, sortImage.Height),
                                                0, 0, sortImage.Width, sortImage.Height,
                                                GraphicsUnit.Pixel, attribs);
@@ -3103,15 +3113,15 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridRowGlyph([DisallowNull] RenderContext context,
+        public override Rectangle DrawGridRowGlyph(RenderContext context,
                                                    GridRowGlyph rowGlyph,
                                                    Rectangle cellRect,
-                                                   [DisallowNull] IPaletteContent? paletteContent,
+                                                   IPaletteContent? paletteContent,
                                                    PaletteState state,
                                                    bool rtl)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Get the appropriate each to draw
             Image? rowImage = null;
@@ -3142,7 +3152,7 @@ namespace Krypton.Toolkit
                 var x = rtl ? cellRect.Right - rowImage.Width : cellRect.Left;
 
                 // Grab the foreground color to use for the image
-                Color imageColor = paletteContent.GetContentShortTextColor1(state);
+                Color imageColor = paletteContent!.GetContentShortTextColor1(state);
 
                 // Draw the image with remapping the image color to the foreground color
                 using (var attribs = new ImageAttributes())
@@ -3154,7 +3164,7 @@ namespace Krypton.Toolkit
                     };
                     attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
-                    context.Graphics.DrawImage(rowImage,
+                    context!.Graphics.DrawImage(rowImage,
                                                new Rectangle(x, y, rowImage.Width, rowImage.Height),
                                                0, 0, rowImage.Width, rowImage.Height,
                                                GraphicsUnit.Pixel, attribs);
@@ -3200,11 +3210,11 @@ namespace Krypton.Toolkit
 
                 if (state == PaletteState.Disabled)
                 {
-                    ControlPaint.DrawImageDisabled(context.Graphics, errorImage, x, y, GlobalStaticValues.EMPTY_COLOR);
+                    ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, GlobalStaticValues.EMPTY_COLOR);
                 }
                 else
                 {
-                    context.Graphics.DrawImage(errorImage, x, y);
+                    context!.Graphics.DrawImage(errorImage, x, y);
                 }
 
                 // Reduce the cell rect by that used up
@@ -3233,9 +3243,9 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
             Debug.Assert(dragDropPalette != null);
 
-            using (var backBrush = new SolidBrush(dragDropPalette.GetDragDropSolidBack()))
+            using (var backBrush = new SolidBrush(dragDropPalette!.GetDragDropSolidBack()))
             {
-                context.Graphics.FillRectangle(backBrush, drawRect);
+                context!.Graphics.FillRectangle(backBrush, drawRect);
             }
 
             using (var borderPen = new Pen(dragDropPalette.GetDragDropSolidBorder()))
@@ -3259,11 +3269,11 @@ namespace Krypton.Toolkit
 
             if (feedback == PaletteDragFeedback.Rounded)
             {
-                MeasureDragDockingRounded(dragData, dragDropPalette);
+                MeasureDragDockingRounded(dragData!, dragDropPalette!);
             }
             else
             {
-                MeasureDragDockingSquares(dragData, dragDropPalette);
+                MeasureDragDockingSquares(dragData!, dragDropPalette!);
             }
         }
 
@@ -3285,11 +3295,11 @@ namespace Krypton.Toolkit
 
             if (feedback == PaletteDragFeedback.Rounded)
             {
-                DrawDragDockingRounded(context, dragData, dragDropPalette);
+                DrawDragDockingRounded(context!, dragData!, dragDropPalette!);
             }
             else
             {
-                DrawDragDockingSquares(context, dragData, dragDropPalette);
+                DrawDragDockingSquares(context!, dragData!, dragDropPalette!);
             }
         }
         #endregion
@@ -3342,11 +3352,11 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public override bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  [DisallowNull] IPaletteBorder? paletteBorder,
+                                                  IPaletteBorder? paletteBorder,
                                                   PaletteState state)
         {
             // If the border takes up some visual space
-            if (paletteBorder.GetBorderWidth(state) > 0)
+            if (paletteBorder!.GetBorderWidth(state)! > 0)
             {
                 // If the border is not being painted then it must be transparent
                 if (paletteBorder.GetBorderDraw(state) == InheritBool.False)
@@ -3428,7 +3438,7 @@ namespace Krypton.Toolkit
 
                 // Draw a marker for each value between min and max
                 var factor = (range == 0) ? float.MinValue : drawRect.Width / range;
-                for (int i = minimum, y = 0; i <= maximum; i += frequency, y += frequency)
+                for (int i = minimum, y = 0 ; i <= maximum ; i += frequency, y += frequency)
                 {
                     var offset = drawRect.X + (factor * y);
                     float top;
@@ -3464,7 +3474,7 @@ namespace Krypton.Toolkit
 
                 // Draw a marker for each value between min and max
                 var factor = (range == 0) ? float.MinValue : drawRect.Height / range;
-                for (int i = minimum, y = 0; i <= maximum; i += frequency, y += frequency)
+                for (int i = minimum, y = 0 ; i <= maximum ; i += frequency, y += frequency)
                 {
                     var offset = drawRect.Y + (factor * y);
                     float left;
@@ -5638,7 +5648,7 @@ namespace Krypton.Toolkit
                 var fontSpace = chromeBorders.Top - 6;
 
                 // If not enough room for the font then create a new smaller font
-                if ((font.Height > fontSpace) && (fontSpace > 5))
+                if ((font!.Height > fontSpace) && (fontSpace > 5))
                 {
                     // Find the point size from the pixel height required
                     var point = 72 / context.Graphics.DpiY * (fontSpace / 1.333f);
@@ -5792,7 +5802,7 @@ namespace Krypton.Toolkit
             memento.ShortTextMemento = AccurateText.MeasureString(g,
                 rtl,
                 shortText,
-                textFont,
+                textFont!,
                 memento.ShortTextTrimming,
                 paletteContent.GetContentShortTextMultiLineH(state),
                 paletteContent.GetContentShortTextPrefix(state),
@@ -5869,10 +5879,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Get a pixel accurate measure of text drawing space needed
-                memento.LongTextMemento = AccurateText.MeasureString(g,
+                memento.LongTextMemento = AccurateText.MeasureString(g!,
                                                                      rtl,
                                                                      longText,
-                                                                     textFont,
+                                                                     textFont!,
                                                                      memento.LongTextTrimming,
                                                                      paletteContent.GetContentLongTextMultiLineH(state),
                                                                      paletteContent.GetContentLongTextPrefix(state),
@@ -5966,11 +5976,11 @@ namespace Krypton.Toolkit
         {
             int[] colWidths = [0, 0, 0];
 
-            for (var col = 0; col < 3; col++)
+            for (var col = 0 ; col < 3 ; col++)
             {
                 if (rowIndex == -1)
                 {
-                    for (var row = 0; row < 3; row++)
+                    for (var row = 0 ; row < 3 ; row++)
                     {
                         // Store the widest cell in each column
                         if (allocation[col, row].Width > colWidths[col])
@@ -5996,9 +6006,9 @@ namespace Krypton.Toolkit
         {
             int[] rowHeights = [0, 0, 0];
 
-            for (var row = 0; row < 3; row++)
+            for (var row = 0 ; row < 3 ; row++)
             {
-                for (var col = 0; col < 3; col++)
+                for (var col = 0 ; col < 3 ; col++)
                 {
                     // Store the Highest cell in each column
                     if (allocation[col, row].Height > rowHeights[row])
@@ -6893,59 +6903,62 @@ namespace Krypton.Toolkit
                                                  Color inactiveColor,
                                                  RenderDragDockingData dragData)
         {
-            var borderColour = ControlPaint.Dark(activeColor);
+            if (g is not null)
+            {
+                var borderColour = ControlPaint.Dark(activeColor);
 
-            // Draw border around the window square
-            using Pen borderPen = new Pen(borderColour),
-                dashPen = new Pen(borderColour),
-                shadow1Pen = new Pen(_190),
-                shadow2Pen = new Pen(_218);
-            // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush =
-                    new LinearGradientBrush(new Rectangle(60, 33, 23, 1), ControlPaint.LightLight(inactiveColor),
+                // Draw border around the window square
+                using Pen borderPen = new Pen(borderColour),
+                    dashPen = new Pen(borderColour),
+                    shadow1Pen = new Pen(_190),
+                    shadow2Pen = new Pen(_218);
+                // Draw the caption area at top of window
+                using LinearGradientBrush middleBrush =
+                        new LinearGradientBrush(new Rectangle(60, 33, 23, 1), ControlPaint.LightLight(inactiveColor),
+                            activeColor, 0f),
+                    bottomBrush = new LinearGradientBrush(new Rectangle(60, 34, 23, 1), ControlPaint.Light(activeColor),
                         activeColor, 0f),
-                bottomBrush = new LinearGradientBrush(new Rectangle(60, 34, 23, 1), ControlPaint.Light(activeColor),
-                    activeColor, 0f),
-                positionBrush = new LinearGradientBrush(new Rectangle(71, 35, 11, 1),
-                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 180f),
-                arrowBrush = new LinearGradientBrush(new Rectangle(68, 40, 5, 8), borderColour,
-                    Color.FromArgb(175, borderColour), 180f);
-            // Draw border
-            g.DrawLine(borderPen, 60, 33, 60, 53);
-            g.DrawLine(borderPen, 83, 33, 83, 53);
-            g.DrawLine(borderPen, 60, 53, 83, 53);
-            g.DrawLine(borderPen, 60, 33, 83, 33);
+                    positionBrush = new LinearGradientBrush(new Rectangle(71, 35, 11, 1),
+                        Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 180f),
+                    arrowBrush = new LinearGradientBrush(new Rectangle(68, 40, 5, 8), borderColour,
+                        Color.FromArgb(175, borderColour), 180f);
+                // Draw border
+                g.DrawLine(borderPen, 60, 33, 60, 53);
+                g.DrawLine(borderPen, 83, 33, 83, 53);
+                g.DrawLine(borderPen, 60, 53, 83, 53);
+                g.DrawLine(borderPen, 60, 33, 83, 33);
 
-            // Draw shadows around right and bottom edges
-            g.DrawLine(shadow1Pen, 61, 54, 84, 54);
-            g.DrawLine(shadow1Pen, 84, 34, 84, 54);
-            g.DrawLine(shadow2Pen, 62, 55, 85, 55);
-            g.DrawLine(shadow2Pen, 85, 35, 85, 55);
+                // Draw shadows around right and bottom edges
+                g.DrawLine(shadow1Pen, 61, 54, 84, 54);
+                g.DrawLine(shadow1Pen, 84, 34, 84, 54);
+                g.DrawLine(shadow2Pen, 62, 55, 85, 55);
+                g.DrawLine(shadow2Pen, 85, 35, 85, 55);
 
-            // Draw the caption area
-            g.FillRectangle(middleBrush, 61, 34, 22, 1);
-            g.FillRectangle(bottomBrush, 61, 35, 22, 1);
+                // Draw the caption area
+                g.FillRectangle(middleBrush, 61, 34, 22, 1);
+                g.FillRectangle(bottomBrush, 61, 35, 22, 1);
 
-            // Draw client area
-            g.FillRectangle(SystemBrushes.Window, 61, 36, 22, 17);
+                // Draw client area
+                g.FillRectangle(SystemBrushes.Window, 61, 36, 22, 17);
 
-            // Draw docking edge indicator
-            g.FillRectangle(positionBrush, 72, 36, 11, 17);
+                // Draw docking edge indicator
+                g.FillRectangle(positionBrush, 72, 36, 11, 17);
 
-            // Draw a dashed line down the middle
-            dashPen.DashStyle = DashStyle.Dot;
-            g.DrawLine(dashPen, 72, 37, 72, 52);
+                // Draw a dashed line down the middle
+                dashPen.DashStyle = DashStyle.Dot;
+                g.DrawLine(dashPen, 72, 37, 72, 52);
 
-            // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new Point(69, 44), new Point(65, 40), new Point(65, 48),
+                // Draw the direction arrow
+                g.FillPolygon(arrowBrush, new Point[] { new Point(69, 44), new Point(65, 40), new Point(65, 48),
                 new Point(69, 44) });
 
-            // If active, then draw highlighted border
-            if (dragData.ActiveRight)
-            {
-                g.DrawLine(borderPen, 87, 29, 63, 29);
-                g.DrawLine(borderPen, 87, 57, 63, 57);
-                g.DrawLine(borderPen, 87, 29, 87, 57);
+                // If active, then draw highlighted border
+                if (dragData.ActiveRight)
+                {
+                    g.DrawLine(borderPen, 87, 29, 63, 29);
+                    g.DrawLine(borderPen, 87, 57, 63, 57);
+                    g.DrawLine(borderPen, 87, 29, 87, 57);
+                }
             }
         }
 
@@ -6954,59 +6967,62 @@ namespace Krypton.Toolkit
                                                Color inactiveColor,
                                                RenderDragDockingData dragData)
         {
-            var borderColour = ControlPaint.Dark(activeColor);
+            if (g is not null)
+            {
+                var borderColour = ControlPaint.Dark(activeColor);
 
-            // Draw border around the window square
-            using Pen borderPen = new Pen(borderColour),
-                dashPen = new Pen(borderColour),
-                shadow1Pen = new Pen(_190),
-                shadow2Pen = new Pen(_218);
-            // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush =
-                    new LinearGradientBrush(new Rectangle(33, 5, 20, 1), ControlPaint.LightLight(inactiveColor),
+                // Draw border around the window square
+                using Pen borderPen = new Pen(borderColour),
+                    dashPen = new Pen(borderColour),
+                    shadow1Pen = new Pen(_190),
+                    shadow2Pen = new Pen(_218);
+                // Draw the caption area at top of window
+                using LinearGradientBrush middleBrush =
+                        new LinearGradientBrush(new Rectangle(33, 5, 20, 1), ControlPaint.LightLight(inactiveColor),
+                            activeColor, 0f),
+                    bottomBrush = new LinearGradientBrush(new Rectangle(33, 6, 20, 1), ControlPaint.Light(activeColor),
                         activeColor, 0f),
-                bottomBrush = new LinearGradientBrush(new Rectangle(33, 6, 20, 1), ControlPaint.Light(activeColor),
-                    activeColor, 0f),
-                positionBrush = new LinearGradientBrush(new Rectangle(34, 6, 19, 10),
-                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 90f),
-                arrowBrush = new LinearGradientBrush(new Rectangle(39, 40, 8, 4), borderColour,
-                    Color.FromArgb(175, borderColour), 90f);
-            // Draw border
-            g.DrawLine(borderPen, 33, 4, 53, 4);
-            g.DrawLine(borderPen, 53, 4, 53, 27);
-            g.DrawLine(borderPen, 53, 27, 33, 27);
-            g.DrawLine(borderPen, 33, 27, 33, 4);
+                    positionBrush = new LinearGradientBrush(new Rectangle(34, 6, 19, 10),
+                        Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 90f),
+                    arrowBrush = new LinearGradientBrush(new Rectangle(39, 40, 8, 4), borderColour,
+                        Color.FromArgb(175, borderColour), 90f);
+                // Draw border
+                g.DrawLine(borderPen!, 33, 4, 53, 4);
+                g.DrawLine(borderPen!, 53, 4, 53, 27);
+                g.DrawLine(borderPen!, 53, 27, 33, 27);
+                g.DrawLine(borderPen!, 33, 27, 33, 4);
 
-            // Draw shadows around right and bottom edges
-            g.DrawLine(shadow1Pen, 34, 28, 54, 28);
-            g.DrawLine(shadow1Pen, 54, 5, 54, 28);
-            g.DrawLine(shadow2Pen, 35, 29, 55, 29);
-            g.DrawLine(shadow2Pen, 55, 6, 55, 29);
+                // Draw shadows around right and bottom edges
+                g.DrawLine(shadow1Pen!, 34, 28, 54, 28);
+                g.DrawLine(shadow1Pen!, 54, 5, 54, 28);
+                g.DrawLine(shadow2Pen!, 35, 29, 55, 29);
+                g.DrawLine(shadow2Pen!, 55, 6, 55, 29);
 
-            // Draw the caption area
-            g.FillRectangle(middleBrush, 34, 5, 19, 1);
-            g.FillRectangle(bottomBrush, 34, 6, 19, 1);
+                // Draw the caption area
+                g.FillRectangle(middleBrush!, 34, 5, 19, 1);
+                g.FillRectangle(bottomBrush!, 34, 6, 19, 1);
 
-            // Draw client area
-            g.FillRectangle(SystemBrushes.Window, 34, 7, 19, 20);
+                // Draw client area
+                g.FillRectangle(SystemBrushes.Window!, 34, 7, 19, 20);
 
-            // Draw docking edge indicator
-            g.FillRectangle(positionBrush, 34, 7, 19, 9);
+                // Draw docking edge indicator
+                g.FillRectangle(positionBrush!, 34, 7, 19, 9);
 
-            // Draw a dashed line down the middle
-            dashPen.DashStyle = DashStyle.Dot;
-            g.DrawLine(dashPen, 35, 15, 53, 15);
+                // Draw a dashed line down the middle
+                dashPen.DashStyle = DashStyle.Dot;
+                g.DrawLine(dashPen, 35, 15, 53, 15);
 
-            // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new Point(43, 18), new Point(47, 23), new Point(39, 23),
+                // Draw the direction arrow
+                g.FillPolygon(arrowBrush, new Point[] { new Point(43, 18), new Point(47, 23), new Point(39, 23),
                 new Point(43, 18) });
 
-            // If active, then draw highlighted border
-            if (dragData.ActiveTop)
-            {
-                g.DrawLine(borderPen, 29, 0, 29, 23);
-                g.DrawLine(borderPen, 57, 0, 57, 23);
-                g.DrawLine(borderPen, 29, 0, 57, 0);
+                // If active, then draw highlighted border
+                if (dragData.ActiveTop)
+                {
+                    g.DrawLine(borderPen!, 29, 0, 29, 23);
+                    g.DrawLine(borderPen!, 57, 0, 57, 23);
+                    g.DrawLine(borderPen!, 29, 0, 57, 0);
+                }
             }
         }
 
@@ -7015,59 +7031,63 @@ namespace Krypton.Toolkit
                                                   Color inactiveColor,
                                                   RenderDragDockingData dragData)
         {
-            var borderColour = ControlPaint.Dark(activeColor);
 
-            // Draw border around the window square
-            using Pen borderPen = new Pen(borderColour),
-                dashPen = new Pen(borderColour),
-                shadow1Pen = new Pen(_190),
-                shadow2Pen = new Pen(_218);
-            // Draw the caption area at top of window
-            using LinearGradientBrush middleBrush =
-                    new LinearGradientBrush(new Rectangle(33, 61, 20, 1), ControlPaint.LightLight(inactiveColor),
+            if (g is not null)
+            {
+                var borderColour = ControlPaint.Dark(activeColor);
+
+                // Draw border around the window square
+                using Pen borderPen = new Pen(borderColour),
+                    dashPen = new Pen(borderColour),
+                    shadow1Pen = new Pen(_190),
+                    shadow2Pen = new Pen(_218);
+                // Draw the caption area at top of window
+                using LinearGradientBrush middleBrush =
+                        new LinearGradientBrush(new Rectangle(33, 61, 20, 1), ControlPaint.LightLight(inactiveColor),
+                            activeColor, 0f),
+                    bottomBrush = new LinearGradientBrush(new Rectangle(33, 62, 20, 1), ControlPaint.Light(activeColor),
                         activeColor, 0f),
-                bottomBrush = new LinearGradientBrush(new Rectangle(33, 62, 20, 1), ControlPaint.Light(activeColor),
-                    activeColor, 0f),
-                positionBrush = new LinearGradientBrush(new Rectangle(34, 72, 19, 11),
-                    Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 270f),
-                arrowBrush = new LinearGradientBrush(new Rectangle(39, 66, 8, 4), borderColour,
-                    Color.FromArgb(175, borderColour), 270f);
-            // Draw border
-            g.DrawLine(borderPen, 33, 60, 53, 60);
-            g.DrawLine(borderPen, 53, 60, 53, 83);
-            g.DrawLine(borderPen, 53, 83, 33, 83);
-            g.DrawLine(borderPen, 33, 83, 33, 60);
+                    positionBrush = new LinearGradientBrush(new Rectangle(34, 72, 19, 11),
+                        Color.FromArgb(160, inactiveColor), Color.FromArgb(64, inactiveColor), 270f),
+                    arrowBrush = new LinearGradientBrush(new Rectangle(39, 66, 8, 4), borderColour,
+                        Color.FromArgb(175, borderColour), 270f);
+                // Draw border
+                g.DrawLine(borderPen!, 33, 60, 53, 60);
+                g.DrawLine(borderPen!, 53, 60, 53, 83);
+                g.DrawLine(borderPen!, 53, 83, 33, 83);
+                g.DrawLine(borderPen!, 33, 83, 33, 60);
 
-            // Draw shadows around right and bottom edges
-            g.DrawLine(shadow1Pen, 34, 84, 54, 84);
-            g.DrawLine(shadow1Pen, 54, 61, 54, 84);
-            g.DrawLine(shadow2Pen, 35, 85, 55, 85);
-            g.DrawLine(shadow2Pen, 55, 61, 55, 85);
+                // Draw shadows around right and bottom edges
+                g.DrawLine(shadow1Pen!, 34, 84, 54, 84);
+                g.DrawLine(shadow1Pen!, 54, 61, 54, 84);
+                g.DrawLine(shadow2Pen!, 35, 85, 55, 85);
+                g.DrawLine(shadow2Pen!, 55, 61, 55, 85);
 
-            // Draw the caption area
-            g.FillRectangle(middleBrush, 34, 61, 19, 1);
-            g.FillRectangle(bottomBrush, 34, 62, 19, 1);
+                // Draw the caption area
+                g.FillRectangle(middleBrush!, 34, 61, 19, 1);
+                g.FillRectangle(bottomBrush!, 34, 62, 19, 1);
 
-            // Draw client area
-            g.FillRectangle(SystemBrushes.Window, 34, 63, 19, 20);
+                // Draw client area
+                g.FillRectangle(SystemBrushes.Window!, 34, 63, 19, 20);
 
-            // Draw docking edge indicator
-            g.FillRectangle(positionBrush, 34, 73, 19, 10);
+                // Draw docking edge indicator
+                g.FillRectangle(positionBrush!, 34, 73, 19, 10);
 
-            // Draw a dashed line down the middle
-            dashPen.DashStyle = DashStyle.Dot;
-            g.DrawLine(dashPen, 35, 73, 53, 73);
+                // Draw a dashed line down the middle
+                dashPen.DashStyle = DashStyle.Dot;
+                g.DrawLine(dashPen, 35, 73, 53, 73);
 
-            // Draw the direction arrow
-            g.FillPolygon(arrowBrush, new Point[] { new Point(43, 71), new Point(47, 67), new Point(40, 67),
+                // Draw the direction arrow
+                g.FillPolygon(arrowBrush, new Point[] { new Point(43, 71), new Point(47, 67), new Point(40, 67),
                 new Point(43, 71) });
 
-            // If active, then draw highlighted border
-            if (dragData.ActiveBottom)
-            {
-                g.DrawLine(borderPen, 29, 63, 29, 87);
-                g.DrawLine(borderPen, 57, 63, 57, 87);
-                g.DrawLine(borderPen, 29, 87, 57, 87);
+                // If active, then draw highlighted border
+                if (dragData.ActiveBottom)
+                {
+                    g.DrawLine(borderPen!, 29, 63, 29, 87);
+                    g.DrawLine(borderPen!, 57, 63, 57, 87);
+                    g.DrawLine(borderPen!, 29, 87, 57, 87);
+                }
             }
         }
 
@@ -7076,82 +7096,85 @@ namespace Krypton.Toolkit
                                                   Color inactiveColor,
                                                   RenderDragDockingData dragData)
         {
-            var borderColour = ControlPaint.Dark(activeColor);
-
-            // Draw border around the window square
-            using Pen borderPen = new Pen(borderColour),
-                dashPen = new Pen(borderColour),
-                shadow1Pen = new Pen(_190),
-                shadow2Pen = new Pen(_218);
-            // Draw the caption area at top of window
-            using (LinearGradientBrush middleBrush =
-                   new LinearGradientBrush(new Rectangle(32, 34, 21, 1), ControlPaint.LightLight(inactiveColor),
-                       activeColor, 0f),
-                   bottomBrush = new LinearGradientBrush(new Rectangle(32, 35, 21, 1), ControlPaint.Light(activeColor),
-                       activeColor, 0f))
+            if (g is not null)
             {
-                // Draw border
-                g.DrawLine(borderPen, 32, 32, 54, 32);
-                g.DrawLine(borderPen, 32, 32, 32, 53);
-                g.DrawLine(borderPen, 32, 53, 33, 54);
-                g.DrawLine(borderPen, 33, 54, 41, 54);
-                g.DrawLine(borderPen, 41, 54, 42, 52);
-                g.DrawLine(borderPen, 42, 52, 42, 50);
-                g.DrawLine(borderPen, 42, 50, 54, 50);
-                g.DrawLine(borderPen, 54, 32, 54, 53);
-                g.DrawLine(borderPen, 54, 53, 53, 54);
-                g.DrawLine(borderPen, 53, 54, 49, 54);
-                g.DrawLine(borderPen, 49, 54, 48, 53);
-                g.DrawLine(borderPen, 48, 53, 48, 50);
-                g.DrawLine(borderPen, 48, 53, 47, 54);
-                g.DrawLine(borderPen, 47, 54, 43, 54);
-                g.DrawLine(borderPen, 43, 54, 42, 53);
+                var borderColour = ControlPaint.Dark(activeColor);
 
-                // Draw the caption area
-                g.FillRectangle(middleBrush, 33, 33, 21, 1);
-                g.FillRectangle(bottomBrush, 33, 34, 21, 1);
-
-                // Draw the client area
-                g.FillRectangle(SystemBrushes.Window, 33, 35, 21, 15);
-                g.FillRectangle(SystemBrushes.Window, 33, 50, 9, 3);
-                g.FillRectangle(SystemBrushes.Window, 33, 53, 9, 1);
-                g.FillRectangle(SystemBrushes.Window, 43, 51, 5, 3);
-                g.FillRectangle(SystemBrushes.Window, 49, 51, 5, 3);
-
-                // Fill the inner indicator area
-                using (var innerBrush = new SolidBrush(Color.FromArgb(64, inactiveColor)))
+                // Draw border around the window square
+                using Pen borderPen = new Pen(borderColour),
+                    dashPen = new Pen(borderColour),
+                    shadow1Pen = new Pen(_190),
+                    shadow2Pen = new Pen(_218);
+                // Draw the caption area at top of window
+                using (LinearGradientBrush middleBrush =
+                       new LinearGradientBrush(new Rectangle(32, 34, 21, 1), ControlPaint.LightLight(inactiveColor),
+                           activeColor, 0f),
+                       bottomBrush = new LinearGradientBrush(new Rectangle(32, 35, 21, 1), ControlPaint.Light(activeColor),
+                           activeColor, 0f))
                 {
-                    g.FillRectangle(innerBrush, 34, 36, 19, 13);
-                    g.FillRectangle(innerBrush, 34, 49, 7, 3);
-                    g.FillRectangle(innerBrush, 35, 52, 5, 1);
+                    // Draw border
+                    g.DrawLine(borderPen!, 32, 32, 54, 32);
+                    g.DrawLine(borderPen!, 32, 32, 32, 53);
+                    g.DrawLine(borderPen!, 32, 53, 33, 54);
+                    g.DrawLine(borderPen!, 33, 54, 41, 54);
+                    g.DrawLine(borderPen!, 41, 54, 42, 52);
+                    g.DrawLine(borderPen!, 42, 52, 42, 50);
+                    g.DrawLine(borderPen!, 42, 50, 54, 50);
+                    g.DrawLine(borderPen!, 54, 32, 54, 53);
+                    g.DrawLine(borderPen!, 54, 53, 53, 54);
+                    g.DrawLine(borderPen!, 53, 54, 49, 54);
+                    g.DrawLine(borderPen!, 49, 54, 48, 53);
+                    g.DrawLine(borderPen!, 48, 53, 48, 50);
+                    g.DrawLine(borderPen!, 48, 53, 47, 54);
+                    g.DrawLine(borderPen!, 47, 54, 43, 54);
+                    g.DrawLine(borderPen!, 43, 54, 42, 53);
+
+                    // Draw the caption area
+                    g.FillRectangle(middleBrush!, 33, 33, 21, 1);
+                    g.FillRectangle(bottomBrush!, 33, 34, 21, 1);
+
+                    // Draw the client area
+                    g.FillRectangle(SystemBrushes.Window!, 33, 35, 21, 15);
+                    g.FillRectangle(SystemBrushes.Window!, 33, 50, 9, 3);
+                    g.FillRectangle(SystemBrushes.Window!, 33, 53, 9, 1);
+                    g.FillRectangle(SystemBrushes.Window!, 43, 51, 5, 3);
+                    g.FillRectangle(SystemBrushes.Window!, 49, 51, 5, 3);
+
+                    // Fill the inner indicator area
+                    using (var innerBrush = new SolidBrush(Color.FromArgb(64, inactiveColor)))
+                    {
+                        g.FillRectangle(innerBrush!, 34, 36, 19, 13);
+                        g.FillRectangle(innerBrush!, 34, 49, 7, 3);
+                        g.FillRectangle(innerBrush!, 35, 52, 5, 1);
+                    }
+
+                    // Draw outline of the indicator area
+                    dashPen.DashStyle = DashStyle.Dot;
+                    g.DrawLine(dashPen!, 34, 37, 34, 52);
+                    g.DrawLine(dashPen!, 35, 52, 40, 52);
+                    g.DrawLine(dashPen!, 40, 51, 40, 49);
+                    g.DrawLine(dashPen!, 40, 51, 40, 48);
+                    g.DrawLine(dashPen!, 41, 48, 53, 48);
+                    g.DrawLine(dashPen!, 52, 47, 52, 36);
+                    g.DrawLine(dashPen!, 35, 36, 52, 36);
+
+                    // Draw right han side shadow
+                    g.DrawLine(shadow1Pen!, 55, 33, 55, 53);
+                    g.DrawLine(shadow2Pen!, 56, 34, 56, 53);
+                    g.DrawLine(shadow1Pen!, 33, 55, 53, 55);
+                    g.DrawLine(shadow1Pen!, 53, 55, 55, 53);
+                    g.DrawLine(shadow2Pen!, 34, 56, 53, 56);
+                    g.DrawLine(shadow2Pen!, 53, 56, 56, 53);
                 }
 
-                // Draw outline of the indicator area
-                dashPen.DashStyle = DashStyle.Dot;
-                g.DrawLine(dashPen, 34, 37, 34, 52);
-                g.DrawLine(dashPen, 35, 52, 40, 52);
-                g.DrawLine(dashPen, 40, 51, 40, 49);
-                g.DrawLine(dashPen, 40, 51, 40, 48);
-                g.DrawLine(dashPen, 41, 48, 53, 48);
-                g.DrawLine(dashPen, 52, 47, 52, 36);
-                g.DrawLine(dashPen, 35, 36, 52, 36);
-
-                // Draw right han side shadow
-                g.DrawLine(shadow1Pen, 55, 33, 55, 53);
-                g.DrawLine(shadow2Pen, 56, 34, 56, 53);
-                g.DrawLine(shadow1Pen, 33, 55, 53, 55);
-                g.DrawLine(shadow1Pen, 53, 55, 55, 53);
-                g.DrawLine(shadow2Pen, 34, 56, 53, 56);
-                g.DrawLine(shadow2Pen, 53, 56, 56, 53);
-            }
-
-            // If active, then draw highlighted border
-            if (dragData.ActiveMiddle)
-            {
-                g.DrawLine(borderPen, 23, 29, 29, 23);
-                g.DrawLine(borderPen, 57, 23, 63, 29);
-                g.DrawLine(borderPen, 63, 57, 57, 63);
-                g.DrawLine(borderPen, 23, 57, 29, 63);
+                // If active, then draw highlighted border
+                if (dragData.ActiveMiddle)
+                {
+                    g.DrawLine(borderPen!, 23, 29, 29, 23);
+                    g.DrawLine(borderPen!, 57, 23, 63, 29);
+                    g.DrawLine(borderPen!, 63, 57, 57, 63);
+                    g.DrawLine(borderPen!, 23, 57, 29, 63);
+                }
             }
         }
         #endregion
@@ -7160,7 +7183,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonGroupAreaBorder1And2(RenderContext context,
+        protected virtual IDisposable? DrawRibbonGroupAreaBorder1And2(RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
                                                                      IPaletteRibbonBack palette,
@@ -7258,26 +7281,26 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the inside area with a linear gradient
-                context.Graphics.FillPath(cache.FillBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.FillBrush!, cache.OutsidePath!);
 
                 // Clip drawing to the outside border
-                using (var clip = new Clipping(context.Graphics, cache.OutsidePath))
+                using (var clip = new Clipping(context.Graphics, cache.OutsidePath!))
                 {
-                    context.Graphics.FillPath(cache.FillTopBrush, cache.OutsidePath);
+                    context.Graphics.FillPath(cache.FillTopBrush!, cache.OutsidePath!);
                 }
 
                 using (var aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the outside of the entire border line
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
 
                     // Draw the highlighting inside border
-                    context.Graphics.DrawPath(cache.InsidePen, limited ? cache.InsidePathL : cache.InsidePathN);
+                    context.Graphics.DrawPath(cache.InsidePen!, (limited ? cache.InsidePathL : cache.InsidePathN)!);
                 }
 
                 Pen shadowMedium = limited ? _lightShadowPen : _medium2ShadowPen;
                 Pen shadowDark = limited ? _medium2ShadowPen : _darkShadowPen;
-                context.Graphics.DrawPath(limited ? cache.ShadowPenL : cache.ShadowPenN, cache.ShadowPath);
+                context.Graphics.DrawPath(limited ? cache.ShadowPenL! : cache.ShadowPenN!, cache.ShadowPath!);
                 context.Graphics.DrawLine(shadowMedium, rect.Left, rect.Bottom, rect.Left, rect.Bottom - 1);
                 context.Graphics.DrawLine(shadowMedium, rect.Left, rect.Bottom - 1, rect.Left + 1, rect.Bottom);
                 context.Graphics.DrawLine(shadowDark, rect.Right, rect.Bottom - 2, rect.Right - 2, rect.Bottom);
@@ -7290,11 +7313,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonGroupAreaBorder3And4(RenderContext context,
+        protected virtual IDisposable? DrawRibbonGroupAreaBorder3And4(RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
                                                                      IPaletteRibbonBack palette,
-                                                                     IDisposable memento,
+                                                                     IDisposable? memento,
                                                                      bool gradientTop)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -7355,19 +7378,19 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw solid background for entire area
-                context.Graphics.FillRectangle(cache.BackBrush3, rect);
+                context.Graphics.FillRectangle(cache.BackBrush3!, rect);
 
                 // Fill area inside the border with a gradient effect
-                context.Graphics.FillRectangle(cache.BackBrush1, cache.BackRect1);
-                context.Graphics.FillRectangle(cache.BackBrush2, cache.BackRect2);
+                context.Graphics.FillRectangle(cache.BackBrush1!, cache.BackRect1);
+                context.Graphics.FillRectangle(cache.BackBrush2!, cache.BackRect2);
                 // Draw the solid border around the edge
-                context.Graphics.DrawLine(cache.GradientBorderPen, cache.BorderRect.X, cache.BorderRect.Y, cache.BorderRect.Right, cache.BorderRect.Y);
-                context.Graphics.DrawLines(cache.SolidBorderPen, cache.BorderPoints);
+                context.Graphics.DrawLine(cache.GradientBorderPen!, cache.BorderRect.X, cache.BorderRect.Y, cache.BorderRect.Right, cache.BorderRect.Y);
+                context.Graphics.DrawLines(cache.SolidBorderPen!, cache.BorderPoints);
 
                 // Draw shadow lines at bottom
-                context.Graphics.DrawLine(cache.ShadowPen3, rect.X, rect.Bottom - 2, rect.Right, rect.Bottom - 2);
-                context.Graphics.DrawLine(cache.ShadowPen2, rect.X, rect.Bottom - 1, rect.Right, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.ShadowPen1, rect.X, rect.Bottom, rect.Right, rect.Bottom);
+                context.Graphics.DrawLine(cache.ShadowPen3!, rect.X, rect.Bottom - 2, rect.Right, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.ShadowPen2!, rect.X, rect.Bottom - 1, rect.Right, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.ShadowPen1!, rect.X, rect.Bottom, rect.Right, rect.Bottom);
             }
 
             return memento;
@@ -7376,11 +7399,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonGroupAreaBorderContext(RenderContext context,
+        protected virtual IDisposable? DrawRibbonGroupAreaBorderContext(RenderContext context,
                                                                        Rectangle rect,
                                                                        PaletteState state,
                                                                        IPaletteRibbonBack palette,
-                                                                       IDisposable memento)
+                                                                       IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -7460,25 +7483,25 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the inside area with a linear gradient
-                context.Graphics.FillPath(cache.FillBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.FillBrush!, cache.OutsidePath!);
 
                 // Clip drawing to the outside border
-                using (Clipping clip = new Clipping(context.Graphics, cache.OutsidePath))
+                using (Clipping clip = new Clipping(context.Graphics, cache.OutsidePath!))
                 {
-                    context.Graphics.FillPath(cache.FillTopBrush, cache.OutsidePath);
+                    context.Graphics.FillPath(cache.FillTopBrush!, cache.OutsidePath!);
                 }
 
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the outside of the entire border line
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
 
                     // Draw the highlighting inside border
-                    context.Graphics.DrawPath(cache.InsidePen, cache.InsidePath);
+                    context.Graphics.DrawPath(cache.InsidePen!, cache.InsidePath!);
                 }
 
                 // Draw the shadow outside the bottom and right edges
-                context.Graphics.DrawPath(cache.ShadowPen, cache.ShadowPath);
+                context.Graphics.DrawPath(cache.ShadowPen!, cache.ShadowPath!);
                 context.Graphics.DrawLine(_medium2ShadowPen, rect.Left, rect.Bottom, rect.Left, rect.Bottom - 1);
                 context.Graphics.DrawLine(_medium2ShadowPen, rect.Left, rect.Bottom - 1, rect.Left + 1, rect.Bottom);
                 context.Graphics.DrawLine(_darkShadowPen, rect.Right, rect.Bottom - 2, rect.Right - 2, rect.Bottom);
@@ -7491,13 +7514,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabTracking2007(PaletteRibbonShape shape,
+        protected virtual IDisposable? DrawRibbonTabTracking2007(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento)
+                                                                IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -7545,27 +7568,27 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right sides with light version of tracking color
-                context.Graphics.FillRectangle(cache.Half1LeftBrush, cache.Half1Rect);
-                context.Graphics.FillRectangle(cache.Half1RightBrush, cache.Half1Rect);
+                context.Graphics.FillRectangle(cache.Half1LeftBrush!, cache.Half1Rect);
+                context.Graphics.FillRectangle(cache.Half1RightBrush!, cache.Half1Rect);
 
                 // Draw over with glassy effect
-                context.Graphics.FillRectangle(cache.Half1LightBrush, cache.Half1Rect);
+                context.Graphics.FillRectangle(cache.Half1LightBrush!, cache.Half1Rect);
 
                 //// Use a solid fill for the bottom half
-                context.Graphics.FillRectangle(cache.Half2Brush, cache.Half2Rect);
+                context.Graphics.FillRectangle(cache.Half2Brush!, cache.Half2Rect);
 
                 // Cannot draw a path that contains a zero sized element
                 if (cache.EllipseRect is { Width: > 0, Height: > 0 })
                 {
                     // Draw twice to get a deeper color effect, once is to pale
-                    context.Graphics.FillRectangle(cache.EllipseBrush, cache.Half2RectF);
-                    context.Graphics.FillRectangle(cache.EllipseBrush, cache.Half2RectF);
+                    context.Graphics.FillRectangle(cache.EllipseBrush!, cache.Half2RectF);
+                    context.Graphics.FillRectangle(cache.EllipseBrush!, cache.Half2RectF);
                 }
 
                 // Draw the actual border
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
                 }
 
                 switch (orientation)
@@ -7584,7 +7607,7 @@ namespace Krypton.Toolkit
                         break;
                 }
 
-                context.Graphics.DrawPath(cache.TopPen, cache.TopPath);
+                context.Graphics.DrawPath(cache.TopPen!, cache.TopPath!);
             }
 
             return memento;
@@ -7680,10 +7703,13 @@ namespace Krypton.Toolkit
                                                                 MementoRibbonTabTracking2007 cache,
                                                                 Graphics? g)
         {
-            g.FillRectangle(cache.OutsideBrush, rect.Left, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 2, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideBrush, rect.Right - 1, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.InsideBrush, rect.Right - 3, rect.Top + 3, 1, rect.Height - 4);
+            if (g is not null && cache is not null)
+            {
+                g.FillRectangle(cache.OutsideBrush!, rect.Left, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 2, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideBrush!, rect.Right - 1, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.InsideBrush!, rect.Right - 3, rect.Top + 3, 1, rect.Height - 4);
+            }
         }
 
         /// <summary>
@@ -7776,10 +7802,13 @@ namespace Krypton.Toolkit
                                                                  MementoRibbonTabTracking2007 cache,
                                                                  Graphics? g)
         {
-            g.FillRectangle(cache.OutsideBrush, rect.Left + 3, rect.Top, rect.Width - 4, 1);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 3, rect.Top + 2, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideBrush, rect.Left + 3, rect.Bottom - 1, rect.Width - 4, 1);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 3, rect.Bottom - 3, rect.Width - 4, 1);
+            if (g is not null)
+            {
+                g.FillRectangle(cache.OutsideBrush!, rect.Left + 3, rect.Top, rect.Width - 4, 1);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 3, rect.Top + 2, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideBrush!, rect.Left + 3, rect.Bottom - 1, rect.Width - 4, 1);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 3, rect.Bottom - 3, rect.Width - 4, 1);
+            }
         }
 
         /// <summary>
@@ -7873,10 +7902,13 @@ namespace Krypton.Toolkit
                                                                   MementoRibbonTabTracking2007 cache,
                                                                   Graphics? g)
         {
-            g.FillRectangle(cache.OutsideBrush, rect.Left + 1, rect.Top, rect.Width - 4, 1);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 1, rect.Top + 2, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideBrush, rect.Left + 1, rect.Bottom - 1, rect.Width - 4, 1);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 1, rect.Bottom - 3, rect.Width - 4, 1);
+            if (g is not null)
+            {
+                g.FillRectangle(cache.OutsideBrush!, rect.Left + 1, rect.Top, rect.Width - 4, 1);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 1, rect.Top + 2, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideBrush!, rect.Left + 1, rect.Bottom - 1, rect.Width - 4, 1);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 1, rect.Bottom - 3, rect.Width - 4, 1);
+            }
         }
 
         /// <summary>
@@ -7970,22 +8002,25 @@ namespace Krypton.Toolkit
                                                                    MementoRibbonTabTracking2007 cache,
                                                                    Graphics? g)
         {
-            g.FillRectangle(cache.OutsideBrush, rect.Left, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.InsideBrush, rect.Left + 2, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideBrush, rect.Right - 1, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.InsideBrush, rect.Right - 3, rect.Top + 1, 1, rect.Height - 4);
+            if (g is not null)
+            {
+                g.FillRectangle(cache.OutsideBrush!, rect.Left, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.InsideBrush!, rect.Left + 2, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideBrush!, rect.Right - 1, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.InsideBrush!, rect.Right - 3, rect.Top + 1, 1, rect.Height - 4);
+            }
         }
 
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape,
+        protected virtual IDisposable? DrawRibbonTabTracking2010(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -8053,16 +8088,16 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the full background
-                context.Graphics.FillPath(cache.OutsideBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.OutsideBrush!, cache.OutsidePath!);
 
                 // Draw the border
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.BorderPath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.BorderPath!);
                 }
 
                 // Fill the inside area
-                context.Graphics.FillPath(cache.InsideBrush, cache.InsidePath);
+                context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
             }
 
             return memento;
@@ -8257,13 +8292,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabFocus2010(PaletteRibbonShape shape,
+        protected virtual IDisposable? DrawRibbonTabFocus2010(PaletteRibbonShape shape,
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
                                                              IPaletteRibbonBack palette,
                                                              VisualOrientation orientation,
-                                                             IDisposable memento)
+                                                             IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -8325,16 +8360,16 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the full background
-                context.Graphics.FillPath(cache.OutsideBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.OutsideBrush!, cache.OutsidePath!);
 
                 // Draw the border
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.BorderPath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.BorderPath!);
                 }
 
                 // Fill the inside area
-                context.Graphics.FillPath(cache.InsideBrush, cache.InsidePath);
+                context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
             }
 
             return memento;
@@ -8549,13 +8584,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabGlowing(PaletteRibbonShape shape,
+        protected virtual IDisposable? DrawRibbonTabGlowing(PaletteRibbonShape shape,
                                                            RenderContext context,
                                                            Rectangle rect,
                                                            PaletteState state,
                                                            IPaletteRibbonBack palette,
                                                            VisualOrientation orientation,
-                                                           IDisposable memento)
+                                                           IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -8604,33 +8639,33 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the path area with inside color
-                context.Graphics.FillPath(cache.InsideBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.InsideBrush!, cache.OutsidePath!);
 
                 switch (orientation)
                 {
                     case VisualOrientation.Top:
                         // Draw the missing line from the bottom of the inside area
-                        context.Graphics.DrawLine(cache.InsidePen, rect.Left + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+                        context.Graphics.DrawLine(cache.InsidePen!, rect.Left + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
                         break;
                     case VisualOrientation.Left:
                         // Draw the missing line from the right of the inside area
-                        context.Graphics.DrawLine(cache.InsidePen, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 2);
+                        context.Graphics.DrawLine(cache.InsidePen!, rect.Right - 2, rect.Top + 1, rect.Right - 2, rect.Bottom - 2);
                         break;
                 }
 
                 // Draw the border over the edge of the inside color
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
                 }
 
                 // Draw the top glass effect
-                context.Graphics.FillPath(cache.TopBrush, cache.TopPath);
+                context.Graphics.FillPath(cache.TopBrush!, cache.TopPath!);
 
                 // Cannot draw a path that contains a zero sized element
                 if (cache.EllipseRect is { Width: > 0, Height: > 0 })
                 {
-                    context.Graphics.FillRectangle(cache.EllipseBrush, cache.FullRect);
+                    context.Graphics.FillRectangle(cache.EllipseBrush!, cache.FullRect!);
                 }
             }
 
@@ -8934,12 +8969,12 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the inside of the border
-                context.Graphics.FillPath(cache.InsideBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.InsideBrush!, cache.OutsidePath!);
 
                 // Draw the actual border
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
                 }
 
                 switch (orientation)
@@ -8959,7 +8994,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill in the center as a vertical gradient from tto bottom
-                context.Graphics.FillRectangle(cache.CenterBrush, cache.CenterRect);
+                context.Graphics.FillRectangle(cache.CenterBrush!, cache.CenterRect);
             }
 
             return memento;
@@ -8983,7 +9018,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Top + 1.5f, rect.Right - 2, rect.Bottom - 3);
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
 
-            cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 8, rect.Height - 4);
+            cache!.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 8, rect.Height - 4);
             RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
                 cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 90f);
@@ -8997,23 +9032,26 @@ namespace Krypton.Toolkit
                                                                 MementoRibbonTabSelected2007? cache,
                                                                 Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.InsidePen, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
-            g.DrawLine(cache.InsidePen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
-            g.DrawLine(cache.CenterPen, rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
+            if (g is not null && cache is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.InsidePen!, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
+                g.DrawLine(cache.InsidePen!, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
+                g.DrawLine(cache.CenterPen!, rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw a line on the inside of the left and right border edges
-            g.DrawLine(cache.MiddlePen, rect.Left + 0.5f, rect.Bottom - 1, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(cache.MiddlePen, rect.Right - 1.5f, rect.Bottom - 1, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw a line on the inside of the left and right border edges
+                g.DrawLine(cache.MiddlePen!, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 1.5f, rect.Bottom - 1, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Left + 0.5f, rect.Bottom - 1, rect.Left + 2, rect.Bottom - 3);
 
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_paleShadowPen, rect.Left - 1, rect.Bottom - 2, rect.Left - 1, rect.Top + 8);
-            g.DrawLine(_lightShadowPen, rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 5);
-            g.DrawLine(_darkShadowPen, rect.Right - 1, rect.Bottom - 3, rect.Right - 1, rect.Top + 3);
-            g.DrawLine(_mediumShadowPen, rect.Right, rect.Bottom - 2, rect.Right, rect.Top + 7);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_paleShadowPen!, rect.Left - 1, rect.Bottom - 2, rect.Left - 1, rect.Top + 8);
+                g.DrawLine(_lightShadowPen!, rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 5);
+                g.DrawLine(_darkShadowPen!, rect.Right - 1, rect.Bottom - 3, rect.Right - 1, rect.Top + 3);
+                g.DrawLine(_mediumShadowPen!, rect.Right, rect.Bottom - 2, rect.Right, rect.Top + 7);
+            }
         }
 
         /// <summary>
@@ -9034,7 +9072,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Left + 1.5f, rect.Top + 1, rect.Right - 3, rect.Top + 1);
             outsidePath.AddLine(rect.Right - 3, rect.Top + 1, rect.Right - 1, rect.Top);
 
-            cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 4, rect.Height - 8);
+            cache!.CenterRect = new Rectangle(rect.Left + 4, rect.Top + 4, rect.Width - 4, rect.Height - 8);
             RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
                 cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 0f);
@@ -9048,23 +9086,26 @@ namespace Krypton.Toolkit
                                                                  MementoRibbonTabSelected2007? cache,
                                                                  Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.InsidePen, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
-            g.DrawLine(cache.InsidePen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
-            g.DrawLine(cache.CenterPen, rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
+            if (g is not null && cache is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.InsidePen!, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
+                g.DrawLine(cache.InsidePen!, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
+                g.DrawLine(cache.CenterPen!, rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw a line on the inside of the left and right border edges
-            g.DrawLine(cache.MiddlePen, rect.Right - 1, rect.Bottom - 1.5f, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Right - 3, rect.Bottom - 3, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Right - 1, rect.Top + 0.5f, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(cache.MiddlePen, rect.Right - 3, rect.Top + 2, rect.Left + 2, rect.Top + 2);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw a line on the inside of the left and right border edges
+                g.DrawLine(cache.MiddlePen!, rect.Right - 1, rect.Bottom - 1.5f, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 3, rect.Bottom - 3, rect.Left + 2, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 1, rect.Top + 0.5f, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 3, rect.Top + 2, rect.Left + 2, rect.Top + 2);
 
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_paleShadowPen, rect.Right - 2, rect.Bottom, rect.Left + 8, rect.Bottom);
-            g.DrawLine(_lightShadowPen, rect.Right - 3, rect.Bottom - 1, rect.Left + 5, rect.Bottom - 1);
-            g.DrawLine(_darkShadowPen, rect.Right - 3, rect.Top, rect.Left + 3, rect.Top);
-            g.DrawLine(_mediumShadowPen, rect.Right - 2, rect.Top - 1, rect.Left + 7, rect.Top - 1);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_paleShadowPen!, rect.Right - 2, rect.Bottom, rect.Left + 8, rect.Bottom);
+                g.DrawLine(_lightShadowPen!, rect.Right - 3, rect.Bottom - 1, rect.Left + 5, rect.Bottom - 1);
+                g.DrawLine(_darkShadowPen!, rect.Right - 3, rect.Top, rect.Left + 3, rect.Top);
+                g.DrawLine(_mediumShadowPen!, rect.Right - 2, rect.Top - 1, rect.Left + 7, rect.Top - 1);
+            }
         }
 
         /// <summary>
@@ -9085,7 +9126,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2.5f, rect.Top + 1, rect.Left + 2, rect.Top + 1);
             outsidePath.AddLine(rect.Left + 2, rect.Top + 1, rect.Left, rect.Top);
 
-            cache.CenterRect = new Rectangle(rect.Left, rect.Top + 4, rect.Width - 4, rect.Height - 8);
+            cache!.CenterRect = new Rectangle(rect.Left, rect.Top + 4, rect.Width - 4, rect.Height - 8);
             RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
                 cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 180f);
@@ -9099,23 +9140,26 @@ namespace Krypton.Toolkit
                                                                   MementoRibbonTabSelected2007? cache,
                                                                   Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.InsidePen, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
-            g.DrawLine(cache.InsidePen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
-            g.DrawLine(cache.CenterPen, rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
+            if (g is not null && cache is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.InsidePen!, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
+                g.DrawLine(cache.InsidePen!, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
+                g.DrawLine(cache.CenterPen!, rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw a line on the inside of the left and right border edges
-            g.DrawLine(cache.MiddlePen, rect.Left, rect.Bottom - 1.5f, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Left, rect.Top + 0.5f, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw a line on the inside of the left and right border edges
+                g.DrawLine(cache.MiddlePen!, rect.Left, rect.Bottom - 1.5f, rect.Left + 2, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Left, rect.Top + 0.5f, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
 
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_paleShadowPen, rect.Left + 1, rect.Bottom, rect.Right - 9, rect.Bottom);
-            g.DrawLine(_lightShadowPen, rect.Left + 2, rect.Bottom - 1, rect.Right - 6, rect.Bottom - 1);
-            g.DrawLine(_darkShadowPen, rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
-            g.DrawLine(_mediumShadowPen, rect.Left + 1, rect.Top - 1, rect.Right - 8, rect.Top - 1);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_paleShadowPen, rect.Left + 1, rect.Bottom, rect.Right - 9, rect.Bottom);
+                g.DrawLine(_lightShadowPen, rect.Left + 2, rect.Bottom - 1, rect.Right - 6, rect.Bottom - 1);
+                g.DrawLine(_darkShadowPen, rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
+                g.DrawLine(_mediumShadowPen, rect.Left + 1, rect.Top - 1, rect.Right - 8, rect.Top - 1);
+            }
         }
 
         /// <summary>
@@ -9136,7 +9180,7 @@ namespace Krypton.Toolkit
             outsidePath.AddLine(rect.Right - 2, rect.Bottom - 2.5f, rect.Right - 2, rect.Top + 2);
             outsidePath.AddLine(rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
 
-            cache.CenterRect = new Rectangle(rect.Left + 4, rect.Top, rect.Width - 8, rect.Height - 4);
+            cache!.CenterRect = new Rectangle(rect.Left + 4, rect.Top, rect.Width - 8, rect.Height - 4);
             RectangleF centerRectF = new RectangleF(cache.CenterRect.Left - 1, cache.CenterRect.Top - 1,
                 cache.CenterRect.Width + 2, cache.CenterRect.Height + 2);
             cache.CenterBrush = new LinearGradientBrush(centerRectF, c4, c5, 270f);
@@ -9150,34 +9194,37 @@ namespace Krypton.Toolkit
                                                                    MementoRibbonTabSelected2007? cache,
                                                                    Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.InsidePen, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
-            g.DrawLine(cache.InsidePen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
-            g.DrawLine(cache.CenterPen, rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
+            if (cache is not null && g is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.InsidePen!, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
+                g.DrawLine(cache.InsidePen!, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
+                g.DrawLine(cache.CenterPen!, rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw a line on the inside of the left and right border edges
-            g.DrawLine(cache.MiddlePen, rect.Left + 0.5f, rect.Top, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(cache.MiddlePen, rect.Left + 2, rect.Top + 2, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.MiddlePen, rect.Right - 1.5f, rect.Top, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(cache.MiddlePen, rect.Right - 3, rect.Top + 2, rect.Right - 3, rect.Bottom - 3);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw a line on the inside of the left and right border edges
+                g.DrawLine(cache.MiddlePen!, rect.Left + 0.5f, rect.Top, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Left + 2, rect.Top + 2, rect.Left + 2, rect.Bottom - 3);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 1.5f, rect.Top, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(cache.MiddlePen!, rect.Right - 3, rect.Top + 2, rect.Right - 3, rect.Bottom - 3);
 
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_paleShadowPen, rect.Left - 1, rect.Top + 1, rect.Left - 1, rect.Bottom - 9);
-            g.DrawLine(_lightShadowPen, rect.Left, rect.Top + 2, rect.Left, rect.Bottom - 6);
-            g.DrawLine(_darkShadowPen, rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 4);
-            g.DrawLine(_mediumShadowPen, rect.Right, rect.Top + 1, rect.Right, rect.Bottom - 8);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_paleShadowPen!, rect.Left - 1, rect.Top + 1, rect.Left - 1, rect.Bottom - 9);
+                g.DrawLine(_lightShadowPen!, rect.Left, rect.Top + 2, rect.Left, rect.Bottom - 6);
+                g.DrawLine(_darkShadowPen!, rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 4);
+                g.DrawLine(_mediumShadowPen!, rect.Right, rect.Top + 1, rect.Right, rect.Bottom - 8);
+            }
         }
 
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabSelected2010(RenderContext context,
+        protected virtual IDisposable? DrawRibbonTabSelected2010(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -9242,16 +9289,16 @@ namespace Krypton.Toolkit
                     cache.CenterPen = new Pen(c4);
                 }
 
-                context.Graphics.FillPath(cache.CenterBrush, cache.OutsidePath);
+                context.Graphics.FillPath(cache.CenterBrush!, cache.OutsidePath!);
 
                 if (c5 != GlobalStaticValues.EMPTY_COLOR)
                 {
-                    context.Graphics.FillPath(cache.InsideBrush, cache.InsidePath);
+                    context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
                 }
 
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
                 }
 
                 switch (orientation)
@@ -9330,14 +9377,17 @@ namespace Krypton.Toolkit
                                                                 MementoRibbonTabSelected2010 cache,
                                                                 Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.CenterPen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
-            g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
+            if (g is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.CenterPen!, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
+                g.DrawLine(cache.CenterPen!, rect.Left + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_mediumShadowPen, rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 2);
-            g.DrawLine(_mediumShadowPen, rect.Right - 1, rect.Bottom - 3, rect.Right - 1, rect.Top + 2);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_mediumShadowPen, rect.Left, rect.Bottom - 3, rect.Left, rect.Top + 2);
+                g.DrawLine(_mediumShadowPen, rect.Right - 1, rect.Bottom - 3, rect.Right - 1, rect.Top + 2);
+            }
         }
 
         /// <summary>
@@ -9396,14 +9446,17 @@ namespace Krypton.Toolkit
                                                                  MementoRibbonTabSelected2010 cache,
                                                                  Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.CenterPen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
-            g.DrawLine(cache.CenterPen, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
+            if (g is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.CenterPen!, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
+                g.DrawLine(cache.CenterPen!, rect.Right - 1, rect.Bottom - 2, rect.Right - 1, rect.Top + 1);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw shadow lines on the outside of the top and bottom edges
-            g.DrawLine(_mediumShadowPen, rect.Right - 3, rect.Bottom - 1, rect.Left + 3, rect.Bottom - 1);
-            g.DrawLine(_mediumShadowPen, rect.Right - 3, rect.Top, rect.Left + 3, rect.Top);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw shadow lines on the outside of the top and bottom edges
+                g.DrawLine(_mediumShadowPen!, rect.Right - 3, rect.Bottom - 1, rect.Left + 3, rect.Bottom - 1);
+                g.DrawLine(_mediumShadowPen!, rect.Right - 3, rect.Top, rect.Left + 3, rect.Top);
+            }
         }
 
         /// <summary>
@@ -9462,14 +9515,17 @@ namespace Krypton.Toolkit
                                                                   MementoRibbonTabSelected2010 cache,
                                                                   Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
-            g.DrawLine(cache.CenterPen, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
+            if (g is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.CenterPen!, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
+                g.DrawLine(cache.CenterPen!, rect.Left, rect.Bottom - 2, rect.Left, rect.Top + 1);
 
-            using AntiAlias aa = new AntiAlias(g);
-            // Draw shadow lines on the outside of the top and bottom edges
-            g.DrawLine(_mediumShadowPen, rect.Left + 2, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
-            g.DrawLine(_mediumShadowPen, rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
+                using AntiAlias aa = new AntiAlias(g);
+                // Draw shadow lines on the outside of the top and bottom edges
+                g.DrawLine(_mediumShadowPen!, rect.Left + 2, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
+                g.DrawLine(_mediumShadowPen!, rect.Left + 2, rect.Top, rect.Right - 4, rect.Top);
+            }
         }
 
         /// <summary>
@@ -9527,15 +9583,17 @@ namespace Krypton.Toolkit
                                                                    MementoRibbonTabSelected2010 cache,
                                                                    Graphics? g)
         {
-            // Fill in the bottom two lines that the 'FillPath' above missed
-            g.DrawLine(cache.CenterPen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
-            g.DrawLine(cache.CenterPen, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
+            if (g is not null)
+            {
+                // Fill in the bottom two lines that the 'FillPath' above missed
+                g.DrawLine(cache.CenterPen!, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
+                g.DrawLine(cache.CenterPen!, rect.Left + 1, rect.Top, rect.Right - 2, rect.Top);
 
-            using var aa = new AntiAlias(g);
-            // Draw shadow lines on the outside of the left and right edges
-            g.DrawLine(_mediumShadowPen, rect.Left, rect.Top + 2, rect.Left, rect.Bottom - 4);
-            g.DrawLine(_mediumShadowPen, rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 4);
-        }
+                using var aa = new AntiAlias(g);
+                // Draw shadow lines on the outside of the left and right edges
+                g.DrawLine(_mediumShadowPen!, rect.Left, rect.Top + 2, rect.Left, rect.Bottom - 4);
+                g.DrawLine(_mediumShadowPen!, rect.Right - 1, rect.Top + 2, rect.Right - 1, rect.Bottom - 4);
+        } }
 
         /// <summary>
         /// Internal rendering method.
@@ -9601,13 +9659,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill the interior using a gradient brush
-                context.Graphics.FillRectangle(Brushes.White, cache.InteriorRect);
-                context.Graphics.FillRectangle(cache.InsideBrush, cache.InteriorRect);
+                context.Graphics.FillRectangle(Brushes.White!, cache.InteriorRect!);
+                context.Graphics.FillRectangle(cache.InsideBrush!, cache.InteriorRect!);
 
                 // Draw the actual border
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
-                    context.Graphics.DrawPath(cache.OutsidePen, cache.OutsidePath);
+                    context.Graphics.DrawPath(cache.OutsidePen!, cache.OutsidePath!);
                 }
 
                 switch (orientation)
@@ -9652,7 +9710,7 @@ namespace Krypton.Toolkit
                 new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 90f);
             LinearGradientBrush rightBrush =
                 new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 90f);
-            cache.LeftPen = new Pen(leftBrush);
+            cache!.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
             cache.InteriorRect = new Rectangle(rect.Left + 2, rect.Top + 3, rect.Width - 4, rect.Height - 3);
@@ -9667,24 +9725,27 @@ namespace Krypton.Toolkit
                                                                    MementoRibbonTabContextSelected? cache,
                                                                    Graphics? g)
         {
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
-            g.DrawLine(cache.L3, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(cache.L2, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
-            g.DrawLine(cache.L1, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
+            if (cache is not null && g is not null)
+            {
+                g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
+                g.DrawLine(cache.L3!, rect.Left + 2, rect.Top + 3, rect.Right - 3, rect.Top + 3);
+                g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(cache.L2!, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(Pens.White, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
+                g.DrawLine(cache.L1!, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
 
-            // Draw the inside left, right and then bottom borders
-            g.DrawLine(cache.LeftPen, rect.Left + 2, rect.Top + 4, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.RightPen, rect.Right - 3, rect.Top + 2, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 1);
-            g.DrawLine(cache.BottomInnerPen, rect.Left + 2, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 1);
-            g.DrawLine(Pens.White, rect.Right - 3, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 1);
-            g.DrawLine(cache.BottomInnerPen, rect.Right - 3, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 1);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
-            g.DrawLine(cache.BottomOuterPen, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
-            g.DrawLine(cache.BottomOuterPen, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
+                // Draw the inside left, right and then bottom borders
+                g.DrawLine(cache.LeftPen!, rect.Left + 2, rect.Top + 4, rect.Left + 2, rect.Bottom - 3);
+                g.DrawLine(cache.RightPen!, rect.Right - 3, rect.Top + 2, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 1);
+                g.DrawLine(cache.BottomInnerPen!, rect.Left + 2, rect.Bottom - 2, rect.Left + 1, rect.Bottom - 1);
+                g.DrawLine(Pens.White, rect.Right - 3, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 1);
+                g.DrawLine(cache.BottomInnerPen!, rect.Right - 3, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 1);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
+                g.DrawLine(cache.BottomOuterPen!, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
+                g.DrawLine(Pens.White, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
+                g.DrawLine(cache.BottomOuterPen!, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
+            }
         }
 
         /// <summary>
@@ -9709,7 +9770,7 @@ namespace Krypton.Toolkit
                 new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 0f);
             LinearGradientBrush rightBrush =
                 new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 0f);
-            cache.LeftPen = new Pen(leftBrush);
+            cache!.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
             cache.InteriorRect = new Rectangle(rect.Left + 3, rect.Top + 2, rect.Width - 3, rect.Height - 4);
@@ -9724,24 +9785,27 @@ namespace Krypton.Toolkit
                                                                     MementoRibbonTabContextSelected? cache,
                                                                     Graphics? g)
         {
-            g.DrawLine(Pens.White, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
-            g.DrawLine(cache.L3, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(cache.L2, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
-            g.DrawLine(cache.L1, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
+            if (g is not null && cache is not null)
+            {
+                g.DrawLine(Pens.White!, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
+                g.DrawLine(cache.L3!, rect.Left + 3, rect.Bottom - 3, rect.Left + 3, rect.Top + 2);
+                g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(cache.L2!, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(Pens.White, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
+                g.DrawLine(cache.L1!, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
 
-            // Draw the inside left, right and then bottom borders
-            g.DrawLine(cache.LeftPen, rect.Left + 4, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(cache.RightPen, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
-            g.DrawLine(cache.BottomInnerPen, rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
-            g.DrawLine(cache.BottomInnerPen, rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
-            g.DrawLine(cache.BottomOuterPen, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
-            g.DrawLine(cache.BottomOuterPen, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+                // Draw the inside left, right and then bottom borders
+                g.DrawLine(cache.LeftPen!, rect.Left + 4, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(cache.RightPen!, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
+                g.DrawLine(cache.BottomInnerPen!, rect.Right - 2, rect.Bottom - 3, rect.Right - 1, rect.Bottom - 2);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
+                g.DrawLine(cache.BottomInnerPen!, rect.Right - 2, rect.Top + 2, rect.Right - 1, rect.Top + 1);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
+                g.DrawLine(cache.BottomOuterPen!, rect.Right - 2, rect.Bottom - 2, rect.Right - 1, rect.Bottom - 1);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+                g.DrawLine(cache.BottomOuterPen!, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+            }
         }
 
         /// <summary>
@@ -9766,7 +9830,7 @@ namespace Krypton.Toolkit
                 new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 180f);
             LinearGradientBrush rightBrush =
                 new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 180f);
-            cache.LeftPen = new Pen(leftBrush);
+            cache!.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
             cache.InteriorRect = new Rectangle(rect.Left, rect.Top + 2, rect.Width - 3, rect.Height - 4);
@@ -9781,24 +9845,27 @@ namespace Krypton.Toolkit
                                                                      MementoRibbonTabContextSelected? cache,
                                                                      Graphics? g)
         {
-            g.DrawLine(Pens.White, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
-            g.DrawLine(cache.L3, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(cache.L2, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
-            g.DrawLine(cache.L1, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
+            if (g is not null && cache is not null)
+            {
+                g.DrawLine(Pens.White!, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
+                g.DrawLine(cache.L3!, rect.Right - 4, rect.Bottom - 3, rect.Right - 4, rect.Top + 2);
+                g.DrawLine(Pens.White!, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(cache.L2!, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
+                g.DrawLine(cache.L1!, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
 
-            // Draw the inside left, right and then bottom borders
-            g.DrawLine(cache.LeftPen, rect.Right - 5, rect.Bottom - 3, rect.Left + 2, rect.Bottom - 3);
-            g.DrawLine(cache.RightPen, rect.Right - 3, rect.Top + 2, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Bottom - 3, rect.Left, rect.Bottom - 2);
-            g.DrawLine(cache.BottomInnerPen, rect.Left + 1, rect.Bottom - 3, rect.Left, rect.Bottom - 2);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Top + 2, rect.Left, rect.Top + 1);
-            g.DrawLine(cache.BottomInnerPen, rect.Left + 1, rect.Top + 2, rect.Left, rect.Top + 1);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
-            g.DrawLine(cache.BottomOuterPen, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
-            g.DrawLine(cache.BottomOuterPen, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
+                // Draw the inside left, right and then bottom borders
+                g.DrawLine(cache.LeftPen!, rect.Right - 5, rect.Bottom - 3, rect.Left + 2, rect.Bottom - 3);
+                g.DrawLine(cache.RightPen!, rect.Right - 3, rect.Top + 2, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Bottom - 3, rect.Left, rect.Bottom - 2);
+                g.DrawLine(cache.BottomInnerPen!, rect.Left + 1, rect.Bottom - 3, rect.Left, rect.Bottom - 2);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Top + 2, rect.Left, rect.Top + 1);
+                g.DrawLine(cache.BottomInnerPen!, rect.Left + 1, rect.Top + 2, rect.Left, rect.Top + 1);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
+                g.DrawLine(cache.BottomOuterPen!, rect.Left + 1, rect.Bottom - 2, rect.Left, rect.Bottom - 1);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
+                g.DrawLine(cache.BottomOuterPen!, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
+            }
         }
 
         /// <summary>
@@ -9823,7 +9890,7 @@ namespace Krypton.Toolkit
                 new LinearGradientBrush(rect, Color.FromArgb(125, c2), Color.FromArgb(67, c2), 270f);
             LinearGradientBrush rightBrush =
                 new LinearGradientBrush(rect, Color.FromArgb(16, c2), Color.FromArgb(67, c2), 270f);
-            cache.LeftPen = new Pen(leftBrush);
+            cache!.LeftPen = new Pen(leftBrush);
             cache.RightPen = new Pen(rightBrush);
 
             cache.InteriorRect = new Rectangle(rect.Left + 2, rect.Top, rect.Width - 4, rect.Height - 3);
@@ -9838,36 +9905,39 @@ namespace Krypton.Toolkit
                                                                       MementoRibbonTabContextSelected? cache,
                                                                       Graphics? g)
         {
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
-            g.DrawLine(cache.L3, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(cache.L2, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
-            g.DrawLine(Pens.White, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
-            g.DrawLine(cache.L1, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
+            if (cache is not null && g is not null)
+            {
+                g.DrawLine(Pens.White!, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
+                g.DrawLine(cache.L3!, rect.Left + 2, rect.Bottom - 4, rect.Right - 3, rect.Bottom - 4);
+                g.DrawLine(Pens.White!, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(cache.L2!, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
+                g.DrawLine(Pens.White!, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
+                g.DrawLine(cache.L1!, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
 
-            // Draw the inside left, right and then bottom borders
-            g.DrawLine(cache.LeftPen, rect.Left + 2, rect.Bottom - 5, rect.Left + 2, rect.Top + 2);
-            g.DrawLine(cache.RightPen, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
-            g.DrawLine(Pens.White, rect.Left + 2, rect.Top + 1, rect.Left + 1, rect.Top);
-            g.DrawLine(cache.BottomInnerPen, rect.Left + 2, rect.Top + 1, rect.Left + 1, rect.Top);
-            g.DrawLine(Pens.White, rect.Right - 3, rect.Top + 1, rect.Right - 2, rect.Top);
-            g.DrawLine(cache.BottomInnerPen, rect.Right - 3, rect.Top + 1, rect.Right - 2, rect.Top);
-            g.DrawLine(Pens.White, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
-            g.DrawLine(cache.BottomOuterPen, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
-            g.DrawLine(Pens.White, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
-            g.DrawLine(cache.BottomOuterPen, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+                // Draw the inside left, right and then bottom borders
+                g.DrawLine(cache.LeftPen!, rect.Left + 2, rect.Bottom - 5, rect.Left + 2, rect.Top + 2);
+                g.DrawLine(cache.RightPen!, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
+                g.DrawLine(Pens.White!, rect.Left + 2, rect.Top + 1, rect.Left + 1, rect.Top);
+                g.DrawLine(cache.BottomInnerPen!, rect.Left + 2, rect.Top + 1, rect.Left + 1, rect.Top);
+                g.DrawLine(Pens.White!, rect.Right - 3, rect.Top + 1, rect.Right - 2, rect.Top);
+                g.DrawLine(cache.BottomInnerPen!, rect.Right - 3, rect.Top + 1, rect.Right - 2, rect.Top);
+                g.DrawLine(Pens.White!, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
+                g.DrawLine(cache.BottomOuterPen!, rect.Left + 1, rect.Top + 1, rect.Left, rect.Top);
+                g.DrawLine(Pens.White!, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+                g.DrawLine(cache.BottomOuterPen!, rect.Right - 2, rect.Top + 1, rect.Right - 1, rect.Top);
+            }
         }
 
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonTabHighlight(PaletteRibbonShape shape,
+        protected virtual IDisposable? DrawRibbonTabHighlight(PaletteRibbonShape shape,
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
                                                              IPaletteRibbonBack palette,
                                                              VisualOrientation orientation,
-                                                             IDisposable memento,
+                                                             IDisposable? memento,
                                                              bool alternate)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -9970,28 +10040,31 @@ namespace Krypton.Toolkit
                                                              Graphics? g,
                                                              bool alternate)
         {
-            g.FillRectangle(cache.TopBorderBrush, rect.Left - 1, rect.Top - 1, rect.Width + 2, 4);
-            g.DrawLine(cache.InnerVertPen, rect.Left + 2, rect.Bottom - 2, rect.Left + 2, rect.Top + 3);
-            g.DrawLine(cache.InnerVertPen, rect.Right - 3, rect.Bottom - 2, rect.Right - 3, rect.Top + 3);
-            g.DrawLine(cache.InnerHorzPen, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
-
-            if (alternate)
+            if (cache is not null && g is not null)
             {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
-                g.DrawLine(cache.BorderHorzPen, rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
-            }
-            else
-            {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
-                g.DrawLine(cache.BorderHorzPen, rect.Left + 4, rect.Top, rect.Right - 5, rect.Top);
-            }
+                g.FillRectangle(cache.TopBorderBrush!, rect.Left - 1, rect.Top - 1, rect.Width + 2, 4);
+                g.DrawLine(cache.InnerVertPen!, rect.Left + 2, rect.Bottom - 2, rect.Left + 2, rect.Top + 3);
+                g.DrawLine(cache.InnerVertPen!, rect.Right - 3, rect.Bottom - 2, rect.Right - 3, rect.Top + 3);
+                g.DrawLine(cache.InnerHorzPen!, rect.Left + 2, rect.Top + 2, rect.Right - 3, rect.Top + 2);
 
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 1, rect.Top + 2, 1, rect.Height - 3);
-            g.FillRectangle(cache.BorderVertBrush, rect.Right - 2, rect.Top + 2, 1, rect.Height - 3);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left - 1, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Right - 1, rect.Top + 3, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Right, rect.Top + 3, 1, rect.Height - 4);
+                if (alternate)
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 2, rect.Top + 1, rect.Right - 3, rect.Top + 1);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left + 3, rect.Top, rect.Right - 4, rect.Top);
+                }
+                else
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 3, rect.Top + 1, rect.Right - 4, rect.Top + 1);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left + 4, rect.Top, rect.Right - 5, rect.Top);
+                }
+
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 1, rect.Top + 2, 1, rect.Height - 3);
+                g.FillRectangle(cache.BorderVertBrush!, rect.Right - 2, rect.Top + 2, 1, rect.Height - 3);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left - 1, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Right - 1, rect.Top + 3, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Right, rect.Top + 3, 1, rect.Height - 4);
+            }
         }
 
         /// <summary>
@@ -10019,28 +10092,31 @@ namespace Krypton.Toolkit
                                                               Graphics? g,
                                                               bool alternate)
         {
-            g.FillRectangle(cache.TopBorderBrush, rect.Left - 1, rect.Top - 1, 4, rect.Height + 2);
-            g.DrawLine(cache.InnerVertPen, rect.Right - 2, rect.Bottom - 3, rect.Left + 3, rect.Bottom - 3);
-            g.DrawLine(cache.InnerVertPen, rect.Right - 2, rect.Top + 2, rect.Left + 3, rect.Top + 2);
-            g.DrawLine(cache.InnerHorzPen, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
-
-            if (alternate)
+            if (cache is not null && g is not null)
             {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
-                g.DrawLine(cache.BorderHorzPen, rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
-            }
-            else
-            {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
-                g.DrawLine(cache.BorderHorzPen, rect.Left, rect.Bottom - 5, rect.Left, rect.Top + 4);
-            }
+                g.FillRectangle(cache.TopBorderBrush!, rect.Left - 1, rect.Top - 1, 4, rect.Height + 2);
+                g.DrawLine(cache.InnerVertPen!, rect.Right - 2, rect.Bottom - 3, rect.Left + 3, rect.Bottom - 3);
+                g.DrawLine(cache.InnerVertPen!, rect.Right - 2, rect.Top + 2, rect.Left + 3, rect.Top + 2);
+                g.DrawLine(cache.InnerHorzPen!, rect.Left + 2, rect.Bottom - 3, rect.Left + 2, rect.Top + 2);
 
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 2, rect.Bottom - 2, rect.Width - 3, 1);
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 2, rect.Top + 1, rect.Width - 3, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 3, rect.Bottom - 1, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 3, rect.Bottom, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 3, rect.Top, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 3, rect.Top - 1, rect.Width - 4, 1);
+                if (alternate)
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 1, rect.Bottom - 3, rect.Left + 1, rect.Top + 2);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left, rect.Bottom - 4, rect.Left, rect.Top + 3);
+                }
+                else
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 1, rect.Bottom - 4, rect.Left + 1, rect.Top + 3);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left, rect.Bottom - 5, rect.Left, rect.Top + 4);
+                }
+
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 2, rect.Bottom - 2, rect.Width - 3, 1);
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 2, rect.Top + 1, rect.Width - 3, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 3, rect.Bottom - 1, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 3, rect.Bottom, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 3, rect.Top, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 3, rect.Top - 1, rect.Width - 4, 1);
+            }
         }
 
         /// <summary>
@@ -10068,28 +10144,31 @@ namespace Krypton.Toolkit
                                                                Graphics? g,
                                                                bool alternate)
         {
-            g.FillRectangle(cache.TopBorderBrush, rect.Right - 4, rect.Top - 1, 4, rect.Height + 2);
-            g.DrawLine(cache.InnerVertPen, rect.Left + 1, rect.Bottom - 3, rect.Right - 4, rect.Bottom - 3);
-            g.DrawLine(cache.InnerVertPen, rect.Left + 1, rect.Top + 2, rect.Right - 4, rect.Top + 2);
-            g.DrawLine(cache.InnerHorzPen, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
-
-            if (alternate)
+            if (cache is not null && g is not null)
             {
-                g.DrawLine(cache.InnerHorzPen, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
-                g.DrawLine(cache.BorderHorzPen, rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
-            }
-            else
-            {
-                g.DrawLine(cache.InnerHorzPen, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
-                g.DrawLine(cache.BorderHorzPen, rect.Right - 1, rect.Bottom - 5, rect.Right - 1, rect.Top + 4);
-            }
+                g.FillRectangle(cache.TopBorderBrush!, rect.Right - 4, rect.Top - 1, 4, rect.Height + 2);
+                g.DrawLine(cache.InnerVertPen!, rect.Left + 1, rect.Bottom - 3, rect.Right - 4, rect.Bottom - 3);
+                g.DrawLine(cache.InnerVertPen!, rect.Left + 1, rect.Top + 2, rect.Right - 4, rect.Top + 2);
+                g.DrawLine(cache.InnerHorzPen!, rect.Right - 3, rect.Bottom - 3, rect.Right - 3, rect.Top + 2);
 
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 1, rect.Bottom - 2, rect.Width - 3, 1);
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 1, rect.Top + 1, rect.Width - 3, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 1, rect.Bottom - 1, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 1, rect.Bottom, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 1, rect.Top, rect.Width - 4, 1);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left + 1, rect.Top - 1, rect.Width - 4, 1);
+                if (alternate)
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Right - 2, rect.Bottom - 3, rect.Right - 2, rect.Top + 2);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Right - 1, rect.Bottom - 4, rect.Right - 1, rect.Top + 3);
+                }
+                else
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Right - 2, rect.Bottom - 4, rect.Right - 2, rect.Top + 3);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Right - 1, rect.Bottom - 5, rect.Right - 1, rect.Top + 4);
+                }
+
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 1, rect.Bottom - 2, rect.Width - 3, 1);
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 1, rect.Top + 1, rect.Width - 3, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 1, rect.Bottom - 1, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 1, rect.Bottom, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 1, rect.Top, rect.Width - 4, 1);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left + 1, rect.Top - 1, rect.Width - 4, 1);
+            }
         }
 
         /// <summary>
@@ -10117,28 +10196,31 @@ namespace Krypton.Toolkit
                                                         Graphics? g,
                                                         bool alternate)
         {
-            g.FillRectangle(cache.TopBorderBrush, rect.Left - 1, rect.Bottom - 3, rect.Width + 2, 4);
-            g.DrawLine(cache.InnerVertPen, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 4);
-            g.DrawLine(cache.InnerVertPen, rect.Right - 3, rect.Top + 1, rect.Right - 3, rect.Bottom - 4);
-            g.DrawLine(cache.InnerHorzPen, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
-
-            if (alternate)
+            if (cache is not null && g is not null)
             {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
-                g.DrawLine(cache.BorderHorzPen, rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
-            }
-            else
-            {
-                g.DrawLine(cache.InnerHorzPen, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
-                g.DrawLine(cache.BorderHorzPen, rect.Left + 4, rect.Bottom - 1, rect.Right - 5, rect.Bottom - 1);
-            }
+                g.FillRectangle(cache.TopBorderBrush!, rect.Left - 1, rect.Bottom - 3, rect.Width + 2, 4);
+                g.DrawLine(cache.InnerVertPen!, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 4);
+                g.DrawLine(cache.InnerVertPen!, rect.Right - 3, rect.Top + 1, rect.Right - 3, rect.Bottom - 4);
+                g.DrawLine(cache.InnerHorzPen!, rect.Left + 2, rect.Bottom - 3, rect.Right - 3, rect.Bottom - 3);
 
-            g.FillRectangle(cache.BorderVertBrush, rect.Left + 1, rect.Top + 1, 1, rect.Height - 3);
-            g.FillRectangle(cache.BorderVertBrush, rect.Right - 2, rect.Top + 1, 1, rect.Height - 3);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Left - 1, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Right - 1, rect.Top + 1, 1, rect.Height - 4);
-            g.FillRectangle(cache.OutsideVertBrush, rect.Right, rect.Top + 1, 1, rect.Height - 4);
+                if (alternate)
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 2, rect.Bottom - 2, rect.Right - 3, rect.Bottom - 2);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left + 3, rect.Bottom - 1, rect.Right - 4, rect.Bottom - 1);
+                }
+                else
+                {
+                    g.DrawLine(cache.InnerHorzPen!, rect.Left + 3, rect.Bottom - 2, rect.Right - 4, rect.Bottom - 2);
+                    g.DrawLine(cache.BorderHorzPen!, rect.Left + 4, rect.Bottom - 1, rect.Right - 5, rect.Bottom - 1);
+                }
+
+                g.FillRectangle(cache.BorderVertBrush!, rect.Left + 1, rect.Top + 1, 1, rect.Height - 3);
+                g.FillRectangle(cache.BorderVertBrush!, rect.Right - 2, rect.Top + 1, 1, rect.Height - 3);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Left - 1, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Right - 1, rect.Top + 1, 1, rect.Height - 4);
+                g.FillRectangle(cache.OutsideVertBrush!, rect.Right, rect.Top + 1, 1, rect.Height - 4);
+            }
         }
 
         /// <summary>
@@ -10201,14 +10283,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right border lines
-                context.Graphics.DrawLine(cache.BorderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 
                 // Fill the inner area with a gradient context specific color
-                context.Graphics.FillRectangle(cache.FillBrush, cache.FillRect);
+                context.Graphics.FillRectangle(cache.FillBrush!, cache.FillRect);
 
                 // Overdraw the brighter line at bottom
-                context.Graphics.DrawLine(cache.UnderlinePen, rect.X + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.UnderlinePen!, rect.X + 1, rect.Bottom - 1, rect.Right - 2, rect.Bottom - 1);
             }
 
             return memento;
@@ -10302,8 +10384,11 @@ namespace Krypton.Toolkit
         protected virtual void DrawRibbonAppButtonBorder1(Graphics? g,
                                                           MementoRibbonAppButton? memento)
         {
-            g.FillEllipse(_buttonBorder1Brush, memento.BorderShadow1);
-            g.FillEllipse(_buttonBorder2Brush, memento.BorderShadow2);
+            if (g is not null && memento is not null)
+            {
+                g.FillEllipse(_buttonBorder1Brush, memento.BorderShadow1);
+                g.FillEllipse(_buttonBorder2Brush, memento.BorderShadow2);
+            }
         }
 
         /// <summary>
@@ -10318,49 +10403,53 @@ namespace Krypton.Toolkit
                                                             Color topMedium,
                                                             bool trackBorderAsPressed)
         {
-            var pressed = state == PaletteState.Pressed;
-            var tracking = state == PaletteState.Tracking;
 
-            // Override tracking/pressed states?
-            if (tracking && trackBorderAsPressed)
+            if (g is not null)
             {
-                pressed = true;
-                tracking = false;
-            }
+                var pressed = state == PaletteState.Pressed;
+                var tracking = state == PaletteState.Tracking;
 
-            if (!pressed)
-            {
-                Color[] colorsUpperHalf = [topDark, topMedium, topLight, topLight, topMedium, topDark];
-                float[] posUpperHalf = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
-
-                ColorBlend blendUpperHalf = new ColorBlend
+                // Override tracking/pressed states?
+                if (tracking && trackBorderAsPressed)
                 {
-                    Colors = colorsUpperHalf,
-                    Positions = posUpperHalf
-                };
-                memento.BrushUpper1.InterpolationColors = blendUpperHalf;
+                    pressed = true;
+                    tracking = false;
+                }
 
-                g.FillPie(memento.BrushUpper1, memento.Rect.X, memento.Rect.Y, memento.Rect.Width, memento.Rect.Height, 180, 180);
+                if (!pressed)
+                {
+                    Color[] colorsUpperHalf = [topDark, topMedium, topLight, topLight, topMedium, topDark];
+                    float[] posUpperHalf = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
+
+                    ColorBlend blendUpperHalf = new ColorBlend
+                    {
+                        Colors = colorsUpperHalf,
+                        Positions = posUpperHalf
+                    };
+                    memento!.BrushUpper1!.InterpolationColors = blendUpperHalf;
+
+                    g.FillPie(memento.BrushUpper1, memento.Rect.X, memento.Rect.Y, memento.Rect.Width, memento.Rect.Height, 180, 180);
+                }
+
+                Color c1 = _whiten10;
+                Color c2 = Color.FromArgb(100, topDark);
+
+                if (tracking)
+                {
+                    c1 = _whiten200;
+                    c2 = Color.FromArgb(200, bottomDark);
+                }
+
+                if (pressed)
+                {
+                    c1 = Color.White;
+                    c2 = topDark;
+                }
+
+                using LinearGradientBrush brushUpper2 =
+                    new LinearGradientBrush(memento!.Rect, c1, c2, LinearGradientMode.Vertical);
+                g.FillPie(brushUpper2, memento.Rect.X, memento.Rect.Y, memento.Rect.Width, memento.Rect.Height, 180, 180);
             }
-
-            Color c1 = _whiten10;
-            Color c2 = Color.FromArgb(100, topDark);
-
-            if (tracking)
-            {
-                c1 = _whiten200;
-                c2 = Color.FromArgb(200, bottomDark);
-            }
-
-            if (pressed)
-            {
-                c1 = Color.White;
-                c2 = topDark;
-            }
-
-            using LinearGradientBrush brushUpper2 =
-                new LinearGradientBrush(memento.Rect, c1, c2, LinearGradientMode.Vertical);
-            g.FillPie(brushUpper2, memento.Rect.X, memento.Rect.Y, memento.Rect.Width, memento.Rect.Height, 180, 180);
         }
 
         /// <summary>
@@ -10373,20 +10462,23 @@ namespace Krypton.Toolkit
                                                             Color bottomLight,
                                                             Color bottomMedium)
         {
-            Color[] colorsLowerHalf = [bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark];
-
-            var posLowerHalf = state == PaletteState.Pressed
-                ? [0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f]
-                : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
-
-            ColorBlend blendLowerHalf = new ColorBlend
+            if (g is not null && memento is not null)
             {
-                Colors = colorsLowerHalf,
-                Positions = posLowerHalf
-            };
+                Color[] colorsLowerHalf = [bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark];
 
-            memento.BrushLower.InterpolationColors = blendLowerHalf;
-            g.FillPie(memento.BrushLower, memento.RectLower.X, memento.RectLower.Y, memento.RectLower.Width, memento.RectLower.Height, 0, 180);
+                var posLowerHalf = state == PaletteState.Pressed
+                    ? [0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f]
+                    : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+
+                ColorBlend blendLowerHalf = new ColorBlend
+                {
+                    Colors = colorsLowerHalf,
+                    Positions = posLowerHalf
+                };
+
+                memento!.BrushLower!.InterpolationColors = blendLowerHalf;
+                g.FillPie(memento.BrushLower, memento.RectLower.X, memento.RectLower.Y, memento.RectLower.Width, memento.RectLower.Height, 0, 180);
+            }
         }
 
         /// <summary>
@@ -10398,30 +10490,34 @@ namespace Krypton.Toolkit
                                                              Color topLight,
                                                              Color bottomLight)
         {
-            using LinearGradientBrush brushBottomGlow = new LinearGradientBrush(memento.RectBottomGlow,
-                Color.FromArgb(50, Color.White), Color.FromArgb(30, Color.White), LinearGradientMode.Vertical);
-            RectangleF rectBottomGlow = memento.RectBottomGlow;
-            rectBottomGlow.X = memento.Rect.X + ((memento.Rect.Width - rectBottomGlow.Width) / 2);
-            rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height - 2);
 
-            if (state != PaletteState.Pressed)
+            if (g is not null && memento is not null)
             {
-                g.FillPie(brushBottomGlow, rectBottomGlow.X, rectBottomGlow.Y, rectBottomGlow.Width, rectBottomGlow.Height, 0, 360);
-            }
-
-            if (state == PaletteState.Pressed)
-            {
-                rectBottomGlow.Height = memento.Rect.Height * 0.2f;
-                rectBottomGlow.Width = memento.Rect.Width * 0.4f;
+                using LinearGradientBrush brushBottomGlow = new LinearGradientBrush(memento.RectBottomGlow,
+                    Color.FromArgb(50, Color.White), Color.FromArgb(30, Color.White), LinearGradientMode.Vertical);
+                RectangleF rectBottomGlow = memento.RectBottomGlow;
                 rectBottomGlow.X = memento.Rect.X + ((memento.Rect.Width - rectBottomGlow.Width) / 2);
-                rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height);
+                rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height - 2);
 
-                using GraphicsPath path = new GraphicsPath();
-                path.AddEllipse(rectBottomGlow);
-                using PathGradientBrush pathGradient = new PathGradientBrush(path);
-                pathGradient.CenterColor = topLight;
-                pathGradient.SurroundColors = [Color.FromArgb(100, bottomLight)];
-                g.FillEllipse(pathGradient, rectBottomGlow);
+                if (state != PaletteState.Pressed)
+                {
+                    g.FillPie(brushBottomGlow, rectBottomGlow.X, rectBottomGlow.Y, rectBottomGlow.Width, rectBottomGlow.Height, 0, 360);
+                }
+
+                if (state == PaletteState.Pressed)
+                {
+                    rectBottomGlow.Height = memento.Rect.Height * 0.2f;
+                    rectBottomGlow.Width = memento.Rect.Width * 0.4f;
+                    rectBottomGlow.X = memento.Rect.X + ((memento.Rect.Width - rectBottomGlow.Width) / 2);
+                    rectBottomGlow.Y = memento.Rect.Y + (memento.Rect.Height - rectBottomGlow.Height);
+
+                    using GraphicsPath path = new GraphicsPath();
+                    path.AddEllipse(rectBottomGlow);
+                    using PathGradientBrush pathGradient = new PathGradientBrush(path);
+                    pathGradient.CenterColor = topLight;
+                    pathGradient.SurroundColors = [Color.FromArgb(100, bottomLight)];
+                    g.FillEllipse(pathGradient, rectBottomGlow);
+                }
             }
         }
 
@@ -10435,37 +10531,40 @@ namespace Krypton.Toolkit
                                                                   Color bottomMedium,
                                                                   Color bottomDark)
         {
-            var lightTransparency = 50;
-            var mediumTransparency = 50;
-
-            if (state is PaletteState.Pressed or PaletteState.Tracking)
+            if (g is not null && memento is not null)
             {
-                lightTransparency = 200;
-                mediumTransparency = 200;
-            }
+                var lightTransparency = 50;
+                var mediumTransparency = 50;
 
-            using LinearGradientBrush brushUpperGlow = new LinearGradientBrush(memento.RectUpperGlow, Color.Transparent,
-                Color.Transparent, LinearGradientMode.Horizontal);
-            Color[] colorsUpperGlow =
-            [
-                Color.FromArgb(180, bottomDark),
+                if (state is PaletteState.Pressed or PaletteState.Tracking)
+                {
+                    lightTransparency = 200;
+                    mediumTransparency = 200;
+                }
+
+                using LinearGradientBrush brushUpperGlow = new LinearGradientBrush(memento.RectUpperGlow, Color.Transparent,
+                    Color.Transparent, LinearGradientMode.Horizontal);
+                Color[] colorsUpperGlow =
+                [
+                    Color.FromArgb(180, bottomDark),
                 Color.FromArgb(mediumTransparency, bottomMedium),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(mediumTransparency, bottomMedium),
                 Color.FromArgb(180, bottomDark)
-            ];
+                ];
 
-            float[] posUpperGlow = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
+                float[] posUpperGlow = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
 
-            ColorBlend blendUpperGlow = new ColorBlend
-            {
-                Colors = colorsUpperGlow,
-                Positions = posUpperGlow
-            };
-            brushUpperGlow.InterpolationColors = blendUpperGlow;
+                ColorBlend blendUpperGlow = new ColorBlend
+                {
+                    Colors = colorsUpperGlow,
+                    Positions = posUpperGlow
+                };
+                brushUpperGlow.InterpolationColors = blendUpperGlow;
 
-            g.FillPie(brushUpperGlow, memento.RectUpperGlow.X, memento.RectUpperGlow.Y, memento.RectUpperGlow.Width, memento.RectUpperGlow.Height, 180, 180);
+                g.FillPie(brushUpperGlow, memento.RectUpperGlow.X, memento.RectUpperGlow.Y, memento.RectUpperGlow.Width, memento.RectUpperGlow.Height, 180, 180);
+            }
         }
 
         /// <summary>
@@ -10477,64 +10576,67 @@ namespace Krypton.Toolkit
                                                           Color bottomLight,
                                                           bool trackBorderAsPressed)
         {
-            var pressed = state == PaletteState.Pressed;
-            var tracking = state == PaletteState.Tracking;
+            if (g is not null && memento is not null)
+            {
+                var pressed = state == PaletteState.Pressed;
+                var tracking = state == PaletteState.Tracking;
 
-            // Override tracking/pressed states?
-            if (tracking && trackBorderAsPressed)
-            {
-                pressed = true;
-                tracking = false;
-            }
+                // Override tracking/pressed states?
+                if (tracking && trackBorderAsPressed)
+                {
+                    pressed = true;
+                    tracking = false;
+                }
 
-            Color borderGlowColor;
-            if (pressed)
-            {
-                borderGlowColor = _whiten80;
-            }
-            else if (tracking && !pressed)
-            {
-                borderGlowColor = Color.FromArgb(200, bottomLight);
-            }
-            else
-            {
-                borderGlowColor = _whiten120;
-            }
+                Color borderGlowColor;
+                if (pressed)
+                {
+                    borderGlowColor = _whiten80;
+                }
+                else if (tracking && !pressed)
+                {
+                    borderGlowColor = Color.FromArgb(200, bottomLight);
+                }
+                else
+                {
+                    borderGlowColor = _whiten120;
+                }
 
-            using (Pen p = new Pen(borderGlowColor))
-            {
-                g.DrawEllipse(p, memento.BorderMain1);
-            }
+                using (Pen p = new Pen(borderGlowColor))
+                {
+                    g.DrawEllipse(p, memento.BorderMain1);
+                }
 
-            using (Pen p = new Pen(Color.FromArgb(100, 52, 59, 64)))
-            {
-                g.DrawEllipse(p, memento.Rect);
-            }
+                using (Pen p = new Pen(Color.FromArgb(100, 52, 59, 64)))
+                {
+                    g.DrawEllipse(p, memento.Rect);
+                }
 
-            if (pressed)
-            {
-                borderGlowColor = _whiten60;
-                using Pen p = new Pen(borderGlowColor);
-                g.DrawEllipse(p, memento.BorderMain3);
-            }
+                if (pressed)
+                {
+                    borderGlowColor = _whiten60;
+                    using Pen p = new Pen(borderGlowColor);
+                    g.DrawEllipse(p, memento.BorderMain3);
+                }
 
-            borderGlowColor = pressed ? _whiten50 : _whiten80;
-            using (Pen p = new Pen(borderGlowColor))
-            {
-                g.DrawArc(p, memento.BorderMain2, 180, 180);
-            }
+                borderGlowColor = pressed ? _whiten50 : _whiten80;
+                using (Pen p = new Pen(borderGlowColor))
+                {
+                    g.DrawArc(p, memento.BorderMain2, 180, 180);
+                }
 
-            if (!pressed)
-            {
-                borderGlowColor = _whiten30;
-                using Pen p = new Pen(borderGlowColor);
-                g.DrawArc(p, memento.BorderMain4, 180, 180);
-            }
+                if (!pressed)
+                {
+                    borderGlowColor = _whiten30;
+                    using Pen p = new Pen(borderGlowColor);
+                    g.DrawArc(p, memento.BorderMain4, 180, 180);
+                }
 
-            if (tracking && !pressed)
-            {
-                using Pen p = new Pen(Color.FromArgb(100, borderGlowColor));
-                g.DrawEllipse(p, memento.Rect);
+                if (tracking && !pressed)
+                {
+                    using Pen p = new Pen(Color.FromArgb(100, borderGlowColor));
+                    g.DrawEllipse(p, memento.Rect);
+                }
             }
         }
 
@@ -10595,7 +10697,7 @@ namespace Krypton.Toolkit
                                                                             90f);
 
                             cache.InsideFillBrush.SetSigmaBellShape(0.33f);
-                            cache.HighlightBrush.CenterColor = Color.FromArgb(64, Color.White);
+                            cache.HighlightBrush!.CenterColor = Color.FromArgb(64, Color.White);
                             break;
                         case PaletteState.Tracking:
                             cache.BorderBrush = new SolidBrush(bottomColor);
@@ -10605,7 +10707,7 @@ namespace Krypton.Toolkit
                                                                             90f);
 
                             cache.InsideFillBrush.SetSigmaBellShape(0.33f);
-                            cache.HighlightBrush.CenterColor = Color.FromArgb(100, Color.White);
+                            cache.HighlightBrush!.CenterColor = Color.FromArgb(100, Color.White);
                             break;
                         case PaletteState.Tracking | PaletteState.FocusOverride:
                             cache.BorderBrush = new SolidBrush(ControlPaint.LightLight(bottomColor));
@@ -10615,7 +10717,7 @@ namespace Krypton.Toolkit
                                                                             90f);
 
                             cache.InsideFillBrush.SetSigmaBellShape(0.33f);
-                            cache.HighlightBrush.CenterColor = ControlPaint.LightLight(bottomColor);
+                            cache.HighlightBrush!.CenterColor = ControlPaint.LightLight(bottomColor);
                             break;
                         case PaletteState.Pressed:
                             cache.BorderBrush = new SolidBrush(CommonHelper.MergeColors(topColor, 0.5f, bottomColor, 0.5f));
@@ -10625,26 +10727,26 @@ namespace Krypton.Toolkit
                                                                             90f);
 
                             cache.InsideFillBrush.SetSigmaBellShape(0f);
-                            cache.HighlightBrush.CenterColor = Color.FromArgb(90, Color.White);
+                            cache.HighlightBrush!.CenterColor = Color.FromArgb(90, Color.White);
                             break;
                     }
                 }
 
                 using var aa = new AntiAlias(context.Graphics);
                 // Fill the entire tab area and then add a border around the edge
-                context.Graphics.FillPath(cache.BorderBrush, cache.BorderFillPath);
+                context.Graphics.FillPath(cache.BorderBrush!, cache.BorderFillPath!);
 
                 // Draw the outside border
-                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
+                context.Graphics.DrawPath(cache.BorderPen!, cache.BorderPath!);
 
                 // Fill inside area
-                context.Graphics.FillPath(cache.InsideFillBrush, cache.InsideFillPath);
+                context.Graphics.FillPath(cache.InsideFillBrush!, cache.InsideFillPath!);
 
                 if (state != PaletteState.Disabled)
                 {
                     // Draw highlight over bottom half
-                    using var clip = new Clipping(context.Graphics, cache.InsideFillPath);
-                    context.Graphics.FillPath(cache.HighlightBrush, cache.HighlightPath);
+                    using var clip = new Clipping(context.Graphics, cache.InsideFillPath!);
+                    context.Graphics.FillPath(cache.HighlightBrush!, cache.HighlightPath!);
                 }
             }
 
@@ -10654,12 +10756,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonGroupNormal(bool showingInPopup,
+        protected virtual IDisposable? DrawRibbonGroupNormal(bool showingInPopup,
                                                                  RenderContext context,
                                                                  Rectangle rect,
                                                                  PaletteState state,
                                                                  IPaletteRibbonBack palette,
-                                                                 IDisposable memento,
+                                                                 IDisposable? memento,
                                                                  bool pressed,
                                                                  bool tracking,
                                                                  bool dark)
@@ -10721,15 +10823,15 @@ namespace Krypton.Toolkit
                 if (pressed)
                 {
                     // Lighten the top and darken the bottom of the fill area
-                    context.Graphics.FillRectangle(cache.PressedFillBrush, rect.X, rect.Y, rect.Width - 2, rect.Height);
+                    context.Graphics.FillRectangle(cache.PressedFillBrush!, rect.X, rect.Y, rect.Width - 2, rect.Height);
                 }
                 else if (tracking)
                 {
                     // Lighten the top and darken the bottom of the fill area
-                    context.Graphics.FillRectangle(cache.TrackFillBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                    context.Graphics.FillRectangle(cache.TrackFillBrush!, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
 
                     // Draw the tracking highlight at bottom of area
-                    context.Graphics.FillRectangle(cache.TrackHighlightBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                    context.Graphics.FillRectangle(cache.TrackHighlightBrush!, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                 }
             }
 
@@ -10831,20 +10933,20 @@ namespace Krypton.Toolkit
                 using (AntiAlias aa = new AntiAlias(context.Graphics))
                 {
                     // Draw the solid border
-                    context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
+                    context.Graphics.DrawPath(cache.SolidPen!, cache.SolidPath!);
 
                     // Do now draw the inside and outside paths if ligtening the inside anyway
                     if (!lightInside)
                     {
                         // Draw the two areas that make a lighter shadow to the right and bottom of border
-                        context.Graphics.DrawPath(_whitenMediumPen, cache.InsidePath);
-                        context.Graphics.DrawPath(_whitenMediumPen, cache.OutsidePath);
+                        context.Graphics.DrawPath(_whitenMediumPen, cache.InsidePath!);
+                        context.Graphics.DrawPath(_whitenMediumPen, cache.OutsidePath!);
                     }
                 }
 
                 if (lightInside)
                 {
-                    context.Graphics.DrawPath(Pens.White, cache.LightPath);
+                    context.Graphics.DrawPath(Pens.White, cache.LightPath!);
                 }
             }
 
@@ -10855,12 +10957,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected virtual IDisposable DrawRibbonGroupNormalBorderSep(bool showingInPopup,
+        protected virtual IDisposable? DrawRibbonGroupNormalBorderSep(bool showingInPopup,
                                                                      RenderContext context,
                                                                      Rectangle rect,
                                                                      PaletteState state,
                                                                      IPaletteRibbonBack palette,
-                                                                     IDisposable memento,
+                                                                     IDisposable? memento,
                                                                      bool pressed,
                                                                      bool tracking,
                                                                      bool dark)
@@ -10912,8 +11014,8 @@ namespace Krypton.Toolkit
 
                 if (!showingInPopup)
                 {
-                    context.Graphics.FillRectangle(cache.TotalBrush, rect.Right - 3, rect.Top, 3, rect.Height - 1);
-                    context.Graphics.DrawLine(cache.InnerPen, rect.Right - 2, rect.Top, rect.Right - 2, rect.Bottom - 1);
+                    context.Graphics.FillRectangle(cache.TotalBrush!, rect.Right - 3, rect.Top, 3, rect.Height - 1);
+                    context.Graphics.DrawLine(cache.InnerPen!, rect.Right - 2, rect.Top, rect.Right - 2, rect.Bottom - 1);
 
                     if (tracking || pressed)
                     {
@@ -10921,14 +11023,14 @@ namespace Krypton.Toolkit
                         if (!pressed && !dark)
                         {
                             // Lighten the right inner edge
-                            context.Graphics.DrawLine(cache.TrackSepPen, rect.Right - 3, rect.Top, rect.Right - 3,
+                            context.Graphics.DrawLine(cache.TrackSepPen!, rect.Right - 3, rect.Top, rect.Right - 3,
                                 rect.Bottom - 1);
                         }
 
                         if (tracking)
                         {
                             // Lighten the bottom inner edge
-                            context.Graphics.DrawLine(cache.TrackBottomPen, rect.Right - 3, rect.Bottom - 1, rect.Left,
+                            context.Graphics.DrawLine(cache.TrackBottomPen!, rect.Right - 3, rect.Bottom - 1, rect.Left,
                                 rect.Bottom - 1);
                         }
                     }
@@ -10992,7 +11094,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill path area with a gradient brush
-                context.Graphics.FillPath(cache.TitleBrush, cache.TitlePath);
+                context.Graphics.FillPath(cache.TitleBrush!, cache.TitlePath!);
             }
 
             return memento;
@@ -11075,8 +11177,8 @@ namespace Krypton.Toolkit
 
                 // Perform actual drawing using the cache values
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
-                context.Graphics.DrawPath(cache.InsidePen, cache.InsidePath);
+                context.Graphics.DrawPath(cache.SolidPen!, cache.SolidPath!);
+                context.Graphics.DrawPath(cache.InsidePen!, cache.InsidePath!);
             }
 
             return memento;
@@ -11139,10 +11241,10 @@ namespace Krypton.Toolkit
                 // Perform actual drawing using the cache values
                 Rectangle titleRect = new Rectangle(rect.Left + 1, rect.Bottom - GROUP_FRAME_TITLE_HEIGHT,
                     rect.Width - 2, GROUP_FRAME_TITLE_HEIGHT - 1);
-                context.Graphics.FillRectangle(cache.TitleBrush, titleRect);
+                context.Graphics.FillRectangle(cache.TitleBrush!, titleRect);
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                context.Graphics.DrawPath(cache.SolidPen, cache.SolidPath);
+                context.Graphics.DrawPath(cache.SolidPen!, cache.SolidPath!);
             }
 
             return memento;
@@ -11193,7 +11295,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Perform actual drawing using the cache values
-                context.Graphics.FillRectangle(cache.Brush, rect);
+                context.Graphics.FillRectangle(cache.Brush!, rect);
             }
 
             return memento;
@@ -11254,8 +11356,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Perform actual drawing using the cache values
-                context.Graphics.FillRectangle(cache.TopBrush, cache.TopRect);
-                context.Graphics.FillRectangle(cache.BottomBrush, cache.BottomRect);
+                context.Graphics.FillRectangle(cache.TopBrush!, cache.TopRect!);
+                context.Graphics.FillRectangle(cache.BottomBrush!, cache.BottomRect!);
             }
 
             return memento;
@@ -11361,17 +11463,17 @@ namespace Krypton.Toolkit
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
                 // Draw the light borders
-                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                context.Graphics.DrawPath(cache.LightPen!, cache.TopRight1!);
+                context.Graphics.DrawPath(cache.LightPen!, cache.BottomLeft1!);
 
                 // Draw the inside background and main border
-                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
+                context.Graphics.FillPath(cache.InnerBrush!, cache.BorderPath!);
+                context.Graphics.DrawPath(cache.BorderPen!, cache.BorderPath!);
 
                 // Overdraw top for lighter effect
-                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
-                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
-                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
+                context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
+                context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
+                context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
             }
 
             return memento;
@@ -11478,12 +11580,12 @@ namespace Krypton.Toolkit
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
                 // Draw the light borders
-                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                context.Graphics.DrawPath(cache.LightPen!, cache.TopRight1!);
+                context.Graphics.DrawPath(cache.LightPen!, cache.BottomLeft1!);
 
                 // Draw the inside background and main border
-                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
+                context.Graphics.FillPath(cache.InnerBrush!, cache.BorderPath!);
+                context.Graphics.DrawPath(cache.BorderPen!, cache.BorderPath!);
             }
 
             return memento;
@@ -11529,7 +11631,7 @@ namespace Krypton.Toolkit
                     cache.LinearBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2), c1, c2, 90f);
                 }
 
-                context.Graphics.FillRectangle(cache.LinearBrush, rect);
+                context.Graphics.FillRectangle(cache.LinearBrush!, rect);
             }
 
             return memento;
@@ -11588,7 +11690,7 @@ namespace Krypton.Toolkit
                     cache.BorderPath = borderPath;
                 }
 
-                context.Graphics.DrawPath(cache.LinearPen, cache.BorderPath);
+                context.Graphics.DrawPath(cache.LinearPen!, cache.BorderPath!);
             }
 
             return memento;
@@ -11636,9 +11738,9 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the outside in one color and the inside with another
-                context.Graphics.FillRectangle(cache.OutsideBrush, rect);
+                context.Graphics.FillRectangle(cache.OutsideBrush!, rect);
                 rect.Inflate(-1, -1);
-                context.Graphics.FillRectangle(cache.InsideBrush, rect);
+                context.Graphics.FillRectangle(cache.InsideBrush!, rect);
             }
 
             return memento;
@@ -11697,9 +11799,9 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw entire background in solid brush
-                context.Graphics.FillPath(cache.WholeBrush, cache.BackPath);
-                context.Graphics.FillRectangle(cache.BottomDarkGradient, rect with { Y = rect.Bottom - 14, Height = 13 });
-                context.Graphics.FillRectangle(cache.TopLightenGradient, rect with { Height = 6 });
+                context.Graphics.FillPath(cache.WholeBrush!, cache.BackPath!);
+                context.Graphics.FillRectangle(cache.BottomDarkGradient!, rect with { Y = rect.Bottom - 14, Height = 13 });
+                context.Graphics.FillRectangle(cache.TopLightenGradient!, rect with { Height = 6 });
             }
 
             return memento;
@@ -11779,13 +11881,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw a gradient for the inside of the area
-                context.Graphics.FillRectangle(cache.InnerBrush, cache.InnerRect);
+                context.Graphics.FillRectangle(cache.InnerBrush!, cache.InnerRect!);
 
                 // Draw the dark/light lines
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                context.Graphics.DrawPath(cache.DarkPen, cache.DarkPath);
-                context.Graphics.DrawPath(_light1Pen, cache.LightPath1);
-                context.Graphics.DrawPath(_light2Pen, cache.LightPath2);
+                context.Graphics.DrawPath(cache.DarkPen!, cache.DarkPath!);
+                context.Graphics.DrawPath(_light1Pen!, cache.LightPath1!);
+                context.Graphics.DrawPath(_light2Pen!, cache.LightPath2!);
             }
 
             return memento;
@@ -11835,14 +11937,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Fill entire area in background brush
-                context.Graphics.FillRectangle(cache.MediumBrush, rect);
+                context.Graphics.FillRectangle(cache.MediumBrush!, rect);
 
                 // Draw the outside border
-                context.Graphics.DrawRectangle(cache.DarkPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                context.Graphics.DrawRectangle(cache.DarkPen!, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
 
                 // Draw ligher top and bottom lines
-                context.Graphics.DrawLine(cache.LightPen, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Y + 1);
-                context.Graphics.DrawLine(cache.LightPen, rect.X + 1, rect.Bottom - 2, rect.Width - 2, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.LightPen!, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Y + 1);
+                context.Graphics.DrawLine(cache.LightPen!, rect.X + 1, rect.Bottom - 2, rect.Width - 2, rect.Bottom - 2);
             }
 
             return memento;
@@ -11891,12 +11993,12 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw a gradient for the inside of the area
-                context.Graphics.FillRectangle(cache.BackBrush, rect);
+                context.Graphics.FillRectangle(cache.BackBrush!, rect);
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
                 if (shape == PaletteRibbonShape.Office2010)
                 {
-                    context.Graphics.DrawPolygon(cache.BorderPen, new Point[]{
+                    context.Graphics.DrawPolygon(cache.BorderPen!, new Point[]{
                         new Point(rect.Left + 1, rect.Top), new Point(rect.Right - 2, rect.Top),
                         new Point(rect.Right - 1, rect.Top + 1), new Point(rect.Right - 1, rect.Bottom - 2),
                         new Point(rect.Right - 2, rect.Bottom - 1), new Point(rect.Left + 1, rect.Bottom - 1),
@@ -11904,14 +12006,14 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Left + 1f, rect.Top, rect.Right - 2f, rect.Top);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Right - 2f, rect.Top, rect.Right - 1f, rect.Top + 2f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1f, rect.Top + 2f, rect.Right - 1f, rect.Bottom - 2f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1f, rect.Bottom - 2f, rect.Right - 2f, rect.Bottom - 1f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Right - 2f, rect.Bottom - 1f, rect.Left + 1f, rect.Bottom - 1f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Left + 1f, rect.Bottom - 1f, rect.Left, rect.Bottom - 2f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Left, rect.Bottom - 2f, rect.Left, rect.Top + 1f);
-                    context.Graphics.DrawLine(cache.BorderPen, rect.Left, rect.Top + 1f, rect.Left + 1f, rect.Top);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Left + 1f, rect.Top, rect.Right - 2f, rect.Top);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 2f, rect.Top, rect.Right - 1f, rect.Top + 2f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 1f, rect.Top + 2f, rect.Right - 1f, rect.Bottom - 2f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 1f, rect.Bottom - 2f, rect.Right - 2f, rect.Bottom - 1f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 2f, rect.Bottom - 1f, rect.Left + 1f, rect.Bottom - 1f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Left + 1f, rect.Bottom - 1f, rect.Left, rect.Bottom - 2f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Left, rect.Bottom - 2f, rect.Left, rect.Top + 1f);
+                    context.Graphics.DrawLine(cache.BorderPen!, rect.Left, rect.Top + 1f, rect.Left + 1f, rect.Top);
                 }
             }
 
@@ -11937,7 +12039,7 @@ namespace Krypton.Toolkit
             public Rectangle ShortTextRect;
             public TextRenderingHint ShortTextHint;
             public PaletteTextTrim LongTextTrimming;
-            public AccurateTextMemento LongTextMemento;
+            public AccurateTextMemento? LongTextMemento;
             public Rectangle LongTextRect;
             public TextRenderingHint LongTextHint;
             public VisualOrientation Orientation;

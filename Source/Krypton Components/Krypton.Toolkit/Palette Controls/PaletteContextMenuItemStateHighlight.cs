@@ -44,6 +44,11 @@ namespace Krypton.Toolkit
         public PaletteContextMenuItemStateHighlight(PaletteDoubleMetricRedirect? redirectItemHighlight,
                                                     PaletteDoubleRedirect redirectItemSplit)
         {
+            if (redirectItemHighlight is null)
+            {
+                throw new ArgumentNullException(nameof(redirectItemHighlight));
+            }
+
             ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);
             ItemSplit = new PaletteDouble(redirectItemSplit);
         }

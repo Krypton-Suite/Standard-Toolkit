@@ -31,9 +31,9 @@ namespace Krypton.Toolkit
         public PaletteRibbonTextInheritRedirect([DisallowNull] PaletteRedirect redirect,
                                                 PaletteRibbonTextStyle styleText)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
-            _redirect = redirect;
+            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
             StyleText = styleText;
         }
         #endregion

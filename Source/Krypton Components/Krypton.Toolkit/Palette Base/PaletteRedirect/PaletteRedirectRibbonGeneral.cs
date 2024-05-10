@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class PaletteRedirectRibbonGeneral : PaletteRedirect
     {
         #region Instance Fields
-        private readonly IPaletteRibbonGeneral _disabled;
-        private readonly IPaletteRibbonGeneral _normal;
-        private readonly IPaletteRibbonGeneral _pressed;
-        private readonly IPaletteRibbonGeneral _tracking;
+        private readonly IPaletteRibbonGeneral? _disabled;
+        private readonly IPaletteRibbonGeneral? _normal;
+        private readonly IPaletteRibbonGeneral? _pressed;
+        private readonly IPaletteRibbonGeneral? _tracking;
         #endregion
 
         #region Identity
@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         public PaletteRedirectRibbonGeneral(PaletteBase target,
-                                            IPaletteRibbonGeneral disabled,
-                                            IPaletteRibbonGeneral normal,
-                                            IPaletteRibbonGeneral pressed,
-                                            IPaletteRibbonGeneral tracking
+                                            IPaletteRibbonGeneral? disabled,
+                                            IPaletteRibbonGeneral? normal,
+                                            IPaletteRibbonGeneral? pressed,
+                                            IPaletteRibbonGeneral? tracking
                                            )
             : base(target)
         {
@@ -66,9 +66,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonDisabledDark(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonDisabledDark(state) ?? Target.GetRibbonDisabledDark(state);
+            return inherit?.GetRibbonDisabledDark(state) ?? Target!.GetRibbonDisabledDark(state);
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonDisabledLight(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonDisabledLight(state) ?? Target.GetRibbonDisabledLight(state);
+            return inherit?.GetRibbonDisabledLight(state) ?? Target!.GetRibbonDisabledLight(state);
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonGroupDialogDark(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonGroupDialogDark(state) ?? Target.GetRibbonGroupDialogDark(state);
+            return inherit?.GetRibbonGroupDialogDark(state) ?? Target!.GetRibbonGroupDialogDark(state);
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonGroupDialogLight(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonGroupDialogLight(state) ?? Target.GetRibbonGroupDialogLight(state);
+            return inherit?.GetRibbonGroupDialogLight(state) ?? Target!.GetRibbonGroupDialogLight(state);
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonGroupSeparatorDark(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonGroupSeparatorDark(state) ?? Target.GetRibbonGroupSeparatorDark(state);
+            return inherit?.GetRibbonGroupSeparatorDark(state) ?? Target!.GetRibbonGroupSeparatorDark(state);
         }
 
         /// <summary>
@@ -126,9 +126,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonGroupSeparatorLight(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonGroupSeparatorLight(state) ?? Target.GetRibbonGroupSeparatorLight(state);
+            return inherit?.GetRibbonGroupSeparatorLight(state) ?? Target!.GetRibbonGroupSeparatorLight(state);
         }
 
         /// <summary>
@@ -138,9 +138,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonMinimizeBarDark(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonMinimizeBarDark(state) ?? Target.GetRibbonMinimizeBarDark(state);
+            return inherit?.GetRibbonMinimizeBarDark(state) ?? Target!.GetRibbonMinimizeBarDark(state);
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonMinimizeBarLight(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonMinimizeBarLight(state) ?? Target.GetRibbonMinimizeBarLight(state);
+            return inherit?.GetRibbonMinimizeBarLight(state) ?? Target!.GetRibbonMinimizeBarLight(state);
         }
 
         /// <summary>
@@ -162,9 +162,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonTabSeparatorColor(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonTabSeparatorColor(state) ?? Target.GetRibbonTabSeparatorColor(state);
+            return inherit?.GetRibbonTabSeparatorColor(state) ?? Target!.GetRibbonTabSeparatorColor(state);
         }
 
         /// <summary>
@@ -174,9 +174,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonTabSeparatorContextColor(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonTabSeparatorContextColor(state) ?? Target.GetRibbonTabSeparatorContextColor(state);
+            return inherit?.GetRibbonTabSeparatorContextColor(state) ?? Target!.GetRibbonTabSeparatorContextColor(state);
         }
 
         /// <summary>
@@ -186,9 +186,9 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font GetRibbonTextFont(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonTextFont(state) ?? Target.GetRibbonTextFont(state);
+            return inherit?.GetRibbonTextFont(state) ?? Target!.GetRibbonTextFont(state);
         }
 
         /// <summary>
@@ -198,9 +198,9 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextHint value.</returns>
         public override PaletteTextHint GetRibbonTextHint(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonTextHint(state) ?? Target.GetRibbonTextHint(state);
+            return inherit?.GetRibbonTextHint(state) ?? Target!.GetRibbonTextHint(state);
         }
 
         /// <summary>
@@ -210,9 +210,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonDark(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonQATButtonDark(state) ?? Target.GetRibbonQATButtonDark(state);
+            return inherit?.GetRibbonQATButtonDark(state) ?? Target!.GetRibbonQATButtonDark(state);
         }
 
         /// <summary>
@@ -222,14 +222,14 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state)
         {
-            IPaletteRibbonGeneral inherit = GetInherit(state);
+            IPaletteRibbonGeneral? inherit = GetInherit(state);
 
-            return inherit?.GetRibbonQATButtonLight(state) ?? Target.GetRibbonQATButtonLight(state);
+            return inherit?.GetRibbonQATButtonLight(state) ?? Target!.GetRibbonQATButtonLight(state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteRibbonGeneral GetInherit(PaletteState state)
+        private IPaletteRibbonGeneral? GetInherit(PaletteState state)
         {
             switch (state)
             {

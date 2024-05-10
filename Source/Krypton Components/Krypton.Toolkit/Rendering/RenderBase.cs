@@ -1050,7 +1050,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Finally, just draw the image and let the transforms do the rest
-                    context.Graphics.DrawImage(image, imageRect, 0, 0, imageRect.Width, imageRect.Height, GraphicsUnit.Pixel, attribs);
+                    context.Graphics.DrawImage(image!, imageRect, 0, 0, imageRect.Width, imageRect.Height, GraphicsUnit.Pixel, attribs);
                 }
                 catch (ArgumentException)
                 {

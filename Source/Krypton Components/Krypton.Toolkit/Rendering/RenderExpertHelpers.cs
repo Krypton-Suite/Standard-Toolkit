@@ -143,10 +143,10 @@ namespace Krypton.Toolkit
                 }
 
                 using var aa = new AntiAlias(context.Graphics);
-                context.Graphics.FillRectangle(cache.Brush3, rect);
-                context.Graphics.FillPath(cache.Brush1, cache.Path1);
-                context.Graphics.FillPath(cache.Brush2, cache.Path2);
-                context.Graphics.FillPath(cache.Brush3, cache.Path3);
+                context.Graphics.FillRectangle(cache.Brush3!, rect);
+                context.Graphics.FillPath(cache.Brush1!, cache.Path1!);
+                context.Graphics.FillPath(cache.Brush2!, cache.Path2!);
+                context.Graphics.FillPath(cache.Brush3!, cache.Path3!);
             }
 
             return memento;
@@ -310,9 +310,9 @@ namespace Krypton.Toolkit
                     };
                 }
 
-                context.Graphics.FillRectangle(cache.BackBrush, rect);
-                context.Graphics.FillRectangle(cache.InnerBrush, cache.InnerRect);
-                context.Graphics.FillRectangle(cache.InsideLighten, cache.InnerRect);
+                context.Graphics.FillRectangle(cache.BackBrush!, rect);
+                context.Graphics.FillRectangle(cache.InnerBrush!, cache.InnerRect);
+                context.Graphics.FillRectangle(cache.InsideLighten!, cache.InnerRect);
             }
 
             return memento;
@@ -371,112 +371,115 @@ namespace Krypton.Toolkit
                                                   bool total,
                                                   bool tracking)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackExpertChecked cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackExpertChecked expertChecked)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = expertChecked;
-                    generate = !cache.UseCachedValues(drawRect, color1, color2, orientation);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackExpertChecked cache;
 
-                    cache = new MementoBackExpertChecked(drawRect, color1, color2, orientation);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    // If not drawing total area... 
-                    if (!total)
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackExpertChecked expertChecked)
                     {
-                        // Update to draw the inside area instead
-                        drawRect.Inflate(-1, -1);
-
-                        cache.DrawRect = drawRect;
-                        cache.ClipPath = new GraphicsPath();
-                        cache.ClipPath.AddLine(drawRect.X + 1, drawRect.Y, drawRect.Right - 1, drawRect.Y);
-                        cache.ClipPath.AddLine(drawRect.Right - 1, drawRect.Y, drawRect.Right, drawRect.Y + 1);
-                        cache.ClipPath.AddLine(drawRect.Right, drawRect.Y + 1, drawRect.Right, drawRect.Bottom - 2);
-                        cache.ClipPath.AddLine(drawRect.Right, drawRect.Bottom - 2, drawRect.Right - 2, drawRect.Bottom);
-                        cache.ClipPath.AddLine(drawRect.Right - 2, drawRect.Bottom, drawRect.Left + 1, drawRect.Bottom);
-                        cache.ClipPath.AddLine(drawRect.Left + 1, drawRect.Bottom, drawRect.Left, drawRect.Bottom - 2);
-                        cache.ClipPath.AddLine(drawRect.Left, drawRect.Bottom - 2, drawRect.Left, drawRect.Y + 1);
-                        cache.ClipPath.AddLine(drawRect.Left, drawRect.Y + 1, drawRect.X + 1, drawRect.Y);
+                        cache = expertChecked;
+                        generate = !cache.UseCachedValues(drawRect, color1, color2, orientation);
                     }
                     else
                     {
-                        cache.ClipPath = new GraphicsPath();
-                        cache.ClipPath.AddRectangle(drawRect);
+                        memento?.Dispose();
+
+                        cache = new MementoBackExpertChecked(drawRect, color1, color2, orientation);
+                        memento = cache;
                     }
 
-                    // Create rectangle that covers the enter area
-                    var gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
-                        drawRect.Height + 2);
-
-                    // Cannot draw a zero length rectangle
-                    if (gradientRect is { Width: > 0, Height: > 0 })
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
                     {
-                        // Draw entire area in a gradient color effect
-                        cache.EntireBrush = new LinearGradientBrush(gradientRect, CommonHelper.WhitenColor(color1, 0.92f, 0.92f, 0.92f), color1, AngleFromOrientation(orientation))
+                        // Dispose of existing values
+                        cache.Dispose();
+
+                        // If not drawing total area... 
+                        if (!total)
                         {
-                            Blend = _rounded1Blend
+                            // Update to draw the inside area instead
+                            drawRect.Inflate(-1, -1);
+
+                            cache.DrawRect = drawRect;
+                            cache.ClipPath = new GraphicsPath();
+                            cache.ClipPath.AddLine(drawRect.X + 1, drawRect.Y, drawRect.Right - 1, drawRect.Y);
+                            cache.ClipPath.AddLine(drawRect.Right - 1, drawRect.Y, drawRect.Right, drawRect.Y + 1);
+                            cache.ClipPath.AddLine(drawRect.Right, drawRect.Y + 1, drawRect.Right, drawRect.Bottom - 2);
+                            cache.ClipPath.AddLine(drawRect.Right, drawRect.Bottom - 2, drawRect.Right - 2, drawRect.Bottom);
+                            cache.ClipPath.AddLine(drawRect.Right - 2, drawRect.Bottom, drawRect.Left + 1, drawRect.Bottom);
+                            cache.ClipPath.AddLine(drawRect.Left + 1, drawRect.Bottom, drawRect.Left, drawRect.Bottom - 2);
+                            cache.ClipPath.AddLine(drawRect.Left, drawRect.Bottom - 2, drawRect.Left, drawRect.Y + 1);
+                            cache.ClipPath.AddLine(drawRect.Left, drawRect.Y + 1, drawRect.X + 1, drawRect.Y);
+                        }
+                        else
+                        {
+                            cache.ClipPath = new GraphicsPath();
+                            cache.ClipPath.AddRectangle(drawRect);
+                        }
+
+                        // Create rectangle that covers the enter area
+                        var gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
+                            drawRect.Height + 2);
+
+                        // Cannot draw a zero length rectangle
+                        if (gradientRect is { Width: > 0, Height: > 0 })
+                        {
+                            // Draw entire area in a gradient color effect
+                            cache.EntireBrush = new LinearGradientBrush(gradientRect, CommonHelper.WhitenColor(color1, 0.92f, 0.92f, 0.92f), color1, AngleFromOrientation(orientation))
+                            {
+                                Blend = _rounded1Blend
+                            };
+                        }
+
+                        RectangleF ellipseRect;
+                        PointF ellipseCenter;
+                        var ellipseHeight = Math.Max(1, drawRect.Height / 4);
+                        var ellipseWidth = Math.Max(1, tracking ? drawRect.Width : drawRect.Width / 4);
+
+                        // Ellipse is based on the orientation
+                        switch (orientation)
+                        {
+                            default:
+                            case VisualOrientation.Top:
+                                ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Bottom - ellipseHeight, drawRect.Width + (ellipseWidth * 2), ellipseHeight * 2);
+                                ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Bottom);
+                                break;
+                            case VisualOrientation.Bottom:
+                                ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Top - ellipseHeight, drawRect.Width + (ellipseWidth * 2), ellipseHeight * 2);
+                                ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Top);
+                                break;
+                            case VisualOrientation.Left:
+                                ellipseRect = new RectangleF(drawRect.Right - ellipseWidth, drawRect.Top - ellipseHeight, ellipseWidth * 2, drawRect.Height + (ellipseHeight * 2));
+                                ellipseCenter = new PointF(ellipseRect.Right, ellipseRect.Top + (ellipseRect.Height / 2));
+                                break;
+                            case VisualOrientation.Right:
+                                ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Top - ellipseHeight, ellipseWidth * 2, drawRect.Height + (ellipseHeight * 2));
+                                ellipseCenter = new PointF(ellipseRect.Left, ellipseRect.Top + (ellipseRect.Height / 2));
+                                break;
+                        }
+
+                        cache.EllipsePath = new GraphicsPath();
+                        cache.EllipsePath.AddEllipse(ellipseRect);
+                        cache.InsideLighten = new PathGradientBrush(cache.EllipsePath)
+                        {
+                            CenterPoint = ellipseCenter,
+                            CenterColor = color2,
+                            Blend = _rounded2Blend,
+                            SurroundColors = [Color.Transparent]
                         };
                     }
 
-                    RectangleF ellipseRect;
-                    PointF ellipseCenter;
-                    var ellipseHeight = Math.Max(1, drawRect.Height / 4);
-                    var ellipseWidth = Math.Max(1, tracking ? drawRect.Width : drawRect.Width / 4);
-
-                    // Ellipse is based on the orientation
-                    switch (orientation)
+                    if (cache.EntireBrush != null)
                     {
-                        default:
-                        case VisualOrientation.Top:
-                            ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Bottom - ellipseHeight, drawRect.Width + (ellipseWidth * 2), ellipseHeight * 2);
-                            ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Bottom);
-                            break;
-                        case VisualOrientation.Bottom:
-                            ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Top - ellipseHeight, drawRect.Width + (ellipseWidth * 2), ellipseHeight * 2);
-                            ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Top);
-                            break;
-                        case VisualOrientation.Left:
-                            ellipseRect = new RectangleF(drawRect.Right - ellipseWidth, drawRect.Top - ellipseHeight, ellipseWidth * 2, drawRect.Height + (ellipseHeight * 2));
-                            ellipseCenter = new PointF(ellipseRect.Right, ellipseRect.Top + (ellipseRect.Height / 2));
-                            break;
-                        case VisualOrientation.Right:
-                            ellipseRect = new RectangleF(drawRect.Left - ellipseWidth, drawRect.Top - ellipseHeight, ellipseWidth * 2, drawRect.Height + (ellipseHeight * 2));
-                            ellipseCenter = new PointF(ellipseRect.Left, ellipseRect.Top + (ellipseRect.Height / 2));
-                            break;
+                        using var clip = new Clipping(g, cache.ClipPath!);
+                        g.FillRectangle(cache.EntireBrush, cache!.DrawRect);
+                        g.FillPath(cache.InsideLighten!, cache.EllipsePath!);
                     }
-
-                    cache.EllipsePath = new GraphicsPath();
-                    cache.EllipsePath.AddEllipse(ellipseRect);
-                    cache.InsideLighten = new PathGradientBrush(cache.EllipsePath)
-                    {
-                        CenterPoint = ellipseCenter,
-                        CenterColor = color2,
-                        Blend = _rounded2Blend,
-                        SurroundColors = [Color.Transparent]
-                    };
-                }
-
-                if (cache.EntireBrush != null)
-                {
-                    using var clip = new Clipping(g, cache.ClipPath);
-                    g.FillRectangle(cache.EntireBrush, cache.DrawRect);
-                    g.FillPath(cache.InsideLighten, cache.EllipsePath);
                 }
             }
 

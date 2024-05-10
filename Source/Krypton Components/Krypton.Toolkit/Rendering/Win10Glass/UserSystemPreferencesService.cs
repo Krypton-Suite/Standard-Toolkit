@@ -27,8 +27,9 @@ namespace Krypton.Toolkit
             get
             {
                 using RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                return (int)baseKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")?
-                    .GetValue("EnableTransparency", 0) > 0;
+                return (int)baseKey
+                    .OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")?
+                    .GetValue("EnableTransparency", 0)! > 0;
             }
         }
 
@@ -40,8 +41,9 @@ namespace Krypton.Toolkit
             get
             {
                 using RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                return (int)baseKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")?
-                    .GetValue("ColorPrevalence", 0) > 0;
+                return (int)baseKey
+                    .OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")?
+                    .GetValue("ColorPrevalence", 0)! > 0;
             }
         }
     }

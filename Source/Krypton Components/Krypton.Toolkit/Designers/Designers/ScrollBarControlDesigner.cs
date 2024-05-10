@@ -25,15 +25,13 @@ namespace Krypton.Toolkit
             get
             {
                 // gets the property descriptor for the property "Orientation"
-                var propDescriptor =
-                   TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
+                var propDescriptor = TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
 
                 // if not null - we can read the current orientation of the scroll bar
-                if (propDescriptor != null)
+                if (propDescriptor is not null)
                 {
                     // get the current orientation
-                    var orientation =
-                       (ScrollBarOrientation)propDescriptor.GetValue(Component);
+                    var orientation = (ScrollBarOrientation?)propDescriptor.GetValue(Component);
 
                     // if vertical orientation
                     return orientation == ScrollBarOrientation.Vertical
@@ -41,8 +39,10 @@ namespace Krypton.Toolkit
                            | SelectionRules.Moveable
                            | SelectionRules.BottomSizeable
                            | SelectionRules.TopSizeable
-                        : SelectionRules.Visible | SelectionRules.Moveable
-                       | SelectionRules.LeftSizeable | SelectionRules.RightSizeable;
+                        : SelectionRules.Visible 
+                            | SelectionRules.Moveable
+                            | SelectionRules.LeftSizeable 
+                            | SelectionRules.RightSizeable;
                 }
 
                 return base.SelectionRules;

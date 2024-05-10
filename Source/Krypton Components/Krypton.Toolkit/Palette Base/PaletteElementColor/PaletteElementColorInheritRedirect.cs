@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(redirect != null);
 
-            _redirect = redirect;
+            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
             Element = element;
         }
         #endregion

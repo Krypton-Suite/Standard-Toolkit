@@ -17,9 +17,12 @@ namespace Krypton.Toolkit
                                          IPaletteDouble
     {
         #region Instance Fields
+#pragma warning disable CS3008 // Identifier is not CLS-compliant
+        // Dotnet having troubles with the underscores
         protected PaletteBack _back;
         protected PaletteBorder _border;
         protected PaletteBackInheritRedirect _backInherit;
+#pragma warning restore CS3008 // Identifier is not CLS-compliant
 
         #endregion
 

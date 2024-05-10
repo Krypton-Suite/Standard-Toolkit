@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
 
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    propertyGrid1.Site = new PropertyGridSite(Context, propertyGrid1);
+                    propertyGrid1.Site = new PropertyGridSite(Context!, propertyGrid1);
 
                     // Add all the top level clones
                     treeView1.Nodes.Clear();

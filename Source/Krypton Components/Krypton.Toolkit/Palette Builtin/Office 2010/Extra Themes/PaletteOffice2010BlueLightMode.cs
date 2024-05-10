@@ -665,7 +665,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2010BlueLightMode _table;
+        private KryptonColorTable2010BlueLightMode? _table;
         private readonly Color[] _ribbonColours;
         private readonly Color[] _trackBarColours;
         private readonly ImageList _checkBoxList;
@@ -5402,8 +5402,8 @@ namespace Krypton.Toolkit
         {
             // Create new font using system information
             // TODO: Should be using base font
-            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
-            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
         }
 
         private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>

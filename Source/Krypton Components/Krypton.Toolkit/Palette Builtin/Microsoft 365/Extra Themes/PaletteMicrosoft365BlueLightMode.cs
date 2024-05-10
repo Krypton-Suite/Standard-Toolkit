@@ -822,7 +822,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Variables
-        private KryptonColorTable365BlueLightMode _table;
+        private KryptonColorTable365BlueLightMode? _table;
 
         private readonly Color[] _ribbonColours;
 
@@ -4967,8 +4967,9 @@ namespace Krypton.Toolkit
             InheritBool roundedEdges, PaletteBase palette)
             : base(palette)
         {
-            Debug.Assert(colors != null);
-            _colors = colors;
+            Debug.Assert(colors is not null);
+            
+            _colors = colors ?? throw new ArgumentNullException(nameof(colors));
             _roundedEdges = roundedEdges;
         }
         #endregion
@@ -5527,8 +5528,8 @@ namespace Krypton.Toolkit
         private static void DefineFonts()
         {
             // Create new font using system information
-            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
-            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
         }
 
         private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>

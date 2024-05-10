@@ -42,10 +42,10 @@ namespace Krypton.Toolkit
                    contentStyle,
                    needPaint)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
             // Remember the redirect reference
-            _redirect = redirect;
+            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
         }
         #endregion
 

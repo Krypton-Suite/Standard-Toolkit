@@ -40,16 +40,16 @@ namespace Krypton.Toolkit
                                                   [DisallowNull] IPaletteRibbonText backupText,
                                                   PaletteState state) 
         {
-            Debug.Assert(primaryBack != null);
-            Debug.Assert(primaryText != null);
-            Debug.Assert(backupBack != null);
-            Debug.Assert(backupText != null);
+            Debug.Assert(primaryBack is not null);
+            Debug.Assert(primaryText is not null);
+            Debug.Assert(backupBack is not null);
+            Debug.Assert(backupText is not null);
 
             // Remember values
-            _primaryBack = primaryBack;
-            _primaryText = primaryText;
-            _backupBack = backupBack;
-            _backupText = backupText;
+            _primaryBack = primaryBack ?? throw new ArgumentNullException(nameof(primaryBack));
+            _primaryText = primaryText ?? throw new ArgumentNullException(nameof(primaryText));
+            _backupBack = backupBack ?? throw new ArgumentNullException(nameof(backupBack));
+            _backupText = backupText ?? throw new ArgumentNullException(nameof(backupText));
 
             // Default state
             Apply = false;

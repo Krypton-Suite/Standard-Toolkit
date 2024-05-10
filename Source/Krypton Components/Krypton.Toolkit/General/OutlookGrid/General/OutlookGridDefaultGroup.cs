@@ -167,44 +167,44 @@ namespace Krypton.Toolkit
                     }
                     else if (_val is DateTime)
                     {
-                        formattedValue = ((DateTime)Value).ToString(_formatStyle);
+                        formattedValue = ((DateTime)Value!).ToString(_formatStyle);
                     }
                     else if (_val is int)
                     {
-                        formattedValue = ((int)Value).ToString(_formatStyle);
+                        formattedValue = ((int)Value!).ToString(_formatStyle);
                     }
                     else if (_val is float)
                     {
-                        formattedValue = ((float)Value).ToString(_formatStyle);
+                        formattedValue = ((float)Value!).ToString(_formatStyle);
                     }
                     else if (_val is double)
                     {
-                        formattedValue = ((double)Value).ToString(_formatStyle);
+                        formattedValue = ((double)Value!).ToString(_formatStyle);
                     }
                     else if (_val is decimal)
                     {
-                        formattedValue = ((decimal)Value).ToString(_formatStyle);
+                        formattedValue = ((decimal)Value!).ToString(_formatStyle);
                     }
                     else if (_val is long)
                     {
-                        formattedValue = ((long)Value).ToString(_formatStyle);
+                        formattedValue = ((long)Value!).ToString(_formatStyle);
                     }
                     else if (_val is TimeSpan)
                     {
-                        formattedValue = ((TimeSpan)Value).ToString(_formatStyle);
+                        formattedValue = ((TimeSpan)Value!).ToString(_formatStyle);
                     }
                     else
                     {
-                        formattedValue = Value.ToString();
+                        formattedValue = Value!.ToString()!;
                     }
                 }
                 else
                 {
-                    formattedValue = Value.ToString();
+                    formattedValue = Value!.ToString()!;
                 }
 
                 res =
-                    $"{_column.DataGridViewColumn.HeaderText}: {formattedValue} ({(_itemCount == 1 ? _oneItemText : _itemCount + XxxItemsText)})";
+                    $"{_column!.DataGridViewColumn!.HeaderText}: {formattedValue} ({(_itemCount == 1 ? _oneItemText : _itemCount + XxxItemsText)})";
                 //if (KryptonManager.CurrentGlobalPalette.GetRenderer() == KryptonManager.RenderOffice2013)
                 //    return res.ToUpper();
                 //else
@@ -229,7 +229,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the associated DataGridView column.
         /// </summary>
-        public virtual OutlookGridColumn Column { get => _column; set => _column = value; }
+        [DisallowNull]
+        public virtual OutlookGridColumn Column 
+        {
+            get => _column!;
+            set => _column = value ?? throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(this.Column)));
+        }
 
         /// <summary>
         /// Gets or set the number of items in this group.
@@ -339,11 +344,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="obj">the value in the related column of the item to compare to</param>
         /// <returns></returns>
-        public virtual int CompareTo(object obj)
+        public virtual int CompareTo(object? obj)
         {
             int orderModifier = Column.SortDirection == SortOrder.Ascending ? 1 : -1;
             int compareResult = 0;
-            object? o2 = ((OutlookGridDefaultGroup)obj).Value;
+            
+            object? o2 = (obj as OutlookGridDefaultGroup)?.Value;
 
             if ((_val == null || _val == DBNull.Value) && o2 != null && o2 != DBNull.Value)
             {
@@ -357,60 +363,60 @@ namespace Krypton.Toolkit
             {
                 if (_val is string)
                 {
-                    compareResult = string.Compare(_val.ToString(), o2.ToString()) * orderModifier;
+                    compareResult = string.Compare(_val.ToString(), o2!.ToString()) * orderModifier;
                 }
                 else if (_val is DateTime)
                 {
-                    compareResult = ((DateTime)_val).CompareTo((DateTime)o2) * orderModifier;
+                    compareResult = ((DateTime)_val).CompareTo((DateTime)o2!) * orderModifier;
                 }
                 else if (_val is int)
                 {
-                    compareResult = ((int)_val).CompareTo((int)o2) * orderModifier;
+                    compareResult = ((int)_val).CompareTo((int)o2!) * orderModifier;
                 }
                 else if (_val is bool)
                 {
                     bool b1 = (bool)_val;
-                    bool b2 = (bool)o2;
+                    bool b2 = (bool)o2!;
                     compareResult = (b1 == b2 ? 0 : b1 == true ? 1 : -1) * orderModifier;
                 }
                 else if (_val is float)
                 {
                     float n1 = (float)_val;
-                    float n2 = (float)o2;
+                    float n2 = (float)o2!;
                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                 }
                 else if (_val is double)
                 {
                     double n1 = (double)_val;
-                    double n2 = (double)o2;
+                    double n2 = (double)o2!;
                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                 }
                 else if (_val is decimal)
                 {
                     decimal n1 = (decimal)_val;
-                    decimal n2 = (decimal)o2;
+                    decimal n2 = (decimal)o2!;
                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                 }
                 else if (_val is long)
                 {
                     long n1 = (long)_val;
-                    long n2 = (long)o2;
+                    long n2 = (long)o2!;
                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                 }
                 else if (_val is TimeSpan)
                 {
                     TimeSpan t1 = (TimeSpan)_val;
-                    TimeSpan t2 = (TimeSpan)o2;
+                    TimeSpan t2 = (TimeSpan)o2!;
                     compareResult = (t1 > t2 ? 1 : t1 < t2 ? -1 : 0) * orderModifier;
                 }
                 else if (_val is TextAndImage)
                 {
-                    compareResult = ((TextAndImage)_val).CompareTo((TextAndImage)o2) * orderModifier;
+                    compareResult = ((TextAndImage)_val).CompareTo((TextAndImage)o2!) * orderModifier;
                 }
                 //TODO implement a value for Token Column ??
                 else if (_val is Token)
                 {
-                    compareResult = ((Token)_val).CompareTo((Token)o2) * orderModifier;
+                    compareResult = ((Token)_val).CompareTo((Token)o2!) * orderModifier;
                 }
             }
             return compareResult;

@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                         //If no date Time let the valDateTime to the min value !
                         if (value != null && value != DBNull.Value)
                         {
-                            _valDateTime = DateTime.Parse(value.ToString());
+                            _valDateTime = DateTime.Parse(value.ToString()!);
                         }
                         else
                         {
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
                         //If no date Time let the valDateTime to the min value !
                         if (value != null && value != DBNull.Value)
                         {
-                            _valDateTime = DateTime.Parse(value.ToString());
+                            _valDateTime = DateTime.Parse(value.ToString()!);
                             base.Value = _valDateTime.Year;
                         }
                         else
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
                         //If no date Time let the valDateTime to the min value !
                         if (value != null && value != DBNull.Value)
                         {
-                            _valDateTime = DateTime.Parse(value.ToString());
+                            _valDateTime = DateTime.Parse(value.ToString()!);
                             base.Value = $"{_ti.ToTitleCase(_valDateTime.ToString("MMMM"))} {_valDateTime.Year}";
                         }
                         else
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
                     case DateInterval.Day:
                         if (value != null && value != DBNull.Value)
                         {
-                            _valDateTime = DateTime.Parse(value.ToString());
+                            _valDateTime = DateTime.Parse(value.ToString()!);
                             base.Value = _valDateTime.Date.ToShortDateString();
                         }
                         else
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                     case DateInterval.Quarter:
                         if (value != null && value != DBNull.Value)
                         {
-                            _valDateTime = DateTime.Parse(value.ToString());
+                            _valDateTime = DateTime.Parse(value.ToString()!);
                             base.Value =
                                 $"{OutlookGridGroupHelpers.GetQuarterAsString(_valDateTime)} {_valDateTime.Year}";
                         }
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
             if (obj is DateTime)
             {
                 //TODO necessary ??? 
-                val = DateTime.Parse(obj.ToString());
+                val = DateTime.Parse(obj.ToString()!);
             }
             else if (obj is OutlookGridDateTimeGroup)
             {

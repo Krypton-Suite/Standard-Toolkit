@@ -40,10 +40,15 @@ namespace Krypton.Toolkit
                                         PaletteContentStyle contentStyle,
                                         NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
+
+            if (redirect is null)
+            {
+                throw new ArgumentNullException(nameof(redirect));
+            }
 
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);

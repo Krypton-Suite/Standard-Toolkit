@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Background palette to inherit from.</param>
         public PaletteBackInheritForced([DisallowNull] IPaletteBack inherit)
         {
-            Debug.Assert(inherit != null);
+            Debug.Assert(inherit is not null);
 
             // Remember inheritance border
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Default values
             BorderIgnoreNormal = false;
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         public void SetInherit([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
-            _inherit = paletteBack;
+            _inherit = paletteBack!;
         }
         #endregion
 

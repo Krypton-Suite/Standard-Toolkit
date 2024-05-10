@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private KryptonVisualStudio2010With2010ColorTable _table;
+        private KryptonVisualStudio2010With2010ColorTable? _table;
 
         private readonly Color[] _ribbonColours;
 

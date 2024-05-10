@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         protected override bool SetValue(int rowIndex, object? value)
         {
-            if (value != null && !((OutlookGridRow)OwningRow).IsGroupRow) //Test to catch crash when first column is text and image when grouping
+            if (value is not null && !(OwningRow as OutlookGridRow)!.IsGroupRow!) //Test to catch crash when first column is text and image when grouping
             {
                 Image = ((TextAndImage)value).Image;
             }
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle"></param>
         /// <param name="advancedBorderStyle"></param>
         /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             //TODO : improve we assume it is a 16x16 image 
             if (Value != null && (Value as TextAndImage)?.Image != null)
