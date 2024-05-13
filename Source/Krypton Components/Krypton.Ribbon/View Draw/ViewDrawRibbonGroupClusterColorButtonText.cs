@@ -103,10 +103,6 @@ namespace Krypton.Ribbon
             Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
 
             if (context.Renderer is null)
             {

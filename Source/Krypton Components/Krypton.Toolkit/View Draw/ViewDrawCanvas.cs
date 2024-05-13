@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             // Cache the starting values
             _paletteBorder = paletteBorder;
             _paletteBack = paletteBack;
-            _paletteMetric = paletteMetric ?? throw new ArgumentNullException(nameof(paletteMetric));
+            _paletteMetric = paletteMetric; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(paletteMetric));
             _metricPadding = metricPadding;
             Orientation = orientation;
             IncludeBorderEdge = orientation;

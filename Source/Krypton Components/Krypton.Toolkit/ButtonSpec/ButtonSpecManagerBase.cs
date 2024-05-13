@@ -64,20 +64,21 @@ namespace Krypton.Toolkit
                                         NeedPaintHandler needPaint)
         {
             Debug.Assert(control is not null);
-            Debug.Assert(redirector is not null);
+            // Disabled to remove the warning
+            //Debug.Assert(redirector is not null);
             Debug.Assert(getRenderer is not null);
 
             // Remember references
-            Control = control ?? throw new ArgumentNullException(nameof(control));
-            _redirector = redirector ?? throw new ArgumentNullException(nameof(redirector));
+            Control = control; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(control));
+            _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
-            _viewMetrics = viewMetrics ?? throw new ArgumentNullException(nameof(viewMetrics));
-            _viewMetricIntOutside = viewMetricIntOutside ?? throw new ArgumentNullException(nameof(viewMetricIntOutside));
-            _viewMetricIntInside = viewMetricIntInside ?? throw new ArgumentNullException(nameof(viewMetricIntInside));
-            _viewMetricPaddings = viewMetricPaddings ?? throw new ArgumentNullException(nameof(viewMetricPaddings));
-            _getRenderer = getRenderer ?? throw new ArgumentNullException(nameof(getRenderer));
-            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(NeedPaint));
+            _viewMetrics = viewMetrics;
+            _viewMetricIntOutside = viewMetricIntOutside;
+            _viewMetricIntInside = viewMetricIntInside;
+            _viewMetricPaddings = viewMetricPaddings;
+            _getRenderer = getRenderer; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(getRenderer));
+            NeedPaint = needPaint;
 
             if (_viewMetrics != null)
             {

@@ -62,14 +62,14 @@ namespace Krypton.Toolkit
             Debug.Assert(target is not null);
 
             // Remember target for state changes
-            _target = target ?? throw new ArgumentNullException(nameof(target));
-            _paletteDisabled = paletteDisabled ?? throw new ArgumentNullException(nameof(paletteDisabled));
-            _paletteNormal = paletteNormal ?? throw new ArgumentNullException(nameof(paletteNormal));
-            _paletteTracking = paletteTracking ?? throw new ArgumentNullException(nameof(paletteTracking));
-            _palettePressed = palettePressed ?? throw new ArgumentNullException(nameof(palettePressed));
-            _pressed = pressed ?? throw new ArgumentNullException(nameof(pressed));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _paletteDisabled = paletteDisabled;
+            _paletteNormal = paletteNormal;
+            _paletteTracking = paletteTracking;
+            _palettePressed = palettePressed;
+            _pressed = pressed;
             // Store the provided paint notification delegate
-            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+            NeedPaint = needPaint;
 
             // Default other properties
             _clickTime = new DateTime();

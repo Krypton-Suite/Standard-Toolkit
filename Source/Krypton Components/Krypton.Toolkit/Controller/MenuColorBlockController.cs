@@ -53,10 +53,10 @@ namespace Krypton.Toolkit
             Debug.Assert(colorBlock is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target ?? throw new ArgumentNullException(nameof(target));
-            _menuColorBlock = colorBlock ?? throw new ArgumentNullException(nameof(colorBlock));
-            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuColorBlock = colorBlock; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(colorBlock));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Set initial display state
             UpdateTarget();

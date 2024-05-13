@@ -1516,8 +1516,10 @@ namespace Krypton.Toolkit
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
-        /// <returns>Point value.</returns>
-        public static Point StringToPoint( string s) => (Point)_pc.ConvertFromInvariantString(s)!;
+        /// <returns>Point value if s was not null. If s is null a new Point(0) will be returned.</returns>
+        public static Point StringToPoint(string? s) => s is not null
+            ? (Point)_pc.ConvertFromInvariantString(s)!
+            : new Point(0);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
