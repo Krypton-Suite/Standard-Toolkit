@@ -341,9 +341,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase? this[int index]
+        public override ViewBase this[int index]
         {
-            get => _views?[index];
+            get => _views![index];
 
             set
             {

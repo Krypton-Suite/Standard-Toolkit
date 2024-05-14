@@ -104,7 +104,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Reset the column size information
             _columnToWidth = new ColumnToWidth();
@@ -112,7 +122,7 @@ namespace Krypton.Toolkit
             // Remove any override currently in place for columns
             ClearMenuItemColumns(this);
 
-            base.GetPreferredSize(context!);
+            base.GetPreferredSize(context);
 
             // Gather the largest size of each column instance
             GatherMenuItemColumns(this);
@@ -121,7 +131,7 @@ namespace Krypton.Toolkit
             OverrideMenuItemColumns(this);
 
             // Modify the first (image) column for the padding of the item highlight
-            UpdateImageColumnWidth(context!.Renderer);
+            UpdateImageColumnWidth(context.Renderer);
 
             return base.GetPreferredSize(context);
         }

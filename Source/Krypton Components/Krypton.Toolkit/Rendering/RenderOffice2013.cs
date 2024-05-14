@@ -243,12 +243,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabSelected2010(RenderContext context,
+        protected override IDisposable? DrawRibbonTabSelected2010(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -346,13 +346,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape,
+        protected override IDisposable? DrawRibbonTabTracking2010(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })

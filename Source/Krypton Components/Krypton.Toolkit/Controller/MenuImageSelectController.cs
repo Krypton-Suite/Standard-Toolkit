@@ -56,10 +56,10 @@ namespace Krypton.Toolkit
             Debug.Assert(needPaint is not null);
 
             MousePoint = CommonHelper.NullPoint;
-            _viewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target ?? throw new ArgumentNullException(nameof(target));
-            _layout = layout ?? throw new ArgumentNullException(nameof(layout));
-            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+            _viewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _layout = layout; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(layout));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

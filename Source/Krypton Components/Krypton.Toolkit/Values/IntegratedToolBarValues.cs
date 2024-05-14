@@ -80,7 +80,9 @@ namespace Krypton.Toolkit
 
         public override string ToString()
         {
-            return base.ToString();
+            return base.ToString() is string s
+                ? s
+                : string.Empty;
         }
 
         #endregion

@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             CommonHelper.RemoveControlFromParent(c!);
 
             // Add to our child control
-            CommonHelper.AddControlToParent(newParent, c);
+            CommonHelper.AddControlToParent(newParent, c!);
         }
         #endregion
 

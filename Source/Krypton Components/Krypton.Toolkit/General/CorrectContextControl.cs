@@ -31,7 +31,17 @@ namespace Krypton.Toolkit
         public CorrectContextControl([DisallowNull] ViewLayoutContext context,
                                      Control control)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Control is null)
+            {
+                throw new ArgumentNullException(nameof(context.Control));
+            }
 
             // Remember incoming context
             _context = context;

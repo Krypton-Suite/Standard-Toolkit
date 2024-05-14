@@ -54,10 +54,10 @@ namespace Krypton.Toolkit
             Debug.Assert(linkLabel is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target ?? throw new ArgumentNullException(nameof(target));
-            _menuLinkLabel = linkLabel ?? throw new ArgumentNullException(nameof(linkLabel));
-            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuLinkLabel = linkLabel; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(linkLabel));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

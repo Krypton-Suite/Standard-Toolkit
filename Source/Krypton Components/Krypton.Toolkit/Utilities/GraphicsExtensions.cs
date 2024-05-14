@@ -180,11 +180,11 @@ namespace Krypton.Toolkit
         /// <summary>Gets the size of the screen.</summary>
         /// <returns></returns>
         public static Size GetScreenSize() =>
-            new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            new Size(Screen.PrimaryScreen!.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
         /// <summary>Gets the working area.</summary>
         /// <returns></returns>
-        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen.WorkingArea;
+        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen!.WorkingArea;
 
         /// <summary>Gets the type of the krypton message box image.</summary>
         /// <param name="iconType">Type of the icon.</param>

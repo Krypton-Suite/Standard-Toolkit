@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <returns>Padding structure detailing all four edges.</returns>
-        public abstract Padding GetBorderDisplayPadding(IPaletteBorder palette,
+        public abstract Padding GetBorderDisplayPadding(IPaletteBorder? palette,
                                                         PaletteState state,
                                                         VisualOrientation orientation);
 
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         public abstract GraphicsPath GetOutsideBorderPath(RenderContext context,
                                                           Rectangle rect,
-                                                          IPaletteBorder palette,
+                                                          IPaletteBorder? palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state);
 

@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
         private void UpdateLocation()
         {
             //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
+            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 

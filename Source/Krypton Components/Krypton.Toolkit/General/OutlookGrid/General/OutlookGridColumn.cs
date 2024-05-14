@@ -57,9 +57,9 @@ namespace Krypton.Toolkit
         /// <param name="groupIndex">The column's position in grouping and at which level.</param>
         /// <param name="sortIndex">the column's position among sorted columns.</param>
         /// <param name="comparer">The comparer if needed</param>
-        public OutlookGridColumn(string? columnName, DataGridViewColumn col, IOutlookGridGroup? group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer)
+        public OutlookGridColumn(string? columnName, DataGridViewColumn? col, IOutlookGridGroup? group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer)
         {
-            DataGridViewColumn = col;
+            DataGridViewColumn = col!;
             Name = columnName;
             GroupingType = group;
             SortDirection = sortDirection;

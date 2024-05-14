@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            _stateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             _stateDisabled = new PaletteDouble(_stateCommon, NeedPaintDelegate);
             _stateNormal = new PaletteDouble(_stateCommon, NeedPaintDelegate);
 
@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
             Debug.Assert(stateNormal is not null);
 
             // Remember the palette storage
-            _stateCommon = stateCommon ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateCommon)));
-            _stateDisabled = stateDisabled ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateDisabled)));
-            _stateNormal = stateNormal ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateNormal)));
+            _stateCommon = stateCommon; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateCommon)));
+            _stateDisabled = stateDisabled; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateDisabled)));
+            _stateNormal = stateNormal; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateNormal)));
 
             Construct();
         }

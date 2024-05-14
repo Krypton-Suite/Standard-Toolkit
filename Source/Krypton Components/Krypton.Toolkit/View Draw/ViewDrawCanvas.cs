@@ -58,14 +58,14 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawCanvas(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric paletteMetric,
+                              IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
         {
             // Cache the starting values
             _paletteBorder = paletteBorder;
             _paletteBack = paletteBack;
-            _paletteMetric = paletteMetric;
+            _paletteMetric = paletteMetric; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(paletteMetric));
             _metricPadding = metricPadding;
             Orientation = orientation;
             IncludeBorderEdge = orientation;
@@ -151,11 +151,21 @@ namespace Krypton.Toolkit
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
-            [DisallowNull]IPaletteBorder paletteBorder,
+                                        [DisallowNull] IPaletteBorder paletteBorder,
                                         IPaletteMetric? paletteMetric)
         {
-            Debug.Assert(paletteBorder != null);
-            Debug.Assert(paletteBack != null);
+            Debug.Assert(paletteBorder is not null);
+            Debug.Assert(paletteBack is not null);
+
+            if (paletteBack is null)
+            {
+                throw new ArgumentNullException(nameof(paletteBack));
+            }
+
+            if(paletteBorder is null)
+            {
+                throw new ArgumentNullException(nameof(paletteBorder));
+            }
 
             // Use newly provided palettes
             _paletteBack = paletteBack;
@@ -321,15 +331,9 @@ namespace Krypton.Toolkit
         /// <returns>Path instance.</returns>
         public GraphicsPath? GetOuterBorderPath(RenderContext context)
         {
-            if (_paletteBorder != null)
-            {
-                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
-                                                                                  _paletteBorder, Orientation,
-                                                                                  State);
-            }
-
-            // No palette details to use
-            return null;
+            return (_paletteBorder is null && context.Renderer is not null)
+                ? context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State)
+                : null;  // No palette details to use
         }
         #endregion
 
@@ -341,10 +345,20 @@ namespace Krypton.Toolkit
         /// <returns>True if transparent areas exist; otherwise false.</returns>
         public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer to evaluate the given palette
-            return context!.Renderer.EvalTransparentPaint(_paletteBack!, _paletteBorder, State);
+            return context.Renderer.EvalTransparentPaint(_paletteBack!, _paletteBorder, State);
         }
 
         #endregion
@@ -358,12 +372,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // Let base class find preferred size of the children
@@ -393,12 +412,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // We take on all the available display area
@@ -440,18 +464,21 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Do we need to draw the background?
-            if (DrawCanvas 
-                && (_paletteBack!.GetBackDraw(State) == InheritBool.True)
-                )
+            if (DrawCanvas && (_paletteBack!.GetBackDraw(State) == InheritBool.True))
             {
                 GraphicsPath borderPath;
                 Padding borderPadding;
@@ -478,8 +505,7 @@ namespace Krypton.Toolkit
                 borderPath.Dispose();
             }
 
-            if (DrawCanvas 
-                && (_paletteBorder != null)
+            if (DrawCanvas && (_paletteBorder != null)
                 )
             {
                 // Do we draw the border before the children?
@@ -526,9 +552,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (DrawCanvas 
-                && (_paletteBorder != null)
-                )
+            if (DrawCanvas && (_paletteBorder != null))
             {
                 // Do we draw the border after the children?
                 if (DrawBorderLast)
@@ -551,7 +575,17 @@ namespace Krypton.Toolkit
         /// <param name="context"></param>
         public virtual void RenderBorder([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Do we need to draw the border?
             if (_paletteBorder!.GetBorderDraw(State) == InheritBool.True)

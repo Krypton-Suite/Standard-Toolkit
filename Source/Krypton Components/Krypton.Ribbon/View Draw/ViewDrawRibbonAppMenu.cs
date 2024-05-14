@@ -57,12 +57,22 @@ namespace Krypton.Ribbon
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="renderContext">Rendering context.</param>
-        public override void RenderAfter(RenderContext renderContext)
+        public override void RenderAfter([DisallowNull] RenderContext renderContext)
         {
+            if (renderContext.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(renderContext.Renderer));
+            }
+
+            if (renderContext.TopControl is null)
+            {
+                throw new ArgumentNullException(nameof(renderContext.TopControl));
+            }
+
             base.RenderAfter(renderContext);
 
             // Convert our rectangle to the screen
-            Rectangle screenRect = renderContext.TopControl!.RectangleToScreen(renderContext.TopControl.ClientRectangle);
+            Rectangle screenRect = renderContext.TopControl.RectangleToScreen(renderContext.TopControl.ClientRectangle);
 
             // If the fixed rectangle is in our showing area and at the top
             if (screenRect.Contains(_fixedScreenRect) && (screenRect.Y == _fixedScreenRect.Y))

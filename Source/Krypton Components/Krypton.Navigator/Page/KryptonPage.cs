@@ -201,6 +201,11 @@ namespace Krypton.Navigator
             _needDisabledPaint = OnNeedDisabledPaint!;
             _needNormalPaint = OnNeedNormalPaint!;
 
+            if (Redirector is null)
+            {
+                throw new ArgumentNullException(nameof(Redirector));
+            }
+
             // Create redirector for inheriting from owning navigator
             _redirectNavigator = new PaletteRedirectDoubleMetric(Redirector);
             _redirectNavigatorPage = new PaletteRedirectDouble(Redirector);
@@ -839,10 +844,9 @@ namespace Krypton.Navigator
             _redirectNavigatorRibbonTab?.SetRedirectStates(disabled.RibbonTab, normal.RibbonTab, pressed.RibbonTab,
                 tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
 
-            if (_stateCommon != null)
+            if (_stateCommon is not null && Redirector is not null) 
             {
-                _stateCommon.RedirectBorderEdge =
-                    new PaletteRedirectBorderEdge(Redirector, disabled.BorderEdge, normal.BorderEdge);
+                _stateCommon.RedirectBorderEdge = new PaletteRedirectBorderEdge(Redirector, disabled.BorderEdge, normal.BorderEdge);
                 _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
             }
         }
@@ -886,7 +890,7 @@ namespace Krypton.Navigator
 
                 _redirectNavigatorRibbonTab?.ResetRedirectStates();
 
-                if (_stateCommon != null)
+                if (_stateCommon is not null && Redirector is not null)
                 {
                     _stateCommon.RedirectBorderEdge = new PaletteRedirectBorder(Redirector);
                     _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);

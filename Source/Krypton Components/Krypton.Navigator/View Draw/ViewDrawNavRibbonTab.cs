@@ -345,8 +345,13 @@ namespace Krypton.Navigator
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Ensure we are using the correct palette
             CheckPaletteState(context);
 

@@ -115,8 +115,13 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void RenderChildren(RenderContext context, bool drawChecked)
+        private void RenderChildren([DisallowNull] RenderContext context, bool drawChecked)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Use tab style to decide what order the children are drawn in
             var orderedChildren = context.Renderer.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
 

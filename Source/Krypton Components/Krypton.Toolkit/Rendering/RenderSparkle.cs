@@ -174,19 +174,19 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent paletteContent,
+                                                           IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (paletteContent == null)
+            if (paletteContent is null)
             {
                 throw new ArgumentNullException(nameof(paletteContent));
             }
@@ -213,11 +213,11 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent paletteContent,
+                                                            IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
             if (context == null)
@@ -252,19 +252,19 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
                                                               Rectangle cellRect,
-                                                              [DisallowNull] IPaletteContent paletteContent,
+                                                              IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (paletteContent == null)
+            if (paletteContent is null)
             {
                 throw new ArgumentNullException(nameof(paletteContent));
             }

@@ -116,6 +116,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             IPaletteRibbonFileAppTab palette;
             int memento;
             var localState = State;

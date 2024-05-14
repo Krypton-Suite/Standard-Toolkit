@@ -43,13 +43,15 @@ namespace Krypton.Toolkit
             }
 
             var actioned = false;
-            var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+            var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT))!;
             if (msg.hWnd == TargetWnd)
             {
                 WindowMessage?.Invoke(this, msg, out actioned);
             }
 
-            return actioned ? 0 : CallNextHookEx(m_hHook, code, wParam, lParam);
+            return actioned 
+                ? 0 
+                : CallNextHookEx(m_hHook, code, wParam, lParam);
         }
     }
 }

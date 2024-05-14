@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
             if (e.message == PI.WM_.INITDIALOG)
             {
 #if NET462
-                using var g  = _commonDialogHandler._wrapperForm.CreateGraphics();
+                using var g  = _commonDialogHandler._wrapperForm!.CreateGraphics();
                 _scaleFactor = g.DpiX / 96.0f;
 #else
                 _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;

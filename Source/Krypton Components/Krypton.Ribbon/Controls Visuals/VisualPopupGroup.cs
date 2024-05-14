@@ -159,11 +159,11 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            var matched = false;
-            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
+            bool matched = false;
+            ViewBase? view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
 
             // Rotate around to the first item
-            if (view == null)
+            if (view is null)
             {
                 SetFirstFocusItem();
             }
@@ -182,8 +182,8 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            var matched = false;
-            ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
+            bool matched = false;
+            ViewBase? view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
 
             // Rotate around to the last item
             if (view == null)

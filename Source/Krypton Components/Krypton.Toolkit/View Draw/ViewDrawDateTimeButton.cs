@@ -159,8 +159,13 @@ namespace Krypton.Toolkit
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             switch (_glyph)
             {
                 case DrawDateTimeGlyph.DropDownButton:

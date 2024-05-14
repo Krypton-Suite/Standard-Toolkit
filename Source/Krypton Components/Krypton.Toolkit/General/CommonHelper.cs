@@ -1402,7 +1402,7 @@ namespace Krypton.Toolkit
             if (typeof(IComponent).IsAssignableFrom(itemType) && (host != null))
             {
                 // Ask host to create component for us
-                retObj = host.CreateComponent(itemType, null!);
+                retObj = host.CreateComponent(itemType, null!)!;
 
                 // If the new object has an associated designer then use that now to initialize the instance
                 if (host.GetDesigner((IComponent)retObj) is IComponentInitializer designer)
@@ -1413,7 +1413,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Cannot use host for creation, so do it the standard way instead
-                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
+                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!)!;
             }
 
             return retObj ?? false;
@@ -1474,7 +1474,7 @@ namespace Krypton.Toolkit
                                                                     BindingFlags.NonPublic);
             }
 
-            return (bool)_cachedDesignModePI!.GetValue(c, null);
+            return (bool)_cachedDesignModePI!.GetValue(c, null)!;
         }
 
         /// <summary>
@@ -1489,7 +1489,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Double value.</returns>
-        public static double StringToDouble(string s) => (double)_dc.ConvertFromInvariantString(s);
+        public static double StringToDouble(string s) => (double)_dc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a Size to a culture invariant string value.
@@ -1503,7 +1503,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Size value.</returns>
-        public static Size StringToSize(string s) => (Size)_sc.ConvertFromInvariantString(s);
+        public static Size StringToSize(string s) => (Size)_sc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a Point to a culture invariant string value.
@@ -1516,8 +1516,10 @@ namespace Krypton.Toolkit
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
-        /// <returns>Point value.</returns>
-        public static Point StringToPoint(string? s) => (Point)_pc.ConvertFromInvariantString(s);
+        /// <returns>Point value if s was not null. If s is null a new Point(0) will be returned.</returns>
+        public static Point StringToPoint(string? s) => s is not null
+            ? (Point)_pc.ConvertFromInvariantString(s)!
+            : new Point(0);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
@@ -1531,7 +1533,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Boolean value.</returns>
-        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s);
+        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a Color to a culture invariant string value.
@@ -1545,7 +1547,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Color value.</returns>
-        public static Color StringToColor(string s) => (Color)_cc.ConvertFromInvariantString(s);
+        public static Color StringToColor(string s) => (Color)_cc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a client mouse position inside a windows message into a screen position.

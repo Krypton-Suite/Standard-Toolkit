@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string themeName)
+        public static PaletteMode? GetThemeManagerMode(string themeName)
         {
             var modeConverter = new PaletteModeConverter();
 

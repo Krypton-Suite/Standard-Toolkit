@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(redirect is not null);
 
-            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
             StyleBack = styleBack;
             StyleText = styleText;
         }

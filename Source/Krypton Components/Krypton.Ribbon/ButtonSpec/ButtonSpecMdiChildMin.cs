@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
         public ButtonSpecMdiChildMin([DisallowNull] KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantMin)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
         }
         #endregion
 

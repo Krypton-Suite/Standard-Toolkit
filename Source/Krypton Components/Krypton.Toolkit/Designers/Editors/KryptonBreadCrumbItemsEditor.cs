@@ -203,12 +203,14 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent? Component { get; }
+                public IComponent Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
                 /// </summary>
-                public IContainer? Container => null;
+                public IContainer Container 
+                    //nul forgiving added since the interface defines as non-nullable
+                    => null!;
 
                 /// <summary>
                 /// Determines whether the component is in design mode when implemented by a class.
@@ -476,10 +478,10 @@ namespace Krypton.Toolkit
                 treeView1.Nodes.Clear();
 
                 // Inform designer of changes in component items
-                SynchronizeCollections(_beforeItems, afterItems, Context);
+                SynchronizeCollections(_beforeItems, afterItems, Context!);
 
                 // Notify container that the value has been changed
-                Context.OnComponentChanged();
+                Context!.OnComponentChanged();
             }
 
             private bool ContainsNode(TreeNode node, TreeNode find)
@@ -583,7 +585,7 @@ namespace Krypton.Toolkit
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                var node = treeView1.SelectedNode as MenuTreeNode;
+                MenuTreeNode node = (MenuTreeNode)treeView1.SelectedNode!;
                 if (node != null)
                 {
                     // Find the previous node using the currently selected node
@@ -593,7 +595,7 @@ namespace Krypton.Toolkit
                         var contained = ContainsNode(previousNode, node);
 
                         // Remove cell from parent collection
-                        var parentNode = (MenuTreeNode)node.Parent;
+                        MenuTreeNode parentNode = (MenuTreeNode)node.Parent!;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
@@ -658,7 +660,7 @@ namespace Krypton.Toolkit
                         if (contained)
                         {
                             // Add cell to the parent sequence of target cell
-                            var previousParent = (MenuTreeNode)nextNode.Parent;
+                            MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent!;
                             parentCollection = nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(nextNode);
                             previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
@@ -682,9 +684,9 @@ namespace Krypton.Toolkit
 
             private void buttonAddSibling_Click(object sender, EventArgs e)
             {
-                var item = CreateInstance(typeof(KryptonBreadCrumbItem)) as KryptonBreadCrumbItem;
+                KryptonBreadCrumbItem item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
-                TreeNode selectedNode = treeView1.SelectedNode;
+                TreeNode selectedNode = treeView1.SelectedNode!;
 
                 // If there is no selection then append to root
                 if (selectedNode == null)
@@ -694,7 +696,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // If current selection is at the root
-                    TreeNode parentNode = selectedNode.Parent;
+                    TreeNode parentNode = selectedNode.Parent!;
                     if (parentNode == null)
                     {
                         treeView1.Nodes.Insert(treeView1.Nodes.IndexOf(selectedNode) + 1, newNode);
@@ -722,7 +724,7 @@ namespace Krypton.Toolkit
             {
                 var item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
-                TreeNode selectedNode = treeView1.SelectedNode;
+                TreeNode selectedNode = treeView1.SelectedNode!;
 
                 // If there is no selection then append to root
                 if (selectedNode == null)
@@ -749,12 +751,12 @@ namespace Krypton.Toolkit
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {
-                TreeNode node = treeView1.SelectedNode;
+                TreeNode node = treeView1.SelectedNode!;
 
                 // We should have a selected node!
                 if (node != null)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    MenuTreeNode treeNode = (MenuTreeNode)node;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -764,7 +766,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         TreeNode parentNode = node.Parent;
-                        var treeParentNode = parentNode as MenuTreeNode;
+                        MenuTreeNode treeParentNode = (MenuTreeNode)parentNode;
                         treeParentNode.Item.Items.Remove(treeNode.Item);
                         node.Parent.Nodes.Remove(node);
                     }
@@ -792,7 +794,7 @@ namespace Krypton.Toolkit
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = treeView1.SelectedNode;
+                TreeNode node = treeView1.SelectedNode!;
                 propertyGrid1.SelectedObject = node == null ? null : new CrumbProxy((KryptonBreadCrumbItem)((MenuTreeNode)node).PropertyObject);
             }
 
@@ -866,8 +868,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
+                if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
                 {
                     // Mark components as changed when not added or removed
                     foreach (KryptonBreadCrumbItem item in after.Values)

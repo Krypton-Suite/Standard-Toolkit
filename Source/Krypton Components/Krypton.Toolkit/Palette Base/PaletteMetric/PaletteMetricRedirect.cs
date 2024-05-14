@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Remember the redirect reference
-            _redirect = redirect ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
         }
         #endregion
 

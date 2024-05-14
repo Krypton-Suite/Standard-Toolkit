@@ -62,7 +62,12 @@ namespace Krypton.Ribbon
 
         #region Identity
 
-        public KryptonRibbonMerger(KryptonRibbon targetRibbon)
+        /// <summary>
+        /// Merges a krypton ribbon with another ribbon.
+        /// </summary>
+        /// <param name="targetRibbon">The ribbon to merge with.</param>
+        /// <exception cref="ArgumentNullException">Will be thrown if the parameter targetRibbon is null.</exception>
+        public KryptonRibbonMerger([DisallowNull ]KryptonRibbon targetRibbon)
         {
             TargetRibbon = targetRibbon ?? throw new ArgumentNullException(nameof(targetRibbon));
         }

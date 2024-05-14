@@ -72,6 +72,11 @@ namespace Krypton.Workspace
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
         public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
+            if (Workspace is null)
+            {
+                throw new ArgumentNullException(nameof(Workspace));
+            }
+
             // Transfer the dragged pages into a new cell
             var cell = new KryptonWorkspaceCell();
             KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
