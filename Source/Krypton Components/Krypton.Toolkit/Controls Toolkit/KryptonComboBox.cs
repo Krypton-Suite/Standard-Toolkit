@@ -1357,9 +1357,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        public new virtual string Text
+        [AllowNull]
+        public override string Text
         {
-            // Replaced override with "new virtual" since inheritance keeps producing null warnings which ever way
             get => _comboBox.Text;
             set => _comboBox.Text = value;
         }

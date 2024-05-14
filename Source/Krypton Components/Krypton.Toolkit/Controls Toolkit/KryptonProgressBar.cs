@@ -818,9 +818,10 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new virtual Image BackgroundImage
+        [AllowNull, MaybeNull]
+        public override Image BackgroundImage
         {
-            get => base.BackgroundImage!;
+            get => base.BackgroundImage;
             set => base.BackgroundImage = value;
         }
 
@@ -874,9 +875,12 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new virtual ContextMenuStrip ContextMenuStrip
+        [AllowNull, MaybeNull]
+        public override ContextMenuStrip ContextMenuStrip
         {
-            get => base.ContextMenuStrip!;
+            // base.ContextMenuStrip ca be null
+
+            get => base.ContextMenuStrip;
             set => base.ContextMenuStrip = value;
         }
 
@@ -892,7 +896,8 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new virtual Font Font
+        [AllowNull]
+        public override Font Font
         {
             get => base.Font;
             set => base.Font = value;
