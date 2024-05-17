@@ -17,7 +17,11 @@ namespace Krypton.Toolkit
 
         private bool _isDismissButton;
 
-        private VisualToastNotificationBasicForm? _basicToast;
+        private string _processPath;
+
+        private VisualToastNotificationBaseForm? _owner;
+
+        private KryptonToastNotificationResult _notificationResult;
 
         #endregion
 
@@ -47,11 +51,55 @@ namespace Krypton.Toolkit
             }
         }
 
-        public VisualToastNotificationBasicForm? BasicToastForm
+        public string ProcessPath
         {
-            get => _basicToast;
+            get => _processPath;
 
-            set => _basicToast = value;
+            set
+            {
+                _processPath = value;
+
+                Invalidate();
+            }
+        }
+
+        /// <summary>Gets or sets the basic toast form.</summary>
+        /// <value>The basic toast form.</value>
+        [Category(@"Data")]
+        [Description(@"")]
+        [DefaultValue(null)]
+        public VisualToastNotificationBaseForm? BaseToastForm
+        {
+            get => _owner;
+
+            set => _owner = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the notification result.
+        /// </summary>
+        /// <value>
+        /// The notification result.
+        /// </value>
+        [Category(@"Behavior")]
+        [Description(@"")]
+        [DefaultValue(KryptonToastNotificationResult.None)]
+        public KryptonToastNotificationResult NotificationResult
+        {
+            get => _notificationResult;
+
+            set => _notificationResult = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the value returned to the parent form when the button is clicked.
+        /// </summary>
+        [Browsable(false)]
+        public new DialogResult DialogResult
+        {
+            get => base.DialogResult;
+
+            set => base.DialogResult = value;
         }
 
         #endregion
@@ -65,7 +113,9 @@ namespace Krypton.Toolkit
 
             _isDismissButton = false;
 
-            _basicToast = null;
+            _owner = null;
+
+            _notificationResult = KryptonToastNotificationResult.None;
         }
 
         #endregion
@@ -78,9 +128,9 @@ namespace Krypton.Toolkit
             {
                 _isActionButton = false;
 
-                if (_basicToast != null)
+                if (_owner != null)
                 {
-                    _basicToast.AcceptButton = this;
+                    _owner.AcceptButton = this;
                 }
             }
 
@@ -89,14 +139,14 @@ namespace Krypton.Toolkit
 
         protected override void OnClick(EventArgs e)
         {
-            if (_isActionButton && _basicToast != null /*&& _basicToast.ActionButtonCommand != null*/)
+            if (_isActionButton && _owner != null /*&& _basicToast.ActionButtonCommand != null*/)
             {
                 //_basicToast.ActionButtonCommand.PerformExecute();
             }
 
             if (_isDismissButton)
             {
-                _basicToast?.Close();
+                _owner?.Close();
             }
 
             base.OnClick(e);
@@ -109,6 +159,53 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override IKryptonCommand? KryptonCommand { get; set; }
+
+        #endregion
+
+        #region Protected Overrides
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            if (_isDismissButton && _owner != null)
+            {
+                _owner.Close();
+            }
+
+            if (_isActionButton && _owner != null)
+            {
+                if (!string.IsNullOrEmpty(_processPath))
+                {
+                    LaunchProcess(_processPath);
+                }
+                else
+                {
+                    _owner.Close();
+                }
+            }
+
+            base.OnMouseClick(e);
+        }
+
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        {
+            base.OnNeedPaint(sender, e);
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void LaunchProcess(string processPath)
+        {
+            try
+            {
+                Process.Start(processPath);
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+        }
 
         #endregion
     }

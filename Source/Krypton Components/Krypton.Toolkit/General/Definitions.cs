@@ -2242,6 +2242,36 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region KryptonToastNotificationResult
+
+    /// <summary>
+    /// Options for the <see cref="KryptonToastNotification"/>.
+    /// </summary>
+    public enum KryptonToastNotificationResult
+    {
+        None = DialogResult.None,
+        Ok = DialogResult.OK,
+        Cancel = DialogResult.Cancel,
+        Abort = DialogResult.Abort,
+        Retry = DialogResult.Retry,
+        Ignore = DialogResult.Ignore,
+        Yes = DialogResult.Yes,
+        No = DialogResult.No,
+        Close = 8,
+        Help = 9,
+#if NET6_0_OR_GREATER
+        TryAgain = DialogResult.TryAgain,
+        Continue = DialogResult.Continue,
+#else
+        TryAgain = 10,
+        Continue = 11,
+#endif
+        TimeOut = 12,
+        DoNotShowAgain = 13
+    }
+
+    #endregion
+
     #endregion
 
     #region Enum ToolkitType

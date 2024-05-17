@@ -20,8 +20,16 @@ namespace Krypton.Toolkit
      Description("Displays a Kryptonised version of the standard Font dialog, that prompts the user to choose a font from those installed on the local computer.")]
     public class KryptonFontDialog : FontDialog
     {
+        #region Instance Fields
+
+        private const int CLR_COMBOBOX_ID = 1139;
+        private IntPtr _clrComboBoxHwnd;
         private readonly CommonDialogHandler _commonDialogHandler;
         private bool _displayExtendedColorsButton;
+
+        #endregion
+
+        #region Public
 
         /// <summary>
         /// Changes the title of the common Font Dialog
@@ -51,17 +59,6 @@ namespace Krypton.Toolkit
             get => _commonDialogHandler.ShowIcon;
             set => _commonDialogHandler.ShowIcon = value;
         }
-
-        /// <summary>
-        /// Represents a common dialog box that displays a list of fonts
-        /// that are currently installed on the system.
-        /// </summary>
-        public KryptonFontDialog() =>
-            _commonDialogHandler = new CommonDialogHandler(true)
-            {
-                Icon = DialogImageResources.font,
-                ShowIcon = false
-            };
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>
@@ -97,15 +94,29 @@ namespace Krypton.Toolkit
             }
         }
 
+        #endregion
+
+        #region Identity
+
+        /// <summary>
+        /// Represents a common dialog box that displays a list of fonts
+        /// that are currently installed on the system.
+        /// </summary>
+        public KryptonFontDialog() =>
+            _commonDialogHandler = new CommonDialogHandler(true)
+            {
+                Icon = DialogImageResources.font,
+                ShowIcon = false
+            };
+
+        #endregion
+
 
         //protected override bool RunDialog(IntPtr hWndOwner)
         //{
         //    var ret = base.RunDialog(hWndOwner);
         //    //return ret;// || _commonDialogHandler._T;
         //}
-
-        private const int CLR_COMBOBOX_ID = 1139;
-        private IntPtr _clrComboBoxHwnd;
         /// <inheritdoc />
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
