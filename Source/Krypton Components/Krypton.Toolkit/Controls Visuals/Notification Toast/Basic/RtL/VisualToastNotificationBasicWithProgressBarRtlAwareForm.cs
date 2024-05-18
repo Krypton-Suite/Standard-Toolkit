@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
 
             _basicToastNotificationData = data;
 
-            GotFocus += (sender, args) => kbtnDismiss.Focus();
+            GotFocus += (sender, args) => itbDismiss.Focus();
 
             LocationChanged += VisualToastNotificationBasicWithProgressBarRtlAwareForm_LocationChanged;
 
@@ -234,6 +234,8 @@ namespace Krypton.Toolkit
             _soundPlayer?.Play();
 
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
         }
 
         private void kbtnDismiss_Click(object sender, EventArgs e) => Close();
@@ -354,6 +356,8 @@ namespace Krypton.Toolkit
                 ? toast.ReturnCheckBoxStateValue
                 : CheckState.Unchecked;
         }
+
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
         internal static void ShowNotification(KryptonBasicToastNotificationData toastNotificationData)
         {

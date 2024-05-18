@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
             };
         }
 
-        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e) => kbtnDismiss.Focus();
+        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e) => itbDismiss.Focus();
 
         private void VisualToastNotificationBasicForm_LocationChanged(object sender, EventArgs e)
         {

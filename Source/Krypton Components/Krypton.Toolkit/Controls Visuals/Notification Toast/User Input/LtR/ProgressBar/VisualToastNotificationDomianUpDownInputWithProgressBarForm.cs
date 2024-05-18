@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
 
             ShowCloseButton();
 
-            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
             _timer.Start();
         }
@@ -207,6 +207,8 @@ namespace Krypton.Toolkit
 
             ControlBox = _data.ShowCloseBox ?? false;
         }
+
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
         public new DialogResult ShowDialog()
         {

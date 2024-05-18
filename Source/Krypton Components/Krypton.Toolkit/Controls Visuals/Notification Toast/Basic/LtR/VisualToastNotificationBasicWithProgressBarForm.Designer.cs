@@ -205,9 +205,11 @@
             this.itbDismiss.Location = new System.Drawing.Point(531, 13);
             this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
             this.itbDismiss.Name = "itbDismiss";
+            this.itbDismiss.ProcessPath = null;
             this.itbDismiss.Size = new System.Drawing.Size(48, 22);
             this.itbDismiss.TabIndex = 5;
             this.itbDismiss.Values.Text = "{0} ({1})";
+            this.itbDismiss.Click += new System.EventHandler(this.itbDismiss_Click);
             // 
             // kpnlFooter
             // 

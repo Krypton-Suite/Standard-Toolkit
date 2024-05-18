@@ -204,12 +204,14 @@ namespace Krypton.Toolkit
 
             ShowCloseButton();
 
-            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
             _timer.Start();
 
             _data.DisplayDebugData(_data);
         }
+
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
         public new DialogResult ShowDialog()
         {

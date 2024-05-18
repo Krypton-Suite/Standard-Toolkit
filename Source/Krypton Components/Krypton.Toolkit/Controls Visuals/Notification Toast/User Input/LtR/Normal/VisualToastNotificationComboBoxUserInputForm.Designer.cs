@@ -139,6 +139,7 @@
             this.itbDismiss.Size = new System.Drawing.Size(48, 22);
             this.itbDismiss.TabIndex = 6;
             this.itbDismiss.Values.Text = "{0} ({1})";
+            this.itbDismiss.Click += new System.EventHandler(this.itbDismiss_Click);
             // 
             // kryptonBorderEdge1
             // 

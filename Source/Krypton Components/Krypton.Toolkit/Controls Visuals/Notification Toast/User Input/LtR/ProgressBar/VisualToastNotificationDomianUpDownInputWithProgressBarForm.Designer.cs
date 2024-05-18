@@ -33,6 +33,7 @@
             this.klblToastLocation = new Krypton.Toolkit.KryptonLabel();
             this.kbtnDismiss = new Krypton.Toolkit.KryptonButton();
             this.kchkDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
+            this.itbDismiss = new Krypton.Toolkit.InternalToastButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
@@ -42,7 +43,6 @@
             this.kdudUserInput = new Krypton.Toolkit.KryptonDomainUpDown();
             this.kpbCountDown = new Krypton.Toolkit.KryptonProgressBar();
             this.pbxNotificationIcon = new System.Windows.Forms.PictureBox();
-            this.itbDismiss = new Krypton.Toolkit.InternalToastButton();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -116,6 +116,21 @@
             this.kchkDoNotShowAgain.TabIndex = 5;
             this.kchkDoNotShowAgain.Values.Text = "CB1";
             this.kchkDoNotShowAgain.Visible = false;
+            // 
+            // itbDismiss
+            // 
+            this.itbDismiss.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.itbDismiss.AutoSize = true;
+            this.itbDismiss.IsActionButton = false;
+            this.itbDismiss.IsDismissButton = false;
+            this.itbDismiss.Location = new System.Drawing.Point(572, 13);
+            this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
+            this.itbDismiss.Name = "itbDismiss";
+            this.itbDismiss.ProcessPath = null;
+            this.itbDismiss.Size = new System.Drawing.Size(48, 22);
+            this.itbDismiss.TabIndex = 6;
+            this.itbDismiss.Values.Text = "{0} ({1})";
+            this.itbDismiss.Click += new System.EventHandler(this.itbDismiss_Click);
             // 
             // kryptonBorderEdge1
             // 
@@ -226,21 +241,6 @@
             this.pbxNotificationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxNotificationIcon.TabIndex = 0;
             this.pbxNotificationIcon.TabStop = false;
-            // 
-            // itbDismiss
-            // 
-            this.itbDismiss.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.itbDismiss.AutoSize = true;
-            this.itbDismiss.BaseToastForm = null;
-            this.itbDismiss.IsActionButton = false;
-            this.itbDismiss.IsDismissButton = false;
-            this.itbDismiss.Location = new System.Drawing.Point(572, 13);
-            this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
-            this.itbDismiss.Name = "itbDismiss";
-            this.itbDismiss.Size = new System.Drawing.Size(48, 22);
-            this.itbDismiss.TabIndex = 6;
-            this.itbDismiss.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.itbDismiss.Values.Text = "{0} ({1})";
             // 
             // VisualToastNotificationDomianUpDownInputWithProgressBarForm
             // 

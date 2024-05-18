@@ -216,10 +216,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationBasicRtlAwareForm_GotFocus(object sender, EventArgs e)
-        {
-            kbtnDismiss.Focus();
-        }
+        private void VisualToastNotificationBasicRtlAwareForm_GotFocus(object sender, EventArgs e) => itbDismiss.Focus();
 
         private void VisualToastNotificationBasicRtlAwareForm_Load(object sender, EventArgs e)
         {
@@ -239,6 +236,8 @@ namespace Krypton.Toolkit
             Close();
         }
 
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
         public new void Show()
         {
             TopMost = _basicToastNotificationData.TopMost ?? true;
@@ -253,6 +252,8 @@ namespace Krypton.Toolkit
             {
                 kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+
                 _timer = new Timer();
 
                 _timer.Interval = 1000;
@@ -262,6 +263,8 @@ namespace Krypton.Toolkit
                     _time++;
 
                     kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+
+                    itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
                     if (_time == _basicToastNotificationData.CountDownSeconds)
                     {

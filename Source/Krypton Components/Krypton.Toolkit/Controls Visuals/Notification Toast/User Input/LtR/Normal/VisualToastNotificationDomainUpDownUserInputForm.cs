@@ -196,6 +196,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
         public new DialogResult ShowDialog()
         {
             TopMost = _data.TopMost ?? true;
