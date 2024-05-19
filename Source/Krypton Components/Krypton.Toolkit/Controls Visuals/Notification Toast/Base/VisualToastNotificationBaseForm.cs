@@ -66,5 +66,10 @@ namespace Krypton.Toolkit
         protected KryptonToastNotificationResult ShowToastNotificationResult() => ShowToastNotificationResult(null);
 
         #endregion
+
+        private void VisualToastNotificationBaseForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
