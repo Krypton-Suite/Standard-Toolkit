@@ -119,11 +119,11 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
-            #if DEBUG
+#if DEBUG
             _reportSelectedThemeIndex = true;
-            #else
+#else
             _reportSelectedThemeIndex = false;
-            #endif
+#endif
             _manager = new KryptonManager();
 
             var defaultThemeName = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);

@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
             return result;
         }
 
-        private static decimal CreateDecimalToastWithProgressBarNotification(KryptonUserInputToastNotificationData data) => data.UseRtlReading ? VisualToastNotificationNumericUpDownUserInputWithProgressBarRtlAwareForm.ShowToastNotification(data) : VisualToastNotificationNumericUpDownUserInputWithProgressBarForm.ShowToastNotification(data);
+        private static decimal CreateDecimalToastWithProgressBarNotification(KryptonUserInputToastNotificationData data) => data.UseRtlReading ? VisualToastNotificationNUDUserInputWithProgressBarRtlAwareForm.ShowToastNotification(data) : VisualToastNotificationNumericUpDownUserInputWithProgressBarForm.ShowToastNotification(data);
 
         private static string ReturnStringInputWithProgressBar(KryptonUserInputToastNotificationData data)
         {

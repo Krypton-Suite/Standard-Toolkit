@@ -300,12 +300,12 @@ The Krypton Suite contains user interface components designed to make it quick a
 - There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
-- New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
+- New, major versions are released annually, with patches if needed released throughout that period. Version 90 is expected to release in November 2024.
 - For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
 
 ## Contributing to this project
 
-If you want to contribute to this project, please follow [these](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Create-a-Pull-Request.md) guidelines. All contributions are welcome!
+If you want to contribute to this project, please follow [these](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing.html) guidelines. All contributions are welcome!
 
 ## Individual Components
 
