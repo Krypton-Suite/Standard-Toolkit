@@ -55,5 +55,16 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region Protected
+
+        protected KryptonToastNotificationResult ShowToastNotificationResult(IWin32Window? owner)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected KryptonToastNotificationResult ShowToastNotificationResult() => ShowToastNotificationResult(null);
+
+        #endregion
     }
 }

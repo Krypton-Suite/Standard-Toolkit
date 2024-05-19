@@ -222,8 +222,10 @@ namespace Krypton.Toolkit
 
         private void UpdateOwner(IWin32Window? owner)
         {
-
+            //_data.o
         }
+
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
         public new DialogResult ShowDialog()
         {
@@ -241,6 +243,8 @@ namespace Krypton.Toolkit
             {
                 kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
                 _timer = new Timer();
 
                 _timer.Interval = _data.CountDownTimerInterval ?? 1000;
@@ -250,6 +254,8 @@ namespace Krypton.Toolkit
                     _time++;
 
                     kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                    itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
                     if (_time == _data.CountDownSeconds)
                     {
@@ -277,6 +283,8 @@ namespace Krypton.Toolkit
             {
                 kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
                 _timer = new Timer();
 
                 _timer.Interval = _data.CountDownTimerInterval ?? 1000;
@@ -286,6 +294,8 @@ namespace Krypton.Toolkit
                     _time++;
 
                     kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                    itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
                     if (_time == _data.CountDownSeconds)
                     {
@@ -297,6 +307,18 @@ namespace Krypton.Toolkit
             }
 
             return base.ShowDialog(owner);
+        }
+
+        public new KryptonToastNotificationResult ShowToastNotificationResult()
+        {
+
+            return base.ShowToastNotificationResult();
+        }
+
+        public new KryptonToastNotificationResult ShowToastNotificationResult(IWin32Window owner)
+        {
+
+            return base.ShowToastNotificationResult(owner);
         }
 
         internal static string ShowNotification(KryptonUserInputToastNotificationData data)
