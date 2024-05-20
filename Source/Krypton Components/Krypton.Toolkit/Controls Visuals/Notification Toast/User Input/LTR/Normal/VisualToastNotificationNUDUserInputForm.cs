@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationNumericUpDownUserInputForm : VisualToastNotificationBaseForm
+    internal partial class VisualToastNotificationNUDUserInputForm : VisualToastNotificationBaseForm
     {
         #region Instance Fields
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualToastNotificationNumericUpDownUserInputForm(KryptonUserInputToastNotificationData data)
+        public VisualToastNotificationNUDUserInputForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
 
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
-            using var toast = new VisualToastNotificationNumericUpDownUserInputForm(data);
+            using var toast = new VisualToastNotificationNUDUserInputForm(data);
 
             if (owner != null)
             {

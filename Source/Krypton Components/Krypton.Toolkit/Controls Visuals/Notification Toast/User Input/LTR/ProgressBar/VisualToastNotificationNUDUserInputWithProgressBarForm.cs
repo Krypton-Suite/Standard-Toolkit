@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationNumericUpDownUserInputRtlAwareForm : VisualToastNotificationBaseForm
+    internal partial class VisualToastNotificationNUDUserInputWithProgressBarForm : VisualToastNotificationBaseForm
     {
         #region Instance Fields
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualToastNotificationNumericUpDownUserInputRtlAwareForm(KryptonUserInputToastNotificationData data)
+        public VisualToastNotificationNUDUserInputWithProgressBarForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
 
             GotFocus += (sender, args) => knudUserInput.Focus();
 
-            Resize += OnResize;
+            Resize += VisualToastNotificationNumericUpDownUserInputWithProgressBarForm_Resize;
 
             UpdateBorderColors();
         }
@@ -57,19 +57,19 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlNotificationTitle.Text = _data.NotificationTitle;
+            kwlNotificationTitle.Text = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
-            kwlNotificationMessage.Text = _data.NotificationContent;
+            kwlNotificationMessage.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
         private void UpdateInitialValues()
         {
             // Set initial date and time values
-            knudUserInput.Value = _data.InitialNumericUpDownValue ?? 0;
-
             knudUserInput.Maximum = _data.MaximumNumericUpDownValue ?? 100;
 
             knudUserInput.Minimum = _data.MinimumNumericUpDownValue ?? 0;
+
+            knudUserInput.Value = _data.InitialNumericUpDownValue ?? 0;
         }
 
         private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
@@ -174,16 +174,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShowCloseButton()
+        private void VisualToastNotificationNumericUpDownUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
         {
-            CloseBox = _data.ShowCloseBox ?? false;
-
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-            ControlBox = _data.ShowCloseBox ?? false;
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
         }
 
-        private void VisualToastNotificationNumericUpDownUserInputRtlAwareForm_Load(object sender, EventArgs e)
+        private void VisualToastNotificationNumericUpDownUserInputWithProgressBarForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
 
@@ -191,20 +190,18 @@ namespace Krypton.Toolkit
 
             ShowCloseButton();
 
+            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+
             _timer.Start();
         }
 
-        private void VisualToastNotificationNumericUpDownUserInputRtlAwareForm_LocationChanged(object sender, EventArgs e)
+        private void ShowCloseButton()
         {
+            CloseBox = _data.ShowCloseBox ?? false;
 
-        }
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
 
-        private void OnResize(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Maximized)
-            {
-                WindowState = FormWindowState.Normal;
-            }
+            ControlBox = _data.ShowCloseBox ?? false;
         }
 
         public new DialogResult ShowDialog()
@@ -221,7 +218,11 @@ namespace Krypton.Toolkit
 
             if (_data.CountDownSeconds != 0)
             {
-                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+                kpbCountDown.Maximum = _data.CountDownSeconds ?? 100;
+
+                kpbCountDown.Value = kpbCountDown.Maximum;
+
+                kpbCountDown.Text = $@"{_data.CountDownSeconds - _time}";
 
                 _timer = new Timer();
 
@@ -231,9 +232,11 @@ namespace Krypton.Toolkit
                 {
                     _time++;
 
-                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+                    kpbCountDown.Value -= 1;
 
-                    if (_time == _data.CountDownSeconds)
+                    kpbCountDown.Text = $@"{_data.CountDownSeconds - _time}";
+
+                    if (kpbCountDown.Value == kpbCountDown.Minimum)
                     {
                         _timer.Stop();
 
@@ -257,7 +260,11 @@ namespace Krypton.Toolkit
 
             if (_data.CountDownSeconds != 0)
             {
-                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+                kpbCountDown.Maximum = _data.CountDownSeconds ?? 100;
+
+                kpbCountDown.Value = kpbCountDown.Maximum;
+
+                kpbCountDown.Text = $@"{_data.CountDownSeconds - _time}";
 
                 _timer = new Timer();
 
@@ -267,9 +274,11 @@ namespace Krypton.Toolkit
                 {
                     _time++;
 
-                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+                    kpbCountDown.Value -= 1;
 
-                    if (_time == _data.CountDownSeconds)
+                    kpbCountDown.Text = $@"{_data.CountDownSeconds - _time}";
+
+                    if (kpbCountDown.Value == kpbCountDown.Minimum)
                     {
                         _timer.Stop();
 
@@ -281,11 +290,12 @@ namespace Krypton.Toolkit
             return base.ShowDialog(owner);
         }
 
-        internal static decimal ShowNotification(KryptonUserInputToastNotificationData data)
+
+        public static decimal ShowToastNotification(KryptonUserInputToastNotificationData data)
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
-            using var toast = new VisualToastNotificationNumericUpDownUserInputRtlAwareForm(data);
+            using var toast = new VisualToastNotificationNUDUserInputWithProgressBarForm(data);
 
             if (owner != null)
             {
@@ -298,7 +308,7 @@ namespace Krypton.Toolkit
                 return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : 0;
             }
         }
-
-        #endregion
     }
+
+    #endregion
 }

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class VisualToastNotificationNumericUpDownUserInputRtlAwareForm
+    partial class VisualToastNotificationNUDUserInputRtlAwareForm
     {
         /// <summary>
         /// Required designer variable.

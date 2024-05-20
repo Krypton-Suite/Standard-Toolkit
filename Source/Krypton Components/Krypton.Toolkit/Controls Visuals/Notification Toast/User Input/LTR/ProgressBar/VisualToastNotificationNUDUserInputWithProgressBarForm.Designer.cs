@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class VisualToastNotificationNumericUpDownUserInputWithProgressBarForm
+    partial class VisualToastNotificationNUDUserInputWithProgressBarForm
     {
         /// <summary>
         /// Required designer variable.
