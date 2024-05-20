@@ -109,9 +109,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(true)]
         [Category(@"Appearance")]
-        public override DataGridViewCellStyle? DefaultCellStyle
+        [AllowNull]
+        public override DataGridViewCellStyle DefaultCellStyle
         {
-            get =>base.DefaultCellStyle;
+            // Data type made non-nullable again to keep it inline with the underlying virtual base method 
+            // Added [AllowNull] attribute since the base can take null as a value
+
+            get => base.DefaultCellStyle;
             set => base.DefaultCellStyle = value;
         }
 
