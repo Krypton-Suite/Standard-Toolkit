@@ -25,8 +25,8 @@ namespace Krypton.Toolkit
         public KryptonProfessionalRenderer([DisallowNull] KryptonColorTable kct)
             : base(kct)
         {
-            Debug.Assert(kct != null);
-            KCT = kct;
+            Debug.Assert(kct is not null);
+            KCT = kct ?? throw new ArgumentNullException(nameof(kct));
         }
         #endregion
 
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             if (e.Item.GetType().ToString() == "System.Windows.Forms.MdiControlStrip+ControlBoxMenuItem")
             {
                 // Get access to the owning form of the mdi control strip
-                if (e.ToolStrip.Parent.TopLevelControl is Form f)
+                if (e.ToolStrip!.Parent!.TopLevelControl is Form f)
                 {
                     // Get the mdi control strip instance
                     PropertyInfo? piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
 
                                             // Phew, actually draw the darn thing
                                             e.Graphics.DrawImage(paletteImage, e.ImageRectangle,
-                                                0, 0, e.Image.Width, e.Image.Height,
+                                                0, 0, e.Image!.Width, e.Image.Height,
                                                 GraphicsUnit.Pixel, attribs);
 
                                             // Do not let base class draw system defined image

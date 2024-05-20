@@ -46,16 +46,17 @@ namespace Krypton.Toolkit
             switch (m.Msg)
             {
                 case PI.WM_.WINDOWPOSCHANGED:
+                {
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                    var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
+                    PositionShadowForms(move);
+                    
+                    if (!move)
                     {
-                        PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                        var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-                        PositionShadowForms(move);
-                        if (!move)
-                        {
-                            ReCalcBrushes();
-                        }
+                        ReCalcBrushes();
                     }
-                    break;
+                }
+                break;
             }
         }
 

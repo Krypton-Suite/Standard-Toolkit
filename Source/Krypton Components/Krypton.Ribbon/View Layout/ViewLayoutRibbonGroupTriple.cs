@@ -46,18 +46,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTriple">Reference to triple definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon ribbon,
-                                           [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
-                                           [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon? ribbon,
+                                           [DisallowNull] KryptonRibbonGroupTriple? ribbonTriple,
+                                           [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonTriple != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonTriple is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonTriple = ribbonTriple;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonTriple = ribbonTriple ?? throw new ArgumentNullException(nameof(ribbonTriple));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate the component with this view element for design time selection
             Component = _ribbonTriple;
@@ -69,16 +69,16 @@ namespace Krypton.Ribbon
             _largeCache = new ViewToSize();
 
             // Get the initial size used for sizing and positioning
-            SetCurrentSize(ribbonTriple.ItemSizeCurrent);
+            SetCurrentSize(ribbonTriple!.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
-            _ribbonTriple.PropertyChanged += OnTriplePropertyChanged;
+            _ribbonTriple!.PropertyChanged += OnTriplePropertyChanged;
             _ribbonTriple.TripleView = this;
 
             // At design time we want to track the mouse and show feedback
-            if (_ribbon.InDesignMode)
+            if (_ribbon!.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint!);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -115,7 +115,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -242,7 +242,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -468,7 +468,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we sizing horizontal or vertical?
             var horizontal = _currentSize == GroupItemSize.Large;

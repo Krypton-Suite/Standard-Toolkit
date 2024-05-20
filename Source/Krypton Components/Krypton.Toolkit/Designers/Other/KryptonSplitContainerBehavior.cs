@@ -50,7 +50,13 @@ namespace Krypton.Toolkit
         /// <returns>true if the message was handled; otherwise, false.</returns>
         public override bool OnMouseDown(Glyph? g, MouseButtons button, Point pt)
         {
-            if (_splitContainer != null)
+            /*
+             * base.OnMouseMove expects valid references/params and does not handle nulls
+             * base is in class/assembly System.Windows.Forms.Design.Behavior.Behavior and of course cannot be altered.
+             */
+
+            // Glyph g cannot be null, also not in base.OnMouseDown
+            if (g is not null && _splitContainer is not null)
             {
                 // Convert the adorner coordinate to the split container client coordinate
                 Point splitPt = PointToSplitContainer(g, pt);
@@ -61,9 +67,11 @@ namespace Krypton.Toolkit
                     // Splitter is starting to be moved, we need to capture mouse input
                     _splitContainer.Capture = true;
                 }
+
+                return base.OnMouseDown(g, button, pt);
             }
 
-            return base.OnMouseDown(g, button, pt);
+            return false;
         }
 
         /// <summary>
@@ -75,16 +83,24 @@ namespace Krypton.Toolkit
         /// <returns>true if the message was handled; otherwise, false.</returns>
         public override bool OnMouseMove(Glyph? g, MouseButtons button, Point pt)
         {
-            if (_splitContainer != null)
+            /*
+             * base.OnMouseMove expects valid references/params and does not handle nulls
+             * base is in class/assembly System.Windows.Forms.Design.Behavior.Behavior and of course cannot be altered.
+             */
+
+            // Glyph g cannot be null, also not in base.OnMouseDown
+            if (g is not null && _splitContainer is not null)
             {
                 // Convert the adorner coordinate to the split container client coordinate
                 Point splitPt = PointToSplitContainer(g, pt);
 
                 // Notify the split container so it can track mouse message
                 _splitContainer.DesignMouseMove(splitPt);
+
+                return base.OnMouseMove(g, button, pt);
             }
 
-            return base.OnMouseMove(g, button, pt);
+            return false;
         }
 
         /// <summary>

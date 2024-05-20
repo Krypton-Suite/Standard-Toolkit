@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
                                                   PaletteRibbonBackStyle styleBack,
                                                   PaletteRibbonTextStyle styleText)
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
-            _redirect = redirect;
+            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
             StyleBack = styleBack;
             StyleText = styleText;
         }

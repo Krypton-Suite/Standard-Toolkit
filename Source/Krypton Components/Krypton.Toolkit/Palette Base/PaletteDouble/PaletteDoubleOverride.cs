@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
 
             // Create the triple override instances
             _overrideBack = new PaletteBackInheritOverride(normalTriple.PaletteBack, overrideTriple.PaletteBack);
-            _overrideBorder = new PaletteBorderInheritOverride(normalTriple.PaletteBorder, overrideTriple.PaletteBorder);
+            _overrideBorder = new PaletteBorderInheritOverride(normalTriple.PaletteBorder!, overrideTriple.PaletteBorder!);
 
             // Do not apply an override by default
             Apply = false;

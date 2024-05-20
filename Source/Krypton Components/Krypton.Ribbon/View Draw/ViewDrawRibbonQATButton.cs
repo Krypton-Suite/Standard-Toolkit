@@ -167,6 +167,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Make sure we reflect the current enabled state
             if (!Enabled && _ribbon.InDesignHelperMode)
             {

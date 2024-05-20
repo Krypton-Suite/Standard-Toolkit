@@ -120,16 +120,16 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right borders
-                context.Graphics.DrawLine(cache.BorderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
-                context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen!, rect.X, rect.Y, rect.X, rect.Bottom);
+                context.Graphics.DrawLine(cache.BorderInnerPen!, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen!, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderInnerPen!, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
 
                 // Draw the solid block of colour at the top
-                context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
+                context.Graphics.FillRectangle(cache.TopBrush!, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
                 // Draw the gradient to the bottom
-                context.Graphics.FillRectangle(cache.BottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
+                context.Graphics.FillRectangle(cache.BottomBrush!, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
             }
 
             return memento;
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
 
                 // Fill inside area
                 //context.Graphics.FillPath(cache.insideFillBrush, cache.insideFillPath);
-                context.Graphics.FillRectangle(cache.InsideFillBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.InsideFillBrush!, cache.Rect);
 
                 // Draw highlight over bottom half
                 //using (Clipping clip = new Clipping(context.Graphics, cache.insideFillPath))
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabSelected2010(RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
+        protected override IDisposable? DrawRibbonTabSelected2010(RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable? memento, bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -275,7 +275,7 @@ namespace Krypton.Toolkit
                     cache.CenterPen = new Pen(c4);
                 }
 
-                context.Graphics.FillRectangle(cache.CenterBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.CenterBrush!, cache.Rect);
                 //context.Graphics.FillPath(cache.centerBrush, cache.outsidePath);
 
                 //if (c5 != GlobalStaticValues.EMPTY_COLOR)
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
 
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.outsidePath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 //switch (orientation)
                 //{
@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
+        protected override IDisposable? DrawRibbonTabTracking2010(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable? memento, bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -376,12 +376,12 @@ namespace Krypton.Toolkit
 
                 // Fill the full background
                 //context.Graphics.FillPath(cache.outsideBrush, cache.outsidePath);
-                context.Graphics.FillRectangle(cache.OutsideBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.OutsideBrush!, cache.Rect);
 
                 // Draw the border
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.borderPath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 // Fill the inside area
                 //context.Graphics.FillPath(cache.insideBrush, cache.insidePath);

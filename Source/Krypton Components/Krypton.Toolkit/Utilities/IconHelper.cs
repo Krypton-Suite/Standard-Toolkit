@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
                 case InformationBoxIcon.Information:
                     return CreateIconFromImage(MessageBoxImageResources.GenericInformation, null);
                 case InformationBoxIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         return CreateIconFromImage(UACShieldIconResources.UACShieldWindows11, null);
                     }

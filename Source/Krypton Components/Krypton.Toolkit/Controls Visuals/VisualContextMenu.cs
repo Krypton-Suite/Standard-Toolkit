@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonContextMenu? _contextMenu;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
         private readonly ViewLayoutStack _viewColumns;
@@ -476,7 +476,7 @@ namespace Krypton.Toolkit
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint -= OnPaletteNeedPaint;
                     _palette.BasePaletteChanged -= OnBaseChanged;
@@ -504,7 +504,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
+            Renderer = _palette!.GetRenderer();
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 

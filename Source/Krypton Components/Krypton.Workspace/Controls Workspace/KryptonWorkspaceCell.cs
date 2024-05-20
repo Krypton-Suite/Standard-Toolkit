@@ -89,7 +89,7 @@ namespace Krypton.Workspace
                 Type = PaletteButtonSpecStyle.WorkspaceMaximize
             };
             MaximizeRestoreButton.Click += OnMaximizeRestoreButtonClicked;
-            Button.ButtonSpecs.Add(MaximizeRestoreButton);
+            Button.ButtonSpecs!.Add(MaximizeRestoreButton);
         }
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace Krypton.Workspace
         public Size GetMinSize()
         {
             var sizeBefore = Size;
-            var childSizeBefore = ChildPanel.Size;
+            var childSizeBefore = ChildPanel!.Size;
             var minSize = GetMinSize(Controls);
             ChildPanel.MinimumSize = minSize;
 

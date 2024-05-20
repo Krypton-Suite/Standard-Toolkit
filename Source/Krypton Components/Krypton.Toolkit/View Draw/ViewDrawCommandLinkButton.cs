@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
 			LayoutDocker.Tag = this;
 
 
-			_drawCanvas = new ViewDrawCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder, paletteMetric,
+			_drawCanvas = new ViewDrawCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder!, paletteMetric,
 				PaletteMetricPadding.BarPaddingTabs, orientation)
 			{
 				// Place the content inside the canvas

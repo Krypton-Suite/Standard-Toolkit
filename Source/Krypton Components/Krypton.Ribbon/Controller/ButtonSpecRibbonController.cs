@@ -44,15 +44,31 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public override void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            var ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
+
+            if (ribbon.TabsArea.ButtonSpecManager is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
+            }
 
             // Get the button spec associated with this controller
-            var viewButton = (ViewDrawButton)Target;
-            ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager!.GetButtonSpecFromView(viewButton)!;
+            ViewDrawButton? viewButton = Target as ViewDrawButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Target)));
+            
+            ButtonSpec? buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) ?? throw new NullReferenceException( "ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) returned null.");
 
             // Note If we are on the near edge
-            var isNear = buttonSpec.Edge == PaletteRelativeEdgeAlign.Near;
+            var isNear = buttonSpec.Edge is PaletteRelativeEdgeAlign.Near;
 
             switch (e.KeyData)
             {

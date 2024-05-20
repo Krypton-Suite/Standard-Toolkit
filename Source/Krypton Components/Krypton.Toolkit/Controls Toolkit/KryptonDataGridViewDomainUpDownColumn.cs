@@ -49,13 +49,13 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             // Convert collection of strings to an array
             var strings = new string[Items.Count];
             for (var i = 0; i < strings.Length; i++)
             {
-                strings[i] = Items[i];
+                strings[i] = Items[i]!;
             }
 
             cloned.Items.AddRange(strings);
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDomainUpDownCell
         /// </summary>
-        private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => (KryptonDataGridViewDomainUpDownCell)CellTemplate;
+        private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(CellTemplate)));
 
         #endregion
 

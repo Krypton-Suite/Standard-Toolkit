@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
-        public object FalseValue
+        public object? FalseValue
         {
             get =>
                 CheckBoxCellTemplate == null
@@ -108,7 +108,8 @@ namespace Krypton.Toolkit
             {
                 if (FalseValue != value)
                 {
-                    CheckBoxCellTemplate.FalseValue = value;
+                    CheckBoxCellTemplate!.FalseValue = value;
+
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -133,7 +134,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
-        public object IndeterminateValue
+        public object? IndeterminateValue
         {
             get =>
                 CheckBoxCellTemplate == null
@@ -143,7 +144,7 @@ namespace Krypton.Toolkit
             {
                 if (IndeterminateValue != value)
                 {
-                    CheckBoxCellTemplate.IndeterminateValue = value;
+                    CheckBoxCellTemplate!.IndeterminateValue = value;
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -168,7 +169,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
-        public object TrueValue
+        public object? TrueValue
         {
             get =>
                 CheckBoxCellTemplate == null
@@ -178,7 +179,7 @@ namespace Krypton.Toolkit
             {
                 if (TrueValue != value)
                 {
-                    CheckBoxCellTemplate.TrueValue = value;
+                    CheckBoxCellTemplate!.TrueValue = value;
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -210,7 +211,7 @@ namespace Krypton.Toolkit
             {
                 if (ThreeState != value)
                 {
-                    CheckBoxCellTemplate.ThreeState = value;
+                    CheckBoxCellTemplate!.ThreeState = value;
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -243,7 +244,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
+        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => CellTemplate as KryptonDataGridViewCheckBoxCell;
 
         private bool ShouldSerializeCellTemplate()
         {
@@ -268,7 +269,17 @@ namespace Krypton.Toolkit
                 // ReSharper restore RedundantBaseQualifier
 
                 DataGridViewCellStyle defaultCellStyle = DefaultCellStyle;
-                if (defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty && defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty && (defaultCellStyle.Font == null) && defaultCellStyle.NullValue.Equals(indeterminate) && defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format) && defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) && defaultCellStyle is { WrapMode: DataGridViewTriState.NotSet, Tag: null })
+                if (defaultCellStyle.BackColor.IsEmpty 
+                    && defaultCellStyle.ForeColor.IsEmpty 
+                    && defaultCellStyle.SelectionBackColor.IsEmpty 
+                    && defaultCellStyle.SelectionForeColor.IsEmpty 
+                    && (defaultCellStyle.Font is null) 
+                    && defaultCellStyle.NullValue!.Equals(indeterminate) 
+                    && defaultCellStyle.IsDataSourceNullValueDefault 
+                    && string.IsNullOrEmpty(defaultCellStyle.Format) 
+                    && defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) 
+                    && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) 
+                    && defaultCellStyle is { WrapMode: DataGridViewTriState.NotSet, Tag: null })
                 {
                     return !defaultCellStyle.Padding.Equals(Padding.Empty);
                 }

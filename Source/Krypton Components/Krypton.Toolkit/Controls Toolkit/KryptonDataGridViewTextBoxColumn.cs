@@ -53,10 +53,11 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("coned"));
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
+
             return cloned;
         }
 
@@ -90,8 +91,9 @@ namespace Krypton.Toolkit
             {
                 if (MaxInputLength != value)
                 {
-                    TextBoxCellTemplate.MaxInputLength = value;
-                    if (DataGridView != null)
+                    TextBoxCellTemplate!.MaxInputLength = value;
+
+                    if (DataGridView is not null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
                         var count = rows.Count;
@@ -122,18 +124,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull, MaybeNull]
         public override DataGridViewCell CellTemplate
         {
+            // base.CellTemplate can be null for getter and setter
+
             get => base.CellTemplate;
 
             set
             {
-                if ((value != null) && value is not KryptonDataGridViewTextBoxCell)
+                if ((value is not null) && value is not KryptonDataGridViewTextBoxCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
                 }
 
-                base.CellTemplate = value;
+                base.CellTemplate = (KryptonDataGridViewTextBoxCell)value!;
             }
         }
 
@@ -143,6 +148,7 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         [Category(@"Appearance")]
         [Description(@"DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
+        [AllowNull]
         public override DataGridViewCellStyle DefaultCellStyle
         {
             get => base.DefaultCellStyle;
@@ -150,11 +156,14 @@ namespace Krypton.Toolkit
             set
             {
                 base.DefaultCellStyle = value;
-                if ((value.WrapMode != DataGridViewTriState.True)
+
+                if (value is null
+                    || value.WrapMode != DataGridViewTriState.True
                     || DataGridView == null)
                 {
                     return;
                 }
+
                 // https://stackoverflow.com/questions/16514352/multiple-lines-in-a-datagridview-cell/16514393
                 switch (DataGridView.AutoSizeRowsMode)
                 {
@@ -252,7 +261,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
+        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => CellTemplate as KryptonDataGridViewTextBoxCell;
 
         #endregion
 

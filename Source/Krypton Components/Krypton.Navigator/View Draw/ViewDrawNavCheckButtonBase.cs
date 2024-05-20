@@ -114,9 +114,9 @@ namespace Krypton.Navigator
             : base(stateDisabled, stateNormal, stateTracking,
                    statePressed, null, null, orientation, true)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
 
-            Navigator = navigator;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
             _page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
@@ -400,8 +400,9 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager!, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager!, this, toolTipController);
+
             return hoverController;
         }
         #endregion

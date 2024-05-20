@@ -22,5 +22,10 @@ namespace TestForm
         {
             InitializeComponent();
         }
+
+        private void kryptonMonthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            KryptonMessageBox.Show($"{kryptonDateTimePicker1.Value}");
+        }
     }
 }

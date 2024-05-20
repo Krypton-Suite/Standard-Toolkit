@@ -37,17 +37,17 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RecentDocController([DisallowNull] ViewContextMenuManager viewManager,
-                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec menuItem,
-                                   [DisallowNull] NeedPaintHandler needPaint)
+        public RecentDocController([DisallowNull] ViewContextMenuManager? viewManager,
+                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec? menuItem,
+                                   [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(menuItem != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(menuItem is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _menuItem = menuItem;
-            NeedPaint = needPaint;
+            ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
+            _menuItem = menuItem ?? throw new ArgumentNullException(nameof(menuItem));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

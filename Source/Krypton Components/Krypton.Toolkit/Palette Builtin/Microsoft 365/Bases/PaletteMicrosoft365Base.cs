@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Variables
-        protected KryptonColorTable365 Table { get; set; }
+        protected KryptonColorTable365? Table { get; set; }
 
         private readonly Color[] _ribbonColors;
 

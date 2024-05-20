@@ -96,13 +96,18 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyTheme(GetItemText(SelectedItem), Manager);
+            if (SelectedItem is null)
+            {
+                return;
+            }
+
+            ThemeManager.ApplyTheme(GetItemText(SelectedItem)!, Manager);
 
             ThemeSelectedIndex = SelectedIndex;
 
             base.OnSelectedIndexChanged(e);
 
-            if ((ThemeManager.GetThemeManagerMode(GetItemText(SelectedItem)) == PaletteMode.Custom) && (KryptonCustomPalette != null))
+            if ((ThemeManager.GetThemeManagerMode(GetItemText(SelectedItem)!) == PaletteMode.Custom) && (KryptonCustomPalette is not null))
             {
                 Manager.GlobalCustomPalette = KryptonCustomPalette;
             }

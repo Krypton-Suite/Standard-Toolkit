@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IPaletteElementColor
     {
         #region Instance Fields
-        private IPaletteElementColor _inheritElementColor;
+        private IPaletteElementColor? _inheritElementColor;
         private Color _color1;
         private Color _color2;
         private Color _color3;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritElementColor">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteElementColor(IPaletteElementColor inheritElementColor,
+        public PaletteElementColor(IPaletteElementColor? inheritElementColor,
                                    NeedPaintHandler needPaint) 
         {
             // Remember inheritance
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor1(PaletteState state) =>
-            Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : _inheritElementColor.GetElementColor1(state);
+            Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : _inheritElementColor!.GetElementColor1(state);
 
         #endregion
 
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor2(PaletteState state) =>
-            Color2 != GlobalStaticValues.EMPTY_COLOR ? Color2 : _inheritElementColor.GetElementColor2(state);
+            Color2 != GlobalStaticValues.EMPTY_COLOR ? Color2 : _inheritElementColor!.GetElementColor2(state);
 
         #endregion
 
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor3(PaletteState state) =>
-            Color3 != GlobalStaticValues.EMPTY_COLOR ? Color3 : _inheritElementColor.GetElementColor3(state);
+            Color3 != GlobalStaticValues.EMPTY_COLOR ? Color3 : _inheritElementColor!.GetElementColor3(state);
 
         #endregion
 
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor4(PaletteState state) =>
-            Color4 != GlobalStaticValues.EMPTY_COLOR ? Color4 : _inheritElementColor.GetElementColor4(state);
+            Color4 != GlobalStaticValues.EMPTY_COLOR ? Color4 : _inheritElementColor!.GetElementColor4(state);
 
         #endregion
 
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor5(PaletteState state) =>
-            Color5 != GlobalStaticValues.EMPTY_COLOR ? Color5 : _inheritElementColor.GetElementColor5(state);
+            Color5 != GlobalStaticValues.EMPTY_COLOR ? Color5 : _inheritElementColor!.GetElementColor5(state);
 
         #endregion
     }

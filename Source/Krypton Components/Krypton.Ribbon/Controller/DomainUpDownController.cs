@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="domainUpDown">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public DomainUpDownController([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] KryptonRibbonGroupDomainUpDown domainUpDown,
-                                      [DisallowNull] ViewDrawRibbonGroupDomainUpDown target)
+        public DomainUpDownController([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] KryptonRibbonGroupDomainUpDown? domainUpDown,
+                                      [DisallowNull] ViewDrawRibbonGroupDomainUpDown? target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(domainUpDown != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(domainUpDown is not null);
+            Debug.Assert(target is not null);
 
-            _ribbon = ribbon;
-            _domainUpDown = domainUpDown;
-            _target = target;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _domainUpDown = domainUpDown ?? throw new ArgumentNullException(nameof(domainUpDown));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
         #endregion
 
@@ -151,9 +151,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

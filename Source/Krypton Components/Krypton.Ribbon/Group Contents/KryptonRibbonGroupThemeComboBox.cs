@@ -166,10 +166,9 @@ namespace Krypton.Ribbon
         /// <summary>Gets and sets the text associated with the control.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull]
         public new string Text
         {
-            get => base.Text!;
+            get => base.Text;
             set => base.Text = value;
         }
 

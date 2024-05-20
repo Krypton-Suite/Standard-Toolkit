@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = ButtonElementState(upRect);
                 _viewButton.Layout(layoutContext);
                 _viewButton.Render(renderContext);
-                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                renderContext.Renderer!.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
                 // Down button
                 layoutContext.DisplayRectangle = downRect;
@@ -1690,7 +1690,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
@@ -1708,7 +1708,7 @@ namespace Krypton.Toolkit
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _domainUpDown.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _domainUpDown.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _domainUpDown.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the domain up down has been created
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
@@ -1849,7 +1849,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;

@@ -77,20 +77,20 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="pageDragEndData">Drag data associated with drag operation.</param>
         /// <param name="dragTargets">List of all drag targets.</param>
-        public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
-            [DisallowNull] IRenderer renderer,
-            [DisallowNull] PageDragEndData pageDragEndData,
-            [DisallowNull] DragTargetList dragTargets)
+        public virtual void Start([DisallowNull] IPaletteDragDrop? paletteDragDrop,
+                                  [DisallowNull] IRenderer? renderer,
+                                  [DisallowNull] PageDragEndData? pageDragEndData,
+                                  [DisallowNull] DragTargetList? dragTargets)
         {
-            Debug.Assert(paletteDragDrop != null);
-            Debug.Assert(renderer != null);
-            Debug.Assert(pageDragEndData != null);
-            Debug.Assert(dragTargets != null);
+            Debug.Assert(paletteDragDrop is not null);
+            Debug.Assert(renderer is not null);
+            Debug.Assert(pageDragEndData is not null);
+            Debug.Assert(dragTargets is not null);
 
-            PaletteDragDrop = paletteDragDrop;
-            Renderer = renderer;
-            PageDragEndData = pageDragEndData;
-            DragTargets = dragTargets;
+            PaletteDragDrop = paletteDragDrop ?? throw new ArgumentNullException(nameof(paletteDragDrop));
+            Renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
+            PageDragEndData = pageDragEndData ?? throw new ArgumentNullException(nameof(pageDragEndData));
+            DragTargets = dragTargets ?? throw new ArgumentNullException(nameof(dragTargets));
         }
 
         /// <summary>

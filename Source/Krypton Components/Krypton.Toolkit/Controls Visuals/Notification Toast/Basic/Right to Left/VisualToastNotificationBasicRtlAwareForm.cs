@@ -28,6 +28,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Public
+
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
+
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
+
+        #endregion 
+
         #region Identity
 
         public VisualToastNotificationBasicRtlAwareForm(KryptonBasicToastNotificationData toastNotificationData)
@@ -137,7 +145,7 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
                     }
@@ -177,7 +185,7 @@ namespace Krypton.Toolkit
         private void UpdateLocation()
         {
             //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
+            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
@@ -266,6 +274,29 @@ namespace Krypton.Toolkit
 
 
             base.Show();
+        }
+
+        internal static bool InternalShowWithBooleanReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK && toast.ReturnValue;
+        }
+
+        internal static CheckState InternalShowWithCheckStateReturnValue(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            return toast.ShowDialog() == DialogResult.OK
+                ? toast.ReturnCheckBoxStateValue
+                : CheckState.Unchecked;
+        }
+
+        internal static void InternalShow(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            using var toast = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+            toast.Show();
         }
 
         #endregion

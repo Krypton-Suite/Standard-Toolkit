@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming alternatives
-            _primary = primary;
-            _backup = backup;
+            _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
+            _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
 
             // Default other state
             Apply = true;
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                Image ret = _primary.GetBackImage(Override ? OverrideState : state) ?? _backup.GetBackImage(state);
+                Image ret = _primary.GetBackImage(Override ? OverrideState : state) ?? _backup.GetBackImage(state)!;
 
                 return ret;
             }

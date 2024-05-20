@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette()!);
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.

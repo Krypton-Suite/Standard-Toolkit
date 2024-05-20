@@ -59,17 +59,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController([DisallowNull] KryptonRibbon ribbon,
-                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder target,
-                                     [DisallowNull] NeedPaintHandler needPaint)
+        public GroupButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder? target,
+                                     [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            _target = target;
-            NeedPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Default other fields
             ButtonType = GroupButtonType.Push;
@@ -604,9 +604,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

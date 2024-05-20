@@ -43,7 +43,13 @@ namespace Krypton.Toolkit
                                            PaletteRibbonTextStyle textStyle,
                                            NeedPaintHandler needPaint) 
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
+
+            //TEST-NoThrow
+            //if ( redirect is null)
+            //{
+            //    throw new ArgumentNullException(nameof(redirect));
+            //}
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

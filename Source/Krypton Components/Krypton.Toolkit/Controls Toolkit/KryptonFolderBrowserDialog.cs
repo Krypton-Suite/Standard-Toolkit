@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         public string SelectedPath
         {
             get => _internalOpenFileDialog.SelectedPath;
-            set => _internalOpenFileDialog.SelectedPath = value;
+            set => _internalOpenFileDialog.SelectedPath = value!;
         }
 
 #if NET6_0_OR_GREATER
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         public string InitialDirectory
         {
             get => _internalOpenFileDialog.InitialDirectory;
-            set => _internalOpenFileDialog.InitialDirectory = value;
+            set => _internalOpenFileDialog.InitialDirectory = value!;
         }
 #endif
 

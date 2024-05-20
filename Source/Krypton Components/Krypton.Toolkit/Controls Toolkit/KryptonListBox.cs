@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DisallowNull]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -671,7 +671,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DisallowNull]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -730,7 +730,7 @@ namespace Krypton.Toolkit
         public object? SelectedValue
         {
             get => _listBox.SelectedValue;
-            set => _listBox.SelectedValue = value;
+            set => _listBox.SelectedValue = value!;
         }
 
         /// <summary>

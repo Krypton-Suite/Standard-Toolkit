@@ -29,7 +29,6 @@ namespace Krypton.Ribbon
         private bool _mouseDown;
         private bool _fixedPressed;
         private bool _hasFocus;
-
         #endregion
 
         #region Events
@@ -70,7 +69,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the second target element.
         /// </summary>
         public ViewBase Target2 { get; set; }
-
+        
         /// <summary>
         /// Gets and sets the third target element.
         /// </summary>
@@ -245,8 +244,19 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            var ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
@@ -362,8 +372,18 @@ namespace Krypton.Ribbon
         /// Perform actual selection of the item.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public void KeyTipSelect(KryptonRibbon ribbon)
+        public void KeyTipSelect(KryptonRibbon? ribbon)
         {
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull("ribbon"));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
+            }
+
             // We leave key tips usage whenever we use the application button
             ribbon.KillKeyboardKeyTips();
 

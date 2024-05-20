@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="customControl">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public CustomControlController([DisallowNull] KryptonRibbon ribbon,
-                                       [DisallowNull] KryptonRibbonGroupCustomControl customControl,
-                                       [DisallowNull] ViewDrawRibbonGroupCustomControl target)
+        public CustomControlController([DisallowNull] KryptonRibbon? ribbon,
+                                       [DisallowNull] KryptonRibbonGroupCustomControl? customControl,
+                                       [DisallowNull] ViewDrawRibbonGroupCustomControl? target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(customControl != null);
-            Debug.Assert(customControl != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(customControl is not null);
+            Debug.Assert(customControl is not null);
 
-            _ribbon = ribbon;
-            _customControl = customControl;
-            _target = target;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _customControl = customControl ?? throw new ArgumentNullException(nameof(customControl));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
         #endregion
 
@@ -151,9 +151,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(GlobalStaticValues.ParameterCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

@@ -1649,7 +1649,7 @@ namespace Krypton.Navigator
                                     break;
 
                                 default:
-    // Should never happen!
+                                    // Should never happen!
                                     Debug.Assert(false);
                                     DebugTools.NotImplemented(e.Action.ToString());
                                     break;
@@ -1908,41 +1908,48 @@ namespace Krypton.Navigator
 
         internal KryptonPage? PreviousActionPage([DisallowNull] KryptonPage page)
         {
-            Debug.Assert(page != null);
+            Debug.Assert(page is not null);
 
-            // Get the index of the page
-            var pos = Pages.IndexOf(page);
-
-            // Search backwards towards start of pages collection
-            for (var i = pos - 1; i >= 0; i--)
+            if (page is not null)
             {
-                if (Pages[i].LastVisibleSet && Pages[i].Enabled)
+                // Get the index of the page
+                var pos = Pages.IndexOf(page);
+
+                // Search backwards towards start of pages collection
+                for (var i = pos - 1; i >= 0; i--)
                 {
-                    return Pages[i];
+                    if (Pages[i].LastVisibleSet && Pages[i].Enabled)
+                    {
+                        return Pages[i];
+                    }
                 }
             }
 
-            // Nothing visible before provided page
+            // Nothing visible before provided page, or page is null
             return null;
         }
 
         internal KryptonPage? NextActionPage([DisallowNull] KryptonPage page)
         {
-            Debug.Assert(page != null);
+            Debug.Assert(page is not null);
 
-            // Get the index of the page
-            var pos = Pages.IndexOf(page);
-
-            // Search towards end of pages collection
-            for (var i = pos + 1; i < Pages.Count; i++)
+            if (page is not null)
             {
-                if (Pages[i].LastVisibleSet && Pages[i].Enabled)
+                // Get the index of the page
+                var pos = Pages.IndexOf(page);
+
+                // Search towards end of pages collection
+                for (var i = pos + 1; i < Pages.Count; i++)
                 {
-                    return Pages[i];
+                    if (Pages[i].LastVisibleSet && Pages[i].Enabled)
+                    {
+                        return Pages[i];
+                    }
                 }
+
             }
 
-            // Nothing visible after provided page
+            // Nothing visible before provided page, or page is null
             return null;
         }
 

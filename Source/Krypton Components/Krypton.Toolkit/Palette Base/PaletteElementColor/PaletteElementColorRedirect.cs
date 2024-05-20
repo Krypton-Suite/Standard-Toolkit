@@ -33,6 +33,13 @@ namespace Krypton.Toolkit
                                            NeedPaintHandler needPaint)
             : base(null, needPaint)
         {
+
+            //TEST-NoThrow
+            //if (redirect is null)
+            //{
+            //    throw new ArgumentNullException(nameof(redirect));
+            //}
+
             // Setup inheritance to recover values from the redirect instance
             _redirect = new PaletteElementColorInheritRedirect(redirect, element);
             SetInherit(_redirect);

@@ -47,8 +47,18 @@ namespace Krypton.Navigator
             : base(redirectHeaderGroup, redirectHeaderPrimary,
                    redirectHeaderSecondary, needPaint)
         {
-            Debug.Assert(redirectHeaderBar != null);
-            Debug.Assert(redirectHeaderOverflow != null);
+            Debug.Assert(redirectHeaderBar is not null);
+            Debug.Assert(redirectHeaderOverflow is not null);
+
+            if (redirectHeaderBar is null)
+            {
+                 throw new ArgumentNullException(nameof(redirectHeaderBar));
+            }
+
+            if (redirectHeaderOverflow is null)
+            {
+                throw new ArgumentNullException(nameof(redirectHeaderOverflow));
+            }
 
             // Create the palette storage
             HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);

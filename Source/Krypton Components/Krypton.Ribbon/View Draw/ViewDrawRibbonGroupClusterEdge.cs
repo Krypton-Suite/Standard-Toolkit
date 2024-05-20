@@ -30,15 +30,15 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon..</param>
         /// <param name="palette">Palette source for drawing details.</param>
-        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon ribbon,
-                                              [DisallowNull] PaletteBorderEdge palette)
+        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon? ribbon,
+                                              [DisallowNull] PaletteBorderEdge? palette)
             : base(palette, Orientation.Vertical)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(palette != null);
 
-            _ribbon = ribbon;
-            _palette = palette;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
+            _palette = palette ?? throw new ArgumentNullException(nameof(palette));
         }
         #endregion
 
@@ -47,8 +47,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull]RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Let base class perform standard drawing first
             base.RenderBefore(context);
 

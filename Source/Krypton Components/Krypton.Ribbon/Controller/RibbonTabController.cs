@@ -50,19 +50,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RibbonTabController([DisallowNull] KryptonRibbon ribbon,
-                                   [DisallowNull] ViewDrawRibbonTab target,
-                                   NeedPaintHandler needPaint)
+        public RibbonTabController([DisallowNull] KryptonRibbon? ribbon,
+                                   [DisallowNull] ViewDrawRibbonTab? target,
+                                   [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
 
             // Remember incoming references
-            _target = target;
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
@@ -224,8 +224,13 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
             Keys keyData = e.KeyData;
+
+            if (_ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
+            }
 
             // When there is no selected tab then tab and shift+tab become right and left
             if (_ribbon.SelectedTab == null)

@@ -50,16 +50,16 @@ namespace Krypton.Toolkit
                                          [DisallowNull] ViewLayoutMenuItemSelect layout,
                                          [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(layout != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(layout is not null);
+            Debug.Assert(needPaint is not null);
 
             MousePoint = CommonHelper.NullPoint;
-            _viewManager = viewManager;
-            _target = target;
-            _layout = layout;
-            NeedPaint = needPaint;
+            _viewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _layout = layout; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(layout));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

@@ -86,17 +86,17 @@ namespace Krypton.Toolkit
         /// <param name="disabledImage">The disabled image.</param>
         /// <param name="normalImage">The normal image.</param>
         /// <param name="pressedImage">The pressed image.</param>
-        private void AddImageStates(Image activeImage, Image? disabledImage, Image? normalImage, Image pressedImage)
+        private void AddImageStates(Image? activeImage, Image? disabledImage, Image? normalImage, Image? pressedImage)
         {
             if (_newButtonSpec != null)
             {
                 _newButtonSpec.ImageStates.ImageDisabled = disabledImage;
 
-                _newButtonSpec.ImageStates.ImageTracking = activeImage ?? null;
+                _newButtonSpec.ImageStates.ImageTracking = activeImage;
 
                 _newButtonSpec.ImageStates.ImageNormal = normalImage;
 
-                _newButtonSpec.ImageStates.ImagePressed = pressedImage ?? null;
+                _newButtonSpec.ImageStates.ImagePressed = pressedImage;
             }
         }
 

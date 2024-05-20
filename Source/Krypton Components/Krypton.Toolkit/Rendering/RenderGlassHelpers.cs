@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
                 ControlPaint.Light(backColor2),
                 ControlPaint.LightLight(backColor2),
                 orientation, context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size of the inside area
             rect.Inflate(-1, -1);
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             cache.Second = DrawBackGlassCenter(rect, backColor1, backColor2,
                 _glassColorTopL, _glassColorBottomL,
                 2f, 1f, orientation, context.Graphics,
-                FULL_GLASS_LENGTH, cache.Second);
+                FULL_GLASS_LENGTH, cache.Second!);
 
             return memento;
         }
@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
                 ControlPaint.Light(backColor1),
                 ControlPaint.LightLight(backColor1),
                 orientation, context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size on all but the upper edge
             ModifyRectByEdges(ref rect, 1, 0, 1, 1, orientation);
@@ -187,11 +187,11 @@ namespace Krypton.Toolkit
                 _glassColorBottomL,
                 orientation,
                 context.Graphics,
-                cache.First);
+                cache.First!);
 
             cache.Second = DrawBackDarkEdge(rect, ControlPaint.Dark(backColor1),
                 3, orientation, context.Graphics, 
-                cache.Second);
+                cache.Second!);
 
             return memento;
         }
@@ -788,7 +788,7 @@ namespace Krypton.Toolkit
                 ControlPaint.Light(backColor2),
                 ControlPaint.LightLight(backColor2),
                 orientation, context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size of the inside area
             rect.Inflate(-1, -1);
@@ -831,7 +831,7 @@ namespace Krypton.Toolkit
                 ControlPaint.Light(backColor1),
                 ControlPaint.LightLight(backColor1),
                 orientation, context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size on all but the upper edge
             ModifyRectByEdges(ref rect, 1, 0, 1, 1, orientation);
@@ -847,7 +847,7 @@ namespace Krypton.Toolkit
 
             cache.Third = DrawBackDarkEdge(rect, ControlPaint.Dark(backColor1),
                 3, orientation, context.Graphics,
-                cache.Third);
+                cache.Third!);
 
             return memento;
         }
@@ -882,7 +882,7 @@ namespace Krypton.Toolkit
                 ControlPaint.LightLight(backColor1),
                 ControlPaint.LightLight(backColor1),
                 orientation, context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size on all but the upper edge
             ModifyRectByEdges(ref rect, 1, 0, 1, 1, orientation);
@@ -899,7 +899,7 @@ namespace Krypton.Toolkit
             // Draw a darker area for top edge
             cache.Third = DrawBackDarkEdge(rect, ControlPaint.Dark(backColor1),
                 3, orientation, context.Graphics,
-                cache.Third);
+                cache.Third!);
 
             return memento;
         }
@@ -934,7 +934,7 @@ namespace Krypton.Toolkit
                 ControlPaint.LightLight(backColor2),
                 orientation,
                 context.Graphics,
-                cache.First);
+                cache.First!);
 
             // Reduce size on all but the upper edge
             ModifyRectByEdges(ref rect, 1, 0, 1, 1, orientation);
@@ -950,7 +950,7 @@ namespace Krypton.Toolkit
 
             cache.Third = DrawBackDarkEdge(rect, ControlPaint.Dark(backColor1),
                 3, orientation, context.Graphics,
-                cache.Third);
+                cache.Third!);
 
             return memento;
         }
@@ -964,102 +964,105 @@ namespace Krypton.Toolkit
                                                         Graphics? g,
                                                         IDisposable memento)
         {
-            MementoDouble cache;
-
-            if (memento is MementoDouble mementoDouble)
+            if (g is not null)
             {
-                cache = mementoDouble;
-            }
-            else
-            {
-                memento?.Dispose();
+                MementoDouble cache;
 
-                cache = new MementoDouble();
-                memento = cache;
-            }
-
-            // Draw entire background in linear gradient effect
-            cache.First = DrawBackLinear(drawRect, sigma, color1, color2, orientation, g, cache.First);
-
-            var generate = true;
-            MementoBackLinearRadial cacheThis;
-
-            // Access a cache instance and decide if cache resources need generating
-            if (cache.Second is MementoBackLinearRadial linearRadial)
-            {
-                cacheThis = linearRadial;
-                generate = !cacheThis.UseCachedValues(drawRect, color2, color3, orientation);
-            }
-            else
-            {
-                cache.Second?.Dispose();
-
-                cacheThis = new MementoBackLinearRadial(drawRect, color2, color3, orientation);
-                cache.Second = cacheThis;
-            }
-
-            // Do we need to generate the contents of the cache?
-            if (generate)
-            {
-                // Dispose of existing values
-                cacheThis.Dispose();
-
-                float third;
-
-                // Find the 1/3 height used for the ellipse
-                if (VerticalOrientation(orientation))
+                if (memento is MementoDouble mementoDouble)
                 {
-                    third = drawRect.Height / 3;
+                    cache = mementoDouble;
                 }
                 else
                 {
-                    third = drawRect.Width / 3;
+                    memento?.Dispose();
+
+                    cache = new MementoDouble();
+                    memento = cache;
                 }
 
-                // Find the bottom area rectangle
-                RectangleF ellipseRect;
-                PointF centerPoint;
+                // Draw entire background in linear gradient effect
+                cache.First = DrawBackLinear(drawRect, sigma, color1, color2, orientation, g, cache.First!);
 
-                switch (orientation)
+                var generate = true;
+                MementoBackLinearRadial cacheThis;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (cache.Second is MementoBackLinearRadial linearRadial)
                 {
-                    case VisualOrientation.Left:
-                        ellipseRect = new RectangleF(drawRect.Right - third, drawRect.Y + 1, third, drawRect.Height - 2);
-                        centerPoint = new PointF(ellipseRect.Right, ellipseRect.Y + (ellipseRect.Height / 2));
-                        break;
-                    case VisualOrientation.Right:
-                        ellipseRect = new RectangleF(drawRect.X - 1, drawRect.Y + 1, third, drawRect.Height - 2);
-                        centerPoint = new PointF(ellipseRect.Left, ellipseRect.Y + (ellipseRect.Height / 2));
-                        break;
-                    case VisualOrientation.Bottom:
-                        ellipseRect = new RectangleF(drawRect.X + 1, drawRect.Y - 1, drawRect.Width - 2, third);
-                        centerPoint = new PointF(ellipseRect.X + (ellipseRect.Width / 2), ellipseRect.Top);
-                        break;
-                    case VisualOrientation.Top:
-                    default:
-                        ellipseRect = new RectangleF(drawRect.X + 1, drawRect.Bottom - third, drawRect.Width - 2, third);
-                        centerPoint = new PointF(ellipseRect.X + (ellipseRect.Width / 2), ellipseRect.Bottom);
-                        break;
+                    cacheThis = linearRadial;
+                    generate = !cacheThis.UseCachedValues(drawRect, color2, color3, orientation);
+                }
+                else
+                {
+                    cache.Second?.Dispose();
+
+                    cacheThis = new MementoBackLinearRadial(drawRect, color2, color3, orientation);
+                    cache.Second = cacheThis;
                 }
 
-                cacheThis.EllipseRect = ellipseRect;
-
-                // Cannot draw a path that contains a zero sized element
-                if (ellipseRect is { Width: > 0, Height: > 0 })
+                // Do we need to generate the contents of the cache?
+                if (generate)
                 {
-                    cacheThis.Path = new GraphicsPath();
-                    cacheThis.Path.AddEllipse(ellipseRect);
-                    cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                    // Dispose of existing values
+                    cacheThis.Dispose();
+
+                    float third;
+
+                    // Find the 1/3 height used for the ellipse
+                    if (VerticalOrientation(orientation))
                     {
-                        CenterColor = ControlPaint.Light(color3),
-                        CenterPoint = centerPoint,
-                        SurroundColors = [color2]
-                    };
-                }
-            }
+                        third = drawRect.Height / 3;
+                    }
+                    else
+                    {
+                        third = drawRect.Width / 3;
+                    }
 
-            if (cacheThis.BottomBrush != null)
-            {
-                g.FillRectangle(cacheThis.BottomBrush, cacheThis.EllipseRect);
+                    // Find the bottom area rectangle
+                    RectangleF ellipseRect;
+                    PointF centerPoint;
+
+                    switch (orientation)
+                    {
+                        case VisualOrientation.Left:
+                            ellipseRect = new RectangleF(drawRect.Right - third, drawRect.Y + 1, third, drawRect.Height - 2);
+                            centerPoint = new PointF(ellipseRect.Right, ellipseRect.Y + (ellipseRect.Height / 2));
+                            break;
+                        case VisualOrientation.Right:
+                            ellipseRect = new RectangleF(drawRect.X - 1, drawRect.Y + 1, third, drawRect.Height - 2);
+                            centerPoint = new PointF(ellipseRect.Left, ellipseRect.Y + (ellipseRect.Height / 2));
+                            break;
+                        case VisualOrientation.Bottom:
+                            ellipseRect = new RectangleF(drawRect.X + 1, drawRect.Y - 1, drawRect.Width - 2, third);
+                            centerPoint = new PointF(ellipseRect.X + (ellipseRect.Width / 2), ellipseRect.Top);
+                            break;
+                        case VisualOrientation.Top:
+                        default:
+                            ellipseRect = new RectangleF(drawRect.X + 1, drawRect.Bottom - third, drawRect.Width - 2, third);
+                            centerPoint = new PointF(ellipseRect.X + (ellipseRect.Width / 2), ellipseRect.Bottom);
+                            break;
+                    }
+
+                    cacheThis.EllipseRect = ellipseRect;
+
+                    // Cannot draw a path that contains a zero sized element
+                    if (ellipseRect is { Width: > 0, Height: > 0 })
+                    {
+                        cacheThis.Path = new GraphicsPath();
+                        cacheThis.Path.AddEllipse(ellipseRect);
+                        cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                        {
+                            CenterColor = ControlPaint.Light(color3),
+                            CenterPoint = centerPoint,
+                            SurroundColors = [color2]
+                        };
+                    }
+                }
+
+                if (cacheThis.BottomBrush != null)
+                {
+                    g.FillRectangle(cacheThis.BottomBrush, cacheThis.EllipseRect);
+                }
             }
 
             return memento;
@@ -1077,129 +1080,132 @@ namespace Krypton.Toolkit
                                                        float glassPercent,
                                                        IDisposable? memento)
         {
-            MementoDouble cache;
-
-            if (memento is MementoDouble mementoDouble)
+            if (g is not null)
             {
-                cache = mementoDouble;
-            }
-            else
-            {
-                memento?.Dispose();
+                MementoDouble cache;
 
-                cache = new MementoDouble();
-                memento = cache;
-            }
-
-            // Draw the gradient effect background
-            RectangleF glassRect = DrawBackGlassBasic(drawRect, color1, color2, 
-                                                      glassColor1, glassColor2,
-                                                      factorX, factorY, 
-                                                      orientation, g,
-                                                      glassPercent,
-                                                      ref cache.First);
-
-            var generate = true;
-            MementoBackGlassRadial cacheThis;
-
-            // Access a cache instance and decide if cache resources need generating
-            if (cache.Second is MementoBackGlassRadial glassRadial)
-            {
-                cacheThis = glassRadial;
-                generate = !cacheThis.UseCachedValues(drawRect, color1, color2, factorX, factorY, orientation);
-            }
-            else
-            {
-                cache.Second?.Dispose();
-
-                cacheThis = new MementoBackGlassRadial(drawRect, color1, color2, factorX, factorY, orientation);
-                cache.Second = cacheThis;
-            }
-
-            // Do we need to generate the contents of the cache?
-            if (generate)
-            {
-                // Dispose of existing values
-                cacheThis.Dispose();
-
-                // Find the bottom area rectangle
-
-                RectangleF mainRect = orientation switch
+                if (memento is MementoDouble mementoDouble)
                 {
-                    VisualOrientation.Right => drawRect with { Width = drawRect.Width - glassRect.Width - 1 },
-                    VisualOrientation.Left => drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 },
-                    VisualOrientation.Bottom => drawRect with { Height = drawRect.Height - glassRect.Height - 1 },
-                    VisualOrientation.Top => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 },
-                    _ => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 }
-                };
-
-                RectangleF doubleRect;
-
-                // Find the box that encloses the ellipse (ellipses is sized using the factorX, factorY)
-                if (VerticalOrientation(orientation))
-                {
-                    var mainRectWidth = mainRect.Width * factorX;
-                    var mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
-                    var mainRectHeight = mainRect.Height * factorY;
-                    float mainRectHeightOffset;
-
-                    // Find orientation specific ellsipe rectangle
-                    if (orientation == VisualOrientation.Top)
-                    {
-                        mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
-                    }
-                    else
-                    {
-                        mainRectHeightOffset = mainRectHeight + ((mainRectHeight - mainRect.Height) / 2);
-                    }
-
-                    doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
-                                                mainRect.Y - mainRectHeightOffset,
-                                                mainRectWidth, mainRectHeight * 2);
+                    cache = mementoDouble;
                 }
                 else
                 {
-                    var mainRectHeight = mainRect.Height * factorX;
-                    var mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
-                    var mainRectWidth = mainRect.Width * factorY;
-                    float mainRectWidthOffset;
+                    memento?.Dispose();
 
-                    // Find orientation specific ellsipe rectangle
-                    if (orientation == VisualOrientation.Left)
+                    cache = new MementoDouble();
+                    memento = cache;
+                }
+
+                // Draw the gradient effect background
+                RectangleF glassRect = DrawBackGlassBasic(drawRect, color1, color2,
+                                                          glassColor1, glassColor2,
+                                                          factorX, factorY,
+                                                          orientation, g,
+                                                          glassPercent,
+                                                          ref cache.First!);
+
+                var generate = true;
+                MementoBackGlassRadial cacheThis;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (cache.Second is MementoBackGlassRadial glassRadial)
+                {
+                    cacheThis = glassRadial;
+                    generate = !cacheThis.UseCachedValues(drawRect, color1, color2, factorX, factorY, orientation);
+                }
+                else
+                {
+                    cache.Second?.Dispose();
+
+                    cacheThis = new MementoBackGlassRadial(drawRect, color1, color2, factorX, factorY, orientation);
+                    cache.Second = cacheThis;
+                }
+
+                // Do we need to generate the contents of the cache?
+                if (generate)
+                {
+                    // Dispose of existing values
+                    cacheThis.Dispose();
+
+                    // Find the bottom area rectangle
+
+                    RectangleF mainRect = orientation switch
                     {
-                        mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
+                        VisualOrientation.Right => drawRect with { Width = drawRect.Width - glassRect.Width - 1 },
+                        VisualOrientation.Left => drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 },
+                        VisualOrientation.Bottom => drawRect with { Height = drawRect.Height - glassRect.Height - 1 },
+                        VisualOrientation.Top => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 },
+                        _ => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 }
+                    };
+
+                    RectangleF doubleRect;
+
+                    // Find the box that encloses the ellipse (ellipses is sized using the factorX, factorY)
+                    if (VerticalOrientation(orientation))
+                    {
+                        var mainRectWidth = mainRect.Width * factorX;
+                        var mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
+                        var mainRectHeight = mainRect.Height * factorY;
+                        float mainRectHeightOffset;
+
+                        // Find orientation specific ellsipe rectangle
+                        if (orientation == VisualOrientation.Top)
+                        {
+                            mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
+                        }
+                        else
+                        {
+                            mainRectHeightOffset = mainRectHeight + ((mainRectHeight - mainRect.Height) / 2);
+                        }
+
+                        doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
+                                                    mainRect.Y - mainRectHeightOffset,
+                                                    mainRectWidth, mainRectHeight * 2);
                     }
                     else
                     {
-                        mainRectWidthOffset = mainRectWidth + ((mainRectWidth - mainRect.Width) / 2);
+                        var mainRectHeight = mainRect.Height * factorX;
+                        var mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
+                        var mainRectWidth = mainRect.Width * factorY;
+                        float mainRectWidthOffset;
+
+                        // Find orientation specific ellsipe rectangle
+                        if (orientation == VisualOrientation.Left)
+                        {
+                            mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
+                        }
+                        else
+                        {
+                            mainRectWidthOffset = mainRectWidth + ((mainRectWidth - mainRect.Width) / 2);
+                        }
+
+                        doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
+                                                    mainRect.Y - mainRectHeightOffset,
+                                                    mainRectWidth * 2, mainRectHeight);
                     }
 
-                    doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
-                                                mainRect.Y - mainRectHeightOffset,
-                                                mainRectWidth * 2, mainRectHeight);
-                }
-
-                // Cannot draw a path that contains a zero sized element
-                if (doubleRect is { Width: > 0, Height: > 0 })
-                {
-                    // We use a path to create an ellipse for the light effect in the bottom of the area
-                    cacheThis.Path = new GraphicsPath();
-                    cacheThis.Path.AddEllipse(doubleRect);
-
-                    // Create a brush from the path
-                    cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                    // Cannot draw a path that contains a zero sized element
+                    if (doubleRect is { Width: > 0, Height: > 0 })
                     {
-                        CenterColor = color2,
-                        CenterPoint = new PointF(doubleRect.X + (doubleRect.Width / 2), doubleRect.Y + (doubleRect.Height / 2)),
-                        SurroundColors = [color1]
-                    };
-                    cacheThis.MainRect = mainRect;
-                }
-            }
+                        // We use a path to create an ellipse for the light effect in the bottom of the area
+                        cacheThis.Path = new GraphicsPath();
+                        cacheThis.Path.AddEllipse(doubleRect);
 
-            if (cacheThis.BottomBrush != null)
-            {
-                g.FillRectangle(cacheThis.BottomBrush, cacheThis.MainRect);
+                        // Create a brush from the path
+                        cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                        {
+                            CenterColor = color2,
+                            CenterPoint = new PointF(doubleRect.X + (doubleRect.Width / 2), doubleRect.Y + (doubleRect.Height / 2)),
+                            SurroundColors = [color1]
+                        };
+                        cacheThis.MainRect = mainRect;
+                    }
+                }
+
+                if (cacheThis.BottomBrush != null)
+                {
+                    g.FillRectangle(cacheThis.BottomBrush, cacheThis.MainRect);
+                }
             }
 
             return memento;
@@ -1217,65 +1223,68 @@ namespace Krypton.Toolkit
                                                        float glassPercent,
                                                        IDisposable memento)
         {
-            // Cannot draw a path that contains a zero sized element
-            if (drawRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                MementoDouble cache;
-
-                if (memento is MementoDouble mementoDouble)
+                // Cannot draw a path that contains a zero sized element
+                if (drawRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = mementoDouble;
-                }
-                else
-                {
-                    memento?.Dispose();
+                    MementoDouble cache;
 
-                    cache = new MementoDouble();
-                    memento = cache;
-                }
-
-                // Draw the gradient effect background
-                DrawBackGlassBasic(drawRect, color1, color2,
-                                   glassColor1, glassColor2,
-                                   factorX, factorY,
-                                   orientation, g,
-                                   glassPercent,
-                                   ref cache.First);
-
-                var generate = true;
-                MementoBackGlassCenter cacheThis;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (cache.Second is MementoBackGlassCenter glassCenter)
-                {
-                    cacheThis = glassCenter;
-                    generate = !cacheThis.UseCachedValues(drawRect, color2);
-                }
-                else
-                {
-                    cache.Second?.Dispose();
-
-                    cacheThis = new MementoBackGlassCenter(drawRect, color2);
-                    cache.Second = cacheThis;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cacheThis.Dispose();
-
-                    cacheThis.Path = new GraphicsPath();
-                    cacheThis.Path.AddEllipse(drawRect);
-                    cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                    if (memento is MementoDouble mementoDouble)
                     {
-                        CenterColor = color2,
-                        CenterPoint = new PointF(drawRect.X + (drawRect.Width / 2), drawRect.Y + (drawRect.Height / 2)),
-                        SurroundColors = [Color.Transparent]
-                    };
-                }
+                        cache = mementoDouble;
+                    }
+                    else
+                    {
+                        memento?.Dispose();
 
-                g.FillRectangle(cacheThis.BottomBrush, drawRect);
+                        cache = new MementoDouble();
+                        memento = cache;
+                    }
+
+                    // Draw the gradient effect background
+                    DrawBackGlassBasic(drawRect, color1, color2,
+                                       glassColor1, glassColor2,
+                                       factorX, factorY,
+                                       orientation, g,
+                                       glassPercent,
+                                       ref cache.First!);
+
+                    var generate = true;
+                    MementoBackGlassCenter cacheThis;
+
+                    // Access a cache instance and decide if cache resources need generating
+                    if (cache.Second is MementoBackGlassCenter glassCenter)
+                    {
+                        cacheThis = glassCenter;
+                        generate = !cacheThis.UseCachedValues(drawRect, color2);
+                    }
+                    else
+                    {
+                        cache.Second?.Dispose();
+
+                        cacheThis = new MementoBackGlassCenter(drawRect, color2);
+                        cache.Second = cacheThis;
+                    }
+
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
+                    {
+                        // Dispose of existing values
+                        cacheThis.Dispose();
+
+                        cacheThis.Path = new GraphicsPath();
+                        cacheThis.Path.AddEllipse(drawRect);
+                        cacheThis.BottomBrush = new PathGradientBrush(cacheThis.Path)
+                        {
+                            CenterColor = color2,
+                            CenterPoint = new PointF(drawRect.X + (drawRect.Width / 2), drawRect.Y + (drawRect.Height / 2)),
+                            SurroundColors = [Color.Transparent]
+                        };
+                    }
+
+                    g.FillRectangle(cacheThis.BottomBrush!, drawRect);
+                }
             }
 
             return memento;
@@ -1291,107 +1300,110 @@ namespace Krypton.Toolkit
                                                      Graphics? g,
                                                      IDisposable memento)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 } &&
-                outerRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackGlassFade cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackGlassFade glassFade)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 } &&
+                outerRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = glassFade;
-                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
-                                                      glassColor1, glassColor2, orientation);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackGlassFade cache;
 
-                    cache = new MementoBackGlassFade(drawRect, outerRect, color1, color2,
-                                                     glassColor1, glassColor2, orientation);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    // Create gradient rect from the drawing rect
-                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
-                        drawRect.Height + 2);
-
-                    // Cannot draw a zero sized rectangle
-                    if (gradientRect is { Width: > 0, Height: > 0 })
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackGlassFade glassFade)
                     {
-                        // Draw a gradient from first to second over the length, but use the
-                        // first color for the first 33% of distance and fade over the rest
-                        cache.MainBrush = new LinearGradientBrush(gradientRect, color1, color2, AngleFromOrientation(orientation))
-                        {
-                            Blend = _glassFadeBlend
-                        };
-                    }
-
-                    float glassLength;
-
-                    // Glass covers 33% of the orienatated length
-                    if (VerticalOrientation(orientation))
-                    {
-                        glassLength = (int)(outerRect.Height * 0.33f) + outerRect.Y - drawRect.Y;
+                        cache = glassFade;
+                        generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
+                                                          glassColor1, glassColor2, orientation);
                     }
                     else
                     {
-                        glassLength = (int)(outerRect.Width * 0.33f) + outerRect.X - drawRect.X;
+                        memento?.Dispose();
+
+                        cache = new MementoBackGlassFade(drawRect, outerRect, color1, color2,
+                                                         glassColor1, glassColor2, orientation);
+                        memento = cache;
                     }
 
-                    RectangleF glassRect;
-                    RectangleF mainRect;
-
-                    // Create rectangles that cover the glass and main area
-                    switch (orientation)
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
                     {
-                        case VisualOrientation.Left:
-                            glassRect = drawRect with { Width = glassLength };
-                            break;
-                        case VisualOrientation.Right:
-                            mainRect = drawRect with { Width = drawRect.Width - glassLength };
-                            glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
-                            break;
-                        case VisualOrientation.Top:
-                        default:
-                            glassRect = drawRect with { Height = glassLength };
-                            break;
-                        case VisualOrientation.Bottom:
-                            mainRect = drawRect with { Height = drawRect.Height - glassLength };
-                            glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
-                            break;
+                        // Dispose of existing values
+                        cache.Dispose();
+
+                        // Create gradient rect from the drawing rect
+                        RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
+                            drawRect.Height + 2);
+
+                        // Cannot draw a zero sized rectangle
+                        if (gradientRect is { Width: > 0, Height: > 0 })
+                        {
+                            // Draw a gradient from first to second over the length, but use the
+                            // first color for the first 33% of distance and fade over the rest
+                            cache.MainBrush = new LinearGradientBrush(gradientRect, color1, color2, AngleFromOrientation(orientation))
+                            {
+                                Blend = _glassFadeBlend
+                            };
+                        }
+
+                        float glassLength;
+
+                        // Glass covers 33% of the orienatated length
+                        if (VerticalOrientation(orientation))
+                        {
+                            glassLength = (int)(outerRect.Height * 0.33f) + outerRect.Y - drawRect.Y;
+                        }
+                        else
+                        {
+                            glassLength = (int)(outerRect.Width * 0.33f) + outerRect.X - drawRect.X;
+                        }
+
+                        RectangleF glassRect;
+                        RectangleF mainRect;
+
+                        // Create rectangles that cover the glass and main area
+                        switch (orientation)
+                        {
+                            case VisualOrientation.Left:
+                                glassRect = drawRect with { Width = glassLength };
+                                break;
+                            case VisualOrientation.Right:
+                                mainRect = drawRect with { Width = drawRect.Width - glassLength };
+                                glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
+                                break;
+                            case VisualOrientation.Top:
+                            default:
+                                glassRect = drawRect with { Height = glassLength };
+                                break;
+                            case VisualOrientation.Bottom:
+                                mainRect = drawRect with { Height = drawRect.Height - glassLength };
+                                glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
+                                break;
+                        }
+
+                        // Create gradient rectangles
+                        RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
+                            glassRect.Height + 2);
+
+                        // Cannot draw a zero sized rectangle
+                        if (glassRect is { Width: > 0, Height: > 0 } &&
+                            glassGradientRect is { Width: > 0, Height: > 0 })
+                        {
+                            // Use semi-transparent white colors to create the glass effect
+                            cache.TopBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
+                            cache.GlassRect = glassRect;
+                        }
                     }
 
-                    // Create gradient rectangles
-                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
-                        glassRect.Height + 2);
-
-                    // Cannot draw a zero sized rectangle
-                    if (glassRect is { Width: > 0, Height: > 0 } &&
-                        glassGradientRect is { Width: > 0, Height: > 0 })
+                    if (cache.MainBrush != null)
                     {
-                        // Use semi-transparent white colors to create the glass effect
-                        cache.TopBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
-                        cache.GlassRect = glassRect;
+                        g.FillRectangle(cache.MainBrush, drawRect);
                     }
-                }
 
-                if (cache.MainBrush != null)
-                {
-                    g.FillRectangle(cache.MainBrush, drawRect);
-                }
-
-                if (cache.TopBrush != null)
-                {
-                    g.FillRectangle(cache.TopBrush, cache.GlassRect);
+                    if (cache.TopBrush != null)
+                    {
+                        g.FillRectangle(cache.TopBrush, cache.GlassRect);
+                    }
                 }
             }
 
@@ -1409,99 +1421,102 @@ namespace Krypton.Toolkit
                                                        float glassPercent,
                                                        IDisposable? memento)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 } &&
-                outerRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackGlassLinear cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackGlassLinear glassLinear)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 } &&
+                outerRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = glassLinear;
-                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
-                        glassColor1, glassColor2, orientation, glassPercent);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackGlassLinear cache;
 
-                    cache = new MementoBackGlassLinear(drawRect, outerRect, color1, color2,
-                        glassColor1, glassColor2, orientation, glassPercent);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    RectangleF glassRect;
-                    RectangleF mainRect;
-                    float glassLength;
-
-                    // Glass covers specified percentage of the orienatated length
-                    if (VerticalOrientation(orientation))
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackGlassLinear glassLinear)
                     {
-                        glassLength = (int)(outerRect.Height * glassPercent) + outerRect.Y - drawRect.Y;
+                        cache = glassLinear;
+                        generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
+                            glassColor1, glassColor2, orientation, glassPercent);
                     }
                     else
                     {
-                        glassLength = (int)(outerRect.Width * glassPercent) + outerRect.X - drawRect.X;
+                        memento?.Dispose();
+
+                        cache = new MementoBackGlassLinear(drawRect, outerRect, color1, color2,
+                            glassColor1, glassColor2, orientation, glassPercent);
+                        memento = cache;
                     }
 
-                    // Create rectangles that cover the glass and main area
-                    switch (orientation)
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
                     {
-                        case VisualOrientation.Left:
-                            glassRect = drawRect with { Width = glassLength };
-                            mainRect = drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 };
-                            break;
-                        case VisualOrientation.Right:
-                            mainRect = drawRect with { Width = drawRect.Width - glassLength };
-                            glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
-                            break;
-                        case VisualOrientation.Top:
-                        default:
-                            glassRect = drawRect with { Height = glassLength };
-                            mainRect = drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 };
-                            break;
-                        case VisualOrientation.Bottom:
-                            mainRect = drawRect with { Height = drawRect.Height - glassLength };
-                            glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
-                            break;
+                        // Dispose of existing values
+                        cache.Dispose();
+
+                        RectangleF glassRect;
+                        RectangleF mainRect;
+                        float glassLength;
+
+                        // Glass covers specified percentage of the orienatated length
+                        if (VerticalOrientation(orientation))
+                        {
+                            glassLength = (int)(outerRect.Height * glassPercent) + outerRect.Y - drawRect.Y;
+                        }
+                        else
+                        {
+                            glassLength = (int)(outerRect.Width * glassPercent) + outerRect.X - drawRect.X;
+                        }
+
+                        // Create rectangles that cover the glass and main area
+                        switch (orientation)
+                        {
+                            case VisualOrientation.Left:
+                                glassRect = drawRect with { Width = glassLength };
+                                mainRect = drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 };
+                                break;
+                            case VisualOrientation.Right:
+                                mainRect = drawRect with { Width = drawRect.Width - glassLength };
+                                glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
+                                break;
+                            case VisualOrientation.Top:
+                            default:
+                                glassRect = drawRect with { Height = glassLength };
+                                mainRect = drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 };
+                                break;
+                            case VisualOrientation.Bottom:
+                                mainRect = drawRect with { Height = drawRect.Height - glassLength };
+                                glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
+                                break;
+                        }
+
+                        cache.TotalBrush = new SolidBrush(color1);
+                        cache.GlassRect = glassRect;
+                        cache.MainRect = mainRect;
+
+                        // Create gradient rectangles
+                        RectangleF glassGradientRect = new RectangleF(cache.GlassRect.X - 1, cache.GlassRect.Y - 1,
+                            cache.GlassRect.Width + 2, cache.GlassRect.Height + 2);
+                        RectangleF mainGradientRect = new RectangleF(cache.MainRect.X - 1, cache.MainRect.Y - 1,
+                            cache.MainRect.Width + 2, cache.MainRect.Height + 2);
+
+                        // Cannot draw a zero length rectangle
+                        if (cache.GlassRect is { Width: > 0, Height: > 0 } &&
+                            cache.MainRect is { Width: > 0, Height: > 0 } &&
+                            glassGradientRect is { Width: > 0, Height: > 0 } &&
+                            mainGradientRect is { Width: > 0, Height: > 0 })
+                        {
+                            cache.TopBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
+                            cache.BottomBrush = new LinearGradientBrush(mainGradientRect, color1, color2, AngleFromOrientation(orientation));
+                        }
                     }
 
-                    cache.TotalBrush = new SolidBrush(color1);
-                    cache.GlassRect = glassRect;
-                    cache.MainRect = mainRect;
+                    // Draw entire area in a solid color
+                    g.FillRectangle(cache.TotalBrush!, drawRect);
 
-                    // Create gradient rectangles
-                    RectangleF glassGradientRect = new RectangleF(cache.GlassRect.X - 1, cache.GlassRect.Y - 1,
-                        cache.GlassRect.Width + 2, cache.GlassRect.Height + 2);
-                    RectangleF mainGradientRect = new RectangleF(cache.MainRect.X - 1, cache.MainRect.Y - 1,
-                        cache.MainRect.Width + 2, cache.MainRect.Height + 2);
-
-                    // Cannot draw a zero length rectangle
-                    if (cache.GlassRect is { Width: > 0, Height: > 0 } &&
-                        cache.MainRect is { Width: > 0, Height: > 0 } &&
-                        glassGradientRect is { Width: > 0, Height: > 0 } &&
-                        mainGradientRect is { Width: > 0, Height: > 0 })
+                    if (cache is { TopBrush: not null, BottomBrush: not null })
                     {
-                        cache.TopBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
-                        cache.BottomBrush = new LinearGradientBrush(mainGradientRect, color1, color2, AngleFromOrientation(orientation));
+                        g.FillRectangle(cache.TopBrush, cache.GlassRect);
+                        g.FillRectangle(cache.BottomBrush, cache.MainRect);
                     }
-                }
-
-                // Draw entire area in a solid color
-                g.FillRectangle(cache.TotalBrush, drawRect);
-
-                if (cache is { TopBrush: not null, BottomBrush: not null })
-                {
-                    g.FillRectangle(cache.TopBrush, cache.GlassRect);
-                    g.FillRectangle(cache.BottomBrush, cache.MainRect);
                 }
             }
 
@@ -1520,78 +1535,81 @@ namespace Krypton.Toolkit
                                                      float glassPercent,
                                                      ref IDisposable memento)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackGlassBasic cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackGlassBasic glassBasic)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = glassBasic;
-                    generate = !cache.UseCachedValues(drawRect, color1, color2,
-                                                      glassColor1, glassColor2,
-                                                      factorX, factorY,
-                                                      orientation, glassPercent);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackGlassBasic cache;
 
-                    cache = new MementoBackGlassBasic(drawRect, color1, color2,
-                                                      glassColor1, glassColor2,
-                                                      factorX, factorY,
-                                                      orientation, glassPercent);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    // Draw entire area in a solid color
-                    cache.TotalBrush = new SolidBrush(color1);
-
-                    int length;
-
-                    if (VerticalOrientation(orientation))
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackGlassBasic glassBasic)
                     {
-                        length = (int)(drawRect.Height * glassPercent);
+                        cache = glassBasic;
+                        generate = !cache.UseCachedValues(drawRect, color1, color2,
+                                                          glassColor1, glassColor2,
+                                                          factorX, factorY,
+                                                          orientation, glassPercent);
                     }
                     else
                     {
-                        length = (int)(drawRect.Width * glassPercent);
+                        memento?.Dispose();
+
+                        cache = new MementoBackGlassBasic(drawRect, color1, color2,
+                                                          glassColor1, glassColor2,
+                                                          factorX, factorY,
+                                                          orientation, glassPercent);
+                        memento = cache;
                     }
 
-                    var glassRect = orientation switch
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
                     {
-                        VisualOrientation.Left => drawRect with { Width = length },
-                        VisualOrientation.Right => drawRect with { X = drawRect.Right - length, Width = length },
-                        VisualOrientation.Bottom => drawRect with { Y = drawRect.Bottom - length, Height = length },
-                        _ => drawRect with { Height = length }
-                    };
+                        // Dispose of existing values
+                        cache.Dispose();
 
-                    // Gradient rectangle is always a little bigger to prevent tiling at edges
-                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
-                        glassRect.Height + 2);
+                        // Draw entire area in a solid color
+                        cache.TotalBrush = new SolidBrush(color1);
 
-                    // Cannot draw a zero length rectangle
-                    if (glassGradientRect is { Width: > 0, Height: > 0 })
-                    {
-                        cache.GlassBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
-                        cache.GlassRect = glassRect;
+                        int length;
+
+                        if (VerticalOrientation(orientation))
+                        {
+                            length = (int)(drawRect.Height * glassPercent);
+                        }
+                        else
+                        {
+                            length = (int)(drawRect.Width * glassPercent);
+                        }
+
+                        var glassRect = orientation switch
+                        {
+                            VisualOrientation.Left => drawRect with { Width = length },
+                            VisualOrientation.Right => drawRect with { X = drawRect.Right - length, Width = length },
+                            VisualOrientation.Bottom => drawRect with { Y = drawRect.Bottom - length, Height = length },
+                            _ => drawRect with { Height = length }
+                        };
+
+                        // Gradient rectangle is always a little bigger to prevent tiling at edges
+                        RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2,
+                            glassRect.Height + 2);
+
+                        // Cannot draw a zero length rectangle
+                        if (glassGradientRect is { Width: > 0, Height: > 0 })
+                        {
+                            cache.GlassBrush = new LinearGradientBrush(glassGradientRect, glassColor1, glassColor2, AngleFromOrientation(orientation));
+                            cache.GlassRect = glassRect;
+                        }
                     }
-                }
 
-                g.FillRectangle(cache.TotalBrush, drawRect);
+                    g.FillRectangle(cache.TotalBrush!, drawRect);
 
-                if (cache.GlassBrush != null)
-                {
-                    g.FillRectangle(cache.GlassBrush, cache.GlassRect);
-                    return cache.GlassRect;
+                    if (cache.GlassBrush != null)
+                    {
+                        g.FillRectangle(cache.GlassBrush, cache.GlassRect);
+                        return cache.GlassRect;
+                    }
                 }
             }
 
@@ -1606,52 +1624,55 @@ namespace Krypton.Toolkit
                                                   Graphics? g,
                                                   IDisposable memento)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackLinear cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackLinear backLinear)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = backLinear;
-                    generate = !cache.UseCachedValues(drawRect, sigma, color1, color2, orientation);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackLinear cache;
 
-                    cache = new MementoBackLinear(drawRect, sigma, color1, color2, orientation);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    // Create rectangle that covers the enter area
-                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
-                        drawRect.Height + 2);
-
-                    // Cannot draw a zero length rectangle
-                    if (gradientRect is { Width: > 0, Height: > 0 })
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackLinear backLinear)
                     {
-                        // Draw entire area in a gradient color effect
-                        cache.EntireBrush = new LinearGradientBrush(gradientRect, color1, color2, AngleFromOrientation(orientation));
+                        cache = backLinear;
+                        generate = !cache.UseCachedValues(drawRect, sigma, color1, color2, orientation);
+                    }
+                    else
+                    {
+                        memento?.Dispose();
 
-                        if (sigma)
+                        cache = new MementoBackLinear(drawRect, sigma, color1, color2, orientation);
+                        memento = cache;
+                    }
+
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
+                    {
+                        // Dispose of existing values
+                        cache.Dispose();
+
+                        // Create rectangle that covers the enter area
+                        RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2,
+                            drawRect.Height + 2);
+
+                        // Cannot draw a zero length rectangle
+                        if (gradientRect is { Width: > 0, Height: > 0 })
                         {
-                            cache.EntireBrush.SetSigmaBellShape(0.5f);
+                            // Draw entire area in a gradient color effect
+                            cache.EntireBrush = new LinearGradientBrush(gradientRect, color1, color2, AngleFromOrientation(orientation));
+
+                            if (sigma)
+                            {
+                                cache.EntireBrush.SetSigmaBellShape(0.5f);
+                            }
                         }
                     }
-                }
 
-                if (cache.EntireBrush != null)
-                {
-                    g.FillRectangle(cache.EntireBrush, drawRect);
+                    if (cache.EntireBrush != null)
+                    {
+                        g.FillRectangle(cache.EntireBrush, drawRect);
+                    }
                 }
             }
 
@@ -1665,89 +1686,92 @@ namespace Krypton.Toolkit
                                                     Graphics? g,
                                                     IDisposable memento)
         {
-            // Cannot draw a zero length rectangle
-            if (drawRect is { Width: > 0, Height: > 0 })
+            if (g is not null)
             {
-                var generate = true;
-                MementoBackDarkEdge cache;
-
-                // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoBackDarkEdge darkEdge)
+                // Cannot draw a zero length rectangle
+                if (drawRect is { Width: > 0, Height: > 0 })
                 {
-                    cache = darkEdge;
-                    generate = !cache.UseCachedValues(drawRect, color1, thickness, orientation);
-                }
-                else
-                {
-                    memento?.Dispose();
+                    var generate = true;
+                    MementoBackDarkEdge cache;
 
-                    cache = new MementoBackDarkEdge(drawRect, color1, thickness, orientation);
-                    memento = cache;
-                }
-
-                // Do we need to generate the contents of the cache?
-                if (generate)
-                {
-                    // Dispose of existing values
-                    cache.Dispose();
-
-                    // If we need to scale down the dark thickness
-                    if (VerticalOrientation(orientation))
+                    // Access a cache instance and decide if cache resources need generating
+                    if (memento is MementoBackDarkEdge darkEdge)
                     {
-                        if (drawRect.Height < 30)
-                        {
-                            thickness = (int)drawRect.Height / 10;
-                        }
+                        cache = darkEdge;
+                        generate = !cache.UseCachedValues(drawRect, color1, thickness, orientation);
                     }
                     else
                     {
-                        if (drawRect.Width < 30)
-                        {
-                            thickness = (int)drawRect.Width / 10;
-                        }
+                        memento?.Dispose();
+
+                        cache = new MementoBackDarkEdge(drawRect, color1, thickness, orientation);
+                        memento = cache;
                     }
 
-                    // If there is something to draw
-                    if (thickness >= 0)
+                    // Do we need to generate the contents of the cache?
+                    if (generate)
                     {
-                        // Alter rectangle to the drawing edge only
-                        switch (orientation)
-                        {
-                            case VisualOrientation.Top:
-                                drawRect.Height = thickness;
-                                break;
-                            case VisualOrientation.Left:
-                                drawRect.Width = thickness;
-                                break;
-                            case VisualOrientation.Bottom:
-                                drawRect.Y = drawRect.Bottom - thickness - 1;
-                                drawRect.Height = thickness + 1;
-                                break;
-                            case VisualOrientation.Right:
-                                drawRect.X = drawRect.Right - thickness - 1;
-                                drawRect.Width = thickness + 1;
-                                break;
+                        // Dispose of existing values
+                        cache.Dispose();
 
+                        // If we need to scale down the dark thickness
+                        if (VerticalOrientation(orientation))
+                        {
+                            if (drawRect.Height < 30)
+                            {
+                                thickness = (int)drawRect.Height / 10;
+                            }
+                        }
+                        else
+                        {
+                            if (drawRect.Width < 30)
+                            {
+                                thickness = (int)drawRect.Width / 10;
+                            }
                         }
 
-                        // Create rectangle that covers the enter area
-                        RectangleF gradientRect = new RectangleF(drawRect.X - 0.5f, drawRect.Y - 0.5f,
-                            drawRect.Width + 1, drawRect.Height + 1);
-
-                        // Cannot draw a zero length rectangle
-                        if (gradientRect is { Width: > 0, Height: > 0 })
+                        // If there is something to draw
+                        if (thickness >= 0)
                         {
-                            // Draw entire area in a gradient color effect
-                            cache.EntireBrush = new LinearGradientBrush(gradientRect, Color.FromArgb(64, color1), Color.Transparent, AngleFromOrientation(orientation));
-                            cache.EntireBrush.SetSigmaBellShape(1.0f);
-                            cache.EntireRect = drawRect;
+                            // Alter rectangle to the drawing edge only
+                            switch (orientation)
+                            {
+                                case VisualOrientation.Top:
+                                    drawRect.Height = thickness;
+                                    break;
+                                case VisualOrientation.Left:
+                                    drawRect.Width = thickness;
+                                    break;
+                                case VisualOrientation.Bottom:
+                                    drawRect.Y = drawRect.Bottom - thickness - 1;
+                                    drawRect.Height = thickness + 1;
+                                    break;
+                                case VisualOrientation.Right:
+                                    drawRect.X = drawRect.Right - thickness - 1;
+                                    drawRect.Width = thickness + 1;
+                                    break;
+
+                            }
+
+                            // Create rectangle that covers the enter area
+                            RectangleF gradientRect = new RectangleF(drawRect.X - 0.5f, drawRect.Y - 0.5f,
+                                drawRect.Width + 1, drawRect.Height + 1);
+
+                            // Cannot draw a zero length rectangle
+                            if (gradientRect is { Width: > 0, Height: > 0 })
+                            {
+                                // Draw entire area in a gradient color effect
+                                cache.EntireBrush = new LinearGradientBrush(gradientRect, Color.FromArgb(64, color1), Color.Transparent, AngleFromOrientation(orientation));
+                                cache.EntireBrush.SetSigmaBellShape(1.0f);
+                                cache.EntireRect = drawRect;
+                            }
                         }
                     }
-                }
 
-                if (cache.EntireBrush != null)
-                {
-                    g.FillRectangle(cache.EntireBrush, cache.EntireRect);
+                    if (cache.EntireBrush != null)
+                    {
+                        g.FillRectangle(cache.EntireBrush, cache.EntireRect);
+                    }
                 }
             }
 

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutFill : ViewLayoutNull
     {
         #region Instance Fields
-        private readonly Control _control;
+        private readonly Control? _control;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutNull class.
         /// </summary>
         /// <param name="control">Control to position in fill location.</param>
-        public ViewLayoutFill(Control control) => _control = control;
+        public ViewLayoutFill(Control? control) => _control = control;
 
         /// <summary>
         /// Obtains the String representation of this instance.

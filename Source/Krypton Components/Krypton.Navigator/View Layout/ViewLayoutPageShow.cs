@@ -28,10 +28,10 @@ namespace Krypton.Navigator
         /// </summary>
         public ViewLayoutPageShow([DisallowNull] KryptonNavigator navigator)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
             _minimumAsPreferred = false;
         }
 
@@ -93,7 +93,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;

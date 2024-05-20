@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColorStyle(state) ?? Target.GetRibbonBackColorStyle(style, state);
+            return inherit?.GetRibbonBackColorStyle(state) ?? Target!.GetRibbonBackColorStyle(style, state);
         }
         #endregion
 
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor1(state) ?? Target.GetRibbonBackColor1(style, state);
+            return inherit?.GetRibbonBackColor1(state) ?? Target!.GetRibbonBackColor1(style, state);
         }
         #endregion
 
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor2(state) ?? Target.GetRibbonBackColor2(style, state);
+            return inherit?.GetRibbonBackColor2(state) ?? Target!.GetRibbonBackColor2(style, state);
         }
         #endregion
 
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor3(state) ?? Target.GetRibbonBackColor3(style, state);
+            return inherit?.GetRibbonBackColor3(state) ?? Target!.GetRibbonBackColor3(style, state);
         }
         #endregion
 
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor4(state) ?? Target.GetRibbonBackColor4(style, state);
+            return inherit?.GetRibbonBackColor4(state) ?? Target!.GetRibbonBackColor4(style, state);
         }
         #endregion
 
@@ -219,12 +219,12 @@ namespace Krypton.Toolkit
         {
             IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor5(state) ?? Target.GetRibbonBackColor5(style, state);
+            return inherit?.GetRibbonBackColor5(state) ?? Target!.GetRibbonBackColor5(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
         {
             switch (state)
             {

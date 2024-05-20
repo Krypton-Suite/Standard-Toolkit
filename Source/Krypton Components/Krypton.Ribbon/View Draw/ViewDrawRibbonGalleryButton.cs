@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
         private IDisposable? _mementoBack;
-        private IDisposable _mementoContent;
+        private IDisposable? _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion
 
@@ -106,11 +106,18 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) =>
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Grab the required size for the content images
-            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent,
                 this, VisualOrientation.Top,
                 State);
+        }
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -118,13 +125,24 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Dispose of any current memento
-            if (_mementoContent != null)
+            if (_mementoContent is not null)
             {
                 _mementoContent.Dispose();
                 _mementoContent = null;
@@ -143,8 +161,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Reduce background to fit inside the border
             Rectangle backRect = ClientRectangle;
             backRect.Inflate(-1, -1);
@@ -172,7 +195,7 @@ namespace Krypton.Ribbon
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                    _mementoContent, VisualOrientation.Top, 
+                    _mementoContent!, VisualOrientation.Top, 
                     State,  false);
             }
 

@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        internal bool ReturnValue;
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
 
-        internal CheckState ReturnCheckBoxStateValue;
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
 
         #endregion
 
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
                     }
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
 
         private void UpdateLocation() =>
             //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
+            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
 
         private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
@@ -272,10 +272,6 @@ namespace Krypton.Toolkit
 
             kchkDoNotShowAgain.Text = _basicToastNotificationData.OptionalCheckBoxText ?? KryptonManager.Strings.CustomStrings.DoNotShowAgain;
         }
-
-        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e) => ReturnValue = kchkDoNotShowAgain.Checked;
-
-        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e) => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
 
         #region Show
 

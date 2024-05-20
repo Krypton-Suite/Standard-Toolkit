@@ -45,16 +45,16 @@ namespace Krypton.Ribbon
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
         public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull] ViewLayoutDocker target,
-            [DisallowNull] NeedPaintHandler needPaint)
+                                        [DisallowNull] ViewLayoutDocker target,
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
@@ -242,9 +242,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {

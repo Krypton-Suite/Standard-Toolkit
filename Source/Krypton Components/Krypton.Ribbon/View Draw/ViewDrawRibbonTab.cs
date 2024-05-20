@@ -397,6 +397,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Ensure that child elements have correct palette state
             CheckPaletteState(context);
 
@@ -591,7 +596,7 @@ namespace Krypton.Ribbon
 
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                if ((PaletteState?)stateValues.GetValue(i) == state)
                 {
                     return i;
                 }

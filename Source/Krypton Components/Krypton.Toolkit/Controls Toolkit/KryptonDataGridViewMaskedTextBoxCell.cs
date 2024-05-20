@@ -450,12 +450,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
+            object? initialFormattedValue,
             DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonMaskedTextBox maskedTextBox)
+            if (DataGridView!.EditingControl is KryptonMaskedTextBox maskedTextBox)
             {
                 maskedTextBox.PromptChar = PromptChar;
                 maskedTextBox.AllowPromptAsInput = AllowPromptAsInput;
@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -528,7 +528,7 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewMaskedTextBoxEditingControl? EditingMaskedTextBox => DataGridView.EditingControl as KryptonDataGridViewMaskedTextBoxEditingControl;
+        private KryptonDataGridViewMaskedTextBoxEditingControl? EditingMaskedTextBox => DataGridView!.EditingControl as KryptonDataGridViewMaskedTextBoxEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

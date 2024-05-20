@@ -38,10 +38,16 @@ namespace Krypton.Toolkit
                                          PaletteRibbonBackStyle backStyle,
                                          NeedPaintHandler needPaint) 
         {
-            Debug.Assert(redirect != null);
+            Debug.Assert(redirect is not null);
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
+
+            //TEST-NoThrow
+            //if (redirect is null)
+            //{
+            //    throw new ArgumentNullException(nameof(redirect));
+            //}
 
             // Store the inherit instances
             _inheritBack = new PaletteRibbonBackInheritRedirect(redirect, backStyle);

@@ -230,13 +230,14 @@ namespace Krypton.Toolkit
                 if (child is ViewDrawButton crumbButton)
                 {
                     // Cast to correct type
-
                     // That are associated with crumb items
-                    if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem _))
+                    if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem? _)!)
                     {
                         // If the button is pressed then point button downwards, 
                         // otherwise we point in the direction the buttons laid out.
-                        crumbButton.DropDownOrientation = crumbButton.ElementState == PaletteState.Pressed ? VisualOrientation.Top : VisualOrientation.Left;
+                        crumbButton.DropDownOrientation = crumbButton.ElementState == PaletteState.Pressed 
+                            ? VisualOrientation.Top 
+                            : VisualOrientation.Left;
                     }
                 }
             }
@@ -348,7 +349,7 @@ namespace Krypton.Toolkit
             while (item != null)
             {
                 // If we do not have a button to represent this crumb...
-                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton crumbButton))
+                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton? crumbButton))
                 {
                     // Setup the button for drawing as a drop down button if required
                     crumbButton = new ViewDrawButton(_kryptonBreadCrumb.StateDisabled.BreadCrumb,

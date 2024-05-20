@@ -116,7 +116,17 @@ namespace Krypton.Toolkit
         /// <returns>True if transparent areas exist; otherwise false.</returns>
         public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer to evaluate the given palette
             return context!.Renderer.EvalTransparentPaint(_paletteBack, State);
@@ -157,12 +167,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             if (!IgnoreRender)

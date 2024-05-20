@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Overrides CellTemplate
         /// </summary>
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 

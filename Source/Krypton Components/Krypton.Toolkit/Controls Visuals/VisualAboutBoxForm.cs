@@ -85,8 +85,7 @@ namespace Krypton.Toolkit
 
             UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
 
-            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location)
-                .FileDescription);
+            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location!).FileDescription!);
 
             kryptonWrapLabel5.Text = null;
         }
@@ -314,7 +313,7 @@ namespace Krypton.Toolkit
 
             UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
 
-            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription);
+            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription!);
 
             kryptonWrapLabel5.Text = null;
 
@@ -593,7 +592,7 @@ namespace Krypton.Toolkit
                 //FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(file);
 
                 // Fill data grid view
-                kdgvVersions.Rows.Add(assembly.Name, assembly.Version.ToString());
+                kdgvVersions.Rows.Add(assembly.Name!, assembly.Version!.ToString());
             }
         }
 

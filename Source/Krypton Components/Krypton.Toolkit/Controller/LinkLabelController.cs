@@ -59,18 +59,17 @@ namespace Krypton.Toolkit
                                    PaletteContentInheritOverride pressed,
                                    NeedPaintHandler needPaint)
         {
-            Debug.Assert(target != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(target is not null);
 
             // Remember target for state changes
-            _target = target;
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;
             _palettePressed = palettePressed;
             _pressed = pressed;
+            // Store the provided paint notification delegate
+            NeedPaint = needPaint;
 
             // Default other properties
             _clickTime = new DateTime();

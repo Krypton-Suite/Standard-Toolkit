@@ -144,6 +144,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Update the enabled state of the button
             Enabled = _ribbon.Enabled;
 

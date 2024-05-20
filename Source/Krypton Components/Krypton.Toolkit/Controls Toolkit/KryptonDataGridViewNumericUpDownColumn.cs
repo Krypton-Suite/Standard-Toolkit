@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             return cloned;
         }
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewNumericUpDownCell
         /// </summary>
-        private KryptonDataGridViewNumericUpDownCell? NumericUpDownCellTemplate => (KryptonDataGridViewNumericUpDownCell)CellTemplate;
+        private KryptonDataGridViewNumericUpDownCell? NumericUpDownCellTemplate => CellTemplate as KryptonDataGridViewNumericUpDownCell;
 
         #endregion
 

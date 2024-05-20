@@ -62,9 +62,10 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             // Create a new instance
-            var clone = base.Clone() as KryptonDataGridViewLinkColumn;
+            var clone = base.Clone() as KryptonDataGridViewLinkColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
             clone.Text = Text;
             clone.LabelStyle = LabelStyle;
+
             return clone;
         }
         #endregion
@@ -75,18 +76,18 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 
             set
             {
-                if ((value != null) && value is not KryptonDataGridViewLinkCell)
+                if ((value is not null) && value is not KryptonDataGridViewLinkCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
                 }
 
-                base.CellTemplate = value;
+                base.CellTemplate = value as KryptonDataGridViewLinkCell;
             }
         }
 
@@ -144,7 +145,7 @@ namespace Krypton.Toolkit
                 if (_labelStyle != value)
                 {
                     _labelStyle = value;
-                    ((KryptonDataGridViewLinkCell)CellTemplate).LabelStyleInternal = value;
+                    ((KryptonDataGridViewLinkCell)CellTemplate!).LabelStyleInternal = value;
                     // ReSharper disable RedundantBaseQualifier
                     if (base.DataGridView != null)
                     // ReSharper restore RedundantBaseQualifier
@@ -172,12 +173,12 @@ namespace Krypton.Toolkit
         public LinkBehavior LinkBehavior
         {
             get =>
-                ((KryptonDataGridViewLinkCell)CellTemplate)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+                ((KryptonDataGridViewLinkCell)CellTemplate!)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (!LinkBehavior.Equals(value))
                 {
-                    ((KryptonDataGridViewLinkCell)CellTemplate).LinkBehaviorInternal = value;
+                    ((KryptonDataGridViewLinkCell)CellTemplate!).LinkBehaviorInternal = value;
                     // ReSharper disable RedundantBaseQualifier
                     if (base.DataGridView != null)
                     // ReSharper restore RedundantBaseQualifier
@@ -205,12 +206,12 @@ namespace Krypton.Toolkit
         public bool TrackVisitedState
         {
             get =>
-                ((KryptonDataGridViewLinkCell)CellTemplate)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+                ((KryptonDataGridViewLinkCell)CellTemplate!)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (TrackVisitedState != value)
                 {
-                    TrackVisitedStateInternal(CellTemplate, value);
+                    TrackVisitedStateInternal(CellTemplate!, value);
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -236,13 +237,13 @@ namespace Krypton.Toolkit
         public bool UseColumnTextForLinkValue
         {
             get =>
-                ((KryptonDataGridViewLinkCell)CellTemplate)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+                ((KryptonDataGridViewLinkCell)CellTemplate!)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
 
             set
             {
                 if (UseColumnTextForLinkValue != value)
                 {
-                    SetUseColumnTextForLinkValueInternal(CellTemplate, value);
+                    SetUseColumnTextForLinkValueInternal(CellTemplate!, value);
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -265,12 +266,12 @@ namespace Krypton.Toolkit
         private void ColumnCommonChange(int columnIndex)
         {
             // Only need to cache reflection info the first time around
-            if (_miColumnCommonChange == null)
+            if (_miColumnCommonChange is null)
             {
                 // Cache access to the internal method 'OnColumnCommonChange'
                 _miColumnCommonChange = typeof(DataGridView).GetMethod("OnColumnCommonChange", BindingFlags.Instance |
                                                                                                BindingFlags.NonPublic |
-                                                                                               BindingFlags.GetField);
+                                                                                               BindingFlags.GetField)!;
 
             }
 
@@ -280,12 +281,12 @@ namespace Krypton.Toolkit
         private void SetUseColumnTextForLinkValueInternal(object instance, bool value)
         {
             // Only need to cache reflection info the first time around
-            if (_piUseColumnTextForLinkValueInternal == null)
+            if (_piUseColumnTextForLinkValueInternal is null)
             {
                 // Cache access to the internal property sette 'UseColumnTextForLinkValueInternal'
                 _piUseColumnTextForLinkValueInternal = typeof(DataGridViewLinkCell).GetProperty(@"UseColumnTextForLinkValueInternal", BindingFlags.Instance |
-                                                                                                                                     BindingFlags.NonPublic |
-                                                                                                                                     BindingFlags.SetProperty);
+                                                                                                                                      BindingFlags.NonPublic |
+                                                                                                                                      BindingFlags.SetProperty)!;
 
             }
 
@@ -295,12 +296,12 @@ namespace Krypton.Toolkit
         private void TrackVisitedStateInternal(object instance, bool value)
         {
             // Only need to cache reflection info the first time around
-            if (_piTrackVisitedStateInternal == null)
+            if (_piTrackVisitedStateInternal is null)
             {
                 // Cache access to the internal property sette 'TrackVisitedStateInternal'
                 _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(nameof(TrackVisitedStateInternal), BindingFlags.Instance |
-                                                                                                                     BindingFlags.NonPublic |
-                                                                                                                     BindingFlags.SetProperty);
+                                                                                                                           BindingFlags.NonPublic |
+                                                                                                                           BindingFlags.SetProperty)!;
 
             }
 

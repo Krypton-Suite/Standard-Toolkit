@@ -98,12 +98,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
-            DataGridViewCellStyle dataGridViewCellStyle)
+                                                      object? initialFormattedValue,
+                                                      DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonDomainUpDown domainUpDown)
+            if (DataGridView!.EditingControl is KryptonDomainUpDown domainUpDown)
             {
                 domainUpDown.Items.Clear();
                 domainUpDown.ButtonSpecs.Clear();
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -167,7 +167,8 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView.EditingControl as KryptonDataGridViewDomainUpDownEditingControl;
+        private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl 
+            ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

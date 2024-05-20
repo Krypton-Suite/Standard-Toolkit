@@ -32,10 +32,10 @@ namespace Krypton.Toolkit
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {
-            Debug.Assert(inherit != null);
+            Debug.Assert(inherit is not null);
             
             // Remember inheritance for metric values
-            _inherit = inherit;
+            _inherit = inherit ?? throw new ArgumentNullException(nameof(inherit));
         }
         #endregion
 

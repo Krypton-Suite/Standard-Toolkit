@@ -3,6 +3,9 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
+* Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
+* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
 * Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
@@ -49,6 +52,8 @@
     - [#1239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1239), Toasts should behave like a `KryptonMessageBox`
     - [#1240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1240), New fade in/out ability for `KryptonForm`s
         - **Note:** The developer must explicitly enable this feature, as it is turned off by default
+    - [#1281](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1281), Implement User Input Types
+    - [#1291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1291), Make `KryptonToastNotification` RTL Aware
     - [#1292](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1292), `KryptonToastNotification`: Add support for border colouring
 * Resolved [#238](https://github.com/Krypton-Suite/Standard-Toolkit/issues/238), Dark / light Mode themes do not modify the calendar control background
 * Implemented [#139](https://github.com/Krypton-Suite/Standard-Toolkit/issues/139), Themes (via KryptonManager design option) should have option to respect Current Metrics for Form Border widths

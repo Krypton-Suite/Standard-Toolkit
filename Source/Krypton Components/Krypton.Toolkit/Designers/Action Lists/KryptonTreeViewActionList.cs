@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _treeView = (KryptonTreeView)owner.Component;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _treeView.StateCommon.Node.Content.ShortText.Font;
+            get => _treeView.StateCommon.Node.Content.ShortText.Font!;
 
             set
             {
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _treeView.StateCommon.Node.Content.LongText.Font;
+            get => _treeView.StateCommon.Node.Content.LongText.Font!;
 
             set
             {

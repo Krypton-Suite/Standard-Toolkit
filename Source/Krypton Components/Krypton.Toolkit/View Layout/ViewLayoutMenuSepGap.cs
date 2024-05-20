@@ -53,6 +53,11 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Grab the padding used for the text/extra content of a menu item
             Padding paddingText = _standardStyle
                 ? _stateCommon.ItemTextStandard.GetContentPadding(PaletteState.Normal)

@@ -39,8 +39,7 @@ namespace Krypton.Toolkit
             _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // Hook into changes in selected component
-            var service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-            if (service != null)
+            if (GetService(typeof(IComponentChangeService)) is IComponentChangeService service)
             {
                 service.ComponentChanged += OnComponentChanged;
             }
@@ -102,10 +101,8 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Get access to the component change service
-                    var service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-
                     // Must unhook our event from the service so we can be garbage collected
-                    if (service != null)
+                    if (GetService(typeof(IComponentChangeService)) is IComponentChangeService service)
                     {
                         service.ComponentChanged -= OnComponentChanged;
                     }
@@ -152,10 +149,10 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                var descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = entry.Value as PropertyDescriptor;
 
                 // Is this the 'Name' we are searching for?
-                if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
+                if (descriptor is not null && descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
                     var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
@@ -175,10 +172,10 @@ namespace Krypton.Toolkit
             get
             {
                 // If we have a valid Krypton splitter panel instance
-                if (_panel?.Parent != null)
+                if (_panel?.Parent is not null)
                 {
                     // Then get the attribute associated with the parent of the panel
-                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)];
+                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)]!;
                 }
                 else
                 {

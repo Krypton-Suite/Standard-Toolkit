@@ -49,15 +49,15 @@ namespace Krypton.Toolkit
                                        [DisallowNull] ViewDrawMenuLinkLabel linkLabel,
                                        [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(linkLabel != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(linkLabel is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuLinkLabel = linkLabel;
-            NeedPaint = needPaint;
+            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuLinkLabel = linkLabel; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(linkLabel));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

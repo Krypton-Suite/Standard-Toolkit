@@ -46,7 +46,7 @@ namespace Krypton.Navigator
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = ViewManager!.Root as ViewLayoutPageShow;
+            _oldRoot = ViewManager!.Root as ViewLayoutPageShow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ViewManager.Root)));
 
             // Create and initialize all objects
             ViewManager.Root = CreateStackCheckButtonView()!;
@@ -185,10 +185,21 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged([DisallowNull] KryptonPage page, [DisallowNull] string property)
+        public override void PageAppearanceChanged([DisallowNull] KryptonPage page, 
+                                                   [DisallowNull] string property)
         {
-            Debug.Assert(page != null);
-            Debug.Assert(property != null);
+            Debug.Assert(page is not null);
+            Debug.Assert(property is not null);
+
+            if (page is null)
+            {
+                throw new ArgumentNullException(nameof(page));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             // We are only interested if the page is visible
             if (page.LastVisibleSet)

@@ -31,13 +31,28 @@ namespace Krypton.Navigator
         /// <param name="paletteContent">Source for inheriting palette content.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonTabContent([DisallowNull] IPaletteRibbonBack paletteBack,
-            [DisallowNull] IPaletteRibbonText paletteText,
+                                       [DisallowNull] IPaletteRibbonText paletteText,
                                        [DisallowNull] IPaletteContent paletteContent,
                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(paletteBack != null);
-            Debug.Assert(paletteText != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(paletteBack is not null);
+            Debug.Assert(paletteText is not null);
+            Debug.Assert(paletteContent is not null);
+
+            if (paletteBack is null)
+            {
+                throw new ArgumentNullException(nameof(paletteBack));
+            }
+
+            if (paletteText is null)
+            {
+                throw new ArgumentNullException(nameof(paletteText));
+            }
+
+            if (paletteContent is null)
+            {
+                throw new ArgumentNullException(nameof(paletteContent));
+            }
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

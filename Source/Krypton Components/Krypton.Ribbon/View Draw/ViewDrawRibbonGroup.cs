@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private readonly Padding _collapsedImagePadding2010; // = new(3, 1, 5, 5);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private VisualPopupGroup _popupGroup;
+        private VisualPopupGroup? _popupGroup;
         private ViewLayoutDocker _layoutCollapsedMain;
         private ViewDrawRibbonGroupText _viewCollapsedText1;
         private ViewDrawRibbonGroupText _viewCollapsedText2;
@@ -54,9 +54,9 @@ namespace Krypton.Ribbon
         private PaletteRibbonContextBack _paletteContextBorder;
         private PaletteRibbonShape _lastRibbonShape;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable _mementoRibbonBackArea;
-        private IDisposable _mementoRibbonBackBorder;
-        private IDisposable _mementoRibbonBack2;
+        private IDisposable? _mementoRibbonBackArea;
+        private IDisposable? _mementoRibbonBackBorder;
+        private IDisposable? _mementoRibbonBack2;
         private IDisposable? _mementoStandardBack;
         private Control _container;
         private bool _collapsed;
@@ -74,14 +74,14 @@ namespace Krypton.Ribbon
                                    [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                    [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGroup != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGroup is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache source of state specific settings
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Associate this view with the source component (required for design time selection)
             Component = _ribbonGroup;
@@ -249,9 +249,14 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase? current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
+
+            if (current is null)
+            {
+                throw new ArgumentNullException(nameof(current));
+            }
 
             if (Collapsed)
             {
@@ -280,9 +285,14 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
+
+            if (current is null)
+            {
+                throw new ArgumentNullException(nameof(current));
+            }
 
             if (Collapsed)
             {
@@ -493,10 +503,10 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Update the title element with the height of the group title area
             _viewNormalTitle.Height = _ribbon.CalculatedValues.GroupTitleHeight;
@@ -520,7 +530,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // Cache the control that we are showing inside
-            _container = context.Control;
+            _container = context.Control!;
 
             if (Collapsed)
             {
@@ -686,8 +696,13 @@ namespace Krypton.Ribbon
             _layoutCollapsedImagePadding.Add(drawCollapsedImage);
         }
 
-        private void RenderNormalBefore(RenderContext context)
+        private void RenderNormalBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             Rectangle drawRect = ClientRectangle;
 
             IPaletteRibbonBack paletteBackArea;
@@ -770,14 +785,19 @@ namespace Krypton.Ribbon
             _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
-        private void RenderCollapsedBefore(RenderContext context)
+        private void RenderCollapsedBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             Rectangle drawRect = ClientRectangle;
 
             IPaletteRibbonBack paletteBack;
             IPaletteRibbonBack paletteBorder;
 
-            if (_collapsedController.HasFocus)
+            if (_collapsedController!.HasFocus)
             {
                 ElementState = PaletteState.Tracking;
             }
@@ -828,35 +848,40 @@ namespace Krypton.Ribbon
             _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
-        private void RenderCollapsedPressedBefore(RenderContext context)
+        private void RenderCollapsedPressedBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             switch (_lastRibbonShape)
             {
                 default:
                 case PaletteRibbonShape.Office2007:
                     {
-                        IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBack;
-                        IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBorder;
+                        IPaletteBack? paletteBack = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBack;
+                        IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonGroupCollapsedButton.PaletteBorder;
 
                         // Do we need to draw the background?
                         if (paletteBack.GetBackDraw(PaletteState.Pressed) == InheritBool.True)
                         {
                             // Get the border path which the background is clipped to drawing within
-                            using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, PaletteState.Pressed);
-                            Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, PaletteState.Pressed, VisualOrientation.Top);
+                            using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder!, VisualOrientation.Top, PaletteState.Pressed);
+                            Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder!, PaletteState.Pressed, VisualOrientation.Top);
 
                             // Apply the padding depending on the orientation
                             Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                             // Render the background inside the border path
-                            using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                            using var gh = new GraphicsHint(context.Graphics, paletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
                             _mementoStandardBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                                 paletteBack, VisualOrientation.Top,
                                 PaletteState.Pressed, _mementoStandardBack);
                         }
 
                         // Do we need to draw the border?
-                        if (paletteBorder.GetBorderDraw(PaletteState.Pressed) == InheritBool.True)
+                        if (paletteBorder!.GetBorderDraw(PaletteState.Pressed) == InheritBool.True)
                         {
                             context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder,
                                 VisualOrientation.Top, PaletteState.Pressed);

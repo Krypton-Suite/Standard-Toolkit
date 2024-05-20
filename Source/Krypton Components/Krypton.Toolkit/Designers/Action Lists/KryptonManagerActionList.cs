@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _manager = owner.Component as KryptonManager;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService))?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
 
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode GlobalPaletteMode
         {
-            get => _manager.GlobalPaletteMode;
+            get => _manager!.GlobalPaletteMode;
 
             set
             {
-                if (_manager.GlobalPaletteMode != value)
+                if (_manager!.GlobalPaletteMode != value)
                 {
                     _service.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, value);
                     _manager.GlobalPaletteMode = value;
@@ -61,22 +61,18 @@ namespace Krypton.Toolkit
         {
             if (_manager != null)
             {
-                KryptonMessageBoxData data = new KryptonMessageBoxData()
-                {
-                    MessageText =
+                DialogResult result = KryptonMessageBox.Show(
                         @"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
-                    Caption = @"Reset Theme",
-                    Icon = KryptonMessageBoxIcon.Question,
-                    Buttons = KryptonMessageBoxButtons.YesNo
-                };
-
-                DialogResult result = KryptonMessageBox.Show(data);
+                    @"Reset Theme",
+                    KryptonMessageBoxButtons.YesNo,
+                    KryptonMessageBoxIcon.Question
+                );
 
                 if (result == DialogResult.Yes)
                 {
                     _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
 
-                    _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
+                    _service.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
 
                     //UpdateVerbStatus();
                 }

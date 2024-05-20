@@ -41,12 +41,12 @@ namespace Krypton.Ribbon
                                 IRenderer renderer)
             : base(renderer, true)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGroup != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGroup is not null);
 
             // Remember references needed later
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
 
             // Create a view element for drawing the group
             ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)
@@ -159,11 +159,11 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            var matched = false;
-            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView, ref matched);
+            bool matched = false;
+            ViewBase? view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
 
             // Rotate around to the first item
-            if (view == null)
+            if (view is null)
             {
                 SetFirstFocusItem();
             }
@@ -182,8 +182,8 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            var matched = false;
-            ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
+            bool matched = false;
+            ViewBase? view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
 
             // Rotate around to the last item
             if (view == null)
@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Hide focus by giving it to the hidden control.
         /// </summary>
-        public void HideFocus() => _hiddenFocusTarget.Focus();
+        public void HideFocus() => _hiddenFocusTarget?.Focus();
         #endregion
 
         #region Implementation
@@ -363,7 +363,7 @@ namespace Krypton.Ribbon
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Grab the view manager handling the focus view
-            ViewBase focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
+            ViewBase? focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
 
             // When in keyboard mode...
             if (focusView != null)

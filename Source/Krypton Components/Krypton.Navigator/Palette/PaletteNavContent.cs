@@ -301,7 +301,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextFont(PaletteState state) =>
+        public Font? GetContentShortTextFont(PaletteState state) =>
             ShortText.Font ?? _inherit!.GetContentShortTextFont(state);
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextNewFont(PaletteState state) =>
+        public Font? GetContentShortTextNewFont(PaletteState state) =>
             ShortText.Font ?? _inherit!.GetContentShortTextNewFont(state);
 
         /// <summary>
@@ -470,7 +470,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state) =>
+        public Font? GetContentLongTextFont(PaletteState state) =>
             LongText.Font ?? _inherit!.GetContentLongTextFont(state);
 
         /// <summary>
@@ -478,7 +478,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) =>
+        public Font? GetContentLongTextNewFont(PaletteState state) =>
             LongText.Font ?? _inherit!.GetContentLongTextNewFont(state);
 
         /// <summary>

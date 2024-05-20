@@ -30,8 +30,9 @@ namespace Krypton.Ribbon
                                               [DisallowNull] IPaletteRibbonText ribbonRecentDocEntryText)
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonRecentDocEntryText != null);
-            _ribbonRecentDocEntryText = ribbonRecentDocEntryText;
+            Debug.Assert(ribbonRecentDocEntryText is not null);
+            
+            _ribbonRecentDocEntryText = ribbonRecentDocEntryText ?? throw new ArgumentNullException(nameof(ribbonRecentDocEntryText));
         }
         #endregion
 

@@ -56,6 +56,11 @@ namespace Krypton.Toolkit
                                            PaletteContentInheritRedirect redirectItemTextStandard,
                                            PaletteContentInheritRedirect redirectItemTextAlternate)
         {
+            if (redirectItemHighlight is null)
+            {
+                throw new ArgumentNullException(nameof(redirectItemHighlight));
+            }
+
             ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);
             ItemImage = new PaletteTripleJustImage(redirectItemImage);
             ItemShortcutText = new PaletteContentJustShortText(redirectItemShortcutText);

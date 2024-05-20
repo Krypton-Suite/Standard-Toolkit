@@ -56,8 +56,7 @@ namespace Krypton.Toolkit
         /// </returns>
         public override string ToString()
         {
-            Token tok = (Token)Value;
-            if (tok != null)
+            if (Value is Token tok)
             {
                 return tok.Text;
             }
@@ -85,7 +84,7 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle"></param>
         /// <param name="advancedBorderStyle"></param>
         /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates elementState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             float factorX = graphics.DpiX > 96 ? 1f * graphics.DpiX / 96 : 1f;
             float factorY = graphics.DpiY > 96 ? 1f * graphics.DpiY / 96 : 1f;
@@ -93,8 +92,7 @@ namespace Krypton.Toolkit
             int nextPosition = cellBounds.X + (int)(1 * factorX);
             Font? f = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.GridDataCellList, PaletteState.Normal);
 
-            Token tok = (Token)Value;
-            if (tok != null)
+            if (Value is Token tok)
             {
                 Rectangle rectangle = new();
                 Size s = TextRenderer.MeasureText(tok.Text, f);

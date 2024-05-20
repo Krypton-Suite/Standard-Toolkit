@@ -33,8 +33,18 @@ namespace Krypton.Ribbon
                                                       [DisallowNull] IPaletteRibbonText ribbonGroupTextDisabled)
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonGroupTextNormal != null);
-            Debug.Assert(ribbonGroupTextDisabled != null);
+            Debug.Assert(ribbonGroupTextNormal is not null);
+            Debug.Assert(ribbonGroupTextDisabled is not null);
+
+            if (ribbonGroupTextNormal is null)
+            {
+                throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
+            }
+
+            if (ribbonGroupTextDisabled is null)
+            {
+                throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
+            }
 
             _ribbonGroupTextNormal = ribbonGroupTextNormal;
             _ribbonGroupTextDisabled = ribbonGroupTextDisabled;

@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="other">The other.</param>
         /// <returns></returns>
-        public int CompareTo(TextAndImage? other) => Text.CompareTo(other.Text);
+        public int CompareTo(TextAndImage? other) => Text.CompareTo(other!.Text);
 
         #endregion
     }

@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private readonly Padding _borderPaddingVisualStudio2010;
         private readonly Padding _borderPaddingVisualStudio;
         private IPaletteRibbonBack _inherit;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _borderOutside;
         #endregion
 
@@ -39,16 +39,16 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="borderOutside">Should border be placed outside the contents.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon? ribbon,
                                           bool borderOutside,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
             // Remember incoming references
-            Ribbon = ribbon;
-            NeedPaintDelegate = needPaintDelegate;
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            NeedPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _borderOutside = borderOutside;
             _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Do we need to add on our own border size
             if (!_borderOutside)
@@ -169,6 +169,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // If there is a selected tab and it is a context tab use the context specific palette
             if (!string.IsNullOrEmpty(Ribbon.SelectedTab?.ContextName))
             {

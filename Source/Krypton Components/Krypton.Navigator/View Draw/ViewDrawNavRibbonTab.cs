@@ -68,11 +68,11 @@ namespace Krypton.Navigator
         public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator navigator,
                                     [DisallowNull] KryptonPage page)
         {
-            Debug.Assert(navigator != null);
-            Debug.Assert(page != null);
+            Debug.Assert(navigator is not null);
+            Debug.Assert(page is not null);
 
-            Navigator = navigator;
-            Page = page;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            Page = page ?? throw new ArgumentNullException(nameof(page));
             _lastClick = DateTime.Now.AddDays(-1);
 
             // Associate the page component with this view element
@@ -103,8 +103,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create a decorator to interface with the tooltip manager
-            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager!, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager!, this, toolTipController);
 
             // Assign controller for handing mouse input
             MouseController = hoverController;
@@ -345,8 +345,13 @@ namespace Krypton.Navigator
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Ensure we are using the correct palette
             CheckPaletteState(context);
 
@@ -442,9 +447,13 @@ namespace Krypton.Navigator
         {
             Array stateValues = Enum.GetValues(typeof(PaletteState));
 
+            PaletteState? ps;
+
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                ps = stateValues.GetValue(i) as PaletteState?;
+
+                if (ps is not null && ps == state)
                 {
                     return i;
                 }
@@ -459,7 +468,7 @@ namespace Krypton.Navigator
             PaletteState buttonState = State;
 
             // If the actual control is not enabled, force to disabled state
-            if (!IsFixed && !context.Control.Enabled)
+            if (!IsFixed && !context.Control!.Enabled)
             {
                 buttonState = PaletteState.Disabled;
             }

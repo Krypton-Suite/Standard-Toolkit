@@ -47,7 +47,7 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
-    #endregion
+#endregion
 
 #region Internal Resources
 
@@ -79,8 +79,10 @@ global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
+global using Krypton.Toolkit.ResourceFiles.VisualStudio;
+global using Krypton.Toolkit.ResourceFiles.WindowsLogos;
 
-    #endregion
+#endregion
 
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;

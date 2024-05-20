@@ -99,8 +99,8 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private Size _lastLayoutSize;
-        private PaletteBase _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private ViewDrawPanel _drawPanel;
         private SimpleCall _refreshCall;
@@ -108,9 +108,9 @@ namespace Krypton.Toolkit
         // States and redirector
 
         // Cached values for determining cell style overrides
-        private Font _columnFont;
-        private Font _rowFont;
-        private Font _dataCellFont;
+        private Font? _columnFont;
+        private Font? _rowFont;
+        private Font? _dataCellFont;
         private Padding _columnPadding;
         private Padding _rowPadding;
         private Padding _dataCellPadding;
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -545,7 +545,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets or Sets the internal KryptonDataGridView CellOver
@@ -962,7 +962,7 @@ namespace Krypton.Toolkit
             Redirector.Target = _palette;
 
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+            OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -973,7 +973,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -1151,6 +1151,10 @@ namespace Krypton.Toolkit
         /// <param name="e">A DataGridViewCellPaintingEventArgs that contains the event data.</param>
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
         {
+            if ( e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
 
             // Get the palette and state values for this cell
             PaletteState state = GetCellTriple(e.State,
@@ -1163,7 +1167,7 @@ namespace Krypton.Toolkit
             try
             {
                 // If the font we get from the base palette is a system font that is invalid this will throw exception
-                var hContent = _contentInherit.GetContentShortTextFont(state).Height;
+                var hContent = _contentInherit.GetContentShortTextFont(state)!.Height;
             }
             catch
             {
@@ -1175,18 +1179,18 @@ namespace Krypton.Toolkit
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
             var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
-            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics!))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
+                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                     {
                         // Force the border to have a specified maximum border edge
                         _borderForced.SetInherit(paletteBorder);
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
                         // Get the padding used to decide how to draw the background
-                        Padding borderPadding = Renderer.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
+                        Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
 
                         // Get the border path used to limit drawing of the background
                         GraphicsPath borderPath = Renderer.RenderStandardBorder.GetBackPath(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
@@ -1195,7 +1199,7 @@ namespace Krypton.Toolkit
                         Rectangle tempCellBackBounds = CommonHelper.ApplyPadding(VisualOrientation.Top, tempCellBounds, borderPadding);
 
                         // Update the back interceptor class
-                        _backInherit.SetInherit(paletteBack, e.CellStyle);
+                        _backInherit.SetInherit(paletteBack, e.CellStyle!);
                         using var gh = new GraphicsHint(renderContext.Graphics, _borderForced.GetBorderGraphicsHint(PaletteState.Normal));
                         IDisposable? unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
 
@@ -1377,11 +1381,14 @@ namespace Krypton.Toolkit
                             if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                             {
                                 // Blit the image onto the screen
-                                e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
 
                                 //Seb Search highlight 
                                 //Empty _restrictColumnsSearch means highlight everywhere
-                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != nameof(Bitmap))
+                                if (!string.IsNullOrEmpty(_searchString) 
+                                    && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 
+                                    && _restrictColumnsSearch.Contains(e.ColumnIndex))) 
+                                    && e.FormattedValue!.GetType().Name != nameof(Bitmap))
                                 {
                                     var val = (string)e.FormattedValue;
                                     var sindx = val.ToLower().IndexOf(_searchString.ToLower());
@@ -1396,8 +1403,8 @@ namespace Krypton.Toolkit
 
                                         var sBefore = val.Substring(0, sindx);
                                         var sWord = val.Substring(sindx, _searchString.Length);
-                                        Size s1 = TextRenderer.MeasureText(e.Graphics, sBefore, e.CellStyle.Font, e.CellBounds.Size);
-                                        Size s2 = TextRenderer.MeasureText(e.Graphics, sWord, e.CellStyle.Font, e.CellBounds.Size);
+                                        Size s1 = TextRenderer.MeasureText(e.Graphics!, sBefore, e.CellStyle!.Font, e.CellBounds.Size);
+                                        Size s2 = TextRenderer.MeasureText(e.Graphics!, sWord, e.CellStyle.Font, e.CellBounds.Size);
 
                                         if (s1.Width > 5)
                                         {
@@ -1428,7 +1435,7 @@ namespace Krypton.Toolkit
                                                 ? new SolidBrush(Color.DarkGoldenrod)
                                                 : new SolidBrush(Color.Yellow);
 
-                                        e.Graphics.FillRectangle(hl_brush, hl_rect);
+                                        e.Graphics!.FillRectangle(hl_brush, hl_rect);
 
                                         hl_brush.Dispose();
                                         sindx = val.ToLower().IndexOf(_searchString.ToLower(), sCount++);
@@ -1440,7 +1447,7 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Update the content interceptor class
-                                _contentInherit.SetInherit(paletteContent!, e.CellStyle);
+                                _contentInherit.SetInherit(paletteContent!, e.CellStyle!);
 
                                 // Is there any text to be Displayed?
                                 if (e.FormattedValue != null)
@@ -1484,13 +1491,13 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Blit the image onto the screen
-                                e?.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
                             }
                         }
                         else
                         {
                             // Blit the image onto the screen
-                            e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                            e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
                         }
                     }
                 }
@@ -1518,7 +1525,7 @@ namespace Krypton.Toolkit
                                 focusCellBounds.X++;
                             }
 
-                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, GlobalStaticValues.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
+                            ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticValues.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
                         }
                     }
                 }
@@ -1560,7 +1567,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
+                        using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
                         ViewManager.Paint(context);
                     }
 
@@ -1640,7 +1647,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal calculated value of the right to left setting
-                return (bool)_piRTL.GetValue(this, null);
+                return (bool)_piRTL.GetValue(this, null)!;
             }
         }
         #endregion
@@ -2236,7 +2243,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
 
@@ -2270,12 +2277,12 @@ namespace Krypton.Toolkit
                             if ((cell.RowIndex != -1) && (cell.OwningColumn != null))
                             {
                                 if ((cell.OwningColumn.Width < GetCellPreferredWidth(cell)) ||
-                                    (cell.OwningRow.Height < GetCellPreferredHeight(cell)))
+                                    (cell.OwningRow!.Height < GetCellPreferredHeight(cell)))
                                 {
                                     var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                     if (!string.IsNullOrEmpty(editedValue))
                                     {
-                                        _toolTipText = TruncateToolTipText(editedValue);
+                                        _toolTipText = TruncateToolTipText(editedValue ?? string.Empty);
                                     }
                                 }
                             }
@@ -2289,7 +2296,7 @@ namespace Krypton.Toolkit
                                         var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                         if (!string.IsNullOrEmpty(editedValue))
                                         {
-                                            _toolTipText = TruncateToolTipText(editedValue);
+                                            _toolTipText = TruncateToolTipText(editedValue ?? string.Empty);
                                         }
                                     }
                                     catch
@@ -2368,7 +2375,7 @@ namespace Krypton.Toolkit
                     // Create the actual tooltip popup object
                     _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                  new ToolTipContent(_toolTipText),
-                                                                 Renderer,
+                                                                 Renderer!,
                                                                  PaletteBackStyle.ControlToolTip,
                                                                  PaletteBorderStyle.ControlToolTip,
                                                                  PaletteContentStyle.LabelToolTip,
@@ -2450,11 +2457,16 @@ namespace Krypton.Toolkit
             }
 
             // Grab the internal calculated value of the right to left setting
-            return (byte)_piCML.GetValue(cell, null);
+            return (byte)_piCML.GetValue(cell, null)!;
         }
 
-        private int GetCellPreferredWidth(DataGridViewCell? cell)
+        private int GetCellPreferredWidth( [DisallowNull] DataGridViewCell? cell)
         {
+            if ( cell is null )
+            {
+                throw new ArgumentNullException(nameof(cell));
+            }
+
             // Only need to cache reflection info the first time around
             if (_miGPW == null)
             {
@@ -2464,11 +2476,16 @@ namespace Krypton.Toolkit
                                                                                  BindingFlags.GetField)!;
             }
 
-            return (int)_miGPW.Invoke(cell, [cell!.RowIndex, cell.OwningRow.Height]);
+            return (int)_miGPW.Invoke(cell, [cell.RowIndex!, cell.OwningRow!.Height!])!;
         }
 
         private int GetCellPreferredHeight(DataGridViewCell? cell)
         {
+            if (cell is null)
+            {
+                throw new ArgumentNullException(nameof(cell));
+            }
+
             // Only need to cache reflection info the first time around
             if (_miGPH == null)
             {
@@ -2478,7 +2495,7 @@ namespace Krypton.Toolkit
                                                                                   BindingFlags.GetField)!;
             }
 
-            return (int)_miGPH.Invoke(cell, [cell!.RowIndex, cell.OwningColumn.Width]);
+            return (int)_miGPH.Invoke(cell, [cell.RowIndex, cell.OwningColumn!.Width])!;
         }
 
         private string DismissBaseToolTips()
@@ -2506,7 +2523,7 @@ namespace Krypton.Toolkit
             return toolTipText;
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -2596,11 +2613,11 @@ namespace Krypton.Toolkit
                 SyncCellStylesWithPalette();
 
                 // A new palette source means we need to layout and redraw
-                OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+                OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
 
         private void OnSyncPropertyChanged(object sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
@@ -2637,7 +2654,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette())!;
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 

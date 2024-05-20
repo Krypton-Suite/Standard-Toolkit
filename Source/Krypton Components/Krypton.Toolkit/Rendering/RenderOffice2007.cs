@@ -64,8 +64,13 @@ namespace Krypton.Toolkit
                                                    [DisallowNull] IPaletteBack paletteBack,
                                                    PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteBack != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteBack is not null);
+
+            if (paletteBack is null)
+            {
+                throw new ArgumentNullException(nameof(paletteBack));
+            }
 
             // Get the first border color
             Color borderColor = paletteBack.GetBackColor1(state);
@@ -76,7 +81,7 @@ namespace Krypton.Toolkit
 
             // Draw inside of the border edge in a lighter version of the border
             using var drawBrush = new SolidBrush(lightColor);
-            context.Graphics.FillRectangle(drawBrush, displayRect);
+            context!.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
         #endregion
@@ -170,14 +175,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right border lines
-                context.Graphics.DrawLine(cache.BorderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 
                 // Fill the inner area with a gradient context specific color
-                context.Graphics.FillRectangle(cache.FillBrush, cache.FillRect);
+                context.Graphics.FillRectangle(cache.FillBrush!, cache.FillRect);
 
                 // Overdraw the brighter line at bottom
-                context.Graphics.DrawLine(cache.UnderlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.UnderlinePen!, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
             }
 
             return memento;

@@ -180,11 +180,11 @@ namespace Krypton.Toolkit
         /// <summary>Gets the size of the screen.</summary>
         /// <returns></returns>
         public static Size GetScreenSize() =>
-            new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            new Size(Screen.PrimaryScreen!.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
         /// <summary>Gets the working area.</summary>
         /// <returns></returns>
-        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen.WorkingArea;
+        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen!.WorkingArea;
 
         /// <summary>Gets the type of the krypton message box image.</summary>
         /// <param name="iconType">Type of the icon.</param>
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
                 case KryptonMessageBoxIcon.Information:
                     return MessageBoxImageResources.GenericInformation;
                 case KryptonMessageBoxIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         return UACShieldIconResources.UACShieldWindows11;
                     }
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
                         return UACShieldIconResources.UACShieldWindows7881;
                     }
                 case KryptonMessageBoxIcon.WindowsLogo:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         return MessageBoxImageResources.Windows11;
                     }
@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
                 case KryptonToastNotificationIcon.Information:
                     return ToastNotificationImageResources.Toast_Notification_Information_128_x_128;
                 case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         return ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128;
                     }
@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
                         return ScaleImage(SystemIcons.Shield.ToBitmap(), newSize);
                     }
                 case KryptonToastNotificationIcon.WindowsLogo:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         return ToastNotificationImageResources.Toast_Notification_Windows_11_128_x_128;
                     }

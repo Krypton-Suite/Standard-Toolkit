@@ -30,8 +30,8 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly ViewDrawRibbonGroup _viewGroup;
-        private IDisposable _memento1;
-        private IDisposable _memento2;
+        private IDisposable? _memento1;
+        private IDisposable? _memento2;
         private Size _viewSize;
         private int _offsetY;
         #endregion
@@ -43,17 +43,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group definition.</param>
         /// <param name="viewGroup">Reference to top level group element.</param>
-        public ViewDrawRibbonGroupImage([DisallowNull] KryptonRibbon ribbon,
-                                        [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                        [DisallowNull] ViewDrawRibbonGroup viewGroup)
+        public ViewDrawRibbonGroupImage([DisallowNull] KryptonRibbon? ribbon,
+                                        [DisallowNull] KryptonRibbonGroup? ribbonGroup,
+                                        [DisallowNull] ViewDrawRibbonGroup? viewGroup)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
             Debug.Assert(viewGroup != null);
 
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
-            _viewGroup = viewGroup;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
             _viewSize2007 = new Size((int)(30 * FactorDpiX), (int)(31 * FactorDpiY));
             _viewSize2010 = new Size((int)(31 * FactorDpiX), (int)(31 * FactorDpiY));
             _imageSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
@@ -132,8 +132,18 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             IPaletteRibbonBack paletteBorder;
             IPaletteRibbonBack paletteBack;
 
@@ -178,7 +188,7 @@ namespace Krypton.Ribbon
             backRect.Inflate(-1, -1);
 
             // Draw the background for the group image area
-            _memento1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _memento1);
+            _memento1 = context!.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _memento1);
 
             // Draw the border around the group image area
             _memento2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State, paletteBorder, VisualOrientation.Top, _memento2);

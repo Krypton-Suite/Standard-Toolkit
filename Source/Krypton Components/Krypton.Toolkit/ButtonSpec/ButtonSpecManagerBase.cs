@@ -54,32 +54,31 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected ButtonSpecManagerBase([DisallowNull] Control control,
                                         PaletteRedirect redirector,
-                                     ButtonSpecCollectionBase? variableSpecs,
-                                     ButtonSpecCollectionBase? fixedSpecs,
-                                     IPaletteMetric[] viewMetrics,
-                                     PaletteMetricInt[] viewMetricIntOutside,
-                                     PaletteMetricInt[] viewMetricIntInside,
-                                     PaletteMetricPadding[] viewMetricPaddings,
-                                     [DisallowNull] GetToolStripRenderer getRenderer,
-                                     NeedPaintHandler needPaint)
+                                        ButtonSpecCollectionBase? variableSpecs,
+                                        ButtonSpecCollectionBase? fixedSpecs,
+                                        IPaletteMetric[] viewMetrics,
+                                        PaletteMetricInt[] viewMetricIntOutside,
+                                        PaletteMetricInt[] viewMetricIntInside,
+                                        PaletteMetricPadding[] viewMetricPaddings,
+                                        [DisallowNull] GetToolStripRenderer getRenderer,
+                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(control != null);
-            Debug.Assert(redirector != null);
-            Debug.Assert(getRenderer != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(control is not null);
+            // Disabled to remove the warning
+            //Debug.Assert(redirector is not null);
+            Debug.Assert(getRenderer is not null);
 
             // Remember references
-            Control = control!;
-            _redirector = redirector!;
+            Control = control; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(control));
+            _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
             _viewMetrics = viewMetrics;
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(getRenderer));
+            NeedPaint = needPaint;
 
             if (_viewMetrics != null)
             {
@@ -439,7 +438,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
+        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
                 .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
                 .Where(specView => specView.ButtonSpec.Edge == align)
                 .Select(specView => specView.ViewButton))
@@ -451,7 +450,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton? GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                ViewDrawButton current)
         {
             var found = false;
@@ -485,7 +484,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton? GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                    ViewDrawButton current)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
@@ -523,7 +522,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
+        public virtual ViewDrawButton? GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
             _specLookup.Values.CopyTo(specLookups, 0);

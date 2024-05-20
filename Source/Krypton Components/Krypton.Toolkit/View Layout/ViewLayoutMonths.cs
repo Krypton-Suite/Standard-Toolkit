@@ -861,8 +861,13 @@ namespace Krypton.Toolkit
             _visualPopupToolTip = null;
         }
 
-        private Size MaxGridCellDay(ViewLayoutContext context)
+        private Size MaxGridCellDay([DisallowNull] ViewLayoutContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             _shortText = _dayMeasure;
 
             // Find sizes required for the different 
@@ -881,8 +886,13 @@ namespace Krypton.Toolkit
             return normalSize;
         }
 
-        private Size MaxGridCellDayOfWeek(ViewLayoutContext context)
+        private Size MaxGridCellDayOfWeek([DisallowNull] ViewLayoutContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             _shortText = "A";
 
             // Find sizes required for the different 

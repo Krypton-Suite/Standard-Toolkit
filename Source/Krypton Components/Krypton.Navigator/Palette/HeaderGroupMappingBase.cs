@@ -35,7 +35,12 @@ namespace Krypton.Navigator
                                       NeedPaintHandler needPaint)
             : base(needPaint)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
+
+            if (navigator is null)
+            {
+                throw new ArgumentNullException(nameof(navigator));
+            }
 
             // Remember back reference to owning control
             _navigator = navigator;

@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Unhook from any current menu strip
-                if (base.ContextMenuStrip != null)
+                if (base.ContextMenuStrip is not null)
                 {
                     base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
                     base.ContextMenuStrip.Closed -= OnContextMenuClosed;
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Must unhook from the palette paint event
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint -= OnNeedPaint;
                     _palette.ButtonSpecChanged -= OnButtonSpecChanged;
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null;
                 _localPalette = null;
-                if (Redirector != null)
+                if (Redirector is not null)
                 {
                     Redirector.Target = null;
                 }
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
             set
             {
                 // Unhook from any current menu strip
-                if (base.ContextMenuStrip != null)
+                if (base.ContextMenuStrip is not null)
                 {
                     base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
                     base.ContextMenuStrip.Closed -= OnContextMenuClosed;
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
                 base.ContextMenuStrip = value;
 
                 // Hook into the strip being shown (so we can set the correct renderer)
-                if (base.ContextMenuStrip != null)
+                if (base.ContextMenuStrip is not null)
                 {
                     base.ContextMenuStrip.Opening += OnContextMenuStripOpening;
                     base.ContextMenuStrip.Closed += OnContextMenuClosed;
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
             {
                 if (_kryptonContextMenu != value)
                 {
-                    if (_kryptonContextMenu != null)
+                    if (_kryptonContextMenu is not null)
                     {
                         _kryptonContextMenu.Closed -= OnContextMenuClosed;
                         _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed;
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
 
                     _kryptonContextMenu = value;
 
-                    if (_kryptonContextMenu != null)
+                    if (_kryptonContextMenu is not null)
                     {
                         _kryptonContextMenu.Closed += OnContextMenuClosed;
                         _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed;
@@ -484,7 +484,7 @@ namespace Krypton.Toolkit
             if (m.Msg == PI.WM_.CONTEXTMENU)
             {
                 // Only interested in overriding the behaviour when we have a krypton context menu...
-                if (KryptonContextMenu != null)
+                if (KryptonContextMenu is not null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
                     var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
@@ -615,7 +615,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -638,7 +638,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         protected void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
-            Debug.Assert(e != null);
+            Debug.Assert(e is not null);
 
             // Validate incoming reference
             if (e == null)
@@ -723,7 +723,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector.Target = _palette;
+            Redirector!.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
@@ -737,7 +737,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
+            ViewManager is not null && ViewManager.EvalTransparentPaint(Renderer!);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -757,7 +757,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
         {
-            Debug.Assert(e != null);
+            Debug.Assert(e is not null);
 
             // Validate incoming reference
             if (e == null)
@@ -811,7 +811,7 @@ namespace Krypton.Toolkit
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             // If we have a defined context menu then need to check for matching shortcut
-            if (KryptonContextMenu != null)
+            if (KryptonContextMenu is not null)
             {
                 if (KryptonContextMenu.ProcessShortcut(keyData))
                 {
@@ -832,7 +832,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager to use for laying out?
-                if (ViewManager != null)
+                if (ViewManager is not null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
                     var max = 5;
@@ -866,7 +866,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do we have a manager to use for painting?
-                if (ViewManager != null)
+                if (ViewManager is not null)
                 {
                     // If the layout is dirty, or the size of the control has changed 
                     // without a layout being performed, then perform a layout now
@@ -1065,7 +1065,7 @@ namespace Krypton.Toolkit
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint -= OnNeedPaint;
                     _palette.ButtonSpecChanged -= OnButtonSpecChanged;
@@ -1078,7 +1078,7 @@ namespace Krypton.Toolkit
                 Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint += OnNeedPaint;
                     _palette.ButtonSpecChanged += OnButtonSpecChanged;
@@ -1092,10 +1092,10 @@ namespace Krypton.Toolkit
             Control? parent = TransparentParent;
 
             // Do we have a parent control and we need to paint background?
-            if ((parent != null) && NeedTransparentPaint)
+            if ((parent is not null) && NeedTransparentPaint)
             {
                 // Only grab the required reference once
-                if (_miPTB == null)
+                if (_miPTB.Equals(null) /*== null*/)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
@@ -1105,7 +1105,7 @@ namespace Krypton.Toolkit
                                                        null)!;
                 }
 
-                _miPTB?.Invoke(this, [e!, ClientRectangle, null!]);
+                _miPTB.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {
@@ -1147,7 +1147,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector.Target = _palette;
+                Redirector!.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
                 OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
@@ -1164,7 +1164,7 @@ namespace Krypton.Toolkit
             ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            if (cms != null)
+            if (cms is not null)
             {
                 cms.Renderer = CreateToolStripRenderer();
             }

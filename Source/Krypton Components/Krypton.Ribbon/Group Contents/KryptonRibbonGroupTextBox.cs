@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
             };
 
             // Hook into events to expose via this container
-            TextBox.AcceptsTabChanged += OnTextBoxAcceptsTabChanged;
+            TextBox!.AcceptsTabChanged += OnTextBoxAcceptsTabChanged;
             TextBox.TextAlignChanged += OnTextBoxTextAlignChanged;
             TextBox.TextChanged += OnTextBoxTextChanged;
             TextBox.HideSelectionChanged += OnTextBoxHideSelectionChanged;
@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
                 if (TextBox != null)
                 {
                     UnmonitorControl(TextBox);
-                    TextBox.Dispose();
+                    TextBox!.Dispose();
                     TextBox = null;
                 }
             }
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    TextBox.PaletteMode = Ribbon!.PaletteMode;
+                    TextBox!.PaletteMode = Ribbon!.PaletteMode;
                     TextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonTextBox TextBox { get; private set; }
+        public KryptonTextBox? TextBox { get; private set; }
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group text box.
@@ -336,8 +336,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
-            get => TextBox.MinimumSize;
-            set => TextBox.MinimumSize = value;
+            get => TextBox!.MinimumSize;
+            set => TextBox!.MinimumSize = value;
         }
 
         /// <summary>
@@ -348,8 +348,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
-            get => TextBox.MaximumSize;
-            set => TextBox.MaximumSize = value;
+            get => TextBox!.MaximumSize;
+            set => TextBox!.MaximumSize = value;
         }
 
         /// <summary>
@@ -360,8 +360,8 @@ namespace Krypton.Ribbon
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Text
         {
-            get => TextBox.Text;
-            set => TextBox.Text = value;
+            get => TextBox!.Text;
+            set => TextBox!.Text = value;
         }
 
         /// <summary>
@@ -375,8 +375,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string[] Lines
         {
-            get => TextBox.Lines;
-            set => TextBox.Lines = value;
+            get => TextBox!.Lines;
+            set => TextBox!.Lines = value;
         }
 
         /// <summary>
@@ -388,8 +388,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public ScrollBars ScrollBars
         {
-            get => TextBox.ScrollBars;
-            set => TextBox.ScrollBars = value;
+            get => TextBox!.ScrollBars;
+            set => TextBox!.ScrollBars = value;
         }
 
         /// <summary>
@@ -401,8 +401,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
-            get => TextBox.TextAlign;
-            set => TextBox.TextAlign = value;
+            get => TextBox!.TextAlign;
+            set => TextBox!.TextAlign = value;
         }
 
         /// <summary>
@@ -413,8 +413,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public ContextMenuStrip? ContextMenuStrip
         {
-            get => TextBox.ContextMenuStrip;
-            set => TextBox.ContextMenuStrip = value;
+            get => TextBox!.ContextMenuStrip;
+            set => TextBox!.ContextMenuStrip = value;
         }
 
         /// <summary>
@@ -425,8 +425,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => TextBox.KryptonContextMenu;
-            set => TextBox.KryptonContextMenu = value;
+            get => TextBox!.KryptonContextMenu;
+            set => TextBox!.KryptonContextMenu = value;
         }
 
         /// <summary>
@@ -438,8 +438,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public bool WordWrap
         {
-            get => TextBox.WordWrap;
-            set => TextBox.WordWrap = value;
+            get => TextBox!.WordWrap;
+            set => TextBox!.WordWrap = value;
         }
 
         /// <summary>
@@ -452,8 +452,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public bool Multiline
         {
-            get => TextBox.Multiline;
-            set => TextBox.Multiline = value;
+            get => TextBox!.Multiline;
+            set => TextBox!.Multiline = value;
         }
 
         /// <summary>
@@ -464,8 +464,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AcceptsReturn
         {
-            get => TextBox.AcceptsReturn;
-            set => TextBox.AcceptsReturn = value;
+            get => TextBox!.AcceptsReturn;
+            set => TextBox!.AcceptsReturn = value;
         }
 
         /// <summary>
@@ -476,8 +476,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AcceptsTab
         {
-            get => TextBox.AcceptsTab;
-            set => TextBox.AcceptsTab = value;
+            get => TextBox!.AcceptsTab;
+            set => TextBox!.AcceptsTab = value;
         }
 
         /// <summary>
@@ -488,8 +488,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(CharacterCasing), "Normal")]
         public CharacterCasing CharacterCasing
         {
-            get => TextBox.CharacterCasing;
-            set => TextBox.CharacterCasing = value;
+            get => TextBox!.CharacterCasing;
+            set => TextBox!.CharacterCasing = value;
         }
 
         /// <summary>
@@ -500,8 +500,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => TextBox.HideSelection;
-            set => TextBox.HideSelection = value;
+            get => TextBox!.HideSelection;
+            set => TextBox!.HideSelection = value;
         }
 
         /// <summary>
@@ -513,8 +513,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public int MaxLength
         {
-            get => TextBox.MaxLength;
-            set => TextBox.MaxLength = value;
+            get => TextBox!.MaxLength;
+            set => TextBox!.MaxLength = value;
         }
 
         /// <summary>
@@ -526,8 +526,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => TextBox.ReadOnly;
-            set => TextBox.ReadOnly = value;
+            get => TextBox!.ReadOnly;
+            set => TextBox!.ReadOnly = value;
         }
 
         /// <summary>
@@ -538,8 +538,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
-            get => TextBox.ShortcutsEnabled;
-            set => TextBox.ShortcutsEnabled = value;
+            get => TextBox!.ShortcutsEnabled;
+            set => TextBox!.ShortcutsEnabled = value;
         }
 
         /// <summary>
@@ -552,8 +552,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public char PasswordChar
         {
-            get => TextBox.PasswordChar;
-            set => TextBox.PasswordChar = value;
+            get => TextBox!.PasswordChar;
+            set => TextBox!.PasswordChar = value;
         }
 
         /// <summary>
@@ -565,8 +565,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get => TextBox.UseSystemPasswordChar;
-            set => TextBox.UseSystemPasswordChar = value;
+            get => TextBox!.UseSystemPasswordChar;
+            set => TextBox!.UseSystemPasswordChar = value;
         }
 
         /// <summary>
@@ -580,21 +580,21 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         public AutoCompleteStringCollection AutoCompleteCustomSource
         {
-            get => TextBox.AutoCompleteCustomSource;
-            set => TextBox.AutoCompleteCustomSource = value;
+            get => TextBox!.AutoCompleteCustomSource;
+            set => TextBox!.AutoCompleteCustomSource = value;
         }
 
         /// <summary>
-        /// Gets or sets the text completion behavior of the textbox.
+        /// Gets or sets the text completion behavior of the TextBox!.
         /// </summary>
-        [Description(@"Indicates the text completion behavior of the textbox.")]
+        [Description(@"Indicates the text completion behavior of the TextBox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
         {
-            get => TextBox.AutoCompleteMode;
-            set => TextBox.AutoCompleteMode = value;
+            get => TextBox!.AutoCompleteMode;
+            set => TextBox!.AutoCompleteMode = value;
         }
 
         /// <summary>
@@ -606,14 +606,14 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
         {
-            get => TextBox.AutoCompleteSource;
-            set => TextBox.AutoCompleteSource = value;
+            get => TextBox!.AutoCompleteSource;
+            set => TextBox!.AutoCompleteSource = value;
         }
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        public override ToolTipValues ToolTipValues => TextBox.ToolTipValues;
+        public override ToolTipValues ToolTipValues => TextBox!.ToolTipValues;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -623,8 +623,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => TextBox.AllowButtonSpecToolTips;
-            set => TextBox.AllowButtonSpecToolTips = value;
+            get => TextBox!.AllowButtonSpecToolTips;
+            set => TextBox!.AllowButtonSpecToolTips = value;
         }
 
         /// <summary>
@@ -635,8 +635,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
-            get => TextBox.AllowButtonSpecToolTipPriority;
-            set => TextBox.AllowButtonSpecToolTipPriority = value;
+            get => TextBox!.AllowButtonSpecToolTipPriority;
+            set => TextBox!.AllowButtonSpecToolTipPriority = value;
         }
 
         /// <summary>
@@ -645,21 +645,21 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => TextBox.ButtonSpecs;
+        public KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => TextBox!.ButtonSpecs;
 
         /// <summary>
         /// Gets a value indicating whether the user can undo the previous operation in a rich text box control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool CanUndo => TextBox.CanUndo;
+        public bool CanUndo => TextBox!.CanUndo;
 
         /// <summary>
         /// Gets a value indicating whether the contents have changed since last last.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => TextBox.Modified;
+        public bool Modified => TextBox!.Modified;
 
         /// <summary>
         /// Gets and sets the selected text within the control.
@@ -668,8 +668,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedText
         {
-            get => TextBox.SelectedText;
-            set => TextBox.SelectedText = value;
+            get => TextBox!.SelectedText;
+            set => TextBox!.SelectedText = value;
         }
 
         /// <summary>
@@ -679,8 +679,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => TextBox.SelectionLength;
-            set => TextBox.SelectionLength = value;
+            get => TextBox!.SelectionLength;
+            set => TextBox!.SelectionLength = value;
         }
 
         /// <summary>
@@ -690,8 +690,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => TextBox.SelectionStart;
-            set => TextBox.SelectionStart = value;
+            get => TextBox!.SelectionStart;
+            set => TextBox!.SelectionStart = value;
         }
 
         /// <summary>
@@ -699,106 +699,106 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => TextBox.TextLength;
+        public int TextLength => TextBox!.TextLength;
 
         /// <summary>
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => TextBox.AppendText(text);
+        public void AppendText(string text) => TextBox!.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => TextBox.Clear();
+        public void Clear() => TextBox!.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => TextBox.ClearUndo();
+        public void ClearUndo() => TextBox!.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => TextBox.Copy();
+        public void Copy() => TextBox!.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => TextBox.Cut();
+        public void Cut() => TextBox!.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => TextBox.Paste();
+        public void Paste() => TextBox!.Paste();
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => TextBox.ScrollToCaret();
+        public void ScrollToCaret() => TextBox!.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => TextBox.Select(start, length);
+        public void Select(int start, int length) => TextBox!.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => TextBox.SelectAll();
+        public void SelectAll() => TextBox!.SelectAll();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => TextBox.Undo();
+        public void Undo() => TextBox!.Undo();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => TextBox.DeselectAll();
+        public void DeselectAll() => TextBox!.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt) => TextBox.GetCharFromPosition(pt);
+        public int GetCharFromPosition(Point pt) => TextBox!.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt) => TextBox.GetCharIndexFromPosition(pt);
+        public int GetCharIndexFromPosition(Point pt) => TextBox!.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber) => TextBox.GetFirstCharIndexFromLine(lineNumber);
+        public int GetFirstCharIndexFromLine(int lineNumber) => TextBox!.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine() => TextBox.GetFirstCharIndexOfCurrentLine();
+        public int GetFirstCharIndexOfCurrentLine() => TextBox!.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index) => TextBox.GetLineFromCharIndex(index);
+        public int GetLineFromCharIndex(int index) => TextBox!.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index) => TextBox.GetPositionFromCharIndex(index);
+        public Point GetPositionFromCharIndex(int index) => TextBox!.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -1048,8 +1048,8 @@ namespace Krypton.Ribbon
 
         private void OnRibbonPaletteChanged(object sender, EventArgs e)
         {
-            TextBox.PaletteMode = Ribbon!.PaletteMode;
-            TextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+            TextBox!.PaletteMode = Ribbon!.PaletteMode;
+            TextBox.LocalCustomPalette = Ribbon.LocalCustomPalette;
         }
 
         #endregion

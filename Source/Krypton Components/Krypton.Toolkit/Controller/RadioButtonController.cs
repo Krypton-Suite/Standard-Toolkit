@@ -41,15 +41,13 @@ namespace Krypton.Toolkit
                                      [DisallowNull] ViewBase top,
                                      NeedPaintHandler needPaint)
         {
-            Debug.Assert(target != null);
-            Debug.Assert(top != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(target is not null);
+            Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target;
-            _top = top;
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _top = top; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

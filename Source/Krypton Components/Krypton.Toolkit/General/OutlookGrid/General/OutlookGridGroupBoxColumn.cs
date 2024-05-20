@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="other">The OutlookGridGroupBoxColumn to compare with.</param>
         /// <returns>True or False.</returns>
-        public bool Equals(OutlookGridGroupBoxColumn other) => ColumnName!.Equals(other.ColumnName);
+        public bool Equals(OutlookGridGroupBoxColumn? other) => ColumnName!.Equals(other!.ColumnName);
 
         #endregion
     }

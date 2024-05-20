@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
         private int _rowIndex;
         #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
-        public virtual DataGridView EditingControlDataGridView
+        public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
             set => _dataGridView = value;
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
-        public virtual object? EditingControlFormattedValue
+        public virtual object EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
             set => Text = value as string;
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
             if (!_valueChanged)
             {
                 _valueChanged = true;
-                _dataGridView.NotifyCurrentCellDirty(true);
+                _dataGridView?.NotifyCurrentCellDirty(true);
             }
         }
         #endregion

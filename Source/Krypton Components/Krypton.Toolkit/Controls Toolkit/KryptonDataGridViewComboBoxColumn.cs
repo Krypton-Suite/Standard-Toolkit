@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
 
             cloned.Items.AddRange(Items);
 
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 

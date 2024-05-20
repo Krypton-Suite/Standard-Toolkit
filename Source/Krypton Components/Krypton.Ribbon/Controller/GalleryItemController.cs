@@ -43,17 +43,17 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GalleryItemController([DisallowNull] ViewDrawRibbonGalleryItem target,
-                                     [DisallowNull] ViewLayoutRibbonGalleryItems layout,
-                                     NeedPaintHandler needPaint)
+        public GalleryItemController([DisallowNull] ViewDrawRibbonGalleryItem? target,
+                                     [DisallowNull] ViewLayoutRibbonGalleryItems? layout,
+                                     [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(target != null);
-            Debug.Assert(layout != null);
+            Debug.Assert(target is not null);
+            Debug.Assert(layout is not null);
 
             MousePoint = CommonHelper.NullPoint;
-            _target = target;
-            _layout = layout;
-            NeedPaint = needPaint;
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            _layout = layout ?? throw new ArgumentNullException(nameof(layout));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

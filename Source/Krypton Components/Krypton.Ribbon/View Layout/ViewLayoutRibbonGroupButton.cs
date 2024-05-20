@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion

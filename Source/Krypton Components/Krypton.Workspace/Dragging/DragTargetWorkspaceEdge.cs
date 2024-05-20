@@ -72,6 +72,11 @@ namespace Krypton.Workspace
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
         public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
+            if (Workspace is null)
+            {
+                throw new ArgumentNullException(nameof(Workspace));
+            }
+
             // Transfer the dragged pages into a new cell
             var cell = new KryptonWorkspaceCell();
             KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
@@ -90,11 +95,11 @@ namespace Krypton.Workspace
                 {
                     // Create a new sequence and place all existing root items into it
                     var sequence = new KryptonWorkspaceSequence(Workspace.Root.Orientation);
-                    for (var i = Workspace.Root.Children.Count - 1; i >= 0; i--)
+                    for (var i = Workspace.Root.Children!.Count - 1; i >= 0; i--)
                     {
                         Component child = Workspace.Root.Children[i];
                         Workspace.Root.Children.RemoveAt(i);
-                        sequence.Children.Insert(0, child);
+                        sequence.Children!.Insert(0, child);
                     }
 
                     // Put the new sequence in the root so all items are now grouped together
@@ -109,11 +114,11 @@ namespace Krypton.Workspace
                 // Add to the start or the end of the root sequence?
                 if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                 {
-                    Workspace.Root.Children.Insert(0, cell);
+                    Workspace.Root.Children!.Insert(0, cell);
                 }
                 else
                 {
-                    Workspace.Root.Children.Add(cell);
+                    Workspace.Root.Children!.Add(cell);
                 }
 
                 // Make the last page transfer the newly selected page of the cell

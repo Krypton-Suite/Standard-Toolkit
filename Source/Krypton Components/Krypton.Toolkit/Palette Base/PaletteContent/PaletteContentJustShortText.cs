@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteContentJustShortText(IPaletteContent? inherit,
                                            NeedPaintHandler? needPaint)
-            : base(inherit, needPaint)
+            : base(inherit!, needPaint)
         {
         }
         #endregion

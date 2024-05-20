@@ -33,16 +33,18 @@ namespace Krypton.Toolkit
         /// <param name="provider">An IServiceProvider that this editor can use to obtain services.</param>
         /// <param name="value">The object to edit.</param>
         /// <returns>The new value of the object.</returns>
-        public override object? EditValue(ITypeDescriptorContext? context, 
-                                         IServiceProvider? provider, 
-                                         object? value)
+        public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
         {
-            if ((context != null) && (provider != null) && (value != null))
+            // base.EditValue needs a valid reference to provider.
+            if (provider is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(provider)));
+            }
+
+            if ((context is not null) && (value is not null))
             {
                 // Grab the service needed to show the drop down
-                var service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-
-                if (service != null)
+                if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService service)
                 {
                     // Create the custom control used to edit value
                     var selector = new PaletteDrawBordersSelector

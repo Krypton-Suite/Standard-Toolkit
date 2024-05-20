@@ -17,41 +17,49 @@ namespace Krypton.Toolkit
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="startPosition">The start position.</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(FormStartPosition startPosition, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(startPosition, 33, null, null, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="windowTitle">The window title.</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(FormStartPosition startPosition, string windowTitle, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(startPosition, 33, windowTitle, null, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="startIndex">The start index.</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(FormStartPosition startPosition, int startIndex, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(startPosition, startIndex, null, null, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="windowTitle">The window title.</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(string windowTitle, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(FormStartPosition.CenterScreen, 33, windowTitle, null, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="startIndex">The start index.</param>
         /// <param name="windowTitle">The window title.</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(int startIndex, string windowTitle, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(FormStartPosition.CenterScreen, startIndex, windowTitle, null, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">if set to <c>true</c> [show import button].</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(string windowTitle, bool showImportButton, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(FormStartPosition.CenterScreen, 33, windowTitle, showImportButton, null, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">if set to <c>true</c> [show import button].</param>
         /// <param name="showSilentOption">if set to <c>true</c> [show silent option].</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(string windowTitle, bool showImportButton, bool showSilentOption, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(FormStartPosition.CenterScreen, 33, windowTitle, showImportButton, showSilentOption, rightToLeftLayout);
 
         /// <summary>Shows theme browser window.</summary>
         /// <param name="showImportButton">if set to <c>true</c> [show import button].</param>
         /// <param name="showSilentOption">if set to <c>true</c> [show silent option].</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(bool showImportButton, bool showSilentOption, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(FormStartPosition.CenterScreen, 336, null, showImportButton, showSilentOption, rightToLeftLayout);
 
         /// <summary>Shows the theme browser window.</summary>
@@ -60,6 +68,7 @@ namespace Krypton.Toolkit
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">if set to <c>true</c> [show import button].</param>
         /// <param name="showSilentOption">if set to <c>true</c> [show silent option].</param>
+        /// <param name="rightToLeftLayout">RTL window layout.</param>
         public static void Show(FormStartPosition startPosition, int startIndex, string windowTitle, bool showImportButton, bool showSilentOption, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(startPosition, startIndex, windowTitle, showImportButton, showSilentOption, rightToLeftLayout);
         
         #endregion
@@ -67,8 +76,10 @@ namespace Krypton.Toolkit
         #region Implementation
 
         private static void ShowCore(FormStartPosition startPosition,
-                                     int startIndex, string? windowTitle,
-                                     bool? showImportButton, bool? showSilentOption,
+                                     int startIndex, 
+                                     string? windowTitle,
+                                     bool? showImportButton, 
+                                     bool? showSilentOption,
                                      RightToLeftLayout? layout)
         {
             if (layout == RightToLeftLayout.LeftToRight)

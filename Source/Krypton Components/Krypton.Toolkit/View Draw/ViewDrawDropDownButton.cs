@@ -56,10 +56,20 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer for the required size of the drop down button
-            return context!.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
+            return context.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
         }
 
         /// <summary>
@@ -87,12 +97,19 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) =>
-            context.Renderer.RenderGlyph.DrawDropDownButton(context, 
-                ClientRectangle, 
-                Palette, 
+        public override void RenderBefore( [DisallowNull] RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            context.Renderer.RenderGlyph.DrawDropDownButton(context,
+                ClientRectangle,
+                Palette,
                 State,
                 Orientation);
+        }
 
         #endregion
     }

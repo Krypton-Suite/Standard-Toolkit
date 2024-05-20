@@ -226,11 +226,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string themeName)
+        public static PaletteMode? GetThemeManagerMode(string themeName)
         {
             var modeConverter = new PaletteModeConverter();
 
-            return (PaletteMode)modeConverter.ConvertFrom(themeName);
+            return (PaletteMode)modeConverter.ConvertFrom(themeName)!;
         }
 
         /// <summary>Sets the index of the theme.</summary>

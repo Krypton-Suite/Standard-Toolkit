@@ -569,7 +569,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // Get the renderer associated with this palette
-            IRenderer renderer = _palette.GetRenderer();
+            IRenderer renderer = _palette!.GetRenderer();
 
             // Create the rendering context that is passed into all renderer calls
             using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
@@ -599,7 +599,7 @@ namespace Krypton.Toolkit
                        barState))
             {
                 // Ask renderer to draw the background
-                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder.GetBorderGraphicsHint(barState));
+                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
                 _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
                     fullLozengePath, barPaletteState.PaletteBack,
                     Orientation, barState, _mementoBackProgressBar);
@@ -707,7 +707,7 @@ namespace Krypton.Toolkit
 
             // Last of all we draw the content over the top of the border and background
             renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent, _mementoContent,
+                    barPaletteState.PaletteContent!, _mementoContent!,
                     Orientation, barState, false);
 
             base.OnPaint(e);
@@ -818,9 +818,10 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull, MaybeNull]
         public override Image BackgroundImage
         {
-            get => base.BackgroundImage!;
+            get => base.BackgroundImage;
             set => base.BackgroundImage = value;
         }
 
@@ -874,9 +875,12 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get => base.ContextMenuStrip!;
+            // base.ContextMenuStrip ca be null
+
+            get => base.ContextMenuStrip;
             set => base.ContextMenuStrip = value;
         }
 
@@ -892,6 +896,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;

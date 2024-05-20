@@ -16,6 +16,9 @@ namespace Krypton.Toolkit
     /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
+        /// <summary>The default date and time value</summary>
+        public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
+
         /// Used for 'Material' themes
         public const float DEFAULT_MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1f;
 
@@ -355,5 +358,28 @@ namespace Krypton.Toolkit
         /// The group image side size
         /// </summary>
         public static int GroupImageSide = 16;
+
+        #region Methods
+        /// <summary>
+        /// Helper method that returns a generic message when a variable is null.
+        /// </summary>
+        /// <param name="variableName">Name of the variable to be inserted into the text.</param>
+        /// <returns>The message.</returns>
+        public static string VariableCannotBeNull(string variableName) => $"Variable {variableName} cannot be null.";
+
+        /// <summary>
+        /// Helper method that returns a generic message when a property is null.
+        /// </summary>
+        /// <param name="propertyName">Name of the property to be inserted into the text.</param>
+        /// <returns>The message.</returns>
+        public static string PropertyCannotBeNull(string propertyName) => $"Property {propertyName} cannot be null.";
+
+        /// <summary>
+        /// Helper method that returns a generic message when a parameter is null.
+        /// </summary>
+        /// <param name="parameterName">Name of the parameter to be inserted into the text.</param>
+        /// <returns>The message.</returns>
+        public static string ParameterCannotBeNull(string parameterName) => $"Parameter {parameterName} cannot be null.";
+        #endregion
     }
 }

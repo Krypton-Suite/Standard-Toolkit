@@ -114,23 +114,26 @@ namespace Krypton.Workspace
                 }
 
                 // We need to remove all children from the sequence
-                for (var j = _sequence.Children!.Count - 1; j >= 0; j--)
+                for (var j = _sequence!.Children!.Count - 1; j >= 0; j--)
                 {
                     var comp = _sequence.Children[j] as Component;
 
-                    // If the component is a control...
-                    if ((comp is Control control) && (workspace != null))
+                    if (comp is not null)
                     {
-                        // We need to manually remove it from the workspace controls collection
-                        var readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
-                        readOnlyControls.RemoveInternal(control);
+                        // If the component is a control...
+                        if ((comp is Control control) && (workspace != null))
+                        {
+                            // We need to manually remove it from the workspace controls collection
+                            var readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
+                            readOnlyControls.RemoveInternal(control);
+                        }
+
+                        host?.DestroyComponent(comp);
+
+                        // Must remove the child after it has been destroyed otherwise the component destroy method 
+                        // will not be able to climb the sequence chain to find the parent workspace instance
+                        _sequence.Children.Remove(comp);
                     }
-
-                    host?.DestroyComponent(comp);
-
-                    // Must remove the child after it has been destroyed otherwise the component destroy method 
-                    // will not be able to climb the sequence chain to find the parent workspace instance
-                    _sequence.Children.Remove(comp);
                 }
             }
         }

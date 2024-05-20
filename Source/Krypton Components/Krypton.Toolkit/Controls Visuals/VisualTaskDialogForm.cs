@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _messageIcon.Image = TaskDialogImageResources.TaskDialog_Windows_11_Logo;
                         }
@@ -476,7 +476,7 @@ namespace Krypton.Toolkit
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (OSUtilities.IsWindowsEleven)
+                        if (OSUtilities.IsAtLeastWindowsEleven)
                         {
                             _iconFooter.Image = TaskDialogImageResources.TaskDialog_Windows_11_Logo;
                         }

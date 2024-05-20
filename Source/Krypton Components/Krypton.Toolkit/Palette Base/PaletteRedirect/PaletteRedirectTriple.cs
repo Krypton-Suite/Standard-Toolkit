@@ -55,8 +55,8 @@ public class PaletteRedirectTriple : PaletteRedirect
     /// <param name="disabled">Redirection for disabled state requests.</param>
     /// <param name="normal">Redirection for normal state requests.</param>
     public PaletteRedirectTriple(PaletteBase target,
-        IPaletteTriple disabled,
-        IPaletteTriple normal)
+        IPaletteTriple? disabled,
+        IPaletteTriple? normal)
         : this(target, disabled, normal, null, null, null, null, null, null, null)
     {
     }
@@ -69,9 +69,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     /// <param name="normal">Redirection for normal state requests.</param>
     /// <param name="tracking">Redirection for tracking state requests.</param>
     public PaletteRedirectTriple(PaletteBase target,
-        IPaletteTriple disabled,
-        IPaletteTriple normal,
-        IPaletteTriple tracking)
+        IPaletteTriple? disabled,
+        IPaletteTriple? normal,
+        IPaletteTriple? tracking)
         : this(target, disabled, normal, null, tracking, null, null, null, null, null)
     {
     }
@@ -88,13 +88,13 @@ public class PaletteRedirectTriple : PaletteRedirect
     /// <param name="contextPressed">Redirection for context pressed state requests.</param>
     /// <param name="contextTracking">Redirection for context tracking state requests.</param>
     public PaletteRedirectTriple(PaletteBase target,
-        IPaletteTriple disabled,
-        IPaletteTriple normal,
-        IPaletteTriple tracking,
-        IPaletteTriple pressed,
-        IPaletteTriple contextNormal,
-        IPaletteTriple contextPressed,
-        IPaletteTriple contextTracking)
+        IPaletteTriple? disabled,
+        IPaletteTriple? normal,
+        IPaletteTriple? tracking,
+        IPaletteTriple? pressed,
+        IPaletteTriple? contextNormal,
+        IPaletteTriple? contextPressed,
+        IPaletteTriple? contextTracking)
         : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
     {
         _contextNormal = contextNormal;
@@ -113,12 +113,12 @@ public class PaletteRedirectTriple : PaletteRedirect
     /// <param name="selected">Redirection for all checked states.</param>
     /// <param name="focusOverride">Redirection for focus override state requests.</param>
     public PaletteRedirectTriple(PaletteBase target,
-        IPaletteTriple disabled,
-        IPaletteTriple normal,
-        IPaletteTriple pressed,
-        IPaletteTriple tracking,
-        IPaletteTriple selected,
-        IPaletteTriple focusOverride)
+        IPaletteTriple? disabled,
+        IPaletteTriple? normal,
+        IPaletteTriple? pressed,
+        IPaletteTriple? tracking,
+        IPaletteTriple? selected,
+        IPaletteTriple? focusOverride)
         : this(target, disabled, normal, pressed, tracking, selected,
             selected, selected, focusOverride, null)
     {

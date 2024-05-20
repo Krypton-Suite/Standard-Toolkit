@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDataGridViewRedirect([DisallowNull] PaletteRedirect redirect,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
         {
             Debug.Assert(redirect != null);
 
@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _background = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint);
-            _dataCell = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint);
-            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint);
-            _headerRow = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint);
+            _background = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint!);
+            _dataCell = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint!);
+            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint!);
+            _headerRow = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint!);
         }
         #endregion
 

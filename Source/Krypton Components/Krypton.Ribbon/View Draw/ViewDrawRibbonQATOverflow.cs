@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     /// <summary>
     /// Draws the border around the overflow popup of the quick access toolbar.
     /// </summary>
-    internal class ViewDrawRibbonQATOverflow  : ViewComposite
+    internal class ViewDrawRibbonQATOverflow : ViewComposite
     {
         #region Instance Fields
         private readonly Padding _borderPadding; // = new(3);
@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
 
             return preferredSize;
         }
-            
+
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
@@ -118,13 +118,21 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) => _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+        public override void RenderBefore(RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
                                                                     context,
                                                                     ClientRectangle,
                                                                     PaletteState.Normal,
                                                                     _ribbon.StateCommon.RibbonQATOverflow,
                                                                     VisualOrientation.Top,
                                                                     _memento);
+        }
         #endregion
     }
 }

@@ -30,11 +30,11 @@ namespace Krypton.Workspace
         /// <param name="workspace">Associated workspace instance.</param>
         /// <param name="workspaceItem">Associated workspace item.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawWorkspaceSeparator(KryptonWorkspace workspace,
+        public ViewDrawWorkspaceSeparator([DisallowNull] KryptonWorkspace workspace,
                                           IWorkspaceItem workspaceItem,
                                           Orientation orientation)
-            : base(workspace.StateDisabled.Separator, workspace.StateNormal.Separator, workspace.StateTracking, workspace.StatePressed,
-                   workspace.StateDisabled.Separator, workspace.StateNormal.Separator, workspace.StateTracking, workspace.StatePressed,
+            : base(workspace.StateDisabled.Separator!, workspace.StateNormal.Separator!, workspace.StateTracking, workspace.StatePressed,
+                   workspace.StateDisabled.Separator!, workspace.StateNormal.Separator!, workspace.StateTracking, workspace.StatePressed,
                    CommonHelper.SeparatorStyleToMetricPadding(workspace.SeparatorStyle), orientation)
         {
             _workspace = workspace;

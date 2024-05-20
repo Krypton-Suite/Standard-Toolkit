@@ -55,9 +55,9 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        internal bool ReturnValue;
+        internal bool ReturnValue => kchkDoNotShowAgain.Checked;
 
-        internal CheckState ReturnCheckBoxStateValue;
+        internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
 
         #endregion 
 
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsWindowsEleven)
+                    if (OSUtilities.IsAtLeastWindowsEleven)
                     {
                         SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
                     }
@@ -192,8 +192,8 @@ namespace Krypton.Toolkit
         private void UpdateLocation()
         {
             //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
-                Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
+                Screen.PrimaryScreen!.WorkingArea.Height - Height - 5);
         }
 
         private void VisualToastNotificationBasicWithProgressBarForm_Load(object sender, EventArgs e)
@@ -245,12 +245,6 @@ namespace Krypton.Toolkit
 
             ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
-
-        private void kchkDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
-            => ReturnValue = kchkDoNotShowAgain.Checked;
-
-        private void kchkDoNotShowAgain_CheckStateChanged(object sender, EventArgs e)
-            => ReturnCheckBoxStateValue = kchkDoNotShowAgain.CheckState;
 
         private void UpdateProgressBarText() => kpbCountDown.Text = _basicToastNotificationData.ShowCountDownSecondsOnProgressBar ? $@"{_basicToastNotificationData.CountDownSeconds - _time}" : string.Empty;
 
@@ -357,9 +351,7 @@ namespace Krypton.Toolkit
         {
             using var toast = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
 
-            return toast.ShowDialog() == DialogResult.OK
-                ? toast.ReturnValue
-                : false;
+            return toast.ShowDialog() == DialogResult.OK && toast.ReturnValue;
         }
 
         internal static CheckState InternalShowWithCheckStateReturnValue(KryptonBasicToastNotificationData toastNotificationData)

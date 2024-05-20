@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDouble(IPaletteDouble inherit,
-                             NeedPaintHandler needPaint)
+                             NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
             _back = new PaletteBack(inherit.PaletteBack, needPaint);
-            _border = new PaletteBorder(inherit.PaletteBorder, needPaint);
+            _border = new PaletteBorder(inherit.PaletteBorder!, needPaint);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteDouble inherit)
         {
             _back.SetInherit(inherit.PaletteBack);
-            _border.SetInherit(inherit.PaletteBorder);
+            _border.SetInherit(inherit.PaletteBorder!);
         }
         #endregion
 

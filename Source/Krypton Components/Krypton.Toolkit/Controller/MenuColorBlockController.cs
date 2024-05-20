@@ -48,15 +48,15 @@ namespace Krypton.Toolkit
                                         [DisallowNull] ViewDrawMenuColorBlock colorBlock,
                                         [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(colorBlock != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(colorBlock is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuColorBlock = colorBlock;
-            NeedPaint = needPaint;
+            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuColorBlock = colorBlock; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(colorBlock));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Set initial display state
             UpdateTarget();

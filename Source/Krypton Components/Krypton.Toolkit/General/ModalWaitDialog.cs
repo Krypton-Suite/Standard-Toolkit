@@ -165,21 +165,10 @@ namespace Krypton.Toolkit
             // Prevent mouse messages from activating any application windows
             if (m.Msg is >= 0x0200 and <= 0x0209 or >= 0x00A0 and <= 0x00A9)
             {
-                // Discover target control for message
-                if (FromHandle(m.HWnd) != null)
-                {
-                    // Find the form that the control is inside
-                    Form? f = FromHandle(m.HWnd).FindForm();
-
-                    // If the message is for this dialog then let it be dispatched
-                    if ((f != null) && (f == this))
-                    {
-                        return false;
-                    }
-                }
-
-                // Eat message to prevent dispatch
-                return true;
+                // If the message is for this dialog then let it be dispatched
+                return (FromHandle(m.HWnd)?.FindForm() is Form f && f == this)
+                    ? false // Dispatch the message
+                    : true; // Eat message to prevent dispatch
             }
             else
             {

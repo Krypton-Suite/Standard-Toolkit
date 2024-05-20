@@ -637,10 +637,10 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
-            if (owner != null)
+            if (owner is not null)
             {
                 // Update owner with our dialog result setting
                 owner.DialogResult = DialogResult;
@@ -737,7 +737,7 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case nameof(Text):
                 case @"ExtraText":

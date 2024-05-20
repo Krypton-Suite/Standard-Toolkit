@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _panel = owner.Component as KryptonPanel;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
         }
         #endregion
         
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle PanelBackStyle
         {
-            get => _panel.PanelBackStyle;
+            get => _panel!.PanelBackStyle;
 
             set 
             {
-                if (_panel.PanelBackStyle != value)
+                if (_panel!.PanelBackStyle != value)
                 {
                     _service.OnComponentChanged(_panel, null, _panel.PanelBackStyle, value);
                     _panel.PanelBackStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _panel.PaletteMode;
+            get => _panel!.PaletteMode;
 
             set 
             {
-                if (_panel.PaletteMode != value)
+                if (_panel!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_panel, null, _panel.PaletteMode, value);
                     _panel.PaletteMode = value;

@@ -81,6 +81,12 @@
         </Compile>
         <Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
         <Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
+        <Compile Update="Controls Visuals\RTL Aware\VisualMessageBoxRtlAwareFormDep.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="Controls Visuals\VisualMessageBoxFormDep.cs">
+          <SubType>Form</SubType>
+        </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
             <SubType>Component</SubType>
@@ -462,6 +468,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs" />
     </ItemGroup>
@@ -869,6 +880,10 @@
         <EmbeddedResource Update="ResourceFiles\VisualStudio\VisualStudioImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>

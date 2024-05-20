@@ -572,13 +572,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask the element to draw now
-                using (var renderContext = new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
+                using (RenderContext renderContext = new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
                 {
                     // Ask the button element to draw itself
                     _viewButton.Render(renderContext);
 
                     // Call the renderer directly to draw the drop down glyph
-                    renderContext.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(renderContext,
+                    renderContext.Renderer!.RenderGlyph.DrawInputControlDropDownGlyph(renderContext,
                                                                                      _viewButton.ClientRectangle,
                                                                                      _palette.PaletteContent,
                                                                                      state);
@@ -1357,7 +1357,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        public override string? Text
+        [AllowNull]
+        public override string Text
         {
             get => _comboBox.Text;
             set => _comboBox.Text = value;
@@ -1407,7 +1408,8 @@ namespace Krypton.Toolkit
         public object? SelectedValue
         {
             get => _comboBox.SelectedValue;
-            set => _comboBox.SelectedValue = value;
+            //null forgiving operator used, to remove the warning
+            set => _comboBox.SelectedValue = value!;
         }
 
         /// <summary>
@@ -2805,7 +2807,7 @@ namespace Krypton.Toolkit
                             {
                                 _hoverIndex = e.Index;
                                 // Raise the Hover event
-                                var ev = new HoveredSelectionChangedEventArgs(e.Bounds, e.Index, Items[e.Index]);
+                                var ev = new HoveredSelectionChangedEventArgs(e.Bounds, e.Index, Items[e.Index]!);
                                 OnHoverSelectionChanged(ev);
                             }
                         }

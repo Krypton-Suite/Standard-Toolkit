@@ -7,6 +7,9 @@
  */
 #endregion
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using System;
+
 namespace Krypton.Toolkit
 {
     /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
@@ -44,7 +47,7 @@ namespace Krypton.Toolkit
         {
             if (assembly != null)
             {
-                Version assemblyVersion = assembly.GetName().Version;
+                Version assemblyVersion = assembly.GetName().Version!;
 
                 DateTime dateTime;
 
@@ -54,9 +57,12 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
+                    dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion!.Build).AddSeconds(assemblyVersion.Revision * 2);
 
-                    if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
+                     // if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
+                     // Timezone is deprecated and replaces by TimeZoneInfo
+
+                    if (TimeZoneInfo.Local.IsDaylightSavingTime(dateTime))
                     {
                         dateTime = dateTime.AddHours(1);
                     }
@@ -174,7 +180,13 @@ namespace Krypton.Toolkit
             // codebase
             try
             {
-                nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
+                // Warning SYSLIB0012 'Assembly.EscapedCodeBase' is obsolete:
+                // 'Assembly.CodeBase and Assembly.EscapedCodeBase are only included for .NET Framework compatibility.
+                // Use Assembly.Location.' Krypton.Toolkit 2022(net6.0 - windows), Krypton.Toolkit 2022(net8.0 - windows), Krypton.Toolkit 2022(net9.0 - windows)
+                //nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
+
+                string? s = assembly.Location.Replace("file:///", "");
+                nvc.Add("CodeBase",  s is not null ? s : string.Empty );
             }
             catch (NotSupportedException)
             {
@@ -203,13 +215,13 @@ namespace Krypton.Toolkit
             // version
             try
             {
-                if (assembly.GetName().Version.Major == 0 && assembly.GetName().Version.Minor == 0)
+                if (assembly.GetName().Version!.Major == 0 && assembly.GetName().Version!.Minor == 0)
                 {
                     nvc.Add("Version", "(unknown)");
                 }
                 else
                 {
-                    nvc.Add("Version", assembly.GetName().Version.ToString());
+                    nvc.Add("Version", assembly.GetName().Version!.ToString());
                 }
             }
             catch (Exception)
@@ -230,13 +242,16 @@ namespace Krypton.Toolkit
 
             Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.ImageRuntimeVersion}", assembly.ImageRuntimeVersion);
 
-            Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.LoadedFromGlobalAssemblyCache}", $@"{assembly.GlobalAssemblyCache}");
+            // Global assembly cache APIs are obsolete
+            // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/global-assembly-cache-apis-obsolete
+            // Statement below commented out to remove the corresponding warning.
+            // Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.LoadedFromGlobalAssemblyCache}", $@"{assembly.GlobalAssemblyCache}");
 
             NameValueCollection collection = AssemblyAttribs(assembly);
 
             foreach (string key in collection)
             {
-                Populate(assemblyData, key, collection[key]);
+                Populate(assemblyData, key, collection[key]!);
             }
         }
 
@@ -246,13 +261,13 @@ namespace Krypton.Toolkit
         {
             AppDomain domain = AppDomain.CurrentDomain;
 
-            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
 
-            string executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            string executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
 
-            string callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
+            string callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name!;
 
-            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name!);
 
             Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationBase, Assembly.GetEntryAssembly()!.Location);
 
@@ -273,37 +288,37 @@ namespace Krypton.Toolkit
 
             Populate(dataStore, string.Empty, string.Empty);
 
-            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName!);
 
-            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName!);
 
-            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName!);
         }
 
         public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
         {
-            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 PopulateAssemblySummary(assembly, dataStore, assemblyList);
             }
 
-            assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName);
+            assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName!);
         }
 
         private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)
         {
             NameValueCollection collection = AssemblyAttribs(assembly);
 
-            string assemblyName = assembly.GetName().Name;
+            string assemblyName = assembly.GetName().Name!;
 
             foreach (var value in collection)
             {
                 dataStore.Rows.Add(value);
             }
 
-            assemblyItems.Items.Add(assemblyName);
+            assemblyItems.Items.Add(assemblyName!);
         }
 
         public static FileVersionInfo GetFileVersionInfo(string assemblyLocation)

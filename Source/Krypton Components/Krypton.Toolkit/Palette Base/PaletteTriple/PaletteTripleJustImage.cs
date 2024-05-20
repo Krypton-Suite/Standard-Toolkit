@@ -34,17 +34,23 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteTripleJustImage([DisallowNull] IPaletteTriple inherit,
-                                      NeedPaintHandler needPaint)
+                                      NeedPaintHandler? needPaint)
         {
-            Debug.Assert(inherit != null);
+            Debug.Assert(inherit is not null);
+
+            //TEST-NoThrow
+            //if (inherit is null)
+            //{
+            //    throw new ArgumentNullException(nameof(inherit));
+            //}
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
             Back = new PaletteBack(inherit.PaletteBack, needPaint);
-            Border = new PaletteBorder(inherit.PaletteBorder, needPaint);
-            Content = new PaletteContentJustImage(inherit.PaletteContent, needPaint);
+            Border = new PaletteBorder(inherit.PaletteBorder!, needPaint);
+            Content = new PaletteContentJustImage(inherit.PaletteContent!, needPaint);
         }
         #endregion
 
@@ -67,8 +73,8 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteTriple inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
-            Border.SetInherit(inherit.PaletteBorder);
-            Content.SetInherit(inherit.PaletteContent);
+            Border.SetInherit(inherit.PaletteBorder!);
+            Content.SetInherit(inherit.PaletteContent!);
         }
         #endregion
 

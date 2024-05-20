@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allow Krypton to be improved by getting help from users
         /// </summary>
-        public static Exception NotImplemented(string outOfRange,
+        public static Exception NotImplemented(string? outOfRange,
             [CallerFilePath] string callingFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string? callingMethod = "")

@@ -9,6 +9,7 @@
 	* [Canary](#canary)
 	* [Stable](#stable)
 	* [Documentation](#documentation)
+	    * [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
 	* [Package Support Information](#package-support-information)
 		* [Release Cadence](#release-cadence)
 		* [Package Descriptions](#package-descriptions)
@@ -23,6 +24,7 @@
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
 		* [`KryptonInputBox`](#kryptoninputbox)
+		* [Building the Toolkit](#building-the-toolkit)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -103,6 +105,10 @@ If you require the full API reference, you can download the latest version by cl
 
 <a href="https://github.com/Krypton-Suite/Help-Files/releases"><img src="https://img.shields.io/badge/Documentation-API Reference-9cf.svg?style=flat-square" alt="API Reference" /></a>
 
+#### Contributing to the Standard Toolkit
+
+If you are interested in contributing to the Standard Toolkit, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Contributing-Guidelines.md) first.
+
 =======
 
 ## Package Support Information
@@ -179,6 +185,13 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
+- [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
+- and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
+  - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
+  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the winform `MessageBox`
+  - And a start of the introduction of the `KryptonMessageDialog` implementation of the UWP `MessageDialog`
+- [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+  - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
 - [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
     - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
     - `RibbonAppButton` has become `RibbonFileAppButton` 
@@ -212,10 +225,13 @@ As of V90.##, support for .NET 6 and 7 has been removed due to their release cad
 Some properties previously found in the root such as, `ShowSplitOption`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
 
 ### API Changes
-If using `KryptonAboutToolkit`, please note that this has been superceeded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
+If using `KryptonAboutToolkit`, please note that this has been superceded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
 
 ### `KryptonInputBox`
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
+
+### Building the Toolkit
+As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Allowing-for-Longer-Path-and-File-Names.md).
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version

@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupColorButton _ribbonColorButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -41,15 +41,15 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonColorButton">Group color button to display title for.</param>
         /// <param name="firstText">Should show the first button text.</param>
-        public ViewDrawRibbonGroupColorButtonText([DisallowNull] KryptonRibbon ribbon,
-                                                  [DisallowNull] KryptonRibbonGroupColorButton ribbonColorButton,
+        public ViewDrawRibbonGroupColorButtonText([DisallowNull] KryptonRibbon? ribbon,
+                                                  [DisallowNull] KryptonRibbonGroupColorButton? ribbonColorButton,
                                                   bool firstText)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonColorButton != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonColorButton is not null);
 
-            _ribbon = ribbon;
-            _ribbonColorButton = ribbonColorButton;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
@@ -103,12 +103,17 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // A change in state always causes a size and layout calculation
@@ -149,10 +154,20 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -196,8 +211,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             Rectangle drawRect = ClientRectangle;
 
             // Adjust the client rect so the text has enough room to be drawn

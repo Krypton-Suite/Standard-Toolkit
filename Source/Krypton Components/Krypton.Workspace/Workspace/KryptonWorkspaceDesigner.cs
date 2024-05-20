@@ -127,7 +127,9 @@ namespace Krypton.Workspace
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our workspace is being removed
-            if (e.Component.Equals(_workspace))
+            if (e is not null 
+                && e.Component is not null 
+                && e.Component.Equals(_workspace))
             {
                 // Prevent layout being performed during removal of children otherwise the layout
                 // code will cause the controls to be added back before they are actually destroyed

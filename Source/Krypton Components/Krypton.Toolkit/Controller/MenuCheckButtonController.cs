@@ -49,15 +49,15 @@ namespace Krypton.Toolkit
                                          [DisallowNull] ViewDrawMenuCheckButton checkButton,
                                          [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(checkButton != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(checkButton is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuCheckButton = checkButton;
-            NeedPaint = needPaint;
+            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuCheckButton = checkButton; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkButton));
+            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Set initial display state
             UpdateTarget();

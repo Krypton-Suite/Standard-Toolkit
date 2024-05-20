@@ -65,49 +65,53 @@ namespace Krypton.Toolkit
         /// <param name="cellStyle"></param>
         /// <param name="advancedBorderStyle"></param>
         /// <param name="paintParts"></param>
-        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value, object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
         {
             //Draw the bar
             int barWidth;
-            if ((double)value >= 1.0)
-            {
-                barWidth = cellBounds.Width - 10;
-            }
-            else
-            {
-                barWidth = (int)((cellBounds.Width - 10) * (double)value);
-            }
 
-            if ((double)value > 0 && barWidth > 0)
+            if (value is not null)
             {
-                Rectangle r = new(cellBounds.X + 3, cellBounds.Y + 3, barWidth, cellBounds.Height - 8);
-
-                using (LinearGradientBrush linearBrush = new(r, KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), KryptonManager.CurrentGlobalPalette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), LinearGradientMode.Vertical))
+                if ((double)value >= 1.0)
                 {
-                    graphics.FillRectangle(linearBrush, r);
+                    barWidth = cellBounds.Width - 10;
+                }
+                else
+                {
+                    barWidth = (int)((cellBounds.Width - 10) * (double)value);
                 }
 
-                using (Pen pen = new(KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.GridHeaderColumnList, PaletteState.Normal)))
+                if ((double)value > 0 && barWidth > 0)
                 {
-                    graphics.DrawRectangle(pen, r);
+                    Rectangle r = new(cellBounds.X + 3, cellBounds.Y + 3, barWidth, cellBounds.Height - 8);
+
+                    using (LinearGradientBrush linearBrush = new(r, KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), KryptonManager.CurrentGlobalPalette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal), LinearGradientMode.Vertical))
+                    {
+                        graphics.FillRectangle(linearBrush, r);
+                    }
+
+                    using (Pen pen = new(KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.GridHeaderColumnList, PaletteState.Normal)))
+                    {
+                        graphics.DrawRectangle(pen, r);
+                    }
+
+                    //TODO : implement customization like conditional formatting
+                    //using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, Color.FromArgb(255, 140, 197, 66), Color.FromArgb(255, 247, 251, 242), LinearGradientMode.Horizontal))
+                    //{
+                    //    graphics.FillRectangle(linearBrush, r);
+                    //}
+
+                    //using (Pen pen = new Pen(Color.FromArgb(255, 140, 197, 66)))
+                    //{
+                    //    graphics.DrawRectangle(pen, r);
+
+                    //}
                 }
 
-                //TODO : implement customization like conditional formatting
-                //using (LinearGradientBrush linearBrush = new LinearGradientBrush(r, Color.FromArgb(255, 140, 197, 66), Color.FromArgb(255, 247, 251, 242), LinearGradientMode.Horizontal))
-                //{
-                //    graphics.FillRectangle(linearBrush, r);
-                //}
-
-                //using (Pen pen = new Pen(Color.FromArgb(255, 140, 197, 66)))
-                //{
-                //    graphics.DrawRectangle(pen, r);
-
-                //}
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle,
+                    DataGridViewPaintParts.None | DataGridViewPaintParts.ContentForeground);
             }
-
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle,
-                DataGridViewPaintParts.None | DataGridViewPaintParts.ContentForeground);
         }
 
         #endregion

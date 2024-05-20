@@ -118,10 +118,14 @@ namespace Krypton.Toolkit
             // Shortcut
             if (KryptonContextMenuItem.ShowShortcutKeys)
             {
-                var shortcutString = KryptonContextMenuItem.ShortcutKeyDisplayString;
+                string shortcutString = KryptonContextMenuItem.ShortcutKeyDisplayString;
                 if (string.IsNullOrEmpty(shortcutString))
                 {
-                    shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) : string.Empty;
+                    shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) 
+                        ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) is string s
+                            ? s
+                            : string.Empty
+                        : string.Empty;
                 }
 
                 if (shortcutString.Length > 0)

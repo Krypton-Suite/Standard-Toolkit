@@ -7,12 +7,10 @@
  */
 #endregion
 
-using ContentAlignment = System.Drawing.ContentAlignment;
-
 namespace Krypton.Toolkit
 {
     /// <summary>A structure that contains basic information for <see cref="VisualMessageBoxForm"/>.</summary>
-    public struct KryptonMessageBoxData
+    public struct KryptonMessageBoxDataDep
     {
         #region Public
 
@@ -26,7 +24,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the window caption.</summary>
         /// <value>The window caption.</value>
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
 
         /// <summary>Gets or sets the buttons.</summary>
         /// <value>The buttons.</value>
@@ -62,7 +60,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the application path.</summary>
         /// <value>The application path.</value>
-        public string? ApplicationPath { get; set; }
+        public string? ExtractIconFromFilePath { get; set; }
 
         /// <summary>Gets or sets the type of the message content area.</summary>
         /// <value>The type of the message content area.</value>
@@ -79,10 +77,6 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the content link area.</summary>
         /// <value>The content link area.</value>
         public LinkArea? ContentLinkArea { get; set; }
-
-        /// <summary>Gets or sets the message text alignment.</summary>
-        /// <value>The message text alignment.</value>
-        public ContentAlignment? MessageTextAlignment { get; set; }
 
         /// <summary>Gets or sets the force use of operating system icons.</summary>
         /// <value>Forces the use of operating system icons.</value>
@@ -108,8 +102,8 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxData" /> struct.</summary>
-        public KryptonMessageBoxData()
+        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxDataDep" /> struct.</summary>
+        public KryptonMessageBoxDataDep()
         {
             ShowCloseButton = true;
         }
