@@ -17,7 +17,11 @@ namespace Krypton.Toolkit
 
         private bool _isDismissButton;
 
-        private VisualToastNotificationBasicForm? _basicToast;
+        private string _processPath;
+
+        private VisualToastNotificationBaseForm? _owner;
+
+        private KryptonToastNotificationResult _notificationResult;
 
         #endregion
 
@@ -31,6 +35,8 @@ namespace Krypton.Toolkit
             {
                 _isActionButton = value;
 
+                Anchor = AnchorStyles.Left;
+
                 Invalidate();
             }
         }
@@ -43,15 +49,49 @@ namespace Krypton.Toolkit
             {
                 _isDismissButton = value;
 
+                Anchor = AnchorStyles.Right;
+
                 Invalidate();
             }
         }
 
-        public VisualToastNotificationBasicForm? BasicToastForm
+        public string ProcessPath
         {
-            get => _basicToast;
+            get => _processPath;
 
-            set => _basicToast = value;
+            set => _processPath = value;
+        }
+
+        public VisualToastNotificationBaseForm? Owner
+        {
+            get => _owner;
+
+            set => _owner = value;
+        }
+
+        public KryptonToastNotificationResult NotificationResult
+        {
+            get => _notificationResult;
+
+            set => _notificationResult = value;
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AnchorStyles Anchor
+        {
+            get => base.Anchor;
+
+            set => base.Anchor = value;
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new DialogResult DialogResult
+        {
+            get => base.DialogResult;
+
+            set => base.DialogResult = value;
         }
 
         #endregion
@@ -65,7 +105,20 @@ namespace Krypton.Toolkit
 
             _isDismissButton = false;
 
-            _basicToast = null;
+            _processPath = string.Empty;
+
+            _owner = null;
+
+            _notificationResult = KryptonToastNotificationResult.None;
+
+            Text = @"{0} ({1})";
+
+            Anchor = AnchorStyles.Right;
+
+            AutoSize = true;
+
+            // Use 10 pixels for padding
+            Margin = new Padding(GlobalStaticValues.DEFAULT_PADDING);
         }
 
         #endregion
@@ -78,9 +131,9 @@ namespace Krypton.Toolkit
             {
                 _isActionButton = false;
 
-                if (_basicToast != null)
+                if (_owner is not null)
                 {
-                    _basicToast.AcceptButton = this;
+                    _owner.AcceptButton = this;
                 }
             }
 
@@ -89,14 +142,21 @@ namespace Krypton.Toolkit
 
         protected override void OnClick(EventArgs e)
         {
-            if (_isActionButton && _basicToast != null /*&& _basicToast.ActionButtonCommand != null*/)
+            if (_isDismissButton && _owner != null)
             {
-                //_basicToast.ActionButtonCommand.PerformExecute();
+                _owner.Close();
             }
 
-            if (_isDismissButton)
+            if (_isActionButton && _owner != null)
             {
-                _basicToast?.Close();
+                if (!string.IsNullOrEmpty(_processPath))
+                {
+                    LaunchProcess(_processPath);
+                }
+                else
+                {
+                    _owner.Close();
+                }
             }
 
             base.OnClick(e);
@@ -109,6 +169,53 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override IKryptonCommand? KryptonCommand { get; set; }
+
+        #endregion
+
+        #region Protected Overrides
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            if (_isDismissButton && _owner != null)
+            {
+                _owner.Close();
+            }
+
+            if (_isActionButton && _owner != null)
+            {
+                if (!string.IsNullOrEmpty(_processPath))
+                {
+                    LaunchProcess(_processPath);
+                }
+                else
+                {
+                    _owner.Close();
+                }
+            }
+
+            base.OnMouseClick(e);
+        }
+
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        {
+            base.OnNeedPaint(sender, e);
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void LaunchProcess(string processPath)
+        {
+            try
+            {
+                Process.Start(processPath);
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+        }
 
         #endregion
     }
