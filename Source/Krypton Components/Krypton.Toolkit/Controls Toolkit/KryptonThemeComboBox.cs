@@ -103,8 +103,10 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
+        /// <summary>Gets or sets the manager.</summary>
+        /// <value>The manager.</value>
         [Category(@"Data")]
-        [Description(@"")]
+        [Description(@"The `KryptonManager` which is in control.")]
         [DefaultValue(null)]
         public KryptonManager? Manager
         {
@@ -239,6 +241,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             //nullable operator removed
@@ -295,6 +298,7 @@ namespace Krypton.Toolkit
             set => base.AutoCompleteCustomSource = value;
         }
 
+        /// <summary>Gets and sets the selected index.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int SelectedIndex { get => base.SelectedIndex; set => base.SelectedIndex = value; }

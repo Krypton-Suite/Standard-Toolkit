@@ -60,16 +60,57 @@ namespace Krypton.Toolkit
 
         protected KryptonToastNotificationResult ShowToastNotificationResult(IWin32Window? owner)
         {
-            throw new NotImplementedException();
+            var result = _notificationResult;
+
+            switch (result)
+            {
+                case KryptonToastNotificationResult.None:
+                    DialogResult = DialogResult.None;
+                    break;
+                case KryptonToastNotificationResult.Ok:
+                    break;
+                case KryptonToastNotificationResult.Cancel:
+                    break;
+                case KryptonToastNotificationResult.Abort:
+                    break;
+                case KryptonToastNotificationResult.Retry:
+                    break;
+                case KryptonToastNotificationResult.Ignore:
+                    break;
+                case KryptonToastNotificationResult.Yes:
+                    break;
+                case KryptonToastNotificationResult.No:
+                    break;
+                case KryptonToastNotificationResult.Close:
+                    break;
+                case KryptonToastNotificationResult.Help:
+                    break;
+                case KryptonToastNotificationResult.TryAgain:
+                    break;
+                case KryptonToastNotificationResult.Continue:
+                    break;
+                case KryptonToastNotificationResult.TimeOut:
+                    break;
+                case KryptonToastNotificationResult.DoNotShowAgain:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return result;
         }
 
         protected KryptonToastNotificationResult ShowToastNotificationResult() => ShowToastNotificationResult(null);
 
         #endregion
 
+        #region Implementation
+
         private void VisualToastNotificationBaseForm_Load(object sender, EventArgs e)
         {
 
         }
+
+        #endregion
     }
 }

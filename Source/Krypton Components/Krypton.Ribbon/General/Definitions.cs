@@ -169,8 +169,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Return base objects tooltip
         /// </summary>
-        ToolTipValues ToolTipValues 
-        { 
+        ToolTipValues ToolTipValues
+        {
             // Return base objects tooltip
             get;
         }
