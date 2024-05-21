@@ -1,4 +1,4 @@
-﻿#region BSD License
+﻿    #region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -151,6 +151,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override DataGridViewCellStyle DefaultCellStyle
         {
+            // base.DefaultCellStyle will take a null value and handle it.
+            // [NotNull] if the base getter encounters a null value it will always return a DefaultCellStyle
+
             get => base.DefaultCellStyle;
 
             set

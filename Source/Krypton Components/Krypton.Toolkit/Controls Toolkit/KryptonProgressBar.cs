@@ -392,6 +392,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
+            // Values.Text can be set to null
+            // The getter will always return a string
+
             get => Values.Text;
 
             set
@@ -878,9 +881,7 @@ namespace Krypton.Toolkit
         [AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
-            // base.ContextMenuStrip ca be null
-
-            get => base.ContextMenuStrip;
+            get => base.ContextMenuStrip!;
             set => base.ContextMenuStrip = value;
         }
 
@@ -899,6 +900,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override Font Font
         {
+            // base.Font will always return a Font
+            // base can take null as a value
+
             get => base.Font;
             set => base.Font = value;
         }

@@ -17,12 +17,30 @@ namespace Krypton.Toolkit
     [DefaultProperty("Heading")]
     [Designer(typeof(KryptonCommandLinkButtonDesigner))]
     [DesignerCategory("code")]
+#if NET6_0
+#pragma warning disable CS0618
+#endif
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
+#if NET6_0
+#pragma warning restore CS0618
+#endif
     [DisplayName("Krypton Command Link")]
     [Description("A Krypton Command Link Button.")]
     [ComVisible(true)]
     public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     {
+        // [ClassInterface(ClassInterfaceType.AutoDispatch)]
+        // generates warning CS0618:
+        //      'ClassInterfaceType.AutoDispatch' is obsolete: 'Support for IDispatch may be unavailable in future releases.'
+        //      Krypton.Toolkit 2022 (net6.0-windows)
+        //
+        // Only for net6.0 and not for newer releases.
+        //
+        // Therefore the warning has been disabled for NET 6.0, since it has only been marked as obsolete in future releases
+        // but does seems to remain supported in contrast to the warning
+        //
+        // May it become marked obsolete in future releases new warnings will appear.
+
         #region Static Fields
 
         private const int BCM_SETSHIELD = 0x0000160C;
