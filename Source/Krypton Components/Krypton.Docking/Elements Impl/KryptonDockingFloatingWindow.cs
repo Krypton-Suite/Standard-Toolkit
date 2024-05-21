@@ -185,7 +185,7 @@ namespace Krypton.Docking
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
             xmlWriter.WriteAttributeString(@"C", Count.ToString());
-            xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location)!);
+            xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location));
             xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize));
 
             // Output an element per child
@@ -214,7 +214,7 @@ namespace Krypton.Docking
         {
             // Grab the requested size and location
             Point location = CommonHelper.StringToPoint(xmlReader.GetAttribute(@"L"));
-            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S")!);
+            Size clientSize = CommonHelper.StringToSize(xmlReader.GetAttribute(@"S"));
 
             // Find the size of the floating window borders
             var hBorders = FloatingWindow.Width - FloatingWindow.ClientSize.Width;

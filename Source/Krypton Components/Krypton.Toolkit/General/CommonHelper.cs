@@ -1495,22 +1495,26 @@ namespace Krypton.Toolkit
         /// Convert a Size to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
-        /// <returns>Culture invariant string representation.</returns>
-        public static string? SizeToString(Size s) => _sc.ConvertToInvariantString(s);
+        /// <returns>Culture invariant string representation. String.Empty if the conversion failed.</returns>
+        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s) is string str
+            ? str
+            : string.Empty;
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
         /// </summary>
         /// <param name="s">String to convert.</param>
-        /// <returns>Size value.</returns>
-        public static Size StringToSize(string s) => (Size)_sc.ConvertFromInvariantString(s)!;
+        /// <returns>Size value. If s is null, Size(0, 0) is returned.</returns>
+        public static Size StringToSize(string? s) => s is not null && _sc.ConvertFromInvariantString(s) is Size size
+            ? size
+            : new Size(0, 0);
 
         /// <summary>
         /// Convert a Point to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string? PointToString(Point s) => _pc.ConvertToInvariantString(s);
+        public static string PointToString(Point s) => _pc.ConvertToInvariantString(s) ?? string.Empty;
 
         /// <summary>
         /// Convert a culture invariant string value to a Point.
