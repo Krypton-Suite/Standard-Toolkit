@@ -2367,7 +2367,7 @@ namespace Krypton.Ribbon
 
         internal KeyTipInfoList GenerateKeyTipsForSelectedTab()
         {
-            // Make sure all the elements in current tab have been synched 
+            // Make sure all the elements in current tab have been synced 
             // and created so that the generated contents are accurate
             Refresh();
 

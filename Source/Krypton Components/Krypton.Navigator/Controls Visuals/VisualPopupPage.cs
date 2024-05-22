@@ -11,7 +11,6 @@
 #endregion
 
 // ReSharper disable RedundantNullableFlowAttribute
-using static System.Windows.Forms.AxHost;
 
 namespace Krypton.Navigator
 {
