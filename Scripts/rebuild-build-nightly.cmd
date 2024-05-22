@@ -9,6 +9,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 
 pause
+goto exitbatch
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -60,3 +61,5 @@ if %answer%==n exit
 cd ..
 
 run.cmd
+
+:exitbatch
