@@ -93,19 +93,20 @@ namespace TestForm
                 SandBoxGridColumn.ColumnToken
             };
 
-            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[10]
+            DataGridViewColumn[] columnsToAdd = new DataGridViewColumn[10]
             {
-            SetupColumn(SandBoxGridColumn.ColumnCustomerId),
-            SetupColumn(SandBoxGridColumn.ColumnCustomerName),
-            SetupColumn(SandBoxGridColumn.ColumnAddress),
-            SetupColumn(SandBoxGridColumn.ColumnCity),
-            SetupColumn(SandBoxGridColumn.ColumnCountry),
-            SetupColumn(SandBoxGridColumn.ColumnOrderDate),
-            SetupColumn(SandBoxGridColumn.ColumnProduct),
-            SetupColumn(SandBoxGridColumn.ColumnPrice),
-            SetupColumn(SandBoxGridColumn.SatisfactionColumn),
-            SetupColumn(SandBoxGridColumn.ColumnToken)
-        };
+                SetupColumn(SandBoxGridColumn.ColumnCustomerId),
+                SetupColumn(SandBoxGridColumn.ColumnCustomerName),
+                SetupColumn(SandBoxGridColumn.ColumnAddress),
+                SetupColumn(SandBoxGridColumn.ColumnCity),
+                SetupColumn(SandBoxGridColumn.ColumnCountry),
+                SetupColumn(SandBoxGridColumn.ColumnOrderDate),
+                SetupColumn(SandBoxGridColumn.ColumnProduct),
+                SetupColumn(SandBoxGridColumn.ColumnPrice),
+                SetupColumn(SandBoxGridColumn.SatisfactionColumn),
+                SetupColumn(SandBoxGridColumn.ColumnToken)
+            };
+
             grid.Columns.AddRange(columnsToAdd);
 
             //Define the columns for a possible grouping
@@ -151,7 +152,7 @@ namespace TestForm
 
             //Initialize
             int nbColsInFile = doc.XPathSelectElements("//Column").Count();
-            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[nbColsInFile];
+            DataGridViewColumn[] columnsToAdd = new DataGridViewColumn[nbColsInFile];
             SandBoxGridColumn[] enumCols = new SandBoxGridColumn[nbColsInFile];
             OutlookGridColumn[] outlookColumnsToAdd = new OutlookGridColumn[columnsToAdd.Length];
             SortedList<int, int> hash = new SortedList<int, int>();// (DisplayIndex , Index)
@@ -293,7 +294,7 @@ namespace TestForm
         /// </summary>
         /// <param name="colType"></param>
         /// <returns></returns>
-        private DataGridViewColumn? SetupColumn(SandBoxGridColumn colType)
+        private DataGridViewColumn SetupColumn(SandBoxGridColumn colType)
         {
             DataGridViewColumn? column;
             switch (colType)
