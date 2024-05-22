@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.9. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 2.0. Please select an option below.
 
 @echo ==============================================================================================
 
