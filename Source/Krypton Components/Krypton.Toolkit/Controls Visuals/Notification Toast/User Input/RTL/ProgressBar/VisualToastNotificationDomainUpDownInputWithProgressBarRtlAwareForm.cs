@@ -11,7 +11,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm : VisualToastNotificationBaseForm
+    internal partial class VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm : VisualToastNotificationBaseForm
     {
         #region Instance Fields
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm(KryptonUserInputToastNotificationData data)
+        public VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
 
             GotFocus += (sender, args) => kdudUserInput.Focus();
 
-            Resize += VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm_Resize;
+            Resize += VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_Resize;
 
             UpdateBorderColors();
         }
@@ -187,7 +187,9 @@ namespace Krypton.Toolkit
             ControlBox = _data.ShowCloseBox ?? false;
         }
 
-        private void VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm_Resize(object sender, EventArgs e)
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
+        private void VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -195,7 +197,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm_Load(object sender, EventArgs e)
+        private void VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
 
@@ -205,10 +207,12 @@ namespace Krypton.Toolkit
 
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+
             _timer.Start();
         }
 
-        private void VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm_LocationChanged(object sender, EventArgs e) => UpdateLocation();
+        private void VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_LocationChanged(object sender, EventArgs e) => UpdateLocation();
 
         public new DialogResult ShowDialog()
         {
@@ -300,7 +304,7 @@ namespace Krypton.Toolkit
         {
             var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
 
-            using var toast = new VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm(data);
+            using var toast = new VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm(data);
 
             if (owner != null)
             {
