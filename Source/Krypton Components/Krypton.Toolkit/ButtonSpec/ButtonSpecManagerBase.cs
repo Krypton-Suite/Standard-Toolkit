@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         private readonly PaletteMetricPadding[] _viewMetricPaddings;
         private readonly ListSpacers[] _viewSpacers;
         private readonly ButtonSpecLookup _specLookup;
-        private readonly GetToolStripRenderer _getRenderer;
+        private readonly GetToolStripRenderer? _getRenderer;
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected ButtonSpecManagerBase([DisallowNull] Control control,
+        protected ButtonSpecManagerBase(Control control,
                                         PaletteRedirect redirector,
                                         ButtonSpecCollectionBase? variableSpecs,
                                         ButtonSpecCollectionBase? fixedSpecs,
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
                                         PaletteMetricInt[] viewMetricIntOutside,
                                         PaletteMetricInt[] viewMetricIntInside,
                                         PaletteMetricPadding[] viewMetricPaddings,
-                                        [DisallowNull] GetToolStripRenderer getRenderer,
+                                        GetToolStripRenderer? getRenderer,
                                         NeedPaintHandler needPaint)
         {
             Debug.Assert(control is not null);
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning control.
         /// </summary>
-        public Control Control { get; }
+        public Control? Control { get; }
 
         /// <summary>
         /// Gets and sets the associated tooltip manager.
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
         /// Get a tool strip renderer appropriate for the hosting control.
         /// </summary>
         /// <returns></returns>
-        public ToolStripRenderer RenderToolStrip() => _getRenderer();
+        public ToolStripRenderer? RenderToolStrip() => _getRenderer?.Invoke();
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.

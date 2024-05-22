@@ -40,16 +40,18 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxController([DisallowNull] ViewDrawCheckBox target,
-                                  [DisallowNull] ViewBase top,
+        public CheckBoxController(ViewDrawCheckBox target,
+                                  ViewBase top,
                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(target is not null);
             Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _top = top; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _top = top!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
             NeedPaint = needPaint;
         }
         #endregion

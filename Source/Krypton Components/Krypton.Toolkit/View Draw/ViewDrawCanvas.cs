@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         internal IPaletteBack? _paletteBack;
         internal IPaletteBorder? _paletteBorder;
-        internal IPaletteMetric _paletteMetric;
+        internal IPaletteMetric? _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
         private IDisposable? _mementoBack;
         private PaletteBorderInheritForced? _borderForced;
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric PaletteMetric
+        public IPaletteMetric? PaletteMetric
         {
             [DebuggerStepThrough]
             get => _paletteMetric;

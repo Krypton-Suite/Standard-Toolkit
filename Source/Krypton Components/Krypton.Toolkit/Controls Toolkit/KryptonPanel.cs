@@ -54,18 +54,20 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel([DisallowNull] PaletteDoubleRedirect stateCommon,
-                            [DisallowNull] PaletteDouble stateDisabled,
-                            [DisallowNull] PaletteDouble stateNormal)
+        public KryptonPanel(PaletteDoubleRedirect stateCommon,
+                            PaletteDouble stateDisabled,
+                            PaletteDouble stateNormal)
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(stateCommon is not null);
             Debug.Assert(stateDisabled is not null);
             Debug.Assert(stateNormal is not null);
 
             // Remember the palette storage
-            _stateCommon = stateCommon; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateCommon)));
+            _stateCommon = stateCommon!; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateCommon)));
             _stateDisabled = stateDisabled; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateDisabled)));
             _stateNormal = stateNormal; //TEST-NoThrow ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(stateNormal)));
 

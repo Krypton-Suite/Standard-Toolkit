@@ -28,18 +28,11 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="element">Element value.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteElementColorRedirect(PaletteRedirect? redirect,
+        public PaletteElementColorRedirect(PaletteRedirect redirect,
                                            PaletteElement element,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
             : base(null, needPaint)
         {
-
-            //TEST-NoThrow
-            //if (redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
-
             // Setup inheritance to recover values from the redirect instance
             _redirect = new PaletteElementColorInheritRedirect(redirect, element);
             SetInherit(_redirect);

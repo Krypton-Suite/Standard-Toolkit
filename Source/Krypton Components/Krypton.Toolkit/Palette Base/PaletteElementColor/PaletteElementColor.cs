@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <param name="inheritElementColor">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
         public PaletteElementColor(IPaletteElementColor? inheritElementColor,
-                                   NeedPaintHandler needPaint) 
+                                   NeedPaintHandler? needPaint) 
         {
             // Remember inheritance
             _inheritElementColor = inheritElementColor;

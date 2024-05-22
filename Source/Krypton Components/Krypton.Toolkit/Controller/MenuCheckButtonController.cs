@@ -44,19 +44,21 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="checkButton">Drawing element that owns check button display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuCheckButtonController([DisallowNull] ViewContextMenuManager viewManager,
-                                         [DisallowNull] ViewBase target,
-                                         [DisallowNull] ViewDrawMenuCheckButton checkButton,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public MenuCheckButtonController(ViewContextMenuManager viewManager,
+                                         ViewBase target,
+                                         ViewDrawMenuCheckButton checkButton,
+                                         NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(target is not null);
             Debug.Assert(checkButton is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuCheckButton = checkButton; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkButton));
+            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuCheckButton = checkButton!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkButton));
             NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Set initial display state

@@ -44,19 +44,21 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="linkLabel">Drawing element that owns link label display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuLinkLabelController([DisallowNull] ViewContextMenuManager viewManager,
-                                       [DisallowNull] ViewDrawContent target,
-                                       [DisallowNull] ViewDrawMenuLinkLabel linkLabel,
-                                       [DisallowNull] NeedPaintHandler needPaint)
+        public MenuLinkLabelController(ViewContextMenuManager viewManager,
+                                       ViewDrawContent target,
+                                       ViewDrawMenuLinkLabel linkLabel,
+                                       NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(target is not null);
             Debug.Assert(linkLabel is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuLinkLabel = linkLabel; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(linkLabel));
+            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuLinkLabel = linkLabel!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(linkLabel));
             NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
