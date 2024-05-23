@@ -40,7 +40,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=build.log /bl
 
 @echo Build Completed: %date% %time% %zone%
 
