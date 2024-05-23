@@ -7,6 +7,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
 
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
+goto exitbatch
 
 goto end
 
@@ -39,7 +40,7 @@ echo Started: %date% %time% %zone%
 echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log /bl
 
 echo Build Completed: %date% %time% %zone%
 
@@ -61,3 +62,5 @@ run.cmd
 
 :end
 pause
+
+:exitbatch
