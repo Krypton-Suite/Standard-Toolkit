@@ -188,6 +188,8 @@ namespace Krypton.Toolkit
             ControlBox = _data.ShowCloseBox ?? false;
         }
 
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
         private void VisualToastNotificationComboBoxUserInputWithProgressBarRtlAwareForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
@@ -197,6 +199,8 @@ namespace Krypton.Toolkit
             ShowCloseButton();
 
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
             _timer.Start();
 

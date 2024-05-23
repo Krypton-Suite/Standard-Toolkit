@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                     case KryptonToastNotificationInputAreaType.ComboBox:
                         return VisualToastNotificationComboBoxUserInputWithProgressBarRtlAwareForm.ShowNotification(data);
                     case KryptonToastNotificationInputAreaType.DomainUpDown:
-                        return VisualToastNotificationDomianUpDownInputWithProgressBarRtlAwareForm.ShowNotification(data);
+                        return VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm.ShowNotification(data);
                     case KryptonToastNotificationInputAreaType.MaskedTextBox:
                         return VisualToastNotificationMaskedTextBoxInputWithProgressBarRtlAwareForm.ShowNotification(data);
                     case KryptonToastNotificationInputAreaType.TextBox:

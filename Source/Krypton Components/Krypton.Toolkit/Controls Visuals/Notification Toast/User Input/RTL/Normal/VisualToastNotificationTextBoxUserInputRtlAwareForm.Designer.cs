@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.kbtnDismiss = new Krypton.Toolkit.KryptonButton();
+            this.klblToastLocation = new Krypton.Toolkit.KryptonLabel();
+            this.kchkDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
+            this.itbDismiss = new Krypton.Toolkit.InternalToastButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
@@ -40,13 +45,9 @@
             this.ktxtUserInput = new Krypton.Toolkit.KryptonTextBox();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.kbtnDismiss = new Krypton.Toolkit.KryptonButton();
-            this.klblToastLocation = new Krypton.Toolkit.KryptonLabel();
-            this.kchkDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
-            this.itbDismiss = new Krypton.Toolkit.InternalToastButton();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
             this.kpnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -55,7 +56,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbxNotificationIcon)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
             this.tlpMain.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // kpnlButtons
@@ -68,6 +68,76 @@
             this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kpnlButtons.Size = new System.Drawing.Size(614, 50);
             this.kpnlButtons.TabIndex = 6;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.kbtnDismiss, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.klblToastLocation, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.kchkDoNotShowAgain, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.itbDismiss, 3, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 1);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(614, 49);
+            this.tableLayoutPanel2.TabIndex = 5;
+            // 
+            // kbtnDismiss
+            // 
+            this.kbtnDismiss.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.kbtnDismiss.AutoSize = true;
+            this.kbtnDismiss.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.kbtnDismiss.Location = new System.Drawing.Point(78, 13);
+            this.kbtnDismiss.Margin = new System.Windows.Forms.Padding(10);
+            this.kbtnDismiss.Name = "kbtnDismiss";
+            this.kbtnDismiss.Size = new System.Drawing.Size(48, 22);
+            this.kbtnDismiss.TabIndex = 2;
+            this.kbtnDismiss.Values.Text = "{0} ({1})";
+            this.kbtnDismiss.Visible = false;
+            // 
+            // klblToastLocation
+            // 
+            this.klblToastLocation.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.klblToastLocation.Location = new System.Drawing.Point(533, 23);
+            this.klblToastLocation.Margin = new System.Windows.Forms.Padding(10);
+            this.klblToastLocation.Name = "klblToastLocation";
+            this.klblToastLocation.Size = new System.Drawing.Size(6, 2);
+            this.klblToastLocation.TabIndex = 3;
+            this.klblToastLocation.Values.Text = "";
+            // 
+            // kchkDoNotShowAgain
+            // 
+            this.kchkDoNotShowAgain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kchkDoNotShowAgain.Location = new System.Drawing.Point(559, 10);
+            this.kchkDoNotShowAgain.Margin = new System.Windows.Forms.Padding(10);
+            this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
+            this.kchkDoNotShowAgain.Size = new System.Drawing.Size(45, 29);
+            this.kchkDoNotShowAgain.TabIndex = 4;
+            this.kchkDoNotShowAgain.Values.Text = "CB1";
+            this.kchkDoNotShowAgain.Visible = false;
+            // 
+            // itbDismiss
+            // 
+            this.itbDismiss.AutoSize = true;
+            this.itbDismiss.IsActionButton = false;
+            this.itbDismiss.IsDismissButton = true;
+            this.itbDismiss.Location = new System.Drawing.Point(10, 13);
+            this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
+            this.itbDismiss.Name = "itbDismiss";
+            this.itbDismiss.NotificationResult = Krypton.Toolkit.KryptonToastNotificationResult.None;
+            this.itbDismiss.Owner = null;
+            this.itbDismiss.ProcessPath = "";
+            this.itbDismiss.Size = new System.Drawing.Size(48, 22);
+            this.itbDismiss.TabIndex = 5;
+            this.itbDismiss.Values.Text = "{0} ({1})";
+            this.itbDismiss.Click += new System.EventHandler(this.itbDismiss_Click);
             // 
             // kryptonBorderEdge1
             // 
@@ -202,75 +272,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(608, 321);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.kbtnDismiss, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.klblToastLocation, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.kchkDoNotShowAgain, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.itbDismiss, 3, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 1);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(614, 49);
-            this.tableLayoutPanel2.TabIndex = 5;
-            // 
-            // kbtnDismiss
-            // 
-            this.kbtnDismiss.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.kbtnDismiss.AutoSize = true;
-            this.kbtnDismiss.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnDismiss.Location = new System.Drawing.Point(78, 13);
-            this.kbtnDismiss.Margin = new System.Windows.Forms.Padding(10);
-            this.kbtnDismiss.Name = "kbtnDismiss";
-            this.kbtnDismiss.Size = new System.Drawing.Size(48, 22);
-            this.kbtnDismiss.TabIndex = 2;
-            this.kbtnDismiss.Values.Text = "{0} ({1})";
-            this.kbtnDismiss.Visible = false;
-            // 
-            // klblToastLocation
-            // 
-            this.klblToastLocation.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.klblToastLocation.Location = new System.Drawing.Point(533, 23);
-            this.klblToastLocation.Margin = new System.Windows.Forms.Padding(10);
-            this.klblToastLocation.Name = "klblToastLocation";
-            this.klblToastLocation.Size = new System.Drawing.Size(6, 2);
-            this.klblToastLocation.TabIndex = 3;
-            this.klblToastLocation.Values.Text = "";
-            // 
-            // kchkDoNotShowAgain
-            // 
-            this.kchkDoNotShowAgain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kchkDoNotShowAgain.Location = new System.Drawing.Point(559, 10);
-            this.kchkDoNotShowAgain.Margin = new System.Windows.Forms.Padding(10);
-            this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
-            this.kchkDoNotShowAgain.Size = new System.Drawing.Size(45, 29);
-            this.kchkDoNotShowAgain.TabIndex = 4;
-            this.kchkDoNotShowAgain.Values.Text = "CB1";
-            this.kchkDoNotShowAgain.Visible = false;
-            // 
-            // itbDismiss
-            // 
-            this.itbDismiss.AutoSize = true;
-            this.itbDismiss.IsActionButton = false;
-            this.itbDismiss.IsDismissButton = true;
-            this.itbDismiss.Location = new System.Drawing.Point(10, 13);
-            this.itbDismiss.Margin = new System.Windows.Forms.Padding(10);
-            this.itbDismiss.Name = "itbDismiss";
-            this.itbDismiss.NotificationResult = Krypton.Toolkit.KryptonToastNotificationResult.None;
-            this.itbDismiss.Owner = null;
-            this.itbDismiss.ProcessPath = "";
-            this.itbDismiss.Size = new System.Drawing.Size(48, 22);
-            this.itbDismiss.TabIndex = 5;
-            this.itbDismiss.Values.Text = "{0} ({1})";
-            // 
             // VisualToastNotificationTextBoxUserInputRtlAwareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,6 +292,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
             this.kpnlButtons.ResumeLayout(false);
             this.kpnlButtons.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).EndInit();
             this.kpnlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
@@ -300,8 +303,6 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.tlpMain.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -179,6 +179,8 @@ namespace Krypton.Toolkit
             ControlBox = _data.ShowCloseBox ?? false;
         }
 
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
         private void VisualToastNotificationMaskedTextBoxUserInputRtlAwareForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
@@ -219,6 +221,8 @@ namespace Krypton.Toolkit
             {
                 kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
                 _timer = new Timer();
 
                 _timer.Interval = _data.CountDownTimerInterval ?? 1000;
@@ -228,6 +232,8 @@ namespace Krypton.Toolkit
                     _time++;
 
                     kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                    itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
                     if (_time == _data.CountDownSeconds)
                     {
@@ -255,6 +261,8 @@ namespace Krypton.Toolkit
             {
                 kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
                 _timer = new Timer();
 
                 _timer.Interval = _data.CountDownTimerInterval ?? 1000;
@@ -264,6 +272,8 @@ namespace Krypton.Toolkit
                     _time++;
 
                     kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                    itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
 
                     if (_time == _data.CountDownSeconds)
                     {

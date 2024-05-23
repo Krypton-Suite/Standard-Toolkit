@@ -187,6 +187,8 @@ namespace Krypton.Toolkit
             ControlBox = _data.ShowCloseBox ?? false;
         }
 
+        private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
         private void VisualToastNotificationDateTimeUserInputWithProgressBarRtlAwareForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
@@ -204,6 +206,8 @@ namespace Krypton.Toolkit
             ShowCloseButton();
 
             kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
+
+            itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
 
             _timer.Start();
         }
