@@ -44,19 +44,21 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="radioButton">Drawing element that owns radio button display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuRadioButtonController([DisallowNull] ViewContextMenuManager viewManager,
-                                         [DisallowNull] ViewBase target,
-                                         [DisallowNull] ViewDrawMenuRadioButton radioButton,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public MenuRadioButtonController(ViewContextMenuManager viewManager,
+                                         ViewBase target,
+                                         ViewDrawMenuRadioButton radioButton,
+                                         NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(target is not null);
             Debug.Assert(radioButton is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuRadioButton = radioButton; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(radioButton));
+            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _menuRadioButton = radioButton!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(radioButton));
             NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion

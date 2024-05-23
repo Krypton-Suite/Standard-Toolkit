@@ -51,18 +51,20 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette to use in the pressed state.</param>
         /// <param name="pressed">Override to update with the pressed state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LinkLabelController([DisallowNull] ViewDrawContent target,
+        public LinkLabelController(ViewDrawContent target,
                                    IPaletteContent paletteDisabled,
                                    IPaletteContent paletteNormal,
                                    IPaletteContent paletteTracking,
                                    IPaletteContent palettePressed,
                                    PaletteContentInheritOverride pressed,
-                                   NeedPaintHandler needPaint)
+                                   NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(target is not null);
 
             // Remember target for state changes
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;

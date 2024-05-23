@@ -45,21 +45,23 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuImageSelectController([DisallowNull] ViewContextMenuManager viewManager,
-                                         [DisallowNull] ViewDrawMenuImageSelectItem target,
-                                         [DisallowNull] ViewLayoutMenuItemSelect layout,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public MenuImageSelectController(ViewContextMenuManager viewManager,
+                                         ViewDrawMenuImageSelectItem target,
+                                         ViewLayoutMenuItemSelect layout,
+                                         NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(target is not null);
             Debug.Assert(layout is not null);
             Debug.Assert(needPaint is not null);
 
             MousePoint = CommonHelper.NullPoint;
-            _viewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _layout = layout; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(layout));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            _viewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
+            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _layout = layout!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(layout));
+            NeedPaint = needPaint!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
