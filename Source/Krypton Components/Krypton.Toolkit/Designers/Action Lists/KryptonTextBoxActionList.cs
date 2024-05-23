@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonTextBox? _textBox;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _textBox = owner.Component as KryptonTextBox;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
 
                     _textBox!.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
                     _textBox!.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
                     _textBox.InputControlStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.Multiline != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
                     _textBox.Multiline = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
                     _textBox.WordWrap = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.UseSystemPasswordChar != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
                     _textBox.UseSystemPasswordChar = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox!.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
 
                     _textBox.StateCommon.Content.Font = value;
                 }

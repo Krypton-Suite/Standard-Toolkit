@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonLinkWrapLabel? _linkWrapLabel;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             _linkWrapLabel = owner.Component as KryptonLinkWrapLabel;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkWrapLabel!.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.LabelStyle, value);
+                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.LabelStyle, value);
                     _linkWrapLabel.LabelStyle = value;
                 }
             }
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkWrapLabel!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.PaletteMode, value);
+                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.PaletteMode, value);
                     _linkWrapLabel.PaletteMode = value;
                 }
             }
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkWrapLabel!.StateCommon.Font != value)
                 {
-                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.StateCommon.Font, value);
+                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.StateCommon.Font, value);
 
                     _linkWrapLabel.StateCommon.Font = value;
                 }

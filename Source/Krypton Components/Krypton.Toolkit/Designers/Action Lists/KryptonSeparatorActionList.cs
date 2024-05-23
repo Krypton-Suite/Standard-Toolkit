@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonSeparator? _separator;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _separator = owner.Component as KryptonSeparator;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator!.SeparatorStyle != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.SeparatorStyle, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.SeparatorStyle, value);
                     _separator.SeparatorStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator!.Orientation != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.Orientation, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.Orientation, value);
                     _separator.Orientation = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.PaletteMode, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.PaletteMode, value);
                     _separator.PaletteMode = value;
                 }
             }

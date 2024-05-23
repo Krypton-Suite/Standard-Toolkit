@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonListViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListView _listView;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonListView? _listView;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listView = (KryptonListView)owner.Component;
+            _listView = owner.Component as KryptonListView;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -41,14 +41,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ItemStyle
         {
-            get => _listView.ItemStyle;
+            get => _listView!.ItemStyle;
 
             set
             {
-                if (_listView.ItemStyle != value)
+                if (_listView!.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
-                    _listView.ItemStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView!.ItemStyle, value);
+                    _listView!.ItemStyle = value;
                 }
             }
         }
@@ -58,14 +58,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle BackStyle
         {
-            get => _listView.BackStyle;
+            get => _listView!.BackStyle;
 
             set
             {
-                if (_listView.BackStyle != value)
+                if (_listView!.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.BackStyle, value);
-                    _listView.BackStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView!.BackStyle, value);
+                    _listView!.BackStyle = value;
                 }
             }
         }
@@ -75,14 +75,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _listView.BorderStyle;
+            get => _listView!.BorderStyle;
 
             set
             {
-                if (_listView.BorderStyle != value)
+                if (_listView!.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
-                    _listView.BorderStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView!.BorderStyle, value);
+                    _listView!.BorderStyle = value;
                 }
             }
         }
@@ -91,15 +91,15 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _listView.KryptonContextMenu;
+            get => _listView!.KryptonContextMenu;
 
             set
             {
-                if (_listView.KryptonContextMenu != value)
+                if (_listView!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listView, null, _listView!.KryptonContextMenu, value);
 
-                    _listView.KryptonContextMenu = value;
+                    _listView!.KryptonContextMenu = value;
                 }
             }
         }
@@ -108,15 +108,15 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _listView.StateCommon.Item.Content.ShortText.Font!;
+            get => _listView!.StateCommon.Item.Content.ShortText.Font!;
 
             set
             {
-                if (_listView.StateCommon.Item.Content.ShortText.Font != value)
+                if (_listView!.StateCommon.Item.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_listView, null, _listView!.StateCommon.Item.Content.ShortText.Font, value);
 
-                    _listView.StateCommon.Item.Content.ShortText.Font = value;
+                    _listView!.StateCommon.Item.Content.ShortText.Font = value;
                 }
             }
         }
@@ -136,14 +136,11 @@ namespace Krypton.Toolkit
                 // This can be null when deleting a control instance at design time
                 // Add the list of list box specific actions
                 new DesignerActionHeaderItem(nameof(Appearance)),
-                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance),
-                    @"Style used to draw background."),
+                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance), @"Style used to draw background."),
                 new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."),
                 new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."),
                 new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."),
                 new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."),
-                new DesignerActionHeaderItem(nameof(Behavior)),
-                new DesignerActionHeaderItem(@"Visuals")
             };
 
             return actions;

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonMaskedTextBox? _maskedTextBox;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _maskedTextBox = owner.Component as KryptonMaskedTextBox;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_maskedTextBox!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.KryptonContextMenu, value);
 
                     _maskedTextBox.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_maskedTextBox!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
                     _maskedTextBox.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_maskedTextBox!.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
                     _maskedTextBox.InputControlStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_maskedTextBox!.Mask != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
                     _maskedTextBox.Mask = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_maskedTextBox!.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
 
                     _maskedTextBox.StateCommon.Content.Font = value;
                 }

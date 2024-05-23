@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonRibbonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool InDesignHelperMode
         {
-            get => _ribbon!.InDesignHelperMode;
-            set => _ribbon!.InDesignHelperMode = value;
+            get => _ribbon.InDesignHelperMode;
+            set => _ribbon.InDesignHelperMode = value;
         }
 
         /// <summary>
@@ -53,11 +53,11 @@ namespace Krypton.Ribbon
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _ribbon!.PaletteMode;
+            get => _ribbon.PaletteMode;
 
             set
             {
-                if (_ribbon!.PaletteMode != value)
+                if (_ribbon.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
                     _ribbon.PaletteMode = value;

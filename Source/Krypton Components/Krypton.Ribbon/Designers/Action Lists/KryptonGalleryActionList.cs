@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
             : base(owner.Component)
         {
             // Remember the gallery instance
-            _gallery = (KryptonGallery)owner.Component;
+            _gallery = owner.Component as KryptonGallery;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
             {
                 if (_gallery!.PaletteMode != value)
                 {
-                    _service?.OnComponentChanged(_gallery, null, _gallery.PaletteMode, value);
+                    _service?.OnComponentChanged(_gallery, null, _gallery!.PaletteMode, value);
                     _gallery.PaletteMode = value;
                 }
             }

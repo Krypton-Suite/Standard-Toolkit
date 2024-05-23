@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonBorderEdge? _borderEdge;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (GetService(typeof(IComponentChangeService)) as IComponentChangeService)!;
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge!.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
                     _borderEdge.BorderStyle = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge!.AutoSize != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
                     _borderEdge.AutoSize = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge!.Dock != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
                     _borderEdge.Dock = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
                     _borderEdge.PaletteMode = value;
                 }
             }

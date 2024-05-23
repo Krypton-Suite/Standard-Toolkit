@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonNumericUpDown? _numericUpDown;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _numericUpDown = owner.Component as KryptonNumericUpDown;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.KryptonContextMenu, value);
 
                     _numericUpDown.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.PaletteMode, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.PaletteMode, value);
                     _numericUpDown.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.InputControlStyle, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.InputControlStyle, value);
                     _numericUpDown.InputControlStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.Increment != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Increment, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Increment, value);
                     _numericUpDown.Increment = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.Maximum != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Maximum, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Maximum, value);
                     _numericUpDown.Maximum = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.Minimum != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Minimum, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Minimum, value);
                     _numericUpDown.Minimum = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_numericUpDown!.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.StateCommon.Content.Font, value);
 
                     _numericUpDown.StateCommon.Content.Font = value;
                 }

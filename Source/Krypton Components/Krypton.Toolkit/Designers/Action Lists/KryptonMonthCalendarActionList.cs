@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonMonthCalendar? _monthCalendar;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _monthCalendar = owner.Component as KryptonMonthCalendar;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.KryptonContextMenu, value);
 
                     _monthCalendar!.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.PaletteMode, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.PaletteMode, value);
                     _monthCalendar.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.MaxSelectionCount != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.MaxSelectionCount, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.MaxSelectionCount, value);
                     _monthCalendar.MaxSelectionCount = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.ShowToday != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowToday, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowToday, value);
                     _monthCalendar.ShowToday = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.ShowTodayCircle != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowTodayCircle, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowTodayCircle, value);
                     _monthCalendar.ShowTodayCircle = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.ShowWeekNumbers != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowWeekNumbers, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.ShowWeekNumbers, value);
                     _monthCalendar.ShowWeekNumbers = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.StateCommon.Day.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.ShortText.Font, value);
 
                     _monthCalendar.StateCommon.Day.Content.ShortText.Font = value;
                 }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_monthCalendar!.StateCommon.Day.Content.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.LongText.Font, value);
 
                     _monthCalendar.StateCommon.Day.Content.LongText.Font = value;
                 }

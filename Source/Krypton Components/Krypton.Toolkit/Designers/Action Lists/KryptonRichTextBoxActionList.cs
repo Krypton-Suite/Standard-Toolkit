@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonRichTextBox? _richTextBox;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _richTextBox = owner.Component as KryptonRichTextBox;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
 
                     _richTextBox.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
                     _richTextBox.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
                     _richTextBox.InputControlStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.Multiline != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
                     _richTextBox.Multiline = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
                     _richTextBox.WordWrap = value;
                 }
             }
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox!.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
 
                     _richTextBox.StateCommon.Content.Font = value;
                 }

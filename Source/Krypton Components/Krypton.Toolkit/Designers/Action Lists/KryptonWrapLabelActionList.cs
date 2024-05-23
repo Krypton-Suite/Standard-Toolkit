@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonWrapLabel? _wrapLabel;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _wrapLabel = owner.Component as KryptonWrapLabel;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_wrapLabel!.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.LabelStyle, value);
+                    _service?.OnComponentChanged(_wrapLabel, null, _wrapLabel.LabelStyle, value);
                     _wrapLabel.LabelStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_wrapLabel!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.PaletteMode, value);
+                    _service?.OnComponentChanged(_wrapLabel, null, _wrapLabel.PaletteMode, value);
                     _wrapLabel.PaletteMode = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_wrapLabel!.StateCommon.Font != value)
                 {
-                    _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.StateCommon.Font, value);
+                    _service?.OnComponentChanged(_wrapLabel, null, _wrapLabel.StateCommon.Font, value);
 
                     _wrapLabel.StateCommon.Font = value;
                 }

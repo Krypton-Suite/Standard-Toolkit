@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonTrackBar? _trackBar;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
                     _trackBar.PaletteMode = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.TickStyle != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
                     _trackBar.TickStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.TrackBarSize != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
                     _trackBar.TrackBarSize = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.Minimum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
                     _trackBar.Minimum = value;
                 }
             }
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.Maximum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
                     _trackBar.Maximum = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.SmallChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
                     _trackBar.SmallChange = value;
                 }
             }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar!.LargeChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
                     _trackBar.LargeChange = value;
                 }
             }

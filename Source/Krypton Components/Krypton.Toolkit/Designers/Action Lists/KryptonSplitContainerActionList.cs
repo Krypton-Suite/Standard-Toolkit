@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonSplitContainer? _splitContainer;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_splitContainer!.ContainerBackStyle != value)
                 {
-                    _service.OnComponentChanged(_splitContainer, null, _splitContainer.ContainerBackStyle, value);
+                    _service?.OnComponentChanged(_splitContainer, null, _splitContainer.ContainerBackStyle, value);
                     _splitContainer.ContainerBackStyle = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_splitContainer!.SeparatorStyle != value)
                 {
-                    _service.OnComponentChanged(_splitContainer, null, _splitContainer.SeparatorStyle, value);
+                    _service?.OnComponentChanged(_splitContainer, null, _splitContainer.SeparatorStyle, value);
                     _splitContainer.SeparatorStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_splitContainer!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_splitContainer, null, _splitContainer.PaletteMode, value);
+                    _service?.OnComponentChanged(_splitContainer, null, _splitContainer.PaletteMode, value);
                     _splitContainer.PaletteMode = value;
                 }
             }

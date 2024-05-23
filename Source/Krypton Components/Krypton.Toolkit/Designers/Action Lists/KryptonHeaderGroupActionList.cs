@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonHeaderGroup? _headerGroup;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         private DesignerVerb _visible1;
         private DesignerVerb _visible2;
         private string _text1;
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _headerGroup = owner.Component as KryptonHeaderGroup;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.GroupBackStyle != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBackStyle, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBackStyle, value);
                     _headerGroup.GroupBackStyle = value;
                 }
             }
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.GroupBorderStyle != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBorderStyle, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBorderStyle, value);
                     _headerGroup.GroupBorderStyle = value;
                 }
             }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             { 
                 if (_headerGroup!.HeaderStylePrimary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStylePrimary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStylePrimary, value);
                     _headerGroup.HeaderStylePrimary = value;
                 }
             }
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.HeaderStyleSecondary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStyleSecondary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStyleSecondary, value);
                     _headerGroup.HeaderStyleSecondary = value;
                 }
             }
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.HeaderPositionPrimary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionPrimary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionPrimary, value);
                     _headerGroup.HeaderPositionPrimary = value;
                 }
             }
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.HeaderPositionSecondary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionSecondary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionSecondary, value);
                     _headerGroup.HeaderPositionSecondary = value;
                 }
             }
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.PaletteMode, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.PaletteMode, value);
                     _headerGroup.PaletteMode = value;
                 }
             }

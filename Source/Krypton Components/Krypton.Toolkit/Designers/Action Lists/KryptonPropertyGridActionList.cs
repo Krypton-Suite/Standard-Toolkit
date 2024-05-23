@@ -17,8 +17,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly KryptonPropertyGrid? _propertyGrid;
-
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
 
         #endregion
 
@@ -28,7 +27,7 @@ namespace Krypton.Toolkit
         {
             _propertyGrid = owner.Component as KryptonPropertyGrid;
 
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion
@@ -43,7 +42,7 @@ namespace Krypton.Toolkit
             {
                 if (_propertyGrid!.SelectedObject != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObject, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObject, value);
 
                     _propertyGrid.SelectedObject = value;
                 }
@@ -58,7 +57,7 @@ namespace Krypton.Toolkit
             {
                 if (_propertyGrid!.SelectedObjects != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObjects, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObjects, value);
 
                     _propertyGrid.SelectedObjects = value;
                 }
@@ -73,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (_propertyGrid!.PropertySort != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.PropertySort, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.PropertySort, value);
 
                     _propertyGrid.PropertySort = value;
                 }

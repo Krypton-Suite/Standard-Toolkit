@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonCheckBox? _checkBox;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             _checkBox = owner.Component as KryptonCheckBox;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.Checked != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Checked, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Checked, value);
                     _checkBox.Checked = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.CheckState != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.CheckState, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.CheckState, value);
                     _checkBox.CheckState = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.ThreeState != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.ThreeState, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.ThreeState, value);
                     _checkBox.ThreeState = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.AutoCheck != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.AutoCheck, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.AutoCheck, value);
                     _checkBox.AutoCheck = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
 
                     _checkBox.KryptonContextMenu = value;
                 }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.LabelStyle, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.LabelStyle, value);
                     _checkBox.LabelStyle = value;
                 }
             }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.Orientation != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Orientation, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Orientation, value);
                     _checkBox.Orientation = value;
                 }
             }
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.Text, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Text, value);
                     _checkBox.Values.Text = value;
                 }
             }
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.ExtraText, value);
                     _checkBox.Values.ExtraText = value;
                 }
             }
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.Image, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Image, value);
                     _checkBox.Values.Image = value;
                 }
             }
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
                     _checkBox.PaletteMode = value;
                 }
             }
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
 
                     _checkBox.StateCommon.ShortText.Font = value;
                 }
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.StateCommon.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
 
                     _checkBox.StateCommon.LongText.Font = value;
                 }
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.StateCommon.LongText.Trim != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
 
                     _checkBox.StateCommon.LongText.Trim = value;
                 }
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox!.StateCommon.ShortText.Trim != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
 
                     _checkBox.StateCommon.ShortText.Trim = value;
                 }
