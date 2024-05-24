@@ -106,25 +106,25 @@ If you require the full API reference, you can download the latest version by cl
 
 #### Contributing to the Standard Toolkit
 
-If you are interested in contributing to the Standard Toolkit, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Contributing-Guidelines.md) first.
+If you are interested in contributing to the Standard Toolkit, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Contributing-Guidelines.html) first.
 
 =======
 
 ## Package Support Information
 
-Full information about support can be found [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Package-Support-Information.md)
+Full information about support can be found [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Support%20Information.html)
 
 ### Release Cadence
 
-See [Krypton Toolkit release cadence](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md)
+See [Krypton Toolkit release cadence](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Version%20Descriptions.html)
 
 ### Package Descriptions
 
-To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/Package-Version-Descriptions.md).
+To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Package%20Version%20Descriptions.html).
 
 ### Installing Pre-Release Versions
 
-To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Packages/How-to-Install-Pre-Release-Packages.md).
+To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/How%20to%20Install%20Pre%20Release%20Packages.html).
 
 =======
 
@@ -230,7 +230,7 @@ If using `KryptonAboutToolkit`, please note that this has been superceded by `Kr
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ### Building the Toolkit
-As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Allowing-for-Longer-Path-and-File-Names.md).
+As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
@@ -274,7 +274,7 @@ After updating to v70, you may need to sign your assemblies for a successful bui
 
 ## Management of `using` Statements
 
-As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Manage-Using-Statements.md).
+As of version 60, all `using` statements are contained in one file per project unless otherwise. For details, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/How-to-Manage-Using-Statements.html).
 
 =======
 
@@ -285,7 +285,7 @@ As of version 60, all `using` statements are contained in one file per project u
 
 - [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 6 or 7
 
-- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/Designer-Fix.md) for more information
+- .NET 6/7 Designer issues - If you are experiencing designer issues with your project, please refer to [this](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Designer%20Fix.html) for more information
 
 - ***URGENT:*** If anyone experiences "Double events" such as the one found [here](https://github.com/Krypton-Suite/Standard-Toolkit/issues/666), please can you report it ASAP, so that they can be investigated. Thanks! 
 
@@ -300,7 +300,7 @@ The Krypton Suite contains user interface components designed to make it quick a
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 90 is expected to release in November 2024.
-- For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
+- For tips on how to build the toolkit for yourself, please read the following [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/How-to-Build.html).
 
 ## Contributing to this project
 
