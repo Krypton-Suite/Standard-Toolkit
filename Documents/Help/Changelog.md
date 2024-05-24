@@ -84,14 +84,18 @@
 * New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
 * Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
-* Version bump `81.xx.xx.xx` -> `90.xx.xx.xx`
+* Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
+
+## 2024-06-24 - Build 2406 (Patch 3) - June 2024
+* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+* Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
+* Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
+* Version bump `80.xx.xx.xxx` -> `85.xx.xx.xx`
 
 =======
 
-## 2024-06-24 - Build 2406 (Patch 2) - June 2024
-* Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
+## 2024-03-04 - Build 2403 (Patch 2) - March 2024
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
-* Version bump `80.xx.xx.xx` -> `81.xx.xx.xx`
 
 =======
 
