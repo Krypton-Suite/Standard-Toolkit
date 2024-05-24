@@ -1,4 +1,3 @@
-
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
 
@@ -177,7 +176,7 @@ Follow the links to see the different objects and layouts that this framework al
 
 # Version History
 
-<a href="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Help/Changelog.md"><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
+<a href="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md"><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
 
 =======
 
