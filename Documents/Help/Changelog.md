@@ -2,10 +2,11 @@
 
 =======
 
-## 2024-##-## - Build 24## (Patch ##) - ## 2024
+## 2024-06-24 - Build 2406 (Patch 3) - June 2024
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
+* Version bump `80.xx.xx.xxx` -> `85.xx.xx.xx`
 
 =======
 
