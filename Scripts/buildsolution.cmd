@@ -14,9 +14,10 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Cur
 if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin" goto vs16build
 
 echo "Unable to detect suitable environment. Check if VS 2019 is installed."
-goto exitbatch
 
 pause
+
+goto exitbatch
 
 :vs16prev
 set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin
@@ -43,7 +44,7 @@ goto build2019
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog
 
 :vs2022build
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
