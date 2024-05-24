@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTextBox? _textBox;
+        private readonly KryptonTextBox _textBox;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _textBox = owner.Component as KryptonTextBox;
+            _textBox = (owner.Component as KryptonTextBox)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -40,15 +40,15 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _textBox!.KryptonContextMenu;
+            get => _textBox.KryptonContextMenu;
 
             set
             {
-                if (_textBox!.KryptonContextMenu != value)
+                if (_textBox.KryptonContextMenu != value)
                 {
-                    _service?.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_textBox, null, _textBox.KryptonContextMenu, value);
 
-                    _textBox!.KryptonContextMenu = value;
+                    _textBox.KryptonContextMenu = value;
                 }
             }
         }
@@ -58,14 +58,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _textBox!.PaletteMode;
+            get => _textBox.PaletteMode;
 
             set
             {
-                if (_textBox!.PaletteMode != value)
+                if (_textBox.PaletteMode != value)
                 {
-                    _service?.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
-                    _textBox!.PaletteMode = value;
+                    _service?.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
+                    _textBox.PaletteMode = value;
                 }
             }
         }
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _textBox!.InputControlStyle;
+            get => _textBox.InputControlStyle;
 
             set
             {
-                if (_textBox!.InputControlStyle != value)
+                if (_textBox.InputControlStyle != value)
                 {
                     _service?.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
                     _textBox.InputControlStyle = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Multiline
         {
-            get => _textBox!.Multiline;
+            get => _textBox.Multiline;
 
             set
             {
-                if (_textBox!.Multiline != value)
+                if (_textBox.Multiline != value)
                 {
                     _service?.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
                     _textBox.Multiline = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool WordWrap
         {
-            get => _textBox!.WordWrap;
+            get => _textBox.WordWrap;
 
             set
             {
-                if (_textBox!.WordWrap != value)
+                if (_textBox.WordWrap != value)
                 {
                     _service?.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
                     _textBox.WordWrap = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool UseSystemPasswordChar
         {
-            get => _textBox!.UseSystemPasswordChar;
+            get => _textBox.UseSystemPasswordChar;
 
             set
             {
-                if (_textBox!.UseSystemPasswordChar != value)
+                if (_textBox.UseSystemPasswordChar != value)
                 {
                     _service?.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
                     _textBox.UseSystemPasswordChar = value;
@@ -142,11 +142,11 @@ namespace Krypton.Toolkit
         /// <value>The text box font.</value>
         public Font? Font
         {
-            get => _textBox!.StateCommon.Content.Font;
+            get => _textBox.StateCommon.Content.Font;
 
             set
             {
-                if (_textBox!.StateCommon.Content.Font != value)
+                if (_textBox.StateCommon.Content.Font != value)
                 {
                     _service?.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
 

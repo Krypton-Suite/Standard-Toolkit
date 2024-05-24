@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer? _splitContainer;
+        private readonly KryptonSplitContainer _splitContainer;
         private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         public KryptonSplitContainerActionList(KryptonSplitContainerDesigner owner) 
             : base(owner.Component)
         {
-            _splitContainer = owner.Component as KryptonSplitContainer;
+            _splitContainer = (owner.Component as KryptonSplitContainer)!;
 
             // Assuming we were correctly passed an actual component...
             if (_splitContainer != null)
@@ -57,11 +57,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle ContainerBackStyle
         {
-            get => _splitContainer!.ContainerBackStyle;
+            get => _splitContainer.ContainerBackStyle;
 
             set 
             {
-                if (_splitContainer!.ContainerBackStyle != value)
+                if (_splitContainer.ContainerBackStyle != value)
                 {
                     _service?.OnComponentChanged(_splitContainer, null, _splitContainer.ContainerBackStyle, value);
                     _splitContainer.ContainerBackStyle = value;
@@ -74,11 +74,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public SeparatorStyle SeparatorStyle
         {
-            get => _splitContainer!.SeparatorStyle;
+            get => _splitContainer.SeparatorStyle;
 
             set 
             {
-                if (_splitContainer!.SeparatorStyle != value)
+                if (_splitContainer.SeparatorStyle != value)
                 {
                     _service?.OnComponentChanged(_splitContainer, null, _splitContainer.SeparatorStyle, value);
                     _splitContainer.SeparatorStyle = value;
@@ -91,11 +91,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _splitContainer!.PaletteMode;
+            get => _splitContainer.PaletteMode;
 
             set 
             {
-                if (_splitContainer!.PaletteMode != value)
+                if (_splitContainer.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_splitContainer, null, _splitContainer.PaletteMode, value);
                     _splitContainer.PaletteMode = value;
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal splitter orientation" : "Vertical splitter orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer!)[nameof(Orientation)]!;
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[nameof(Orientation)]!;
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

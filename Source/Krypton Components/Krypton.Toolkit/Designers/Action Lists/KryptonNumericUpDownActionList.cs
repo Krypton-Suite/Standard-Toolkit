@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonNumericUpDownActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonNumericUpDown? _numericUpDown;
+        private readonly KryptonNumericUpDown _numericUpDown;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _numericUpDown = owner.Component as KryptonNumericUpDown;
+            _numericUpDown = (owner.Component as KryptonNumericUpDown)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -40,11 +40,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _numericUpDown!.KryptonContextMenu;
+            get => _numericUpDown.KryptonContextMenu;
 
             set
             {
-                if (_numericUpDown!.KryptonContextMenu != value)
+                if (_numericUpDown.KryptonContextMenu != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.KryptonContextMenu, value);
 
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _numericUpDown!.PaletteMode;
+            get => _numericUpDown.PaletteMode;
 
             set
             {
-                if (_numericUpDown!.PaletteMode != value)
+                if (_numericUpDown.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.PaletteMode, value);
                     _numericUpDown.PaletteMode = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _numericUpDown!.InputControlStyle;
+            get => _numericUpDown.InputControlStyle;
 
             set
             {
-                if (_numericUpDown!.InputControlStyle != value)
+                if (_numericUpDown.InputControlStyle != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.InputControlStyle, value);
                     _numericUpDown.InputControlStyle = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public decimal Increment
         {
-            get => _numericUpDown!.Increment;
+            get => _numericUpDown.Increment;
 
             set
             {
-                if (_numericUpDown!.Increment != value)
+                if (_numericUpDown.Increment != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Increment, value);
                     _numericUpDown.Increment = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public decimal Maximum
         {
-            get => _numericUpDown!.Maximum;
+            get => _numericUpDown.Maximum;
 
             set
             {
-                if (_numericUpDown!.Maximum != value)
+                if (_numericUpDown.Maximum != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Maximum, value);
                     _numericUpDown.Maximum = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public decimal Minimum
         {
-            get => _numericUpDown!.Minimum;
+            get => _numericUpDown.Minimum;
 
             set
             {
-                if (_numericUpDown!.Minimum != value)
+                if (_numericUpDown.Minimum != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.Minimum, value);
                     _numericUpDown.Minimum = value;
@@ -142,11 +142,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font Font
         {
-            get => _numericUpDown!.StateCommon.Content.Font!;
+            get => _numericUpDown.StateCommon.Content.Font!;
 
             set
             {
-                if (_numericUpDown!.StateCommon.Content.Font != value)
+                if (_numericUpDown.StateCommon.Content.Font != value)
                 {
                     _service?.OnComponentChanged(_numericUpDown, null, _numericUpDown.StateCommon.Content.Font, value);
 

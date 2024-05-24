@@ -15,7 +15,7 @@ namespace Krypton.Navigator
     internal class KryptonPageActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonPage? _page;
+        private readonly KryptonPage _page;
         private readonly IComponentChangeService? _serviceComponentChange;
         private DesignerActionItemCollection _actions;
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _page = owner.Component as KryptonPage;
+            _page = (owner.Component as KryptonPage)!;
 
             // Cache service used to notify when a property has changed
             _serviceComponentChange = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -42,14 +42,14 @@ namespace Krypton.Navigator
         /// </summary>
         public string TextShort
         {
-            get => _page!.Text;
+            get => _page.Text;
 
             set
             {
-                if (!_page!.Text.Equals(value))
+                if (!_page.Text.Equals(value))
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.Text, value);
-                    _page!.Text = value;
+                    _page.Text = value;
                 }
             }
         }
@@ -59,11 +59,11 @@ namespace Krypton.Navigator
         /// </summary>
         public string TextTitle
         {
-            get => _page!.TextTitle;
+            get => _page.TextTitle;
 
             set
             {
-                if (!_page!.TextTitle.Equals(value))
+                if (!_page.TextTitle.Equals(value))
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.TextTitle, value);
                     _page.TextTitle = value;
@@ -76,11 +76,11 @@ namespace Krypton.Navigator
         /// </summary>
         public string TextDescription
         {
-            get => _page!.TextDescription;
+            get => _page.TextDescription;
 
             set
             {
-                if (!_page!.TextDescription.Equals(value))
+                if (!_page.TextDescription.Equals(value))
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.TextDescription, value);
                     _page.TextDescription = value;
@@ -93,11 +93,11 @@ namespace Krypton.Navigator
         /// </summary>
         public string ToolTipTitle
         {
-            get => _page!.ToolTipTitle;
+            get => _page.ToolTipTitle;
 
             set
             {
-                if (!_page!.ToolTipTitle.Equals(value))
+                if (!_page.ToolTipTitle.Equals(value))
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipTitle, value);
                     _page.ToolTipTitle = value;
@@ -110,11 +110,11 @@ namespace Krypton.Navigator
         /// </summary>
         public string ToolTipBody
         {
-            get => _page!.ToolTipBody;
+            get => _page.ToolTipBody;
 
             set
             {
-                if (!_page!.ToolTipBody.Equals(value))
+                if (!_page.ToolTipBody.Equals(value))
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipBody, value);
                     _page.ToolTipBody = value;
@@ -127,11 +127,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Bitmap? ToolTipImage
         {
-            get => _page!.ToolTipImage;
+            get => _page.ToolTipImage;
 
             set
             {
-                if (_page!.ToolTipImage != value)
+                if (_page.ToolTipImage != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipImage, value);
                     _page.ToolTipImage = value;
@@ -144,11 +144,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Bitmap? ImageSmall
         {
-            get => _page!.ImageSmall;
+            get => _page.ImageSmall;
 
             set
             {
-                if (_page!.ImageSmall != value)
+                if (_page.ImageSmall != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageSmall, value);
                     _page.ImageSmall = value;
@@ -161,11 +161,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Bitmap? ImageMedium
         {
-            get => _page!.ImageMedium;
+            get => _page.ImageMedium;
 
             set
             {
-                if (_page!.ImageMedium != value)
+                if (_page.ImageMedium != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageMedium, value);
                     _page.ImageMedium = value;
@@ -178,11 +178,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Bitmap? ImageLarge
         {
-            get => _page!.ImageLarge;
+            get => _page.ImageLarge;
 
             set
             {
-                if (_page!.ImageLarge != value)
+                if (_page.ImageLarge != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageLarge, value);
                     _page.ImageLarge = value;
@@ -195,19 +195,19 @@ namespace Krypton.Navigator
         /// </summary>
         public bool PageInOverflowBarForOutlookMode
         {
-            get => _page!.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+            get => _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
             set
             {
-                _serviceComponentChange?.OnComponentChanged(_page!, null, _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode), value);
+                _serviceComponentChange?.OnComponentChanged(_page, null, _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode), value);
 
                 if (value)
                 {
-                    _page!.SetFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                    _page.SetFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
                 }
                 else
                 {
-                    _page!.ClearFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                    _page.ClearFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
                 }
             }
         }

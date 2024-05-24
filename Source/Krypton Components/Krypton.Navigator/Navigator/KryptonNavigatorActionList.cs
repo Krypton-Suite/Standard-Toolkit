@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class KryptonNavigatorActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonNavigator? _navigator;
+        private readonly KryptonNavigator _navigator;
         private readonly KryptonNavigatorDesigner _designer;
         private readonly IComponentChangeService? _serviceComponentChange;
         private readonly DesignerActionUIService? _serviceDesignerAction;
@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         {
             // Remember designer and actual component instance being designed
             _designer = owner;
-            _navigator = owner.Component as KryptonNavigator; 
+            _navigator = (owner.Component as KryptonNavigator)!;
 
             // Cache service used to notify when a property has changed
             _serviceComponentChange = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -54,14 +54,14 @@ namespace Krypton.Navigator
         /// </summary>
         public NavigatorMode NavigatorMode
         {
-            get => _navigator!.NavigatorMode;
+            get => _navigator.NavigatorMode;
 
             set
             {
-                if (_navigator!.NavigatorMode != value)
+                if (_navigator.NavigatorMode != value)
                 {
-                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator!.NavigatorMode, value);
-                    _navigator!.NavigatorMode = value;
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.NavigatorMode, value);
+                    _navigator.NavigatorMode = value;
                     _serviceDesignerAction?.Refresh(_navigator);
                 }
             }
@@ -72,11 +72,11 @@ namespace Krypton.Navigator
         /// </summary>
         public PaletteBackStyle PageBackStyle
         {
-            get => _navigator!.PageBackStyle;
+            get => _navigator.PageBackStyle;
 
             set
             {
-                if (_navigator!.PageBackStyle != value)
+                if (_navigator.PageBackStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.PageBackStyle, value);
                     _navigator.PageBackStyle = value;
@@ -89,11 +89,11 @@ namespace Krypton.Navigator
         /// </summary>
         public VisualOrientation BarOrientation
         {
-            get => _navigator!.Bar.BarOrientation;
+            get => _navigator.Bar.BarOrientation;
 
             set
             {
-                if (_navigator!.Bar.BarOrientation != value)
+                if (_navigator.Bar.BarOrientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.BarOrientation, value);
                     _navigator.Bar.BarOrientation = value;
@@ -106,11 +106,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonOrientation ItemOrientationBar
         {
-            get => _navigator!.Bar.ItemOrientation;
+            get => _navigator.Bar.ItemOrientation;
 
             set
             {
-                if (_navigator!.Bar.ItemOrientation != value)
+                if (_navigator.Bar.ItemOrientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemOrientation, value);
                     _navigator.Bar.ItemOrientation = value;
@@ -123,11 +123,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonOrientation ItemOrientationStack
         {
-            get => _navigator!.Stack.ItemOrientation;
+            get => _navigator.Stack.ItemOrientation;
 
             set
             {
-                if (_navigator!.Stack.ItemOrientation != value)
+                if (_navigator.Stack.ItemOrientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.ItemOrientation, value);
                     _navigator.Stack.ItemOrientation = value;
@@ -140,11 +140,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonOrientation ItemOrientationOutlook
         {
-            get => _navigator!.Outlook.ItemOrientation;
+            get => _navigator.Outlook.ItemOrientation;
 
             set
             {
-                if (_navigator!.Outlook.ItemOrientation != value)
+                if (_navigator.Outlook.ItemOrientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.ItemOrientation, value);
                     _navigator.Outlook.ItemOrientation = value;
@@ -157,11 +157,11 @@ namespace Krypton.Navigator
         /// </summary>
         public RelativePositionAlign ItemAlignment
         {
-            get => _navigator!.Bar.ItemAlignment;
+            get => _navigator.Bar.ItemAlignment;
 
             set
             {
-                if (_navigator!.Bar.ItemAlignment != value)
+                if (_navigator.Bar.ItemAlignment != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemAlignment, value);
                     _navigator.Bar.ItemAlignment = value;
@@ -174,11 +174,11 @@ namespace Krypton.Navigator
         /// </summary>
         public BarItemSizing ItemSizing
         {
-            get => _navigator!.Bar.ItemSizing;
+            get => _navigator.Bar.ItemSizing;
 
             set
             {
-                if (_navigator!.Bar.ItemSizing != value)
+                if (_navigator.Bar.ItemSizing != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemSizing, value);
                     _navigator.Bar.ItemSizing = value;
@@ -191,11 +191,11 @@ namespace Krypton.Navigator
         /// </summary>
         public TabBorderStyle TabBorderStyle
         {
-            get => _navigator!.Bar.TabBorderStyle;
+            get => _navigator.Bar.TabBorderStyle;
 
             set
             {
-                if (_navigator!.Bar.TabBorderStyle != value)
+                if (_navigator.Bar.TabBorderStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.TabBorderStyle, value);
                     _navigator.Bar.TabBorderStyle = value;
@@ -208,11 +208,11 @@ namespace Krypton.Navigator
         /// </summary>
         public TabStyle TabStyle
         {
-            get => _navigator!.Bar.TabStyle;
+            get => _navigator.Bar.TabStyle;
 
             set
             {
-                if (_navigator!.Bar.TabStyle != value)
+                if (_navigator.Bar.TabStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.TabStyle, value);
                     _navigator.Bar.TabStyle = value;
@@ -225,11 +225,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonStyle CheckButtonStyleBar
         {
-            get => _navigator!.Bar.CheckButtonStyle;
+            get => _navigator.Bar.CheckButtonStyle;
 
             set
             {
-                if (_navigator!.Bar.CheckButtonStyle != value)
+                if (_navigator.Bar.CheckButtonStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.CheckButtonStyle, value);
                     _navigator.Bar.CheckButtonStyle = value;
@@ -242,11 +242,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonStyle CheckButtonStyleStack
         {
-            get => _navigator!.Stack.CheckButtonStyle;
+            get => _navigator.Stack.CheckButtonStyle;
 
             set
             {
-                if (_navigator!.Stack.CheckButtonStyle != value)
+                if (_navigator.Stack.CheckButtonStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.CheckButtonStyle, value);
                     _navigator.Stack.CheckButtonStyle = value;
@@ -259,11 +259,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonStyle CheckButtonStyleOutlook
         {
-            get => _navigator!.Outlook.CheckButtonStyle;
+            get => _navigator.Outlook.CheckButtonStyle;
 
             set
             {
-                if (_navigator!.Outlook.CheckButtonStyle != value)
+                if (_navigator.Outlook.CheckButtonStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.CheckButtonStyle, value);
                     _navigator.Outlook.CheckButtonStyle = value;
@@ -276,11 +276,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonDisplayLogic ButtonDisplayLogic
         {
-            get => _navigator!.Button.ButtonDisplayLogic;
+            get => _navigator.Button.ButtonDisplayLogic;
 
             set
             {
-                if (_navigator!.Button.ButtonDisplayLogic != value)
+                if (_navigator.Button.ButtonDisplayLogic != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.ButtonDisplayLogic, value);
                     _navigator.Button.ButtonDisplayLogic = value;
@@ -293,11 +293,11 @@ namespace Krypton.Navigator
         /// </summary>
         public ButtonDisplay CloseButtonDisplay
         {
-            get => _navigator!.Button.CloseButtonDisplay;
+            get => _navigator.Button.CloseButtonDisplay;
 
             set
             {
-                if (_navigator!.Button.CloseButtonDisplay != value)
+                if (_navigator.Button.CloseButtonDisplay != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonDisplay, value);
                     _navigator.Button.CloseButtonDisplay = value;
@@ -310,11 +310,11 @@ namespace Krypton.Navigator
         /// </summary>
         public CloseButtonAction CloseButtonAction
         {
-            get => _navigator!.Button.CloseButtonAction;
+            get => _navigator.Button.CloseButtonAction;
 
             set
             {
-                if (_navigator!.Button.CloseButtonAction != value)
+                if (_navigator.Button.CloseButtonAction != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonAction, value);
                     _navigator.Button.CloseButtonAction = value;
@@ -327,11 +327,11 @@ namespace Krypton.Navigator
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _navigator!.Group.GroupBackStyle;
+            get => _navigator.Group.GroupBackStyle;
 
             set
             {
-                if (_navigator!.Group.GroupBackStyle != value)
+                if (_navigator.Group.GroupBackStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Group.GroupBackStyle, value);
                     _navigator.Group.GroupBackStyle = value;
@@ -344,11 +344,11 @@ namespace Krypton.Navigator
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _navigator!.Group.GroupBorderStyle;
+            get => _navigator.Group.GroupBorderStyle;
 
             set
             {
-                if (_navigator!.Group.GroupBorderStyle != value)
+                if (_navigator.Group.GroupBorderStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Group.GroupBorderStyle, value);
                     _navigator.Group.GroupBorderStyle = value;
@@ -361,11 +361,11 @@ namespace Krypton.Navigator
         /// </summary>
         public HeaderStyle BarHeaderStyle
         {
-            get => _navigator!.Header.HeaderStyleBar;
+            get => _navigator.Header.HeaderStyleBar;
 
             set
             {
-                if (_navigator!.Header.HeaderStyleBar != value)
+                if (_navigator.Header.HeaderStyleBar != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleBar, value);
                     _navigator.Header.HeaderStyleBar = value;
@@ -378,11 +378,11 @@ namespace Krypton.Navigator
         /// </summary>
         public VisualOrientation BarHeaderPosition
         {
-            get => _navigator!.Header.HeaderPositionBar;
+            get => _navigator.Header.HeaderPositionBar;
 
             set
             {
-                if (_navigator!.Header.HeaderPositionBar != value)
+                if (_navigator.Header.HeaderPositionBar != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionBar, value);
                     _navigator.Header.HeaderPositionBar = value;
@@ -395,11 +395,11 @@ namespace Krypton.Navigator
         /// </summary>
         public HeaderStyle PrimaryHeaderStyle
         {
-            get => _navigator!.Header.HeaderStylePrimary;
+            get => _navigator.Header.HeaderStylePrimary;
 
             set
             {
-                if (_navigator!.Header.HeaderStylePrimary != value)
+                if (_navigator.Header.HeaderStylePrimary != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStylePrimary, value);
                     _navigator.Header.HeaderStylePrimary = value;
@@ -412,11 +412,11 @@ namespace Krypton.Navigator
         /// </summary>
         public VisualOrientation PrimaryHeaderPosition
         {
-            get => _navigator!.Header.HeaderPositionPrimary;
+            get => _navigator.Header.HeaderPositionPrimary;
 
             set
             {
-                if (_navigator!.Header.HeaderPositionPrimary != value)
+                if (_navigator.Header.HeaderPositionPrimary != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionPrimary, value);
                     _navigator.Header.HeaderPositionPrimary = value;
@@ -429,11 +429,11 @@ namespace Krypton.Navigator
         /// </summary>
         public HeaderStyle SecondaryHeaderStyle
         {
-            get => _navigator!.Header.HeaderStyleSecondary;
+            get => _navigator.Header.HeaderStyleSecondary;
 
             set
             {
-                if (_navigator!.Header.HeaderStyleSecondary != value)
+                if (_navigator.Header.HeaderStyleSecondary != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleSecondary, value);
                     _navigator.Header.HeaderStyleSecondary = value;
@@ -446,11 +446,11 @@ namespace Krypton.Navigator
         /// </summary>
         public VisualOrientation SecondaryHeaderPosition
         {
-            get => _navigator!.Header.HeaderPositionSecondary;
+            get => _navigator.Header.HeaderPositionSecondary;
 
             set
             {
-                if (_navigator!.Header.HeaderPositionSecondary != value)
+                if (_navigator.Header.HeaderPositionSecondary != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionSecondary, value);
                     _navigator.Header.HeaderPositionSecondary = value;
@@ -463,11 +463,11 @@ namespace Krypton.Navigator
         /// </summary>
         public InheritBool SecondaryHeaderOutlookVisible
         {
-            get => _navigator!.Outlook.HeaderSecondaryVisible;
+            get => _navigator.Outlook.HeaderSecondaryVisible;
 
             set
             {
-                if (_navigator!.Outlook.HeaderSecondaryVisible != value)
+                if (_navigator.Outlook.HeaderSecondaryVisible != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.HeaderSecondaryVisible, value);
                     _navigator.Outlook.HeaderSecondaryVisible = value;
@@ -480,11 +480,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Orientation OutlookOrientation
         {
-            get => _navigator!.Outlook.Orientation;
+            get => _navigator.Outlook.Orientation;
 
             set
             {
-                if (_navigator!.Outlook.Orientation != value)
+                if (_navigator.Outlook.Orientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.Orientation, value);
                     _navigator.Outlook.Orientation = value;
@@ -497,11 +497,11 @@ namespace Krypton.Navigator
         /// </summary>
         public PaletteBackStyle PanelBackStyle
         {
-            get => _navigator!.Panel.PanelBackStyle;
+            get => _navigator.Panel.PanelBackStyle;
 
             set
             {
-                if (_navigator!.Panel.PanelBackStyle != value)
+                if (_navigator.Panel.PanelBackStyle != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Panel.PanelBackStyle, value);
                     _navigator.Panel.PanelBackStyle = value;
@@ -514,11 +514,11 @@ namespace Krypton.Navigator
         /// </summary>
         public Orientation StackOrientation
         {
-            get => _navigator!.Stack.StackOrientation;
+            get => _navigator.Stack.StackOrientation;
 
             set
             {
-                if (_navigator!.Stack.StackOrientation != value)
+                if (_navigator.Stack.StackOrientation != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.StackOrientation, value);
                     _navigator.Stack.StackOrientation = value;
@@ -531,11 +531,11 @@ namespace Krypton.Navigator
         /// </summary>
         public RelativePositionAlign StackAlignment
         {
-            get => _navigator!.Stack.StackAlignment;
+            get => _navigator.Stack.StackAlignment;
 
             set
             {
-                if (_navigator!.Stack.StackAlignment != value)
+                if (_navigator.Stack.StackAlignment != value)
                 {
                     _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.StackAlignment, value);
                     _navigator.Stack.StackAlignment = value;
@@ -561,7 +561,7 @@ namespace Krypton.Navigator
                 actions.Add(new DesignerActionPropertyItem(nameof(PageBackStyle), "Page Style", nameof(Appearance), "Page background style."));
 
                 // Add the categories appropriate to the mode
-                switch (_navigator!.NavigatorMode)
+                switch (_navigator.NavigatorMode)
                 {
                     case NavigatorMode.Panel:
                         AddPanelActions(actions);
@@ -633,13 +633,13 @@ namespace Krypton.Navigator
                         break;
                     case NavigatorMode.BarTabGroup:
                     case NavigatorMode.BarRibbonTabGroup:
-                        AddBarActions(actions, true, false, (_navigator!.NavigatorMode == NavigatorMode.BarRibbonTabGroup));
+                        AddBarActions(actions, true, false, (_navigator.NavigatorMode == NavigatorMode.BarRibbonTabGroup));
                         AddButtonsActions(actions);
                         AddGroupActions(actions);
                         break;
                     case NavigatorMode.BarTabOnly:
                     case NavigatorMode.BarRibbonTabOnly:
-                        AddBarActions(actions, true, false, (_navigator!.NavigatorMode == NavigatorMode.BarRibbonTabGroup));
+                        AddBarActions(actions, true, false, (_navigator.NavigatorMode == NavigatorMode.BarRibbonTabGroup));
                         AddButtonsActions(actions);
                         AddPanelActions(actions);
                         break;
@@ -740,9 +740,9 @@ namespace Krypton.Navigator
                                        bool includeHeaderBar)
         {
             // Get the current visible state of the headers
-            var headerBarVisible = _navigator!.Header.HeaderVisibleBar;
-            var headerPrimaryVisible = _navigator!.Header.HeaderVisiblePrimary;
-            var headerSecondaryVisible = _navigator!.Header.HeaderVisibleSecondary;
+            var headerBarVisible = _navigator.Header.HeaderVisibleBar;
+            var headerPrimaryVisible = _navigator.Header.HeaderVisiblePrimary;
+            var headerSecondaryVisible = _navigator.Header.HeaderVisibleSecondary;
 
             // Decide on the initial text values
             _headerBarText = (headerBarVisible ? "Hide bar header" : "Show bar header");
@@ -799,13 +799,13 @@ namespace Krypton.Navigator
             actions.Add(new DesignerActionMethodItem(this, nameof(AddPage), "Add Page", "Actions"));
 
             // Can only remove a page if one if selected
-            if (_navigator!.SelectedPage != null)
+            if (_navigator.SelectedPage != null)
             {
                 actions.Add(new DesignerActionMethodItem(this, nameof(RemovePage), "Remove Page", "Actions"));
             }
 
             // Are there any pages to be removed
-            if (_navigator!.Pages.Count > 0)
+            if (_navigator.Pages.Count > 0)
             {
                 actions.Add(new DesignerActionMethodItem(this, nameof(ClearPages), "Clear Pages", "Actions"));
             }
@@ -826,21 +826,21 @@ namespace Krypton.Navigator
             // Get the new visible values
             if (headerBar)
             {
-                newVisible = _navigator!.Header.HeaderVisibleBar;
+                newVisible = _navigator.Header.HeaderVisibleBar;
                 _headerBarText = (newVisible ? "Hide bar header" : "Show bar header");
-                _navigator!.Header.HeaderVisibleBar = !newVisible;
+                _navigator.Header.HeaderVisibleBar = !newVisible;
             }
             else if (headerPrimary)
             {
-                newVisible = _navigator!.Header.HeaderVisiblePrimary;
+                newVisible = _navigator.Header.HeaderVisiblePrimary;
                 _headerPrimaryText = (newVisible ? "Hide primary header" : "Show primary header");
-                _navigator!.Header.HeaderVisiblePrimary = !newVisible;
+                _navigator.Header.HeaderVisiblePrimary = !newVisible;
             }
             else if (headerSecondary)
             {
-                newVisible = _navigator!.Header.HeaderVisibleSecondary;
+                newVisible = _navigator.Header.HeaderVisibleSecondary;
                 _headerSecondaryText = (newVisible ? "Hide secondary header" : "Show secondary header");
-                _navigator!.Header.HeaderVisibleSecondary = !newVisible;
+                _navigator.Header.HeaderVisibleSecondary = !newVisible;
             }
 
             // Refersh view to reflect the change

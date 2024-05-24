@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonCheckBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckBox? _checkBox;
+        private readonly KryptonCheckBox _checkBox;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the checkbox instance
-            _checkBox = owner.Component as KryptonCheckBox;
+            _checkBox = (owner.Component as KryptonCheckBox)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Checked
         {
-            get => _checkBox!.Checked;
+            get => _checkBox.Checked;
 
             set
             {
-                if (_checkBox!.Checked != value)
+                if (_checkBox.Checked != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.Checked, value);
                     _checkBox.Checked = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public CheckState CheckState
         {
-            get => _checkBox!.CheckState;
+            get => _checkBox.CheckState;
 
             set
             {
-                if (_checkBox!.CheckState != value)
+                if (_checkBox.CheckState != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.CheckState, value);
                     _checkBox.CheckState = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ThreeState
         {
-            get => _checkBox!.ThreeState;
+            get => _checkBox.ThreeState;
 
             set
             {
-                if (_checkBox!.ThreeState != value)
+                if (_checkBox.ThreeState != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.ThreeState, value);
                     _checkBox.ThreeState = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool AutoCheck
         {
-            get => _checkBox!.AutoCheck;
+            get => _checkBox.AutoCheck;
 
             set
             {
-                if (_checkBox!.AutoCheck != value)
+                if (_checkBox.AutoCheck != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.AutoCheck, value);
                     _checkBox.AutoCheck = value;
@@ -108,11 +108,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _checkBox!.KryptonContextMenu;
+            get => _checkBox.KryptonContextMenu;
 
             set
             {
-                if (_checkBox!.KryptonContextMenu != value)
+                if (_checkBox.KryptonContextMenu != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
 
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _checkBox!.LabelStyle;
+            get => _checkBox.LabelStyle;
 
             set
             {
-                if (_checkBox!.LabelStyle != value)
+                if (_checkBox.LabelStyle != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.LabelStyle, value);
                     _checkBox.LabelStyle = value;
@@ -143,11 +143,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _checkBox!.Orientation;
+            get => _checkBox.Orientation;
 
             set
             {
-                if (_checkBox!.Orientation != value)
+                if (_checkBox.Orientation != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.Orientation, value);
                     _checkBox.Orientation = value;
@@ -160,11 +160,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Text
         {
-            get => _checkBox!.Values.Text;
+            get => _checkBox.Values.Text;
 
             set
             {
-                if (_checkBox!.Values.Text != value)
+                if (_checkBox.Values.Text != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Text, value);
                     _checkBox.Values.Text = value;
@@ -177,11 +177,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string ExtraText
         {
-            get => _checkBox!.Values.ExtraText;
+            get => _checkBox.Values.ExtraText;
 
             set
             {
-                if (_checkBox!.Values.ExtraText != value)
+                if (_checkBox.Values.ExtraText != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.ExtraText, value);
                     _checkBox.Values.ExtraText = value;
@@ -194,11 +194,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _checkBox!.Values.Image;
+            get => _checkBox.Values.Image;
 
             set
             {
-                if (_checkBox!.Values.Image != value)
+                if (_checkBox.Values.Image != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Image, value);
                     _checkBox.Values.Image = value;
@@ -211,11 +211,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _checkBox!.PaletteMode;
+            get => _checkBox.PaletteMode;
 
             set
             {
-                if (_checkBox!.PaletteMode != value)
+                if (_checkBox.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
                     _checkBox.PaletteMode = value;
@@ -227,11 +227,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font? StateCommonShortTextFont
         {
-            get => _checkBox!.StateCommon.ShortText.Font;
+            get => _checkBox.StateCommon.ShortText.Font;
 
             set
             {
-                if (_checkBox!.StateCommon.ShortText.Font != value)
+                if (_checkBox.StateCommon.ShortText.Font != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
 
@@ -244,11 +244,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font? StateCommonLongTextFont
         {
-            get => _checkBox!.StateCommon.LongText.Font;
+            get => _checkBox.StateCommon.LongText.Font;
 
             set
             {
-                if (_checkBox!.StateCommon.LongText.Font != value)
+                if (_checkBox.StateCommon.LongText.Font != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
 
@@ -261,11 +261,11 @@ namespace Krypton.Toolkit
         /// <value>The long text trim.</value>
         public PaletteTextTrim LongTextTrim
         {
-            get => _checkBox!.StateCommon.LongText.Trim;
+            get => _checkBox.StateCommon.LongText.Trim;
 
             set
             {
-                if (_checkBox!.StateCommon.LongText.Trim != value)
+                if (_checkBox.StateCommon.LongText.Trim != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
 
@@ -278,11 +278,11 @@ namespace Krypton.Toolkit
         /// <value>The short text trim.</value>
         public PaletteTextTrim ShortTextTrim
         {
-            get => _checkBox!.StateCommon.ShortText.Trim;
+            get => _checkBox.StateCommon.ShortText.Trim;
 
             set
             {
-                if (_checkBox!.StateCommon.ShortText.Trim != value)
+                if (_checkBox.StateCommon.ShortText.Trim != value)
                 {
                     _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
 

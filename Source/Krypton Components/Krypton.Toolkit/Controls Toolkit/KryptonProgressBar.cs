@@ -18,9 +18,14 @@ namespace Krypton.Toolkit
     [DefaultBindingProperty("Value")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a Krypton progress bar control.")]
-    [Designer(typeof(KryptonButtonDesigner))]
+    //[Designer(typeof(KryptonButtonDesigner))]
     public class KryptonProgressBar : Control, IContentValues
     {
+        // Progressbar designer is incorrect.
+        // Disabled for now.
+        // Control works fine without it.
+        // Will discuss later if a specific designer is desired and what it should look like.
+
         #region Instance Fields
 
         private ProgressBarStyle _style;

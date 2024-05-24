@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonManagerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonManager? _manager;
+        private readonly KryptonManager _manager;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _manager = owner.Component as KryptonManager;
+            _manager = (owner.Component as KryptonManager)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode GlobalPaletteMode
         {
-            get => _manager!.GlobalPaletteMode;
+            get => _manager.GlobalPaletteMode;
 
             set
             {
-                if (_manager!.GlobalPaletteMode != value)
+                if (_manager.GlobalPaletteMode != value)
                 {
                     _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, value);
                     _manager.GlobalPaletteMode = value;

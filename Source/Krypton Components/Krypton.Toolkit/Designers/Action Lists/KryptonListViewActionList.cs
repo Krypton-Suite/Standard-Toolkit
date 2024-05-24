@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonListViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListView? _listView;
+        private readonly KryptonListView _listView;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listView = owner.Component as KryptonListView;
+            _listView = (owner.Component as KryptonListView)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,14 +41,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ItemStyle
         {
-            get => _listView!.ItemStyle;
+            get => _listView.ItemStyle;
 
             set
             {
-                if (_listView!.ItemStyle != value)
+                if (_listView.ItemStyle != value)
                 {
-                    _service?.OnComponentChanged(_listView, null, _listView!.ItemStyle, value);
-                    _listView!.ItemStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
+                    _listView.ItemStyle = value;
                 }
             }
         }
@@ -58,14 +58,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle BackStyle
         {
-            get => _listView!.BackStyle;
+            get => _listView.BackStyle;
 
             set
             {
-                if (_listView!.BackStyle != value)
+                if (_listView.BackStyle != value)
                 {
-                    _service?.OnComponentChanged(_listView, null, _listView!.BackStyle, value);
-                    _listView!.BackStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView.BackStyle, value);
+                    _listView.BackStyle = value;
                 }
             }
         }
@@ -75,14 +75,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _listView!.BorderStyle;
+            get => _listView.BorderStyle;
 
             set
             {
-                if (_listView!.BorderStyle != value)
+                if (_listView.BorderStyle != value)
                 {
-                    _service?.OnComponentChanged(_listView, null, _listView!.BorderStyle, value);
-                    _listView!.BorderStyle = value;
+                    _service?.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
+                    _listView.BorderStyle = value;
                 }
             }
         }
@@ -91,15 +91,15 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _listView!.KryptonContextMenu;
+            get => _listView.KryptonContextMenu;
 
             set
             {
-                if (_listView!.KryptonContextMenu != value)
+                if (_listView.KryptonContextMenu != value)
                 {
-                    _service?.OnComponentChanged(_listView, null, _listView!.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
 
-                    _listView!.KryptonContextMenu = value;
+                    _listView.KryptonContextMenu = value;
                 }
             }
         }
@@ -108,15 +108,15 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _listView!.StateCommon.Item.Content.ShortText.Font!;
+            get => _listView.StateCommon.Item.Content.ShortText.Font!;
 
             set
             {
-                if (_listView!.StateCommon.Item.Content.ShortText.Font != value)
+                if (_listView.StateCommon.Item.Content.ShortText.Font != value)
                 {
-                    _service?.OnComponentChanged(_listView, null, _listView!.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
 
-                    _listView!.StateCommon.Item.Content.ShortText.Font = value;
+                    _listView.StateCommon.Item.Content.ShortText.Font = value;
                 }
             }
         }

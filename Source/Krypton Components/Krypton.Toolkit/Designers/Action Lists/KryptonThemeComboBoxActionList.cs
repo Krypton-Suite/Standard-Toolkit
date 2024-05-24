@@ -13,16 +13,14 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonThemeComboBox? _themeComboBox;
-
+        private readonly KryptonThemeComboBox _themeComboBox;
         private readonly IComponentChangeService? _service;
 
         #endregion
 
         public KryptonThemeComboBoxActionList(KryptonThemeComboBoxDesigner owner) : base(owner.Component)
         {
-            _themeComboBox = owner.Component as KryptonThemeComboBox;
-
+            _themeComboBox = (owner.Component as KryptonThemeComboBox)!;
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
     }

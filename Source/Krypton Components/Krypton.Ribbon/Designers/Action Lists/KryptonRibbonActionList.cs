@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
             : base(owner.Component)
         {
             // Remember the ribbon instance
-            _ribbon = (KryptonRibbon)owner.Component;
+            _ribbon = (owner.Component as KryptonRibbon)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;

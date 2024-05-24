@@ -12,7 +12,7 @@ namespace Krypton.Toolkit
     internal class KryptonLinkWrapLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonLinkWrapLabel? _linkWrapLabel;
+        private readonly KryptonLinkWrapLabel _linkWrapLabel;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the label instance
-            _linkWrapLabel = owner.Component as KryptonLinkWrapLabel;
+            _linkWrapLabel = (owner.Component as KryptonLinkWrapLabel)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -38,11 +38,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _linkWrapLabel!.LabelStyle;
+            get => _linkWrapLabel.LabelStyle;
 
             set
             {
-                if (_linkWrapLabel!.LabelStyle != value)
+                if (_linkWrapLabel.LabelStyle != value)
                 {
                     _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.LabelStyle, value);
                     _linkWrapLabel.LabelStyle = value;
@@ -55,11 +55,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _linkWrapLabel!.PaletteMode;
+            get => _linkWrapLabel.PaletteMode;
 
             set
             {
-                if (_linkWrapLabel!.PaletteMode != value)
+                if (_linkWrapLabel.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.PaletteMode, value);
                     _linkWrapLabel.PaletteMode = value;
@@ -71,11 +71,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font Font
         {
-            get => _linkWrapLabel!.StateCommon.Font!;
+            get => _linkWrapLabel.StateCommon.Font!;
 
             set
             {
-                if (_linkWrapLabel!.StateCommon.Font != value)
+                if (_linkWrapLabel.StateCommon.Font != value)
                 {
                     _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.StateCommon.Font, value);
 
