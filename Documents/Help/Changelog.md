@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
@@ -13,7 +14,7 @@
 * Resolved [#1370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1370), **[Regression]** KryptonForm background colour
 * **[Breaking Change]:** The `RibbonStrings` options, usually located in `KryptonRibbon` has been moved to `KryptonManager` -> `ToolkitStrings` -> `RibbonStrings`
 * Resolved [#1363](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1363), Incorrect usage of storage objects
-* Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
+* Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), Using today's Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
 * Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), Duplicate window titles when window maximized
 * Resolved [#1362](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1362), **[Regression]** Using todays Alpha and todays alpha Demos: cannot open Outlook Mail Clone Form in the designer
 * Tested [#1188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1188), **[Regression]** Duplicate window titles when window maximized
