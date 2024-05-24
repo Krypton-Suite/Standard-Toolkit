@@ -84,13 +84,14 @@
 * New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
 * Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
-* Version bump `80.xx.xx.xx` -> `90.xx.xx.xx`
+* Version bump `81.xx.xx.xx` -> `90.xx.xx.xx`
 
 =======
 
-## 2024-##-## - Build 24## (Patch #) - # 2024
+## 2024-06-24 - Build 2406 (Patch 2) - June 2024
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
+* Version bump `80.xx.xx.xx` -> `81.xx.xx.xx`
 
 =======
 
