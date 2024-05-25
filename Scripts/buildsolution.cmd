@@ -44,7 +44,7 @@ goto build2019
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2022build
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
