@@ -7,9 +7,9 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
 
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
-
-pause
 goto exitbatch
+
+goto end
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -36,13 +36,13 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
-@echo Started: %date% %time% %zone%
-@echo
+echo Started: %date% %time% %zone%
+echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% canary.proj /fl /flp:logfile=../Logs/canary-build-log.log /bl:../Logs/canary-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/build-log.log /bl:../Logs/build-log.binlog
 
-@echo Build Completed: %date% %time% %zone%
+echo Build Completed: %date% %time% %zone%
 
 pause
 
@@ -59,5 +59,8 @@ if %answer%==n exit
 cd ..
 
 run.cmd
+
+:end
+pause
 
 :exitbatch

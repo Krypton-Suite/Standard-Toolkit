@@ -1,4 +1,4 @@
-:: Last updated: Monday 28th August, 2023 @ 18:00
+:: Last updated: Friday 24th May, 2024 @ 10:00
 
 @echo off
 
@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 2.0. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 2.2. Please select an option below.
 
 @echo ==============================================================================================
 
@@ -153,9 +153,8 @@ echo Deleted the 'Krypton.Toolkit\obj' folder
 echo Deleting the 'Krypton.Workspace\obj' folder
 rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
 echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'build.log' file
-del /f build.log
-echo Deleted the 'build.log' file
+echo Deleting the 'Logs' folder
+del /f "Logs"
 
 pause
 
