@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonPanelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonPanel? _panel;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonPanel _panel;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _panel = owner.Component as KryptonPanel;
+            _panel = (owner.Component as KryptonPanel)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -41,13 +41,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle PanelBackStyle
         {
-            get => _panel!.PanelBackStyle;
+            get => _panel.PanelBackStyle;
 
             set 
             {
-                if (_panel!.PanelBackStyle != value)
+                if (_panel.PanelBackStyle != value)
                 {
-                    _service.OnComponentChanged(_panel, null, _panel.PanelBackStyle, value);
+                    _service?.OnComponentChanged(_panel, null, _panel.PanelBackStyle, value);
                     _panel.PanelBackStyle = value;
                 }
             }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _panel!.PaletteMode;
+            get => _panel.PaletteMode;
 
             set 
             {
-                if (_panel!.PaletteMode != value)
+                if (_panel.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_panel, null, _panel.PaletteMode, value);
+                    _service?.OnComponentChanged(_panel, null, _panel.PaletteMode, value);
                     _panel.PaletteMode = value;
                 }
             }

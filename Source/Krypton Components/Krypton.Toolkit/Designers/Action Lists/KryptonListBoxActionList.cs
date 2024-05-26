@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonListBox _listBox;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listBox = (KryptonListBox)owner.Component;
+            _listBox = (owner.Component as KryptonListBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.ItemStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.ItemStyle, value);
                     _listBox.ItemStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BackStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.BackStyle, value);
                     _listBox.BackStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BorderStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.BorderStyle, value);
                     _listBox.BorderStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.KryptonContextMenu, value);
 
                     _listBox.KryptonContextMenu = value;
                 }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.SelectionMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.SelectionMode, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.SelectionMode, value);
                     _listBox.SelectionMode = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.Sorted != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.Sorted, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.Sorted, value);
                     _listBox.Sorted = value;
                 }
             }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.PaletteMode, value);
                     _listBox.PaletteMode = value;
                 }
             }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.StateCommon.Item.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.ShortText.Font, value);
 
                     _listBox.StateCommon.Item.Content.ShortText.Font = value;
                 }
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.StateCommon.Item.Content.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.LongText.Font, value);
 
                     _listBox.StateCommon.Item.Content.LongText.Font = value;
                 }

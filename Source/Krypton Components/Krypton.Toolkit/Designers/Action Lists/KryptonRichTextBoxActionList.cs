@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonRichTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRichTextBox? _richTextBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonRichTextBox _richTextBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _richTextBox = owner.Component as KryptonRichTextBox;
+            _richTextBox = (owner.Component as KryptonRichTextBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -40,13 +40,13 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _richTextBox!.KryptonContextMenu;
+            get => _richTextBox.KryptonContextMenu;
 
             set
             {
-                if (_richTextBox!.KryptonContextMenu != value)
+                if (_richTextBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
 
                     _richTextBox.KryptonContextMenu = value;
                 }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _richTextBox!.PaletteMode;
+            get => _richTextBox.PaletteMode;
 
             set
             {
-                if (_richTextBox!.PaletteMode != value)
+                if (_richTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
                     _richTextBox.PaletteMode = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _richTextBox!.InputControlStyle;
+            get => _richTextBox.InputControlStyle;
 
             set
             {
-                if (_richTextBox!.InputControlStyle != value)
+                if (_richTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
                     _richTextBox.InputControlStyle = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Multiline
         {
-            get => _richTextBox!.Multiline;
+            get => _richTextBox.Multiline;
 
             set
             {
-                if (_richTextBox!.Multiline != value)
+                if (_richTextBox.Multiline != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
                     _richTextBox.Multiline = value;
                 }
             }
@@ -109,13 +109,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool WordWrap
         {
-            get => _richTextBox!.WordWrap;
+            get => _richTextBox.WordWrap;
 
             set
             {
-                if (_richTextBox!.WordWrap != value)
+                if (_richTextBox.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
                     _richTextBox.WordWrap = value;
                 }
             }
@@ -125,13 +125,13 @@ namespace Krypton.Toolkit
         /// <value>The rich text box font.</value>
         public Font Font
         {
-            get => _richTextBox!.StateCommon.Content.Font!;
+            get => _richTextBox.StateCommon.Content.Font!;
 
             set
             {
-                if (_richTextBox!.StateCommon.Content.Font != value)
+                if (_richTextBox.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
 
                     _richTextBox.StateCommon.Content.Font = value;
                 }

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonGroupActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonGroup? _group;
+        private readonly KryptonGroup _group;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the group instance
-            _group = owner.Component as KryptonGroup;
+            _group = (owner.Component as KryptonGroup)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _group!.GroupBackStyle;
+            get => _group.GroupBackStyle;
 
             set
             {
-                if (_group!.GroupBackStyle != value)
+                if (_group.GroupBackStyle != value)
                 {
                     _service?.OnComponentChanged(_group, null, _group.GroupBackStyle, value);
                     _group.GroupBackStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _group!.GroupBorderStyle;
+            get => _group.GroupBorderStyle;
 
             set 
             {
-                if (_group!.GroupBorderStyle != value)
+                if (_group.GroupBorderStyle != value)
                 {
                     _service?.OnComponentChanged(_group, null, _group.GroupBorderStyle, value);
                     _group.GroupBorderStyle = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _group!.PaletteMode;
+            get => _group.PaletteMode;
 
             set 
             {
-                if (_group!.PaletteMode != value)
+                if (_group.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_group, null, _group.PaletteMode, value);
                     _group.PaletteMode = value;

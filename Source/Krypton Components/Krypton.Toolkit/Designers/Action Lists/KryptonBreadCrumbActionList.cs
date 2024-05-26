@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonBreadCrumbActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonBreadCrumb? _breadCrumb;
+        private readonly KryptonBreadCrumb _breadCrumb;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the bread crumb control instance
-            _breadCrumb = owner.Component as KryptonBreadCrumb;
+            _breadCrumb = (owner.Component as KryptonBreadCrumb)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle ControlBackStyle
         {
-            get => _breadCrumb!.ControlBackStyle;
+            get => _breadCrumb.ControlBackStyle;
 
             set
             {
-                if (_breadCrumb!.ControlBackStyle != value)
+                if (_breadCrumb.ControlBackStyle != value)
                 {
                     _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBackStyle, value);
                     _breadCrumb.ControlBackStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle ControlBorderStyle
         {
-            get => _breadCrumb!.ControlBorderStyle;
+            get => _breadCrumb.ControlBorderStyle;
 
             set
             {
-                if (_breadCrumb!.ControlBorderStyle != value)
+                if (_breadCrumb.ControlBorderStyle != value)
                 {
                     _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.ControlBorderStyle, value);
                     _breadCrumb.ControlBorderStyle = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle CrumbButtonStyle
         {
-            get => _breadCrumb!.CrumbButtonStyle;
+            get => _breadCrumb.CrumbButtonStyle;
 
             set
             {
-                if (_breadCrumb!.CrumbButtonStyle != value)
+                if (_breadCrumb.CrumbButtonStyle != value)
                 {
                     _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.CrumbButtonStyle, value);
                     _breadCrumb.CrumbButtonStyle = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _breadCrumb!.PaletteMode;
+            get => _breadCrumb.PaletteMode;
 
             set
             {
-                if (_breadCrumb!.PaletteMode != value)
+                if (_breadCrumb.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_breadCrumb, null, _breadCrumb.PaletteMode, value);
                     _breadCrumb.PaletteMode = value;

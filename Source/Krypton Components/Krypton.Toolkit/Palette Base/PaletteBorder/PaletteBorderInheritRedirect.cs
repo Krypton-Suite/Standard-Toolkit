@@ -155,8 +155,8 @@ namespace Krypton.Toolkit
         /// Gets a border image from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Image instance.</returns>
-        public override Image? GetBorderImage(PaletteState state) => _redirect?.GetBorderImage(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
+        /// <returns>Image instance, or null if _redirect is null.</returns>
+        public override Image? GetBorderImage(PaletteState state) => _redirect?.GetBorderImage(Style, state);
 
         /// <summary>
         /// Gets the border image style from the redirector.
