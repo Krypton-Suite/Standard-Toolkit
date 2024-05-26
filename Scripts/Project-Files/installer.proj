@@ -1,0 +1,75 @@
+<Project>
+	<Import Project="..\..\Directory.Build.props" />
+	
+	<PropertyGroup>
+		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
+		<Configuration>Installer</Configuration>
+	</PropertyGroup>
+
+	<Target Name="Clean">
+		<ItemGroup>
+			<Projects Include="..\..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+	</Target>	
+
+	<Target Name="Restore">
+		<ItemGroup>
+			<Projects Include="..\..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+	</Target>
+	
+	<Target Name="Build" DependsOnTargets="Restore">
+		<ItemGroup>
+			<Projects Include="..\..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" />
+	</Target>
+	
+	<Target Name="CleanPackages">
+		<ItemGroup>
+			<NugetPkgs Include="..\..\..\Bin\Installer\*.nupkg" />
+		</ItemGroup>
+		<Delete Files="@(NugetPkgs)" />
+	</Target>
+	
+	<Target Name="PackAll">
+		<ItemGroup>
+			<Projects Include="..\..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" />
+	</Target>
+	
+	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />
+	
+	<Target Name="Push">
+		<ItemGroup>
+			<NugetPkgs Include="..\..\..\Bin\Installer\*.$(LibraryVersion).nupkg" />
+		</ItemGroup>
+		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
+	</Target>
+
+	<Target Name="CreateNightlyZip">
+		<PropertyGroup>
+			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
+		</PropertyGroup>
+		<ItemGroup>
+			<DebugApplicationFiles Include="..\..\..\Bin\Installer\**\*.*" Exclude="..\..\..\Bin\Installer\*vshost.exe*" />
+		</ItemGroup>
+		<MakeDir Directories="$(NightlyBuildPath)"/>
+		<Zip Files="@(DebugApplicationFiles)"
+		     WorkingDirectory="..\..\..\Bin\Installer"
+		     ZipFileName="$(NightlyBuildPath)\$(StringDate)_$(NightlyZipName).zip"
+		     ZipLevel="9" />
+	</Target>
+</Project>

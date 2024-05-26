@@ -40,7 +40,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% installer.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% ../Project Files/installer.proj /fl /flp:logfile=../Logs/installer-build-log.log /bl:../Logs/installer-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 @echo Build Completed: %date% %time% %zone%
 
