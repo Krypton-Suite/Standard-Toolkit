@@ -100,11 +100,12 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(context is not null);
 
             // Validate incoming reference
-
-            if (context.Renderer is null)
+            if (context!.Renderer is null)
             {
                 throw new ArgumentNullException(nameof(context.Renderer));
             }

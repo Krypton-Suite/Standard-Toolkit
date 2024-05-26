@@ -387,9 +387,9 @@ namespace Krypton.Toolkit
                     Rectangle rect = ViewButton.ClientRectangle;
 
                     // If the button spec is on the chrome titlebar then find position manually
-                    Point pt = Manager.Control is Form
-                        ? new Point(Manager.Control.Left + rect.Left, Manager.Control.Top + rect.Bottom + 3)
-                        : Manager.Control.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+                    Point pt = Manager.Control is Form form
+                        ? new Point(form.Left + rect.Left, form.Top + rect.Bottom + 3)
+                        : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
 
                     // Show the context menu just below the view itself
                     ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
 
                     // Convert from control coordinates to screen coordinates
                     Rectangle rect = ViewButton.ClientRectangle;
-                    Point pt = Manager.Control.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+                    Point pt = Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
 
                     // Show the context menu just below the view itself
                     VisualPopupManager.Singleton.ShowContextMenuStrip(ButtonSpec.ContextMenuStrip, pt,

@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets and sets the text associated with the control.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DisallowNull]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

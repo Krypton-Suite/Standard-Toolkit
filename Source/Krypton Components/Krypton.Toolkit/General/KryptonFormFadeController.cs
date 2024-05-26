@@ -14,7 +14,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _fadingEnabled;
+        // Disabled unused field
+        //private bool _fadingEnabled;
 
         private bool _shouldClose;
 
@@ -53,7 +54,8 @@ namespace Krypton.Toolkit
         {
             _owner = owner;
 
-            _fadingEnabled = false;
+            // Disabled unused field
+            //_fadingEnabled = false;
 
             _shouldClose = true;
 
