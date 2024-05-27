@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Drawing.Drawing2D;
-
 namespace Krypton.Toolkit
 {
     /// <summary>Provides a base for Visual Studio palettes.</summary>

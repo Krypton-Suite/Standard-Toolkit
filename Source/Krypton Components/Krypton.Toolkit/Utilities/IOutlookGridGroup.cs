@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit
 {
     /// <summary>
     /// IOutlookGridGroup specifies the interface of any implementation of a OutlookGridGroup class
