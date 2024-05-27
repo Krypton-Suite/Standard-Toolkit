@@ -53,7 +53,6 @@
         }
 
         #endregion
-        private KryptonHeaderGroup kryptonHeaderGroup1;
         private KryptonHeader kryptonHeader1;
     }
 }

@@ -46,12 +46,11 @@ namespace TestForm
             kryptonOutlookGrid1.ClearInternalRows();
             kryptonOutlookGrid1.FillMode = GridFillMode.GroupsAndNodes;
 
-            List<Token> tokensList = new List<Token>();
-            tokensList.Add(new Token("Best seller", Color.Orange, Color.Black));
-            tokensList.Add(new Token("New", Color.LightGreen, Color.Black));
-            tokensList.Add(null);
-            tokensList.Add(null);
-            tokensList.Add(null);
+            List<Token> tokensList =
+            [
+                new Token("Best seller", Color.Orange, Color.Black),
+                new Token("New", Color.LightGreen, Color.Black)
+            ];
 
             Random random = new Random();
 

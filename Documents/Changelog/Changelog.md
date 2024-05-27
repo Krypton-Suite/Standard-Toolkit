@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1461) Remove designer visibility of MouseDoubleClick and DoubleClick Events for the KryptonComboxBox
 * Resolved [#1478](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1478) Wrongly assigned designers to `KryptonListview` and `KryptonProgressBar` corrected. DesignerActionLists code updated.
 * Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)

@@ -19,12 +19,6 @@ namespace TestForm
 
         private bool _useRTLReading;
 
-        private bool _boolResult;
-
-        private CheckState _checkStateResult;
-
-        private DateTime _dateTimeResult;
-
         private string _stringResult;
 
         private int _integerResult;

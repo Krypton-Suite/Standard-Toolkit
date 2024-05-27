@@ -299,8 +299,6 @@ namespace TestForm
         #endregion
 
         private Krypton.Navigator.KryptonNavigator kryptonNavigator1;
-        private Krypton.Navigator.KryptonPage kryptonPage1;
-        private Krypton.Navigator.KryptonPage kryptonPage2;
         private Krypton.Toolkit.KryptonCommand kryptonCommand1;
         private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;

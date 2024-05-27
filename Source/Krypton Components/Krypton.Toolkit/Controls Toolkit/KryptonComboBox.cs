@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.ComponentModel;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -839,6 +841,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Events
+        /// <summary>This event is not relevant for this class.</summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new event EventHandler DoubleClick
+        {
+            add => base.DoubleClick += value;
+            remove => base.DoubleClick -= value;
+        }
+
+        /// <summary>This event is not relevant for this class.</summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new event MouseEventHandler MouseDoubleClick
+        {
+            add => base.MouseDoubleClick += value;
+            remove => base.MouseDoubleClick -= value;
+        }
+
         /// <summary>
         /// Occurs when [draw item].
         /// </summary>

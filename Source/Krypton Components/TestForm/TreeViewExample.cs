@@ -19,25 +19,25 @@ namespace TestForm
         {
             InitializeComponent();
 
-            buttonAppend_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
+            buttonAppend_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
             ktvTest.SelectedNode = null;
-            buttonAppend_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
+            buttonAppend_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
             ktvTest.SelectedNode = null;
-            buttonAppend_Click(null, EventArgs.Empty);
-            buttonInsert_Click(null, EventArgs.Empty);
+            buttonAppend_Click(this, EventArgs.Empty);
+            buttonInsert_Click(this, EventArgs.Empty);
             ktvTest.SelectedNode = null;
-            buttonAppend_Click(null, EventArgs.Empty);
-            buttonAppend_Click(null, EventArgs.Empty);
+            buttonAppend_Click(this, EventArgs.Empty);
+            buttonAppend_Click(this, EventArgs.Empty);
         }
 
         private KryptonTreeNode CreateNewItem()
         {
-            KryptonTreeNode item = new KryptonTreeNode
+            var item = new KryptonTreeNode
             {
                 Text = $@"Item {_next++}",
                 ImageIndex = _random.Next(imageList.Images.Count - 1)
@@ -80,7 +80,7 @@ namespace TestForm
             }
             else
             {
-                buttonAppend_Click(null, EventArgs.Empty);
+                buttonAppend_Click(sender, EventArgs.Empty);
             }
         }
 
