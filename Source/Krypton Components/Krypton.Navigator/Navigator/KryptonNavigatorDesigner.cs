@@ -54,7 +54,7 @@ namespace Krypton.Navigator
                 // Must enable the child panel so that copy and paste of navigator
                 // correctly copies across copies of the child pages. Also allows the
                 // child panel to be viewed in the document outline and modified.
-                EnableDesignMode(Navigator.ChildPanel, "PageContainer");
+                EnableDesignMode(Navigator.ChildPanel!, "PageContainer");
 
                 // Make sure that all the pages in control can be designed
                 foreach (KryptonPage page in Navigator.Pages)
