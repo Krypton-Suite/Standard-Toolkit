@@ -8,8 +8,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Ribbon
 {
     internal class FileApplicationTabToContent : RibbonToContent

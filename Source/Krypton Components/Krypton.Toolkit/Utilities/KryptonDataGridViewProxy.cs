@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System;
-
 namespace Krypton.Toolkit
 {
     public class KryptonDataGridViewProxy

@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Toolkit
 {
     /// <summary>

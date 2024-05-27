@@ -175,14 +175,14 @@ namespace TestForm
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override int CompareTo(object obj)
+        public override int CompareTo(object? obj)
         {
             int orderModifier = (Column.SortDirection == SortOrder.Ascending ? 1 : -1);
             int priceOther = 0;
 
-            if (obj is OutlookGridPriceGroup)
+            if (obj is OutlookGridPriceGroup group)
             {
-                priceOther = ((OutlookGridPriceGroup)obj)._priceCode;
+                priceOther = group._priceCode;
             }
             else
             {

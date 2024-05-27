@@ -7,9 +7,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
-using System;
-
 namespace Krypton.Toolkit
 {
     /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>

@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Windows.Forms.VisualStyles;
-
 namespace Krypton.Navigator
 {
     /// <summary>
