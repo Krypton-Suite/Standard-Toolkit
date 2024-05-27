@@ -941,7 +941,10 @@ namespace Krypton.Ribbon
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool InDesignMode => DesignMode;
+        public new bool InDesignMode => 
+            // Removed warning CS0108: "IndesignMode hides inherited member VisualControl.InDesignMode".
+            // By marking the property as new.
+            DesignMode;
 
         /// <summary>
         /// Internal design time method.

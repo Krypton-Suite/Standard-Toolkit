@@ -179,7 +179,9 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    return base.InheritanceAttribute;
+                    // Null forgiving operator added to remove the null reference return warning.
+                    // base.InheritanceAttribute will always return a reference.
+                    return base.InheritanceAttribute!;
                 }
             }
         }
