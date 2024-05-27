@@ -1,26 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <Choose>
-        <When Condition="'$(Configuration)' == 'Nightly'">
+        <When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
             <PropertyGroup>
                 <TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
             </PropertyGroup>
         </When>
         <Otherwise>
-            <Choose>
-                <When Condition="'$(Configuration)' == 'Canary'">
-                    <PropertyGroup>
-                        <TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
-                    </PropertyGroup>
-                </When>
-                <Otherwise>
-                    <PropertyGroup>
-                        <TargetFrameworks>net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
+            <PropertyGroup>
+                <TargetFrameworks>net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
 
-                        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows</TargetFrameworks>
-                    </PropertyGroup>
-                </Otherwise>
-            </Choose>
+                <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows</TargetFrameworks>
+            </PropertyGroup>
         </Otherwise>
     </Choose>
 
@@ -41,7 +32,7 @@
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <NoWarn>1701;1702</NoWarn>
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>preview</LangVersion>
@@ -82,10 +73,10 @@
         <Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
         <Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
         <Compile Update="Controls Visuals\RTL Aware\VisualMessageBoxRtlAwareFormDep.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="Controls Visuals\VisualMessageBoxFormDep.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
@@ -470,9 +461,9 @@
             <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs" />
     </ItemGroup>
@@ -882,8 +873,8 @@
             <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
