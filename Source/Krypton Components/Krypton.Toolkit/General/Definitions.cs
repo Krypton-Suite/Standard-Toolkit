@@ -1921,7 +1921,10 @@ namespace Krypton.Toolkit
         /// </summary>
         SystemStop = MessageBoxIcon.Stop,
 
-        /// <summary>Specify a error icon.</summary>
+        /// <summary>
+        /// Specify a error icon.
+        /// The message box contains a symbol consisting of white X in a circle with a red background.
+        /// </summary>
         Error = 6,
 
         /// <summary>
