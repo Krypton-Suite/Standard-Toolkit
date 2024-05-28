@@ -2360,7 +2360,7 @@ namespace Krypton.Ribbon
             // Add the quick access toolbar buttons
             keyTipList.AddRange(QATLocation == QATLocation.Above
                 ? CaptionArea!.VisibleQAT.GetQATKeyTips()
-                : _qatBelowContents.GetQATKeyTips(null));
+                : _qatBelowContents.GetQATKeyTips(this.FindKryptonForm()!));
 
             // Add the tab headers
             keyTipList.AddRange(TabsArea.GetTabKeyTips());

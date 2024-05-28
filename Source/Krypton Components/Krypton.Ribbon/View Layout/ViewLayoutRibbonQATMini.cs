@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon? ribbon,
-                                       [DisallowNull] NeedPaintHandler? needPaintDelegate)
+        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon is not null);
             
@@ -138,7 +138,8 @@ namespace Krypton.Ribbon
             var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
-            keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm!));
+            //keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm!));
+            keyTipList.AddRange(_borderContents.GetQATKeyTips(_ribbon.FindKryptonForm()!));
 
             // If we have the extra button and it is in overflow appearance
             if (_extraButton is {Overflow : true })

@@ -109,8 +109,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ownerForm">KryptonForm instance that owns this view.</param>
         /// <returns>Array of KeyTipInfo instances.</returns>
-        public KeyTipInfo[] GetQATKeyTips(KryptonForm? ownerForm)
+        public KeyTipInfo[] GetQATKeyTips(KryptonForm ownerForm)
         {
+            // ownerForm cannot be null
+            if (ownerForm is null)
+            {
+                throw new ArgumentNullException(nameof(ownerForm));
+            }
+
             // Create all the list of all possible QAT key tip strings
             var keyTipsPool = new Stack<string>();
 
@@ -133,7 +139,7 @@ namespace Krypton.Ribbon
             }
 
             // If integrated into the caption area then get the caption area height
-            var borders = ownerForm!.RealWindowBorders;
+            var borders = ownerForm.RealWindowBorders;
 
             var keyTipList = new KeyTipInfoList();
 

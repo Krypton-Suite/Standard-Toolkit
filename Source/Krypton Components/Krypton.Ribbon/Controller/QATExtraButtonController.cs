@@ -143,13 +143,14 @@ namespace Krypton.Ribbon
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
             // We should have a visual popup for showing the qat overflow group
-            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupQATOverflow popupOverflow }
-                )
+            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupQATOverflow popupOverflow })
             {
                 // Grab the list of key tips from the popup group
                 Ribbon.KeyTipMode = KeyTipMode.PopupQATOverflow;
                 var keyTipList = new KeyTipInfoList();
-                keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(null));
+
+                // GetQATKeyTips() requires a valid reference to the KryptonForm tthe Ribbon belongs to.
+                keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(ribbon.FindKryptonForm()!));
 
                 // Update key tips with those appropriate for this tab
                 Ribbon.SetKeyTips(keyTipList, KeyTipMode.PopupQATOverflow);
