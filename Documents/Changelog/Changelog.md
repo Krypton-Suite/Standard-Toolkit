@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1138) BinaryFormatter is deprecated due to possible security risks and will be removed with .NET 9.
 * Resolved [#1490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1490) **[Regression]** Clean get of alpha branches results in multiple build errors
 * Resolved [#1489](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1489) **[Regression]** KMessageBox (and "Deprecated") using Error Icon plays the wrong sound
 * Resolved [#1461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1461) Remove designer visibility of MouseDoubleClick and DoubleClick Events for the KryptonComboxBox
