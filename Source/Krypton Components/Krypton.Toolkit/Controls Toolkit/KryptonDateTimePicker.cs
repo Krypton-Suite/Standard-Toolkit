@@ -348,7 +348,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -407,6 +407,7 @@ namespace Krypton.Toolkit
         [Description(@"Text used as label for todays date.")]
         [DefaultValue("Today:")]
         [Localizable(true)]
+        [AllowNull]
         public string CalendarTodayText
         {
             get => _today;
@@ -470,19 +471,12 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Today's date.")]
-        public DateTime? CalendarTodayDate
+        [AllowNull]
+        public DateTime CalendarTodayDate
         {
             get => _todayDate;
 
-            set
-            {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
-                _todayDate = value ?? DateTime.Now.Date;
-            }
+            set => _todayDate = value == null ? DateTime.Now.Date : value;
         }
 
         private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
@@ -495,6 +489,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
@@ -522,6 +517,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
@@ -549,6 +545,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
@@ -657,7 +654,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the date/time value assigned to the control..
+        ///  Sets date as the current selected date.
+        /// </summary>
+        public void SetDate(DateTime date) => Value = date;
+
+        /// <summary>
+        /// Gets or sets the date/time value assigned to the control.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Property for the date/time.")]
@@ -688,17 +690,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Should the Value property be serialized.
-        /// </summary>
-        /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeValue() => false;
-
-        /// <summary>
-        /// Reset value of the Value property.
-        /// </summary>
-        public void ResetValue()
+        internal bool ShouldSerializeValue() => false;
+        internal void ResetValue()
         {
             // Setting an explicit value means the check box should be set
             InternalViewDrawCheckBox.CheckState = CheckState.Checked;
@@ -1921,14 +1914,6 @@ namespace Krypton.Toolkit
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
         }
-
-        /// <summary>
-        /// Raises the Paint event.
-        /// </summary>
-        /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        /// <returns></returns>
-        protected override void OnPaint(PaintEventArgs? e) => base.OnPaint(e);
-
         #endregion
 
         #region Internal
@@ -2108,7 +2093,7 @@ namespace Krypton.Toolkit
                     ShowTodayCircle = CalendarShowTodayCircle,
                     ShowWeekNumbers = CalendarShowWeekNumbers,
                     CloseOnTodayClick = CalendarCloseOnTodayClick,
-                    TodayDate = CalendarTodayDate ?? DateTime.Now.Date,
+                    TodayDate = CalendarTodayDate,
                     AnnuallyBoldedDates = CalendarAnnuallyBoldedDates,
                     MonthlyBoldedDates = CalendarMonthlyBoldedDates,
                     BoldedDates = CalendarBoldedDates,

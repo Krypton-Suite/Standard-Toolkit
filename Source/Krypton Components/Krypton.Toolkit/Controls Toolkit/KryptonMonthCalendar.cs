@@ -245,6 +245,25 @@ namespace Krypton.Toolkit
 
         #region Public
         /// <summary>
+        ///  Sets date as the current selected date. The start and begin of
+        ///  the selection range will both be equal to date.
+        /// </summary>
+        public void SetDate(DateTime date)
+        {
+            if (date.Ticks < _minDate.Ticks)
+            {
+                throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
+            }
+
+            if (date.Ticks > _maxDate.Ticks)
+            {
+                throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
+            }
+
+            SetSelectionRange(date, date);
+        }
+
+        /// <summary>
         /// Gets or sets the text associated with this control.
         /// </summary>
         [Browsable(false)]
@@ -402,6 +421,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
+        [AllowNull]
         public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
@@ -437,6 +457,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
+        [AllowNull]
         public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
@@ -468,6 +489,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
+        [AllowNull]
         public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
@@ -787,7 +809,7 @@ namespace Krypton.Toolkit
                 if (_headerStyle != value)
                 {
                     _headerStyle = value;
-                    StateCommon?.Header.SetStyles(_headerStyle);
+                    StateCommon.Header.SetStyles(_headerStyle);
                     PerformNeedPaint(true);
                 }
             }
@@ -843,10 +865,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeDayOfWeekStyle() => _dayOfWeekStyle != ButtonStyle.CalendarDay;
-
-
         private void ResetDayOfWeekStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
@@ -916,7 +935,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideFocus { get; }
-
         private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
@@ -926,7 +944,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it is bolded.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideBolded { get; }
-
         private bool ShouldSerializeOverrideBolded() => !OverrideBolded.IsDefault;
 
         /// <summary>
@@ -936,7 +953,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it is today.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideToday { get; }
-
         private bool ShouldSerializeOverrideToday() => !OverrideToday.IsDefault;
 
         /// <summary>
@@ -946,7 +962,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect StateCommon { get; }
-
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
@@ -956,7 +971,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateDisabled { get; }
-
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
@@ -966,7 +980,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateNormal { get; }
-
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
@@ -976,7 +989,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateTracking { get; }
-
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
@@ -986,7 +998,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StatePressed { get; }
-
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
@@ -996,7 +1007,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked normal month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedNormal { get; }
-
         private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
@@ -1006,7 +1016,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedTracking { get; }
-
         private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
@@ -1016,7 +1025,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedPressed { get; }
-
         private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
@@ -1112,7 +1120,6 @@ namespace Krypton.Toolkit
             MonthlyBoldedDatesMask = 0;
             PerformNeedPaint(true);
         }
-
 
         /// <summary>
         /// Gets access to the owning control
@@ -1237,15 +1244,19 @@ namespace Krypton.Toolkit
                 end = start;
             }
 
+            // If the range exceeds maxSelectionCount, compare with the previous range and adjust whichever
+            // limit hasn't changed.
             TimeSpan span = end - start;
             if (span.Days >= _maxSelectionCount)
             {
                 if (start.Ticks == _selectionStart.Ticks)
                 {
+                    // Bring start date forward
                     start = end.AddDays(1 - _maxSelectionCount);
                 }
                 else
                 {
+                    // Bring end date back
                     end = start.AddDays(_maxSelectionCount - 1);
                 }
             }
@@ -1635,6 +1646,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
+        /// <summary>
+        ///  Return a localized string representation of the given DateTime value.
+        ///  Used for throwing exceptions, etc.
+        /// </summary>
+        private static string FormatDate(DateTime value)
+            => value.ToString("d", CultureInfo.CurrentCulture);
+
         private DateTime EffectiveMaxDate(DateTime maxDate)
         {
             DateTime maximumDateTime = DateTimePicker.MaximumDateTime;
@@ -1786,6 +1804,5 @@ namespace Krypton.Toolkit
 
         private void UpdateFocusOverride(bool focus) => _hasFocus = focus;
         #endregion
-
     }
 }
