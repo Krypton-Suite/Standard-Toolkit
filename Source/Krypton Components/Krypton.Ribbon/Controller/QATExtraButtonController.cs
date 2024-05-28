@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
                 Ribbon.KeyTipMode = KeyTipMode.PopupQATOverflow;
                 var keyTipList = new KeyTipInfoList();
 
-                // GetQATKeyTips() requires a valid reference to the KryptonForm tthe Ribbon belongs to.
+                // GetQATKeyTips() requires a valid reference to the KryptonForm the Ribbon belongs to.
                 keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(ribbon.FindKryptonForm()!));
 
                 // Update key tips with those appropriate for this tab

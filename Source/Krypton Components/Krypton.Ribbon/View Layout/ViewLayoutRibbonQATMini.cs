@@ -138,7 +138,6 @@ namespace Krypton.Ribbon
             var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
-            //keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm!));
             keyTipList.AddRange(_borderContents.GetQATKeyTips(_ribbon.FindKryptonForm()!));
 
             // If we have the extra button and it is in overflow appearance
