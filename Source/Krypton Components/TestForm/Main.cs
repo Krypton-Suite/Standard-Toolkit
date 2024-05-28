@@ -78,17 +78,6 @@ namespace TestForm
 
         private void kbtnTestMessagebox_Click(object sender, EventArgs e)
         {
-            KryptonMessageBoxDataDep data = new KryptonMessageBoxDataDep
-            {
-                MessageText = @"This is a test!",
-                Caption = @"Hello World",
-                Buttons = KryptonMessageBoxButtons.OK,
-                Icon = KryptonMessageBoxIcon.Information,
-                MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
-                ShowCloseButton = kryptonCheckBox1.Checked,
-                //Options = MessageBoxOptions.RtlReading
-            };
-
             KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
                 KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
                 linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
@@ -112,7 +101,7 @@ namespace TestForm
 
         private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
         {
-            ThemeTest integratedToolBar = new ThemeTest();
+            var integratedToolBar = new ThemeTest();
 
             integratedToolBar.Show();
         }
@@ -134,7 +123,7 @@ namespace TestForm
 
         private void kbtnVisualStudio2010Theme_Click(object sender, EventArgs e)
         {
-            ThemeTest vsTheme = new ThemeTest();
+            var vsTheme = new ThemeTest();
 
             vsTheme.Show();
         }
@@ -142,13 +131,6 @@ namespace TestForm
         private void kryptonButton4_Click(object sender, EventArgs e)
         {
             new GroupBoxTest().Show();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            FormBorderStyle = FormBorderStyle.Sizable;
-
-            kcbtnSizable.Checked = true;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -168,7 +150,7 @@ namespace TestForm
 
         private void kryptonButton8_Click(object sender, EventArgs e)
         {
-            KryptonAboutBoxData aboutBoxData = new KryptonAboutBoxData()
+            var aboutBoxData = new KryptonAboutBoxData()
             {
                 ApplicationName = @"TestForm",
                 CurrentAssembly = Assembly.GetExecutingAssembly(),
@@ -177,7 +159,7 @@ namespace TestForm
                 ShowToolkitInformation = true,
             };
 
-            KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();
+            var aboutToolkitData = new KryptonAboutToolkitData();
 
             KryptonAboutBox.Show(aboutBoxData, aboutToolkitData);
         }
@@ -217,6 +199,7 @@ namespace TestForm
 
                     kcbtnSizableToolWindow.Checked = false;
                     break;
+
                 case FormBorderStyle.FixedSingle:
                     FormBorderStyle = FormBorderStyle.FixedSingle;
 
@@ -331,7 +314,7 @@ namespace TestForm
 
         private void kryptonButton9_Click(object sender, EventArgs e)
         {
-            CommandLinkButtons commandLinks = new CommandLinkButtons();
+            var commandLinks = new CommandLinkButtons();
 
             commandLinks.ShowDialog();
         }
@@ -343,7 +326,7 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-            ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
+            var toastNotification = new ToastNotificationTestChoice();
 
             toastNotification.Show();
         }
@@ -355,7 +338,7 @@ namespace TestForm
 
         private void kryptonButton12_Click(object sender, EventArgs e)
         {
-            FadeFormTest fadeForm = new FadeFormTest();
+            var fadeForm = new FadeFormTest();
 
             fadeForm.ShowDialog();
         }
