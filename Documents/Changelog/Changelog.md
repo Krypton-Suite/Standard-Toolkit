@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1462](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1462) TestForm app: KCombobox from main.cs causes a crash
 * Resolved [#1414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1414) `SetDate` API is missing from `KryptonMonthCalendar`
 * Resolved [#1138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1138) BinaryFormatter is deprecated due to possible security risks and will be removed with .NET 9.
 * Resolved [#1490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1490) **[Regression]** Clean get of alpha branches results in multiple build errors

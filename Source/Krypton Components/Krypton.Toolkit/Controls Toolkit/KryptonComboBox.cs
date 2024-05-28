@@ -386,7 +386,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
-                                PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
+                                PI.IntersectClipRect(hdc, rect.left + 2, rect.top, rect.right - 2, rect.bottom);
                                 var displayText = _kryptonComboBox.Text;
                                 if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(displayText)
@@ -572,7 +572,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask the element to draw now
-                using (RenderContext renderContext = new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
+                using (var renderContext = new RenderContext(_kryptonComboBox, g, drawRect, _kryptonComboBox.Renderer))
                 {
                     // Ask the button element to draw itself
                     _viewButton.Render(renderContext);
@@ -714,9 +714,8 @@ namespace Krypton.Toolkit
                         {
                             var tme = new PI.TRACKMOUSEEVENTS
                             {
-
                                 // This structure needs to know its own size in bytes
-                                cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
+                                cbSize = (uint)Marshal.SizeOf<PI.TRACKMOUSEEVENTS>(),
                                 dwHoverTime = 100,
 
                                 // We need to know then the mouse leaves the client window area
@@ -1172,7 +1171,7 @@ namespace Krypton.Toolkit
 
             // Must set the initial font otherwise the Form level font setting will cause the control
             // to not work correctly. Happens on Vista when the Form has non-default Font setting.
-            IPaletteTriple triple = StateActive.ComboBox;
+            var triple = StateActive.ComboBox;
             _comboBox.BackColor = triple.PaletteBack.GetBackColor1(PaletteState.Tracking);
             _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(PaletteState.Tracking);
             _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(PaletteState.Tracking)!;
@@ -1847,7 +1846,6 @@ namespace Krypton.Toolkit
         public AutoCompleteMode AutoCompleteMode
         {
             get => _comboBox.AutoCompleteMode;
-
             set => _comboBox.AutoCompleteMode = value;
         }
 
@@ -1861,7 +1859,6 @@ namespace Krypton.Toolkit
         public AutoCompleteSource AutoCompleteSource
         {
             get => _comboBox.AutoCompleteSource;
-
             set => _comboBox.AutoCompleteSource = value;
         }
 
@@ -2035,12 +2032,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => ComboBox != null && ComboBox.Focus();
+        public new bool Focus() => ComboBox.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => ComboBox?.Select();
+        public new void Select() => ComboBox.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -2493,17 +2490,14 @@ namespace Krypton.Toolkit
         /// <param name="e">Event details.</param>
         protected override void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            if (_comboBox != null)
-            {
-                UpdateStateAndPalettes();
-                IPaletteTriple triple = GetComboBoxTripleState();
-                PaletteState state = _drawDockerOuter.State;
-                _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
-                _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
-                _comboBox.ClearAppThemed();
-                _comboHolder.BackColor = _comboBox.BackColor;
-            }
+            UpdateStateAndPalettes();
+            var triple = GetComboBoxTripleState();
+            PaletteState state = _drawDockerOuter.State;
+            _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
+            _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
+            _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
+            _comboBox.ClearAppThemed();
+            _comboHolder.BackColor = _comboBox.BackColor;
 
             base.OnUserPreferenceChanged(sender, e);
         }
@@ -2524,21 +2518,29 @@ namespace Krypton.Toolkit
                 // Let base class calculate fill rectangle
                 base.OnLayout(levent);
 
-                // Only use layout logic if control is fully initialized or if being forced
-                // to allow a relayout or if in design mode.
-                if (_forcedLayout || (DesignMode && (_comboHolder != null)))
+                try
                 {
-                    // Only need to relayout if there is something that would be visible
-                    if (_layoutFill.FillRect is { Height: > 0, Width: > 0 })
+                    // Only use layout logic if control is fully initialized or if being forced
+                    // to allow a relayout or if in design mode.
+                    if (_forcedLayout || (DesignMode && (_comboHolder != null)))
                     {
-                        // Only update the bounds if they have changed
-                        Rectangle fillRect = _layoutFill.FillRect;
-                        if (fillRect != _comboHolder.Bounds)
+                        // Only need to relayout if there is something that would be visible
+                        if (_layoutFill.FillRect is { Height: > 0, Width: > 0 })
                         {
-                            _comboHolder.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
-                            _comboBox?.SetBounds(-(1 + _layoutPadding.Left), -(1 + _layoutPadding.Top), fillRect.Width + 2 + _layoutPadding.Right, fillRect.Height + 2 + _layoutPadding.Bottom);
+                            // Only update the bounds if they have changed
+                            Rectangle fillRect = _layoutFill.FillRect;
+                            if (fillRect != _comboHolder.Bounds)
+                            {
+                                _comboHolder.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                                _comboBox.SetBounds(-(1 + _layoutPadding.Left), -(1 + _layoutPadding.Top), fillRect.Width + 2 + _layoutPadding.Right, fillRect.Height + 2 + _layoutPadding.Bottom);
+                            }
                         }
                     }
+                }
+                catch
+                {
+                    // Probably creation order in the designer is a bit wonky...
+                    // Ignore for now
                 }
             }
         }
@@ -2601,7 +2603,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 UpdateStateAndPalettes();
-                IPaletteTriple triple = GetComboBoxTripleState();
+                var triple = GetComboBoxTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
                 _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
@@ -2721,7 +2723,7 @@ namespace Krypton.Toolkit
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
-            IPaletteTriple tripleState = GetComboBoxTripleState();
+            var tripleState = GetComboBoxTripleState();
             _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state

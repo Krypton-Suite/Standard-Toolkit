@@ -2,7 +2,8 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
+        <!--<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>-->
+        <TargetFramework>net48</TargetFramework>
         <Nullable>enable</Nullable>
         <WarningLevel>8</WarningLevel> <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
         <AnalysisLevel>latest</AnalysisLevel>
