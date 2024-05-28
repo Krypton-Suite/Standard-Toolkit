@@ -31,7 +31,8 @@
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <WarningLevel>6</WarningLevel>
+        <WarningLevel>8</WarningLevel> <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <AnalysisLevel>latest</AnalysisLevel>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     </PropertyGroup>
 

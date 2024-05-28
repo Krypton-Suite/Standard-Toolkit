@@ -307,18 +307,14 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Behavior")]
         [Description(@"Today's date.")]
+        [AllowNull]
         public DateTime TodayDate
         {
             get => _todayDate;
 
             set
             {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
-                _todayDate = value;
+                _todayDate = value == null ? DateTime.Now.Date : value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayDate)));
             }
         }
@@ -676,6 +672,7 @@ namespace Krypton.Toolkit
         [Description(@"Text used as label for todays date.")]
         [DefaultValue(@"Today:")]
         [Localizable(true)]
+        [AllowNull]
         public string TodayText
         {
             get => _today;
@@ -827,7 +824,7 @@ namespace Krypton.Toolkit
                 if (_headerStyle != value)
                 {
                     _headerStyle = value;
-                    StateCommon?.Header.SetStyles(_headerStyle);
+                    StateCommon.Header.SetStyles(_headerStyle);
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(HeaderStyle)));
                 }
             }
@@ -1297,7 +1294,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
-            StateCommon?.SetRedirector(redirector);
+            StateCommon.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);
             OverrideBolded.SetRedirector(redirector);
             OverrideToday.SetRedirector(redirector);

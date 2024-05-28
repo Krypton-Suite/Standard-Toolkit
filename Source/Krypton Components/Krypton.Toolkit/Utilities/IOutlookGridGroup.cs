@@ -97,9 +97,9 @@
         /// </summary>
         bool SortBySummaryCount { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the items comparer, if overriding the default IComparable<T> is needed
-        ///// </summary>
-        IComparer ItemsComparer { get; set; }
+        /// <summary>
+        /// Gets or sets the items comparer, if overriding the default IComparable is needed
+        /// </summary>
+        IComparer? ItemsComparer { get; set; }
     }
 }

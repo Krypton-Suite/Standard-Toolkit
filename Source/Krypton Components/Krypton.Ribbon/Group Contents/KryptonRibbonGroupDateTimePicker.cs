@@ -183,11 +183,11 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (DateTimePicker is not null)
+                if (DateTimePicker != null!)
                 {
                     UnmonitorControl(DateTimePicker);
                     DateTimePicker.Dispose();
-                    DateTimePicker = null;
+                    DateTimePicker = null!;
                 }
             }
 
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
                     // to know when the ribbon palette changes, so we can reflect that change
-                    DateTimePicker!.PaletteMode = Ribbon!.PaletteMode;
+                    DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
                     DateTimePicker.LocalCustomPalette = Ribbon.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
@@ -241,7 +241,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonDateTimePicker? DateTimePicker { get; private set; }
+        public KryptonDateTimePicker DateTimePicker { get; private set; }
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group date time picker.
@@ -309,8 +309,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool Enabled
         {
-            get => DateTimePicker!.Enabled;
-            set => DateTimePicker!.Enabled = value;
+            get => DateTimePicker.Enabled;
+            set => DateTimePicker.Enabled = value;
         }
 
         /// <summary>
@@ -321,8 +321,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "180, 0")]
         public Size MinimumSize
         {
-            get => DateTimePicker!.MinimumSize;
-            set => DateTimePicker!.MinimumSize = value;
+            get => DateTimePicker.MinimumSize;
+            set => DateTimePicker.MinimumSize = value;
         }
 
         /// <summary>
@@ -333,8 +333,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "180, 0")]
         public Size MaximumSize
         {
-            get => DateTimePicker!.MaximumSize;
-            set => DateTimePicker!.MaximumSize = value;
+            get => DateTimePicker.MaximumSize;
+            set => DateTimePicker.MaximumSize = value;
         }
 
         /// <summary>
@@ -345,8 +345,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public ContextMenuStrip? ContextMenuStrip
         {
-            get => DateTimePicker!.ContextMenuStrip;
-            set => DateTimePicker!.ContextMenuStrip = value;
+            get => DateTimePicker.ContextMenuStrip;
+            set => DateTimePicker.ContextMenuStrip = value;
         }
 
         /// <summary>
@@ -357,14 +357,14 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => DateTimePicker!.KryptonContextMenu;
-            set => DateTimePicker!.KryptonContextMenu = value;
+            get => DateTimePicker.KryptonContextMenu;
+            set => DateTimePicker.KryptonContextMenu = value;
         }
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        public override ToolTipValues ToolTipValues => DateTimePicker!.ToolTipValues;
+        public override ToolTipValues ToolTipValues => DateTimePicker.ToolTipValues;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -374,8 +374,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => DateTimePicker!.AllowButtonSpecToolTips;
-            set => DateTimePicker!.AllowButtonSpecToolTips = value;
+            get => DateTimePicker.AllowButtonSpecToolTips;
+            set => DateTimePicker.AllowButtonSpecToolTips = value;
         }
 
         /// <summary>
@@ -386,8 +386,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
-            get => DateTimePicker!.AllowButtonSpecToolTipPriority;
-            set => DateTimePicker!.AllowButtonSpecToolTipPriority = value;
+            get => DateTimePicker.AllowButtonSpecToolTipPriority;
+            set => DateTimePicker.AllowButtonSpecToolTipPriority = value;
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonDateTimePicker.DateTimePickerButtonSpecCollection ButtonSpecs => DateTimePicker!.ButtonSpecs;
+        public KryptonDateTimePicker.DateTimePickerButtonSpecCollection ButtonSpecs => DateTimePicker.ButtonSpecs;
 
         /// <summary>
         /// Gets or sets the number of columns and rows of months Displayed. 
@@ -407,8 +407,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public Size CalendarDimensions
         {
-            get => DateTimePicker!.CalendarDimensions;
-            set => DateTimePicker!.CalendarDimensions = value;
+            get => DateTimePicker.CalendarDimensions;
+            set => DateTimePicker.CalendarDimensions = value;
         }
 
         /// <summary>
@@ -420,11 +420,11 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string CalendarTodayText
         {
-            get => DateTimePicker!.CalendarTodayText;
-            set => DateTimePicker!.CalendarTodayText = value;
+            get => DateTimePicker.CalendarTodayText;
+            set => DateTimePicker.CalendarTodayText = value;
         }
 
-        private void ResetCalendarTodayText() => DateTimePicker!.ResetCalendarTodayText();
+        private void ResetCalendarTodayText() => DateTimePicker.ResetCalendarTodayText();
 
         /// <summary>
         /// First day of the week.
@@ -435,8 +435,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek
         {
-            get => DateTimePicker!.CalendarFirstDayOfWeek;
-            set => DateTimePicker!.CalendarFirstDayOfWeek = value;
+            get => DateTimePicker.CalendarFirstDayOfWeek;
+            set => DateTimePicker.CalendarFirstDayOfWeek = value;
         }
 
         /// <summary>
@@ -447,8 +447,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick
         {
-            get => DateTimePicker!.CalendarCloseOnTodayClick;
-            set => DateTimePicker!.CalendarCloseOnTodayClick = value;
+            get => DateTimePicker.CalendarCloseOnTodayClick;
+            set => DateTimePicker.CalendarCloseOnTodayClick = value;
         }
 
         /// <summary>
@@ -459,8 +459,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool CalendarShowToday
         {
-            get => DateTimePicker!.CalendarShowToday;
-            set => DateTimePicker!.CalendarShowToday = value;
+            get => DateTimePicker.CalendarShowToday;
+            set => DateTimePicker.CalendarShowToday = value;
         }
 
         /// <summary>
@@ -471,8 +471,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool CalendarShowTodayCircle
         {
-            get => DateTimePicker!.CalendarShowTodayCircle;
-            set => DateTimePicker!.CalendarShowTodayCircle = value;
+            get => DateTimePicker.CalendarShowTodayCircle;
+            set => DateTimePicker.CalendarShowTodayCircle = value;
         }
 
         /// <summary>
@@ -483,8 +483,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool CalendarShowWeekNumbers
         {
-            get => DateTimePicker!.CalendarShowWeekNumbers;
-            set => DateTimePicker!.CalendarShowWeekNumbers = value;
+            get => DateTimePicker.CalendarShowWeekNumbers;
+            set => DateTimePicker.CalendarShowWeekNumbers = value;
         }
 
         /// <summary>
@@ -492,10 +492,11 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Today's date.")]
+        [AllowNull]
         public DateTime CalendarTodayDate
         {
-            get => DateTimePicker!.CalendarTodayDate ?? DateTime.Now.Date;
-            set => DateTimePicker!.CalendarTodayDate = value;
+            get => DateTimePicker.CalendarTodayDate;
+            set => DateTimePicker.CalendarTodayDate = value;
         }
 
         private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
@@ -510,13 +511,13 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public DateTime[]? CalendarAnnuallyBoldedDates
         {
-            get => DateTimePicker!.CalendarAnnuallyBoldedDates;
-            set => DateTimePicker!.CalendarAnnuallyBoldedDates = value;
+            get => DateTimePicker.CalendarAnnuallyBoldedDates;
+            set => DateTimePicker.CalendarAnnuallyBoldedDates = value;
         }
 
         private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
-        private bool ShouldSerializeCalendarAnnuallyBoldedDates() => DateTimePicker!.ShouldSerializeCalendarAnnuallyBoldedDates();
+        private bool ShouldSerializeCalendarAnnuallyBoldedDates() => DateTimePicker.ShouldSerializeCalendarAnnuallyBoldedDates();
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -526,13 +527,13 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public DateTime[]? CalendarMonthlyBoldedDates
         {
-            get => DateTimePicker!.CalendarMonthlyBoldedDates;
-            set => DateTimePicker!.CalendarMonthlyBoldedDates = value;
+            get => DateTimePicker.CalendarMonthlyBoldedDates;
+            set => DateTimePicker.CalendarMonthlyBoldedDates = value;
         }
 
         private void ResetCalendarMonthlyBoldedDates() => CalendarMonthlyBoldedDates = null;
 
-        private bool ShouldSerializeCalendarMonthlyBoldedDates() => DateTimePicker!.ShouldSerializeCalendarMonthlyBoldedDates();
+        private bool ShouldSerializeCalendarMonthlyBoldedDates() => DateTimePicker.ShouldSerializeCalendarMonthlyBoldedDates();
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are Displayed in bold.
@@ -542,13 +543,13 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public DateTime[]? CalendarBoldedDates
         {
-            get => DateTimePicker!.CalendarBoldedDates;
-            set => DateTimePicker!.CalendarBoldedDates = value;
+            get => DateTimePicker.CalendarBoldedDates;
+            set => DateTimePicker.CalendarBoldedDates = value;
         }
 
         private void ResetCalendarBoldedDates() => CalendarBoldedDates = null;
 
-        private bool ShouldSerializeCalendarBoldedDates() => DateTimePicker!.ShouldSerializeCalendarBoldedDates();
+        private bool ShouldSerializeCalendarBoldedDates() => DateTimePicker.ShouldSerializeCalendarBoldedDates();
 
         /// <summary>
         /// Gets or sets the alignment of the drop-down calendar on the DateTimePicker control.
@@ -559,8 +560,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign
         {
-            get => DateTimePicker!.DropDownAlign;
-            set => DateTimePicker!.DropDownAlign = value;
+            get => DateTimePicker.DropDownAlign;
+            set => DateTimePicker.DropDownAlign = value;
         }
 
         /// <summary>
@@ -573,16 +574,19 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         public object? ValueNullable
         {
-            get => DateTimePicker!.ValueNullable;
-            set => DateTimePicker!.ValueNullable = value;
+            get => DateTimePicker.ValueNullable;
+            set => DateTimePicker.ValueNullable = value;
         }
-
-        private void ResetValueNullable() => DateTimePicker!.ResetValueNullable();
-
-        private bool ShouldSerializeValueNullable() => DateTimePicker!.ShouldSerializeValueNullable();
+        private void ResetValueNullable() => DateTimePicker.ResetValueNullable();
+        private bool ShouldSerializeValueNullable() => DateTimePicker.ShouldSerializeValueNullable();
 
         /// <summary>
-        /// Gets or sets the date/time value assigned to the control..
+        ///  Sets date as the current selected date.
+        /// </summary>
+        public void SetDate(DateTime date) => DateTimePicker.SetDate( date);
+
+        /// <summary>
+        /// Gets or sets the date/time value assigned to the control.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Property for the date/time.")]
@@ -590,13 +594,11 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         public DateTime Value
         {
-            get => DateTimePicker!.Value;
-            set => DateTimePicker!.Value = value;
+            get => DateTimePicker.Value;
+            set => DateTimePicker.Value = value;
         }
-
-        private void ResetValue() => DateTimePicker!.ResetValue();
-
-        private bool ShouldSerializeValue() => DateTimePicker!.ShouldSerializeValue();
+        private void ResetValue() => DateTimePicker.ResetValue();
+        private bool ShouldSerializeValue() => DateTimePicker.ShouldSerializeValue();
 
         /// <summary>
         /// Gets or sets the format of the date and time Displayed in the control.
@@ -607,8 +609,8 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
-            get => DateTimePicker!.Format;
-            set => DateTimePicker!.Format = value;
+            get => DateTimePicker.Format;
+            set => DateTimePicker.Format = value;
         }
 
         /// <summary>
@@ -619,8 +621,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ShowUpDown
         {
-            get => DateTimePicker!.ShowUpDown;
-            set => DateTimePicker!.ShowUpDown = value;
+            get => DateTimePicker.ShowUpDown;
+            set => DateTimePicker.ShowUpDown = value;
         }
 
         /// <summary>
@@ -631,8 +633,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ShowCheckBox
         {
-            get => DateTimePicker!.ShowCheckBox;
-            set => DateTimePicker!.ShowCheckBox = value;
+            get => DateTimePicker.ShowCheckBox;
+            set => DateTimePicker.ShowCheckBox = value;
         }
 
         /// <summary>
@@ -643,8 +645,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => DateTimePicker!.UseMnemonic;
-            set => DateTimePicker!.UseMnemonic = value;
+            get => DateTimePicker.UseMnemonic;
+            set => DateTimePicker.UseMnemonic = value;
         }
 
         /// <summary>
@@ -654,13 +656,13 @@ namespace Krypton.Ribbon
         [Description(@"Maximum allowable date.")]
         public DateTime MaxDate
         {
-            get => DateTimePicker!.MaxDate;
-            set => DateTimePicker!.MaxDate = value;
+            get => DateTimePicker.MaxDate;
+            set => DateTimePicker.MaxDate = value;
         }
 
         private void ResetMaxDate() => MaxDate = DateTime.MaxValue;
 
-        private bool ShouldSerializeMaxDate() => DateTimePicker!.ShouldSerializeMaxDate();
+        private bool ShouldSerializeMaxDate() => DateTimePicker.ShouldSerializeMaxDate();
 
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
@@ -669,13 +671,13 @@ namespace Krypton.Ribbon
         [Description(@"Minimum allowable date.")]
         public DateTime MinDate
         {
-            get => DateTimePicker!.MinDate;
-            set => DateTimePicker!.MinDate = value;
+            get => DateTimePicker.MinDate;
+            set => DateTimePicker.MinDate = value;
         }
 
         private void ResetMinDate() => MinDate = DateTime.MinValue;
 
-        private bool ShouldSerializeMinDate() => DateTimePicker!.ShouldSerializeMinDate();
+        private bool ShouldSerializeMinDate() => DateTimePicker.ShouldSerializeMinDate();
 
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
@@ -687,8 +689,8 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         public bool Checked
         {
-            get => DateTimePicker!.Checked;
-            set => DateTimePicker!.Checked = value;
+            get => DateTimePicker.Checked;
+            set => DateTimePicker.Checked = value;
         }
 
         /// <summary>
@@ -701,8 +703,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string? CustomFormat
         {
-            get => DateTimePicker!.CustomFormat;
-            set => DateTimePicker!.CustomFormat = value;
+            get => DateTimePicker.CustomFormat;
+            set => DateTimePicker.CustomFormat = value;
         }
 
         /// <summary>
@@ -715,8 +717,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string CustomNullText
         {
-            get => DateTimePicker!.CustomNullText;
-            set => DateTimePicker!.CustomNullText = value;
+            get => DateTimePicker.CustomNullText;
+            set => DateTimePicker.CustomNullText = value;
         }
 
         /// <summary>
@@ -729,8 +731,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string CalendarTodayFormat
         {
-            get => DateTimePicker!.CalendarTodayFormat;
-            set => DateTimePicker!.CalendarTodayFormat = value;
+            get => DateTimePicker.CalendarTodayFormat;
+            set => DateTimePicker.CalendarTodayFormat = value;
         }
 
         /// <summary>
@@ -740,8 +742,8 @@ namespace Krypton.Ribbon
         [Description(@"Header style for the month calendar.")]
         public HeaderStyle CalendarHeaderStyle
         {
-            get => DateTimePicker!.CalendarHeaderStyle;
-            set => DateTimePicker!.CalendarHeaderStyle = value;
+            get => DateTimePicker.CalendarHeaderStyle;
+            set => DateTimePicker.CalendarHeaderStyle = value;
         }
 
         private void ResetCalendarHeaderStyle() => CalendarHeaderStyle = HeaderStyle.Calendar;
@@ -755,8 +757,8 @@ namespace Krypton.Ribbon
         [Description(@"Content style for the day entries.")]
         public ButtonStyle CalendarDayStyle
         {
-            get => DateTimePicker!.CalendarDayStyle;
-            set => DateTimePicker!.CalendarDayStyle = value;
+            get => DateTimePicker.CalendarDayStyle;
+            set => DateTimePicker.CalendarDayStyle = value;
         }
 
         private void ResetCalendarDayStyle() => CalendarDayStyle = ButtonStyle.CalendarDay;
@@ -770,8 +772,8 @@ namespace Krypton.Ribbon
         [Description(@"Content style for the day of week labels.")]
         public ButtonStyle CalendarDayOfWeekStyle
         {
-            get => DateTimePicker!.CalendarDayOfWeekStyle;
-            set => DateTimePicker!.CalendarDayOfWeekStyle = value;
+            get => DateTimePicker.CalendarDayOfWeekStyle;
+            set => DateTimePicker.CalendarDayOfWeekStyle = value;
         }
 
         private void ResetCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
@@ -1012,7 +1014,7 @@ namespace Krypton.Ribbon
 
         private void OnRibbonPaletteChanged(object sender, EventArgs e)
         {
-            DateTimePicker!.PaletteMode = Ribbon!.PaletteMode;
+            DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
             DateTimePicker.LocalCustomPalette = Ribbon.LocalCustomPalette;
         }
 
