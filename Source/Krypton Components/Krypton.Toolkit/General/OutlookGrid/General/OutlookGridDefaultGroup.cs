@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         private bool _sortBySummaryCount;
 
-        private IComparer _itemsComparer;
+        private IComparer? _itemsComparer;
         #endregion
 
         #region Identity
@@ -296,13 +296,14 @@ namespace Krypton.Toolkit
             set => _sortBySummaryCount = value;
         }
 
-        ///// <summary>
-        ///// Gets or sets the items comparer.
-        ///// </summary>
-        ///// <value>
-        ///// The items comparer.
-        ///// </value>
-        public virtual IComparer ItemsComparer
+        /// <summary>
+        /// Gets or sets the items comparer.
+        /// </summary>
+        /// <value>
+        /// The items comparer.
+        /// </value>
+        [AllowNull]
+        public virtual IComparer? ItemsComparer
         {
             get => _itemsComparer;
             set => _itemsComparer = value;

@@ -626,7 +626,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up one level
-                c = c.Parent!;
+                c = c.Parent;
             }
 
             // Every control in chain is visible and enabled, so allow mnemonics

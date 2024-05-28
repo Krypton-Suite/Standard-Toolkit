@@ -68,13 +68,11 @@ namespace Krypton.Toolkit
         public override object? Value
         {
             get => base.Value;
-            set
-            {
+            set =>
                 //Note : value with Clone() is already 1 character, but no problem here
                 base.Value = value is string str && str.Length > 0 
                     ? str.Substring(0, 1).ToUpper()
                     : string.Empty;
-            }
         }
 
         #endregion
