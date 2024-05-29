@@ -34,10 +34,10 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(_ribbon is not null);
 
-            _ribbon = ribbon; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbon = ribbon;
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            NeedPaint = needPaint;
         }
         #endregion
 

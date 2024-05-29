@@ -40,12 +40,6 @@ namespace Krypton.Toolkit
             // Suppressed by the null forgiving operator
             Debug.Assert(inherit is not null);
 
-            //TEST-NoThrow
-            //if (inherit is null)
-            //{
-            //    throw new ArgumentNullException(nameof(inherit));
-            //}
-
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 

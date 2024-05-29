@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             // Suppressed by the null forgiving operator
             Debug.Assert(redirect is not null);
 
-            _redirect = redirect!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect!;
             Element = element;
         }
         #endregion

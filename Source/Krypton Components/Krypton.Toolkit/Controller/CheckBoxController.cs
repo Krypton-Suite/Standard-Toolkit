@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
             // Remember target for state changes
             // Debug.Assert() causes the null assignment warning.
             // Suppressed by the null forgiving operator
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _top = top!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
+            _target = target!;
+            _top = top!;
             NeedPaint = needPaint;
         }
         #endregion

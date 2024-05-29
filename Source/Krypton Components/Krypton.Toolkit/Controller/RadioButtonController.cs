@@ -47,9 +47,9 @@ namespace Krypton.Toolkit
             Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _top = top!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            _target = target!;
+            _top = top!;
+            NeedPaint = needPaint;
         }
         #endregion
 

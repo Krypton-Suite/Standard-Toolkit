@@ -47,12 +47,6 @@ namespace Krypton.Toolkit
             // Suppressed by the null forgiving operator
             Debug.Assert(redirect is not null);
 
-            //TEST-NoThrow
-            //if ( redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
-
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 

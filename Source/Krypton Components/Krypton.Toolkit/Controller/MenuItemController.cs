@@ -42,9 +42,9 @@ namespace Krypton.Toolkit
             Debug.Assert(menuItem is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _menuItem = menuItem!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(menuItem));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _menuItem = menuItem!;
+            NeedPaint = needPaint;
         }
         #endregion
 

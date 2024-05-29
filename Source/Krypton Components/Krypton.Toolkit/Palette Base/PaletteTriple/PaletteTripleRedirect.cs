@@ -71,12 +71,6 @@ namespace Krypton.Toolkit
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            //TEST-NoThrow
-            //if (redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
-
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
             _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);

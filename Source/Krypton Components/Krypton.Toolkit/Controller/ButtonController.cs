@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             AllowDragging = false;
             _dragging = false;
             ClickOnDown = false;
-            Target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            Target = target!;
             Repeat = false;
             NeedPaint = needPaint;
         }

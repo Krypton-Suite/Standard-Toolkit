@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                 ForceDraw = InheritBool.True
             };
             _paletteBackLight = new PaletteBackLightenColors(PaletteBack);
-            PaletteMetric = paletteMetric; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(paletteMetric));
+            PaletteMetric = paletteMetric;
             _metricPadding = metricPadding;
             Orientation = orientation;
             DrawTabBorder = false;
