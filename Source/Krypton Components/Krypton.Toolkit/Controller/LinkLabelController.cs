@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             Debug.Assert(target is not null);
 
             // Remember target for state changes
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            _target = target!;
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;

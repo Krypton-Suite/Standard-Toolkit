@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
             Debug.Assert(getRenderer is not null);
 
             // Remember references
-            Control = control; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(control));
+            Control = control;
             _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(getRenderer));
+            _getRenderer = getRenderer;
             NeedPaint = needPaint;
 
             if (_viewMetrics != null)

@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
                    borderStyle,
                    needPaint) =>
             // Remember the redirect reference
-            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect;
 
         #endregion
 

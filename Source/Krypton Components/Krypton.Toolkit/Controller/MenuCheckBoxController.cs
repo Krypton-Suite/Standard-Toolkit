@@ -56,10 +56,10 @@ namespace Krypton.Toolkit
             Debug.Assert(checkBox is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuCheckBox = checkBox!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkBox));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuCheckBox = checkBox!;
+            NeedPaint = needPaint;
         }
         #endregion
 

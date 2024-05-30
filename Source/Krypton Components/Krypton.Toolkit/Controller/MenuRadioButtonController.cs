@@ -56,10 +56,10 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButton is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuRadioButton = radioButton!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(radioButton));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuRadioButton = radioButton!;
+            NeedPaint = needPaint;
         }
         #endregion
 

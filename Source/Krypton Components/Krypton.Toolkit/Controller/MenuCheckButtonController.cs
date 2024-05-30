@@ -56,10 +56,10 @@ namespace Krypton.Toolkit
             Debug.Assert(checkButton is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuCheckButton = checkButton!; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkButton));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuCheckButton = checkButton!;
+            NeedPaint = needPaint;
 
             // Set initial display state
             UpdateTarget();

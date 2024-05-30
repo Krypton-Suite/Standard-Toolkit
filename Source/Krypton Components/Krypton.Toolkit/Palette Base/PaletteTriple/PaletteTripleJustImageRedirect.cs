@@ -68,12 +68,6 @@ namespace Krypton.Toolkit
                                               PaletteContentStyle contentStyle,
                                               NeedPaintHandler? needPaint)
         {
-            //TEST-NoThrow
-            //if (redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
-
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
