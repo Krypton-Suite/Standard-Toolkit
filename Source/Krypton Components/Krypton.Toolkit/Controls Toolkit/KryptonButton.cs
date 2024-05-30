@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
 
         //[Category(@"Visuals"), Description(@"UAC Shield Values"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         //public UACShieldValues UACShieldValues { get; }
-
+            
         //private bool ShouldSerializeUACShieldValues() => !UACShieldValues.IsDefault;
 
         /// <summary>
@@ -693,33 +693,27 @@ namespace Krypton.Toolkit
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Abort;
                 }
-
-                if (DialogResult == DialogResult.Cancel)
+                else if (DialogResult == DialogResult.Cancel)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Cancel;
                 }
-
-                if (DialogResult == DialogResult.OK)
+                else if (DialogResult == DialogResult.OK)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.OK;
                 }
-
-                if (DialogResult == DialogResult.Yes)
+                else if (DialogResult == DialogResult.Yes)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Yes;
                 }
-
-                if (DialogResult == DialogResult.No)
+                else if (DialogResult == DialogResult.No)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.No;
                 }
-
-                if (DialogResult == DialogResult.Retry)
+                else if (DialogResult == DialogResult.Retry)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Retry;
                 }
-
-                if (DialogResult == DialogResult.Ignore)
+                else if (DialogResult == DialogResult.Ignore)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Ignore;
                 }
@@ -955,9 +949,13 @@ namespace Krypton.Toolkit
 
             midPoint.X += (rectangle.Width % 2);
 
-            Color color = dropDownArrowColor ?? Color.Black;
+            // Testing for null and EMPTY_COLOR, makes the arrow color react to theme changes, 
+            // otherwise a custom color is in effect.
+            Color? color = dropDownArrowColor is not null && dropDownArrowColor != GlobalStaticValues.EMPTY_COLOR
+                ? dropDownArrowColor
+                : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
 
-            SolidBrush dropDownBrush = new SolidBrush(color);
+            SolidBrush dropDownBrush = new SolidBrush(color.Value);
 
             var arrow = new Point[]
             {
