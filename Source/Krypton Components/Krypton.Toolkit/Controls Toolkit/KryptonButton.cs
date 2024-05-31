@@ -689,34 +689,17 @@ namespace Krypton.Toolkit
         {
             if (Values.UseAsADialogButton)
             {
-                if (DialogResult == DialogResult.Abort)
+                Text = DialogResult switch
                 {
-                    Text = KryptonManager.Strings.GeneralStrings.Abort;
-                }
-                else if (DialogResult == DialogResult.Cancel)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.Cancel;
-                }
-                else if (DialogResult == DialogResult.OK)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.OK;
-                }
-                else if (DialogResult == DialogResult.Yes)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.Yes;
-                }
-                else if (DialogResult == DialogResult.No)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.No;
-                }
-                else if (DialogResult == DialogResult.Retry)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.Retry;
-                }
-                else if (DialogResult == DialogResult.Ignore)
-                {
-                    Text = KryptonManager.Strings.GeneralStrings.Ignore;
-                }
+                    DialogResult.Abort => KryptonManager.Strings.GeneralStrings.Abort,
+                    DialogResult.Cancel => KryptonManager.Strings.GeneralStrings.Cancel,
+                    DialogResult.OK => KryptonManager.Strings.GeneralStrings.OK,
+                    DialogResult.Yes => KryptonManager.Strings.GeneralStrings.Yes,
+                    DialogResult.No => KryptonManager.Strings.GeneralStrings.No,
+                    DialogResult.Retry => KryptonManager.Strings.GeneralStrings.Retry,
+                    DialogResult.Ignore => KryptonManager.Strings.GeneralStrings.Ignore,
+                    _ => Text
+                };
             }
 
             if (Values.UseAsUACElevationButton)
