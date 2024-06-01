@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388) `KryptonButton` and `KryptonDropButton` do not react to theme changes and setting a custom color.
 * Resolved [#1497](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1497) When pressing ALT to show the Ribbon KeyTips a null reference exception is thrown.
 * Resolved [#1462](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1462) TestForm app: KCombobox from main.cs causes a crash
 * Resolved [#1414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1414) `SetDate` API is missing from `KryptonMonthCalendar`

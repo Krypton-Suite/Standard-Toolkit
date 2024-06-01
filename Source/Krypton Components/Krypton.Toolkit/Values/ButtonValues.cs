@@ -385,9 +385,9 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_dropDownArrowColor != null)
+                if (_dropDownArrowColor != value)
                 {
-                    _dropDownArrowColor = value;
+                    _dropDownArrowColor = value ?? GlobalStaticValues.EMPTY_COLOR;
 
                     PerformNeedPaint(true);
                 }
