@@ -28,7 +28,7 @@ namespace Krypton.Workspace
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _workspace = (KryptonWorkspace)owner.Component;
+            _workspace = (owner.Component as KryptonWorkspace)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
