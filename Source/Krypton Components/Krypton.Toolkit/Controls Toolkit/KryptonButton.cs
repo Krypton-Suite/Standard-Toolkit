@@ -770,40 +770,17 @@ namespace Krypton.Toolkit
         {
             if (_useAsDialogButton)
             {
-                if (DialogResult == DialogResult.Abort)
+                Text = DialogResult switch
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Abort;
-                }
-
-                if (DialogResult == DialogResult.Cancel)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
-                }
-
-                if (DialogResult == DialogResult.OK)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
-                }
-
-                if (DialogResult == DialogResult.Yes)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
-                }
-
-                if (DialogResult == DialogResult.No)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.No;
-                }
-
-                if (DialogResult == DialogResult.Retry)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
-                }
-
-                if (DialogResult == DialogResult.Ignore)
-                {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Ignore;
-                }
+                    DialogResult.Abort => KryptonLanguageManager.GeneralToolkitStrings.Abort,
+                    DialogResult.Cancel => KryptonLanguageManager.GeneralToolkitStrings.Cancel,
+                    DialogResult.OK => KryptonLanguageManager.GeneralToolkitStrings.OK,
+                    DialogResult.Yes => KryptonLanguageManager.GeneralToolkitStrings.Yes,
+                    DialogResult.No => KryptonLanguageManager.GeneralToolkitStrings.No,
+                    DialogResult.Retry => KryptonLanguageManager.GeneralToolkitStrings.Retry,
+                    DialogResult.Ignore => KryptonLanguageManager.GeneralToolkitStrings.Ignore,
+                    _ => Text
+                };
             }
 
             base.OnPaint(e);
@@ -1124,7 +1101,12 @@ namespace Krypton.Toolkit
                 midPoint with { Y = midPoint.Y + 2 }
             };
 
-            graphics.FillPolygon(SystemBrushes.ControlText, arrow);
+            // Issue 1388, an adaptation from PR 1500 applied here to fix the color of the drop down arrow.
+            // This version does not have the customizable Values.DropArrowColor property.
+            // This applies the theme color and if something is null, it'll be Black.
+            SolidBrush brush = new( KryptonManager.CurrentGlobalPalette?.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal) ?? Color.Black );
+
+            graphics.FillPolygon(brush, arrow);
         }
 
         private void ShowContextMenuStrip()
