@@ -145,5 +145,12 @@ namespace TestForm
 
             calendarTest.Show();
         }
+
+        private void kbtnWorkspace_Click(object sender, EventArgs e)
+        {
+            var workspaceTest = new WorkspaceTest();
+
+            workspaceTest.Show();
+        }
     }
 }

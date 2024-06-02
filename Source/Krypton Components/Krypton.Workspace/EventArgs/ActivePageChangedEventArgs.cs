@@ -23,8 +23,8 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="oldPage">Previous active page value.</param>
         /// <param name="newPage">New active page value.</param>
-        public ActivePageChangedEventArgs(KryptonPage oldPage,
-                                          KryptonPage newPage)
+        public ActivePageChangedEventArgs(KryptonPage? oldPage,
+                                          KryptonPage? newPage)
         {
             OldPage = oldPage;
             NewPage = newPage;
@@ -35,12 +35,12 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the old page reference.
         /// </summary>
-        public KryptonPage OldPage { get; }
+        public KryptonPage? OldPage { get; }
 
         /// <summary>
         /// Gets the new page reference.
         /// </summary>
-        public KryptonPage NewPage { get; }
+        public KryptonPage? NewPage { get; }
 
         #endregion
     }
