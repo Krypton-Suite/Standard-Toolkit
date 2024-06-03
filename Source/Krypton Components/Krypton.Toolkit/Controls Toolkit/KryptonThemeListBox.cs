@@ -35,9 +35,9 @@ namespace Krypton.Toolkit
             set => SelectedIndex = value;
         }
 
-        private void ResetThemeSelectedIndex() => _selectedThemeIndex = 33;
+        private void ResetThemeSelectedIndex() => _selectedThemeIndex = (int)PaletteMode.Microsoft365Blue;
 
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedThemeIndex != 33;
+        private bool ShouldSerializeThemeSelectedIndex() => _selectedThemeIndex != (int)PaletteMode.Microsoft365Blue;
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -67,7 +67,8 @@ namespace Krypton.Toolkit
             }
             Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
             _selectedThemeIndex = SelectedIndex;
-            Debug.Assert(_selectedThemeIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
+            
+            Debug.Assert(_selectedThemeIndex == (int)PaletteMode.Microsoft365Blue, "_selectedThemeIndex needs to be set to Microsoft365Blue for backward compatibility");
         }
 
         #endregion

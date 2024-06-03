@@ -85,74 +85,104 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         internal static readonly BiDictionary<string, PaletteMode> SupportedThemes =
-    new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
-    {
-        // Use default strings, because these are used to match xml strings when importing palettes, and in the designer(s)
-                { DEFAULT_PALETTE_SYSTEM, PaletteMode.ProfessionalSystem },
-                { DEFAULT_PALETTE_OFFICE_2003, PaletteMode.ProfessionalOffice2003 },
-                { DEFAULT_PALETTE_OFFICE_2007_BLUE, PaletteMode.Office2007Blue },
-                { DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE, PaletteMode.Office2007BlueDarkMode },
-                { DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE, PaletteMode.Office2007BlueLightMode },
-                { DEFAULT_PALETTE_OFFICE_2007_SILVER, PaletteMode.Office2007Silver },
-                { DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE, PaletteMode.Office2007SilverDarkMode },
-                { DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE, PaletteMode.Office2007SilverLightMode },
-                { DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
-                { DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
-                { DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
-                //{ DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
-                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
-                { DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
-                { DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE, PaletteMode.Office2010BlueDarkMode },
-                { DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE, PaletteMode.Office2010BlueLightMode },
-                { DEFAULT_PALETTE_OFFICE_2010_SILVER, PaletteMode.Office2010Silver },
-                { DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE, PaletteMode.Office2010SilverDarkMode },
-                { DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE, PaletteMode.Office2010SilverLightMode },
-                { DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
-                { DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
-                { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
-                //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
-                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
-                //{ DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
-                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
-                { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
-                { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
-                { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
-                { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
-                { DEFAULT_PALETTE_SPARKLE_ORANGE, PaletteMode.SparkleOrange },
-                { DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE, PaletteMode.SparkleOrangeDarkMode },
-                { DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
-                { DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
-                { DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
-                { DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
-                { DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_SILVER, PaletteMode.Microsoft365Silver },
-                { DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE, PaletteMode.Microsoft365SilverDarkMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE, PaletteMode.Microsoft365SilverLightMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
-                { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
-                { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
-                //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
-                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
-                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },
-                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013, PaletteMode.VisualStudio2010Render2013 },
-                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365, PaletteMode.VisualStudio2010Render365 },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE, PaletteMode.VisualStudio2012DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE, PaletteMode.VisualStudio2012LightMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE, PaletteMode.VisualStudio2013DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE, PaletteMode.VisualStudio2013LightMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE, PaletteMode.VisualStudio2015DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE, PaletteMode.VisualStudio2015LightMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE, PaletteMode.VisualStudio2017DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
-                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
-                { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
-    });
+            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
+        {
+            /*
+             * Adjustements made as per ticket 1328.
+             * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
+             * 
+             * When ever this list is changed, inspect the PaletteMode enum for consistency.
+             * 
+             * IT IS MANDATORY TO KEEP THE PALETTEMODE ENUM AND THE DICTIONARY IN THE SAME ORDER.
+             */
+
+            // Use default strings, because these are used to match xml strings when importing palettes, and in the designer(s)
+            { DEFAULT_PALETTE_SYSTEM, PaletteMode.ProfessionalSystem },
+            { DEFAULT_PALETTE_OFFICE_2003, PaletteMode.ProfessionalOffice2003 },
+
+            { DEFAULT_PALETTE_OFFICE_2007_BLUE, PaletteMode.Office2007Blue },
+            { DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE, PaletteMode.Office2007BlueDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE, PaletteMode.Office2007BlueLightMode },
+
+            { DEFAULT_PALETTE_OFFICE_2007_SILVER, PaletteMode.Office2007Silver },
+            { DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE, PaletteMode.Office2007SilverDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE, PaletteMode.Office2007SilverLightMode },
+
+            { DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
+            { DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
+            { DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
+            
+            { DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
+            //{ DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
+            
+            { DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
+            { DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE, PaletteMode.Office2010BlueDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE, PaletteMode.Office2010BlueLightMode },
+
+            { DEFAULT_PALETTE_OFFICE_2010_SILVER, PaletteMode.Office2010Silver },
+            { DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE, PaletteMode.Office2010SilverDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE, PaletteMode.Office2010SilverLightMode },
+
+            { DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
+            { DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
+            { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
+            
+            { DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
+            //{ DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
+            
+            { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
+            
+            { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
+
+            { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
+            { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
+            { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
+
+            { DEFAULT_PALETTE_SPARKLE_ORANGE, PaletteMode.SparkleOrange },
+            { DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE, PaletteMode.SparkleOrangeDarkMode },
+            { DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
+
+            { DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
+            { DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
+            { DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
+
+            { DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
+            { DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
+            { DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
+
+            { DEFAULT_PALETTE_MICROSOFT_365_SILVER, PaletteMode.Microsoft365Silver },
+            { DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE, PaletteMode.Microsoft365SilverDarkMode },
+            { DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE, PaletteMode.Microsoft365SilverLightMode },
+
+            { DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
+
+            { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
+            { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
+
+            { DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
+            
+            //{ DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
+
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013, PaletteMode.VisualStudio2010Render2013 },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365, PaletteMode.VisualStudio2010Render365 },
+
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE, PaletteMode.VisualStudio2012DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE, PaletteMode.VisualStudio2012LightMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE, PaletteMode.VisualStudio2013DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE, PaletteMode.VisualStudio2013LightMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE, PaletteMode.VisualStudio2015DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE, PaletteMode.VisualStudio2015LightMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE, PaletteMode.VisualStudio2017DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
+            { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
+        });
 
         #endregion
 
