@@ -94,13 +94,13 @@ namespace Krypton.Toolkit
 
             _defaultPalette = PaletteMode.Microsoft365Blue;
 
-            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
+            Debug.Assert(_selectedIndex == (int)PaletteMode.Microsoft365Blue, "Selected index needs to be set to Microsoft365Blue for backward compatibility");
         }
         #endregion
 
         #region Implementation
 
-        private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode + 1;
+        private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode;// (int)mode + 1;
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>

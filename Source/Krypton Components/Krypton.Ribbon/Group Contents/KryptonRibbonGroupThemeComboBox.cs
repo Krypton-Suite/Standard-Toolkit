@@ -99,7 +99,8 @@ namespace Krypton.Ribbon
 
             _selectedIndex = SelectedIndex = _defaultPaletteIndex;
             _defaultPalette = PaletteMode.Microsoft365Blue;
-            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
+            
+            Debug.Assert(_selectedIndex == (int)PaletteMode.Microsoft365Blue, "Selected index needs to be set to Microsoft365Blue for backward compatibility");
         }
 
         #endregion
