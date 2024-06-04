@@ -12,107 +12,37 @@
 
 namespace Krypton.Toolkit
 {
+    internal interface IKryptonThemeSelectorBase
+    {
+        PaletteMode DefaultPalette { get; set; }
+        
+        void ResetDefaultPalette();
+        bool ShouldSerializeDefaultPalette();
+
+        KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
+
+        void ResetKryptonCustomPalette();
+        bool ShouldSerializeKryptonCustomPalette();
+
+        bool ReportSelectedThemeIndex { get; set; }
+    }
+
     /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
     /// <seealso cref="KryptonComboBox" />
-    public class KryptonThemeComboBox : KryptonComboBox
+    public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     {
         #region Instance Fields
 
-        private bool _isUpdating = false;
-        private bool _handleCreated = false;
-        private bool _pendingPaletteUpdate = false;
-        private PaletteMode _pendingPaletteMode;
-
-        private bool _reportSelectedThemeIndex;
-
-        private int _selectedIndex;
-
-        private readonly int? _defaultPaletteIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
-
+        /// <summary> When we change the palette, Krypton Manager will notify us that there was a change. Since we are changing it that notification can be skipped.</summary>
+        private bool _isLocalUpdate = false;
+        /// <summary> Suppress code execution in the SelectedIndexChanged event handler. when a theme change via the KManager has been performed.</summary>
+        private bool _isExternalUpdate = false;
+        /// <summary> Backing var for the DefaultPalette property.</summary>
         private PaletteMode _defaultPalette;
-
-        private KryptonManager? _manager;
-
-        #endregion
-
-        #region Public
-
-        /// <summary>Gets or sets a value indicating whether [report selected theme index].</summary>
-        /// <value><c>true</c> if [report selected theme index]; otherwise, <c>false</c>.</value>
-        public bool ReportSelectedThemeIndex
-        {
-            get => _reportSelectedThemeIndex;
-
-            set => _reportSelectedThemeIndex = value;
-        }
-
-        /// <summary>Gets or sets the default palette mode.</summary>
-        /// <value>The default palette mode.</value>
-        [Category(@"Visuals")]
-        [Description(@"The default palette mode.")]
-        [DefaultValue(PaletteMode.Microsoft365Blue)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public PaletteMode DefaultPalette
-        {
-            get => _defaultPalette;
-
-            set
-            {
-                if (_defaultPalette == value)
-                {
-                    return;
-                }
-
-                if (_handleCreated)
-                {
-                    // Safe to directly access UI thread now
-                    _defaultPalette = value;
-                    UpdateDefaultPaletteIndex(value);
-                }
-                else
-                {
-                    // Defer until the handle is created
-                    _pendingPaletteUpdate = true;
-                    _pendingPaletteMode = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the ThemeSelectedIndex.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
-        [DefaultValue((int)PaletteMode.Microsoft365Blue)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        private int ThemeSelectedIndex
-        {
-            get => _selectedIndex = _defaultPaletteIndex ?? 30;
-            set => _selectedIndex = SelectedIndex = value;
-        }
-
-        private void ResetThemeSelectedIndex() => _selectedIndex = _defaultPaletteIndex ?? 30;
-
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != _defaultPaletteIndex;
-
-        /// <summary>
-        /// Gets and sets a KryptonCustomPalette.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Custom palette (if set)")]
-        [DefaultValue(null)]
-        public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
-
-        /// <summary>Gets or sets the manager.</summary>
-        /// <value>The manager.</value>
-        [Category(@"Data")]
-        [Description(@"The `KryptonManager` which is in control.")]
-        [DefaultValue(null)]
-        public KryptonManager? Manager
-        {
-            get => _manager;
-            set => _manager = value;
-        }
+        /// <summary> Local Krypton Manager instance.</summary>
+        private KryptonManager _manager;
+        /// <summary> User defined palette.</summary>
+        private KryptonCustomPaletteBase? _kryptonCustomPalette = null;
 
         #endregion
 
@@ -121,121 +51,113 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
-#if DEBUG
-            _reportSelectedThemeIndex = true;
-#else
-            _reportSelectedThemeIndex = false;
-#endif
             _manager = new KryptonManager();
-
-            var defaultThemeName = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
-            _defaultPaletteIndex = 30; // was 24 which is wrong!
             DropDownStyle = ComboBoxStyle.DropDownList;
-            foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
+
+            Items.Clear();
+            Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+
+            // If the DefaultPaletteMode is Global and KManager.GlobalPaletteMode is not Custom or Global, set the combo's text:
+            if (DefaultPalette == PaletteMode.Global
+                && _manager.GlobalPaletteMode != PaletteMode.Custom 
+                && _manager.GlobalPaletteMode != PaletteMode.Global)
             {
-                Items.Add(kvp.Key);
-                if (kvp.Key == defaultThemeName)
+                // this triggers below OnSelectedIndexChanged
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
+
+            // Process external theme changes
+            KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+        }
+        #endregion
+
+        #region Public
+
+        // TODO: Deprecated should be removed
+        /// <summary>
+        /// ReportSelectedThemeIndex is deprecated and will be removed.
+        /// </summary>
+        public bool ReportSelectedThemeIndex { get; set; }
+
+        /// <summary>Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        [Category(@"Visuals")]
+        [Description(@"The custom assigned palette mode.")]
+        [DefaultValue(null)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public KryptonCustomPaletteBase? KryptonCustomPalette 
+        {
+            get => _kryptonCustomPalette;
+            set => _kryptonCustomPalette = value;
+        }
+
+        public void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
+        public bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
+
+        /// <summary>Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        [Category(@"Visuals")]
+        [Description(@"The default palette mode.")]
+        [DefaultValue(PaletteMode.Global)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public PaletteMode DefaultPalette {
+            get => _defaultPalette;
+
+            set
+            {
+                // Value needs to be different
+                if (_defaultPalette != value)
                 {
-                    _defaultPaletteIndex = Items.Count - 1;
+                    _defaultPalette = value;
+
+                    // Any PaletteMode can be set as a theme, EXCEPT Global.
+                    if (value != PaletteMode.Global)
+                    {
+                        // settings the index triggers OnSelectedIndexChanged()
+                        SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _defaultPalette);
+                    }
                 }
             }
-            base.Text = defaultThemeName;
-            _selectedIndex = SelectedIndex = (int)_defaultPaletteIndex;
-
-            _defaultPalette = PaletteMode.Microsoft365Blue;
-
-            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
-
-            HandleCreated += KryptonThemeComboBox_HandleCreated;
         }
+
+        public void ResetDefaultPalette() => DefaultPalette = PaletteMode.Global;
+        public bool ShouldSerializeDefaultPalette() => _defaultPalette != PaletteMode.Global;
+
         #endregion
 
         #region Implementation
 
-        private void KryptonThemeComboBox_HandleCreated(object sender, EventArgs e)
+        /// <summary>
+        /// This method will run the KryptonManager.GlobalPaletteChanged event is fired,<br/>
+        /// and will synchronize the SelectedIndex with the newly assigned Global Palette.
+        /// </summary>
+        /// <param name="sender">Object that intiated the call.</param>
+        /// <param name="e">Eventargs object data (not used).</param>
+        private void KryptonManagerGlobalPaletteChanged(object sender, EventArgs e)
         {
-            _handleCreated = true;
-            if (!_pendingPaletteUpdate)
-            {
-                return;
-            }
-
-            _pendingPaletteUpdate = false;
-            DefaultPalette = _pendingPaletteMode;
+            SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
         }
-
-        private void UpdateDefaultPaletteIndex(PaletteMode mode)
-        {
-            if (_isUpdating)
-            {
-                return;
-            }
-
-            _isUpdating = true;
-
-            var selectedText = ThemeManager.ReturnPaletteModeAsString(mode);
-            var newIdx = Items.IndexOf(selectedText);
-            if (newIdx >= 0 && newIdx < PaletteModeStrings.SupportedThemesMap.Count)
-            {
-                ThemeSelectedIndex = newIdx;
-            }
-
-            _isUpdating = false;
-        }
-
-        /// <summary>Returns the palette mode.</summary>
-        /// <returns>PaletteMode of the Manager</returns>
-        public PaletteMode ReturnPaletteMode() => Manager!.GlobalPaletteMode;
-
-        // TODO: Refresh the theme names if the values have been altered
 
         #endregion
 
         #region Protected Overrides
 
         /// <inheritdoc />
-        protected override void OnCreateControl()
-        {
-            base.OnCreateControl();
-            // At this point, a potential new Manager is assigned (by Designer file)
-            // If its GlobalPaletteMode is not Custom or Global, set the combo's text:
-            var mgrMode = ReturnPaletteMode();
-            if (mgrMode != PaletteMode.Custom && mgrMode != PaletteMode.Global)
-            {
-                var selectedText = ThemeManager.ReturnPaletteModeAsString(mgrMode);
-                // this triggers below OnSelectedIndexChanged
-                base.Text = selectedText;
-                return;
-            }
-            SelectedIndex = _selectedIndex;
-        }
-
-        /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyTheme(Text!, Manager!);
-
-            ThemeSelectedIndex = SelectedIndex;
+            if ( !CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, Text, _manager, _kryptonCustomPalette))
+            {
+                //theme change went wrong, make the active theme the selected theme in the list.
+                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
+            }
 
             base.OnSelectedIndexChanged(e);
-            if ((ThemeManager.GetThemeManagerMode(Text!) == PaletteMode.Custom)
-                && (KryptonCustomPalette != null)
-               )
-            {
-                Manager!.GlobalCustomPalette = KryptonCustomPalette;
-            }
-
-            if (_reportSelectedThemeIndex)
-            {
-                //KryptonMessageBox.Show($@"The index for '{SelectedItem}' is {SelectedIndex}",
-                //  @"Theme Index", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemInformation);
-                Debug.WriteLine($@"The index for '{SelectedItem}' is {SelectedIndex}");
-            }
         }
 
         #endregion
 
         #region Removed Designer Visibility
+
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
@@ -255,7 +177,6 @@ namespace Krypton.Toolkit
         public new string FormatString
         {
             get => base.FormatString;
-
             set => base.FormatString = value;
         }
 
@@ -301,9 +222,12 @@ namespace Krypton.Toolkit
         /// <summary>Gets and sets the selected index.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new int SelectedIndex { get => base.SelectedIndex; set => base.SelectedIndex = value; }
+        public new int SelectedIndex 
+        {
+            get => base.SelectedIndex;
+            set => base.SelectedIndex = value;
+        }
 
         #endregion
     }
-
 }
