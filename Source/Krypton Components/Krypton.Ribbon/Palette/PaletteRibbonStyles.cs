@@ -32,9 +32,11 @@ namespace Krypton.Ribbon
         public PaletteRibbonStyles(KryptonRibbon ribbon,
                                    NeedPaintHandler? needPaint)
         {
-            Debug.Assert(_ribbon is not null);
-
-            _ribbon = ribbon;
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
