@@ -24,9 +24,7 @@ namespace Krypton.Toolkit
         /// <returns>String array of theme names.</returns>
         internal static string[] GetThemesArray()
         {
-            return PaletteModeStrings.SupportedThemesMap
-                .Select(x => x.Key)
-                .ToArray();
+            return PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">Enter: this._manager.</param>
         /// <param name="kryptonCustomPalette">Enter: this._kryptonCustomPalette</param>
         /// <returns>True if the theme change was successful, false when custom was selected but no local external custom palette is set.</returns>
-        internal static bool OnSelectedIndexChanged(ref bool isLocalUpdate, bool isExternalUpdate, ref PaletteMode defaultPalette, 
+        internal static bool OnSelectedIndexChanged(ref bool isLocalUpdate, bool isExternalUpdate, ref PaletteMode defaultPalette,
             string themeName, KryptonManager manager, KryptonCustomPaletteBase? kryptonCustomPalette)
         {
             bool result = true;
@@ -163,7 +161,7 @@ namespace Krypton.Toolkit
             // Value needs to be different
             if (defaultPalette != value)
             {
-               defaultPalette = value;
+                defaultPalette = value;
 
                 // Any PaletteMode can be set as a theme, EXCEPT Global.
                 if (value != PaletteMode.Global)
@@ -176,6 +174,7 @@ namespace Krypton.Toolkit
             return result;
         }
     }
+   
     #endregion
 
     #region IKryptonThemeSelectorBase
