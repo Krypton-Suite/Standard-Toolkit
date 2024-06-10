@@ -9,21 +9,6 @@
 
 namespace Krypton.Toolkit
 {
-    internal interface IKryptonThemeSelectorBase
-    {
-        /// <summary>
-        /// Gets or sets the default palette mode.</summary>
-        /// <value>The default palette mode.</value>
-        PaletteMode DefaultPalette { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user defined custom palette.</summary>
-        /// <value>The user defined palette mode.</value>
-        KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
-
-        bool ReportSelectedThemeIndex { get; set; }
-    }
-
     /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
     /// <seealso cref="KryptonComboBox" />
     public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase

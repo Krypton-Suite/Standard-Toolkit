@@ -8,6 +8,14 @@
 #endregion
 namespace Krypton.Toolkit
 {
+    #region Static
+    /// <summary>
+    /// Class CommonHelperThemeSelectors hold the common code for all Theme Selector controls:<br/>
+    /// - KryptonThemeComboBox<br/>
+    /// - KryptonThemeListBox<br/>
+    /// - KryptonRibbonGroupThemeComboBox<br/>
+    /// - KryptonThemeBrowser
+    /// </summary>
     internal static class CommonHelperThemeSelectors
     {
         /// <summary>
@@ -98,7 +106,7 @@ namespace Krypton.Toolkit
         /// <param name="selectedIndex">The currently selected index of the control.</param>
         /// <param name="items">The control's list of themes (usually Items).</param>
         /// <returns>The selected index.</returns>
-        public static int KryptonManagerGlobalPaletteChanged(bool isLocalUpdate, ref bool isExternalUpdate, int selectedIndex, IList items)
+        internal static int KryptonManagerGlobalPaletteChanged(bool isLocalUpdate, ref bool isExternalUpdate, int selectedIndex, IList items)
         {
             int result = selectedIndex;
 
@@ -168,4 +176,28 @@ namespace Krypton.Toolkit
             return result;
         }
     }
+    #endregion
+
+    #region IKryptonThemeSelectorBase
+
+    /// <summary>
+    /// Interface IKryptonThemeSelectorBase<br/>
+    /// Common public entities for the Theme Selector controls.
+    /// </summary>
+    internal interface IKryptonThemeSelectorBase
+    {
+        /// <summary>
+        /// Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        PaletteMode DefaultPalette { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user defined custom palette.</summary>
+        /// <value>The user defined palette mode.</value>
+        KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
+
+        bool ReportSelectedThemeIndex { get; set; }
+    }
+
+    #endregion
 }
