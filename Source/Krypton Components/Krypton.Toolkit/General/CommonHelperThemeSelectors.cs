@@ -8,6 +8,14 @@
 #endregion
 namespace Krypton.Toolkit
 {
+    #region Static
+    /// <summary>
+    /// Class CommonHelperThemeSelectors hold the common code for all Theme Selector controls:<br/>
+    /// - KryptonThemeComboBox<br/>
+    /// - KryptonThemeListBox<br/>
+    /// - KryptonRibbonGroupThemeComboBox<br/>
+    /// - KryptonThemeBrowser
+    /// </summary>
     internal static class CommonHelperThemeSelectors
     {
         /// <summary>
@@ -16,9 +24,7 @@ namespace Krypton.Toolkit
         /// <returns>String array of theme names.</returns>
         internal static string[] GetThemesArray()
         {
-            return PaletteModeStrings.SupportedThemesMap
-                .Select(x => x.Key)
-                .ToArray();
+            return PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
         }
 
         /// <summary>
@@ -31,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">Enter: this._manager.</param>
         /// <param name="kryptonCustomPalette">Enter: this._kryptonCustomPalette</param>
         /// <returns>True if the theme change was successful, false when custom was selected but no local external custom palette is set.</returns>
-        internal static bool OnSelectedIndexChanged(ref bool isLocalUpdate, bool isExternalUpdate, ref PaletteMode defaultPalette, 
+        internal static bool OnSelectedIndexChanged(ref bool isLocalUpdate, bool isExternalUpdate, ref PaletteMode defaultPalette,
             string themeName, KryptonManager manager, KryptonCustomPaletteBase? kryptonCustomPalette)
         {
             bool result = true;
@@ -98,7 +104,7 @@ namespace Krypton.Toolkit
         /// <param name="selectedIndex">The currently selected index of the control.</param>
         /// <param name="items">The control's list of themes (usually Items).</param>
         /// <returns>The selected index.</returns>
-        public static int KryptonManagerGlobalPaletteChanged(bool isLocalUpdate, ref bool isExternalUpdate, int selectedIndex, IList items)
+        internal static int KryptonManagerGlobalPaletteChanged(bool isLocalUpdate, ref bool isExternalUpdate, int selectedIndex, IList items)
         {
             int result = selectedIndex;
 
@@ -155,7 +161,7 @@ namespace Krypton.Toolkit
             // Value needs to be different
             if (defaultPalette != value)
             {
-               defaultPalette = value;
+                defaultPalette = value;
 
                 // Any PaletteMode can be set as a theme, EXCEPT Global.
                 if (value != PaletteMode.Global)
@@ -168,4 +174,29 @@ namespace Krypton.Toolkit
             return result;
         }
     }
+   
+    #endregion
+
+    #region IKryptonThemeSelectorBase
+
+    /// <summary>
+    /// Interface IKryptonThemeSelectorBase<br/>
+    /// Common public entities for the Theme Selector controls.
+    /// </summary>
+    internal interface IKryptonThemeSelectorBase
+    {
+        /// <summary>
+        /// Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        PaletteMode DefaultPalette { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user defined custom palette.</summary>
+        /// <value>The user defined palette mode.</value>
+        KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
+
+        bool ReportSelectedThemeIndex { get; set; }
+    }
+
+    #endregion
 }

@@ -9,21 +9,6 @@
 
 namespace Krypton.Toolkit
 {
-    internal interface IKryptonThemeSelectorBase
-    {
-        /// <summary>
-        /// Gets or sets the default palette mode.</summary>
-        /// <value>The default palette mode.</value>
-        PaletteMode DefaultPalette { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user defined custom palette.</summary>
-        /// <value>The user defined palette mode.</value>
-        KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
-
-        bool ReportSelectedThemeIndex { get; set; }
-    }
-
     /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
     /// <seealso cref="KryptonComboBox" />
     public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
@@ -37,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary> Backing var for the DefaultPalette property.</summary>
         private PaletteMode _defaultPalette;
         /// <summary> Local Krypton Manager instance.</summary>
-        private KryptonManager _manager;
+        private readonly KryptonManager _manager;
         /// <summary> User defined palette.</summary>
         private KryptonCustomPaletteBase? _kryptonCustomPalette = null;
 
@@ -94,7 +79,8 @@ namespace Krypton.Toolkit
         [Description(@"The default palette mode.")]
         [DefaultValue(PaletteMode.Global)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public PaletteMode DefaultPalette {
+        public PaletteMode DefaultPalette 
+        {
             get => _defaultPalette;
             set => SelectedIndex = CommonHelperThemeSelectors.DefaultPaletteSetter(ref _defaultPalette, value, Items, SelectedIndex);
         }
@@ -197,6 +183,23 @@ namespace Krypton.Toolkit
             get => base.AutoCompleteCustomSource;
             set => base.AutoCompleteCustomSource = value;
         }
+
+        /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteMode AutoCompleteMode {
+            get => base.AutoCompleteMode;
+            set => base.AutoCompleteMode = value;
+        }
+
+        /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteSource AutoCompleteSource {
+            get => base.AutoCompleteSource;
+            set => base.AutoCompleteSource = value;
+        }
+
 
         /// <summary>Gets and sets the selected index.</summary>
         [Browsable(false)]
