@@ -160,7 +160,6 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
             this.kryptonRibbonGroupThemeComboBox1.MaximumSize = new System.Drawing.Size(500, 0);
             this.kryptonRibbonGroupThemeComboBox1.MinimumSize = new System.Drawing.Size(400, 0);
-            this.kryptonRibbonGroupThemeComboBox1.SynchronizeDropDownWidth = true;
             this.kryptonRibbonGroupThemeComboBox1.ValueMember = "Value";
             // 
             // kryptonPanel1

@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                     newEnabled = true;
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     newDependent = null;
                     newEnabled = false;
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                     newChecked = true;
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     newChecked = false;
                     DebugTools.NotImplemented(ButtonSpec.GetChecked(_redirector).ToString());

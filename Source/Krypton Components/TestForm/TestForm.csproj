@@ -43,6 +43,9 @@
         <Reference Include="Krypton.Docking">
           <HintPath>..\Krypton.Docking\obj\Debug\net462\Krypton.Docking.dll</HintPath>
         </Reference>
+        <Reference Include="Krypton.Toolkit">
+          <HintPath>..\Krypton.Toolkit\obj\Debug\net462\Krypton.Toolkit.dll</HintPath>
+        </Reference>
         <Reference Include="Krypton.Workspace">
           <HintPath>..\Krypton.Workspace\obj\Debug\net462\Krypton.Workspace.dll</HintPath>
         </Reference>

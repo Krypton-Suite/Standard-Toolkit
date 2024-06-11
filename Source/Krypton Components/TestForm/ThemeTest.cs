@@ -30,12 +30,30 @@ namespace TestForm
 
         private void leftToRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowser.Show(FormStartPosition.CenterParent, GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX);
+            var data = new KryptonThemeBrowserData()
+            {
+                ShowImportButton = true,
+                ShowSilentOption = true,
+                StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+                StartPosition = FormStartPosition.CenterScreen,
+                WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
+            };
+
+            KryptonThemeBrowser.Show(data);
         }
 
         private void rightToLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowser.Show(FormStartPosition.CenterParent, Krypton.Toolkit.RightToLeftLayout.RightToLeft);
+            var data = new KryptonThemeBrowserData()
+            {
+                ShowImportButton = true,
+                ShowSilentOption = true,
+                StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+                StartPosition = FormStartPosition.CenterScreen,
+                WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
+            };
+
+            KryptonThemeBrowser.Show(data, Krypton.Toolkit.RightToLeftLayout.RightToLeft);
         }
     }
 }

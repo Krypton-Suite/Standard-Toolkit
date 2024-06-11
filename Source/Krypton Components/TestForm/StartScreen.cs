@@ -152,5 +152,12 @@ namespace TestForm
 
             workspaceTest.Show();
         }
+
+        private void kbtnThemeControls_Click(object sender, EventArgs e)
+        {
+            var themeControls = new ThemeControlExamples();
+
+            themeControls.Show();
+        }
     }
 }
