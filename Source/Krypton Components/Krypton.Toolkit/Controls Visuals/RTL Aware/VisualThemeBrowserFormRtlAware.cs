@@ -19,11 +19,7 @@ namespace Krypton.Toolkit
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserFormRtlAware" /> class.</summary>
-        /// <param name="startPosition">The start position.</param>
-        /// <param name="startIndex">The start index.</param>
-        /// <param name="windowTitle">The window title.</param>
-        /// <param name="showImportButton">The show import button.</param>
-        /// <param name="showSilentOption">The show silent option.</param>
+        /// <param name="themeBrowserData">The data to create the <see cref="VisualThemeBrowserFormRtlAware"/> UI.</param>
         public VisualThemeBrowserFormRtlAware(KryptonThemeBrowserData themeBrowserData)
         {
             InitializeComponent();
