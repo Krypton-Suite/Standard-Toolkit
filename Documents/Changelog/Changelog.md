@@ -3,17 +3,15 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
-* Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328) Fixes inconsistencies in the order of themes in combination with the PaletteMode enumeration
-* Resolved [#1502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502) Fixes some problems creating workspaces introduced through warnings removal.
-* Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388) `KryptonButton` and `KryptonDropButton` do not react to theme changes and setting a custom color.
-* Resolved [#1497](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1497) When pressing ALT to show the Ribbon KeyTips a null reference exception is thrown.
-* Resolved [#1462](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1462) TestForm app: KCombobox from main.cs causes a crash
-* Resolved [#1414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1414) `SetDate` API is missing from `KryptonMonthCalendar`
-* Resolved [#1138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1138) BinaryFormatter is deprecated due to possible security risks and will be removed with .NET 9.
-* Resolved [#1490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1490) **[Regression]** Clean get of alpha branches results in multiple build errors
-* Resolved [#1489](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1489) **[Regression]** KMessageBox (and "Deprecated") using Error Icon plays the wrong sound
-* Resolved [#1461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1461) Remove designer visibility of MouseDoubleClick and DoubleClick Events for the KryptonComboxBox
-* Resolved [#1478](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1478) Wrongly assigned designers to `KryptonListview` and `KryptonProgressBar` corrected. DesignerActionLists code updated.
+* Resolved [#1502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Fixes some problems creating workspaces introduced through warnings removal.
+* Resolved [#1497](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1497), When pressing ALT to show the Ribbon KeyTips a null reference exception is thrown.
+* Resolved [#1462](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1462), TestForm app: KCombobox from main.cs causes a crash
+* Resolved [#1414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1414), `SetDate` API is missing from `KryptonMonthCalendar`
+* Resolved [#1138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1138), BinaryFormatter is deprecated due to possible security risks and will be removed with .NET 9.
+* Resolved [#1490](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1490), **[Regression]** Clean get of alpha branches results in multiple build errors
+* Resolved [#1489](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1489), **[Regression]** KMessageBox (and "Deprecated") using Error Icon plays the wrong sound
+* Resolved [#1461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1461), Remove designer visibility of MouseDoubleClick and DoubleClick Events for the KryptonComboxBox
+* Resolved [#1478](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1478), Wrongly assigned designers to `KryptonListview` and `KryptonProgressBar` corrected. DesignerActionLists code updated.
 * Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
@@ -98,6 +96,9 @@
 * Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
 
 ## 2024-06-24 - Build 2406 - June 2024
+* Resolved [#1516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1516), Theme Office 2010 Black Dark Mode causes a crash
+* Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328), Tentative adjustment to bring PaletteMode and the theme dictionary in line.
+* Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388), `KryptonButton` and `KryptonDropButton` Dropdown arrow color does not react to theme changes and is not visible.
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
