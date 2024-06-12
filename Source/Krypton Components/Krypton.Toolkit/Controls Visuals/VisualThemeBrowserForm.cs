@@ -12,35 +12,19 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly bool _showImportButton;
-        private readonly bool _showSilentOption;
-        private readonly FormStartPosition _formStartPosition;
-        private readonly int _startIndex;
-        private readonly string _windowTitle;
+        private readonly KryptonThemeBrowserData _themeBrowserData;
 
         #endregion
 
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserForm" /> class.</summary>
-        /// <param name="startPosition">The start position.</param>
-        /// <param name="startIndex">The start index.</param>
-        /// <param name="windowTitle">The window title.</param>
-        /// <param name="showImportButton">The show import button.</param>
-        /// <param name="showSilentOption">The show silent option.</param>
-        public VisualThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        /// <param name="themeBrowserData">The data to provide to the <see cref="VisualThemeBrowserForm"/>.</param>
+        public VisualThemeBrowserForm(KryptonThemeBrowserData themeBrowserData)
         {
             InitializeComponent();
 
-            _showImportButton = showImportButton ?? false;
-
-            _showSilentOption = showSilentOption ?? false;
-
-            _formStartPosition = startPosition;
-
-            _startIndex = startIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
-
-            _windowTitle = windowTitle ?? KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
+            _themeBrowserData = themeBrowserData;
 
             AdjustUI();
         }
@@ -51,13 +35,13 @@ namespace Krypton.Toolkit
 
         private void AdjustUI()
         {
-            Text = _windowTitle;
+            Text = _themeBrowserData.WindowTitle;
 
-            kbtnImport.Visible = _showImportButton;
+            kbtnImport.Visible = _themeBrowserData.ShowImportButton ?? false;
 
-            kchkSilent.Visible = _showSilentOption;
+            kchkSilent.Visible = _themeBrowserData.ShowSilentOption ?? false;
 
-            StartPosition = _formStartPosition;
+            StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
             //klbThemeList.SelectedIndex = _startIndex;
 
@@ -84,7 +68,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            klbThemeList.SelectedItem = _startIndex;
+            klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
         }
 
         private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
@@ -93,7 +77,7 @@ namespace Krypton.Toolkit
 
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new());
+            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new KryptonManager());
 
             SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
         }

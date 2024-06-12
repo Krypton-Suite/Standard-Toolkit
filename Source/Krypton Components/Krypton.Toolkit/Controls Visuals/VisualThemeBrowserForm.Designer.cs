@@ -52,6 +52,7 @@
             // 
             // kcpbCustom
             // 
+            this.kcpbCustom.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kcpbCustom.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(245)))), ((int)(((byte)(248)))));
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor2 = System.Drawing.Color.Empty;
@@ -213,6 +214,7 @@
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor4 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor5 = System.Drawing.Color.Empty;
             this.kcpbCustom.ThemeName = null;
+            this.kcpbCustom.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // kryptonPanel1
             // 
@@ -220,10 +222,10 @@
             this.kryptonPanel1.Controls.Add(this.klblSelectedIndex);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 465);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 441);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(820, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(796, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -243,7 +245,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(820, 49);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(796, 49);
             this.tableLayoutPanel1.TabIndex = 17;
             // 
             // kbtnImport
@@ -254,6 +256,7 @@
             this.kbtnImport.Name = "kbtnImport";
             this.kbtnImport.Size = new System.Drawing.Size(90, 25);
             this.kbtnImport.TabIndex = 1;
+            this.kbtnImport.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnImport.Values.Text = "&Import...";
             this.kbtnImport.Click += new System.EventHandler(this.kbtnImport_Click);
             // 
@@ -261,11 +264,12 @@
             // 
             this.kbtnOK.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.kbtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnOK.Location = new System.Drawing.Point(610, 12);
+            this.kbtnOK.Location = new System.Drawing.Point(586, 12);
             this.kbtnOK.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOK.Name = "kbtnOK";
             this.kbtnOK.Size = new System.Drawing.Size(90, 25);
             this.kbtnOK.TabIndex = 3;
+            this.kbtnOK.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOK.Values.Text = "O&K";
             this.kbtnOK.Values.UseAsADialogButton = true;
             this.kbtnOK.Click += new System.EventHandler(this.kbtnOK_Click);
@@ -274,11 +278,12 @@
             // 
             this.kbtnCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(720, 12);
+            this.kbtnCancel.Location = new System.Drawing.Point(696, 12);
             this.kbtnCancel.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 2;
+            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "Cance&l";
             this.kbtnCancel.Values.UseAsADialogButton = true;
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
@@ -286,10 +291,10 @@
             // kchkSilent
             // 
             this.kchkSilent.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.kchkSilent.Location = new System.Drawing.Point(120, 15);
+            this.kchkSilent.Location = new System.Drawing.Point(120, 14);
             this.kchkSilent.Margin = new System.Windows.Forms.Padding(10);
             this.kchkSilent.Name = "kchkSilent";
-            this.kchkSilent.Size = new System.Drawing.Size(78, 19);
+            this.kchkSilent.Size = new System.Drawing.Size(54, 20);
             this.kchkSilent.TabIndex = 13;
             this.kchkSilent.Values.Text = "&Silent";
             // 
@@ -308,7 +313,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(820, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(796, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -317,7 +322,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(820, 465);
+            this.kryptonPanel2.Size = new System.Drawing.Size(796, 441);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -333,7 +338,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(820, 465);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(796, 441);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // klblDescription
@@ -342,17 +347,17 @@
             this.klblDescription.Location = new System.Drawing.Point(10, 10);
             this.klblDescription.Margin = new System.Windows.Forms.Padding(10);
             this.klblDescription.Name = "klblDescription";
-            this.klblDescription.Size = new System.Drawing.Size(131, 19);
+            this.klblDescription.Size = new System.Drawing.Size(94, 20);
             this.klblDescription.TabIndex = 1;
             this.klblDescription.Values.Text = "kryptonLabel1";
             // 
             // klbThemeList
             // 
             this.klbThemeList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klbThemeList.Location = new System.Drawing.Point(10, 49);
+            this.klbThemeList.Location = new System.Drawing.Point(10, 50);
             this.klbThemeList.Margin = new System.Windows.Forms.Padding(10);
             this.klbThemeList.Name = "klbThemeList";
-            this.klbThemeList.Size = new System.Drawing.Size(800, 406);
+            this.klbThemeList.Size = new System.Drawing.Size(776, 381);
             this.klbThemeList.TabIndex = 0;
             this.klbThemeList.SelectedIndexChanged += new System.EventHandler(this.klbThemeList_SelectedIndexChanged);
             // 
@@ -362,7 +367,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnCancel;
-            this.ClientSize = new System.Drawing.Size(820, 515);
+            this.ClientSize = new System.Drawing.Size(796, 491);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

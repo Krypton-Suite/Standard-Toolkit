@@ -42,6 +42,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnWorkspace = new Krypton.Toolkit.KryptonButton();
             this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
@@ -62,7 +63,7 @@ namespace TestForm
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnWorkspace = new Krypton.Toolkit.KryptonButton();
+            this.kbtnThemeControls = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -70,6 +71,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnThemeControls);
             this.kryptonPanel1.Controls.Add(this.kbtnWorkspace);
             this.kryptonPanel1.Controls.Add(this.kbtnCalendar);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
@@ -93,8 +95,18 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(491, 378);
+            this.kryptonPanel1.Size = new System.Drawing.Size(440, 378);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnWorkspace
+            // 
+            this.kbtnWorkspace.Location = new System.Drawing.Point(13, 319);
+            this.kbtnWorkspace.Name = "kbtnWorkspace";
+            this.kbtnWorkspace.Size = new System.Drawing.Size(204, 25);
+            this.kbtnWorkspace.TabIndex = 20;
+            this.kbtnWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnWorkspace.Values.Text = "Workspace";
+            this.kbtnWorkspace.Click += new System.EventHandler(this.kbtnWorkspace_Click);
             // 
             // kbtnCalendar
             // 
@@ -109,7 +121,8 @@ namespace TestForm
             // 
             // kryptonThemeComboBox1
             // 
-            this.kryptonThemeComboBox1.DropDownWidth = 556;
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeComboBox1.DropDownWidth = 417;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(10, 11);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
@@ -130,7 +143,7 @@ namespace TestForm
             // 
             // kbtnTreeView
             // 
-            this.kbtnTreeView.Location = new System.Drawing.Point(13, 288);
+            this.kbtnTreeView.Location = new System.Drawing.Point(223, 288);
             this.kbtnTreeView.Name = "kbtnTreeView";
             this.kbtnTreeView.Size = new System.Drawing.Size(204, 25);
             this.kbtnTreeView.TabIndex = 16;
@@ -141,7 +154,7 @@ namespace TestForm
             // kbtnExit
             // 
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(223, 288);
+            this.kbtnExit.Location = new System.Drawing.Point(223, 319);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(204, 25);
             this.kbtnExit.TabIndex = 15;
@@ -161,7 +174,7 @@ namespace TestForm
             // 
             // kbtnToast
             // 
-            this.kbtnToast.Location = new System.Drawing.Point(223, 257);
+            this.kbtnToast.Location = new System.Drawing.Point(13, 288);
             this.kbtnToast.Name = "kbtnToast";
             this.kbtnToast.Size = new System.Drawing.Size(204, 25);
             this.kbtnToast.TabIndex = 13;
@@ -171,7 +184,7 @@ namespace TestForm
             // 
             // kbtnTheme
             // 
-            this.kbtnTheme.Location = new System.Drawing.Point(13, 257);
+            this.kbtnTheme.Location = new System.Drawing.Point(223, 257);
             this.kbtnTheme.Name = "kbtnTheme";
             this.kbtnTheme.Size = new System.Drawing.Size(204, 25);
             this.kbtnTheme.TabIndex = 12;
@@ -293,15 +306,15 @@ namespace TestForm
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
-            // kbtnWorkspace
+            // kbtnThemeControls
             // 
-            this.kbtnWorkspace.Location = new System.Drawing.Point(13, 319);
-            this.kbtnWorkspace.Name = "kbtnWorkspace";
-            this.kbtnWorkspace.Size = new System.Drawing.Size(204, 25);
-            this.kbtnWorkspace.TabIndex = 20;
-            this.kbtnWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnWorkspace.Values.Text = "Workspace";
-            this.kbtnWorkspace.Click += new System.EventHandler(this.kbtnWorkspace_Click);
+            this.kbtnThemeControls.Location = new System.Drawing.Point(13, 257);
+            this.kbtnThemeControls.Name = "kbtnThemeControls";
+            this.kbtnThemeControls.Size = new System.Drawing.Size(204, 25);
+            this.kbtnThemeControls.TabIndex = 21;
+            this.kbtnThemeControls.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnThemeControls.Values.Text = "Theme Controls";
+            this.kbtnThemeControls.Click += new System.EventHandler(this.kbtnThemeControls_Click);
             // 
             // StartScreen
             // 
@@ -309,7 +322,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(491, 378);
+            this.ClientSize = new System.Drawing.Size(440, 378);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -348,5 +361,6 @@ namespace TestForm
         private KryptonButton kbtnCalendar;
         private KryptonManager kryptonManager1;
         private KryptonButton kbtnWorkspace;
+        private KryptonButton kbtnThemeControls;
     }
 }

@@ -12,7 +12,8 @@ namespace Krypton.Toolkit
 {
     /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
     /// <seealso cref="KryptonListBox" />
-    [ToolboxItem(false)]
+    [ToolboxItem(true)]
+    [ToolboxBitmap(typeof(KryptonListBox))]
     [Designer(typeof(KryptonThemeBrowserDesigner))]
     public class KryptonThemeListBox : KryptonListBox
     {

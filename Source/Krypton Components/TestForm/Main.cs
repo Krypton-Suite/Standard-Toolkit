@@ -108,7 +108,16 @@ namespace TestForm
 
         private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowser.Show();
+            var data = new KryptonThemeBrowserData()
+            {
+                ShowImportButton = true,
+                ShowSilentOption = true,
+                StartIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX,
+                StartPosition = FormStartPosition.CenterScreen,
+                WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
+            };
+
+            KryptonThemeBrowser.Show(data);
         }
 
         private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
