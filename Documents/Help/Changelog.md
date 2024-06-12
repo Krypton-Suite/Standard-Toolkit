@@ -3,8 +3,9 @@
 =======
 
 ## 2024-06-24 - Build 2406 (Patch 3) - June 2024
-* Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328) Tentative adjustment to bring PaletteMode and the theme dictionary in line.
-* Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388) `KryptonButton` and `KryptonDropButton` Dropdown arrow color does not react to theme changes and is not visible.
+* Resolved [#1516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1516), Theme Office 2010 Black Dark Mode causes a crash
+* Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328), Tentative adjustment to bring PaletteMode and the theme dictionary in line.
+* Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388), `KryptonButton` and `KryptonDropButton` Dropdown arrow color does not react to theme changes and is not visible.
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303

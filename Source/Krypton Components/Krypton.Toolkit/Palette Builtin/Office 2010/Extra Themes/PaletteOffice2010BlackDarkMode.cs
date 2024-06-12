@@ -1611,8 +1611,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack2];
                 case PaletteBackStyle.ControlToolTip:
-                    // Note: It thinks that ToolTipBottom = 224 in the SchemeOfficeColors array, but it's assigned to 225?
-                    return _ribbonColours[225]; //_ribbonColours[(int)SchemeOfficeColors.ToolTipBottom];
+                    return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
