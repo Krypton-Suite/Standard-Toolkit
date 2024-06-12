@@ -46,8 +46,10 @@ namespace Krypton.Toolkit
             {
                 isLocalUpdate = true;
 
-                // Get palette from theme name.
-                PaletteMode mode = ThemeManager.GetThemeManagerMode(themeName) ?? PaletteMode.Global;
+                // Get palette from theme name. If themeName is not valid default to Global
+                PaletteMode mode = string.IsNullOrEmpty(themeName)
+                    ? PaletteMode.Global
+                    : ThemeManager.GetThemeManagerMode(themeName) ?? PaletteMode.Global;
 
                 if (mode == PaletteMode.Custom)
                 {
@@ -63,6 +65,11 @@ namespace Krypton.Toolkit
                         // Leave defaultPalette as it is.
                         result = false;
                     }
+                }
+                else if (mode == PaletteMode.Global)
+                {
+                    // If mode is set to Global, a theme change is not necessary.
+                    result = false;
                 }
                 else
                 {
@@ -87,8 +94,16 @@ namespace Krypton.Toolkit
         /// </returns>
         internal static int GetPaletteIndex(IList items, PaletteMode mode)
         {
-            var selectedText = PaletteModeStrings.SupportedThemes.SecondToFirst[mode];
-            var newIdx = items.IndexOf(selectedText);
+            //intitial value must be an invalid SelectedIndex.
+            int newIdx = -1;
+
+            // When a control has the DefaultPalette property set to Global newIdx is -1
+            // A lookup is not possible since Global does not exist in the themes dictionary.
+            if (mode != PaletteMode.Global)
+            {
+                var selectedText = PaletteModeStrings.SupportedThemes.SecondToFirst[mode];
+                newIdx = items.IndexOf(selectedText);
+            }
 
             return (newIdx >= 0 && newIdx < PaletteModeStrings.SupportedThemesMap.Count)
                 ? newIdx
@@ -129,19 +144,22 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Returns if a global theme is set at KryptonManager.GlobalPaletteMode.<br/>
+        /// Returns the intially selected index.<br/>
+        /// Should only be used in the constructor to set a palette from the manager or the control's DefaultPalette value set at design time.
         /// </summary>
         /// <param name="defaultPalette">Enter: this._defaultPalette.</param>
         /// <param name="manager">Enter: this._manager.</param>
-        /// <returns>
-        /// True when: DefaultPalette == Global and  manager.GlobalPaletteMode != Custom and Global<br/>
-        /// Otherwise false.
-        /// </returns>
-        internal static bool InitFromManagerPalette(PaletteMode defaultPalette, KryptonManager manager)
+        /// <param name="items">The control's list of themes (usually Items).</param>
+        /// <returns>Returns the location in the list of items for defaultPalette.</returns>
+        internal static int GetInitialSelectedIndex(PaletteMode defaultPalette, KryptonManager manager, IList items)
         {
-            return defaultPalette == PaletteMode.Global
-                && manager.GlobalPaletteMode != PaletteMode.Custom
-                && manager.GlobalPaletteMode != PaletteMode.Global;
+            PaletteMode pm = defaultPalette == PaletteMode.Global 
+                && manager.GlobalPaletteMode != PaletteMode.Custom 
+                && manager.GlobalPaletteMode != PaletteMode.Global
+                    ? manager.GlobalPaletteMode
+                    : defaultPalette;
+                
+            return CommonHelperThemeSelectors.GetPaletteIndex(items, pm);
         }
 
         /// <summary>
@@ -151,7 +169,7 @@ namespace Krypton.Toolkit
         /// <param name="value">Incoming value from the property set.</param>
         /// <param name="items">The control's list of themes (usually Items).</param>
         /// <param name="selectedIndex">The currently selected index of the control.</param>
-        /// <returns></returns>
+        /// <returns>Returns the location in the list of items for defaultPalette.</returns>
         internal static int DefaultPaletteSetter(ref PaletteMode defaultPalette, PaletteMode value, IList items, int selectedIndex)
         {
             // If value == defaultPalette or value == PaletteMode.Global
@@ -181,18 +199,18 @@ namespace Krypton.Toolkit
 
     /// <summary>
     /// Interface IKryptonThemeSelectorBase<br/>
-    /// Common public entities for the Theme Selector controls.
+    /// Common entities for the Theme Selector controls.
     /// </summary>
     internal interface IKryptonThemeSelectorBase
     {
         /// <summary>
-        /// Gets or sets the default palette mode.</summary>
-        /// <value>The default palette mode.</value>
+        /// Gets or sets the default palette mode.
+        /// </summary>
         PaletteMode DefaultPalette { get; set; }
 
         /// <summary>
-        /// Gets or sets the user defined custom palette.</summary>
-        /// <value>The user defined palette mode.</value>
+        /// Gets or sets the user defined custom palette.
+        /// </summary>
         KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
         bool ReportSelectedThemeIndex { get; set; }

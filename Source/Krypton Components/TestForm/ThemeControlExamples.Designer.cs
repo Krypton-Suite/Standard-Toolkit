@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnThemeBrowser = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
-            this.kbtnThemeBrowser = new Krypton.Toolkit.KryptonButton();
+            this.kryptonThemeListBox2 = new Krypton.Toolkit.KryptonThemeListBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -41,6 +42,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeListBox2);
             this.kryptonPanel1.Controls.Add(this.kbtnThemeBrowser);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
@@ -51,12 +53,22 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // kbtnThemeBrowser
+            // 
+            this.kbtnThemeBrowser.Location = new System.Drawing.Point(13, 413);
+            this.kbtnThemeBrowser.Name = "kbtnThemeBrowser";
+            this.kbtnThemeBrowser.Size = new System.Drawing.Size(173, 25);
+            this.kbtnThemeBrowser.TabIndex = 3;
+            this.kbtnThemeBrowser.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnThemeBrowser.Values.Text = "Theme Browser";
+            this.kbtnThemeBrowser.Click += new System.EventHandler(this.kbtnThemeBrowser_Click);
+            // 
             // kryptonLabel2
             // 
             this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
             this.kryptonLabel2.Location = new System.Drawing.Point(13, 40);
             this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(99, 20);
+            this.kryptonLabel2.Size = new System.Drawing.Size(99, 22);
             this.kryptonLabel2.TabIndex = 2;
             this.kryptonLabel2.Values.Text = "Theme ListBox:";
             // 
@@ -77,26 +89,27 @@
             this.kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
             this.kryptonLabel1.Location = new System.Drawing.Point(13, 13);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(121, 20);
+            this.kryptonLabel1.Size = new System.Drawing.Size(121, 22);
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Theme ComboBox:";
             // 
             // kryptonThemeListBox1
             // 
+            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(0, 0);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
+            this.kryptonThemeListBox1.ReportSelectedThemeIndex = false;
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(120, 96);
             this.kryptonThemeListBox1.TabIndex = 0;
-            this.kryptonThemeListBox1.ThemeSelectedIndex = 30;
             // 
-            // kbtnThemeBrowser
+            // kryptonThemeListBox2
             // 
-            this.kbtnThemeBrowser.Location = new System.Drawing.Point(13, 413);
-            this.kbtnThemeBrowser.Name = "kbtnThemeBrowser";
-            this.kbtnThemeBrowser.Size = new System.Drawing.Size(173, 25);
-            this.kbtnThemeBrowser.TabIndex = 3;
-            this.kbtnThemeBrowser.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnThemeBrowser.Values.Text = "Theme Browser";
-            this.kbtnThemeBrowser.Click += new System.EventHandler(this.kbtnThemeBrowser_Click);
+            this.kryptonThemeListBox2.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeListBox2.Location = new System.Drawing.Point(141, 40);
+            this.kryptonThemeListBox2.Name = "kryptonThemeListBox2";
+            this.kryptonThemeListBox2.ReportSelectedThemeIndex = false;
+            this.kryptonThemeListBox2.Size = new System.Drawing.Size(334, 334);
+            this.kryptonThemeListBox2.TabIndex = 4;
             // 
             // ThemeControlExamples
             // 
@@ -122,5 +135,6 @@
         private KryptonLabel kryptonLabel2;
         private KryptonThemeListBox kryptonThemeListBox1;
         private KryptonButton kbtnThemeBrowser;
+        private KryptonThemeListBox kryptonThemeListBox2;
     }
 }

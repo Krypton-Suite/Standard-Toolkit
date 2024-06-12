@@ -22,6 +22,10 @@ namespace Krypton.Ribbon
     [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
     {
+        /*
+         * TODO: grouped Ribbon controls do expose designers, needs a closer look
+         */
+
         #region Instance Fields
 
         /// <summary> When we change the palette, Krypton Manager will notify us that there was a change. Since we are changing it that notification can be skipped.</summary>
@@ -48,12 +52,8 @@ namespace Krypton.Ribbon
             Items.Clear();
             Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
-            // If the DefaultPaletteMode is Global and KManager.GlobalPaletteMode is not Custom or Global, set the combo's text:
-            if (CommonHelperThemeSelectors.InitFromManagerPalette(DefaultPalette, _manager))
-            {
-                // This triggers OnSelectedIndexChanged
-                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
-            }
+            // Sets the intial palette from either global or DefaultPalette property
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
 
             // React to theme changes from outside this control.
             KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
@@ -75,7 +75,8 @@ namespace Krypton.Ribbon
         [Description(@"The custom assigned palette mode.")]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public KryptonCustomPaletteBase? KryptonCustomPalette {
+        public KryptonCustomPaletteBase? KryptonCustomPalette 
+        {
             get => _kryptonCustomPalette;
             set => _kryptonCustomPalette = value;
         }
@@ -99,7 +100,6 @@ namespace Krypton.Ribbon
 
         #endregion
 
-
         #region Implementation
 
         /// <summary>
@@ -117,7 +117,6 @@ namespace Krypton.Ribbon
 
         #region Protected Overrides
 
-        /// <inheritdoc />
         /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
@@ -196,7 +195,8 @@ namespace Krypton.Ribbon
         /// <summary>Gets and sets the selected index.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new int SelectedIndex {
+        public new int SelectedIndex 
+        {
             get => base.SelectedIndex;
             set => base.SelectedIndex = value;
         }
