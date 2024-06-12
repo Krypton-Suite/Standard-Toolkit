@@ -34,7 +34,6 @@
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
-            this.kryptonThemeListBox2 = new Krypton.Toolkit.KryptonThemeListBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -42,7 +41,7 @@
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonThemeListBox2);
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeListBox1);
             this.kryptonPanel1.Controls.Add(this.kbtnThemeBrowser);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
@@ -55,6 +54,7 @@
             // 
             // kbtnThemeBrowser
             // 
+            this.kbtnThemeBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.kbtnThemeBrowser.Location = new System.Drawing.Point(13, 413);
             this.kbtnThemeBrowser.Name = "kbtnThemeBrowser";
             this.kbtnThemeBrowser.Size = new System.Drawing.Size(173, 25);
@@ -95,21 +95,14 @@
             // 
             // kryptonThemeListBox1
             // 
+            this.kryptonThemeListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.kryptonThemeListBox1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonThemeListBox1.Location = new System.Drawing.Point(141, 40);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
             this.kryptonThemeListBox1.ReportSelectedThemeIndex = false;
-            this.kryptonThemeListBox1.Size = new System.Drawing.Size(120, 96);
-            this.kryptonThemeListBox1.TabIndex = 0;
-            // 
-            // kryptonThemeListBox2
-            // 
-            this.kryptonThemeListBox2.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.kryptonThemeListBox2.Location = new System.Drawing.Point(141, 40);
-            this.kryptonThemeListBox2.Name = "kryptonThemeListBox2";
-            this.kryptonThemeListBox2.ReportSelectedThemeIndex = false;
-            this.kryptonThemeListBox2.Size = new System.Drawing.Size(334, 334);
-            this.kryptonThemeListBox2.TabIndex = 4;
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(334, 356);
+            this.kryptonThemeListBox1.TabIndex = 4;
             // 
             // ThemeControlExamples
             // 
@@ -133,8 +126,7 @@
         private KryptonLabel kryptonLabel1;
         private KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonLabel kryptonLabel2;
+           private KryptonButton kbtnThemeBrowser;
         private KryptonThemeListBox kryptonThemeListBox1;
-        private KryptonButton kbtnThemeBrowser;
-        private KryptonThemeListBox kryptonThemeListBox2;
     }
 }

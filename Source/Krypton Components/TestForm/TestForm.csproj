@@ -16,6 +16,7 @@
         <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
         <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
     </ItemGroup>
 
     <ItemGroup>
