@@ -11,8 +11,14 @@ namespace Krypton.Toolkit
 {
     /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
     /// <seealso cref="KryptonComboBox" />
+    [Designer(typeof(ControlDesigner))]
     public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     {
+        /*
+         * Since their is no suitable designer and the inherited isn't a good match
+         * It's overridden by using the Base class ControlDesigner which effectively removes the designer.
+         */
+
         #region Instance Fields
 
         /// <summary> When we change the palette, Krypton Manager will notify us that there was a change. Since we are changing it that notification can be skipped.</summary>
@@ -39,12 +45,8 @@ namespace Krypton.Toolkit
             Items.Clear();
             Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
-            // If the DefaultPaletteMode is Global and KManager.GlobalPaletteMode is not Custom or Global, set the combo's text:
-            if (CommonHelperThemeSelectors.InitFromManagerPalette(DefaultPalette, _manager))
-            {
-                // This triggers OnSelectedIndexChanged
-                SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
-            }
+            // Sets the intial palette from either global or DefaultPalette property
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
 
             // React to theme changes from outside this control.
             KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
@@ -187,7 +189,8 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteMode AutoCompleteMode {
+        public new AutoCompleteMode AutoCompleteMode 
+        {
             get => base.AutoCompleteMode;
             set => base.AutoCompleteMode = value;
         }
@@ -195,11 +198,11 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteSource AutoCompleteSource {
+        public new AutoCompleteSource AutoCompleteSource 
+        {
             get => base.AutoCompleteSource;
             set => base.AutoCompleteSource = value;
         }
-
 
         /// <summary>Gets and sets the selected index.</summary>
         [Browsable(false)]

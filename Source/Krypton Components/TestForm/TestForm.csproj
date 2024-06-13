@@ -16,6 +16,7 @@
         <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
         <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -40,15 +41,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="Krypton.Docking">
-          <HintPath>..\Krypton.Docking\obj\Debug\net462\Krypton.Docking.dll</HintPath>
-        </Reference>
-        <Reference Include="Krypton.Toolkit">
-          <HintPath>..\Krypton.Toolkit\obj\Debug\net462\Krypton.Toolkit.dll</HintPath>
-        </Reference>
-        <Reference Include="Krypton.Workspace">
-          <HintPath>..\Krypton.Workspace\obj\Debug\net462\Krypton.Workspace.dll</HintPath>
-        </Reference>
         <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>4.0.0.0</Version>
