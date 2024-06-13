@@ -44,8 +44,11 @@
             this.kryptonCheckedListBox2 = new Krypton.Toolkit.KryptonCheckedListBox();
             this.kryptonListBox1 = new Krypton.Toolkit.KryptonListBox();
             this.kryptonListBox2 = new Krypton.Toolkit.KryptonListBox();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
+            this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonRibbon1
@@ -55,7 +58,6 @@
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
             this.kryptonRibbon1.TabIndex = 0;
@@ -110,7 +112,7 @@
             // 
             // kryptonCheckBox1
             // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(484, 122);
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(13, 341);
             this.kryptonCheckBox1.Name = "kryptonCheckBox1";
             this.kryptonCheckBox1.Size = new System.Drawing.Size(67, 20);
             this.kryptonCheckBox1.TabIndex = 4;
@@ -119,7 +121,7 @@
             // kryptonCheckBox2
             // 
             this.kryptonCheckBox2.Enabled = false;
-            this.kryptonCheckBox2.Location = new System.Drawing.Point(558, 121);
+            this.kryptonCheckBox2.Location = new System.Drawing.Point(86, 341);
             this.kryptonCheckBox2.Name = "kryptonCheckBox2";
             this.kryptonCheckBox2.Size = new System.Drawing.Size(71, 20);
             this.kryptonCheckBox2.TabIndex = 5;
@@ -199,6 +201,16 @@
             this.kryptonListBox2.Size = new System.Drawing.Size(120, 183);
             this.kryptonListBox2.TabIndex = 9;
             // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.kryptonCheckBox2);
+            this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
+            this.kryptonPanel1.TabIndex = 10;
+            // 
             // ControlsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,16 +220,18 @@
             this.Controls.Add(this.kryptonListBox1);
             this.Controls.Add(this.kryptonCheckedListBox2);
             this.Controls.Add(this.kryptonCheckedListBox1);
-            this.Controls.Add(this.kryptonCheckBox2);
-            this.Controls.Add(this.kryptonCheckBox1);
             this.Controls.Add(this.kryptonButton2);
             this.Controls.Add(this.kryptonButton1);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Controls.Add(this.kryptonRibbon1);
+            this.Controls.Add(this.kryptonPanel1);
             this.Name = "ControlsTest";
             this.Text = "ControlsTest";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
+            this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,5 +255,6 @@
         private Krypton.Toolkit.KryptonCheckedListBox kryptonCheckedListBox2;
         private Krypton.Toolkit.KryptonListBox kryptonListBox1;
         private Krypton.Toolkit.KryptonListBox kryptonListBox2;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
     }
 }
