@@ -951,7 +951,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack1 = Color.FromArgb(10, 10, 10);
         private static readonly Color _toolTipBack2 = Color.FromArgb(91, 91, 91);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
-        private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
+        private static readonly Color _toolTipText = Color.FromArgb(255, 255, 255); //(76, 76, 76);
         private static readonly Color _contextMenuBack = Color.FromArgb(10, 10, 10);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
@@ -1674,8 +1674,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlRibbonAppMenu:
                     return _ribbonColours[(int)SchemeOfficeColors.AppButtonBack2];
                 case PaletteBackStyle.ControlToolTip:
-                    // Note: It thinks that ToolTipBottom = 224 in the SchemeOfficeColors array, but it's assigned to 225?
-                    return _ribbonColours[225]; //_ribbonColours[(int)SchemeOfficeColors.ToolTipBottom];
+                    return _toolTipBack2;
                 case PaletteBackStyle.ContextMenuOuter:
                     return _contextMenuBack;
                 case PaletteBackStyle.ContextMenuSeparator:
