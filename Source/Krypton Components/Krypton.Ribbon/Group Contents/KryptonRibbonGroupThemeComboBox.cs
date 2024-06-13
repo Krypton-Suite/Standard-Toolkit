@@ -22,9 +22,7 @@ namespace Krypton.Ribbon
     [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
     {
-        /*
-         * TODO: grouped Ribbon controls do expose designers, needs a closer look
-         */
+        // TODO: grouped Ribbon controls do expose designers, needs a closer look
 
         #region Instance Fields
 
