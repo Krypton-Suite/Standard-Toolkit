@@ -147,5 +147,12 @@ namespace TestForm
         {
             kryptonCustomPaletteBase1.Export();
         }
+
+        private void kryptonButton8_Click(object sender, EventArgs e)
+        {
+            ControlsTest controlsTest = new ControlsTest();
+
+            controlsTest.Show();
+        }
     }
 }
