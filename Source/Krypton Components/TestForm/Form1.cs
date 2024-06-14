@@ -131,6 +131,10 @@ namespace TestForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //foreach (var windowState in Enum.GetValues(typeof(FormWindowState)))
+            //{
+            //    kcmbWindowState.Items.Add(windowState);
+            //}
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)

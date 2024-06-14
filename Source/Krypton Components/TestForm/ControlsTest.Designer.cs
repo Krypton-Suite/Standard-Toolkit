@@ -28,8 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem("1");
+            System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem("2");
+            System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem("3");
+            System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem("4");
+            System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem("5");
+            System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem("6");
+            System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem("7");
+            System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem("8");
+            System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem("9");
+            System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem("10");
+            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem("1");
+            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem("2");
+            System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem("3");
+            System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem("4");
+            System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem("5");
+            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem("6");
+            System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem("7");
+            System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem("8");
+            System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem("9");
+            System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem("10");
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
             this.kryptonRibbonTab4 = new Krypton.Ribbon.KryptonRibbonTab();
+            this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
+            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonRibbonGroupButton4 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTab1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -47,10 +71,8 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonTab3 = new Krypton.Ribbon.KryptonRibbonTab();
-            this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
-            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.kryptonRibbonGroupButton4 = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonListView1 = new Krypton.Toolkit.KryptonListView();
+            this.kryptonListView2 = new Krypton.Toolkit.KryptonListView();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -62,26 +84,36 @@
             this.kryptonRibbon1.AllowFormIntegrate = true;
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
-            this.kryptonRibbon1.RibbonAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
-            this.kryptonRibbon1.RibbonStyles.BackInactiveStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-            this.kryptonRibbon1.RibbonStyles.BackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-            this.kryptonRibbon1.RibbonStyles.GroupButtonStyle = Krypton.Toolkit.ButtonStyle.ButtonSpec;
-            this.kryptonRibbon1.RibbonStyles.GroupClusterButtonStyle = Krypton.Toolkit.ButtonStyle.Cluster;
-            this.kryptonRibbon1.RibbonStyles.GroupCollapsedButtonStyle = Krypton.Toolkit.ButtonStyle.Alternate;
-            this.kryptonRibbon1.RibbonStyles.GroupDialogButtonStyle = Krypton.Toolkit.ButtonStyle.ButtonSpec;
-            this.kryptonRibbon1.RibbonStyles.QATButtonStyle = Krypton.Toolkit.ButtonStyle.ButtonSpec;
-            this.kryptonRibbon1.RibbonStyles.ScrollerStyle = Krypton.Toolkit.ButtonStyle.Standalone;
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab4});
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab4;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(818, 115);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonTab4
             // 
             this.kryptonRibbonTab4.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
             this.kryptonRibbonGroup2});
+            // 
+            // kryptonRibbonGroup2
+            // 
+            this.kryptonRibbonGroup2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.kryptonRibbonGroupTriple2});
+            // 
+            // kryptonRibbonGroupTriple2
+            // 
+            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.kryptonRibbonGroupButton3,
+            this.kryptonRibbonGroupButton4});
+            // 
+            // kryptonRibbonGroupButton3
+            // 
+            this.kryptonRibbonGroupButton3.TextLine1 = "Enabled";
+            // 
+            // kryptonRibbonGroupButton4
+            // 
+            this.kryptonRibbonGroupButton4.Enabled = false;
+            this.kryptonRibbonGroupButton4.TextLine1 = "Disabled";
             // 
             // kryptonRibbonTab1
             // 
@@ -120,7 +152,7 @@
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.Location = new System.Drawing.Point(290, 121);
+            this.kryptonButton1.Location = new System.Drawing.Point(13, 367);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 2;
@@ -129,7 +161,7 @@
             // kryptonButton2
             // 
             this.kryptonButton2.Enabled = false;
-            this.kryptonButton2.Location = new System.Drawing.Point(387, 121);
+            this.kryptonButton2.Location = new System.Drawing.Point(109, 367);
             this.kryptonButton2.Name = "kryptonButton2";
             this.kryptonButton2.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton2.TabIndex = 3;
@@ -228,45 +260,78 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonListView2);
+            this.kryptonPanel1.Controls.Add(this.kryptonListView1);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox2);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton1);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
+            this.kryptonPanel1.Size = new System.Drawing.Size(818, 450);
             this.kryptonPanel1.TabIndex = 10;
             // 
-            // kryptonRibbonGroup2
+            // kryptonListView1
             // 
-            this.kryptonRibbonGroup2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple2});
+            this.kryptonListView1.HideSelection = false;
+            this.kryptonListView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem51,
+            listViewItem52,
+            listViewItem53,
+            listViewItem54,
+            listViewItem55,
+            listViewItem56,
+            listViewItem57,
+            listViewItem58,
+            listViewItem59,
+            listViewItem60});
+            this.kryptonListView1.ItemStyle = Krypton.Toolkit.ButtonStyle.ListItem;
+            this.kryptonListView1.Location = new System.Drawing.Point(518, 152);
+            this.kryptonListView1.Name = "kryptonListView1";
+            this.kryptonListView1.OwnerDraw = true;
+            this.kryptonListView1.PaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonListView1.Size = new System.Drawing.Size(142, 183);
+            this.kryptonListView1.StateCommon.Item.Content.ShortText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonListView1.StateCommon.Item.Content.ShortText.MultiLineH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            this.kryptonListView1.StateCommon.Item.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            this.kryptonListView1.TabIndex = 6;
             // 
-            // kryptonRibbonGroupTriple2
+            // kryptonListView2
             // 
-            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.kryptonRibbonGroupButton3,
-            this.kryptonRibbonGroupButton4});
-            // 
-            // kryptonRibbonGroupButton3
-            // 
-            this.kryptonRibbonGroupButton3.TextLine1 = "Enabled";
-            // 
-            // kryptonRibbonGroupButton4
-            // 
-            this.kryptonRibbonGroupButton4.Enabled = false;
-            this.kryptonRibbonGroupButton4.TextLine1 = "Disabled";
+            this.kryptonListView2.Enabled = false;
+            this.kryptonListView2.HideSelection = false;
+            this.kryptonListView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem41,
+            listViewItem42,
+            listViewItem43,
+            listViewItem44,
+            listViewItem45,
+            listViewItem46,
+            listViewItem47,
+            listViewItem48,
+            listViewItem49,
+            listViewItem50});
+            this.kryptonListView2.ItemStyle = Krypton.Toolkit.ButtonStyle.ListItem;
+            this.kryptonListView2.Location = new System.Drawing.Point(666, 152);
+            this.kryptonListView2.Name = "kryptonListView2";
+            this.kryptonListView2.OwnerDraw = true;
+            this.kryptonListView2.PaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonListView2.Size = new System.Drawing.Size(142, 183);
+            this.kryptonListView2.StateCommon.Item.Content.ShortText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonListView2.StateCommon.Item.Content.ShortText.MultiLineH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            this.kryptonListView2.StateCommon.Item.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            this.kryptonListView2.TabIndex = 7;
             // 
             // ControlsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(818, 450);
             this.Controls.Add(this.kryptonListBox2);
             this.Controls.Add(this.kryptonListBox1);
             this.Controls.Add(this.kryptonCheckedListBox2);
             this.Controls.Add(this.kryptonCheckedListBox1);
-            this.Controls.Add(this.kryptonButton2);
-            this.Controls.Add(this.kryptonButton1);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Controls.Add(this.kryptonPanel1);
@@ -307,5 +372,7 @@
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton3;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton4;
+        private Krypton.Toolkit.KryptonListView kryptonListView1;
+        private Krypton.Toolkit.KryptonListView kryptonListView2;
     }
 }
