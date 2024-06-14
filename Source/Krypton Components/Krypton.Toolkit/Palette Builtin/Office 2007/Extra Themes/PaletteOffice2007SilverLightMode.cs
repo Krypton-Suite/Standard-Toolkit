@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(194, 217, 240), // GridDataCellSelected
             Color.Black, // InputControlTextNormal
-            Color.FromArgb(172, 168, 153), // InputControlTextDisabled
+            Color.FromArgb(77, 77, 77), // InputControlTextDisabled
             Color.FromArgb(169, 177, 184), // InputControlBorderNormal
             Color.FromArgb(177, 187, 198), // InputControlBorderDisabled
             Color.FromArgb(224, 225, 231), // InputControlBackNormal
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(232, 234, 236), // InputControlBackInactive
             Color.FromArgb(124, 124, 124), // InputDropDownNormal1
             Color.FromArgb(255, 248, 203), // InputDropDownNormal2
-            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
+            Color.FromArgb(77, 77, 77), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
             Color.FromArgb(24, 24, 24), // ContextMenuHeading
             Color.FromArgb(76, 83, 92), // ContextMenuHeadingText
@@ -564,8 +564,8 @@ namespace Krypton.Toolkit
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
-        private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText2 = Color.FromArgb(77, 77, 77);
+        private static readonly Color _disabledText = Color.FromArgb(115, 115, 115);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
