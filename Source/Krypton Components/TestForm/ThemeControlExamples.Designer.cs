@@ -79,7 +79,6 @@
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(141, 13);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(334, 21);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
@@ -100,7 +99,6 @@
             this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
             this.kryptonThemeListBox1.Location = new System.Drawing.Point(141, 40);
             this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
-            this.kryptonThemeListBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeListBox1.Size = new System.Drawing.Size(334, 356);
             this.kryptonThemeListBox1.TabIndex = 4;
             // 

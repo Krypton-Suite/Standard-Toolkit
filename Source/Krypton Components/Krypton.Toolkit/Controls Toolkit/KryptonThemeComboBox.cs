@@ -55,13 +55,6 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        // TODO: Deprecated should be removed
-        /// <summary>
-        /// ReportSelectedThemeIndex is deprecated and will be removed.
-        /// </summary>
-        [Browsable(false)]
-        public bool ReportSelectedThemeIndex { get; set; }
-
         /// <inheritdoc/>
         [Category(@"Visuals")]
         [Description(@"The custom assigned palette mode.")]
