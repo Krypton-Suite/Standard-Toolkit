@@ -263,9 +263,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-        private bool ShouldSerializeGlobalPaletteMode() => GlobalPaletteMode != PaletteMode.Microsoft365Blue;
-        private void ResetGlobalPaletteMode() => GlobalPaletteMode = PaletteMode.Microsoft365Blue;
-
+        private bool ShouldSerializeGlobalPaletteMode() => GlobalPaletteMode != ThemeManager.DefaultGlobalPalette;
+        private void ResetGlobalPaletteMode() => GlobalPaletteMode = ThemeManager.DefaultGlobalPalette;
 
         /// <summary>
         /// Gets and sets the global custom applied to drawing.
@@ -745,24 +744,21 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette Microsoft365 black.
         /// </summary>
-        /// <value>
-        /// The palette Microsoft365 black.
-        /// </value>
         public static PaletteMicrosoft365Black PaletteMicrosoft365Black => _paletteMicrosoft365Black ??= new PaletteMicrosoft365Black();
 
         /// <summary>
-        /// Gets the single instance of the ### palette.
+        /// Gets the palette Microsft 365 black dark mode.
         /// </summary>
         public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
 
+        /// <summary>
+        /// Gets the palette Microsft 365 black dark mode alternate.
+        /// </summary>
         public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
 
         /// <summary>
         /// Gets the palette Microsoft365 blue.
         /// </summary>
-        /// <value>
-        /// The palette Microsoft365 blue.
-        /// </value>
         public static PaletteMicrosoft365Blue PaletteMicrosoft365Blue => _paletteMicrosoft365Blue ??= new PaletteMicrosoft365Blue();
 
         /// <summary>
@@ -783,9 +779,6 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette Microsoft365 silver.
         /// </summary>
-        /// <value>
-        /// The palette Microsoft365 silver.
-        /// </value>
         public static PaletteMicrosoft365Silver PaletteMicrosoft365Silver => _paletteMicrosoft365Silver ??= new PaletteMicrosoft365Silver();
 
         /// <summary>
@@ -839,21 +832,33 @@ namespace Krypton.Toolkit
         public static PaletteSparklePurple PaletteSparklePurple => _paletteSparklePurple ??= new PaletteSparklePurple();
 
         /// <summary>
-        /// Gets the single instance of the ### palette.
+        /// Gets palette Sparkle Purpke dark moode.
         /// </summary>
         public static PaletteSparklePurpleDarkMode PaletteSparklePurpleDarkMode => _paletteSparklePurpleDarkMode ??= new PaletteSparklePurpleDarkMode();
 
         /// <summary>
-        /// Gets the single instance of the ### palette.
+        /// Gets palette Sparkle Purpke light moode.
         /// </summary>
         public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ??= new PaletteSparklePurpleLightMode();
 
+        /// <summary>
+        /// Gets palette Visual Studio 2010 Office 2007 variant.
+        /// </summary>
         public static PaletteVisualStudio2010Office2007Variation PaletteVisualStudio2010Office2007Variation => _paletteVisualStudio2010Office2007Variation ??= new PaletteVisualStudio2010Office2007Variation();
 
+        /// <summary>
+        /// Gets palette Visual Studio 2010 Office 2010 variant.
+        /// </summary>
         public static PaletteVisualStudio2010Office2010Variation PaletteVisualStudio2010Office2010Variation => _paletteVisualStudio2010Office2010Variation ??= new PaletteVisualStudio2010Office2010Variation();
 
+        /// <summary>
+        /// Gets palette Visual Studio 2010 Office 2013 variant.
+        /// </summary>
         public static PaletteVisualStudio2010Office2013Variation PaletteVisualStudio2010Office2013Variation => _paletteVisualStudio2010Office2013Variation ??= new PaletteVisualStudio2010Office2013Variation();
 
+        /// <summary>
+        /// Gets palette Visual Studio 2010 Office 365 variant.
+        /// </summary>
         public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
 
         //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
@@ -930,16 +935,29 @@ namespace Krypton.Toolkit
         /// </summary>
         public static RenderProfessional RenderProfessional => _renderProfessional ??= new RenderProfessional();
 
-        /// <summary>Gets the render visual studio.</summary>
-        /// <value>The render visual studio.</value>
+        /// <summary>
+        /// Gets the single instance of the Visual Studio renderer.
+        /// </summary>
         public static RenderVisualStudio RenderVisualStudio => _renderVisualStudio ??= new RenderVisualStudio();
 
+        /// <summary>
+        /// Gets the single instance of the Visual Studio 2010 Office 2007 renderer.
+        /// </summary>
         public static RenderVisualStudio2010With2007 RenderVisualStudio2010With2007 => _renderVisualStudio2010With2007 ??= new RenderVisualStudio2010With2007();
 
+        /// <summary>
+        /// Gets the single instance of the Visual Studio 2010 Office 2010 renderer.
+        /// </summary>
         public static RenderVisualStudio2010With2010 RenderVisualStudio2010With2010 => _renderVisualStudio2010With2010 ??= new RenderVisualStudio2010With2010();
 
+        /// <summary>
+        /// Gets the single instance of the Visual Studio 2010 Office 2013 renderer.
+        /// </summary>
         public static RenderVisualStudio2010With2013 RenderVisualStudio2010With2013 => _renderVisualStudio2010With2013 ??= new RenderVisualStudio2010With2013();
 
+        /// <summary>
+        /// Gets the single instance of the Visual Studio 2010 Office 365 renderer.
+        /// </summary>
         public static RenderVisualStudio2010WithMicrosoft365 RenderVisualStudio2010WithMicrosoft365 => _renderVisualStudio2010WithMicrosoft365 ??= new RenderVisualStudio2010WithMicrosoft365();
 
         /// <summary>
@@ -953,7 +971,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// What is the CurrentGlobalPaletteMode in use
         /// </summary>
-        public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = PaletteMode.Microsoft365Blue;
+        public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = ThemeManager.DefaultGlobalPalette;
 
         /// <summary>
         /// Access the Current Palette
