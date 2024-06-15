@@ -96,6 +96,7 @@
 * Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
 
 ## 2024-06-24 - Build 2406 - June 2024
+* Resolved [#619](https://github.com/Krypton-Suite/Standard-Toolkit/issues/619), KButton and KListbox unclear text color in certain scenarios
 * Resolved [#1516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1516), Theme Office 2010 Black Dark Mode causes a crash
 * Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328), Tentative adjustment to bring PaletteMode and the theme dictionary in line.
 * Resolved [#1388](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1388), `KryptonButton` and `KryptonDropButton` Dropdown arrow color does not react to theme changes and is not visible.
@@ -116,12 +117,13 @@
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`
 * Resolved [#1174](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1174), Unable to adjust height of `KryptonForm` when `KryptonRibbon` is added
     - _Note:_ This disables features from [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), until further testing is completed
-    * Backed-out [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117),  Is it possible to have the KForm back colour as the KPanel colour
+    * Backed-out [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), Is it possible to have the KForm back colour as the KPanel colour
 
 =======
 
 ## 2023-11-14 - Build 2311 - November 2023
-* Implemented [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117),  Is it possible to have the KForm back colour as the KPanel colour
+* Resolved [#1093](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1093), `KryptonManager` - Setting the `GlobalPaletteMode` to 'Global' throws a error
+* Implemented [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), Is it possible to have the KForm back colour as the KPanel colour
 * Resolved [#1153](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1153), Whilst investigating #1152 found that "Start drag" in certain application causes an exception.
 * Resolved [#1152](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1152), Unable to resize control dragged from Navigator via KryptonDockingManager.FloatingWindowAdding event.
 * Resolved [#1146](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1146), Krypton.Navigator throws exception in Initialise when attempting to EndInit().
