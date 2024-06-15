@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/239), Toolstrip combo boxes do not have the theme background applied
 * Implemented [#1507](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1507), **[Breaking Change]** `KryptonThemeComboBox`, `KryptonThemeListBox` & `KryptonRibbonGroupThemeComboBox`:
     - All controls had their code base updated to one standard.
     - The assignment of themes via an index has been removed from all. 
@@ -23,7 +24,7 @@
 * Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
-* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), *[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
 * Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
