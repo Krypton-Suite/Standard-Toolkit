@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
                 // Get palette from theme name. If themeName is not valid default to Global
                 PaletteMode mode = string.IsNullOrEmpty(themeName)
                     ? PaletteMode.Global
-                    : ThemeManager.GetThemeManagerMode(themeName) ?? PaletteMode.Global;
+                    : ThemeManager.GetThemeManagerMode(themeName);
 
                 if (mode == PaletteMode.Custom)
                 {
