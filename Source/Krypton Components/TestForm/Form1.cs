@@ -131,6 +131,10 @@ namespace TestForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //foreach (var windowState in Enum.GetValues(typeof(FormWindowState)))
+            //{
+            //    kcmbWindowState.Items.Add(windowState);
+            //}
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -146,6 +150,13 @@ namespace TestForm
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
             kryptonCustomPaletteBase1.Export();
+        }
+
+        private void kryptonButton8_Click(object sender, EventArgs e)
+        {
+            ControlsTest controlsTest = new ControlsTest();
+
+            controlsTest.Show();
         }
     }
 }
