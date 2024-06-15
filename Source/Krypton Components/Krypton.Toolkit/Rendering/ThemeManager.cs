@@ -17,57 +17,55 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ThemeManager
     {
-
         #region Properties        
 
         /// <summary>Gets the supported theme array.</summary>
         /// <value>The supported theme array.</value>
         public static ICollection<string> SupportedInternalThemeNames => PaletteModeStrings.SupportedInternalThemeNames;
 
-        /// <summary>Gets or sets the index of the theme.</summary>
-        /// <value>The index of the theme.</value>
-        public static int ThemeIndex { get; set; } = 33;
+        /// <summary>Returns the Default Global Palette.</summary>
+        public static PaletteMode DefaultGlobalPalette => GlobalStaticValues.GLOBAL_DEFAULT_PALETTE_MODE;
 
         #endregion
 
         #region Implementation
 
-        /// <summary>
-        /// Applies the theme.
-        /// </summary>
-        /// <param name="mode">The mode.</param>
-        /// <param name="manager">The manager.</param>
-        private static void ApplyTheme(PaletteMode mode, KryptonManager manager) => manager.GlobalPaletteMode = mode;
-
-        /// <summary>Gets the palette mode.</summary>
-        /// <param name="manager">The manager.</param>
+        /// <summary>Returns the palette mode from the Krypton Manager instance.</summary>
+        /// <param name="manager">The manager instance.</param>
         /// <returns>The current <see cref="PaletteMode"/>.</returns>
-        public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
-
-        /// <summary>Returns the palette mode.</summary>
-        /// <param name="paletteMode">The palette mode manager.</param>
-        /// <returns>The selected <see cref="PaletteMode"/>.</returns>
-        private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode) => paletteMode;
+        public static PaletteMode GetPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
 
         /// <summary>
-        /// Applies the theme.
+        /// Applies the theme using PaletteMode enumeration.
         /// </summary>
-        /// <param name="themeName">Name of the theme.</param>
+        /// <param name="mode">The palette mode.</param>
         /// <param name="manager">The manager.</param>
-        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(PaletteModeStrings.SupportedThemesMap[themeName], manager);
+        public static void ApplyTheme(PaletteMode mode, KryptonManager manager) => ApplyGlobalTheme(manager, mode);
+
+        /// <summary>
+        /// Applies the theme using the themes name.<br/>
+        /// </summary>
+        /// <param name="themeName">Valid name of the theme.</param>
+        /// <param name="manager">The manager.</param>
+        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
 
         /// <summary>
         /// Sets the theme.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void SetTheme(string themeName, KryptonManager manager)
+        public static void SetTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+
+        /// <summary>
+        /// Applies the global theme.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <param name="paletteMode">The palette mode manager.</param>
+        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode paletteMode)
         {
             try
             {
-                ApplyTheme(themeName, manager);
-
-                ApplyGlobalTheme(manager, GetPaletteMode(manager));
+                manager.GlobalPaletteMode = paletteMode;
             }
             catch (Exception exc)
             {
@@ -76,18 +74,19 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Returns the palette mode manager as string.
+        /// Returns the respective theme name for the given KryptonManager instance.<br/>
         /// </summary>
-        /// <param name="paletteMode">The palette mode manager.</param>
-        /// <param name="manager">The manager.</param>
-        /// <returns>The chosen theme as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
-        {
-            var mode = manager?.GlobalPaletteMode ?? paletteMode;
-            var cnvtr = new PaletteModeConverter();
-            return cnvtr.ConvertToString(mode)!;
-        }
+        /// <param name="manager">A valid reference to a KryptonManager instance.</param>
+        /// <returns>The theme name.</returns>
+        public static string ReturnPaletteModeAsString(KryptonManager manager) => ReturnPaletteModeAsString(manager.GlobalPaletteMode);
 
+        /// <summary>
+        /// Returns the palette mode as string.
+        /// </summary>
+        /// <param name="paletteMode">The palette mode.</param>
+        /// <returns>The theme name</returns>
+        public static string ReturnPaletteModeAsString(PaletteMode paletteMode) => new PaletteModeConverter().ConvertToString(paletteMode)!;
+        
         /// <summary>
         /// Loads the custom theme.
         /// </summary>
@@ -99,8 +98,6 @@ namespace Krypton.Toolkit
         {
             try
             {
-                //throw new ApplicationException(@"Currently not implemented correctly");
-
                 // Declare new instances
                 palette = new KryptonCustomPaletteBase();
 
@@ -133,113 +130,16 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Returns the palette mode as string.
-        /// </summary>
-        /// <param name="paletteMode">The palette mode.</param>
-        /// <returns></returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
-        {
-            var modeConverter = new PaletteModeConverter();
-
-            return modeConverter.ConvertToString(paletteMode)!;
-        }
-
-        /// <summary>
-        /// Applies the global theme.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="paletteMode">The palette mode manager.</param>
-        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode paletteMode)
-        {
-            try
-            {
-                manager.GlobalPaletteMode = paletteMode;
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
-        }
-
-        private static void AddToCollection(IList target, string[] excludes)
-        {
-            try
-            {
-                foreach (var theme in SupportedInternalThemeNames)
-                {
-                    if (!excludes.Any(t => theme.IndexOf(t, StringComparison.InvariantCultureIgnoreCase) > -1))
-                    {
-                        target.Add(theme);
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
-        }
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonListBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonDomainUpDown target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(ComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(DomainUpDown target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(ToolStripComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
-        /// <summary>
-        /// Applies the theme manager mode.
+        /// Returns the themes PaletteMode from the theme's name.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode? GetThemeManagerMode(string themeName)
+        /// <returns>The respective PaletteMode if the theme name is valid. Otherwise PaletteMode.Global.</returns>
+        public static PaletteMode GetThemeManagerMode(string themeName)
         {
-            var modeConverter = new PaletteModeConverter();
-
-            return (PaletteMode)modeConverter.ConvertFrom(themeName)!;
+            return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out PaletteMode paletteMode)
+                ? paletteMode
+                : PaletteMode.Global;
         }
-
-        /// <summary>Sets the index of the theme.</summary>
-        /// <param name="value">The value.</param>
-        public static void SetThemeIndex(int? value) => ThemeIndex = value ?? 33;
-
-        /// <summary>Gets the index of the theme.</summary>
-        /// <returns></returns>
-        public static int GetThemeIndex() => ThemeIndex;
 
         #endregion
     }
