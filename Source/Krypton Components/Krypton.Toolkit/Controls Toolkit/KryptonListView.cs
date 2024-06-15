@@ -34,6 +34,12 @@ namespace Krypton.Toolkit
         private bool _refreshAll;
         private readonly IntPtr _screenDC;
 
+        private readonly PaletteRedirect? _paletteRedirect;
+        private readonly PaletteInputControlTripleRedirect _stateCommon;
+        private readonly PaletteInputControlTripleStates _stateNormal;
+        private readonly PaletteInputControlTripleStates _stateDisabled;
+        private readonly PaletteInputControlTripleStates _stateActive;
+
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
@@ -123,6 +129,14 @@ namespace Krypton.Toolkit
             _overrideCheckedTracking = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedTracking.Item, PaletteState.FocusOverride);
             _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedPressed.Item, PaletteState.FocusOverride);
 
+            _paletteRedirect = new PaletteRedirect(_palette);
+
+            // Create palette provider
+            _stateCommon = new PaletteInputControlTripleRedirect(_paletteRedirect, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.LabelNormalPanel, null);
+            _stateDisabled = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateNormal = new PaletteInputControlTripleStates(_stateCommon, null);
+            _stateActive = new PaletteInputControlTripleStates(_stateCommon, null);
+
             // Create the check box image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_paletteCheckBoxImages);
             _layoutCheckBox = new ViewLayoutCenter
@@ -206,6 +220,8 @@ namespace Krypton.Toolkit
             StateCommon.Item.Content.ShortText.MultiLine = InheritBool.True;
             StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
             StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
+
+            UpdateColors();
         }
 
         /// <summary>
@@ -1061,6 +1077,17 @@ namespace Krypton.Toolkit
                 _palette.PalettePaint -= OnPalettePaint;
             }
 
+            _palette = KryptonManager.CurrentGlobalPalette;
+
+            _paletteRedirect!.Target = _palette;
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint += OnPalettePaint;
+
+                UpdateColors();
+            }
+
             CacheNewPalette(KryptonManager.CurrentGlobalPalette);
 
             // Change of palette means we should repaint to show any changes
@@ -1213,6 +1240,14 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void ContextMenuClosed()
         {
+        }
+
+        private void UpdateColors()
+        {
+            BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
+
+            // Force a repaint
+            Invalidate();
         }
 
         #endregion
