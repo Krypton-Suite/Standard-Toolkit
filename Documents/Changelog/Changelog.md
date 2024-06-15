@@ -3,7 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
-* Resolves [#239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/239), Toolstrip combo boxes do not have the theme background applied
+* Resolved [#239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/239), Toolstrip combo boxes do not have the theme background applied
 * Implemented [#1507](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1507), **[Breaking Change]** `KryptonThemeComboBox`, `KryptonThemeListBox` & `KryptonRibbonGroupThemeComboBox`:
     - All controls had their code base updated to one standard.
     - The assignment of themes via an index has been removed from all. 
