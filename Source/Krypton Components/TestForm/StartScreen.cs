@@ -159,5 +159,19 @@ namespace TestForm
 
             themeControls.Show();
         }
+
+        private void kbtnControlsTest_Click(object sender, EventArgs e)
+        {
+            var controlsTest = new ControlsTest();
+
+            controlsTest.Show();
+        }
+
+        private void kbtnDataGrid_Click(object sender, EventArgs e)
+        {
+            var dataGrid = new DataGridViewTest();
+
+            dataGrid.Show();
+        }
     }
 }
