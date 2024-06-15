@@ -152,8 +152,7 @@ namespace TestForm
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 12);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(436, 21);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(581, 25);
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
             // kryptonComboBox1

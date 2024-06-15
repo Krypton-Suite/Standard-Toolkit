@@ -3,6 +3,14 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Implemented [#1507](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1507), **[Breaking Change]** `KryptonThemeComboBox`, `KryptonThemeListBox` & `KryptonRibbonGroupThemeComboBox`:
+    - All controls had their code base updated to one standard.
+    - The assignment of themes via an index has been removed from all. 
+    - The previous has been replaced by assignment per PaletteMode identifier.
+    - All controls do now react to theme changes propagated via the KryptonManager. The control will then synchronize the selected item in the list with the newly activated theme.
+    - Form designer files or your code using a theme selector control might hold references to these properties: `KryptonManager`, `ReportSelectedThemeIndex`, `ThemeSelectedIndex` & `SynchronizeDropDownWidth`. These can, safely, be removed.
+    - The DefaultPalette property is now stored in the designer file and if set, the selected palette wil be loaded when the selector control is instantiated. 
+    - The DefaultPalette property can also be used to switch palettes from code.
 * Resolved [#1502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Fixes some problems creating workspaces introduced through warnings removal.
 * Resolved [#1497](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1497), When pressing ALT to show the Ribbon KeyTips a null reference exception is thrown.
 * Resolved [#1462](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1462), TestForm app: KCombobox from main.cs causes a crash
@@ -15,7 +23,7 @@
 * Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
-* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+* Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), *[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
 * Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
@@ -604,3 +612,4 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Support for .NET Core LTS (currently 3.1)
 * Changed `490` to `500`
 * Builds from now on will be labelled as `YYMM`
+

@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonRibbonGroupThemeComboBox" /> class.</summary>
-        public KryptonRibbonGroupThemeComboBox()
+        public KryptonRibbonGroupThemeComboBox() : base()
         {
             _manager = new KryptonManager();
             DropDownStyle = ComboBoxStyle.DropDownList;
@@ -60,13 +60,6 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
-
-        // TODO: Deprecated should be removed
-        /// <summary>
-        /// ReportSelectedThemeIndex is deprecated and will be removed.
-        /// </summary>
-        [Browsable(false)]
-        public bool ReportSelectedThemeIndex { get; set; }
 
         /// <inheritdoc/>
         [Category(@"Visuals")]

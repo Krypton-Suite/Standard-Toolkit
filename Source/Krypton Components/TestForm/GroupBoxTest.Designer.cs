@@ -161,7 +161,6 @@ namespace TestForm
             this.kryptonThemeComboBox3.Location = new System.Drawing.Point(28, 174);
             this.kryptonThemeComboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox3.Name = "kryptonThemeComboBox3";
-            this.kryptonThemeComboBox3.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox3.Size = new System.Drawing.Size(121, 25);
             this.kryptonThemeComboBox3.TabIndex = 2;
             this.kryptonThemeComboBox3.ValueMember = "Value";
@@ -215,7 +214,6 @@ namespace TestForm
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(65, 92);
             this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(250, 25);
             this.kryptonThemeComboBox1.StateCommon.Item.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonThemeComboBox1.TabIndex = 0;
@@ -241,7 +239,6 @@ namespace TestForm
             this.kryptonThemeComboBox2.Location = new System.Drawing.Point(28, 28);
             this.kryptonThemeComboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox2.Name = "kryptonThemeComboBox2";
-            this.kryptonThemeComboBox2.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox2.Size = new System.Drawing.Size(121, 25);
             this.kryptonThemeComboBox2.TabIndex = 0;
             this.kryptonThemeComboBox2.ValueMember = "Value";

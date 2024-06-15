@@ -212,8 +212,6 @@ namespace Krypton.Toolkit
         /// Gets or sets the user defined custom palette.
         /// </summary>
         KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
-
-        bool ReportSelectedThemeIndex { get; set; }
     }
 
     #endregion
