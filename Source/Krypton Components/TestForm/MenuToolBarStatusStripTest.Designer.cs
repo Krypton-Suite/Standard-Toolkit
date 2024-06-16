@@ -523,19 +523,6 @@ namespace TestForm
             // kryptonToolStripComboBox1
             // 
             this.kryptonToolStripComboBox1.AutoSize = false;
-            this.kryptonToolStripComboBox1.DropDownWidth = 121;
-            this.kryptonToolStripComboBox1.IntegralHeight = false;
-            this.kryptonToolStripComboBox1.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
             // 
             // kryptonToolStripComboBox1
             // 
@@ -548,7 +535,6 @@ namespace TestForm
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.TabIndex = 0;
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.Text = "kryptonToolStripComboBox1";
             this.kryptonToolStripComboBox1.Name = "kryptonToolStripComboBox1";
-            this.kryptonToolStripComboBox1.TabStop = true;
             this.kryptonToolStripComboBox1.Text = "kryptonToolStripComboBox1";
             // 
             // MenuToolBarStatusStripTest
