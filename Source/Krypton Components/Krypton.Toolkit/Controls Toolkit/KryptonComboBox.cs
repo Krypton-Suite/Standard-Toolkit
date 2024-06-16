@@ -2707,7 +2707,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateEditControl()
+        internal void UpdateEditControl()
         {
             AttachEditControl();
 
@@ -3159,7 +3159,7 @@ namespace Krypton.Toolkit
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-        private void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
+        internal void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 
         #endregion
     }

@@ -72,6 +72,8 @@ namespace TestForm
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonProgressBarToolStripItem1 = new Krypton.Toolkit.KryptonProgressBarToolStripItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonThemeListBox1 = new Krypton.Toolkit.KryptonThemeListBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -84,11 +86,16 @@ namespace TestForm
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.kryptonToolStripComboBox1 = new Krypton.Toolkit.KryptonToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
+            this.kryptonPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonToolStripComboBox1.KryptonComboBoxControl)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -360,6 +367,7 @@ namespace TestForm
             // 
             // toolStripContainer1.ContentPanel
             // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonPanel1);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(804, 381);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
@@ -371,6 +379,25 @@ namespace TestForm
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeListBox1);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(804, 381);
+            this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonThemeListBox1
+            // 
+            this.kryptonThemeListBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonThemeListBox1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonThemeListBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.kryptonThemeListBox1.Name = "kryptonThemeListBox1";
+            this.kryptonThemeListBox1.Size = new System.Drawing.Size(804, 381);
+            this.kryptonThemeListBox1.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -387,10 +414,11 @@ namespace TestForm
             this.pasteToolStripButton,
             this.toolStripSeparator7,
             this.helpToolStripButton,
-            this.toolStripComboBox1});
+            this.toolStripComboBox1,
+            this.kryptonToolStripComboBox1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(364, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(483, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // newToolStripButton
@@ -477,6 +505,7 @@ namespace TestForm
             // 
             // toolStripComboBox1
             // 
+            this.toolStripComboBox1.BackColor = System.Drawing.Color.Fuchsia;
             this.toolStripComboBox1.Items.AddRange(new object[] {
             "1",
             "2",
@@ -490,6 +519,35 @@ namespace TestForm
             "10"});
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
+            // kryptonToolStripComboBox1
+            // 
+            this.kryptonToolStripComboBox1.AutoSize = false;
+            // 
+            // kryptonToolStripComboBox1
+            // 
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.AccessibleName = "kryptonToolStripComboBox1";
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.DropDownWidth = 121;
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.IntegralHeight = false;
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.Location = new System.Drawing.Point(328, 2);
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.Name = "kryptonToolStripComboBox1";
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.TabIndex = 0;
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.Text = "kryptonToolStripComboBox1";
+            this.kryptonToolStripComboBox1.Name = "kryptonToolStripComboBox1";
+            this.kryptonToolStripComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.kryptonToolStripComboBox1.Text = "kryptonToolStripComboBox1";
             // 
             // MenuToolBarStatusStripTest
             // 
@@ -508,12 +566,16 @@ namespace TestForm
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
+            this.kryptonPanel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonToolStripComboBox1.KryptonComboBoxControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -567,5 +629,8 @@ namespace TestForm
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private ToolStripComboBox toolStripComboBox1;
+        private KryptonPanel kryptonPanel1;
+        private KryptonThemeListBox kryptonThemeListBox1;
+        private KryptonToolStripComboBox kryptonToolStripComboBox1;
     }
 }
