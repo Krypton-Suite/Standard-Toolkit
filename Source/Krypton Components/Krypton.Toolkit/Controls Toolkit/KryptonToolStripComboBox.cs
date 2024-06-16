@@ -227,14 +227,18 @@ namespace Krypton.Toolkit
 
         #region Host Control
 
+        /// <summary>Gets access to the krypton ComboBox control.</summary>
+        /// <value>The krypton ComboBox control.</value>
         [RefreshProperties(RefreshProperties.All)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Description(@"Access to the hosted KryptonComboBox.")]
         public KryptonComboBox? KryptonComboBoxControl => Control as KryptonComboBox;
 
         #endregion
 
         #region Public
 
+        /*
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
@@ -464,7 +468,7 @@ namespace Krypton.Toolkit
             set => KryptonComboBoxControl!.DroppedDown = value;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
         public override ContextMenuStrip? ContextMenuStrip
@@ -476,7 +480,7 @@ namespace Krypton.Toolkit
                 KryptonComboBoxControl!.ContextMenuStrip = value;
                 KryptonComboBoxControl!.ContextMenuStrip = value;
             }
-        }*/
+        }
 
         /// <summary>
         /// Gets and sets the value member.
@@ -554,7 +558,7 @@ namespace Krypton.Toolkit
             set => KryptonComboBoxControl!.SelectionStart = value;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
         [Category(@"Appearance")]
@@ -572,9 +576,9 @@ namespace Krypton.Toolkit
                     PerformNeedPaint(true);
                 }
             }
-        }*/
+        }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
         [Category(@"Visuals")]
@@ -592,7 +596,7 @@ namespace Krypton.Toolkit
                     PerformNeedPaint(true);
                 }
             }
-        }*/
+        }
 
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
@@ -726,7 +730,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public ComboBox.ObjectCollection Items => KryptonComboBoxControl!.Items;
 
-        /*/// <summary>
+        /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
         [Category(@"Visuals")]
@@ -819,7 +823,7 @@ namespace Krypton.Toolkit
 
         private void ResetDropBackStyle() => DropBackStyle = PaletteBackStyle.ControlClient;
 
-        private bool ShouldSerializeDropBackStyle() => DropBackStyle != PaletteBackStyle.ControlClient;*/
+        private bool ShouldSerializeDropBackStyle() => DropBackStyle != PaletteBackStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -837,13 +841,13 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ComboBoxButtonSpecCollection ButtonSpecs { get; }*/
+        public ComboBoxButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
@@ -910,7 +914,7 @@ namespace Krypton.Toolkit
             set => KryptonComboBoxControl!.FormattingEnabled = value;
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Gets access to the common combobox appearance entries that other states can override.
         /// </summary>
         [Category(@"Visuals")]
@@ -958,7 +962,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxJustItemStates StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;*/
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Finds the first item in the combo box that starts with the specified string.
@@ -1065,7 +1069,7 @@ namespace Krypton.Toolkit
 
                 KryptonComboBoxControl!.UpdateDropDownWidth(value);
             }
-        }
+        }*/
 
         #endregion
 
