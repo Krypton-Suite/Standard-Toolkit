@@ -529,12 +529,24 @@ namespace TestForm
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.AccessibleName = "kryptonToolStripComboBox1";
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.DropDownWidth = 121;
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.IntegralHeight = false;
+            this.kryptonToolStripComboBox1.KryptonComboBoxControl.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.Location = new System.Drawing.Point(328, 2);
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.Name = "kryptonToolStripComboBox1";
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.TabIndex = 0;
             this.kryptonToolStripComboBox1.KryptonComboBoxControl.Text = "kryptonToolStripComboBox1";
             this.kryptonToolStripComboBox1.Name = "kryptonToolStripComboBox1";
+            this.kryptonToolStripComboBox1.Size = new System.Drawing.Size(121, 21);
             this.kryptonToolStripComboBox1.Text = "kryptonToolStripComboBox1";
             // 
             // MenuToolBarStatusStripTest
