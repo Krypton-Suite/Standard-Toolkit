@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1455] (https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
 * Resolved [#1522]()https://github.com/Krypton-Suite/Standard-Toolkit/issues/1522), **[Breaking Change]** Check `ThemeManager` & `KryptonManager` for the use of hard coded theme indexes. See issue for full details.
 * Resolved [#239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/239), Toolstrip combo boxes do not have the theme background applied
