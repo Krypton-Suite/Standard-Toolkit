@@ -379,13 +379,10 @@ namespace Krypton.Toolkit
             // Never show a context menu in design mode
             if (!CommonHelper.DesignMode(Manager.Control))
             {
-                var showMenu = false;
-                var performDefaultClick = true;
-                if (ButtonSpec is ButtonSpecAny { ShowDrop: true })
-                {
-                    showMenu = ViewButton?.SplitRectangle.Contains(e.Location) ?? false;
-                    performDefaultClick = !showMenu;
-                }
+                // ButtonSpec's used to drop menu's if they had a context menu;
+                // BUT; Disable default action, if this is a drop button and it is clicked
+                bool performDefaultClick = !(ButtonSpec is ButtonSpecAny { ShowDrop: true }
+                                           && ViewButton!.SplitRectangle.Contains(e.Location));
 
                 if (performDefaultClick)
                 {
@@ -393,45 +390,42 @@ namespace Krypton.Toolkit
                     ButtonSpec.PerformClick(e);
                 }
 
-                if (showMenu)
+                // Does the button spec define a krypton context menu?
+                if ((ButtonSpec.KryptonContextMenu != null) && (ViewButton != null))
                 {
-                    // Does the button spec define a krypton context menu?
-                    if ((ButtonSpec.KryptonContextMenu != null) && (ViewButton != null))
+                    performFinishDelegate = false;
+                    // Convert from control coordinates to screen coordinates
+                    Rectangle rect = ViewButton.ClientRectangle;
+
+                    // If the button spec is on the chrome titlebar then find position manually
+                    Point pt = Manager.Control is Form
+                        ? new Point(Manager.Control.Left + rect.Left, Manager.Control.Top + rect.Bottom + 3)
+                        : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+
+                    // Show the context menu just below the view itself
+                    ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                    if (!ButtonSpec.KryptonContextMenu.Show(ButtonSpec, pt))
                     {
-                        performFinishDelegate = false;
-                        // Convert from control coordinates to screen coordinates
-                        Rectangle rect = ViewButton.ClientRectangle;
+                        // Menu not being shown, so clean up
+                        ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed;
 
-                        // If the button spec is on the chrome titlebar then find position manually
-                        Point pt = Manager.Control is Form
-                            ? new Point(Manager.Control.Left + rect.Left, Manager.Control.Top + rect.Bottom + 3)
-                            : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
-
-                        // Show the context menu just below the view itself
-                        ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        if (!ButtonSpec.KryptonContextMenu.Show(ButtonSpec, pt))
-                        {
-                            // Menu not being shown, so clean up
-                            ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed;
-
-                            // Not showing a context menu, so remove the fixed view immediately
-                            _finishDelegate?.Invoke(this, EventArgs.Empty);
-                        }
+                        // Not showing a context menu, so remove the fixed view immediately
+                        _finishDelegate?.Invoke(this, EventArgs.Empty);
                     }
-                    else if ((ButtonSpec.ContextMenuStrip != null) && (ViewButton != null))
-                    {
-                        performFinishDelegate = false;
-                        // Set the correct renderer for the menu strip
-                        ButtonSpec.ContextMenuStrip.Renderer = Manager.RenderToolStrip();
+                }
+                else if ((ButtonSpec.ContextMenuStrip != null) && (ViewButton != null))
+                {
+                    performFinishDelegate = false;
+                    // Set the correct renderer for the menu strip
+                    ButtonSpec.ContextMenuStrip.Renderer = Manager.RenderToolStrip();
 
-                        // Convert from control coordinates to screen coordinates
-                        Rectangle rect = ViewButton.ClientRectangle;
-                        Point pt = Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+                    // Convert from control coordinates to screen coordinates
+                    Rectangle rect = ViewButton.ClientRectangle;
+                    Point pt = Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
 
-                        // Show the context menu just below the view itself
-                        VisualPopupManager.Singleton.ShowContextMenuStrip(ButtonSpec.ContextMenuStrip, pt,
-                            _finishDelegate);
-                    }
+                    // Show the context menu just below the view itself
+                    VisualPopupManager.Singleton.ShowContextMenuStrip(ButtonSpec.ContextMenuStrip, pt,
+                        _finishDelegate);
                 }
             }
 
