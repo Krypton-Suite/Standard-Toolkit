@@ -3,7 +3,14 @@
 =======
 
 ## 2024-06-24 - Build 2406 (Patch 3) - June 2024
-* Resolved [#982](https://github.com/Krypton-Suite/Standard-Toolkit/issues/982), Double click on the Form1 file in the Krypton toolkit test project results in a designer error 
+* Resolved [#982](https://github.com/Krypton-Suite/Standard-Toolkit/issues/982), Double click on the Form1 file in the Krypton toolkit test project results in a designer error
+* Resolved [#1455] (https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
+* Resolved [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
+    - Added property `ShowDrop`, which displays a drop down arrow on the button.
+    - When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
+    - When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
+    - When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.
+    - The ButtonSpec's `Type` property does not need setting to "Context" to display the menu.
 * Resolved [#619](https://github.com/Krypton-Suite/Standard-Toolkit/issues/619), KButton and KListbox unclear text color in certain scenarios
 * Resolved [#1516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1516), Theme Office 2010 Black Dark Mode causes a crash
 * Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328), Tentative adjustment to bring PaletteMode and the theme dictionary in line.
