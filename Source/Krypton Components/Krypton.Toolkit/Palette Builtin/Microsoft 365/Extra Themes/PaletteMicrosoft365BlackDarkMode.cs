@@ -747,7 +747,7 @@ namespace Krypton.Toolkit
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
                                                               Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
-                                                              Color.FromArgb(33, 33, 33), // Button, Tracking, Back 2
+                                                              Color.FromArgb(129, 129, 129), // Button, Tracking, Back 2
                                                               Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
                                                               Color.FromArgb(91, 91, 91), // Button, Checked, Back 1

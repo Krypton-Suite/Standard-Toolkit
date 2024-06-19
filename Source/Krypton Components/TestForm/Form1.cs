@@ -158,5 +158,156 @@ namespace TestForm
 
             controlsTest.Show();
         }
+
+        private void UpdateFormBorderStyle(FormBorderStyle borderStyle)
+        {
+            switch (borderStyle)
+            {
+                case FormBorderStyle.None:
+                    kcbtnFormBorderStyleNone.Checked = true;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedSingle:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = true;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.Fixed3D:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = true;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedDialog:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = true;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.Sizable:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = true;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedToolWindow:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = true;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.SizableToolWindow:
+                    kcbtnFormBorderStyleNone.Checked = false;
+
+                    kcbtnFormBorderStyleFixedSingle.Checked = false;
+
+                    kcbtnFormBorderStyleFixed3D.Checked = false;
+
+                    kcbtnFormBorderStyleFixedDialog.Checked = false;
+
+                    kcbtnFormBorderStyleFixedToolWindow.Checked = false;
+
+                    kcbtnFormBorderStyleSizable.Checked = false;
+
+                    kcbtnFormBorderStyleSizableToolWindow.Checked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+            }
+
+            FormBorderStyle = borderStyle;
+        }
+
+        private void kcbtnFormBorderStyleNone_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.None);
+        }
+
+        private void kcbtnFormBorderStyleFixedSingle_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.FixedSingle);
+        }
+
+        private void kcbtnFormBorderStyleFixed3D_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.Fixed3D);
+        }
+
+        private void kcbtnFormBorderStyleFixedDialog_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.FixedDialog);
+        }
+
+        private void kcbtnFormBorderStyleSizable_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.Sizable);
+        }
+
+        private void kcbtnFormBorderStyleFixedToolWindow_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.FixedToolWindow);
+        }
+
+        private void kcbtnFormBorderStyleSizableToolWindow_Click(object sender, EventArgs e)
+        {
+            UpdateFormBorderStyle(FormBorderStyle.SizableToolWindow);
+        }
     }
 }

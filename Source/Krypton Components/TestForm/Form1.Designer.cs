@@ -30,6 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kcbtnFormBorderStyleSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleFixedToolWindow = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleSizable = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleFixedDialog = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleFixed3D = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleFixedSingle = new Krypton.Toolkit.KryptonCheckButton();
+            this.kcbtnFormBorderStyleNone = new Krypton.Toolkit.KryptonCheckButton();
             this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton7 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton6 = new Krypton.Toolkit.KryptonButton();
@@ -69,13 +76,33 @@
             this.buttonSpecAny10 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
+            this.kryptonContextMenu2 = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuCheckBox1 = new Krypton.Toolkit.KryptonContextMenuCheckBox();
+            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuCheckButton1 = new Krypton.Toolkit.KryptonContextMenuCheckButton();
+            this.kryptonContextMenuRadioButton1 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuColorColumns1 = new Krypton.Toolkit.KryptonContextMenuColorColumns();
+            this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
+            this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizableToolWindow);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixedToolWindow);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizable);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixedDialog);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixed3D);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixedSingle);
+            this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleNone);
             this.kryptonPanel1.Controls.Add(this.kryptonButton8);
             this.kryptonPanel1.Controls.Add(this.kryptonButton7);
             this.kryptonPanel1.Controls.Add(this.kryptonButton6);
@@ -99,8 +126,79 @@
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(600, 563);
+            this.kryptonPanel1.Size = new System.Drawing.Size(600, 635);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kcbtnFormBorderStyleSizableToolWindow
+            // 
+            this.kcbtnFormBorderStyleSizableToolWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleSizableToolWindow.Location = new System.Drawing.Point(15, 598);
+            this.kcbtnFormBorderStyleSizableToolWindow.Name = "kcbtnFormBorderStyleSizableToolWindow";
+            this.kcbtnFormBorderStyleSizableToolWindow.Size = new System.Drawing.Size(186, 25);
+            this.kcbtnFormBorderStyleSizableToolWindow.TabIndex = 25;
+            this.kcbtnFormBorderStyleSizableToolWindow.Values.Text = "SizableToolWindow";
+            this.kcbtnFormBorderStyleSizableToolWindow.Click += new System.EventHandler(this.kcbtnFormBorderStyleSizableToolWindow_Click);
+            // 
+            // kcbtnFormBorderStyleFixedToolWindow
+            // 
+            this.kcbtnFormBorderStyleFixedToolWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleFixedToolWindow.Location = new System.Drawing.Point(15, 567);
+            this.kcbtnFormBorderStyleFixedToolWindow.Name = "kcbtnFormBorderStyleFixedToolWindow";
+            this.kcbtnFormBorderStyleFixedToolWindow.Size = new System.Drawing.Size(186, 25);
+            this.kcbtnFormBorderStyleFixedToolWindow.TabIndex = 24;
+            this.kcbtnFormBorderStyleFixedToolWindow.Values.Text = "FixedToolWindow";
+            this.kcbtnFormBorderStyleFixedToolWindow.Click += new System.EventHandler(this.kcbtnFormBorderStyleFixedToolWindow_Click);
+            // 
+            // kcbtnFormBorderStyleSizable
+            // 
+            this.kcbtnFormBorderStyleSizable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleSizable.Location = new System.Drawing.Point(111, 536);
+            this.kcbtnFormBorderStyleSizable.Name = "kcbtnFormBorderStyleSizable";
+            this.kcbtnFormBorderStyleSizable.Size = new System.Drawing.Size(90, 25);
+            this.kcbtnFormBorderStyleSizable.TabIndex = 23;
+            this.kcbtnFormBorderStyleSizable.Values.Text = "Sizable";
+            this.kcbtnFormBorderStyleSizable.Click += new System.EventHandler(this.kcbtnFormBorderStyleSizable_Click);
+            // 
+            // kcbtnFormBorderStyleFixedDialog
+            // 
+            this.kcbtnFormBorderStyleFixedDialog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleFixedDialog.Location = new System.Drawing.Point(15, 536);
+            this.kcbtnFormBorderStyleFixedDialog.Name = "kcbtnFormBorderStyleFixedDialog";
+            this.kcbtnFormBorderStyleFixedDialog.Size = new System.Drawing.Size(90, 25);
+            this.kcbtnFormBorderStyleFixedDialog.TabIndex = 22;
+            this.kcbtnFormBorderStyleFixedDialog.Values.Text = "FixedDialog";
+            this.kcbtnFormBorderStyleFixedDialog.Click += new System.EventHandler(this.kcbtnFormBorderStyleFixedDialog_Click);
+            // 
+            // kcbtnFormBorderStyleFixed3D
+            // 
+            this.kcbtnFormBorderStyleFixed3D.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleFixed3D.Location = new System.Drawing.Point(207, 505);
+            this.kcbtnFormBorderStyleFixed3D.Name = "kcbtnFormBorderStyleFixed3D";
+            this.kcbtnFormBorderStyleFixed3D.Size = new System.Drawing.Size(90, 25);
+            this.kcbtnFormBorderStyleFixed3D.TabIndex = 21;
+            this.kcbtnFormBorderStyleFixed3D.Values.Text = "Fixed3D";
+            this.kcbtnFormBorderStyleFixed3D.Click += new System.EventHandler(this.kcbtnFormBorderStyleFixed3D_Click);
+            // 
+            // kcbtnFormBorderStyleFixedSingle
+            // 
+            this.kcbtnFormBorderStyleFixedSingle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleFixedSingle.Location = new System.Drawing.Point(111, 505);
+            this.kcbtnFormBorderStyleFixedSingle.Name = "kcbtnFormBorderStyleFixedSingle";
+            this.kcbtnFormBorderStyleFixedSingle.Size = new System.Drawing.Size(90, 25);
+            this.kcbtnFormBorderStyleFixedSingle.TabIndex = 20;
+            this.kcbtnFormBorderStyleFixedSingle.Values.Text = "FixedSingle";
+            this.kcbtnFormBorderStyleFixedSingle.Click += new System.EventHandler(this.kcbtnFormBorderStyleFixedSingle_Click);
+            // 
+            // kcbtnFormBorderStyleNone
+            // 
+            this.kcbtnFormBorderStyleNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFormBorderStyleNone.Checked = true;
+            this.kcbtnFormBorderStyleNone.Location = new System.Drawing.Point(15, 505);
+            this.kcbtnFormBorderStyleNone.Name = "kcbtnFormBorderStyleNone";
+            this.kcbtnFormBorderStyleNone.Size = new System.Drawing.Size(90, 25);
+            this.kcbtnFormBorderStyleNone.TabIndex = 19;
+            this.kcbtnFormBorderStyleNone.Values.Text = "None";
+            this.kcbtnFormBorderStyleNone.Click += new System.EventHandler(this.kcbtnFormBorderStyleNone_Click);
             // 
             // kryptonButton8
             // 
@@ -132,7 +230,7 @@
             // kbtnExit
             // 
             this.kbtnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnExit.Location = new System.Drawing.Point(498, 526);
+            this.kbtnExit.Location = new System.Drawing.Point(498, 598);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(90, 25);
             this.kbtnExit.TabIndex = 15;
@@ -243,7 +341,7 @@
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.KryptonContextMenu = this.kryptonContextMenu1;
+            this.kryptonButton1.KryptonContextMenu = this.kryptonContextMenu2;
             this.kryptonButton1.Location = new System.Drawing.Point(12, 132);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.ShowSplitOption = true;
@@ -363,7 +461,65 @@
             // 
             // kryptonManager1
             // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparklePurpleLightMode;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013White;
+            // 
+            // kryptonCheckSet1
+            // 
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleNone);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleFixedSingle);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleFixed3D);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleFixedDialog);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleSizable);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleFixedToolWindow);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleSizableToolWindow);
+            this.kryptonCheckSet1.CheckedButton = this.kcbtnFormBorderStyleNone;
+            // 
+            // kryptonContextMenu2
+            // 
+            this.kryptonContextMenu2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuHeading1,
+            this.kryptonContextMenuItems2,
+            this.kryptonContextMenuCheckBox1});
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // kryptonContextMenuItems2
+            // 
+            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem4,
+            this.kryptonContextMenuItem5});
+            // 
+            // kryptonContextMenuCheckBox1
+            // 
+            this.kryptonContextMenuCheckBox1.ExtraText = "";
+            // 
+            // kryptonContextMenuItem4
+            // 
+            this.kryptonContextMenuItem4.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem5
+            // 
+            this.kryptonContextMenuItem5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuCheckButton1,
+            this.kryptonContextMenuRadioButton1,
+            this.kryptonContextMenuColorColumns1,
+            this.kryptonContextMenuImageSelect1,
+            this.kryptonContextMenuMonthCalendar1});
+            this.kryptonContextMenuItem5.Text = "Menu Item";
+            // 
+            // kryptonContextMenuCheckButton1
+            // 
+            this.kryptonContextMenuCheckButton1.Text = "CheckButton";
+            // 
+            // kryptonContextMenuRadioButton1
+            // 
+            this.kryptonContextMenuRadioButton1.ExtraText = "";
+            // 
+            // kryptonContextMenuColorColumns1
+            // 
+            this.kryptonContextMenuColorColumns1.SelectedColor = System.Drawing.Color.Empty;
             // 
             // Form1
             // 
@@ -379,7 +535,7 @@
             this.ButtonSpecs.Add(this.buttonSpecAny8);
             this.ButtonSpecs.Add(this.buttonSpecAny9);
             this.ButtonSpecs.Add(this.buttonSpecAny10);
-            this.ClientSize = new System.Drawing.Size(600, 563);
+            this.ClientSize = new System.Drawing.Size(600, 635);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
@@ -392,6 +548,7 @@
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -438,5 +595,24 @@
         private Krypton.Toolkit.KryptonButton kryptonButton6;
         private Krypton.Toolkit.KryptonButton kryptonButton7;
         private Krypton.Toolkit.KryptonButton kryptonButton8;
+        private Krypton.Toolkit.KryptonCheckSet kryptonCheckSet1;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleNone;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleFixedDialog;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleFixed3D;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleFixedSingle;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleSizableToolWindow;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleFixedToolWindow;
+        private Krypton.Toolkit.KryptonCheckButton kcbtnFormBorderStyleSizable;
+        private Krypton.Toolkit.KryptonContextMenu kryptonContextMenu2;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem5;
+        private Krypton.Toolkit.KryptonContextMenuCheckButton kryptonContextMenuCheckButton1;
+        private Krypton.Toolkit.KryptonContextMenuRadioButton kryptonContextMenuRadioButton1;
+        private Krypton.Toolkit.KryptonContextMenuColorColumns kryptonContextMenuColorColumns1;
+        private Krypton.Toolkit.KryptonContextMenuImageSelect kryptonContextMenuImageSelect1;
+        private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar1;
+        private Krypton.Toolkit.KryptonContextMenuCheckBox kryptonContextMenuCheckBox1;
     }
 }
