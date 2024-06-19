@@ -27,6 +27,11 @@
 * Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **[Breaking Change]** Take KMB back to the Winform override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
+* Resolved [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), **[Breaking Change]** AppButton colours don't change while switching themes
+    - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
+    - `RibbonAppButton` has become `RibbonFileAppButton` 
+	- Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
+	- Colours for the `FileAppTab` have been moved into the `StateCommon` area 
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
 * Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
