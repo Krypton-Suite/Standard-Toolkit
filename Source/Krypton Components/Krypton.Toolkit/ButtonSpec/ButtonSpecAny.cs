@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Category(@"Behavior")]
-        [Description(@"Defines if the button is checked or capable of being checked.")]
+        [Description(@"Displays a drop down arrow on the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool ShowDrop

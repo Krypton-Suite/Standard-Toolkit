@@ -4,6 +4,7 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Resolved [#1536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1536), Build script does not follow same behaviour when 'rebuilding'
+* Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), Update `ButtonSpecAny` `ShowDrop` property description.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
 * Resolved [#1522](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1522), **[Breaking Change]** Check `ThemeManager` & `KryptonManager` for the use of hard coded theme indexes. See issue for full details.
 * Resolved [#239](https://github.com/Krypton-Suite/Standard-Toolkit/issues/239), Toolstrip combo boxes do not have the theme background applied
@@ -29,6 +30,11 @@
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303
+* Resolved [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), **[Breaking Change]** AppButton colours don't change while switching themes
+    - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
+    - `RibbonAppButton` has become `RibbonFileAppButton` 
+	- Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
+	- Colours for the `FileAppTab` have been moved into the `StateCommon` area 
 * Resolved [#1301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1301), **[Regression]** When Maximised - intergrated KryptonRibbon has titlebar issues
 * Resolved [#1383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1383), Closing last Page in undocked page group prevents addition of further Pages via `KryptonDockingManager.AddToWorkspace` (fix courtesy of [stizler](https://github.com/stigzler))
 * Resolved [#1336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1336), **[Regression]** KryptonForm has "Black Line" under Titlebar when maximised
@@ -108,6 +114,7 @@
 * Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
 
 ## 2024-06-24 - Build 2406 - June 2024
+* Resolved [#1455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#619](https://github.com/Krypton-Suite/Standard-Toolkit/issues/619), KButton and KListbox unclear text color in certain scenarios
 * Resolved [#1516](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1516), Theme Office 2010 Black Dark Mode causes a crash
 * Resolved [#1328](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328), Tentative adjustment to bring PaletteMode and the theme dictionary in line.
