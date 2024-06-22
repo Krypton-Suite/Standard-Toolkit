@@ -1328,8 +1328,6 @@ namespace Krypton.Toolkit
                     return TextRenderingHint.SingleBitPerPixel;
                 case PaletteTextHint.SingleBitPerPixelGridFit:
                     return TextRenderingHint.SingleBitPerPixelGridFit;
-                case PaletteTextHint.SystemDefault:
-                    return TextRenderingHint.SystemDefault;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
