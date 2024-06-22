@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(24, 24, 24), // TextLabelPanel
-            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(24, 24, 24), // RibbonTabTextNormal
             Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(245, 199, 149), // GridSheetRowSelected
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(194, 217, 240), // GridDataCellSelected
-            Color.Black, // InputControlTextNormal
+            Color.FromArgb(24, 24, 24), // InputControlTextNormal
             Color.FromArgb(51, 51, 51), // InputControlTextDisabled
             Color.FromArgb(169, 177, 184), // InputControlBorderNormal
             Color.FromArgb(177, 187, 198), // InputControlBorderDisabled
@@ -582,11 +582,11 @@ namespace Krypton.Toolkit
         };
         private static readonly Color[] _buttonBackColors = {   Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
                                                                 Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-                                                                Color.FromArgb(54,64,88), // Button, Tracking, Back 1
+                                                                Color.FromArgb(102, 117, 161), // Button, Tracking, Back 1
                                                                 Color.FromArgb(106,123,164), // Button, Tracking, Back 2
-                                                                Color.FromArgb(95, 107, 137), // Button, Pressed, Back 1
-                                                                Color.FromArgb(54,64,88), // Button, Pressed, Back 2
-                                                                Color.FromArgb(54,64,88), // Button, Checked, Back 1
+                                                                Color.FromArgb(73, 84, 113), // Button, Pressed, Back 1
+                                                                Color.FromArgb(102, 117, 161), // Button, Pressed, Back 2
+                                                                Color.FromArgb(102, 117, 161), // Button, Checked, Back 1
                                                                 Color.FromArgb(122, 137, 174), // Button, Checked, Back 2
                                                                 Color.FromArgb(119, 134, 172), // Button, Checked Tracking, Back 1
                                                                 Color.FromArgb(135, 148, 182)  // Button, Checked Tracking, Back 2

@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
             { DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
             { DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
             { DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
-            
+
             { DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
             //{ DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
             
@@ -126,13 +126,13 @@ namespace Krypton.Toolkit
             { DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
             { DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
             { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
-            
+
             { DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
             //{ DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
             
             { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
             { DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
-            
+
             { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
 
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
