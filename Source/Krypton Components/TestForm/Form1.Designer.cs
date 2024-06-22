@@ -53,14 +53,25 @@
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonContextMenu2 = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuCheckButton1 = new Krypton.Toolkit.KryptonContextMenuCheckButton();
+            this.kryptonContextMenuRadioButton1 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
+            this.kryptonContextMenuColorColumns1 = new Krypton.Toolkit.KryptonContextMenuColorColumns();
+            this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
+            this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.kryptonContextMenuCheckBox1 = new Krypton.Toolkit.KryptonContextMenuCheckBox();
+            this.kryptonListBox1 = new Krypton.Toolkit.KryptonListBox();
+            this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonListBox1 = new Krypton.Toolkit.KryptonListBox();
-            this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.kryptonLanguageManager1 = new Krypton.Toolkit.KryptonLanguageManager();
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kcmdMessageboxTest = new Krypton.Toolkit.KryptonCommand();
@@ -77,17 +88,6 @@
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
-            this.kryptonContextMenu2 = new Krypton.Toolkit.KryptonContextMenu();
-            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuCheckBox1 = new Krypton.Toolkit.KryptonContextMenuCheckBox();
-            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuCheckButton1 = new Krypton.Toolkit.KryptonContextMenuCheckButton();
-            this.kryptonContextMenuRadioButton1 = new Krypton.Toolkit.KryptonContextMenuRadioButton();
-            this.kryptonContextMenuColorColumns1 = new Krypton.Toolkit.KryptonContextMenuColorColumns();
-            this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
-            this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -331,7 +331,7 @@
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(12, 12);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(185, 21);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(185, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
@@ -348,6 +348,78 @@
             this.kryptonButton1.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton1.TabIndex = 5;
             this.kryptonButton1.Values.Text = "Button (form2)";
+            // 
+            // kryptonContextMenu2
+            // 
+            this.kryptonContextMenu2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuHeading1,
+            this.kryptonContextMenuItems2,
+            this.kryptonContextMenuCheckBox1});
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // kryptonContextMenuItems2
+            // 
+            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem4,
+            this.kryptonContextMenuItem5});
+            // 
+            // kryptonContextMenuItem4
+            // 
+            this.kryptonContextMenuItem4.Text = "Menu Item";
+            // 
+            // kryptonContextMenuItem5
+            // 
+            this.kryptonContextMenuItem5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuCheckButton1,
+            this.kryptonContextMenuRadioButton1,
+            this.kryptonContextMenuColorColumns1,
+            this.kryptonContextMenuImageSelect1,
+            this.kryptonContextMenuMonthCalendar1});
+            this.kryptonContextMenuItem5.Text = "Menu Item";
+            // 
+            // kryptonContextMenuCheckButton1
+            // 
+            this.kryptonContextMenuCheckButton1.Text = "CheckButton";
+            // 
+            // kryptonContextMenuRadioButton1
+            // 
+            this.kryptonContextMenuRadioButton1.ExtraText = "";
+            // 
+            // kryptonContextMenuColorColumns1
+            // 
+            this.kryptonContextMenuColorColumns1.SelectedColor = System.Drawing.Color.Empty;
+            // 
+            // kryptonContextMenuCheckBox1
+            // 
+            this.kryptonContextMenuCheckBox1.ExtraText = "";
+            // 
+            // kryptonListBox1
+            // 
+            this.kryptonListBox1.Location = new System.Drawing.Point(203, 9);
+            this.kryptonListBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonListBox1.Name = "kryptonListBox1";
+            this.kryptonListBox1.Size = new System.Drawing.Size(388, 346);
+            this.kryptonListBox1.TabIndex = 2;
+            // 
+            // kryptonTextBox1
+            // 
+            this.kryptonTextBox1.Location = new System.Drawing.Point(58, 104);
+            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonTextBox1.Name = "kryptonTextBox1";
+            this.kryptonTextBox1.Size = new System.Drawing.Size(75, 23);
+            this.kryptonTextBox1.TabIndex = 1;
+            this.kryptonTextBox1.Text = "kryptonTextBox1";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(55, 49);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(76, 20);
+            this.textBox1.TabIndex = 0;
             // 
             // kryptonContextMenu1
             // 
@@ -377,31 +449,6 @@
             // kryptonContextMenuItem3
             // 
             this.kryptonContextMenuItem3.Text = "Menu Item 3";
-            // 
-            // kryptonListBox1
-            // 
-            this.kryptonListBox1.Location = new System.Drawing.Point(203, 9);
-            this.kryptonListBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonListBox1.Name = "kryptonListBox1";
-            this.kryptonListBox1.Size = new System.Drawing.Size(388, 346);
-            this.kryptonListBox1.TabIndex = 2;
-            // 
-            // kryptonTextBox1
-            // 
-            this.kryptonTextBox1.Location = new System.Drawing.Point(58, 104);
-            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonTextBox1.Name = "kryptonTextBox1";
-            this.kryptonTextBox1.Size = new System.Drawing.Size(75, 23);
-            this.kryptonTextBox1.TabIndex = 1;
-            this.kryptonTextBox1.Text = "kryptonTextBox1";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(55, 49);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(76, 20);
-            this.textBox1.TabIndex = 0;
             // 
             // kryptonCustomPaletteBase1
             // 
@@ -459,10 +506,6 @@
             // 
             this.kryptonIntegratedToolbarPrintCommand1.Text = "Print";
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013White;
-            // 
             // kryptonCheckSet1
             // 
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleNone);
@@ -473,53 +516,6 @@
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleFixedToolWindow);
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleSizableToolWindow);
             this.kryptonCheckSet1.CheckedButton = this.kcbtnFormBorderStyleNone;
-            // 
-            // kryptonContextMenu2
-            // 
-            this.kryptonContextMenu2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuHeading1,
-            this.kryptonContextMenuItems2,
-            this.kryptonContextMenuCheckBox1});
-            // 
-            // kryptonContextMenuHeading1
-            // 
-            this.kryptonContextMenuHeading1.ExtraText = "";
-            // 
-            // kryptonContextMenuItems2
-            // 
-            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem4,
-            this.kryptonContextMenuItem5});
-            // 
-            // kryptonContextMenuCheckBox1
-            // 
-            this.kryptonContextMenuCheckBox1.ExtraText = "";
-            // 
-            // kryptonContextMenuItem4
-            // 
-            this.kryptonContextMenuItem4.Text = "Menu Item";
-            // 
-            // kryptonContextMenuItem5
-            // 
-            this.kryptonContextMenuItem5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuCheckButton1,
-            this.kryptonContextMenuRadioButton1,
-            this.kryptonContextMenuColorColumns1,
-            this.kryptonContextMenuImageSelect1,
-            this.kryptonContextMenuMonthCalendar1});
-            this.kryptonContextMenuItem5.Text = "Menu Item";
-            // 
-            // kryptonContextMenuCheckButton1
-            // 
-            this.kryptonContextMenuCheckButton1.Text = "CheckButton";
-            // 
-            // kryptonContextMenuRadioButton1
-            // 
-            this.kryptonContextMenuRadioButton1.ExtraText = "";
-            // 
-            // kryptonContextMenuColorColumns1
-            // 
-            this.kryptonContextMenuColorColumns1.SelectedColor = System.Drawing.Color.Empty;
             // 
             // Form1
             // 
