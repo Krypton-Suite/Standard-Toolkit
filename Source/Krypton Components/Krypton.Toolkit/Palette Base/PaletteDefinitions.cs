@@ -3646,12 +3646,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies single bit for pixel with grid fit for text rendering.
         /// </summary>
-        SingleBitPerPixelGridFit,
-
-        /// <summary>
-        /// Specifies system default setting for text rendering.
-        /// </summary>
-        SystemDefault
+        SingleBitPerPixelGridFit
     }
     #endregion
 

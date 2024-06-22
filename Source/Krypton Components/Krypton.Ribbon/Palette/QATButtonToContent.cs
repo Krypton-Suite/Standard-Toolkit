@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentShortTextHint(PaletteState state) => PaletteTextHint.SystemDefault;
+        public PaletteTextHint GetContentShortTextHint(PaletteState state) => PaletteTextHint.ClearTypeGridFit;
 
         /// <summary>
         /// Gets the prefix drawing setting for short text.
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentLongTextHint(PaletteState state) => PaletteTextHint.SystemDefault;
+        public PaletteTextHint GetContentLongTextHint(PaletteState state) => PaletteTextHint.ClearTypeGridFit;
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
