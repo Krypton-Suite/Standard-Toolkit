@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
 * Resolved [#1536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1536), Build script does not follow same behaviour when 'rebuilding'
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), Update `ButtonSpecAny` `ShowDrop` property description.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
