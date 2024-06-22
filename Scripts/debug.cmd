@@ -9,6 +9,7 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Cu
 echo "Unable to detect suitable environment. Check if VS 2019 is installed."
 
 pause
+goto exitbatch
 
 :vs16prev
 set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin
@@ -35,10 +36,12 @@ goto build
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/debug-build-log.log /bl:../Logs/debug-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 @echo Build Completed: %date% %time%
 @echo
 echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
 
 pause
+
+:exitbatch

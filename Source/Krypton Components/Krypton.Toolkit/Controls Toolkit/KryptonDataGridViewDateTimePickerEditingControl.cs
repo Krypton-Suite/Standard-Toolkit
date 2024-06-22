@@ -55,8 +55,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
+        [AllowNull]
         public virtual object EditingControlFormattedValue
         {
+            // [AllowNull] removes warning CS8767 and allows to write null
+            // although the interface defines the property as non-nullable
+
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
 
             set

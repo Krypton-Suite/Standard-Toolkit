@@ -32,17 +32,19 @@ namespace Krypton.Toolkit
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuItemController([DisallowNull] ViewContextMenuManager viewManager,
-                                  [DisallowNull] ViewDrawMenuItem menuItem,
-                                  [DisallowNull] NeedPaintHandler needPaint)
+        public MenuItemController(ViewContextMenuManager viewManager,
+                                  ViewDrawMenuItem menuItem,
+                                  NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(menuItem is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _menuItem = menuItem; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(menuItem));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _menuItem = menuItem!;
+            NeedPaint = needPaint;
         }
         #endregion
 

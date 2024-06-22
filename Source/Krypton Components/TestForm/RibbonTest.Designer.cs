@@ -160,7 +160,6 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
             this.kryptonRibbonGroupThemeComboBox1.MaximumSize = new System.Drawing.Size(500, 0);
             this.kryptonRibbonGroupThemeComboBox1.MinimumSize = new System.Drawing.Size(400, 0);
-            this.kryptonRibbonGroupThemeComboBox1.SynchronizeDropDownWidth = true;
             this.kryptonRibbonGroupThemeComboBox1.ValueMember = "Value";
             // 
             // kryptonPanel1
@@ -178,7 +177,6 @@ namespace TestForm
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(34, 82);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = true;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(394, 21);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 2;
@@ -228,7 +226,7 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 488);
-            this.CloseBox = false;
+            this.CloseBox = true;
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Name = "RibbonTest";

@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 
@@ -809,6 +809,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
@@ -836,6 +837,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
@@ -863,6 +865,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
+        [AllowNull]
         public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
@@ -890,7 +893,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
-        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
+        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
 
         #endregion
 

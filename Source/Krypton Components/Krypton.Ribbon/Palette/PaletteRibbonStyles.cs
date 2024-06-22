@@ -29,15 +29,17 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonStyles([DisallowNull] KryptonRibbon ribbon,
-                                   [DisallowNull] NeedPaintHandler needPaint)
+        public PaletteRibbonStyles(KryptonRibbon ribbon,
+                                   NeedPaintHandler? needPaint)
         {
-            Debug.Assert(_ribbon is not null);
-
-            _ribbon = ribbon; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(ribbon));
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon!;
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            NeedPaint = needPaint;
         }
         #endregion
 

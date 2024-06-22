@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonDomainUpDownActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonDomainUpDown? _domainUpDown;
+        private readonly KryptonDomainUpDown _domainUpDown;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _domainUpDown = owner.Component as KryptonDomainUpDown;
+            _domainUpDown = (owner.Component as KryptonDomainUpDown)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -40,11 +40,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _domainUpDown!.KryptonContextMenu;
+            get => _domainUpDown.KryptonContextMenu;
 
             set
             {
-                if (_domainUpDown!.KryptonContextMenu != value)
+                if (_domainUpDown.KryptonContextMenu != value)
                 {
                     _service?.OnComponentChanged(_domainUpDown, null, _domainUpDown.KryptonContextMenu, value);
 
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _domainUpDown!.PaletteMode;
+            get => _domainUpDown.PaletteMode;
 
             set
             {
-                if (_domainUpDown!.PaletteMode != value)
+                if (_domainUpDown.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_domainUpDown, null, _domainUpDown.PaletteMode, value);
                     _domainUpDown.PaletteMode = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _domainUpDown!.InputControlStyle;
+            get => _domainUpDown.InputControlStyle;
 
             set
             {
-                if (_domainUpDown!.InputControlStyle != value)
+                if (_domainUpDown.InputControlStyle != value)
                 {
                     _service?.OnComponentChanged(_domainUpDown, null, _domainUpDown.InputControlStyle, value);
                     _domainUpDown.InputControlStyle = value;
@@ -89,11 +89,11 @@ namespace Krypton.Toolkit
 
         public Font Font
         {
-            get => _domainUpDown!.StateCommon.Content.Font!;
+            get => _domainUpDown.StateCommon.Content.Font!;
 
             set
             {
-                if (!Equals(_domainUpDown!.StateCommon.Content.Font, value))
+                if (!Equals(_domainUpDown.StateCommon.Content.Font, value))
                 {
                     _service?.OnComponentChanged(_domainUpDown, null, _domainUpDown.StateCommon.Content.Font, value);
 

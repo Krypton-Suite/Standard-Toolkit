@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Krypton.Toolkit
+﻿namespace Krypton.Toolkit
 {
     /// <summary>
     /// IOutlookGridGroup specifies the interface of any implementation of a OutlookGridGroup class
@@ -103,9 +97,9 @@ namespace Krypton.Toolkit
         /// </summary>
         bool SortBySummaryCount { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the items comparer, if overriding the default IComparable<T> is needed
-        ///// </summary>
-        IComparer ItemsComparer { get; set; }
+        /// <summary>
+        /// Gets or sets the items comparer, if overriding the default IComparable is needed
+        /// </summary>
+        IComparer? ItemsComparer { get; set; }
     }
 }

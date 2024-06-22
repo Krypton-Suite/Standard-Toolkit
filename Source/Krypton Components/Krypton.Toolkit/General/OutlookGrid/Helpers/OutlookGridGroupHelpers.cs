@@ -250,8 +250,8 @@ namespace Krypton.Toolkit
         /// Uppercase the first letter of the string
         /// </summary>
         /// <param name="s">The string.</param>
-        /// <returns>The tring with the first letter uppercased.</returns>
-        private static string? UppercaseFirst(string s)
+        /// <returns>The string with the first letter uppercased.</returns>
+        private static string UppercaseFirst(string s)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -306,19 +306,14 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static string GetQuarterAsString(DateTime dateTime)
         {
-            switch (GetQuarter(dateTime))
+            return GetQuarter(dateTime) switch
             {
-                case 1:
-                    return KryptonManager.Strings.OutlookGridStrings.QuarterOne;
-                case 2:
-                    return KryptonManager.Strings.OutlookGridStrings.QuarterTwo;
-                case 3:
-                    return KryptonManager.Strings.OutlookGridStrings.QuarterThree;
-                case 4:
-                    return KryptonManager.Strings.OutlookGridStrings.QuarterFour;
-                default:
-                    return "";
-            }
+                1 => KryptonManager.Strings.OutlookGridStrings.QuarterOne,
+                2 => KryptonManager.Strings.OutlookGridStrings.QuarterTwo,
+                3 => KryptonManager.Strings.OutlookGridStrings.QuarterThree,
+                4 => KryptonManager.Strings.OutlookGridStrings.QuarterFour,
+                _ => ""
+            };
         }
 
         /// <summary>
@@ -328,22 +323,13 @@ namespace Krypton.Toolkit
         /// <returns>The quarter number.</returns>
         public static int GetQuarter(DateTime dateTime)
         {
-            if (dateTime.Month <= 3)
+            return dateTime.Month switch
             {
-                return 1;
-            }
-
-            if (dateTime.Month <= 6)
-            {
-                return 2;
-            }
-
-            if (dateTime.Month <= 9)
-            {
-                return 3;
-            }
-
-            return 4;
+                <= 3 => 1,
+                <= 6 => 2,
+                <= 9 => 3,
+                _ => 4
+            };
         }
 
         /// <summary>

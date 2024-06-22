@@ -17,6 +17,8 @@ echo "Unable to detect suitable environment. Check if VS 2019 is installed."
 
 pause
 
+goto exitbatch
+
 :vs16prev
 set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin
 goto build2019
@@ -42,7 +44,7 @@ goto build2019
 @echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+"%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=../Logs/solution-build-log.log /bl:solution-build-log.binlog /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2022build
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
@@ -52,7 +54,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\
 if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
 
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
-
+goto exitbatch
 pause
 
 :vs17prev
@@ -106,3 +108,5 @@ build-2022.cmd Pack
 :break
 pause
 @echo Build Completed: %date% %time%
+
+:exitbatch

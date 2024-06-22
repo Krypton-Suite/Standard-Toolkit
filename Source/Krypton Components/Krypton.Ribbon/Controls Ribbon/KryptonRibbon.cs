@@ -941,7 +941,10 @@ namespace Krypton.Ribbon
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool InDesignMode => DesignMode;
+        public new bool InDesignMode => 
+            // Removed warning CS0108: "IndesignMode hides inherited member VisualControl.InDesignMode".
+            // By marking the property as new.
+            DesignMode;
 
         /// <summary>
         /// Internal design time method.
@@ -2357,7 +2360,7 @@ namespace Krypton.Ribbon
             // Add the quick access toolbar buttons
             keyTipList.AddRange(QATLocation == QATLocation.Above
                 ? CaptionArea!.VisibleQAT.GetQATKeyTips()
-                : _qatBelowContents.GetQATKeyTips(null));
+                : _qatBelowContents.GetQATKeyTips(this.FindKryptonForm()!));
 
             // Add the tab headers
             keyTipList.AddRange(TabsArea.GetTabKeyTips());
@@ -2367,7 +2370,7 @@ namespace Krypton.Ribbon
 
         internal KeyTipInfoList GenerateKeyTipsForSelectedTab()
         {
-            // Make sure all the elements in current tab have been synched 
+            // Make sure all the elements in current tab have been synced 
             // and created so that the generated contents are accurate
             Refresh();
 

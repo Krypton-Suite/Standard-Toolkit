@@ -647,6 +647,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
+            // Control.Text can take null but will always return an empty string when the input was null
             get => base.Text;
             set => base.Text = value;
         }
@@ -674,6 +675,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override Font Font
         {
+            // base.Font will always return a Font
+            // base can take null as a value
+
             get => base.Font;
             set => base.Font = value;
         }

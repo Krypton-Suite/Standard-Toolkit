@@ -80,7 +80,8 @@ namespace TestForm
             grid.FillMode = GridFillMode.GroupsAndNodes; //treemode enabled;
             grid.ShowLines = true;
 
-            _activeColumns = new SandBoxGridColumn[] {
+            _activeColumns =
+            [
                 SandBoxGridColumn.ColumnCustomerId,
                 SandBoxGridColumn.ColumnCustomerName,
                 SandBoxGridColumn.ColumnAddress,
@@ -91,21 +92,22 @@ namespace TestForm
                 SandBoxGridColumn.ColumnPrice,
                 SandBoxGridColumn.SatisfactionColumn,
                 SandBoxGridColumn.ColumnToken
-            };
+            ];
 
-            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[10]
-            {
-            SetupColumn(SandBoxGridColumn.ColumnCustomerId),
-            SetupColumn(SandBoxGridColumn.ColumnCustomerName),
-            SetupColumn(SandBoxGridColumn.ColumnAddress),
-            SetupColumn(SandBoxGridColumn.ColumnCity),
-            SetupColumn(SandBoxGridColumn.ColumnCountry),
-            SetupColumn(SandBoxGridColumn.ColumnOrderDate),
-            SetupColumn(SandBoxGridColumn.ColumnProduct),
-            SetupColumn(SandBoxGridColumn.ColumnPrice),
-            SetupColumn(SandBoxGridColumn.SatisfactionColumn),
-            SetupColumn(SandBoxGridColumn.ColumnToken)
-        };
+            DataGridViewColumn[] columnsToAdd =
+            [
+                SetupColumn(SandBoxGridColumn.ColumnCustomerId),
+                SetupColumn(SandBoxGridColumn.ColumnCustomerName),
+                SetupColumn(SandBoxGridColumn.ColumnAddress),
+                SetupColumn(SandBoxGridColumn.ColumnCity),
+                SetupColumn(SandBoxGridColumn.ColumnCountry),
+                SetupColumn(SandBoxGridColumn.ColumnOrderDate),
+                SetupColumn(SandBoxGridColumn.ColumnProduct),
+                SetupColumn(SandBoxGridColumn.ColumnPrice),
+                SetupColumn(SandBoxGridColumn.SatisfactionColumn),
+                SetupColumn(SandBoxGridColumn.ColumnToken)
+            ];
+
             grid.Columns.AddRange(columnsToAdd);
 
             //Define the columns for a possible grouping
@@ -120,11 +122,13 @@ namespace TestForm
             grid.AddInternalColumn(columnsToAdd[8], new OutlookGridDefaultGroup(null), SortOrder.None, -1, -1);
             grid.AddInternalColumn(columnsToAdd[9], new OutlookGridDefaultGroup(null), SortOrder.None, -1, -1);
 
-            //Add a default conditionnal formatting
-            ConditionalFormatting cond = new ConditionalFormatting();
-            cond.ColumnName = SandBoxGridColumn.ColumnPrice.ToString();
-            cond.FormatType = EnumConditionalFormatType.TwoColorsRange;
-            cond.FormatParams = new TwoColorsParams(Color.White, Color.FromArgb(255, 255, 58, 61));
+            //Add a default conditional formatting
+            var cond = new ConditionalFormatting
+            {
+                ColumnName = SandBoxGridColumn.ColumnPrice.ToString(),
+                FormatType = EnumConditionalFormatType.TwoColorsRange,
+                FormatParams = new TwoColorsParams(Color.White, Color.FromArgb(255, 255, 58, 61))
+            };
             grid.ConditionalFormatting.Add(cond);
         }
 
@@ -140,8 +144,7 @@ namespace TestForm
                 throw new Exception("Grid config file is missing !");
 
             XDocument doc = XDocument.Load(file);
-            int versionGrid = -1;
-            int.TryParse(doc.Element("OutlookGrid")?.Attribute("V")?.Value, out versionGrid);
+            int.TryParse(doc.Element("OutlookGrid")?.Attribute("V")?.Value, out var versionGrid);
 
             //Upgrade if necessary the config file
             CheckAndUpgradeConfigFile(versionGrid, doc, grid, LoadState.Before);
@@ -151,15 +154,11 @@ namespace TestForm
 
             //Initialize
             int nbColsInFile = doc.XPathSelectElements("//Column").Count();
-            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[nbColsInFile];
-            SandBoxGridColumn[] enumCols = new SandBoxGridColumn[nbColsInFile];
-            OutlookGridColumn[] outlookColumnsToAdd = new OutlookGridColumn[columnsToAdd.Length];
-            SortedList<int, int> hash = new SortedList<int, int>();// (DisplayIndex , Index)
-
-
+            var columnsToAdd = new DataGridViewColumn[nbColsInFile];
+            var enumCols = new SandBoxGridColumn[nbColsInFile];
+            var outlookColumnsToAdd = new OutlookGridColumn[columnsToAdd.Length];
+            var hash = new SortedList<int, int>();// (DisplayIndex , Index)
             int i = 0;
-            IOutlookGridGroup? group;
-            XElement? node2;
 
             foreach (var xNode in doc.XPathSelectElement("OutlookGrid/Columns")?.Nodes()!)
             {
@@ -172,22 +171,30 @@ namespace TestForm
                 columnsToAdd[i].Visible = CommonHelper.StringToBool(node.Element("Visible")?.Value!);
                 hash.Add(int.Parse(node.Element("DisplayIndex")?.Value!), i);
                 //Reinit the group if it has been set previously
-                group = null;
+                IOutlookGridGroup? group = null;
                 if (!node.Element("GroupingType")!.IsEmpty && node.Element("GroupingType")!.HasElements)
                 {
-                    node2 = node.Element("GroupingType");
-                    group = (IOutlookGridGroup)Activator.CreateInstance(Type.GetType(TypeConverter.ProcessType(node2?.Element("Name")?.Value!)!, true)!);
-                    group.OneItemText = node2?.Element("OneItemText")?.Value;
-                    group.XxxItemsText = node2?.Element("XXXItemsText")?.Value;
-                    group.SortBySummaryCount = CommonHelper.StringToBool(node2?.Element("SortBySummaryCount")?.Value!);
-                    if (!string.IsNullOrEmpty(node2?.Element("ItemsComparer")?.Value))
+                    XElement? node2 = node.Element("GroupingType");
+                    group = Activator.CreateInstance(Type.GetType(TypeConverter.ProcessType(node2?.Element("Name")?.Value!)!, true)!) as IOutlookGridGroup;
+                    if (group != null)
                     {
-                        object comparer = Activator.CreateInstance(Type.GetType(TypeConverter.ProcessType(node2?.Element("ItemsComparer")?.Value)!, true)!);
-                        group.ItemsComparer = (IComparer)comparer;
-                    }
-                    if (node2!.Element("Name")!.Value.Contains("OutlookGridDateTimeGroup"))
-                    {
-                        ((OutlookGridDateTimeGroup)group).Interval = (DateInterval)Enum.Parse(typeof(DateInterval), node2.Element("GroupDateInterval")?.Value!);
+                        group.OneItemText = node2?.Element("OneItemText")?.Value;
+                        group.XxxItemsText = node2?.Element("XXXItemsText")?.Value;
+                        group.SortBySummaryCount =
+                            CommonHelper.StringToBool(node2?.Element("SortBySummaryCount")?.Value!);
+                        if (!string.IsNullOrEmpty(node2?.Element("ItemsComparer")?.Value))
+                        {
+                            object? comparer = Activator.CreateInstance(
+                                Type.GetType(TypeConverter.ProcessType(node2?.Element("ItemsComparer")?.Value)!,
+                                    true)!);
+                            group.ItemsComparer = comparer as IComparer;
+                        }
+
+                        if (node2!.Element("Name")!.Value.Contains("OutlookGridDateTimeGroup"))
+                        {
+                            ((OutlookGridDateTimeGroup)group).Interval = (DateInterval)Enum.Parse(typeof(DateInterval),
+                                node2.Element("GroupDateInterval")?.Value!);
+                        }
                     }
                 }
                 outlookColumnsToAdd[i] = new OutlookGridColumn(columnsToAdd[i], group, (SortOrder)Enum.Parse(typeof(SortOrder), node.Element("SortDirection")?.Value!), int.Parse(node.Element("GroupIndex")?.Value!), int.Parse(node.Element("SortIndex")?.Value!));
@@ -200,33 +207,27 @@ namespace TestForm
             grid.AddRangeInternalColumns(outlookColumnsToAdd);
 
             //Add conditional formatting to the grid
-            EnumConditionalFormatType conditionFormatType;
-            IFormatParams? conditionFormatParams;
             foreach (var xNode in (doc.XPathSelectElement("OutlookGrid/ConditionalFormatting") != null ? doc.XPathSelectElement("OutlookGrid/ConditionalFormatting")?.Nodes() : null)!)
             {
                 var node = (XElement)xNode;
-                conditionFormatType = (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), node.Element("FormatType")?.Value!);
+                var conditionFormatType = (EnumConditionalFormatType)Enum.Parse(typeof(EnumConditionalFormatType), node.Element("FormatType")?.Value!);
                 XElement? nodeParams = node.Element("FormatParams");
-                switch (conditionFormatType)
+                IFormatParams? conditionFormatParams = conditionFormatType switch
                 {
-                    case EnumConditionalFormatType.Bar:
-                        conditionFormatParams = new BarParams(Color.FromArgb(int.Parse(nodeParams?.Element("BarColor")?.Value!)), CommonHelper.StringToBool(nodeParams?.Element("GradientFill")?.Value!));
-                        break;
-                    case EnumConditionalFormatType.ThreeColorsRange:
-                        conditionFormatParams = new ThreeColorsParams(Color.FromArgb(int.Parse(nodeParams?.Element("MinimumColor")?.Value!)), Color.FromArgb(int.Parse(nodeParams?.Element("MediumColor")?.Value!)), Color.FromArgb(int.Parse(nodeParams?.Element("MaximumColor")?.Value!)));
-                        break;
-                    case EnumConditionalFormatType.TwoColorsRange:
-                        conditionFormatParams = new TwoColorsParams(Color.FromArgb(int.Parse(nodeParams?.Element("MinimumColor")?.Value!)), Color.FromArgb(int.Parse(nodeParams?.Element("MaximumColor")?.Value!)));
-                        break;
-                    default:
-                        conditionFormatParams = null;
-                        //will never happened but who knows ? throw exception ?
-                        break;
-                }
+                    EnumConditionalFormatType.Bar => new BarParams(
+                        Color.FromArgb(int.Parse(nodeParams?.Element("BarColor")?.Value!)),
+                        CommonHelper.StringToBool(nodeParams?.Element("GradientFill")?.Value!)),
+                    EnumConditionalFormatType.ThreeColorsRange => new ThreeColorsParams(
+                        Color.FromArgb(int.Parse(nodeParams?.Element("MinimumColor")?.Value!)),
+                        Color.FromArgb(int.Parse(nodeParams?.Element("MediumColor")?.Value!)),
+                        Color.FromArgb(int.Parse(nodeParams?.Element("MaximumColor")?.Value!))),
+                    EnumConditionalFormatType.TwoColorsRange => new TwoColorsParams(
+                        Color.FromArgb(int.Parse(nodeParams?.Element("MinimumColor")?.Value!)),
+                        Color.FromArgb(int.Parse(nodeParams?.Element("MaximumColor")?.Value!))),
+                    _ => null
+                };
                 grid.ConditionalFormatting.Add(new ConditionalFormatting(node.Element("ColumnName")?.Value!, conditionFormatType, conditionFormatParams));
             }
-
-
 
             //We need to loop through the columns in the order of the display order, starting at zero; otherwise the columns will fall out of order as the loop progresses.
             foreach (KeyValuePair<int, int> kvp in hash)
@@ -287,104 +288,138 @@ namespace TestForm
             //}
         }
 
-
         /// <summary>
         /// Use this function if you do not add your columns at design time.
         /// </summary>
         /// <param name="colType"></param>
         /// <returns></returns>
-        private DataGridViewColumn? SetupColumn(SandBoxGridColumn colType)
+        private DataGridViewColumn SetupColumn(SandBoxGridColumn colType)
         {
             DataGridViewColumn? column;
             switch (colType)
             {
                 case SandBoxGridColumn.ColumnCustomerId:
-                    column = new KryptonDataGridViewTextBoxColumn();
-                    column.HeaderText = @"Customer ID";
-                    column.Name = "ColumnCustomerID";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewTextBoxColumn
+                    {
+                        HeaderText = @"Customer ID",
+                        Name = "ColumnCustomerID",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnCustomerName:
-                    column = new KryptonDataGridViewTreeTextColumn();// KryptonDataGridViewTextBoxColumn();
-                    column.HeaderText = @"Name";
-                    column.Name = "ColumnCustomerName";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewTreeTextColumn
+                    {
+                        HeaderText = @"Name",
+                        Name = "ColumnCustomerName",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };// KryptonDataGridViewTextBoxColumn();
                     return column;
+
                 case SandBoxGridColumn.ColumnAddress:
-                    column = new KryptonDataGridViewTextBoxColumn();
-                    column.HeaderText = @"Address";
-                    column.Name = "ColumnAddress";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewTextBoxColumn
+                    {
+                        HeaderText = @"Address",
+                        Name = "ColumnAddress",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnCity:
-                    column = new KryptonDataGridViewTextBoxColumn();
-                    column.HeaderText = @"City";
-                    column.Name = "ColumnCity";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewTextBoxColumn
+                    {
+                        HeaderText = @"City",
+                        Name = "ColumnCity",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnCountry:
-                    column = new KryptonDataGridViewTextAndImageColumn();
-                    column.HeaderText = @"Country";
-                    column.Name = "ColumnCountry";
-                    column.Resizable = DataGridViewTriState.True;
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 78;
+                    column = new KryptonDataGridViewTextAndImageColumn
+                    {
+                        HeaderText = @"Country",
+                        Name = "ColumnCountry",
+                        Resizable = DataGridViewTriState.True,
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 78
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnOrderDate:
-                    column = new KryptonDataGridViewDateTimePickerColumn();
-                    ((KryptonDataGridViewDateTimePickerColumn)column).CalendarTodayDate = DateTime.Now;
-                    ((KryptonDataGridViewDateTimePickerColumn)column).Checked = false;
-                    ((KryptonDataGridViewDateTimePickerColumn)column).Format = DateTimePickerFormat.Short;
-                    column.HeaderText = @"Order Date";
-                    column.Name = "ColumnOrderDate";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewDateTimePickerColumn
+                    {
+                        CalendarTodayDate = DateTime.Now,
+                        Checked = false,
+                        Format = DateTimePickerFormat.Short,
+                        HeaderText = @"Order Date",
+                        Name = "ColumnOrderDate",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnProduct:
-                    column = new KryptonDataGridViewTextBoxColumn();
-                    column.HeaderText = @"Product";
-                    column.Name = "ColumnProduct";
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    column = new KryptonDataGridViewTextBoxColumn
+                    {
+                        HeaderText = @"Product",
+                        Name = "ColumnProduct",
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        Width = 79
+                    };
                     return column;
+
                 case SandBoxGridColumn.ColumnPrice:
-                    column = new KryptonDataGridViewFormattingColumn();
-                    column.Name = colType.ToString();
-                    column.ValueType = typeof(decimal); //really  important for formatting
-                    DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-                    dataGridViewCellStyle1.Format = "C2";
-                    dataGridViewCellStyle1.NullValue = "";
-                    column.DefaultCellStyle = dataGridViewCellStyle1;
-                    column.HeaderText = @"Price";
-                    column.Resizable = DataGridViewTriState.True;
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.Width = 79;
+                    {
+                        column = new KryptonDataGridViewFormattingColumn
+                        {
+                            Name = colType.ToString(),
+                            ValueType = typeof(decimal) //really  important for formatting
+                        };
+                        var dataGridViewCellStyle1 = new DataGridViewCellStyle
+                        {
+                            Format = "C2",
+                            NullValue = ""
+                        };
+                        column.DefaultCellStyle = dataGridViewCellStyle1;
+                        column.HeaderText = @"Price";
+                        column.Resizable = DataGridViewTriState.True;
+                        column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                        column.Width = 79;
+                    }
                     return column;
+
                 case SandBoxGridColumn.SatisfactionColumn:
-                    column = new KryptonDataGridViewPercentageColumn();
-                    DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-                    dataGridViewCellStyle2.Format = "0%";
-                    column.DefaultCellStyle = dataGridViewCellStyle2;
-                    column.HeaderText = @"Satisfaction";
-                    column.Name = colType.ToString();
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                    {
+                        column = new KryptonDataGridViewPercentageColumn();
+                        var dataGridViewCellStyle2 = new DataGridViewCellStyle
+                        {
+                            Format = "0%"
+                        };
+                        column.DefaultCellStyle = dataGridViewCellStyle2;
+                        column.HeaderText = @"Satisfaction";
+                        column.Name = colType.ToString();
+                        column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                    }
                     return column;
+
                 case SandBoxGridColumn.ColumnToken:
-                    column = new KryptonDataGridViewTokenColumn();
-                    column.Name = colType.ToString();
-                    column.ReadOnly = true;
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                    column.HeaderText = @"Tag";
+                    column = new KryptonDataGridViewTokenColumn
+                    {
+                        Name = colType.ToString(),
+                        ReadOnly = true,
+                        SortMode = DataGridViewColumnSortMode.Programmatic,
+                        HeaderText = @"Tag"
+                    };
                     return column;
+
                 default:
                     throw new Exception("Unknown Column Type !! TODO improve that !");
             }
         }
-
     }
 }
 

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonTreeView _treeView;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the tree view instance
-            _treeView = (KryptonTreeView)owner.Component;
+            _treeView = (owner.Component as KryptonTreeView)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.KryptonContextMenu, value);
 
                     _treeView.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.ItemStyle, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.ItemStyle, value);
                     _treeView.ItemStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.BackStyle, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.BackStyle, value);
                     _treeView.BackStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.BorderStyle, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.BorderStyle, value);
                     _treeView.BorderStyle = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.Sorted != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.Sorted, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.Sorted, value);
                     _treeView.Sorted = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.PaletteMode, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.PaletteMode, value);
                     _treeView.PaletteMode = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.StateCommon.Node.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.ShortText.Font, value);
 
                     _treeView.StateCommon.Node.Content.ShortText.Font = value;
                 }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_treeView.StateCommon.Node.Content.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.LongText.Font, value);
 
                     _treeView.StateCommon.Node.Content.LongText.Font = value;
                 }

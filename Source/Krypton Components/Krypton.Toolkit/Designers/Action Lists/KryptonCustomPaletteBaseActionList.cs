@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonCustomPaletteBase? _palette;
+        private readonly KryptonCustomPaletteBase _palette;
         private readonly IComponentChangeService? _service;
 
         #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _palette = owner.Component as KryptonCustomPaletteBase;
+            _palette = (owner.Component as KryptonCustomPaletteBase)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;

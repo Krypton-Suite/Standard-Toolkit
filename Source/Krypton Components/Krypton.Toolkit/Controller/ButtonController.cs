@@ -87,9 +87,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonController([DisallowNull] ViewBase target,
+        public ButtonController(ViewBase target,
                                 NeedPaintHandler needPaint)
         {
+
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(target is not null);
 
             MousePoint = CommonHelper.NullPoint;
@@ -98,7 +101,7 @@ namespace Krypton.Toolkit
             AllowDragging = false;
             _dragging = false;
             ClickOnDown = false;
-            Target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
+            Target = target!;
             Repeat = false;
             NeedPaint = needPaint;
         }

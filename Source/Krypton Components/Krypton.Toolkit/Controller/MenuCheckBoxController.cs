@@ -44,20 +44,22 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="checkBox">Drawing element that owns check box display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuCheckBoxController([DisallowNull] ViewContextMenuManager viewManager,
-                                      [DisallowNull] ViewBase target,
-                                      [DisallowNull] ViewDrawMenuCheckBox checkBox,
-                                      [DisallowNull] NeedPaintHandler needPaint)
+        public MenuCheckBoxController(ViewContextMenuManager viewManager,
+                                      ViewBase target,
+                                      ViewDrawMenuCheckBox checkBox,
+                                      NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(viewManager is not null);
             Debug.Assert(target is not null);
             Debug.Assert(checkBox is not null);
             Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(viewManager));
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _menuCheckBox = checkBox; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(checkBox));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuCheckBox = checkBox!;
+            NeedPaint = needPaint;
         }
         #endregion
 

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonListView _listView;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listView = (KryptonListView)owner.Component;
+            _listView = (owner.Component as KryptonListView)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_listView.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
                     _listView.ItemStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_listView.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.BackStyle, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.BackStyle, value);
                     _listView.BackStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_listView.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
                     _listView.BorderStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_listView.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
 
                     _listView.KryptonContextMenu = value;
                 }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_listView.StateCommon.Item.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
 
                     _listView.StateCommon.Item.Content.ShortText.Font = value;
                 }
@@ -136,14 +136,11 @@ namespace Krypton.Toolkit
                 // This can be null when deleting a control instance at design time
                 // Add the list of list box specific actions
                 new DesignerActionHeaderItem(nameof(Appearance)),
-                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance),
-                    @"Style used to draw background."),
+                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance), @"Style used to draw background."),
                 new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."),
                 new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."),
                 new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."),
                 new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."),
-                new DesignerActionHeaderItem(nameof(Behavior)),
-                new DesignerActionHeaderItem(@"Visuals")
             };
 
             return actions;

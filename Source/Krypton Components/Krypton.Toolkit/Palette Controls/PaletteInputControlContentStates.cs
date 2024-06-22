@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
                                              (Font == null) &&
                                              (Color1.IsEmpty) &&
                                              Padding.Equals(CommonHelper.InheritPadding)
-                                             && (TextH == PaletteRelativeAlign.Inherit);
+                                             && !ShouldSerializeTextH();
 
         #endregion
 
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _shortTextH != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextH(state);
+        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => ShouldSerializeTextH() ? _shortTextH : Inherit.GetContentShortTextH(state);
 
         /// <summary>
         /// Gets the actual content short text vertical alignment value.

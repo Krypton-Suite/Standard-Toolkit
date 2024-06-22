@@ -328,3 +328,7 @@ Source/Krypton Components/Temp.txt
 
 # Don't ignore these files
 !Source/Krypton Components/TestForm/invoices.xml
+
+# Log files
+/Logs
+Source/Krypton Components/Krypton.Ribbon/Temp.txt

@@ -18,9 +18,14 @@ namespace Krypton.Toolkit
     [DefaultBindingProperty("Value")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a Krypton progress bar control.")]
-    [Designer(typeof(KryptonButtonDesigner))]
+    //[Designer(typeof(KryptonButtonDesigner))]
     public class KryptonProgressBar : Control, IContentValues
     {
+        // Progressbar designer is incorrect.
+        // Disabled for now.
+        // Control works fine without it.
+        // Will discuss later if a specific designer is desired and what it should look like.
+
         #region Instance Fields
 
         private ProgressBarStyle _style;
@@ -392,6 +397,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
+            // Values.Text can be set to null
+            // The getter will always return a string
+
             get => Values.Text;
 
             set
@@ -878,9 +886,7 @@ namespace Krypton.Toolkit
         [AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
-            // base.ContextMenuStrip ca be null
-
-            get => base.ContextMenuStrip;
+            get => base.ContextMenuStrip!;
             set => base.ContextMenuStrip = value;
         }
 
@@ -899,6 +905,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override Font Font
         {
+            // base.Font will always return a Font
+            // base can take null as a value
+
             get => base.Font;
             set => base.Font = value;
         }

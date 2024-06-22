@@ -111,6 +111,12 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetQATKeyTips(KryptonForm ownerForm)
         {
+            // ownerForm cannot be null
+            if (ownerForm is null)
+            {
+                throw new ArgumentNullException(nameof(ownerForm));
+            }
+
             // Create all the list of all possible QAT key tip strings
             var keyTipsPool = new Stack<string>();
 

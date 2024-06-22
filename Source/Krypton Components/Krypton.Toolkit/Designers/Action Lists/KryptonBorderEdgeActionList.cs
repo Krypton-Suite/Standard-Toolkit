@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonBorderEdgeActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonBorderEdge? _borderEdge;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonBorderEdge _borderEdge;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner)
             : base(owner.Component)
         {
-            _borderEdge = owner.Component as KryptonBorderEdge;
+            _borderEdge = (owner.Component as KryptonBorderEdge)!;
 
             // Assuming we were correctly passed an actual component...
             if (_borderEdge != null)
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (GetService(typeof(IComponentChangeService)) as IComponentChangeService)!;
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -57,13 +57,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _borderEdge!.BorderStyle;
+            get => _borderEdge.BorderStyle;
 
             set
             {
-                if (_borderEdge!.BorderStyle != value)
+                if (_borderEdge.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
                     _borderEdge.BorderStyle = value;
                 }
             }
@@ -74,13 +74,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool AutoSize
         {
-            get => _borderEdge!.AutoSize;
+            get => _borderEdge.AutoSize;
 
             set
             {
-                if (_borderEdge!.AutoSize != value)
+                if (_borderEdge.AutoSize != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
                     _borderEdge.AutoSize = value;
                 }
             }
@@ -91,13 +91,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public DockStyle Dock
         {
-            get => _borderEdge!.Dock;
+            get => _borderEdge.Dock;
 
             set
             {
-                if (_borderEdge!.Dock != value)
+                if (_borderEdge.Dock != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
                     _borderEdge.Dock = value;
                 }
             }
@@ -108,13 +108,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _borderEdge!.PaletteMode;
+            get => _borderEdge.PaletteMode;
 
             set
             {
-                if (_borderEdge!.PaletteMode != value)
+                if (_borderEdge.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
                     _borderEdge.PaletteMode = value;
                 }
             }
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";
 
                 // Get access to the actual Orientation property
-                var orientationProp = TypeDescriptor.GetProperties(_borderEdge!)[nameof(Orientation)];
+                var orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

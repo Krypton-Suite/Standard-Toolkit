@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonMaskedTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonMaskedTextBox? _maskedTextBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonMaskedTextBox _maskedTextBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _maskedTextBox = owner.Component as KryptonMaskedTextBox;
+            _maskedTextBox = (owner.Component as KryptonMaskedTextBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -40,13 +40,13 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _maskedTextBox!.KryptonContextMenu;
+            get => _maskedTextBox.KryptonContextMenu;
 
             set
             {
-                if (_maskedTextBox!.KryptonContextMenu != value)
+                if (_maskedTextBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.KryptonContextMenu, value);
 
                     _maskedTextBox.KryptonContextMenu = value;
                 }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _maskedTextBox!.PaletteMode;
+            get => _maskedTextBox.PaletteMode;
 
             set
             {
-                if (_maskedTextBox!.PaletteMode != value)
+                if (_maskedTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
                     _maskedTextBox.PaletteMode = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _maskedTextBox!.InputControlStyle;
+            get => _maskedTextBox.InputControlStyle;
 
             set
             {
-                if (_maskedTextBox!.InputControlStyle != value)
+                if (_maskedTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
                     _maskedTextBox.InputControlStyle = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Mask
         {
-            get => _maskedTextBox!.Mask;
+            get => _maskedTextBox.Mask;
 
             set
             {
-                if (_maskedTextBox!.Mask != value)
+                if (_maskedTextBox.Mask != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
                     _maskedTextBox.Mask = value;
                 }
             }
@@ -108,13 +108,13 @@ namespace Krypton.Toolkit
         /// <value>The text box font.</value>
         public Font Font
         {
-            get => _maskedTextBox!.StateCommon.Content.Font!;
+            get => _maskedTextBox.StateCommon.Content.Font!;
 
             set
             {
-                if (_maskedTextBox!.StateCommon.Content.Font != value)
+                if (_maskedTextBox.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
 
                     _maskedTextBox.StateCommon.Content.Font = value;
                 }

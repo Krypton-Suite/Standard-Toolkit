@@ -159,6 +159,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
+            // KryptonProgress.Values.Text can be set to null
+            // The getter will always return a string
+
             get => KryptonProgressBarHost.Text;
             set => KryptonProgressBarHost.Text = value;
         }

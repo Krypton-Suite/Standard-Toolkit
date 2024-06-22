@@ -37,17 +37,19 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the radio button control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RadioButtonController([DisallowNull] ViewDrawRadioButton target,
-                                     [DisallowNull] ViewBase top,
-                                     NeedPaintHandler needPaint)
+        public RadioButtonController(ViewDrawRadioButton target,
+                                     ViewBase top,
+                                     NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(target is not null);
             Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(target));
-            _top = top; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(top));
-            NeedPaint = needPaint; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(needPaint));
+            _target = target!;
+            _top = top!;
+            NeedPaint = needPaint;
         }
         #endregion
 

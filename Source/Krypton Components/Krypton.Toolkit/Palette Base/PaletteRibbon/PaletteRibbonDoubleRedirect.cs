@@ -38,25 +38,21 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">inheritance ribbon back style.</param>
         /// <param name="textStyle">inheritance ribbon text style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonDoubleRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteRibbonDoubleRedirect(PaletteRedirect redirect,
                                            PaletteRibbonBackStyle backStyle,
                                            PaletteRibbonTextStyle textStyle,
-                                           NeedPaintHandler needPaint) 
+                                           NeedPaintHandler? needPaint) 
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(redirect is not null);
-
-            //TEST-NoThrow
-            //if ( redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inheritBack = new PaletteRibbonBackInheritRedirect(redirect, backStyle);
-            _inheritText = new PaletteRibbonTextInheritRedirect(redirect, textStyle);
+            _inheritBack = new PaletteRibbonBackInheritRedirect(redirect!, backStyle);
+            _inheritText = new PaletteRibbonTextInheritRedirect(redirect!, textStyle);
 
             // Define default values
             _backColor1 = GlobalStaticValues.EMPTY_COLOR;

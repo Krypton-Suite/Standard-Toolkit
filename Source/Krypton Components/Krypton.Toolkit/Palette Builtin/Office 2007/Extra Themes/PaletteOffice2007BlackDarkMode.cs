@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(91, 91, 91), // GridDataCellSelected
             Color.White, // InputControlTextNormal
-            Color.FromArgb(172, 168, 153), // InputControlTextDisabled
+            Color.FromArgb(166, 166, 166), // InputControlTextDisabled
             Color.FromArgb(137, 137, 137), // InputControlBorderNormal
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(78, 78, 80), // InputControlBackInactive
             Color.FromArgb(91, 91, 91), // InputDropDownNormal1
             Color.FromArgb(88, 88, 88), // InputDropDownNormal2
-            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
+            Color.FromArgb(166, 166, 166), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
             Color.FromArgb(41, 41, 41), // ContextMenuHeading
             Color.White, // ContextMenuHeadingText
@@ -742,9 +742,9 @@ namespace Krypton.Toolkit
         private static readonly Color _calendarTextColor = Color.White;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
-        private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78);
-        private static readonly Color _disabledText = Color.FromArgb(172, 172, 172);
-        private static readonly Color _disabledBack = Color.FromArgb(128, 128, 128);
+        private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
+        private static readonly Color _disabledText = Color.FromArgb(115, 115, 115);
+        private static readonly Color _disabledBack = Color.FromArgb(60, 60, 60);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);

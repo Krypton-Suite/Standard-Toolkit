@@ -28,12 +28,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonTextInheritRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteRibbonTextInheritRedirect(PaletteRedirect redirect,
                                                 PaletteRibbonTextStyle styleText)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(redirect is not null);
 
-            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect!;
             StyleText = styleText;
         }
         #endregion

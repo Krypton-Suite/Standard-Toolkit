@@ -95,8 +95,6 @@ namespace TestForm
             _reportToastLocation = false;
             _showDoNotShowAgainOption = false;
             _titleAlignment = ContentAlignment.MiddleCenter;
-            _contentFont = null;
-            _titleFont = null;
             _countDownSeconds = 60;
             _notificationIcon = KryptonToastNotificationIcon.Information;
             _notificationTitleText = ktxtToastTitle.Text;

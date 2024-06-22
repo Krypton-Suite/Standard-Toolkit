@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                 Color.FromArgb(194, 217, 240),    // GridDataCellSelected
                                                                 Color.Blue,                      // InputControlTextNormal
-                                                                Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
+                                                                Color.FromArgb(51, 51, 51),    // InputControlTextDisabled
                                                                 Color.FromArgb(171, 193, 222),    // InputControlBorderNormal
                                                                 Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
                                                                 Color.FromArgb(134, 179, 236),    // InputControlBackNormal
@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(234, 242, 251),    // InputControlBackInactive
                                                                 Color.FromArgb( 86, 125, 177),    // InputDropDownNormal1
                                                                 Color.FromArgb(255, 248, 203),    // InputDropDownNormal2
-                                                                Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
+                                                                Color.FromArgb(51, 51, 51),    // InputDropDownDisabled1
                                                                 Color.Transparent,                // InputDropDownDisabled2
                                                                 Color.FromArgb(63, 122, 197),    // ContextMenuHeadingBack
                                                                 Color.FromArgb(0,    21, 110),    // ContextMenuHeadingText
@@ -582,8 +582,8 @@ namespace Krypton.Toolkit
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
-        private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText2 = Color.FromArgb(51, 51, 51);
+        private static readonly Color _disabledText = Color.FromArgb(89, 89, 89);
         private static readonly Color _disabledBack = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);

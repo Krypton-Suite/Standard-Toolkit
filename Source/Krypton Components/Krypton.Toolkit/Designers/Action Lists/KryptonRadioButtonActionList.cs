@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonRadioButtonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRadioButton? _radioButton;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonRadioButton _radioButton;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the radio button instance
-            _radioButton = owner.Component as KryptonRadioButton;
+            _radioButton = (owner.Component as KryptonRadioButton)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -41,13 +41,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Checked
         {
-            get => _radioButton!.Checked;
+            get => _radioButton.Checked;
 
             set
             {
-                if (_radioButton!.Checked != value)
+                if (_radioButton.Checked != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.Checked, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.Checked, value);
                     _radioButton.Checked = value;
                 }
             }
@@ -58,13 +58,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool AutoCheck
         {
-            get => _radioButton!.AutoCheck;
+            get => _radioButton.AutoCheck;
 
             set
             {
-                if (_radioButton!.AutoCheck != value)
+                if (_radioButton.AutoCheck != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.AutoCheck, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.AutoCheck, value);
                     _radioButton.AutoCheck = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _radioButton!.LabelStyle;
+            get => _radioButton.LabelStyle;
 
             set
             {
-                if (_radioButton!.LabelStyle != value)
+                if (_radioButton.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.LabelStyle, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.LabelStyle, value);
                     _radioButton.LabelStyle = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _radioButton!.Orientation;
+            get => _radioButton.Orientation;
 
             set
             {
-                if (_radioButton!.Orientation != value)
+                if (_radioButton.Orientation != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.Orientation, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.Orientation, value);
                     _radioButton.Orientation = value;
                 }
             }
@@ -109,13 +109,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Text
         {
-            get => _radioButton!.Values.Text;
+            get => _radioButton.Values.Text;
 
             set
             {
-                if (_radioButton!.Values.Text != value)
+                if (_radioButton.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.Values.Text, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.Values.Text, value);
                     _radioButton.Values.Text = value;
                 }
             }
@@ -126,13 +126,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string ExtraText
         {
-            get => _radioButton!.Values.ExtraText;
+            get => _radioButton.Values.ExtraText;
 
             set
             {
-                if (_radioButton!.Values.ExtraText != value)
+                if (_radioButton.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.Values.ExtraText, value);
                     _radioButton.Values.ExtraText = value;
                 }
             }
@@ -143,13 +143,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _radioButton!.Values.Image;
+            get => _radioButton.Values.Image;
 
             set
             {
-                if (_radioButton!.Values.Image != value)
+                if (_radioButton.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.Values.Image, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.Values.Image, value);
                     _radioButton.Values.Image = value;
                 }
             }
@@ -160,13 +160,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _radioButton!.PaletteMode;
+            get => _radioButton.PaletteMode;
 
             set
             {
-                if (_radioButton!.PaletteMode != value)
+                if (_radioButton.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.PaletteMode, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.PaletteMode, value);
                     _radioButton.PaletteMode = value;
                 }
             }
@@ -176,13 +176,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _radioButton!.StateCommon.ShortText.Font!;
+            get => _radioButton.StateCommon.ShortText.Font!;
 
             set
             {
-                if (_radioButton!.StateCommon.ShortText.Font != value)
+                if (_radioButton.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.ShortText.Font, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.ShortText.Font, value);
 
                     _radioButton.StateCommon.ShortText.Font = value;
                 }
@@ -193,13 +193,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _radioButton!.StateCommon.LongText.Font!;
+            get => _radioButton.StateCommon.LongText.Font!;
 
             set
             {
-                if (_radioButton!.StateCommon.LongText.Font != value)
+                if (_radioButton.StateCommon.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.LongText.Font, value);
+                    _service?.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.LongText.Font, value);
 
                     _radioButton.StateCommon.LongText.Font = value;
                 }

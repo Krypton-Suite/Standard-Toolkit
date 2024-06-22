@@ -96,7 +96,7 @@ namespace TestForm
             // 
             // kbtnShow
             // 
-            this.kbtnShow.Location = new System.Drawing.Point(732, 13);
+            this.kbtnShow.Location = new System.Drawing.Point(776, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;

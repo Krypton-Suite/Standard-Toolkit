@@ -38,23 +38,19 @@ namespace Krypton.Toolkit
                                         PaletteBackStyle backStyle,
                                         PaletteBorderStyle borderStyle,
                                         PaletteContentStyle contentStyle,
-                                        NeedPaintHandler needPaint)
+                                        NeedPaintHandler? needPaint)
         {
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
             Debug.Assert(redirect is not null);
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            //TEST-NoThrow
-            //if (redirect is null)
-            //{
-            //    throw new ArgumentNullException(nameof(redirect));
-            //}
-
             // Store the inherit instances
-            _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
-            _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
-            _contentInherit = new PaletteContentInheritRedirect(redirect, contentStyle);
+            _backInherit = new PaletteBackInheritRedirect(redirect!, backStyle);
+            _borderInherit = new PaletteBorderInheritRedirect(redirect!, borderStyle);
+            _contentInherit = new PaletteContentInheritRedirect(redirect!, contentStyle);
 
             // Create storage that maps onto the inherit instances
             Back = new PaletteBack(_backInherit, needPaint);

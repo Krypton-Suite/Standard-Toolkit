@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonTrackBarActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTrackBar? _trackBar;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonTrackBar _trackBar;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         public KryptonTrackBarActionList(KryptonTrackBarDesigner owner) 
             : base(owner.Component)
         {
-            _trackBar = owner.Component as KryptonTrackBar;
+            _trackBar = (owner.Component as KryptonTrackBar)!;
 
             // Assuming we were correctly passed an actual component...
             if (_trackBar != null)
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -57,13 +57,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _trackBar!.PaletteMode;
+            get => _trackBar.PaletteMode;
 
             set 
             {
-                if (_trackBar!.PaletteMode != value)
+                if (_trackBar.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
                     _trackBar.PaletteMode = value;
                 }
             }
@@ -74,13 +74,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public TickStyle TickStyle
         {
-            get => _trackBar!.TickStyle;
+            get => _trackBar.TickStyle;
 
             set
             {
-                if (_trackBar!.TickStyle != value)
+                if (_trackBar.TickStyle != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
                     _trackBar.TickStyle = value;
                 }
             }
@@ -91,13 +91,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteTrackBarSize TrackBarSize
         {
-            get => _trackBar!.TrackBarSize;
+            get => _trackBar.TrackBarSize;
 
             set
             {
-                if (_trackBar!.TrackBarSize != value)
+                if (_trackBar.TrackBarSize != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
                     _trackBar.TrackBarSize = value;
                 }
             }
@@ -108,13 +108,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public int Minimum
         {
-            get => _trackBar!.Minimum;
+            get => _trackBar.Minimum;
 
             set
             {
-                if (_trackBar!.Minimum != value)
+                if (_trackBar.Minimum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
                     _trackBar.Minimum = value;
                 }
             }
@@ -125,13 +125,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public int Maximum
         {
-            get => _trackBar!.Maximum;
+            get => _trackBar.Maximum;
 
             set
             {
-                if (_trackBar!.Maximum != value)
+                if (_trackBar.Maximum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
                     _trackBar.Maximum = value;
                 }
             }
@@ -142,13 +142,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public int SmallChange
         {
-            get => _trackBar!.SmallChange;
+            get => _trackBar.SmallChange;
 
             set
             {
-                if (_trackBar!.SmallChange != value)
+                if (_trackBar.SmallChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
                     _trackBar.SmallChange = value;
                 }
             }
@@ -159,13 +159,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public int LargeChange
         {
-            get => _trackBar!.LargeChange;
+            get => _trackBar.LargeChange;
 
             set
             {
-                if (_trackBar!.LargeChange != value)
+                if (_trackBar.LargeChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
                     _trackBar.LargeChange = value;
                 }
             }
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal orientation" : "Vertical orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor? orientationProp = TypeDescriptor.GetProperties(_trackBar!)[nameof(Orientation)];
+                PropertyDescriptor? orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

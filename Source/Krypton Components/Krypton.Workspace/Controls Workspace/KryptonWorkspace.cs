@@ -3720,8 +3720,8 @@ namespace Krypton.Workspace
 
                 if (ActivePage != page)
                 {
-                    KryptonPage? oldPage = ActivePage ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ActivePage )));
-                    ActivePage = page ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(page)));
+                    KryptonPage? oldPage = ActivePage;
+                    ActivePage = page;
 
                     OnActivePageChanged(new ActivePageChangedEventArgs(oldPage, ActivePage));
                 }
@@ -3739,14 +3739,14 @@ namespace Krypton.Workspace
             if (!IsActivePageChangedEventSuspended)
             {
                 // If change occurred on the active cell
-                var cell = sender as KryptonWorkspaceCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(sender)));
-                
-                if (cell == ActiveCell)
+                var cell = sender as KryptonWorkspaceCell;
+
+                if (cell is not null && cell == ActiveCell)
                 {
                     if (cell.SelectedPage != ActivePage)
                     {
-                        KryptonPage? oldPage = ActivePage ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ActivePage)));
-                        ActivePage = cell.SelectedPage ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(cell.SelectedPage)));
+                        KryptonPage? oldPage = ActivePage;
+                        ActivePage = cell.SelectedPage;
                         OnActivePageChanged(new ActivePageChangedEventArgs(oldPage, ActivePage));
                     }
                 }

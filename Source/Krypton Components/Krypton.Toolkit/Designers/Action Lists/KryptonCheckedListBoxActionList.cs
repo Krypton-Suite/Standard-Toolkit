@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonCheckedListBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckedListBox? _checkedListBox;
+        private readonly KryptonCheckedListBox _checkedListBox;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _checkedListBox = owner.Component as KryptonCheckedListBox;
+            _checkedListBox = (owner.Component as KryptonCheckedListBox)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ItemStyle
         {
-            get => _checkedListBox!.ItemStyle;
+            get => _checkedListBox.ItemStyle;
 
             set
             {
-                if (_checkedListBox!.ItemStyle != value)
+                if (_checkedListBox.ItemStyle != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.ItemStyle, value);
                     _checkedListBox.ItemStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle BackStyle
         {
-            get => _checkedListBox!.BackStyle;
+            get => _checkedListBox.BackStyle;
 
             set
             {
-                if (_checkedListBox!.BackStyle != value)
+                if (_checkedListBox.BackStyle != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.BackStyle, value);
                     _checkedListBox.BackStyle = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _checkedListBox!.BorderStyle;
+            get => _checkedListBox.BorderStyle;
 
             set
             {
-                if (_checkedListBox!.BorderStyle != value)
+                if (_checkedListBox.BorderStyle != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
                     _checkedListBox.BorderStyle = value;
@@ -91,11 +91,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _checkedListBox!.KryptonContextMenu;
+            get => _checkedListBox.KryptonContextMenu;
 
             set
             {
-                if (_checkedListBox!.KryptonContextMenu != value)
+                if (_checkedListBox.KryptonContextMenu != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.KryptonContextMenu, value);
 
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public CheckedSelectionMode SelectionMode
         {
-            get => _checkedListBox!.SelectionMode;
+            get => _checkedListBox.SelectionMode;
 
             set
             {
-                if (_checkedListBox!.SelectionMode != value)
+                if (_checkedListBox.SelectionMode != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.SelectionMode, value);
                     _checkedListBox.SelectionMode = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Sorted
         {
-            get => _checkedListBox!.Sorted;
+            get => _checkedListBox.Sorted;
 
             set
             {
-                if (_checkedListBox!.Sorted != value)
+                if (_checkedListBox.Sorted != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.Sorted, value);
                     _checkedListBox.Sorted = value;
@@ -143,11 +143,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool CheckOnClick
         {
-            get => _checkedListBox!.CheckOnClick;
+            get => _checkedListBox.CheckOnClick;
 
             set
             {
-                if (_checkedListBox!.CheckOnClick != value)
+                if (_checkedListBox.CheckOnClick != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.CheckOnClick, value);
                     _checkedListBox.CheckOnClick = value;
@@ -160,11 +160,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _checkedListBox!.PaletteMode;
+            get => _checkedListBox.PaletteMode;
 
             set
             {
-                if (_checkedListBox!.PaletteMode != value)
+                if (_checkedListBox.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
                     _checkedListBox.PaletteMode = value;
@@ -176,11 +176,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font? StateCommonShortTextFont
         {
-            get => _checkedListBox!.StateCommon.Item.Content.ShortText.Font;
+            get => _checkedListBox.StateCommon.Item.Content.ShortText.Font;
 
             set
             {
-                if (!Equals(_checkedListBox!.StateCommon.Item.Content.ShortText.Font, value))
+                if (!Equals(_checkedListBox.StateCommon.Item.Content.ShortText.Font, value))
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
 
@@ -193,11 +193,11 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font? StateCommonLongTextFont
         {
-            get => _checkedListBox!.StateCommon.Item.Content.LongText.Font;
+            get => _checkedListBox.StateCommon.Item.Content.LongText.Font;
 
             set
             {
-                if (!Equals(_checkedListBox!.StateCommon.Item.Content.LongText.Font, value))
+                if (!Equals(_checkedListBox.StateCommon.Item.Content.LongText.Font, value))
                 {
                     _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.LongText.Font, value);
 

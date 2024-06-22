@@ -9,6 +9,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 
 pause
+goto exitbatch
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -39,7 +40,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo
 set targets=Rebuild
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=build.log -graphBuild:True
+"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
 
 :: -t:rebuild
 
@@ -60,3 +61,5 @@ if %answer%==n exit
 cd ..
 
 run.cmd
+
+:exitbatch

@@ -28,12 +28,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="element">Element value..</param>
-        public PaletteElementColorInheritRedirect([DisallowNull] PaletteRedirect redirect,
+        public PaletteElementColorInheritRedirect(PaletteRedirect redirect,
                                                   PaletteElement element)
         {
-            Debug.Assert(redirect != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(redirect is not null);
 
-            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect!;
             Element = element;
         }
         #endregion

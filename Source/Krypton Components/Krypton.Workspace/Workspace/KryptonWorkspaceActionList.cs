@@ -15,8 +15,8 @@ namespace Krypton.Workspace
     internal class KryptonWorkspaceActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonWorkspace? _workspace;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonWorkspace _workspace;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Workspace
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _workspace = owner.Component as KryptonWorkspace;
+            _workspace = (owner.Component as KryptonWorkspace)!;
 
             // Cache service used to notify when a property has changed
-            _service =GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_service)));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -41,13 +41,13 @@ namespace Krypton.Workspace
         /// </summary>
         public PaletteBackStyle ContainerBackStyle
         {
-            get => _workspace!.ContainerBackStyle;
+            get => _workspace.ContainerBackStyle;
 
             set
             {
-                if (_workspace is not null && _workspace.ContainerBackStyle != value)
+                if (_workspace.ContainerBackStyle != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.ContainerBackStyle, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.ContainerBackStyle, value);
                     _workspace.ContainerBackStyle = value;
                 }
             }
@@ -58,13 +58,13 @@ namespace Krypton.Workspace
         /// </summary>
         public SeparatorStyle SeparatorStyle
         {
-            get => _workspace!.SeparatorStyle;
+            get => _workspace.SeparatorStyle;
 
             set
             {
-                if (_workspace is not null && _workspace.SeparatorStyle != value)
+                if (_workspace.SeparatorStyle != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.SeparatorStyle, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.SeparatorStyle, value);
                     _workspace.SeparatorStyle = value;
                 }
             }
@@ -75,13 +75,13 @@ namespace Krypton.Workspace
         /// </summary>
         public bool AllowResizing
         {
-            get => _workspace!.AllowResizing;
+            get => _workspace.AllowResizing;
 
             set
             {
-                if (_workspace is not null && _workspace.AllowResizing != value)
+                if (_workspace.AllowResizing != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.AllowResizing, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.AllowResizing, value);
                     _workspace.AllowResizing = value;
                 }
             }
@@ -92,13 +92,13 @@ namespace Krypton.Workspace
         /// </summary>
         public CompactFlags CompactFlags
         {
-            get => _workspace!.CompactFlags;
+            get => _workspace.CompactFlags;
 
             set
             {
-                if (_workspace is not null && _workspace.CompactFlags != value)
+                if (_workspace.CompactFlags != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.CompactFlags, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.CompactFlags, value);
                     _workspace.CompactFlags = value;
                 }
             }
@@ -109,13 +109,13 @@ namespace Krypton.Workspace
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _workspace!.PaletteMode;
+            get => _workspace.PaletteMode;
 
             set 
             {
-                if (_workspace!.PaletteMode != value)
+                if (_workspace.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.PaletteMode, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.PaletteMode, value);
                     _workspace.PaletteMode = value;
                 }
             }

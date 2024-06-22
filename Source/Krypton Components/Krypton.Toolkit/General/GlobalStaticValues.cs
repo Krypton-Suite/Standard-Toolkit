@@ -39,8 +39,14 @@ namespace Krypton.Toolkit
         /// <summary>The global default theme index</summary>
         public const int GLOBAL_DEFAULT_THEME_INDEX = (int)PaletteMode.Microsoft365Blue;
 
+        /// <summary>The global default theme</summary>
+        public const PaletteMode GLOBAL_DEFAULT_PALETTE_MODE = PaletteMode.Microsoft365Blue;
+
         /// <summary>The current supported palette version</summary>
         public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
+
+        /// <summary>The default highlight debugging color</summary>
+        public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Fuchsia;
 
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";

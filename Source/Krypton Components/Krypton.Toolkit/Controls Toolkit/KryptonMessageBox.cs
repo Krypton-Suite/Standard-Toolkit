@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, HelpInfo helpInfo,
             bool? showCtrlCopy = null,
             bool? showCloseButton = null) =>
-            ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+            ShowCore(null, text, caption, buttons, icon, defaultButton, options, helpInfo,
                 showCtrlCopy: showCtrlCopy,
                 showHelpButton: false,
                 showCloseButton: showCloseButton);
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         public static DialogResult Show(IWin32Window owner, string text,
             bool? showCtrlCopy = null,
             bool? showCloseButton = null) =>
-            ShowCore(null, text, string.Empty,
+            ShowCore(owner, text, string.Empty,
                 showCtrlCopy: showCtrlCopy,
                 showHelpButton: false,
                 showCloseButton: showCloseButton);

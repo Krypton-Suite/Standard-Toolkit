@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonDateTimePickerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonDateTimePicker? _dateTimePicker;
+        private readonly KryptonDateTimePicker _dateTimePicker;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the bread crumb control instance
-            _dateTimePicker = owner.Component as KryptonDateTimePicker;
+            _dateTimePicker = (owner.Component as KryptonDateTimePicker)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -40,11 +40,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _dateTimePicker!.KryptonContextMenu;
+            get => _dateTimePicker.KryptonContextMenu;
 
             set
             {
-                if (_dateTimePicker!.KryptonContextMenu != value)
+                if (_dateTimePicker.KryptonContextMenu != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.KryptonContextMenu, value);
 
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public DateTimePickerFormat Format
         {
-            get => _dateTimePicker!.Format;
+            get => _dateTimePicker.Format;
 
             set
             {
-                if (_dateTimePicker!.Format != value)
+                if (_dateTimePicker.Format != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.Format, value);
                     _dateTimePicker.Format = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ShowUpDown
         {
-            get => _dateTimePicker!.ShowUpDown;
+            get => _dateTimePicker.ShowUpDown;
 
             set
             {
-                if (_dateTimePicker!.ShowUpDown != value)
+                if (_dateTimePicker.ShowUpDown != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.ShowUpDown, value);
                     _dateTimePicker.ShowUpDown = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ShowCheckBox
         {
-            get => _dateTimePicker!.ShowCheckBox;
+            get => _dateTimePicker.ShowCheckBox;
 
             set
             {
-                if (_dateTimePicker!.ShowCheckBox != value)
+                if (_dateTimePicker.ShowCheckBox != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.ShowCheckBox, value);
                     _dateTimePicker.ShowCheckBox = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Checked
         {
-            get => _dateTimePicker!.Checked;
+            get => _dateTimePicker.Checked;
 
             set
             {
-                if (_dateTimePicker!.Checked != value)
+                if (_dateTimePicker.Checked != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.Checked, value);
                     _dateTimePicker.Checked = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _dateTimePicker!.PaletteMode;
+            get => _dateTimePicker.PaletteMode;
 
             set
             {
-                if (_dateTimePicker!.PaletteMode != value)
+                if (_dateTimePicker.PaletteMode != value)
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.PaletteMode, value);
                     _dateTimePicker.PaletteMode = value;
@@ -140,11 +140,11 @@ namespace Krypton.Toolkit
 
         public Font Font
         {
-            get => _dateTimePicker!.StateCommon.Content.Font!;
+            get => _dateTimePicker.StateCommon.Content.Font!;
 
             set
             {
-                if (!Equals(_dateTimePicker!.StateCommon.Content.Font, value))
+                if (!Equals(_dateTimePicker.StateCommon.Content.Font, value))
                 {
                     _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.StateCommon.Content.Font, value);
 

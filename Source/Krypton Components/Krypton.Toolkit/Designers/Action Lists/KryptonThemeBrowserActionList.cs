@@ -13,8 +13,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonListBox? _themeListBox;
-
+        private readonly KryptonListBox _themeListBox;
         private readonly IComponentChangeService? _service;
 
         #endregion
@@ -23,8 +22,7 @@ namespace Krypton.Toolkit
 
         public KryptonThemeBrowserActionList(KryptonThemeBrowserDesigner owner) : base(owner.Component)
         {
-            _themeListBox = owner.Component as KryptonListBox;
-
+            _themeListBox = (owner.Component as KryptonListBox)!;
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
@@ -34,11 +32,11 @@ namespace Krypton.Toolkit
 
         public int SelectedIndex
         {
-            get => _themeListBox!.SelectedIndex;
+            get => _themeListBox.SelectedIndex;
 
             set
             {
-                if (_themeListBox!.SelectedIndex != value)
+                if (_themeListBox.SelectedIndex != value)
                 {
                     _service?.OnComponentChanged(_themeListBox, null, _themeListBox.SelectedIndex, value);
 

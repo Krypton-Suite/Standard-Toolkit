@@ -23,96 +23,97 @@ namespace TestForm
 
         private void kbtnAboutBox_Click(object sender, EventArgs e)
         {
-
+            var main = new Main();
+            main.Show();
         }
 
         private void kbtnBreadCrumb_Click(object sender, EventArgs e)
         {
-            BreadCrumbTest breadCrumb = new BreadCrumbTest();
+            var breadCrumb = new BreadCrumbTest();
 
             breadCrumb.Show();
         }
 
         private void kbtnButtons_Click(object sender, EventArgs e)
         {
-            ButtonsTest buttons = new ButtonsTest();
+            var buttons = new ButtonsTest();
 
             buttons.Show();
         }
 
         private void kbtnCommandLinkButtons_Click(object sender, EventArgs e)
         {
-            CommandLinkButtons commandLinkButtons = new CommandLinkButtons();
+            var commandLinkButtons = new CommandLinkButtons();
 
             commandLinkButtons.Show();
         }
 
         private void kbtnFadeForm_Click(object sender, EventArgs e)
         {
-            FadeFormTest fadeForm = new FadeFormTest();
+            var fadeForm = new FadeFormTest();
 
             fadeForm.Show();
         }
 
         private void kbtnFormBorder_Click(object sender, EventArgs e)
         {
-            FormBorderTest formBorder = new FormBorderTest();
+            var formBorder = new FormBorderTest();
 
             formBorder.Show();
         }
 
         private void kbtnGroupBox_Click(object sender, EventArgs e)
         {
-            GroupBoxTest groupBox = new GroupBoxTest();
+            var groupBox = new GroupBoxTest();
 
             groupBox.Show();
         }
 
         private void kbtnMenuToolStatusStrips_Click(object sender, EventArgs e)
         {
-            MenuToolBarStatusStripTest menuToolBarStatusStrip = new MenuToolBarStatusStripTest();
+            var menuToolBarStatusStrip = new MenuToolBarStatusStripTest();
 
             menuToolBarStatusStrip.Show();
         }
 
         private void kbtnMessageBox_Click(object sender, EventArgs e)
         {
-            MessageBoxTest messageBox = new MessageBoxTest();
+            var messageBox = new MessageBoxTest();
 
             messageBox.Show();
         }
 
         private void kbtnProgressBar_Click(object sender, EventArgs e)
         {
-            ProgressBarTest progressBar = new ProgressBarTest();
+            var progressBar = new ProgressBarTest();
 
             progressBar.Show();
         }
 
         private void kbtnRibbon_Click(object sender, EventArgs e)
         {
-            RibbonTest ribbon = new RibbonTest();
+            var ribbon = new RibbonTest();
 
             ribbon.Show();
         }
 
         private void kbtnTextBox_Click(object sender, EventArgs e)
         {
-            TextBoxEventTest textBoxEvent = new TextBoxEventTest();
+            var textBoxEvent = new TextBoxEventTest();
 
             textBoxEvent.Show();
         }
 
         private void kbtnTheme_Click(object sender, EventArgs e)
         {
-            ThemeTest theme = new ThemeTest();
+            var theme = new ThemeTest();
 
             theme.Show();
         }
 
         private void kbtnToast_Click(object sender, EventArgs e)
         {
-            ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
+            var toastNotification = new ToastNotificationTestChoice();
 
             toastNotification.Show();
         }
@@ -126,23 +127,51 @@ namespace TestForm
 
         private void kbtnTreeView_Click(object sender, EventArgs e)
         {
-            TreeViewExample treeViewExample = new TreeViewExample();
+            var treeViewExample = new TreeViewExample();
 
             treeViewExample.Show();
         }
 
         private void kbtnOutlookGrid_Click(object sender, EventArgs e)
         {
-            OutlookGridTest outlookGridTest = new OutlookGridTest();
+            var outlookGridTest = new OutlookGridTest();
 
             outlookGridTest.Show();
         }
 
         private void kbtnCalendar_Click(object sender, EventArgs e)
         {
-            CalendarTest calendarTest = new CalendarTest();
+            var calendarTest = new CalendarTest();
 
             calendarTest.Show();
+        }
+
+        private void kbtnWorkspace_Click(object sender, EventArgs e)
+        {
+            var workspaceTest = new WorkspaceTest();
+
+            workspaceTest.Show();
+        }
+
+        private void kbtnThemeControls_Click(object sender, EventArgs e)
+        {
+            var themeControls = new ThemeControlExamples();
+
+            themeControls.Show();
+        }
+
+        private void kbtnControlsTest_Click(object sender, EventArgs e)
+        {
+            var controlsTest = new ControlsTest();
+
+            controlsTest.Show();
+        }
+
+        private void kbtnDataGrid_Click(object sender, EventArgs e)
+        {
+            var dataGrid = new DataGridViewTest();
+
+            dataGrid.Show();
         }
     }
 }

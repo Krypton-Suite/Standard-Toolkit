@@ -55,19 +55,22 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS)]
-        public bool ShowAllToolbarItems { get => _showAllToolbarButtons; set { _showAllToolbarButtons = value; } }
+        public bool ShowAllToolbarItems { get => _showAllToolbarButtons; set => _showAllToolbarButtons = value;
+        }
 
         public ButtonSpecAny[] IntegratedToolBarItems { get => _integratedToolBarItems; private set => _integratedToolBarItems = value; }
 
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(typeof(PaletteButtonOrientation), DEFAULT_BUTTON_ORIENTATION)]
-        public PaletteButtonOrientation ButtonOrientation { get => _buttonOrientation; set { _buttonOrientation = value; } }
+        public PaletteButtonOrientation ButtonOrientation { get => _buttonOrientation; set => _buttonOrientation = value;
+        }
 
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(typeof(PaletteRelativeEdgeAlign), DEFAULT_BUTTON_ALIGNMENT)]
-        public PaletteRelativeEdgeAlign ButtonAlignment { get => _buttonAlignment; set { _buttonAlignment = value; } }
+        public PaletteRelativeEdgeAlign ButtonAlignment { get => _buttonAlignment; set => _buttonAlignment = value;
+        }
 
         #endregion
 

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonContextMenuActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonContextMenu? _contextMenu;
+        private readonly KryptonContextMenu _contextMenu;
         private readonly IComponentChangeService? _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the context menu instance
-            _contextMenu = owner.Component as KryptonContextMenu;
+            _contextMenu = (owner.Component as KryptonContextMenu)!;
 
             // Cache service used to notify when a property has changed
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
@@ -63,14 +63,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _contextMenu?.PaletteMode ?? PaletteMode.Global;
+            get => _contextMenu.PaletteMode;
 
             set
             {
-                if (_contextMenu?.PaletteMode != value)
+                if (_contextMenu.PaletteMode != value)
                 {
-                    _service?.OnComponentChanged(_contextMenu!, null, _contextMenu!.PaletteMode, value);
-                    _contextMenu!.PaletteMode = value;
+                    _service?.OnComponentChanged(_contextMenu, null, _contextMenu!.PaletteMode, value);
+                    _contextMenu.PaletteMode = value;
                 }
             }
         }
@@ -79,11 +79,11 @@ namespace Krypton.Toolkit
         /// <value>The items.</value>
         public KryptonContextMenuCollection Items
         {
-            get => _contextMenu!.Items;
+            get => _contextMenu.Items;
 
             set
             {
-                if (_contextMenu!.Items != value)
+                if (_contextMenu.Items != value)
                 {
                     _service?.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
                 }

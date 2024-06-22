@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -22,7 +20,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         internal IPaletteBack? _paletteBack;
         internal IPaletteBorder? _paletteBorder;
-        internal IPaletteMetric _paletteMetric;
+        internal IPaletteMetric? _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
         private IDisposable? _mementoBack;
         private PaletteBorderInheritForced? _borderForced;
@@ -65,7 +63,7 @@ namespace Krypton.Toolkit
             // Cache the starting values
             _paletteBorder = paletteBorder;
             _paletteBack = paletteBack;
-            _paletteMetric = paletteMetric; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(paletteMetric));
+            _paletteMetric = paletteMetric;
             _metricPadding = metricPadding;
             Orientation = orientation;
             IncludeBorderEdge = orientation;
@@ -127,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric PaletteMetric
+        public IPaletteMetric? PaletteMetric
         {
             [DebuggerStepThrough]
             get => _paletteMetric;

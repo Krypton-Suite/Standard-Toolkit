@@ -50,11 +50,19 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// Property which represents the current formatted value of the editing control
+        /// <para>Allows null as input, but null will saved as an empty string.</para>
         /// </summary>
-        public virtual object EditingControlFormattedValue
+        [AllowNull]
+        public virtual object EditingControlFormattedValue 
         {
+            // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
+            // The Text property is a non-nullable string and therefore null input
+            // will be converted to String.Empty.
+
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = value as string;
+            set => Text = value is string str && str is not null
+                ? str
+                : string.Empty;
         }
 
         /// <summary>

@@ -20,23 +20,11 @@ namespace TestForm
 
         private void kbtnTestMessagebox_Click(object sender, EventArgs e)
         {
-            KryptonMessageBoxDataDep data = new KryptonMessageBoxDataDep
-            {
-                MessageText = @"This is a test!",
-                Caption = @"Hello World",
-                Buttons = KryptonMessageBoxButtons.OK,
-                Icon = KryptonMessageBoxIcon.Information,
-                MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
-                ShowCloseButton = kryptonCheckBox1.Checked,
-                //Options = MessageBoxOptions.RtlReading
-            };
+            KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error, showCloseButton: kryptonCheckBox1.Checked);
 
             KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
-
-            KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, options: MessageBoxOptions.RtlReading,
+                KryptonMessageBoxIcon.Error, options: MessageBoxOptions.RtlReading,
                 contentAreaType: MessageBoxContentAreaType.LinkLabel,
                 linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
         }

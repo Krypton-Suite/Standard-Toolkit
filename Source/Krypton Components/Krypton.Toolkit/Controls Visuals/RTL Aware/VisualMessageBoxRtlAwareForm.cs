@@ -154,11 +154,11 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.Stop:
                         _messageIcon.Image = MessageBoxImageResources.GenericStop;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Error:
                         _messageIcon.Image = MessageBoxImageResources.Critical_Windows_11;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Warning:
                         _messageIcon.Image = MessageBoxImageResources.Warning_Windows_11;
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.Information:
                         _messageIcon.Image = MessageBoxImageResources.Information_Windows_11;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
                         _messageIcon.Image = UACShieldIconResources.UAC_Shield_Windows_11;
@@ -234,11 +234,11 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.Stop:
                         _messageIcon.Image = MessageBoxImageResources.GenericStop;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Error:
                         _messageIcon.Image = MessageBoxImageResources.GenericCritical;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Warning:
                         _messageIcon.Image = MessageBoxImageResources.GenericWarning;
@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
                         break;
                     case KryptonMessageBoxIcon.Information:
                         _messageIcon.Image = MessageBoxImageResources.GenericInformation;
-                        SystemSounds.Asterisk.Play();
+                        SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
                         _messageIcon.Image = OSUtilities.IsWindowsTen
@@ -385,27 +385,20 @@ namespace Krypton.Toolkit
 
         private void UpdateDefault()
         {
-            switch (_defaultButton)
+            AcceptButton = _defaultButton switch
             {
-                case KryptonMessageBoxDefaultButton.Button1:
+                KryptonMessageBoxDefaultButton.Button1 =>
                     //_button1.Select();
-                    AcceptButton = _button1;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button2:
+                    _button1,
+                KryptonMessageBoxDefaultButton.Button2 =>
                     //_button2.Select();
-                    AcceptButton = _button2;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button3:
+                    _button2,
+                KryptonMessageBoxDefaultButton.Button3 =>
                     //_button3.Select();
-                    AcceptButton = _button3;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button4:
-                    AcceptButton = _showHelpButton ? _button4 : _button1;
-                    break;
-                default:
-                    AcceptButton = _showHelpButton ? _button4 : _button1;
-                    break;
-            }
+                    _button3,
+                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
+                _ => _showHelpButton ? _button4 : _button1
+            };
         }
 
         private void UpdateHelp()

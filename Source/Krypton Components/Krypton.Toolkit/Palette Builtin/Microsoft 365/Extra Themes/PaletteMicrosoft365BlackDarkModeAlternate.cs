@@ -743,7 +743,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 255);
         private static readonly Color _toolTipBack2 = Color.FromArgb(91, 91, 91);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
-        private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
+        private static readonly Color _toolTipText = Color.FromArgb(255, 255, 255); //(76, 76, 76);
         private static readonly Color _contextMenuBack = Color.FromArgb(31, 31, 31);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);

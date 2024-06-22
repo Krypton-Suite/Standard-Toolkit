@@ -27,12 +27,14 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteMetricRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
-        public PaletteMetricRedirect([DisallowNull] PaletteRedirect redirect)
+        public PaletteMetricRedirect(PaletteRedirect redirect)
         {
-            Debug.Assert(redirect != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(redirect is not null);
 
             // Remember the redirect reference
-            _redirect = redirect; //TEST-NoThrow ?? throw new ArgumentNullException(nameof(redirect));
+            _redirect = redirect!;
         }
         #endregion
 

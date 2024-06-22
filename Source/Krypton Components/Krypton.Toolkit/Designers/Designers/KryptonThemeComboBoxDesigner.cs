@@ -13,13 +13,10 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _lastHitTest;
-        private DesignerVerbCollection _verbCollection;
+        private DesignerVerbCollection? _verbCollection;
         private DesignerVerb _resetVerb;
         private KryptonThemeComboBox? _themeComboBox;
-        private IDesignerHost _designerHost;
         private IComponentChangeService? _changeService;
-        private ISelectionService _selectionService;
 
         #endregion
 

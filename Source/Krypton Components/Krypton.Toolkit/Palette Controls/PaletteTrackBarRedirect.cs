@@ -31,16 +31,18 @@ namespace Krypton.Toolkit
         public PaletteTrackBarRedirect([DisallowNull] PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirect != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(redirect is not null);
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
             _backRedirect = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaint);
-            Tick = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarTick, NeedPaint);
-            Track = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarTrack, NeedPaint);
-            Position = new PaletteElementColorRedirect(redirect, PaletteElement.TrackBarPosition, NeedPaint);
+            Tick = new PaletteElementColorRedirect(redirect!, PaletteElement.TrackBarTick, NeedPaint);
+            Track = new PaletteElementColorRedirect(redirect!, PaletteElement.TrackBarTrack, NeedPaint);
+            Position = new PaletteElementColorRedirect(redirect!, PaletteElement.TrackBarPosition, NeedPaint);
         }
         #endregion
 

@@ -20,8 +20,8 @@ namespace Krypton.Navigator
         #region Instance Fields
         private readonly KryptonNavigator _navigator;
         private readonly KryptonNavigatorDesigner _designer;
-        private readonly IComponentChangeService _serviceComponentChange;
-        private readonly DesignerActionUIService _serviceDesignerAction;
+        private readonly IComponentChangeService? _serviceComponentChange;
+        private readonly DesignerActionUIService? _serviceDesignerAction;
         private DesignerVerb _headerBarVisible;
         private DesignerVerb _headerPrimaryVisible;
         private DesignerVerb _headerSecondaryVisible;
@@ -35,16 +35,16 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonNavigatorActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonNavigatorActionList([DisallowNull] KryptonNavigatorDesigner owner)
+        public KryptonNavigatorActionList(KryptonNavigatorDesigner owner)
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _designer = owner ?? throw new ArgumentNullException(nameof(owner));
-            _navigator = owner.Component as KryptonNavigator ?? throw new ArgumentNullException(nameof(owner.Component));
+            _designer = owner;
+            _navigator = (owner.Component as KryptonNavigator)!;
 
             // Cache service used to notify when a property has changed
-            _serviceComponentChange = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_serviceComponentChange)));
-            _serviceDesignerAction = (DesignerActionUIService?)GetService(typeof(DesignerActionUIService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_serviceDesignerAction)));
+            _serviceComponentChange = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _serviceDesignerAction = GetService(typeof(DesignerActionUIService)) as DesignerActionUIService;
         }
         #endregion
 
@@ -60,9 +60,9 @@ namespace Krypton.Navigator
             {
                 if (_navigator.NavigatorMode != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.NavigatorMode, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.NavigatorMode, value);
                     _navigator.NavigatorMode = value;
-                    _serviceDesignerAction.Refresh(_navigator);
+                    _serviceDesignerAction?.Refresh(_navigator);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.PageBackStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.PageBackStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.PageBackStyle, value);
                     _navigator.PageBackStyle = value;
                 }
             }
@@ -95,7 +95,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.BarOrientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.BarOrientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.BarOrientation, value);
                     _navigator.Bar.BarOrientation = value;
                 }
             }
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.ItemOrientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.ItemOrientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemOrientation, value);
                     _navigator.Bar.ItemOrientation = value;
                 }
             }
@@ -129,7 +129,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Stack.ItemOrientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Stack.ItemOrientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.ItemOrientation, value);
                     _navigator.Stack.ItemOrientation = value;
                 }
             }
@@ -146,7 +146,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Outlook.ItemOrientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Outlook.ItemOrientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.ItemOrientation, value);
                     _navigator.Outlook.ItemOrientation = value;
                 }
             }
@@ -163,7 +163,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.ItemAlignment != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.ItemAlignment, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemAlignment, value);
                     _navigator.Bar.ItemAlignment = value;
                 }
             }
@@ -180,7 +180,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.ItemSizing != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.ItemSizing, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.ItemSizing, value);
                     _navigator.Bar.ItemSizing = value;
                 }
             }
@@ -197,7 +197,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.TabBorderStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.TabBorderStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.TabBorderStyle, value);
                     _navigator.Bar.TabBorderStyle = value;
                 }
             }
@@ -214,7 +214,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.TabStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.TabStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.TabStyle, value);
                     _navigator.Bar.TabStyle = value;
                 }
             }
@@ -231,7 +231,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Bar.CheckButtonStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Bar.CheckButtonStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Bar.CheckButtonStyle, value);
                     _navigator.Bar.CheckButtonStyle = value;
                 }
             }
@@ -248,7 +248,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Stack.CheckButtonStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Stack.CheckButtonStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.CheckButtonStyle, value);
                     _navigator.Stack.CheckButtonStyle = value;
                 }
             }
@@ -265,7 +265,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Outlook.CheckButtonStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Outlook.CheckButtonStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.CheckButtonStyle, value);
                     _navigator.Outlook.CheckButtonStyle = value;
                 }
             }
@@ -282,7 +282,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Button.ButtonDisplayLogic != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Button.ButtonDisplayLogic, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.ButtonDisplayLogic, value);
                     _navigator.Button.ButtonDisplayLogic = value;
                 }
             }
@@ -299,7 +299,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Button.CloseButtonDisplay != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonDisplay, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonDisplay, value);
                     _navigator.Button.CloseButtonDisplay = value;
                 }
             }
@@ -316,7 +316,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Button.CloseButtonAction != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonAction, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Button.CloseButtonAction, value);
                     _navigator.Button.CloseButtonAction = value;
                 }
             }
@@ -333,7 +333,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Group.GroupBackStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Group.GroupBackStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Group.GroupBackStyle, value);
                     _navigator.Group.GroupBackStyle = value;
                 }
             }
@@ -350,7 +350,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Group.GroupBorderStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Group.GroupBorderStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Group.GroupBorderStyle, value);
                     _navigator.Group.GroupBorderStyle = value;
                 }
             }
@@ -367,7 +367,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderStyleBar != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleBar, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleBar, value);
                     _navigator.Header.HeaderStyleBar = value;
                 }
             }
@@ -384,7 +384,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderPositionBar != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionBar, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionBar, value);
                     _navigator.Header.HeaderPositionBar = value;
                 }
             }
@@ -401,7 +401,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderStylePrimary != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStylePrimary, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStylePrimary, value);
                     _navigator.Header.HeaderStylePrimary = value;
                 }
             }
@@ -418,7 +418,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderPositionPrimary != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionPrimary, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionPrimary, value);
                     _navigator.Header.HeaderPositionPrimary = value;
                 }
             }
@@ -435,7 +435,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderStyleSecondary != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleSecondary, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderStyleSecondary, value);
                     _navigator.Header.HeaderStyleSecondary = value;
                 }
             }
@@ -452,7 +452,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Header.HeaderPositionSecondary != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionSecondary, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Header.HeaderPositionSecondary, value);
                     _navigator.Header.HeaderPositionSecondary = value;
                 }
             }
@@ -469,7 +469,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Outlook.HeaderSecondaryVisible != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Outlook.HeaderSecondaryVisible, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.HeaderSecondaryVisible, value);
                     _navigator.Outlook.HeaderSecondaryVisible = value;
                 }
             }
@@ -486,7 +486,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Outlook.Orientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Outlook.Orientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Outlook.Orientation, value);
                     _navigator.Outlook.Orientation = value;
                 }
             }
@@ -503,7 +503,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Panel.PanelBackStyle != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Panel.PanelBackStyle, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Panel.PanelBackStyle, value);
                     _navigator.Panel.PanelBackStyle = value;
                 }
             }
@@ -520,7 +520,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Stack.StackOrientation != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Stack.StackOrientation, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.StackOrientation, value);
                     _navigator.Stack.StackOrientation = value;
                 }
             }
@@ -537,7 +537,7 @@ namespace Krypton.Navigator
             {
                 if (_navigator.Stack.StackAlignment != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_navigator, null, _navigator.Stack.StackAlignment, value);
+                    _serviceComponentChange?.OnComponentChanged(_navigator, null, _navigator.Stack.StackAlignment, value);
                     _navigator.Stack.StackAlignment = value;
                 }
             }
@@ -657,7 +657,7 @@ namespace Krypton.Navigator
         public void AddPage()
         {
             _designer.AddPage();
-            _serviceDesignerAction.Refresh(_navigator);
+            _serviceDesignerAction?.Refresh(_navigator);
         }
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace Krypton.Navigator
         public void RemovePage()
         {
             _designer.RemovePage();
-            _serviceDesignerAction.Refresh(_navigator);
+            _serviceDesignerAction?.Refresh(_navigator);
         }
 
         /// <summary>
@@ -675,7 +675,7 @@ namespace Krypton.Navigator
         public void ClearPages()
         {
             _designer.ClearPages();
-            _serviceDesignerAction.Refresh(_navigator);
+            _serviceDesignerAction?.Refresh(_navigator);
         }
         #endregion
 
@@ -844,7 +844,7 @@ namespace Krypton.Navigator
             }
 
             // Refersh view to reflect the change
-            _serviceDesignerAction.Refresh(_navigator);
+            _serviceDesignerAction?.Refresh(_navigator);
         }
         #endregion
     }

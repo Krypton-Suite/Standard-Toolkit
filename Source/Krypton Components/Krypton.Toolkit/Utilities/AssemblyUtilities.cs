@@ -32,7 +32,9 @@ namespace Krypton.Toolkit
 
             using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                file.Read(byteBuffer, 0, byteBuffer.Length);
+                var read = file.Read(byteBuffer, 0, byteBuffer.Length);
+
+                Console.WriteLine(read);
             }
 
             var headerPosition = BitConverter.ToInt32(byteBuffer, PE_HEADER_OFFSET);
