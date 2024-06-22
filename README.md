@@ -173,6 +173,8 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 
 ## V85.## (2024-##-## - Build 24## - ##)
+* [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
+  - The Option to use `SystemDefault` no longer exists a font rendering hint
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
   - The optional `ContentAlignment` for a `KryptonMessageBox.Show` cammand is no longer possible.
 
