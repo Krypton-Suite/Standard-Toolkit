@@ -3,6 +3,7 @@
 =======
 
 ## 2024-06-24 - Build 2406 (Patch 3) - June 2024
+* Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
 * Resolved [#1455] (https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
     - Added property `ShowDrop`, which displays a drop down arrow on the button.

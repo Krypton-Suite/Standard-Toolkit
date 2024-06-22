@@ -149,10 +149,9 @@ namespace Krypton.Docking
         /// </param>
         public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
-            var countToUse = Math.Min(Count, uniqueNames?.Length ?? 0); // Do not modify! because: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381
-            // Propagate the action request to all the child elements
+            // Propagate the action request to all the child elements (Even the null ones !!)
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (var i = countToUse - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i]!.PropogateAction(action, uniqueNames);
             }
@@ -540,11 +539,8 @@ namespace Krypton.Docking
                     // Find a child docking element with the matching name
                     IDockingElement? child = this[xmlReader.GetAttribute(@"N")!];
 
-                    if (child != null)
-                    {
-                        // Let derived class perform child element specific processing
-                        LoadChildDockingElement(xmlReader, pages, child);
-                    }
+                    // Let derived class perform child element specific processing
+                    LoadChildDockingElement(xmlReader, pages, child);
                 }
             }
 
