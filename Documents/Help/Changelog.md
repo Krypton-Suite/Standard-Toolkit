@@ -3,6 +3,7 @@
 =======
 
 ## 2024-06-24 - Build 2406 - June 2024
+* Resolved [#1528](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1528), Tracking colours need reviewing
 * Resolved [#982](https://github.com/Krypton-Suite/Standard-Toolkit/issues/982), Double click on the Form1 file in the Krypton toolkit test project results in a designer error
 * Resolved [#1455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
