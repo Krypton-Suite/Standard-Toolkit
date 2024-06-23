@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to textbox so its palette changes are redrawn
             GroupTrackBar.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
+            // Update all views to reflect current state
             UpdateEnabled(GroupTrackBar.TrackBar);
             UpdateVisible(GroupTrackBar.TrackBar);
 

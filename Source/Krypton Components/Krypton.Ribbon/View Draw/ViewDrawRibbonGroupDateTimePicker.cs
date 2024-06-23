@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to date time picker so its palette changes are redrawn
             GroupDateTimePicker.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
+            // Update all views to reflect current state
             UpdateEnabled(GroupDateTimePicker.DateTimePicker);
             UpdateVisible(GroupDateTimePicker.DateTimePicker);
 

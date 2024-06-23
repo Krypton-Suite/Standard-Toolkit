@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to textbox so its palette changes are redrawn
             GroupTextBox.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
+            // Update all views to reflect current state
             UpdateEnabled(GroupTextBox.TextBox);
             UpdateVisible(GroupTextBox.TextBox);
 

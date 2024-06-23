@@ -80,8 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to label so its palette changes are redrawn
             GroupCustomControl.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
-            UpdateEnabled(GroupCustomControl.CustomControl);
+            // Update all views to reflect current state
             UpdateVisible(GroupCustomControl.CustomControl);
 
             // Hook into changes in the ribbon custom definition

@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to domain up-down so its palette changes are redrawn
             GroupDomainUpDown.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
+            // Update all views to reflect current state
             UpdateEnabled(GroupDomainUpDown.DomainUpDown);
             UpdateVisible(GroupDomainUpDown.DomainUpDown);
 

@@ -80,7 +80,7 @@ namespace Krypton.Ribbon
             // Give paint delegate to numeric up-down so its palette changes are redrawn
             GroupNumericUpDown.ViewPaintDelegate = needPaint;
 
-            // Update all views to reflect current button state
+            // Update all views to reflect current state
             UpdateEnabled(GroupNumericUpDown.NumericUpDown);
             UpdateVisible(GroupNumericUpDown.NumericUpDown);
 
