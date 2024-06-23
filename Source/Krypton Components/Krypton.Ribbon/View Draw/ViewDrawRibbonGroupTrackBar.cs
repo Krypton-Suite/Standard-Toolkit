@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
             UpdateVisible(GroupTrackBar.TrackBar);
 
             // Hook into changes in the ribbon custom definition
-            GroupTrackBar.PropertyChanged += OnTrackbarPropertyChanged;
+            GroupTrackBar.PropertyChanged += OnTrackBarPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
                     GroupTrackBar.MouseEnterControl -= OnMouseEnterControl;
                     GroupTrackBar.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupTrackBar.ViewPaintDelegate = null;
-                    GroupTrackBar.PropertyChanged -= OnTrackbarPropertyChanged;
+                    GroupTrackBar.PropertyChanged -= OnTrackBarPropertyChanged;
                     _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
@@ -379,7 +379,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void OnContextClick(object sender, MouseEventArgs e) => GroupTrackBar.OnDesignTimeContextMenu(e);
 
-        private void OnTrackbarPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTrackBarPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             const bool UPDATE_PAINT = false;
