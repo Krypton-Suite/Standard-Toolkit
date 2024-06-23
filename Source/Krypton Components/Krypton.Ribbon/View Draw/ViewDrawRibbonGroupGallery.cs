@@ -93,6 +93,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to gallery so its palette changes are redrawn
             GroupGallery.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current button state
+            UpdateEnabled(GroupGallery.Gallery);
+            UpdateVisible(GroupGallery.Gallery);
+
             // Hook into changes in the ribbon custom definition
             GroupGallery.PropertyChanged += OnGalleryPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);

@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to richtextbox so its palette changes are redrawn
             GroupRichTextBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current button state
+            UpdateEnabled(GroupRichTextBox.RichTextBox);
+            UpdateVisible(GroupRichTextBox.RichTextBox);
+
             // Hook into changes in the ribbon custom definition
             GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
