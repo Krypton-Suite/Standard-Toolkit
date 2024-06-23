@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to combobox so its palette changes are redrawn
             GroupComboBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupComboBox.ComboBox);
+            UpdateVisible(GroupComboBox.ComboBox);
+
             // Hook into changes in the ribbon custom definition
             GroupComboBox.PropertyChanged += OnComboBoxPropertyChanged;
 
