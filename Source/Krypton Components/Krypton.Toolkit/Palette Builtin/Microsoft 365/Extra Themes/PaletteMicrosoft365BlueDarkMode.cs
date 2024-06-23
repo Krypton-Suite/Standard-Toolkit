@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(21, 66, 139), // TextLabelPanel
-            Color.FromArgb(21, 66, 139), // RibbonTabTextNormal
+            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal - Old value 21, 66, 139
             Color.FromArgb(21, 66, 139), // RibbonTabTextChecked
             Color.FromArgb(134, 179, 236), // RibbonTabSelected1
             Color.FromArgb(63, 122, 197), // RibbonTabSelected2
@@ -795,8 +795,8 @@ namespace Krypton.Toolkit
         [
             Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
             Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-            Color.FromArgb(141, 168, 203), // Button, Tracking, Back 1
-            Color.FromArgb(95, 127, 169), // Button, Tracking, Back 2
+            Color.FromArgb(167, 199, 241), // Button, Tracking, Back 1
+            Color.FromArgb(115, 150, 196), // Button, Tracking, Back 2
             Color.FromArgb(96, 150, 220), // Button, Pressed, Back 1
             Color.FromArgb(179, 209, 247), // Button, Pressed, Back 2
             Color.FromArgb(32, 98, 183), // Button, Checked, Back 1
@@ -4865,14 +4865,14 @@ namespace Krypton.Toolkit
         private static readonly Color _contextMenuBackground = Color.FromArgb(134, 179, 236);
         private static readonly Color _menuBorder = Color.FromArgb(167, 171, 176);
         private static readonly Color _checkBackground = Color.FromArgb(252, 241, 194);
-        private static readonly Color _buttonSelectedBegin = Color.FromArgb(141, 168, 203);
-        private static readonly Color _buttonSelectedEnd = Color.FromArgb(95, 127, 169);
+        private static readonly Color _buttonSelectedBegin = Color.FromArgb(167, 199, 241);
+        private static readonly Color _buttonSelectedEnd = Color.FromArgb(115, 150, 196);
         private static readonly Color _buttonPressedBegin = Color.FromArgb(255, 228, 138);
         private static readonly Color _buttonPressedEnd = Color.FromArgb(255, 228, 138);
         private static readonly Color _buttonCheckedBegin = Color.FromArgb(255, 216, 107);
         private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
-        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(141, 168, 203);
-        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(95, 127, 169);
+        private static readonly Color _menuItemSelectedBegin = Color.FromArgb(167, 199, 241);
+        private static readonly Color _menuItemSelectedEnd = Color.FromArgb(115, 150, 196);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion

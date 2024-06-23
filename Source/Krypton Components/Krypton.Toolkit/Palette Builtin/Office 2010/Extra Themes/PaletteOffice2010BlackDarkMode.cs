@@ -1015,7 +1015,7 @@ namespace Krypton.Toolkit
         [
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-            Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
+            Color.FromArgb(129, 129, 129), // Button, Tracking, Back 1
             Color.FromArgb(89, 89, 89), // Button, Tracking, Back 2
             Color.FromArgb(91, 91, 91), // Button, Pressed, Back 1
             Color.FromArgb(89, 89, 89),  // Button, Pressed, Back 2
