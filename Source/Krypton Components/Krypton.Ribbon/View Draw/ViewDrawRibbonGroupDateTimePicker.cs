@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to date time picker so its palette changes are redrawn
             GroupDateTimePicker.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupDateTimePicker.DateTimePicker);
+            UpdateVisible(GroupDateTimePicker.DateTimePicker);
+
             // Hook into changes in the ribbon custom definition
             GroupDateTimePicker.PropertyChanged += OnDateTimePickerPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);
@@ -477,7 +481,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -485,7 +489,7 @@ namespace Krypton.Ribbon
                 var enabled = GroupDateTimePicker!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker.DateTimePickerDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker?.DateTimePickerDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupDateTimePicker.DateTimePickerDesigner.DesignEnabled;
@@ -495,7 +499,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -503,7 +507,7 @@ namespace Krypton.Ribbon
                 var visible = GroupDateTimePicker!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker.DateTimePickerDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker?.DateTimePickerDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupDateTimePicker.DateTimePickerDesigner.DesignVisible;

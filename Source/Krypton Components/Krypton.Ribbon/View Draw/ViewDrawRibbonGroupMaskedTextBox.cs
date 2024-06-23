@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to masked textbox so its palette changes are redrawn
             GroupMaskedTextBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupMaskedTextBox.MaskedTextBox);
+            UpdateVisible(GroupMaskedTextBox.MaskedTextBox);
+
             // Hook into changes in the ribbon custom definition
             GroupMaskedTextBox.PropertyChanged += OnMaskedTextBoxPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);

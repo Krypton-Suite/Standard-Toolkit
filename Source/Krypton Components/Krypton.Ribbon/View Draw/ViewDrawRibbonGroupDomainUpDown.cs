@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to domain up-down so its palette changes are redrawn
             GroupDomainUpDown.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupDomainUpDown.DomainUpDown);
+            UpdateVisible(GroupDomainUpDown.DomainUpDown);
+
             // Hook into changes in the ribbon custom definition
             GroupDomainUpDown.PropertyChanged += OnDomainUpDownPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);
@@ -469,7 +473,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -477,7 +481,7 @@ namespace Krypton.Ribbon
                 var enabled = GroupDomainUpDown!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown?.DomainUpDownDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupDomainUpDown.DomainUpDownDesigner.DesignEnabled;
@@ -487,7 +491,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -495,7 +499,7 @@ namespace Krypton.Ribbon
                 var visible = GroupDomainUpDown!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown?.DomainUpDownDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupDomainUpDown.DomainUpDownDesigner.DesignVisible;
@@ -507,7 +511,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -515,7 +519,7 @@ namespace Krypton.Ribbon
                 var visible = GroupDomainUpDown!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown?.DomainUpDownDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupDomainUpDown.DomainUpDownDesigner.DesignVisible;
@@ -524,7 +528,7 @@ namespace Krypton.Ribbon
                 if (visible)
                 {
                     // Only visible if on the currently selected page
-                    if ((GroupDomainUpDown.RibbonTab == null) ||
+                    if ((GroupDomainUpDown?.RibbonTab == null) ||
                         (_ribbon.SelectedTab != GroupDomainUpDown.RibbonTab))
                     {
                         visible = false;

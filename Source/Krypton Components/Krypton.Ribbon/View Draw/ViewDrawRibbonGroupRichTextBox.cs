@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to richtextbox so its palette changes are redrawn
             GroupRichTextBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupRichTextBox.RichTextBox);
+            UpdateVisible(GroupRichTextBox.RichTextBox);
+
             // Hook into changes in the ribbon custom definition
             GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);
@@ -478,7 +482,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -486,7 +490,7 @@ namespace Krypton.Ribbon
                 var enabled = GroupRichTextBox!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox?.RichTextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupRichTextBox.RichTextBoxDesigner.DesignEnabled;
@@ -496,7 +500,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -504,7 +508,7 @@ namespace Krypton.Ribbon
                 var visible = GroupRichTextBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox?.RichTextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupRichTextBox.RichTextBoxDesigner.DesignVisible;
@@ -516,7 +520,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -524,7 +528,7 @@ namespace Krypton.Ribbon
                 var visible = GroupRichTextBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupRichTextBox?.RichTextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupRichTextBox.RichTextBoxDesigner.DesignVisible;
@@ -533,7 +537,7 @@ namespace Krypton.Ribbon
                 if (visible)
                 {
                     // Only visible if on the currently selected page
-                    if ((GroupRichTextBox.RibbonTab == null) ||
+                    if ((GroupRichTextBox?.RibbonTab == null) ||
                         (_ribbon.SelectedTab != GroupRichTextBox.RibbonTab))
                     {
                         visible = false;

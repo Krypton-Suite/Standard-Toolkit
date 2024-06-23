@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to label so its palette changes are redrawn
             GroupCustomControl.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupCustomControl.CustomControl);
+            UpdateVisible(GroupCustomControl.CustomControl);
+
             // Hook into changes in the ribbon custom definition
             GroupCustomControl.PropertyChanged += OnCustomPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);
@@ -478,7 +482,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -486,7 +490,7 @@ namespace Krypton.Ribbon
                 var enabled = GroupCustomControl!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupCustomControl?.CustomControlDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupCustomControl.CustomControlDesigner.DesignEnabled;
@@ -496,7 +500,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -504,7 +508,7 @@ namespace Krypton.Ribbon
                 var visible = GroupCustomControl!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupCustomControl?.CustomControlDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupCustomControl.CustomControlDesigner.DesignVisible;
@@ -516,7 +520,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -524,7 +528,7 @@ namespace Krypton.Ribbon
                 var visible = GroupCustomControl!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupCustomControl?.CustomControlDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupCustomControl.CustomControlDesigner.DesignVisible;
@@ -533,7 +537,7 @@ namespace Krypton.Ribbon
                 if (visible)
                 {
                     // Only visible if on the currently selected page
-                    if ((GroupCustomControl.RibbonTab == null) ||
+                    if ((GroupCustomControl?.RibbonTab == null) ||
                         (_ribbon.SelectedTab != GroupCustomControl.RibbonTab))
                     {
                         visible = false;
