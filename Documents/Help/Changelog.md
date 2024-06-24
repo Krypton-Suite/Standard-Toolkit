@@ -3,6 +3,7 @@
 =======
 
 ## 2024-06-24 - Build 2406 - June 2024
+* Resolved [#1561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1561), KryptonRibbonGroup Controls remain enabled at runtime when set to disabled in the designer.
 * Resolved [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants !
 * Resolved [#1528](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1528), Tracking colours need reviewing
 * Resolved [#982](https://github.com/Krypton-Suite/Standard-Toolkit/issues/982), Double click on the Form1 file in the Krypton toolkit test project results in a designer error

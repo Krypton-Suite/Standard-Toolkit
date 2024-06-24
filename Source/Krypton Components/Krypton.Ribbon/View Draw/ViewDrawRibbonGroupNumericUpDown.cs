@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to numeric up-down so its palette changes are redrawn
             GroupNumericUpDown.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupNumericUpDown.NumericUpDown);
+            UpdateVisible(GroupNumericUpDown.NumericUpDown);
+
             // Hook into changes in the ribbon custom definition
             GroupNumericUpDown.PropertyChanged += OnNumericUpDownPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);

@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to textbox so its palette changes are redrawn
             GroupTextBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupTextBox.TextBox);
+            UpdateVisible(GroupTextBox.TextBox);
+
             // Hook into changes in the ribbon custom definition
             GroupTextBox.PropertyChanged += OnTextBoxPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);

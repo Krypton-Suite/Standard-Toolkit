@@ -80,6 +80,10 @@ namespace Krypton.Ribbon
             // Give paint delegate to domain up-down so its palette changes are redrawn
             GroupDomainUpDown.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupDomainUpDown.DomainUpDown);
+            UpdateVisible(GroupDomainUpDown.DomainUpDown);
+
             // Hook into changes in the ribbon custom definition
             GroupDomainUpDown.PropertyChanged += OnDomainUpDownPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
