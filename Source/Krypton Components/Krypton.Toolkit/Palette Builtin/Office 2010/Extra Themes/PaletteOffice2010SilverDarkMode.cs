@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(83, 99, 136), // FormBorderHeaderInctive2
             Color.FromArgb(255, 255, 255), // FormHeaderShortActive
             Color.FromArgb(138, 138, 138), // FormHeaderShortInactive
-            Color.FromArgb(92, 98, 106), // FormHeaderLongActive
+            Color.FromArgb(255, 255, 255), // FormHeaderLongActive
             Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
             Color.FromArgb(189, 199, 212), // FormButtonBorderTrack
             Color.FromArgb(222, 230, 242), // FormButtonBack1Track
