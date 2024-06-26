@@ -288,6 +288,7 @@ namespace Krypton.Toolkit
                         // Use the provided palette value
                         SetPalette(value);
                         CurrentGlobalPaletteMode = GetModeForPalette(value);
+                        GlobalPaletteMode = PaletteMode.Custom;
                     }
                     else
                     {
