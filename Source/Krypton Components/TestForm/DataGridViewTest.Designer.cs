@@ -37,17 +37,10 @@ namespace TestForm
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kcmbGridStyle = new Krypton.Toolkit.KryptonComboBox();
-            this.buttonClearCellColors = new Krypton.Toolkit.KryptonButton();
-            this.buttonRandomCellColors = new Krypton.Toolkit.KryptonButton();
-            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonDataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
             this.dataSet = new System.Data.DataSet();
             this.dtTestData = new System.Data.DataTable();
             this.dataDateTime = new System.Data.DataColumn();
@@ -69,16 +62,22 @@ namespace TestForm
             this.kryptonContextMenuColorColumns1 = new Krypton.Toolkit.KryptonContextMenuColorColumns();
             this.kryptonContextMenuImageSelect1 = new Krypton.Toolkit.KryptonContextMenuImageSelect();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.kryptonDataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.buttonClearCellColors = new Krypton.Toolkit.KryptonButton();
+            this.buttonRandomCellColors = new Krypton.Toolkit.KryptonButton();
+            this.kcmbGridStyle = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kcmbGridStyle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtTestData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbGridStyle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
@@ -116,75 +115,20 @@ namespace TestForm
             this.kryptonPanel2.Size = new System.Drawing.Size(1234, 461);
             this.kryptonPanel2.TabIndex = 1;
             // 
-            // kryptonPropertyGrid1
+            // kryptonDataGridView1
             // 
-            this.kryptonPropertyGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kryptonPropertyGrid1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kryptonPropertyGrid1.HelpBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.HelpForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
-            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(888, 12);
-            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(334, 429);
-            this.kryptonPropertyGrid1.TabIndex = 2;
-            this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            // 
-            // kryptonThemeComboBox1
-            // 
-            this.kryptonThemeComboBox1.DropDownWidth = 121;
-            this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 271);
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(323, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox1.TabIndex = 3;
-            // 
-            // kcmbGridStyle
-            // 
-            this.kcmbGridStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kcmbGridStyle.DropDownWidth = 121;
-            this.kcmbGridStyle.IntegralHeight = false;
-            this.kcmbGridStyle.Location = new System.Drawing.Point(13, 299);
-            this.kcmbGridStyle.Name = "kcmbGridStyle";
-            this.kcmbGridStyle.Size = new System.Drawing.Size(323, 21);
-            this.kcmbGridStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kcmbGridStyle.TabIndex = 4;
-            // 
-            // buttonClearCellColors
-            // 
-            this.buttonClearCellColors.Location = new System.Drawing.Point(11, 360);
-            this.buttonClearCellColors.Name = "buttonClearCellColors";
-            this.buttonClearCellColors.Size = new System.Drawing.Size(324, 29);
-            this.buttonClearCellColors.TabIndex = 6;
-            this.buttonClearCellColors.Values.Text = "Clear Cell Colors";
-            // 
-            // buttonRandomCellColors
-            // 
-            this.buttonRandomCellColors.Location = new System.Drawing.Point(12, 326);
-            this.buttonRandomCellColors.Name = "buttonRandomCellColors";
-            this.buttonRandomCellColors.Size = new System.Drawing.Size(324, 29);
-            this.buttonRandomCellColors.TabIndex = 5;
-            this.buttonRandomCellColors.Values.Text = "Random Cell Colors";
-            // 
-            // kryptonButton1
-            // 
-            this.kryptonButton1.Location = new System.Drawing.Point(11, 395);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(324, 29);
-            this.kryptonButton1.TabIndex = 7;
-            this.kryptonButton1.Values.Text = "&Open Programatic Populate";
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(342, 272);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(238, 20);
-            this.kryptonLabel1.TabIndex = 8;
-            this.kryptonLabel1.Values.Text = "Right click grid for Krypton Context Menu";
+            this.kryptonDataGridView1.AutoGenerateColumns = false;
+            this.kryptonDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kryptonDataGridView1.ColumnHeadersHeight = 36;
+            this.kryptonDataGridView1.DataMember = "TestData";
+            this.kryptonDataGridView1.DataSource = this.dataSet;
+            this.kryptonDataGridView1.GridStyles.Style = Krypton.Toolkit.DataGridViewStyle.Mixed;
+            this.kryptonDataGridView1.KryptonContextMenu = this.kryptonContextMenu1;
+            this.kryptonDataGridView1.Location = new System.Drawing.Point(13, 12);
+            this.kryptonDataGridView1.Name = "kryptonDataGridView1";
+            this.kryptonDataGridView1.RowHeadersWidth = 51;
+            this.kryptonDataGridView1.Size = new System.Drawing.Size(870, 252);
+            this.kryptonDataGridView1.TabIndex = 2;
             // 
             // dataSet
             // 
@@ -288,20 +232,78 @@ namespace TestForm
             // 
             this.kryptonContextMenuColorColumns1.SelectedColor = System.Drawing.Color.Empty;
             // 
-            // kryptonDataGridView1
+            // kryptonLabel1
             // 
-            this.kryptonDataGridView1.AutoGenerateColumns = false;
-            this.kryptonDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.kryptonDataGridView1.ColumnHeadersHeight = 36;
-            this.kryptonDataGridView1.DataMember = "TestData";
-            this.kryptonDataGridView1.DataSource = this.dataSet;
-            this.kryptonDataGridView1.GridStyles.Style = Krypton.Toolkit.DataGridViewStyle.Mixed;
-            this.kryptonDataGridView1.KryptonContextMenu = this.kryptonContextMenu1;
-            this.kryptonDataGridView1.Location = new System.Drawing.Point(13, 12);
-            this.kryptonDataGridView1.Name = "kryptonDataGridView1";
-            this.kryptonDataGridView1.RowHeadersWidth = 51;
-            this.kryptonDataGridView1.Size = new System.Drawing.Size(870, 252);
-            this.kryptonDataGridView1.TabIndex = 2;
+            this.kryptonLabel1.Location = new System.Drawing.Point(342, 272);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(263, 24);
+            this.kryptonLabel1.TabIndex = 8;
+            this.kryptonLabel1.Values.Text = "Right click grid for Krypton Context Menu";
+            // 
+            // kryptonButton1
+            // 
+            this.kryptonButton1.Location = new System.Drawing.Point(11, 395);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(324, 29);
+            this.kryptonButton1.TabIndex = 7;
+            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton1.Values.Text = "&Open Programatic Populate";
+            // 
+            // buttonClearCellColors
+            // 
+            this.buttonClearCellColors.Location = new System.Drawing.Point(11, 360);
+            this.buttonClearCellColors.Name = "buttonClearCellColors";
+            this.buttonClearCellColors.Size = new System.Drawing.Size(324, 29);
+            this.buttonClearCellColors.TabIndex = 6;
+            this.buttonClearCellColors.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.buttonClearCellColors.Values.Text = "Clear Cell Colors";
+            // 
+            // buttonRandomCellColors
+            // 
+            this.buttonRandomCellColors.Location = new System.Drawing.Point(12, 326);
+            this.buttonRandomCellColors.Name = "buttonRandomCellColors";
+            this.buttonRandomCellColors.Size = new System.Drawing.Size(324, 29);
+            this.buttonRandomCellColors.TabIndex = 5;
+            this.buttonRandomCellColors.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.buttonRandomCellColors.Values.Text = "Random Cell Colors";
+            // 
+            // kcmbGridStyle
+            // 
+            this.kcmbGridStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbGridStyle.DropDownWidth = 323;
+            this.kcmbGridStyle.IntegralHeight = false;
+            this.kcmbGridStyle.Location = new System.Drawing.Point(13, 299);
+            this.kcmbGridStyle.Name = "kcmbGridStyle";
+            this.kcmbGridStyle.Size = new System.Drawing.Size(323, 24);
+            this.kcmbGridStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kcmbGridStyle.TabIndex = 4;
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.kryptonThemeComboBox1.DropDownWidth = 323;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 271);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(323, 24);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 3;
+            // 
+            // kryptonPropertyGrid1
+            // 
+            this.kryptonPropertyGrid1.BackColor = System.Drawing.SystemColors.Window;
+            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(253)))));
+            this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.SystemColors.Window;
+            this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.SystemColors.ControlText;
+            this.kryptonPropertyGrid1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.kryptonPropertyGrid1.HelpBackColor = System.Drawing.SystemColors.Window;
+            this.kryptonPropertyGrid1.HelpForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(888, 12);
+            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(334, 429);
+            this.kryptonPropertyGrid1.TabIndex = 2;
+            this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             // 
             // DataGridViewTest
             // 
@@ -319,11 +321,11 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
             this.kryptonPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kcmbGridStyle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtTestData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbGridStyle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
