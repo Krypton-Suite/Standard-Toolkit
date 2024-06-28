@@ -4,6 +4,7 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Resolved [#371](https://github.com/Krypton-Suite/Standard-Toolkit/issues/371), Office 365 Black theme ribbon needs better colours for disabled etc.
+* Resolved [#1522](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1522), Declare `ThemeManager.SetTheme()` Obsolete from V100
 * Resolved [#1092](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1092), `KryptonManager.GlobalPaletteMode` property is not updated when a custom theme is assigned.
 * Resolved [#1561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1561), KryptonRibbonGroup Controls remain enabled at runtime when set to disabled in the designer.
 * Resolved [#1536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1536), Build script does not follow same behaviour when 'rebuilding'
