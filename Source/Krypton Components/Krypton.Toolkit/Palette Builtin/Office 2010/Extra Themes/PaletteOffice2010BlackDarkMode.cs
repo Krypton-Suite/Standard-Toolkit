@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
             Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
             Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText - old value 70, 70, 70
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 241, 242), // SeparatorHighInternalBorder1
             Color.FromArgb(195, 200, 206), // SeparatorHighInternalBorder2
             Color.FromArgb(172, 172, 172), // RibbonGalleryBorder
-            Color.FromArgb(218, 226, 226), // RibbonGalleryBackNormal
+            Color.FromArgb(41, 41, 41), // RibbonGalleryBackNormal - Old value 218, 226, 226
             Color.FromArgb(247, 247, 247), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2

@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
 #endif
             }
 
-#endregion
+            #endregion
         }
 
         /// <summary>
@@ -944,7 +944,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-#endregion
+        #endregion
 
         #region Instance Fields
 
