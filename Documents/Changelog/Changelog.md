@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1522](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1522), Declare `ThemeManager.SetTheme()` Obsolete from V100
 * Resolved [#371](https://github.com/Krypton-Suite/Standard-Toolkit/issues/371), Office 365 Black theme ribbon needs better colours for disabled etc.
 * Resolved [#1522](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1522), Declare `ThemeManager.SetTheme()` Obsolete from V100
 * Resolved [#1092](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1092), `KryptonManager.GlobalPaletteMode` property is not updated when a custom theme is assigned.
