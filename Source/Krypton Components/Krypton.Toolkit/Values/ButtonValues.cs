@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private bool _useAsDialogButton;
         private bool _useAsUACElevationButton;
         private bool _showSplitOption;
-        private UACShieldIconSize _uacShieldIconSize;
+        private UACShieldIconSize? _uacShieldIconSize;
         private Image? _image;
         private Color _transparent;
         private Color? _dropDownArrowColor;
@@ -249,6 +249,8 @@ namespace Krypton.Toolkit
 
         #region UseAsUACElevationButton
 
+        /// <summary>Gets or sets a value indicating whether [use as uac elevation button].</summary>
+        /// <value><c>true</c> if [use as uac elevation button]; otherwise, <c>false</c>.</value>
         [DefaultValue(false),
          Description(@"Transforms the button into a UAC elevated button.")]
         public bool UseAsUACElevationButton
@@ -258,35 +260,7 @@ namespace Krypton.Toolkit
             {
                 _useAsUACElevationButton = value;
 
-                switch (_uacShieldIconSize)
-                {
-                    //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
-                    //{
-                    //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
-                    //}
-                    //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
-                    //{
-                    //    ShowUACShield(value, _uacShieldIconSize);
-                    //}
-                    case UACShieldIconSize.ExtraSmall:
-                        ShowUACShieldImage(value, UACShieldIconSize.ExtraSmall);
-                        break;
-                    case UACShieldIconSize.Small:
-                        ShowUACShieldImage(value, UACShieldIconSize.Small);
-                        break;
-                    case UACShieldIconSize.Medium:
-                        ShowUACShieldImage(value, UACShieldIconSize.Medium);
-                        break;
-                    case UACShieldIconSize.Large:
-                        ShowUACShieldImage(value, UACShieldIconSize.Large);
-                        break;
-                    case UACShieldIconSize.ExtraLarge:
-                        ShowUACShieldImage(value, UACShieldIconSize.ExtraLarge);
-                        break;
-                    default:
-                        ShowUACShieldImage(value, UACShieldIconSize.ExtraSmall);
-                        break;
-                }
+                ShowUACShield(value, _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall);
             }
         }
 
@@ -331,10 +305,12 @@ namespace Krypton.Toolkit
 
         #region UACShieldIconSize
 
-        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
+        /// <summary>Gets or sets the size of the UAC shield icon.</summary>
+        /// <value>The size of the UAC shield icon.</value>
+        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"The size of the UAC shield icon.")]
         public UACShieldIconSize UACShieldIconSize
         {
-            get => _uacShieldIconSize;
+            get => _uacShieldIconSize ?? UACShieldIconSize.ExtraSmall;
 
             set
             {
@@ -498,6 +474,34 @@ namespace Krypton.Toolkit
             else
             {
                 Image = null;
+            }
+        }
+
+        private void ShowUACShield(bool showShield, UACShieldIconSize? uacShieldIconSize)
+        {
+            switch (_uacShieldIconSize)
+            {
+                case UACShieldIconSize.ExtraSmall:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
+                    break;
+                case UACShieldIconSize.Small:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.Small);
+                    break;
+                case UACShieldIconSize.Medium:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.Medium);
+                    break;
+                case UACShieldIconSize.Large:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.Large);
+                    break;
+                case UACShieldIconSize.ExtraLarge:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.ExtraLarge);
+                    break;
+                case null:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
+                    break;
+                default:
+                    ShowUACShieldImage(showShield, UACShieldIconSize.ExtraSmall);
+                    break;
             }
         }
 
