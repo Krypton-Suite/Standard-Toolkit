@@ -817,17 +817,8 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (!Values.ShowSplitOption)
-            {
+            if (!Values.ShowSplitOption || ContextMenuStrip == null || !ContextMenuStrip.Visible)
                 base.OnMouseUp(e);
-
-                return;
-            }
-
-            if (ContextMenuStrip == null || !ContextMenuStrip.Visible)
-            {
-                base.OnMouseUp(e);
-            }
         }
 
         #endregion
