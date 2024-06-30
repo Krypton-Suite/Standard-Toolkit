@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Always check base class first
-            ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
+            ButtonSpec? bs = base.ButtonSpecFromView(element) ?? _headerGroup?.ButtonSpecFromView(element);
 
             // Call onto the contained header group implementation
 
@@ -51,7 +51,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar,
                                                  PaletteMetricBool.None,
@@ -112,7 +112,10 @@ namespace Krypton.Navigator
         protected override void PostCreate()
         {
             // Ask the header group to finish the create phase
-            _headerGroup.PostCreate();
+            if (_headerGroup != null)
+            {
+                _headerGroup.PostCreate();
+            }
 
             // Let base class perform standard actions
             base.PostCreate();
@@ -124,7 +127,10 @@ namespace Krypton.Navigator
         protected override void DestructCheckItemView()
         {
             // Must remember to get the header group to destruct itself
-            _headerGroup.Destruct();
+            if (_headerGroup != null)
+            {
+                _headerGroup.Destruct();
+            }
 
             // Must call the base class to perform common actions
             base.DestructCheckItemView();
@@ -148,7 +154,10 @@ namespace Krypton.Navigator
         protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
-            _headerGroup.ViewBuilderPropertyChanged(e);
+            if (_headerGroup != null)
+            {
+                _headerGroup.ViewBuilderPropertyChanged(e);
+            }
 
             // Let the base process it as well
             base.OnViewBuilderPropertyChanged(sender, e);
@@ -202,7 +211,10 @@ namespace Krypton.Navigator
             base.SelectedPageChanged();
 
             // Ask the header group to update the 
-            _headerGroup.UpdateButtons();
+            if (_headerGroup != null)
+            {
+                _headerGroup.UpdateButtons();
+            }
         }
 
         /// <summary>
@@ -211,7 +223,10 @@ namespace Krypton.Navigator
         public override void PageCollectionChanged()
         {
             UpdateStatePalettes();
-            _headerGroup.UpdateButtons();
+            if (_headerGroup != null)
+            {
+                _headerGroup.UpdateButtons();
+            }
 
             // Let base class do standard work
             base.PageCollectionChanged();
@@ -225,7 +240,10 @@ namespace Krypton.Navigator
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
-            _headerGroup?.UpdateButtons();
+            if (_headerGroup != null)
+            {
+                _headerGroup.UpdateButtons();
+            }
 
             // Let base class do standard work
             base.PageVisibleStateChanged(page);

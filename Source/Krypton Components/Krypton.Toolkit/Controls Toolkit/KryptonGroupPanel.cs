@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBase Palette
+        public new PaletteBase? Palette
         {
             get => base.Palette;
             set => base.Palette = value;
@@ -473,7 +473,8 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnVisibleChanged(EventArgs e)
         {
-            VisibleChanged?.Invoke(this, e);
+            // Note: Why does this throw an exception?
+            VisibleChanged!.Invoke(this, e);
 
             base.OnVisibleChanged(e);
         }
