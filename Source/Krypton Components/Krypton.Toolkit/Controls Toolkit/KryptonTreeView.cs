@@ -1994,20 +1994,11 @@ namespace Krypton.Toolkit
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
-                PaletteState state;
-                if (IsActive)
-                {
-                    state = PaletteState.Tracking;
-                }
-                else
-                {
-                    state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                }
+                PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
                 _treeView.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;
                 _treeView.Font = StateCommon.Node.Content.ShortText.Font;
-
             }
         }
 
@@ -2018,11 +2009,11 @@ namespace Krypton.Toolkit
             var depth = 0;
 
             // Count depth of our node in tree
-            TreeNode current = node;
+            TreeNode? current = node;
             while (current is not null)
             {
                 depth++;
-                current = current.Parent!;
+                current = current.Parent;
             }
 
             // Do we need the root level indent?

@@ -188,8 +188,7 @@ namespace Krypton.Toolkit
                                     // it from the device context. Resulting in blurred text.
                                     g.TextRenderingHint =
                                         CommonHelper.PaletteTextHintToRenderingHint(
-                                            _kryptonTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(
-                                                PaletteState.Disabled));
+                                            _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
 
                                     // Define the string formatting requirements
                                     var stringFormat = new StringFormat
@@ -437,7 +436,7 @@ namespace Krypton.Toolkit
             // Contains another control and needs marking as such for validation to work
             SetStyle(ControlStyles.ContainerControl, true);
 
-            // By default we are not multiline and so the height is fixed
+            // By default, we are not multiline and so the height is fixed
             SetStyle(ControlStyles.FixedHeight, true);
 
             // Cannot select this control, only the child TextBox, and does not generate a click event
@@ -1016,7 +1015,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a the character to display for password input for single-line edit controls.
+        /// Gets or sets the character to display for password input for single-line edit controls.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates the character to display for password input for single-line edit controls.")]
@@ -1175,59 +1174,59 @@ namespace Krypton.Toolkit
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => _textBox?.AppendText(text);
+        public void AppendText(string text) => _textBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => _textBox?.Clear();
+        public void Clear() => _textBox.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => _textBox?.ClearUndo();
+        public void ClearUndo() => _textBox.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => _textBox?.Copy();
+        public void Copy() => _textBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => _textBox?.Cut();
+        public void Cut() => _textBox.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => _textBox?.Paste();
+        public void Paste() => _textBox.Paste();
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => _textBox?.ScrollToCaret();
+        public void ScrollToCaret() => _textBox.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _textBox?.Select(start, length);
+        public void Select(int start, int length) => _textBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => _textBox?.SelectAll();
+        public void SelectAll() => _textBox.SelectAll();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => _textBox?.Undo();
+        public void Undo() => _textBox.Undo();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => _textBox?.DeselectAll();
+        public void DeselectAll() => _textBox.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
@@ -1288,18 +1287,18 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _textBox != null && (_fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
+        public bool IsActive => (_fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox?.Focus() == true;
+        public new bool Focus() => TextBox.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TextBox?.Select();
+        public new void Select() => TextBox.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1552,7 +1551,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _textBox?.Focus();
+            _textBox.Focus();
         }
 
         /// <summary>
@@ -1635,7 +1634,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _textBox?.Invalidate();
+            _textBox.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -1647,7 +1646,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _textBox?.Invalidate();
+            _textBox.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -1704,7 +1703,7 @@ namespace Krypton.Toolkit
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
-                _textBox?.Invalidate();
+                _textBox.Invalidate();
             }
             else
             {
@@ -1717,7 +1716,7 @@ namespace Krypton.Toolkit
                 UpdateStateAndPalettes();
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
-                _textBox!.BackColor = triple.PaletteBack.GetBackColor1(state);
+                _textBox.BackColor = triple.PaletteBack.GetBackColor1(state);
                 _textBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the text box has been created
@@ -1816,7 +1815,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDockerOuter.ElementState = state;
         }
@@ -2003,10 +2002,10 @@ namespace Krypton.Toolkit
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier
 
-        private void SetIsInAlphaNumericMode(KryptonTextBox owner)
-        {
-            // TODO: Return to this...
-        }
+        //private void SetIsInAlphaNumericMode(KryptonTextBox owner)
+        //{
+        //    // TODO: Return to this...
+        //}
 
         private void ToggleEllipsisButtonVisibility(bool visible)
         {
