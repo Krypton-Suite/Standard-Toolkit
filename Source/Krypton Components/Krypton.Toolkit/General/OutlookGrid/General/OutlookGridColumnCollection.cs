@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// Gets the number of columns grouped
         /// </summary>
         /// <returns>the number of columns grouped.</returns>
-        public int CountGrouped() => this.Count(c => c.IsGrouped == true);
+        public int CountGrouped() => this.Count(c => c.IsGrouped);
 
         /// <summary>
         /// Gets the list of grouped columns

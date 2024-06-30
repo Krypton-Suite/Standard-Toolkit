@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
             var dgv = (DataGridView)_win;
             if (GetDGVScrollbar(ref dgv, out VSB))
             {
-                if (VSB.Visible == true)
+                if (VSB.Visible)
                 {
                     VScrollBar1.Visible = true;
                     SetDGVScrollBarValue(ref dgv, ref VSB);
@@ -476,7 +476,7 @@ namespace Krypton.Toolkit
 
             if (GetDGHScrollbar(ref dgv, out HSC))
             {
-                if (HSC.Visible == true)
+                if (HSC.Visible)
                 {
                     HScrollBar1.Visible = true;
                     SetDGVScrollBarValue(ref dgv, ref HSC);
