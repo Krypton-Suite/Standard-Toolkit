@@ -118,8 +118,16 @@
 * Support for .NET 9
 * Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
 
+=======
+
+## 2024-07-xx - Build 2407 (Version 85 - Patch 1) - July 2024
+* Resolved [#1580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1580), Changing to certain modes in `KryptonNavigator` can cause a System.NullReferenceException
+
+=======
+
 ## 2024-06-24 - Build 2406 - June 2024
-* Resolved [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants!
+* Resolved [#1561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1561), KryptonRibbonGroup Controls remain enabled at runtime when set to disabled in the designer.
+* Resolved [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants !
 * Resolved [#1528](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1528), Tracking colours need reviewing
 * Resolved [#982](https://github.com/Krypton-Suite/Standard-Toolkit/issues/982), Double click on the Form1 file in the Krypton toolkit test project results in a designer error
 * Resolved [#1455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
@@ -141,12 +149,12 @@
 
 =======
 
-## 2024-03-04 - Build 2403 (Patch 2) - March 2024
+## 2024-03-04 - Build 2403 (Version 80 - Patch 2) - March 2024
 * Resolved [#1314](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1314), **[Regression]** CheckedListBox CheckedIndices NullRef
 
 =======
 
-## 2023-11-17 - Build 2311 (Patch 1) - November 2023
+## 2023-11-17 - Build 2311 (Version 80 - Patch 1) - November 2023
 * Resolved issue where an assertion is made when using `KryptonThemeComboBox` or `KryptonRibbonGroupThemeComboBox`
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`
 * Resolved [#1174](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1174), Unable to adjust height of `KryptonForm` when `KryptonRibbon` is added

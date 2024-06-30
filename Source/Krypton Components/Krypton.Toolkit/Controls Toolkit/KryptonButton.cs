@@ -818,7 +818,9 @@ namespace Krypton.Toolkit
         protected override void OnMouseUp(MouseEventArgs e)
         {
             if (!Values.ShowSplitOption || ContextMenuStrip == null || !ContextMenuStrip.Visible)
+            {
                 base.OnMouseUp(e);
+            }
         }
 
         #endregion
