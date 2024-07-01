@@ -24,6 +24,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonFlowLayoutPanel" /> class.</summary>
         public KryptonFlowLayoutPanel()
         {
             // ToDo: To be fleshed out in V100
