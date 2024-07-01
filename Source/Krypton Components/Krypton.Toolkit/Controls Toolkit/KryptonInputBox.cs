@@ -1,4 +1,13 @@
-﻿namespace Krypton.Toolkit
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit
 {
     /// <summary>
     /// 
@@ -21,17 +30,7 @@
 
         #region Implementation
 
-        internal static string InternalShow(KryptonInputBoxData inputBoxData)
-        {
-            if (inputBoxData.UseRtlReading is { } or true)
-            {
-                return VisualInputBoxRtlAwareForm.InternalShow(inputBoxData);
-            }
-            else
-            {
-                return VisualInputBoxForm.InternalShow(inputBoxData);
-            }
-        }
+        internal static string InternalShow(KryptonInputBoxData inputBoxData) => inputBoxData.UseRTLLayout == KryptonUseRTLLayout.Yes ? VisualInputBoxRtlAwareForm.InternalShow(inputBoxData) : VisualInputBoxForm.InternalShow(inputBoxData);
 
         #endregion
     }

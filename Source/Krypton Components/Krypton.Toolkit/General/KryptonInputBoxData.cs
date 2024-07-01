@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     {
         #region Public
 
-        public bool? UseRtlReading { get; set; }
+        public KryptonUseRTLLayout? UseRTLLayout { get; set; }
 
         /// <summary>Gets or sets the owner of the <see cref="VisualInputBoxForm"/>.</summary>
         /// <value>The owner of the <see cref="VisualInputBoxForm"/>.</value>
@@ -52,9 +52,10 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonInputBoxData" /> struct.</summary>
         public KryptonInputBoxData()
         {
-            UseRtlReading = false;
+            UseRTLLayout = KryptonUseRTLLayout.No;
         }
 
         #endregion
