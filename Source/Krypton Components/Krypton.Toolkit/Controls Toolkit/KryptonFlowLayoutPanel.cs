@@ -9,16 +9,13 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [ToolboxItem(false)]
-    [DesignerCategory(@"code")]
-    internal class KryptonFlowLayoutPanel
+    /// <inheritdoc />
+    [ToolboxItem(false), ToolboxBitmap(typeof(FlowLayoutPanel)), Description("A Kryptonised version of the FlowLayoutPanel. Handles the layout of its components, and arranges them in the format of a table automatically.")]
+    internal class KryptonFlowLayoutPanel : FlowLayoutPanel
     {
         #region Instance Fields
 
-
+        private KryptonPanel _backgroundPanel;
 
         #endregion
 
