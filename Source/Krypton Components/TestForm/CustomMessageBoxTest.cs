@@ -199,7 +199,7 @@ namespace TestForm
                 _mbButtons,
                 displayHelpButton: kcbShowHelp.Checked,
                 _kmbIcon, KryptonMessageBoxDefaultButton.Button1,
-                options: _options);
+                options: _options, kchkShowCtrlCopyText.Checked);
 
             krtbMessageBody.Text = $@"Krypton DialogResult = {res}";
         }

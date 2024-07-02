@@ -33,6 +33,7 @@
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kchkShowCtrlCopyText = new Krypton.Toolkit.KryptonCheckBox();
             this.kbtnTestText = new Krypton.Toolkit.KryptonButton();
             this.kcbShowHelp = new Krypton.Toolkit.KryptonCheckBox();
             this.kcbMessageBoxOptionsRtlReading = new Krypton.Toolkit.KryptonCheckBox();
@@ -86,7 +87,7 @@
             // 
             // kbtnShow
             // 
-            this.kbtnShow.Location = new System.Drawing.Point(550, 12);
+            this.kbtnShow.Location = new System.Drawing.Point(550, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;
@@ -102,7 +103,7 @@
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 0;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "kryptonButton1";
+            this.kryptonButton1.Values.Text = "Cancel";
             // 
             // kryptonBorderEdge1
             // 
@@ -115,6 +116,7 @@
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kchkShowCtrlCopyText);
             this.kryptonPanel2.Controls.Add(this.kbtnTestText);
             this.kryptonPanel2.Controls.Add(this.kcbShowHelp);
             this.kryptonPanel2.Controls.Add(this.kcbMessageBoxOptionsRtlReading);
@@ -131,6 +133,14 @@
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(749, 406);
             this.kryptonPanel2.TabIndex = 2;
+            // 
+            // kchkShowCtrlCopyText
+            // 
+            this.kchkShowCtrlCopyText.Location = new System.Drawing.Point(347, 300);
+            this.kchkShowCtrlCopyText.Name = "kchkShowCtrlCopyText";
+            this.kchkShowCtrlCopyText.Size = new System.Drawing.Size(146, 22);
+            this.kchkShowCtrlCopyText.TabIndex = 11;
+            this.kchkShowCtrlCopyText.Values.Text = "Show \"Ctrl+Copy\" text";
             // 
             // kbtnTestText
             // 
@@ -443,5 +453,6 @@
         private KryptonButton kbtnTestText;
         private KryptonButton kryptonButton1;
         private KryptonButton kbtnShow;
+        private KryptonCheckBox kchkShowCtrlCopyText;
     }
 }
