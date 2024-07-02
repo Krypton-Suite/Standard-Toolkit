@@ -14,7 +14,6 @@ namespace Krypton.Toolkit
     {
         #region Public
 
-        public KryptonUseRTLLayout? UseRTLLayout { get; set; }
 
         /// <summary>Gets or sets the owner of the <see cref="VisualInputBoxForm"/>.</summary>
         /// <value>The owner of the <see cref="VisualInputBoxForm"/>.</value>
@@ -47,6 +46,10 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the use password option.</summary>
         /// <value>The use password option.</value>
         public bool? UsePasswordOption { get; set; }
+
+        /// <summary>Gets or sets the use RTL layout of the <see cref="KryptonInputBox"/> UI.</summary>
+        /// <value>The use RTL layout in an <see cref="KryptonInputBox"/>.</value>
+        public KryptonUseRTLLayout UseRTLLayout { get; set; }
 
         #endregion
 
