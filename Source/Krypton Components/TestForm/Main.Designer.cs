@@ -637,7 +637,7 @@ namespace TestForm
             kryptonInputBoxData3.Owner = null;
             kryptonInputBoxData3.Prompt = null;
             kryptonInputBoxData3.UsePasswordOption = null;
-            kryptonInputBoxData3.UseRTLLayout = null;
+            kryptonInputBoxData3.UseRTLLayout = KryptonUseRTLLayout.No;
             this.kryptonInputBoxManager1.InputBoxData = kryptonInputBoxData3;
             // 
             // kcmdOpenImage
