@@ -54,7 +54,9 @@ namespace Krypton.Toolkit
 
             UpdateBorderColors();
 
+            /* FadeValues disabled and moved to extended until proven stable. Further development in V100
             UpdateFadeValues();
+            */
 
             UpdateFonts();
         }
@@ -80,8 +82,9 @@ namespace Krypton.Toolkit
             StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
+        /* FadeValues disabled and moved to extended until proven stable. Further development in V100
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade;
-
+        */
         private void UpdateFonts()
         {
             kwlToastContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
