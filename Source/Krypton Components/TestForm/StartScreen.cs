@@ -187,5 +187,12 @@ namespace TestForm
 
             inputBox.Show();
         }
+
+        private void kbtnAbout_Click(object sender, EventArgs e)
+        {
+            var aboutBox = new AboutBoxTest();
+
+            aboutBox.Show();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -33,6 +34,36 @@ namespace TestForm
             KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();
 
             KryptonAboutBox.Show(aboutBoxData, aboutToolkitData);
+        }
+
+        private void bsaAssemblyBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                kryptonTextBox1.Text = Path.GetFullPath(openFileDialog.SafeFileName);
+            }
+        }
+
+        private void bsaBrowseHeaderImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                kryptonTextBox3.Text = Path.GetFullPath(openFileDialog.SafeFileName);
+            }
+        }
+
+        private void bsaBrowseMainImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                kryptonTextBox4.Text = Path.GetFullPath(openFileDialog.SafeFileName);
+            }
         }
     }
 }
