@@ -173,5 +173,19 @@ namespace TestForm
 
             dataGrid.Show();
         }
+
+        private void kbtnHeaderExamples_Click(object sender, EventArgs e)
+        {
+            var headerExamples = new HeaderExamples();
+
+            headerExamples.Show();
+        }
+
+        private void kbtnInputBox_Click(object sender, EventArgs e)
+        {
+            var inputBox = new InputBoxTest();
+
+            inputBox.Show();
+        }
     }
 }
