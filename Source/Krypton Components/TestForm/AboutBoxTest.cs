@@ -22,17 +22,17 @@ namespace TestForm
         {
             KryptonAboutBoxData aboutBoxData = new KryptonAboutBoxData()
             {
-                ApplicationName = @"TestForm",
-                CurrentAssembly = Assembly.GetExecutingAssembly(),
-                HeaderImage = null,
-                MainImage = null,
-                ShowToolkitInformation = false,
-                UseFullBuiltOnDate = false
+                ApplicationName = kryptonTextBox2.Text,
+                CurrentAssembly = Assembly.LoadFile(kryptonTextBox1.Text),
+                HeaderImage = new Bitmap(kryptonTextBox3.Text),
+                MainImage = new Bitmap(kryptonTextBox4.Text),
+                ShowToolkitInformation = kchkShowToolkitInformation.Checked,
+                UseFullBuiltOnDate = kchkUseFullBuiltOnDate.Checked
             };
 
             KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();
 
-
+            KryptonAboutBox.Show(aboutBoxData, aboutToolkitData);
         }
     }
 }
