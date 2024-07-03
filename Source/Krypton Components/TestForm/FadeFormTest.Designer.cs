@@ -207,8 +207,6 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 676);
             this.Controls.Add(this.kryptonPanel1);
-            this.FadeValues.FadeSpeed = 50F;
-            this.FadeValues.Owner = null;
             this.Name = "FadeFormTest";
             this.Text = "FadeFormTest";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FadeFormTest_FormClosing);

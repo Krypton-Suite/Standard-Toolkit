@@ -335,6 +335,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
+        /* FadeValues disabled and moved to extended until proven stable. Further development in V100
         /// <summary>Gets access to the fade values.</summary>
         [Category(@"Visuals")]
         [Description(@"Form fading.")]
@@ -345,6 +346,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Resets the fade values.</summary>
         private void ResetFadeValues() => FadeValues.Reset();
+        */
 
         /// <summary>
         /// Gets access to the button content.
@@ -889,30 +891,32 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnLoad(EventArgs e)
         {
+            /* FadeValues disabled and moved to extended until proven stable. Further development in V100
             if (FadeValues.FadingEnabled)
             {
-#if NETCOREAPP3_0_OR_GREATER
-                KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-#else
-                KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-#endif
+                #if NETCOREAPP3_0_OR_GREATER
+                    KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+                #else
+                    KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+                #endif
             }
-
+            */
             base.OnLoad(e);
         }
 
         /// <inheritdoc />
         protected override void OnClosing(CancelEventArgs e)
         {
+            /* FadeValues disabled and moved to extended until proven stable. Further development in V100
             if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
             {
-#if NETCOREAPP3_0_OR_GREATER
-                KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-#else
-                KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-#endif
+                #if NETCOREAPP3_0_OR_GREATER
+                    KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+                #else
+                    KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+                #endif
             }
-
+            */
             base.OnClosing(e);
         }
 
