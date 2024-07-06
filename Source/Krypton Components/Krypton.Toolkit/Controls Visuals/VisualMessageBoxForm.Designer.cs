@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.TopMost = true;
+            this.TopMost = false;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
