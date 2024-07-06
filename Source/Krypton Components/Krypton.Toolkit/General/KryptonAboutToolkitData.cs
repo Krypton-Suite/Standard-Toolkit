@@ -138,6 +138,10 @@ namespace Krypton.Toolkit
         /// <summary>The documentation link area.</summary>
         public LinkArea DocumentationLinkArea { get; set; } = new LinkArea(0, 9);
 
+        /// <summary>Gets or sets the use RTL layout of the <see cref="KryptonAboutBox"/> UI.</summary>
+        /// <value>The use RTL layout in an <see cref="KryptonAboutBox"/>.</value>
+        public KryptonUseRTLLayout UseRtlLayout { get; set; }
+
         #endregion
 
         #region Identity
@@ -200,6 +204,8 @@ namespace Krypton.Toolkit
             DownloadDemosLinkArea = new LinkArea(0, 9);
 
             DocumentationLinkArea = new LinkArea(0, 9);
+
+            UseRtlLayout = KryptonUseRTLLayout.No;
         }
 
         #endregion
