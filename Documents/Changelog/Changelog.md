@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved/Implemented [#1601](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1601), Rollback `KryptonPaletteCustomBase` ability to use a single schema
 * Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` and `KryptonMessageBoxDep` stays on top of other windows.
 * Resolved [#1593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1593), KInputBox is stuck in RTL mode
 * RollBack [#1584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1584), Disable the FadeValues property in VisualForm and move the FadeValues class to Extended. It was a V90 feature but is up for further development in V100.

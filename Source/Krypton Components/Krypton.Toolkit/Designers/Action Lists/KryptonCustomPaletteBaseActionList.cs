@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
                     return;
                 }
 
-                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName), null);
+                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
             }
             catch (Exception exc)
             {
