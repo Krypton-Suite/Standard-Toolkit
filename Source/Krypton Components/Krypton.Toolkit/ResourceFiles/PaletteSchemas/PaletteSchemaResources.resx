@@ -117,6 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CurrentSupportedPaletteSchema" xml:space="preserve">
+    <value>&lt;?xml version="1.0"?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
+  &lt;xsl:template match="KryptonPalette"&gt;
+    &lt;xsl:comment&gt;Created by exporting the settings of a KryptonPalette instance.&lt;/xsl:comment&gt;
+    &lt;xsl:comment&gt;For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit&lt;/xsl:comment&gt;
+    &lt;xsl:comment&gt;WARNING: Modifying this file may render it invalid for importing.&lt;/xsl:comment&gt;
+    &lt;KryptonPalette Version="20"&gt;
+      &lt;xsl:attribute name="Generated"&gt;
+        &lt;xsl:value-of select="@Generated"/&gt;
+      &lt;/xsl:attribute&gt;
+      &lt;xsl:apply-templates select="*"/&gt;
+    &lt;/KryptonPalette&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;xsl:template match="BasePaletteMode[@Value='Professional - Red']"&gt;
+    &lt;BasePaletteMode&gt;
+      &lt;xsl:attribute name ="Type"&gt;PaletteMode&lt;/xsl:attribute&gt;
+      &lt;xsl:attribute name ="Value"&gt;Professional - Office 2003&lt;/xsl:attribute&gt;
+    &lt;/BasePaletteMode&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;xsl:template match="BasePaletteMode[@Value='Professional - Green']"&gt;
+    &lt;BasePaletteMode&gt;
+      &lt;xsl:attribute name ="Type"&gt;PaletteMode&lt;/xsl:attribute&gt;
+      &lt;xsl:attribute name ="Value"&gt;Professional - Office 2003&lt;/xsl:attribute&gt;
+    &lt;/BasePaletteMode&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;xsl:template match="Prefix"&gt;
+    &lt;Prefix&gt;
+      &lt;xsl:attribute name ="Type"&gt;PaletteTextHotkeyPrefix&lt;/xsl:attribute&gt;
+      &lt;xsl:attribute name ="Value"&gt;
+        &lt;xsl:value-of select="@Value"/&gt;
+      &lt;/xsl:attribute&gt;
+    &lt;/Prefix&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;xsl:template match="BasePaletteMode[@Value='Professional - Red']"&gt;
+    &lt;BasePaletteMode&gt;
+      &lt;xsl:attribute name ="Type"&gt;PaletteMode&lt;/xsl:attribute&gt;
+      &lt;xsl:attribute name ="Value"&gt;Professional - Office 2003&lt;/xsl:attribute&gt;
+    &lt;/BasePaletteMode&gt;
+  &lt;/xsl:template&gt;
+
+  &lt;xsl:template match="*|@*"&gt;
+    &lt;xsl:copy&gt;
+      &lt;xsl:apply-templates select="*|@*"/&gt;
+    &lt;/xsl:copy&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</value>
+  </data>
   <data name="PaletteVersion19To20" xml:space="preserve">
     <value>&lt;?xml version="1.0"?&gt;
 &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;
