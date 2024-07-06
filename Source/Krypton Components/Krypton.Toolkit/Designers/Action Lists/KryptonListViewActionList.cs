@@ -36,56 +36,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>
-        /// Gets and sets the style used for list items.
-        /// </summary>
-        public ButtonStyle ItemStyle
-        {
-            get => _listView.ItemStyle;
-
-            set
-            {
-                if (_listView.ItemStyle != value)
-                {
-                    _service?.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
-                    _listView.ItemStyle = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the background drawing style.
-        /// </summary>
-        public PaletteBackStyle BackStyle
-        {
-            get => _listView.BackStyle;
-
-            set
-            {
-                if (_listView.BackStyle != value)
-                {
-                    _service?.OnComponentChanged(_listView, null, _listView.BackStyle, value);
-                    _listView.BackStyle = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the border drawing style.
-        /// </summary>
-        public PaletteBorderStyle BorderStyle
-        {
-            get => _listView.BorderStyle;
-
-            set
-            {
-                if (_listView.BorderStyle != value)
-                {
-                    _service?.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
-                    _listView.BorderStyle = value;
-                }
-            }
-        }
+        
 
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
@@ -104,22 +55,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        public Font StateCommonShortTextFont
-        {
-            get => _listView.StateCommon.Item.Content.ShortText.Font!;
-
-            set
-            {
-                if (_listView.StateCommon.Item.Content.ShortText.Font != value)
-                {
-                    _service?.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
-
-                    _listView.StateCommon.Item.Content.ShortText.Font = value;
-                }
-            }
-        }
 
         #endregion
 
@@ -136,11 +71,8 @@ namespace Krypton.Toolkit
                 // This can be null when deleting a control instance at design time
                 // Add the list of list box specific actions
                 new DesignerActionHeaderItem(nameof(Appearance)),
-                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance), @"Style used to draw background."),
                 new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."),
                 new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."),
-                new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."),
-                new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."),
             };
 
             return actions;

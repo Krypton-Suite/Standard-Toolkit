@@ -788,7 +788,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    StateCommon?.Item.SetStyles(_style);
+                    StateCommon.Item.SetStyles(_style);
                     OverrideFocus.Item.SetStyles(_style);
                     _listBox.Recreate();
                     PerformNeedPaint(true);
