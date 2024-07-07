@@ -117,6 +117,8 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
+        public PaletteRelativeAlign? TitleAlignment { get; set; }
+
         #endregion
 
         #region Identity

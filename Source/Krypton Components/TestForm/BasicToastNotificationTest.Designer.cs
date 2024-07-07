@@ -71,6 +71,7 @@ namespace TestForm
             this.ktxtToastTitle = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnTestText = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -100,6 +101,7 @@ namespace TestForm
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;
+            this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShow.Values.Text = "Show";
             this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
             // 
@@ -114,6 +116,7 @@ namespace TestForm
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kbtnTestText);
             this.kryptonPanel2.Controls.Add(this.kchkShowDoNotShowAgain);
             this.kryptonPanel2.Controls.Add(this.kchkUseRTL);
             this.kryptonPanel2.Controls.Add(this.kcbtnBorderColor2);
@@ -164,6 +167,7 @@ namespace TestForm
             // kcbtnBorderColor2
             // 
             this.kcbtnBorderColor2.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
+            this.kcbtnBorderColor2.Enabled = false;
             this.kcbtnBorderColor2.Location = new System.Drawing.Point(537, 166);
             this.kcbtnBorderColor2.Name = "kcbtnBorderColor2";
             this.kcbtnBorderColor2.Size = new System.Drawing.Size(166, 25);
@@ -316,7 +320,7 @@ namespace TestForm
             this.kcmbToastTitleAlignment.IntegralHeight = false;
             this.kcmbToastTitleAlignment.Location = new System.Drawing.Point(173, 298);
             this.kcmbToastTitleAlignment.Name = "kcmbToastTitleAlignment";
-            this.kcmbToastTitleAlignment.Size = new System.Drawing.Size(274, 21);
+            this.kcmbToastTitleAlignment.Size = new System.Drawing.Size(274, 22);
             this.kcmbToastTitleAlignment.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbToastTitleAlignment.TabIndex = 16;
             this.kcmbToastTitleAlignment.SelectedIndexChanged += new System.EventHandler(this.kcmbToastTitleAlignment_SelectedIndexChanged);
@@ -364,6 +368,7 @@ namespace TestForm
             this.kbtnTitleFont.Name = "kbtnTitleFont";
             this.kbtnTitleFont.Size = new System.Drawing.Size(117, 25);
             this.kbtnTitleFont.TabIndex = 13;
+            this.kbtnTitleFont.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTitleFont.Values.Text = "Title Font";
             this.kbtnTitleFont.Click += new System.EventHandler(this.kbtnTitleFont_Click);
             // 
@@ -374,6 +379,7 @@ namespace TestForm
             this.kbtnContentFont.Name = "kbtnContentFont";
             this.kbtnContentFont.Size = new System.Drawing.Size(117, 25);
             this.kbtnContentFont.TabIndex = 12;
+            this.kbtnContentFont.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnContentFont.Values.Text = "Content Font";
             this.kbtnContentFont.Click += new System.EventHandler(this.kbtnContentFont_Click);
             // 
@@ -406,6 +412,7 @@ namespace TestForm
             // 
             // kchkUseFade
             // 
+            this.kchkUseFade.Enabled = false;
             this.kchkUseFade.Location = new System.Drawing.Point(85, 221);
             this.kchkUseFade.Name = "kchkUseFade";
             this.kchkUseFade.Size = new System.Drawing.Size(73, 20);
@@ -429,7 +436,7 @@ namespace TestForm
             this.kcmbToastIcon.IntegralHeight = false;
             this.kcmbToastIcon.Location = new System.Drawing.Point(85, 165);
             this.kcmbToastIcon.Name = "kcmbToastIcon";
-            this.kcmbToastIcon.Size = new System.Drawing.Size(274, 21);
+            this.kcmbToastIcon.Size = new System.Drawing.Size(274, 22);
             this.kcmbToastIcon.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbToastIcon.TabIndex = 5;
             this.kcmbToastIcon.SelectedIndexChanged += new System.EventHandler(this.kcmbToastIcon_SelectedIndexChanged);
@@ -476,6 +483,16 @@ namespace TestForm
             this.kryptonLabel1.Size = new System.Drawing.Size(36, 20);
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Title:";
+            // 
+            // kbtnTestText
+            // 
+            this.kbtnTestText.Location = new System.Drawing.Point(13, 66);
+            this.kbtnTestText.Name = "kbtnTestText";
+            this.kbtnTestText.Size = new System.Drawing.Size(66, 62);
+            this.kbtnTestText.TabIndex = 28;
+            this.kbtnTestText.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnTestText.Values.Text = "Use\r\nTest\r\nText";
+            this.kbtnTestText.Click += new System.EventHandler(this.kbtnTestText_Click);
             // 
             // BasicToastNotificationTest
             // 
@@ -539,5 +556,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonColorButton kcbtnBorderColor2;
         private Krypton.Toolkit.KryptonCheckBox kchkUseRTL;
         private Krypton.Toolkit.KryptonCheckBox kchkShowDoNotShowAgain;
+        private KryptonButton kbtnTestText;
     }
 }

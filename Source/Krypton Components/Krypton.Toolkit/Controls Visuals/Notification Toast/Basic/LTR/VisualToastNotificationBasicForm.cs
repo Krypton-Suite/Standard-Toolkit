@@ -71,12 +71,11 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
+            krtbNotificationContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
-            kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
+            klblNotificationTitle.Text = _basicToastNotificationData.NotificationTitle;
 
-            kwlblHeader.TextAlign =
-                _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+            klblNotificationTitle.StateCommon.ShortText.TextH = _basicToastNotificationData.TitleAlignment ?? PaletteRelativeAlign.Inherit;
         }
 
         private void UpdateBorderColors()
@@ -92,19 +91,19 @@ namespace Krypton.Toolkit
 
         private void UpdateFonts()
         {
-            kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
+            krtbNotificationContent.Font = _basicToastNotificationData.NotificationContentFont ??
                                             KryptonManager.CurrentGlobalPalette.BaseFont;
 
             if (_basicToastNotificationData.NotificationTitleFont != null)
             {
-                kwlblContent.LabelStyle = LabelStyle.NormalControl;
+                krtbNotificationContent.InputControlStyle = InputControlStyle.PanelClient;
 
-                kwlblHeader.StateCommon.Font =
+                klblNotificationTitle.Font =
                     _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {
-                kwlblHeader.LabelStyle = LabelStyle.TitleControl;
+                klblNotificationTitle.LabelStyle = LabelStyle.TitleControl;
             }
         }
 
@@ -255,13 +254,11 @@ namespace Krypton.Toolkit
 
         private void kbtnDismiss_Click(object sender, EventArgs e) => Close();
 
+        private void kbtnClose_Click(object sender, EventArgs e) => Close();
+
         private void ShowCloseButton()
         {
-            CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-            ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
+            kbtnClose.Visible = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
         private void ShowDoNotShowAgainOption()

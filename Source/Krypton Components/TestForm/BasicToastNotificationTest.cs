@@ -28,6 +28,17 @@ namespace TestForm
         private KryptonToastNotificationIcon _notificationIcon;
         private string _notificationTitleText;
         private string _notificationContentText;
+        private PaletteRelativeAlign _titleAlignmentRelativeAlignment;
+
+        private const string SEED_TEXT = @"/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  
+ */";
 
         #endregion
 
@@ -51,6 +62,7 @@ namespace TestForm
                 NotificationLocation = null,
                 ShowDoNotShowAgainOption = _showDoNotShowAgainOption,
                 NotificationTitleAlignment = _titleAlignment,
+                TitleAlignment = _titleAlignmentRelativeAlignment,
                 TopMost = _topMost,
                 UseFade = _useFade,
                 ShowCloseBox = _showCloseBox,
@@ -95,6 +107,7 @@ namespace TestForm
             _reportToastLocation = false;
             _showDoNotShowAgainOption = false;
             _titleAlignment = ContentAlignment.MiddleCenter;
+            _titleAlignmentRelativeAlignment = PaletteRelativeAlign.Inherit;
             _countDownSeconds = 60;
             _notificationIcon = KryptonToastNotificationIcon.Information;
             _notificationTitleText = ktxtToastTitle.Text;
@@ -113,12 +126,12 @@ namespace TestForm
 
             kcmbToastIcon.SelectedIndex = 8;
 
-            foreach (var value in Enum.GetValues(typeof(ContentAlignment)))
+            foreach (var value in Enum.GetValues(typeof(PaletteRelativeAlign)))
             {
                 kcmbToastTitleAlignment.Items.Add(value.ToString());
             }
 
-            kcmbToastTitleAlignment.SelectedIndex = 4;
+            kcmbToastTitleAlignment.SelectedIndex = 3;
 
             knudStartLocationX.Maximum = GraphicsExtensions.GetWorkingArea().Width;
 
@@ -166,7 +179,7 @@ namespace TestForm
 
         private void kcmbToastTitleAlignment_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _titleAlignment = (ContentAlignment)Enum.Parse(typeof(ContentAlignment), kcmbToastTitleAlignment.Text);
+            /*_titleAlignment*/ _titleAlignmentRelativeAlignment = (/*ContentAlignment*/PaletteRelativeAlign)Enum.Parse(typeof(/*ContentAlignment*/PaletteRelativeAlign), kcmbToastTitleAlignment.Text);
         }
 
         private void knudCountdownSeconds_ValueChanged(object sender, EventArgs e)
@@ -207,6 +220,11 @@ namespace TestForm
         private void kchkShowDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
         {
             _showDoNotShowAgainOption = kchkShowDoNotShowAgain.Checked;
+        }
+
+        private void kbtnTestText_Click(object sender, EventArgs e)
+        {
+            ktxtToastContent.Text = SEED_TEXT;
         }
     }
 }
