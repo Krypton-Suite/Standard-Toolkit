@@ -38,6 +38,20 @@ namespace Krypton.Toolkit
         /// <value>The name of the application.</value>
         public string ApplicationName { get; set; }
 
+        /// <summary>Gets or sets the use RTL layout of the <see cref="KryptonAboutBox"/> UI.</summary>
+        /// <value>The use RTL layout in an <see cref="KryptonAboutBox"/>.</value>
+        public KryptonUseRTLLayout UseRtlLayout { get; set; }
+
+        #endregion
+
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonAboutBoxData" /> struct.</summary>
+        public KryptonAboutBoxData()
+        {
+            UseRtlLayout = KryptonUseRTLLayout.No;
+        }
+
         #endregion
     }
 }
