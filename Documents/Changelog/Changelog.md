@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1581](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1581), **Enhancement** KListview has background problems for disabled view on each "Item" [now with added List and Details Views]
 * Resolved/Implemented [1597](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1597), Use `KryptonUseRTLLayout` to prevent LTR/RTL issues
 * Resolved/Implemented [#1601](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1601), Rollback `KryptonPaletteCustomBase` ability to use a single schema
 * Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` and `KryptonMessageBoxDep` stays on top of other windows.

@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         private LabelStyle _captionStyle;
         private VisualOrientation _captionEdge;
         private ButtonOrientation _captionOrientation;
-        private readonly ViewDrawGroupBoxDocker? _drawDocker;
+        private readonly ViewDrawGroupBoxDocker _drawDocker;
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutFill _layoutFill;
-        private ScreenObscurer _obscurer;
+        private ScreenObscurer? _obscurer;
         private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _captionVisible;
@@ -66,7 +66,6 @@ namespace Krypton.Toolkit
             // Create the internal panel used for containing content
             Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
-
                 // Make sure the panel back style always mimics our back style
                 PanelBackStyle = PaletteBackStyle.ControlGroupBox
             };
@@ -80,11 +79,11 @@ namespace Krypton.Toolkit
             _layoutFill = new ViewLayoutFill(Panel);
 
             // Add caption into the docker with initial dock edges defined
-            _drawDocker?.Add(_drawContent, ViewDockStyle.Top);
-            _drawDocker?.Add(_layoutFill, ViewDockStyle.Fill);
+            _drawDocker.Add(_drawContent, ViewDockStyle.Top);
+            _drawDocker.Add(_layoutFill, ViewDockStyle.Fill);
 
             // Create the view manager instance
-            ViewManager = new ViewManager(this, _drawDocker!);
+            ViewManager = new ViewManager(this, _drawDocker);
 
             // We want to default to shrinking and growing (base class defaults to GrowOnly)
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -245,13 +244,12 @@ namespace Krypton.Toolkit
         [DefaultValue(0.5)]
         public double CaptionOverlap
         {
-            get => _drawDocker!.CaptionOverlap;
+            get => _drawDocker.CaptionOverlap;
 
             set
             {
-                if (_drawDocker != null && _drawDocker.CaptionOverlap != value)
+                if ( _drawDocker.CaptionOverlap != value)
                 {
-
                     // Enforce limits on the value between 0 and 1 (0% and 100%)
                     value = Math.Max(Math.Min(value, 1.0), 0.0);
                     _drawDocker.CaptionOverlap = value;
@@ -357,7 +355,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Top;
                             }
 
-                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Top);
+                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Top);
                             break;
                         case VisualOrientation.Bottom:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -365,7 +363,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Top;
                             }
 
-                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Bottom);
+                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Bottom);
                             break;
                         case VisualOrientation.Left:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -373,7 +371,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Left;
                             }
 
-                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Left);
+                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Left);
                             break;
                         case VisualOrientation.Right:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -381,7 +379,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Right;
                             }
 
-                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Right);
+                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Right);
                             break;
                     }
 
@@ -568,8 +566,8 @@ namespace Krypton.Toolkit
         public virtual void SetFixedState(PaletteState state)
         {
             // Request fixed state from the view
-            _drawDocker!.FixedState = state;
-            Panel?.SetFixedState(state);
+            _drawDocker.FixedState = state;
+            Panel.SetFixedState(state);
         }
         #endregion
 
@@ -674,16 +672,16 @@ namespace Krypton.Toolkit
             if (Enabled)
             {
                 _drawContent.SetPalette(StateNormal!.Content);
-                _drawDocker?.SetPalettes(StateNormal.Back, StateNormal.Border);
+                _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
             }
             else
             {
                 _drawContent.SetPalette(StateDisabled!.Content);
-                _drawDocker?.SetPalettes(StateDisabled.Back, StateNormal!.Border);
+                _drawDocker.SetPalettes(StateDisabled.Back, StateNormal!.Border);
             }
 
             _drawContent.Enabled = Enabled;
-            _drawDocker!.Enabled = Enabled;
+            _drawDocker.Enabled = Enabled;
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -716,7 +714,7 @@ namespace Krypton.Toolkit
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel?.PerformNeedPaint(e.NeedLayout);
+                Panel.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -756,7 +754,7 @@ namespace Krypton.Toolkit
                 }
                 case PI.WM_.WINDOWPOSCHANGED:
                     // Uncover from the covered area
-                    _obscurer.Uncover();
+                    _obscurer?.Uncover();
                     break;
             }
 
@@ -777,7 +775,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer.Uncover();
+        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer?.Uncover();
 
         private void OnValuesTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
