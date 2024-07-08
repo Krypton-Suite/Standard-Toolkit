@@ -3,6 +3,7 @@
 =======
 
 ## 2024-07-xx - Build 2407 (Patch 1) - July 2024
+* Resolved [#1599](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1599), `KryptonMessageBox` cuts off the last line.
 * Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` stays on top of other windows.
 * Resolved [#1580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1580), Changing to certain modes in `KryptonNavigator` can cause a System.NullReferenceException
 

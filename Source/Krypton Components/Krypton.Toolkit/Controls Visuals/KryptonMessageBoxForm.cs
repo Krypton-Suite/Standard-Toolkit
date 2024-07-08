@@ -578,12 +578,13 @@ namespace Krypton.Toolkit
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                SizeF scaledMonitorSize = screen.Bounds.Size;
-                scaledMonitorSize.Width *= 2 / 3.0f;
-                scaledMonitorSize.Height *= 0.95f;
-                SizeF messageSize = g.MeasureString(_text, _messageText.Font, scaledMonitorSize);
+                Size scaledMonitorSize = screen.Bounds.Size;
+                scaledMonitorSize.Width =(int)(scaledMonitorSize.Width * 2 / 3.0f);
+                scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
+                Font textFont = _messageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal);
+                SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
+                SizeF captionSize = TextRenderer.MeasureText($@"{_caption} {TextExtra}", SystemFonts.CaptionFont, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -592,15 +593,17 @@ namespace Krypton.Toolkit
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
-                // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
-                // character it contains, this ensures there is always definitely enough space for it all
-                messageSize.Width += 5;
                 textSize = Size.Ceiling(messageSize);
             }
-
-            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
-                            _messageText.Margin.Left + _messageText.Margin.Right,
-                Math.Max(_messageIcon.Height + 10, textSize.Height));
+            
+            Padding textPadding = _messageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textAreaMargin = Padding.Add(textPadding, _panelContentArea.Margin);
+            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+                                     _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+            Size textArea = new Size(textSize.Width + textAreaMargin.Left + textAreaMargin.Right,
+                                     textSize.Height + textAreaMargin.Top + textAreaMargin.Bottom);
+            return new Size(textArea.Width + iconArea.Width, 
+                            Math.Max(iconArea.Height, textArea.Height));
         }
 
         private Size UpdateButtonsSizing()
