@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             this._panelContentArea.Controls.Add(this._linkLabelMessageText);
             this._panelContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelContentArea.Location = new System.Drawing.Point(64, 4);
-            this._panelContentArea.Margin = new System.Windows.Forms.Padding(4);
+            this._panelContentArea.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this._panelContentArea.Name = "_panelContentArea";
             this._panelContentArea.Size = new System.Drawing.Size(176, 44);
             this._panelContentArea.TabIndex = 1;
