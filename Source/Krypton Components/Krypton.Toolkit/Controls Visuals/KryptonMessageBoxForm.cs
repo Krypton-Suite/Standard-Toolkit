@@ -578,12 +578,14 @@ namespace Krypton.Toolkit
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                SizeF scaledMonitorSize = screen.Bounds.Size;
-                scaledMonitorSize.Width *= 2 / 3.0f;
-                scaledMonitorSize.Height *= 0.95f;
-                SizeF messageSize = g.MeasureString(_text, _messageText.Font, scaledMonitorSize);
+                Size scaledMonitorSize = screen.Bounds.Size;
+                scaledMonitorSize.Width =(int)(scaledMonitorSize.Width * 2 / 3.0f);
+                scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
+                Font textFont = _messageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal);
+                Font captionFont = KryptonManager.CurrentGlobalPalette!.BaseFont;
+                SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
+                SizeF captionSize = TextRenderer.MeasureText($@"{_caption} {TextExtra}", captionFont, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -592,15 +594,18 @@ namespace Krypton.Toolkit
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
-                // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
-                // character it contains, this ensures there is always definitely enough space for it all
-                messageSize.Width += 5;
                 textSize = Size.Ceiling(messageSize);
             }
-
-            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
-                            _messageText.Margin.Left + _messageText.Margin.Right,
-                Math.Max(_messageIcon.Height + 10, textSize.Height));
+            
+            // Calculate the size of the icon area and text area including margins
+            Padding textPadding = _messageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textAreaAllMargin = Padding.Add(textPadding, _panelContentArea.Margin);
+            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+                                     _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+            Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
+                                     textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
+            return new Size(textArea.Width + iconArea.Width, 
+                            Math.Max(iconArea.Height, textArea.Height));
         }
 
         private Size UpdateButtonsSizing()
@@ -702,43 +707,39 @@ namespace Krypton.Toolkit
             {
                 Close();
             }
-            else if (!e.Control
-                     || (e.KeyCode != Keys.C)
-                    )
+            else if (e.KeyData == (Keys.Control | Keys.C))
             {
-                return;
-            }
+                const string DIVIDER = @"---------------------------";
+                const string BUTTON_TEXT_SPACER = @"   ";
+                // Pressing Ctrl+C should copy message text into the clipboard
+                var sb = new StringBuilder();
 
-            const string DIVIDER = @"---------------------------";
-            const string BUTTON_TEXT_SPACER = @"   ";
-            // Pressing Ctrl+C should copy message text into the clipboard
-            var sb = new StringBuilder();
-
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(Text);
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(_messageText.Text);
-            sb.AppendLine(DIVIDER);
-            sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
-            if (_button2.Enabled)
-            {
-                sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
-                if (_button3.Enabled)
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(Text);
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(_messageText.Text);
+                sb.AppendLine(DIVIDER);
+                sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+                if (_button2.Enabled)
                 {
-                    sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+                    if (_button3.Enabled)
+                    {
+                        sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    }
+
+                    if (_button4.Enabled)
+                    {
+                        sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
+                    }
                 }
 
-                if (_button4.Enabled)
-                {
-                    sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
-                }
+                sb.AppendLine(string.Empty);
+                sb.AppendLine(DIVIDER);
+
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+                Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
             }
-
-            sb.AppendLine(string.Empty);
-            sb.AppendLine(DIVIDER);
-
-            Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
-            Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
         /// <summary>Setups the action button UI.</summary>
