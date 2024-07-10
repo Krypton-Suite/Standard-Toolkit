@@ -1120,43 +1120,39 @@ namespace Krypton.Toolkit
             {
                 Close();
             }
-            else if (!e.Control
-                     || (e.KeyCode != Keys.C)
-                    )
+            else if (e.KeyData == (Keys.Control | Keys.C))
             {
-                return;
-            }
+                const string DIVIDER = @"---------------------------";
+                const string BUTTON_TEXT_SPACER = @"   ";
+                // Pressing Ctrl+C should copy message text into the clipboard
+                var sb = new StringBuilder();
 
-            const string DIVIDER = @"---------------------------";
-            const string BUTTON_TEXT_SPACER = @"   ";
-            // Pressing Ctrl+C should copy message text into the clipboard
-            var sb = new StringBuilder();
-
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(Text);
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(kwlblMessageText.Text);
-            sb.AppendLine(DIVIDER);
-            sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
-            if (_button2.Enabled)
-            {
-                sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
-                if (_button3.Enabled)
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(Text);
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(klwlblMessageText.Text);
+                sb.AppendLine(DIVIDER);
+                sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+                if (_button2.Enabled)
                 {
-                    sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+                    if (_button3.Enabled)
+                    {
+                        sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    }
+
+                    if (_button4.Enabled)
+                    {
+                        sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
+                    }
                 }
 
-                if (_button4.Enabled)
-                {
-                    sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
-                }
+                sb.AppendLine(string.Empty);
+                sb.AppendLine(DIVIDER);
+
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+                Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
             }
-
-            sb.AppendLine(string.Empty);
-            sb.AppendLine(DIVIDER);
-
-            Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
-            Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
         private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

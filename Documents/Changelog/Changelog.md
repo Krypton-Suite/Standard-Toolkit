@@ -7,7 +7,6 @@
 * Resolved [#1581](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1581), **Enhancement** KListview has background problems for disabled view on each "Item" [now with added List and Details Views]
 * Resolved/Implemented [1597](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1597), Use `KryptonUseRTLLayout` to prevent LTR/RTL issues
 * Resolved/Implemented [#1601](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1601), Rollback `KryptonPaletteCustomBase` ability to use a single schema
-* Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` and `KryptonMessageBoxDep` stays on top of other windows.
 * Resolved [#1593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1593), KInputBox is stuck in RTL mode
 * RollBack [#1584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1584), Disable the FadeValues property in VisualForm and move the FadeValues class to Extended. It was a V90 feature but is up for further development in V100.
 * Resolved [#1573](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1573), KCheckedListbox & KListBox do not respect 'disabled' back colours
@@ -129,6 +128,10 @@
 =======
 
 ## 2024-07-xx - Build 2407 (Version 85 - Patch 1) - July 2024
+* Resolved [#1614](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1614), `KryptonMessageBox` throws an exception after Esc key is pressed.
+* Resolved [#1613](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1613), `KryptonMessageBox` text is not centered vertically.
+* Resolved [#1599](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1599), `KryptonMessageBox` cuts off the last line.
+* Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` stays on top of other windows.
 * Resolved [#1580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1580), Changing to certain modes in `KryptonNavigator` can cause a System.NullReferenceException
 
 =======
