@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
 
         #region Colours
 
-        private static readonly Color _disabledText = Color.FromArgb(120, 120, 120);
+        private static readonly Color _disabledText = Color.FromArgb(0, 0, 0); //(120, 120, 120);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
