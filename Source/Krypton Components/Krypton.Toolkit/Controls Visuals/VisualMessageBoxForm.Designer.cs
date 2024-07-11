@@ -66,10 +66,10 @@ namespace Krypton.Toolkit
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
             this._messageIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._messageIcon.Location = new System.Drawing.Point(11, 5);
-            this._messageIcon.Margin = new System.Windows.Forms.Padding(11, 5, 5, 5);
+            this._messageIcon.Location = new System.Drawing.Point(8, 4);
+            this._messageIcon.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
             this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(44, 43);
+            this._messageIcon.Size = new System.Drawing.Size(33, 35);
             this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._messageIcon.TabIndex = 0;
             this._messageIcon.TabStop = false;
@@ -83,11 +83,11 @@ namespace Krypton.Toolkit
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelButtons.Location = new System.Drawing.Point(0, 53);
+            this._panelButtons.Location = new System.Drawing.Point(0, 43);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(271, 26);
+            this._panelButtons.Size = new System.Drawing.Size(203, 21);
             this._panelButtons.TabIndex = 0;
             // 
             // _borderEdge
@@ -95,9 +95,9 @@ namespace Krypton.Toolkit
             this._borderEdge.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this._borderEdge.Dock = System.Windows.Forms.DockStyle.Top;
             this._borderEdge.Location = new System.Drawing.Point(0, 0);
-            this._borderEdge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this._borderEdge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._borderEdge.Name = "_borderEdge";
-            this._borderEdge.Size = new System.Drawing.Size(271, 1);
+            this._borderEdge.Size = new System.Drawing.Size(203, 1);
             this._borderEdge.Text = "kryptonBorderEdge1";
             // 
             // _button4
@@ -106,12 +106,13 @@ namespace Krypton.Toolkit
             this._button4.AutoSize = true;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
-            this._button4.Location = new System.Drawing.Point(271, 0);
+            this._button4.Location = new System.Drawing.Point(203, 0);
             this._button4.Margin = new System.Windows.Forms.Padding(0);
-            this._button4.MinimumSize = new System.Drawing.Size(51, 26);
+            this._button4.MinimumSize = new System.Drawing.Size(38, 21);
             this._button4.Name = "_button4";
-            this._button4.Size = new System.Drawing.Size(51, 32);
+            this._button4.Size = new System.Drawing.Size(38, 26);
             this._button4.TabIndex = 2;
+            this._button4.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button4.Values.Text = "B4";
             this._button4.Visible = false;
             // 
@@ -121,12 +122,13 @@ namespace Krypton.Toolkit
             this._button3.AutoSize = true;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
-            this._button3.Location = new System.Drawing.Point(221, 0);
+            this._button3.Location = new System.Drawing.Point(166, 0);
             this._button3.Margin = new System.Windows.Forms.Padding(0);
-            this._button3.MinimumSize = new System.Drawing.Size(51, 26);
+            this._button3.MinimumSize = new System.Drawing.Size(38, 21);
             this._button3.Name = "_button3";
-            this._button3.Size = new System.Drawing.Size(51, 32);
+            this._button3.Size = new System.Drawing.Size(38, 26);
             this._button3.TabIndex = 2;
+            this._button3.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button3.Values.Text = "B3";
             this._button3.Visible = false;
             // 
@@ -136,12 +138,13 @@ namespace Krypton.Toolkit
             this._button1.AutoSize = true;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
-            this._button1.Location = new System.Drawing.Point(120, 0);
+            this._button1.Location = new System.Drawing.Point(90, 0);
             this._button1.Margin = new System.Windows.Forms.Padding(0);
-            this._button1.MinimumSize = new System.Drawing.Size(51, 26);
+            this._button1.MinimumSize = new System.Drawing.Size(38, 21);
             this._button1.Name = "_button1";
-            this._button1.Size = new System.Drawing.Size(51, 32);
+            this._button1.Size = new System.Drawing.Size(38, 26);
             this._button1.TabIndex = 0;
+            this._button1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button1.Values.Text = "B1";
             this._button1.Visible = false;
             // 
@@ -151,12 +154,13 @@ namespace Krypton.Toolkit
             this._button2.AutoSize = true;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
-            this._button2.Location = new System.Drawing.Point(171, 0);
+            this._button2.Location = new System.Drawing.Point(128, 0);
             this._button2.Margin = new System.Windows.Forms.Padding(0);
-            this._button2.MinimumSize = new System.Drawing.Size(51, 26);
+            this._button2.MinimumSize = new System.Drawing.Size(38, 21);
             this._button2.Name = "_button2";
-            this._button2.Size = new System.Drawing.Size(51, 32);
+            this._button2.Size = new System.Drawing.Size(38, 26);
             this._button2.TabIndex = 1;
+            this._button2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
             // 
@@ -165,9 +169,9 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(271, 79);
+            this.kryptonPanel1.Size = new System.Drawing.Size(203, 64);
             this.kryptonPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -181,22 +185,21 @@ namespace Krypton.Toolkit
             this.tableLayoutPanel1.Controls.Add(this.kpnlContentArea, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(271, 79);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(203, 64);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // kpnlContentArea
             // 
             this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlContentArea.Location = new System.Drawing.Point(64, 4);
-            this.kpnlContentArea.Margin = new System.Windows.Forms.Padding(4);
+            this.kpnlContentArea.Location = new System.Drawing.Point(48, 3);
             this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(203, 45);
+            this.kpnlContentArea.Size = new System.Drawing.Size(152, 37);
             this.kpnlContentArea.TabIndex = 1;
             // 
             // kwlblMessageText
@@ -204,11 +207,11 @@ namespace Krypton.Toolkit
             this.kwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
             this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
-            this.kwlblMessageText.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
+            this.kwlblMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.kwlblMessageText.Multiline = true;
             this.kwlblMessageText.Name = "kwlblMessageText";
             this.kwlblMessageText.ReadOnly = true;
-            this.kwlblMessageText.Size = new System.Drawing.Size(203, 45);
+            this.kwlblMessageText.Size = new System.Drawing.Size(152, 37);
             this.kwlblMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.kwlblMessageText.TabIndex = 0;
             this.kwlblMessageText.TabStop = false;
@@ -216,13 +219,13 @@ namespace Krypton.Toolkit
             // 
             // VisualMessageBoxForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(271, 79);
+            this.ClientSize = new System.Drawing.Size(203, 64);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxForm";
@@ -230,7 +233,6 @@ namespace Krypton.Toolkit
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.TopMost = false;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
