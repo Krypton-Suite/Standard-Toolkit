@@ -4,6 +4,7 @@
 
 ## 2024-07-xx - Build 2407 (Patch 1) - July 2024
 * Resolved [#1613](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1613), `KryptonMessageBox` text is not centered vertically.
+* Resolved [#1583](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1583), `KryptonThemeComboBox` and `KrpytonThemeListBox` have the wrong designer assigned. Adds the `KryptonStubDesigner` internal class.
 * Resolved [#1614](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1614), `KryptonMessageBox` throws an exception after Esc key is pressed.
 * Resolved [#1599](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1599), `KryptonMessageBox` cuts off the last line.
 * Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` stays on top of other windows.
