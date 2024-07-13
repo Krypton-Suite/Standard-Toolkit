@@ -122,9 +122,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(0  , 114, 198),    // StatusStripLight
             Color.FromArgb(0  , 114, 198),    // StatusStripDark
             Color.White,                      // ImageMargin
-            Color.FromArgb( 25,  71, 138),    // ToolStripBegin
-            Color.FromArgb( 25,  71, 138),    // ToolStripMiddle
-            Color.FromArgb( 25,  71, 138),    // ToolStripEnd
+            Color.FromArgb(255, 255, 255),    // ToolStripBegin
+            Color.FromArgb(255, 255, 255),    // ToolStripMiddle
+            Color.FromArgb(255, 255, 255),    // ToolStripEnd
             Color.FromArgb(147, 154, 163),    // OverflowBegin
             Color.FromArgb(147, 154, 163),    // OverflowMiddle
             Color.FromArgb(147, 154, 163),    // OverflowEnd
