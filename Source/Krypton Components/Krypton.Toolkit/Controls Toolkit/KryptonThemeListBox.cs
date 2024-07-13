@@ -12,6 +12,7 @@ namespace Krypton.Toolkit
 {
     /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
     /// <seealso cref="KryptonListBox" />
+    [Designer(typeof(KryptonStubDesigner))]
     public class KryptonThemeListBox : KryptonListBox
     {
         #region Instance Fields
