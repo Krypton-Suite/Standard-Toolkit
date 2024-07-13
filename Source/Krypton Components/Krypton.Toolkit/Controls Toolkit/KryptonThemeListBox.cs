@@ -12,14 +12,9 @@ namespace Krypton.Toolkit
 {
     /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
     /// <seealso cref="KryptonListBox" />
-    [Designer(typeof(ControlDesigner))]
+    [Designer(typeof(KryptonStubDesigner))]
     public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     {
-        /*
-         * Since their is no suitable designer and the inherited isn't a good match
-         * It's overridden by using the Base class ControlDesigner which effectively removes the designer.
-         */
-
         #region Instance Fields
 
         /// <summary> When we change the palette, Krypton Manager will notify us that there was a change. Since we are changing it that notification can be skipped.</summary>
