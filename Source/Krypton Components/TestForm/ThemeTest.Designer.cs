@@ -202,23 +202,12 @@ namespace TestForm
             this.kryptonPropertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonPropertyGrid1.BackColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kryptonPropertyGrid1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.kryptonPropertyGrid1.HelpBackColor = System.Drawing.Color.White;
-            this.kryptonPropertyGrid1.HelpForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.kryptonPropertyGrid1.Location = new System.Drawing.Point(531, 35);
             this.kryptonPropertyGrid1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
             this.kryptonPropertyGrid1.Size = new System.Drawing.Size(607, 319);
             this.kryptonPropertyGrid1.TabIndex = 2;
-            this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(179)))), ((int)(((byte)(236)))));
-            this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(66)))), ((int)(((byte)(139)))));
             // 
             // kryptonManager1
             // 

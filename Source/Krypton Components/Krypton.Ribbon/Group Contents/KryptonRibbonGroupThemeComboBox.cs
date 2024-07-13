@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
     [DefaultProperty(nameof(Text))]
-    public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
+    public sealed class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
     {
         // TODO: grouped Ribbon controls do expose designers, needs a closer look
 
@@ -42,8 +42,9 @@ namespace Krypton.Ribbon
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonRibbonGroupThemeComboBox" /> class.</summary>
-        public KryptonRibbonGroupThemeComboBox() : base()
+        public KryptonRibbonGroupThemeComboBox()
         {
+            ComboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
             _manager = new KryptonManager();
             DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -55,6 +56,7 @@ namespace Krypton.Ribbon
 
             // React to theme changes from outside this control.
             KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+            ComboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
         }
 
         #endregion
@@ -127,7 +129,7 @@ namespace Krypton.Ribbon
         /// <summary>Gets and sets the text associated with the control.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new string Text
+        public override string Text
         {
             get => base.Text;
             set => base.Text = value;
@@ -136,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>Gets or sets the format specifier characters that indicate how a value is to be Displayed.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new string FormatString 
+        public override string FormatString 
         {
             get => base.FormatString;
             set => base.FormatString = value;
@@ -145,7 +147,7 @@ namespace Krypton.Ribbon
         /// <summary>Gets and sets the appearance and functionality of the KryptonComboBox.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new ComboBoxStyle DropDownStyle
+        public override ComboBoxStyle DropDownStyle
         {
             get => base.DropDownStyle;
             set => base.DropDownStyle = value;
@@ -154,12 +156,12 @@ namespace Krypton.Ribbon
         /// <summary>Gets or sets the items in the KryptonComboBox.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new ComboBox.ObjectCollection Items => base.Items;
+        public override ComboBox.ObjectCollection Items => base.Items;
 
         /// <summary>Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteStringCollection AutoCompleteCustomSource
+        public override AutoCompleteStringCollection AutoCompleteCustomSource
         {
             get => base.AutoCompleteCustomSource;
             set => base.AutoCompleteCustomSource = value;
@@ -168,7 +170,7 @@ namespace Krypton.Ribbon
         /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteMode AutoCompleteMode
+        public override AutoCompleteMode AutoCompleteMode
         {
             get => base.AutoCompleteMode;
             set => base.AutoCompleteMode = value;
@@ -177,21 +179,11 @@ namespace Krypton.Ribbon
         /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteSource AutoCompleteSource
+        public override AutoCompleteSource AutoCompleteSource
         {
             get => base.AutoCompleteSource;
             set => base.AutoCompleteSource = value;
         }
-
-        /// <summary>Gets and sets the selected index.</summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new int SelectedIndex 
-        {
-            get => base.SelectedIndex;
-            set => base.SelectedIndex = value;
-        }
-
         #endregion
     }
 }
