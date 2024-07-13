@@ -113,6 +113,7 @@ namespace Krypton.Toolkit
             this._button4.Name = "_button4";
             this._button4.Size = new System.Drawing.Size(38, 23);
             this._button4.TabIndex = 2;
+            this._button4.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button4.Values.Text = "B4";
             this._button4.Visible = false;
             // 
@@ -128,6 +129,7 @@ namespace Krypton.Toolkit
             this._button3.Name = "_button3";
             this._button3.Size = new System.Drawing.Size(38, 23);
             this._button3.TabIndex = 2;
+            this._button3.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button3.Values.Text = "B3";
             this._button3.Visible = false;
             // 
@@ -143,6 +145,7 @@ namespace Krypton.Toolkit
             this._button1.Name = "_button1";
             this._button1.Size = new System.Drawing.Size(38, 23);
             this._button1.TabIndex = 0;
+            this._button1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button1.Values.Text = "B1";
             this._button1.Visible = false;
             // 
@@ -158,6 +161,7 @@ namespace Krypton.Toolkit
             this._button2.Name = "_button2";
             this._button2.Size = new System.Drawing.Size(38, 23);
             this._button2.TabIndex = 1;
+            this._button2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
             // 
@@ -207,9 +211,9 @@ namespace Krypton.Toolkit
             this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
             this.kwlblMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.kwlblMessageText.Multiline = true;
-            this.kwlblMessageText.Name = "_messageText";
+            this.kwlblMessageText.Name = "kwlblMessageText";
             this.kwlblMessageText.ReadOnly = true;
-            this.kwlblMessageText.Size = new System.Drawing.Size(176, 44);
+            this.kwlblMessageText.Size = new System.Drawing.Size(152, 81);
             this.kwlblMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.kwlblMessageText.TabIndex = 0;
             this.kwlblMessageText.TabStop = false;
@@ -226,7 +230,7 @@ namespace Krypton.Toolkit
             this.klwlblMessageText.Text = "Message Text";
             this.klwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // VisualMessageBoxForm
+            // VisualMessageBoxFormDep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -237,12 +241,11 @@ namespace Krypton.Toolkit
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VisualMessageBoxForm";
+            this.Name = "VisualMessageBoxFormDep";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.TopMost = false;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
@@ -253,7 +256,9 @@ namespace Krypton.Toolkit
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
             this.kpnlContentArea.ResumeLayout(false);
+            this.kpnlContentArea.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion
