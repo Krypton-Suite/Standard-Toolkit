@@ -56,7 +56,9 @@ namespace Krypton.Toolkit
             /// <param name="kryptonListView">Reference to owning control.</param>
             public InternalListView(KryptonListView kryptonListView)
             {
-                SetStyle(ControlStyles.ResizeRedraw, true);
+                SetStyle(ControlStyles.ResizeRedraw
+                         | ControlStyles.AllPaintingInWmPaint
+                         | ControlStyles.OptimizedDoubleBuffer, true);
 
                 _kryptonListView = kryptonListView;
 

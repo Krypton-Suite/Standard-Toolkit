@@ -185,6 +185,9 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
+- [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
+   - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
+   - Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
 - [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 - and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
   - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
