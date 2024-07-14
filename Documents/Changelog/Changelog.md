@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1624](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1624), Theme Selector controls default to Professional System theme when set to `PaletteMode.Global`. Instead those shoud default to `ThemeManager.DefaultGlobalPalette`.
 * Resolved [#1628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1628), Some themes do not render the "ToolStrip" Correctly
 * Implemented [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
 * Resolved [#1564](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1564), Disabled Button Text in Ribbons is not visible in some themes
