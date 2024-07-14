@@ -103,12 +103,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(228, 228, 228), // GripLight
             Color.FromArgb(77, 77, 77), // GripDark
             Color.FromArgb(83, 83, 83), // ToolStripBack
-            Color.FromArgb(178, 177, 178), // StatusStripLight
-            Color.FromArgb(131, 132, 132), // StatusStripDark
+            Color.FromArgb(75, 75, 75), // StatusStripLight
+            Color.FromArgb(50, 50, 50), // StatusStripDark
             Color.FromArgb(239, 239, 239), // ImageMargin
-            Color.FromArgb(210, 213, 218), // ToolStripBegin
-            Color.FromArgb(188, 193, 201), // ToolStripMiddle
-            Color.FromArgb(138, 146, 156), // ToolStripEnd
+            Color.FromArgb(75, 75, 75), // ToolStripBegin
+            Color.FromArgb(50, 50, 50), // ToolStripMiddle
+            Color.FromArgb(50, 50, 50), // ToolStripEnd
             Color.FromArgb(178, 183, 191), // OverflowBegin
             Color.FromArgb(139, 147, 158), // OverflowMiddle
             Color.FromArgb(76, 83, 92), // OverflowEnd

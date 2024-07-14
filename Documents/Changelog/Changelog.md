@@ -4,13 +4,13 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Resolved [#1624](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1624), Theme Selector controls default to Professional System theme when set to `PaletteMode.Global`. Instead those shoud default to `ThemeManager.DefaultGlobalPalette`.
-* Resolved [#1583](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1583), `KryptonThemeComboBox` and `KrpytonThemeListBox` have the wrong designer assigned. Adds the `KryptonStubDesigner` internal class.
+* Resolved [#1628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1628), Some themes do not render the "ToolStrip" Correctly
+* Implemented [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
 * Resolved [#1564](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1564), Disabled Button Text in Ribbons is not visible in some themes
 * Resolved [#1607](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1607), "MS365 - Black" theme is unreadable
 * Resolved [#1581](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1581), **Enhancement** KListview has background problems for disabled view on each "Item" [now with added List and Details Views]
 * Resolved/Implemented [#1597](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1597), Use `KryptonUseRTLLayout` to prevent LTR/RTL issues
 * Resolved/Implemented [#1601](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1601), Rollback `KryptonPaletteCustomBase` ability to use a single schema
-* Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` and `KryptonMessageBoxDep` stays on top of other windows.
 * Resolved [#1593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1593), KInputBox is stuck in RTL mode
 * RollBack [#1584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1584), Disable the FadeValues property in VisualForm and move the FadeValues class to Extended. It was a V90 feature but is up for further development in V100.
 * Resolved [#1573](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1573), KCheckedListbox & KListBox do not respect 'disabled' back colours
@@ -113,7 +113,7 @@
 * Resolved [#1207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1207), Microsoft 365 - Black (Dark Mode) Drop button is not visible
 * Resolved [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), **[Breaking Change]** Remove the Font Size (as it is already covered by the actual font !)
 * Resolved [#1197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1197), `KryptonTaskDialog` Footer Images
-* Resolved [#1189](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1189), The Context and Next/Pervious buttons of the `KryptonDockableNavigator` cannot be used
+* Resolved [#1189](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1189), The Context and Next/Previous buttons of the `KryptonDockableNavigator` cannot be used
 * Implemented [#1187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1187), Bring over the `KryptonCommandLinkButtons`
 * Resolved [#1176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1176), KryptonProgressBar: small values escape drawing area
 * Resolved [#1169](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1169), Button Spec Krypton Context Menu (Canary)
@@ -132,6 +132,11 @@
 =======
 
 ## 2024-07-xx - Build 2407 (Version 85 - Patch 1) - July 2024
+* Resolved [#1583](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1583), `KryptonThemeComboBox` and `KrpytonThemeListBox` have the wrong designer assigned. Adds the `KryptonStubDesigner` internal class.
+* Resolved [#1614](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1614), `KryptonMessageBox` throws an exception after Esc key is pressed.
+* Resolved [#1613](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1613), `KryptonMessageBox` text is not centered vertically.
+* Resolved [#1599](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1599), `KryptonMessageBox` cuts off the last line.
+* Resolved [#1600](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1600), `KryptonMessageBox` stays on top of other windows.
 * Resolved [#1580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1580), Changing to certain modes in `KryptonNavigator` can cause a System.NullReferenceException
 
 =======
