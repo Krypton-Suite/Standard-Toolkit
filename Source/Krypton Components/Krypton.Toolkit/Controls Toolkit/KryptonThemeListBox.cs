@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary> Suppress code execution in the SelectedIndexChanged event handler, when a theme change via the KManager has been performed.</summary>
         private bool _isExternalUpdate = false;
         /// <summary> Backing var for the DefaultPalette property.</summary>
-        private PaletteMode _defaultPalette;
+        private PaletteMode _defaultPalette = PaletteMode.Global;
         /// <summary> Local Krypton Manager instance.</summary>
         private readonly KryptonManager _manager;
         /// <summary> User defined palette.</summary>
