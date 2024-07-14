@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         }
 
         /// <inheritdoc />
-        [DefaultValue(typeof(Size), @"100, 22")]
+        [DefaultValue(typeof(Size), @"100, 30")]
         public override Size Size { get => base.Size; set => base.Size = value; }
 
         #endregion

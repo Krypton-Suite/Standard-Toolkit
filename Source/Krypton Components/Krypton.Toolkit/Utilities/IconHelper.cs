@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
                 {
                     if (newSize.Height > 256 && newSize.Height > 256)
                     {
-                        newSize = new Size(0, 0);
+                        newSize = GlobalStaticValues.ResetDefaultMinimumSize;
                     }
 
                     _pngIconHeader[6] = (byte)newSize.Width;
