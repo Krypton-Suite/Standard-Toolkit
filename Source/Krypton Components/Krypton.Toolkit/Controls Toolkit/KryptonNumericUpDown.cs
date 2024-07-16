@@ -61,9 +61,9 @@ namespace Krypton.Toolkit
 
                 // Remove from view until size for the first time by the Krypton control
                 Size = Size.Empty;
-
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
+                Padding = Padding.Empty;
             }
 
             public void SetChangingText(bool value) => ChangingText = value;
@@ -100,6 +100,16 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
+            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
+            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
+            protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
+
+            /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+            protected override void OnSystemColorsChanged(EventArgs e)
+            {
+                // DO nothing, It's Krypton Colours that are in use !
+            }
+
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>
@@ -590,8 +600,7 @@ namespace Krypton.Toolkit
                                         }
 
                                         // Draw the actual up and down buttons split inside the client rectangle
-                                        DrawUpDownButtons(g,
-                                            clientRect with { Height = clientRect.Height - 1 });
+                                        DrawUpDownButtons(g, clientRect);
 
                                         // Now blit from the bitmap from the screen to the real dc
                                         PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
@@ -853,11 +862,13 @@ namespace Krypton.Toolkit
             {
                 DisplayPadding = new Padding(1, 1, 1, 0)
             };
+            // When font is smaller than the Min size, then attempt to Vertical centralise the control
+            var layoutCentre = new ViewLayoutCenter(_layoutFill);
 
             // Create inner view for placing inside the drawing docker
             _drawDockerInner = new ViewLayoutDocker
             {
-                { _layoutFill, ViewDockStyle.Fill }
+                { layoutCentre, ViewDockStyle.Fill }
             };
 
             // Create view for the control border and background
@@ -1383,7 +1394,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _numericUpDown?.Select(start, length);
+        public void Select(int start, int length) => _numericUpDown.Select(start, length);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1733,7 +1744,7 @@ namespace Krypton.Toolkit
                 if (IsHandleCreated || _forcedLayout || (DesignMode && (_numericUpDown != null)))
                 {
                     Rectangle fillRect = _layoutFill.FillRect;
-                    _numericUpDown?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                    _numericUpDown.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
                 }
             }
         }
@@ -1769,7 +1780,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _numericUpDown?.Focus();
+            _numericUpDown.Focus();
         }
 
         /// <summary>
