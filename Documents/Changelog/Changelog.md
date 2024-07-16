@@ -3,7 +3,6 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
-* Resolved [#1373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1373), `KT.CommonHelper.CheckContextMenuForShortcut()` handles direct type casts differently from .NET 8.0 onward. Solution courtesy of @Tape-Worm
 * Resolved [#1633](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1633), `KryptonRibbon` - Clicking the Mini QAT Menu Button causes an exception.
 * Resolved [#1624](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1624), Theme Selector controls default to Professional System theme when set to `PaletteMode.Global`. Instead those shoud default to `ThemeManager.DefaultGlobalPalette`.
 * Resolved [#1628](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1628), Some themes do not render the "ToolStrip" Correctly
@@ -134,6 +133,7 @@
 =======
 
 ## 2024-07-xx - Build 2407 (Version 85 - Patch 1) - July 2024
+* Resolved [#1373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1373), `KT.CommonHelper.CheckContextMenuForShortcut()` handles direct type casts differently from .NET 8.0 onward. Solution courtesy of @Tape-Worm
 * Resolved [#1583](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1583), `KryptonThemeComboBox` and `KrpytonThemeListBox` have the wrong designer assigned. Adds the `KryptonStubDesigner` internal class.
 * Resolved [#1614](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1614), `KryptonMessageBox` throws an exception after Esc key is pressed.
 * Resolved [#1613](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1613), `KryptonMessageBox` text is not centered vertically.
