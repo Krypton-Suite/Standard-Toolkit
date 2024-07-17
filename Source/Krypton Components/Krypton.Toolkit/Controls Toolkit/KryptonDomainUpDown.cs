@@ -57,9 +57,9 @@ namespace Krypton.Toolkit
 
                 // Remove from view until size for the first time by the Krypton control
                 Size = Size.Empty;
+
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
-                Padding = Padding.Empty;
             }
             #endregion
 
@@ -93,16 +93,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
-            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
-            protected override Size DefaultMinimumSize => GlobalStaticValues.ResetDefaultMinimumSize;
-
-            /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
-            protected override void OnSystemColorsChanged(EventArgs e)
-            {
-                // DO nothing, It's Krypton Colours that are in use !
-            }
-
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>
@@ -323,6 +313,7 @@ namespace Krypton.Toolkit
                         {
                             var tme = new PI.TRACKMOUSEEVENTS
                             {
+
                                 // This structure needs to know its own size in bytes
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
                                 dwHoverTime = 100,
@@ -576,7 +567,8 @@ namespace Krypton.Toolkit
                                         }
 
                                         // Draw the actual up and down buttons split inside the client rectangle
-                                        DrawUpDownButtons(g, clientRect);
+                                        DrawUpDownButtons(g,
+                                            clientRect with { Height = clientRect.Height - 1 });
 
                                         // Now blit from the bitmap from the screen to the real dc
                                         PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
@@ -950,7 +942,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value!;
+            set => base.Font = value;
         }
 
         /// <summary>
@@ -1375,7 +1367,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside text box is the client rectangle size
-                return new Rectangle(_domainUpDown.Location, _domainUpDown.Size);
+                return new Rectangle(DomainUpDown.Location, DomainUpDown.Size);
             }
         }
 
@@ -1722,7 +1714,7 @@ namespace Krypton.Toolkit
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_domainUpDown.Handle != IntPtr.Zero) && !_domainUpDown.Font.Equals(font))
                 {
-                    _domainUpDown.Font = font!;
+                    _domainUpDown.Font = font;
                 }
             }
 

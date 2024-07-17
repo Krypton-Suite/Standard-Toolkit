@@ -50,6 +50,7 @@ namespace Krypton.Toolkit
             // Create the internal panel used for containing content
             Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint)
             {
+
                 // Make sure the panel back style always mimics our back style
                 PanelBackStyle = PaletteBackStyle.ControlClient
             };

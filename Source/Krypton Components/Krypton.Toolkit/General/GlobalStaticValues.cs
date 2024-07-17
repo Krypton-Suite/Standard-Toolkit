@@ -16,8 +16,6 @@ namespace Krypton.Toolkit
     /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
-        public static Size DefaultMinimumSize = new Size(0, 30);
-        public static Size ResetDefaultMinimumSize = new Size(0, 0);
         /// <summary>The default date and time value</summary>
         public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
 
