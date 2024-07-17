@@ -135,6 +135,7 @@ namespace Krypton.Toolkit
             {
                 // Remember incoming reference
                 _kryptonComboBox = kryptonComboBox;
+
                 // Remove from view until size for the first time by the Krypton control
                 ItemHeight = 15;
                 DropDownHeight = 200;
@@ -211,10 +212,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
-            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
-            protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
-
             protected override void OnEnabledChanged(EventArgs e)
             {
                 // Do not forward, to allow the correct Background for disabled state
@@ -1146,10 +1143,11 @@ namespace Krypton.Toolkit
 
             // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_comboHolder);
+
             // Create inner view for placing inside the drawing docker
             _drawDockerInner = new ViewLayoutDocker
             {
-                { _layoutFill, ViewDockStyle.Bottom } // Make it better when drawing smaller font than MinHeight
+                { _layoutFill, ViewDockStyle.Fill }
             };
 
             // Create view for the control border and background
@@ -2163,7 +2161,7 @@ namespace Krypton.Toolkit
             OnMouseLeave(EventArgs.Empty);
 
         /// <summary>Gets or sets the height and width of the control.</summary>
-        [DefaultValue(typeof(Size), "121, 30")]
+        [DefaultValue(typeof(Size), "121, 21")]
         public new Size Size
         {
             get => base.Size;

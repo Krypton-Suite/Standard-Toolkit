@@ -168,10 +168,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
-        /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
-        protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
-
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
         [Category(@"Behavior")]

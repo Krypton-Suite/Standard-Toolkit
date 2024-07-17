@@ -80,7 +80,6 @@ namespace Krypton.Toolkit
 
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
-                Padding = Padding.Empty;
             }
             #endregion
 
@@ -114,9 +113,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            //If this is here, then it will make the control have a minHeight of 37 ?!?!?!
-            //protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
-
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>

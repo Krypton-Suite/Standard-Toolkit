@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             AutoRecentColors = true;
             SchemeThemes = ColorScheme.OfficeThemes;
             SchemeStandard = ColorScheme.OfficeStandard;
-            _selectedRect = new Rectangle(0, 12, 16, 6);
+            _selectedRect = new Rectangle(0, 12, 16, 4);
             _selectedColor = Color.Red;
             _emptyBorderColor = Color.DarkGray;
             DialogResult = DialogResult.None;
@@ -1504,7 +1504,7 @@ namespace Krypton.Toolkit
 
                     Values.RoundedCorners = 0;
 
-                    Values.SelectedRect = new Rectangle(0, 12, 16, 6);
+                    Values.SelectedRect = new Rectangle(0, 12, 16, 4);
                     break;
                 case KryptonColorButtonCustomColorPreviewShape.Circle:
                     Values.Image = GenericImageResources.Transparent_16_x_16;

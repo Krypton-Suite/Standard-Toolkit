@@ -49,5 +49,5 @@ dotnet_diagnostic.CS8073.severity = None
 dotnet_diagnostic.CS8618.severity = None
 
 #Warning	CS8622	Nullability of reference types in type of parameter 'sender' of ####
-#dotnet_diagnostic.CS8622.severity = None
+dotnet_diagnostic.CS8622.severity = None
 

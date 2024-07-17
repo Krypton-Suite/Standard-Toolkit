@@ -1381,7 +1381,7 @@ namespace Krypton.Toolkit
         HeaderButtonPaddingCalendar,
 
         /// <summary>
-        /// Specifies the padding for buttons on an input control.
+        /// Specifies the padding for buttons on a input control.
         /// </summary>
         HeaderButtonPaddingInputControl,
 

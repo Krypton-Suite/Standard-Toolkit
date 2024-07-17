@@ -60,7 +60,6 @@ namespace Krypton.Toolkit
 
                 // We provide the border manually
                 BorderStyle = BorderStyle.None;
-                Padding = Padding.Empty;
             }
             #endregion
 
@@ -94,8 +93,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            //If this is here, then the Min Height Become 37 ?!?!?!?!
-            //protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
 
             /// <summary>
             /// Process Windows-based messages.
@@ -145,6 +142,7 @@ namespace Krypton.Toolkit
                             using Graphics g = Graphics.FromHdc(hdc);
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
+
 
                             // Create rect for the text area
                             Size borderSize = SystemInformation.BorderSize;

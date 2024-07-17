@@ -161,7 +161,6 @@ namespace Krypton.Toolkit
             }
 
             #endregion
-
         }
 
         /// <summary>
@@ -526,11 +525,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-
-            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
-            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
-            protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
-
             /// <summary>
             /// Creates a new instance of the item collection.
             /// </summary>
