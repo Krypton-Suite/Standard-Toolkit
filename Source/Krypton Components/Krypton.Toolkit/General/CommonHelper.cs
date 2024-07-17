@@ -150,13 +150,32 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                var shortcuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
+                Hashtable? hashTableShortCuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
+                ToolStripMenuItem? menuItem = null;
+
+                if (hashTableShortCuts is null)
+                {
+                    Dictionary<Keys, ToolStripMenuItem>? dictionaryShortcuts = _cachedShortcutPI!.GetValue(cms, null) as Dictionary<Keys, ToolStripMenuItem>;
+
+                    if (dictionaryShortcuts is not null)
+                    {
+                        dictionaryShortcuts.TryGetValue(keyData, out menuItem);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    menuItem = hashTableShortCuts[keyData] as ToolStripMenuItem;
+                }
 
                 // If we found a match...
-                if (shortcuts![keyData] is ToolStripMenuItem menuItem)
+                if (menuItem is not null)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI!.Invoke(menuItem, [msg, keyData]);
+                    var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
