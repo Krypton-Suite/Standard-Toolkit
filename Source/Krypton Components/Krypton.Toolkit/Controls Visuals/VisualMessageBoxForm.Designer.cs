@@ -198,6 +198,7 @@ namespace Krypton.Toolkit
             this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContentArea.Location = new System.Drawing.Point(48, 3);
+            this.kpnlContentArea.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.kpnlContentArea.Name = "kpnlContentArea";
             this.kpnlContentArea.Size = new System.Drawing.Size(152, 37);
             this.kpnlContentArea.TabIndex = 1;

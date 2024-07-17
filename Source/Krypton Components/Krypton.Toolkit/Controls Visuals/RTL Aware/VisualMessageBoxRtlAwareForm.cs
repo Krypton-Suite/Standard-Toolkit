@@ -49,12 +49,7 @@ namespace Krypton.Toolkit
             bool? showCloseButton)
         {
             // Store incoming values
-            if (text != null && !text.Contains('\n'))
-            {
-                _text = "\r\n"; // \n means that the single line text should align with the icon
-            }
-
-            _text += text;
+            _text = text;
             _caption = caption;
             _buttons = buttons;
             _kryptonMessageBoxIcon = icon;

@@ -981,7 +981,7 @@ namespace Krypton.Toolkit
                 Size scaledMonitorSize = screen!.Bounds.Size;
                 scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
                 scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
-                Font textFont = kwlblMessageText.StateCommon.Font ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
+                Font textFont = GetMessageTextFont(_contentAreaType);
                 Font captionFont = KryptonManager.CurrentGlobalPalette.BaseFont;
                 SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
@@ -998,7 +998,7 @@ namespace Krypton.Toolkit
             }
 
             // Calculate the size of the icon area and text area including margins
-            Padding textPadding = kwlblMessageText.Padding;
+            Padding textPadding = GetMessageTextPadding(_contentAreaType);
             Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
             Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
                 _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
@@ -1006,6 +1006,39 @@ namespace Krypton.Toolkit
                 textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
             return new Size(textArea.Width + iconArea.Width,
                 Math.Max(iconArea.Height, textArea.Height));
+        }
+
+        private Font GetMessageTextFont(MessageBoxContentAreaType? contentAreaType)
+        {
+            switch (contentAreaType)
+            {
+                case MessageBoxContentAreaType.Normal:
+                    return kwlblMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal)
+                        ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+                case MessageBoxContentAreaType.LinkLabel:
+                    klwlblMessageText.UpdateFont();
+                    return klwlblMessageText.Font
+                        ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+                case null:
+                    return KryptonManager.CurrentGlobalPalette.BaseFont;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
+        }
+
+        private Padding GetMessageTextPadding(MessageBoxContentAreaType? contentAreaType)
+        {
+            switch (contentAreaType)
+            {
+                case MessageBoxContentAreaType.Normal:
+                    return kwlblMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                case MessageBoxContentAreaType.LinkLabel:
+                    return klwlblMessageText.Padding;
+                case null:
+                    return new Padding(0);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
         }
 
         private Size UpdateButtonsSizing()
