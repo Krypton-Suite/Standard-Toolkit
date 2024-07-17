@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
             Text = string.IsNullOrEmpty(_caption) 
                 ? string.Empty 
                 : _caption!.Split(Environment.NewLine.ToCharArray())[0];
-            kwlblMessageText.Text = _text;
+            ktextBoxMessageText.Text = _text;
         }
 
         private void UpdateTextExtra(bool? showCtrlCopy)
@@ -485,7 +485,7 @@ namespace Krypton.Toolkit
                 Size scaledMonitorSize = screen!.Bounds.Size;
                 scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
                 scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
-                Font textFont = kwlblMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal) ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
+                Font textFont = ktextBoxMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal) ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
                 Font captionFont = KryptonManager.CurrentGlobalPalette.BaseFont;
                 SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
             }
 
             // Calculate the size of the icon area and text area including margins
-            Padding textPadding = kwlblMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textPadding = ktextBoxMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
             Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
             Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
                 _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);

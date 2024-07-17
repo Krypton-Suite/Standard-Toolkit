@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
-            this.kwlblMessageText = new Krypton.Toolkit.KryptonTextBox();
+            this.ktextBoxMessageText = new Krypton.Toolkit.KryptonTextBox();
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
             this._panelButtons.SuspendLayout();
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
             this._borderEdge.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this._borderEdge.Dock = System.Windows.Forms.DockStyle.Top;
             this._borderEdge.Location = new System.Drawing.Point(0, 0);
-            this._borderEdge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this._borderEdge.Margin = new System.Windows.Forms.Padding(2);
             this._borderEdge.Name = "_borderEdge";
             this._borderEdge.Size = new System.Drawing.Size(203, 1);
             this._borderEdge.Text = "kryptonBorderEdge1";
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(203, 64);
             this.kryptonPanel1.TabIndex = 1;
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
             this.tableLayoutPanel1.Controls.Add(this.kpnlContentArea, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -195,28 +195,28 @@ namespace Krypton.Toolkit
             // 
             // kpnlContentArea
             // 
-            this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
+            this.kpnlContentArea.Controls.Add(this.ktextBoxMessageText);
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlContentArea.Location = new System.Drawing.Point(48, 3);
+            this.kpnlContentArea.Location = new System.Drawing.Point(49, 12);
             this.kpnlContentArea.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(152, 37);
+            this.kpnlContentArea.Size = new System.Drawing.Size(150, 19);
             this.kpnlContentArea.TabIndex = 1;
             // 
-            // kwlblMessageText
+            // ktextBoxMessageText
             // 
-            this.kwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlblMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
-            this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
-            this.kwlblMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.kwlblMessageText.Multiline = true;
-            this.kwlblMessageText.Name = "kwlblMessageText";
-            this.kwlblMessageText.ReadOnly = true;
-            this.kwlblMessageText.Size = new System.Drawing.Size(152, 37);
-            this.kwlblMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
-            this.kwlblMessageText.TabIndex = 0;
-            this.kwlblMessageText.TabStop = false;
-            this.kwlblMessageText.Text = "Message Text\r\n.\ttabbed";
+            this.ktextBoxMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktextBoxMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
+            this.ktextBoxMessageText.Location = new System.Drawing.Point(0, 0);
+            this.ktextBoxMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.ktextBoxMessageText.Multiline = true;
+            this.ktextBoxMessageText.Name = "ktextBoxMessageText";
+            this.ktextBoxMessageText.ReadOnly = true;
+            this.ktextBoxMessageText.Size = new System.Drawing.Size(150, 19);
+            this.ktextBoxMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
+            this.ktextBoxMessageText.TabIndex = 0;
+            this.ktextBoxMessageText.TabStop = false;
+            this.ktextBoxMessageText.Text = "Message Text\r\n.\ttabbed";
             // 
             // VisualMessageBoxForm
             // 
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxForm";
@@ -260,6 +260,6 @@ namespace Krypton.Toolkit
         private KryptonPanel kryptonPanel1;
         private TableLayoutPanel tableLayoutPanel1;
         private KryptonPanel kpnlContentArea;
-        private KryptonTextBox kwlblMessageText;
+        private KryptonTextBox ktextBoxMessageText;
     }
 }

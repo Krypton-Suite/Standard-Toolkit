@@ -156,9 +156,9 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    kwlblMessageText.Text = text;
+                    ktextBoxMessageText.Text = text;
 
-                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    ktextBoxMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
                         options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
@@ -172,9 +172,9 @@ namespace Krypton.Toolkit
                             : RightToLeft.No;
                     break;
                 case null:
-                    kwlblMessageText.Text = text;
+                    ktextBoxMessageText.Text = text;
 
-                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    ktextBoxMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
                         options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 default:
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {
-                kwlblMessageText.Text = _text;
+                ktextBoxMessageText.Text = _text;
             }
             else
             {
@@ -1047,7 +1047,7 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    return kwlblMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal)
+                    return ktextBoxMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal)
                         ?? KryptonManager.CurrentGlobalPalette.BaseFont;
                 case MessageBoxContentAreaType.LinkLabel:
                     klwlblMessageText.UpdateFont();
@@ -1065,7 +1065,7 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    return kwlblMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                    return ktextBoxMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
                 case MessageBoxContentAreaType.LinkLabel:
                     return klwlblMessageText.Padding;
                 case null:
@@ -1221,17 +1221,17 @@ namespace Krypton.Toolkit
                 case MessageBoxContentAreaType.Normal:
                     klwlblMessageText.Visible = false;
 
-                    kwlblMessageText.Visible = true;
+                    ktextBoxMessageText.Visible = true;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
                     klwlblMessageText.Visible = true;
 
-                    kwlblMessageText.Visible = false;
+                    ktextBoxMessageText.Visible = false;
                     break;
                 case null:
                     klwlblMessageText.Visible = false;
 
-                    kwlblMessageText.Visible = true;
+                    ktextBoxMessageText.Visible = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
