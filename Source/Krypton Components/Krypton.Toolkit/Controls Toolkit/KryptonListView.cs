@@ -132,6 +132,9 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
+            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
+            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
+            protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
 
             /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.SystemColorsChanged" /> event.</summary>
             /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
@@ -146,6 +149,10 @@ namespace Krypton.Toolkit
             /// <param name="levent">A LayoutEventArgs containing the event data.</param>
             protected override void OnLayout(LayoutEventArgs levent)
             {
+                if (!IsHandleCreated || !Visible)
+                {
+                    return;
+                }
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size

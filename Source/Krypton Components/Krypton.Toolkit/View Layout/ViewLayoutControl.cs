@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // During disposal the view control will not longer exist
+            // During disposal the view control will no longer exist
             if (ChildControl != null)
             {
                 // Ensure the control has the correct parent
@@ -228,7 +228,8 @@ namespace Krypton.Toolkit
                 // Ask the view for its preferred size
                 if (ChildView != null)
                 {
-                    return ChildView.GetPreferredSize(context);
+                    var preferredSize = ChildView.GetPreferredSize(context);
+                    return preferredSize;
                 }
             }
 
@@ -249,7 +250,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // During disposal the view control will not longer exist
+            // During disposal the view control will no longer exist
             if (ChildControl != null)
             {
                 // Ensure context has the correct control

@@ -481,7 +481,8 @@ namespace Krypton.Toolkit
             CheckPaletteState(context!);
 
             // Delegate work to the child canvas
-            return _drawCanvas!.GetPreferredSize(context!);
+            var preferredSize = _drawCanvas!.GetPreferredSize(context!);
+            return preferredSize;
         }
 
         /// <summary>

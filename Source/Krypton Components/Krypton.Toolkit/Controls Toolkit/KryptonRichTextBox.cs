@@ -152,6 +152,10 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
+            /// <summary>Gets the length and height, in pixels, that is specified as the default minimum size of a control.</summary>
+            /// <returns>A <see cref="T:System.Drawing.Size" /> representing the size of the control.</returns>
+            protected override Size DefaultMinimumSize => GlobalStaticValues.DefaultMinimumSize;
+
             protected override void OnEnabledChanged(EventArgs e)
             {
                 // Do not forward, to allow the correct Background for disabled state

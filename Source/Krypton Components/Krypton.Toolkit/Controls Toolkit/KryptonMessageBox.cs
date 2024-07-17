@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
         /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null,
+        public static DialogResult Show(string? text, string caption, bool? showCtrlCopy = null,
                                         bool? showCloseButton = null) =>
             ShowCore(null, text, caption,
                 showCtrlCopy: showCtrlCopy,
