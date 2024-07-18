@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
-            this.kwlblMessageText = new Krypton.Toolkit.KryptonTextBox();
+            this.ktextBoxMessageText = new Krypton.Toolkit.KryptonTextBox();
             this.klwlblMessageText = new Krypton.Toolkit.KryptonLinkWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             this._messageIcon.Location = new System.Drawing.Point(8, 4);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
             this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(33, 79);
+            this._messageIcon.Size = new System.Drawing.Size(33, 35);
             this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._messageIcon.TabIndex = 0;
             this._messageIcon.TabStop = false;
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelButtons.Location = new System.Drawing.Point(0, 87);
+            this._panelButtons.Location = new System.Drawing.Point(0, 43);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
@@ -172,7 +172,7 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(203, 108);
+            this.kryptonPanel1.Size = new System.Drawing.Size(203, 64);
             this.kryptonPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -191,33 +191,34 @@ namespace Krypton.Toolkit
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(203, 108);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(203, 64);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // kpnlContentArea
             // 
-            this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
+            this.kpnlContentArea.Controls.Add(this.ktextBoxMessageText);
             this.kpnlContentArea.Controls.Add(this.klwlblMessageText);
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlContentArea.Location = new System.Drawing.Point(48, 3);
+            this.kpnlContentArea.Location = new System.Drawing.Point(49, 12);
+            this.kpnlContentArea.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(152, 81);
+            this.kpnlContentArea.Size = new System.Drawing.Size(150, 19);
             this.kpnlContentArea.TabIndex = 1;
             // 
-            // kwlblMessageText
+            // ktextBoxMessageText
             // 
-            this.kwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlblMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
-            this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
-            this.kwlblMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.kwlblMessageText.Multiline = true;
-            this.kwlblMessageText.Name = "kwlblMessageText";
-            this.kwlblMessageText.ReadOnly = true;
-            this.kwlblMessageText.Size = new System.Drawing.Size(152, 81);
-            this.kwlblMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
-            this.kwlblMessageText.TabIndex = 0;
-            this.kwlblMessageText.TabStop = false;
-            this.kwlblMessageText.Text = "Message Text\r\n.\ttabbed";
+            this.ktextBoxMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktextBoxMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
+            this.ktextBoxMessageText.Location = new System.Drawing.Point(0, 0);
+            this.ktextBoxMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.ktextBoxMessageText.Multiline = true;
+            this.ktextBoxMessageText.Name = "ktextBoxMessageText";
+            this.ktextBoxMessageText.ReadOnly = true;
+            this.ktextBoxMessageText.Size = new System.Drawing.Size(150, 19);
+            this.ktextBoxMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
+            this.ktextBoxMessageText.TabIndex = 0;
+            this.ktextBoxMessageText.TabStop = false;
+            this.ktextBoxMessageText.Text = "Message Text\r\n.\ttabbed";
             // 
             // klwlblMessageText
             // 
@@ -226,7 +227,7 @@ namespace Krypton.Toolkit
             this.klwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             this.klwlblMessageText.Location = new System.Drawing.Point(0, 0);
             this.klwlblMessageText.Name = "klwlblMessageText";
-            this.klwlblMessageText.Size = new System.Drawing.Size(152, 81);
+            this.klwlblMessageText.Size = new System.Drawing.Size(150, 19);
             this.klwlblMessageText.Text = "Message Text";
             this.klwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -234,7 +235,7 @@ namespace Krypton.Toolkit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(203, 108);
+            this.ClientSize = new System.Drawing.Size(203, 64);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
@@ -273,6 +274,6 @@ namespace Krypton.Toolkit
         private TableLayoutPanel tableLayoutPanel1;
         private KryptonPanel kpnlContentArea;
         private KryptonLinkWrapLabel klwlblMessageText;
-        private KryptonTextBox kwlblMessageText;
+        private KryptonTextBox ktextBoxMessageText;
     }
 }
