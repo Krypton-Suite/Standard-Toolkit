@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: nameof(GraphicsExtensions), methodSignature: @"ScaleImage(Image sourceImage, Size? imageSize)");
+                ExceptionHandler.CaptureException(e);
 
                 return null;
             }
