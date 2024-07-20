@@ -33,6 +33,9 @@ namespace TestForm
             dtTestData.Rows.Add(dt, "Mr", "Micheal\r\nSingle\r\nMarried", "(07) 0070-0700", "Divorced", 35, "Press!", false);
             dtTestData.Rows.Add(dt, "Mrs", "Marge has a really long name normally, and this should wrap", "(10) 2311-2311", "Married", 80, "Press!", true);
 
+            kryptonDataGridView1.AutoGenerateColumns = true;
+            kryptonDataGridView1.DataSource = dtTestData;
+
             kryptonPropertyGrid1.SelectedObject = new KryptonDataGridViewProxy(kryptonDataGridView1);
         }
     }

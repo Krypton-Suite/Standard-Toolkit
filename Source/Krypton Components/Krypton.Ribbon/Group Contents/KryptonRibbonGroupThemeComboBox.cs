@@ -44,7 +44,6 @@ namespace Krypton.Ribbon
         /// <summary>Initializes a new instance of the <see cref="KryptonRibbonGroupThemeComboBox" /> class.</summary>
         public KryptonRibbonGroupThemeComboBox()
         {
-            ComboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
             _manager = new KryptonManager();
             DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -56,7 +55,6 @@ namespace Krypton.Ribbon
 
             // React to theme changes from outside this control.
             KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
-            ComboBox.SelectedIndexChanged -= OnComboBoxSelectedIndexChanged;
         }
 
         #endregion
