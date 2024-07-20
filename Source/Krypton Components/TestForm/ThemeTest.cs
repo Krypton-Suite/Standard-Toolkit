@@ -55,5 +55,9 @@ namespace TestForm
 
             KryptonThemeBrowser.Show(data, Krypton.Toolkit.RightToLeftLayout.RightToLeft);
         }
+
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

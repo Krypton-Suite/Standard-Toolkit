@@ -18,42 +18,34 @@ namespace Krypton.Toolkit
     internal class ExceptionHandler
     {
         #region Constructor
+
         /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
         public ExceptionHandler()
         {
 
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <param name="title">The title.</param>
         /// <param name="buttons">The buttons.</param>
         /// <param name="icon">The icon.</param>
-        /// <param name="className">Name of the class.</param>
-        /// <param name="methodSignature">The method signature.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught", KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Warning, string className = "", string methodSignature = "")
-        {
-            if (className != "")
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.", title, buttons, icon);
-            }
-            else if (methodSignature != "")
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
-            }
-            else if (className != "" && methodSignature != "")
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
-            }
-            else
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.", title, buttons, icon);
-            }
-        }
+        /// <param name="callingFilePath">The calling file path.</param>
+        /// <param name="lineNumber">The line number.</param>
+        /// <param name="callingMethod">The calling method.</param>
+        public static void CaptureException(Exception exception, string title = @"Exception Caught",
+            KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, [CallerFilePath] string callingFilePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string? callingMethod = "") => KryptonMessageBox.Show(
+            $"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{callingFilePath}'.\n\nError in method: '{callingMethod}'.\n\nLine: {lineNumber}.",
+            title, buttons, icon);
 
-        /// <summary>Captures a stack trace of the exception.</summary>
+    /// <summary>Captures a stack trace of the exception.</summary>
         /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
         public static void PrintStackTrace(Exception exception, string fileName)
