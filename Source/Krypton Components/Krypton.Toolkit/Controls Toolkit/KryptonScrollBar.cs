@@ -112,6 +112,11 @@ namespace Krypton.Toolkit
             get => Width; set => Width = value;
         }
 
+        /// <inheritdoc />
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override string Text { get; set; }
+
         #endregion
 
         #region Identity
