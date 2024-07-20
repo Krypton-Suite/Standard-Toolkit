@@ -39,13 +39,19 @@ namespace TestForm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonTest));
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kcmdClose = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
             this.kryptonRibbonQATButton1 = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButton2 = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButton3 = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButton4 = new Krypton.Ribbon.KryptonRibbonQATButton();
             this.kryptonRibbonQATButton5 = new Krypton.Ribbon.KryptonRibbonQATButton();
-            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonRibbonContext1 = new Krypton.Ribbon.KryptonRibbonContext();
             this.kryptonRibbonContext2 = new Krypton.Ribbon.KryptonRibbonContext();
             this.kryptonRibbonContext3 = new Krypton.Ribbon.KryptonRibbonContext();
@@ -65,18 +71,54 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonTab3 = new Krypton.Ribbon.KryptonRibbonTab();
-            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kcmdClose = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 115);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(838, 373);
+            this.kryptonPanel1.TabIndex = 1;
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007BlackDarkMode;
+            this.kryptonThemeComboBox1.DropDownWidth = 394;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(34, 82);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(394, 22);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 2;
+            // 
+            // kcmdClose
+            // 
+            this.kcmdClose.ImageLarge = ((System.Drawing.Image)(resources.GetObject("kcmdClose.ImageLarge")));
+            this.kcmdClose.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kcmdClose.ImageSmall")));
+            this.kcmdClose.Text = "Close";
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Text = "Menu Item";
+            // 
+            // kryptonCustomPaletteBase1
+            // 
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor1 = System.Drawing.Color.Empty;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor2 = System.Drawing.Color.Empty;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor3 = System.Drawing.Color.Empty;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor4 = System.Drawing.Color.Empty;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor5 = System.Drawing.Color.Empty;
+            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.TextColor = System.Drawing.Color.White;
+            this.kryptonCustomPaletteBase1.ThemeName = null;
+            this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // kryptonRibbon1
             // 
@@ -94,14 +136,35 @@ namespace TestForm
             this.kryptonRibbonContext3});
             this.kryptonRibbon1.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItems1});
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1,
             this.kryptonRibbonTab2,
             this.kryptonRibbonTab3});
-            this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab2;
+            this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(838, 115);
             this.kryptonRibbon1.StateCommon.RibbonGeneral.TabRowBackgroundGradientFirstColor = System.Drawing.Color.Empty;
             this.kryptonRibbon1.TabIndex = 0;
+            // 
+            // kryptonRibbonQATButton1
+            // 
+            this.kryptonRibbonQATButton1.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
+            // 
+            // kryptonRibbonQATButton2
+            // 
+            this.kryptonRibbonQATButton2.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
+            // 
+            // kryptonRibbonQATButton3
+            // 
+            this.kryptonRibbonQATButton3.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
+            // 
+            // kryptonRibbonQATButton4
+            // 
+            this.kryptonRibbonQATButton4.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
+            // 
+            // kryptonRibbonQATButton5
+            // 
+            this.kryptonRibbonQATButton5.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             // 
             // kryptonRibbonContext1
             // 
@@ -154,87 +217,28 @@ namespace TestForm
             // 
             // kryptonRibbonGroupThemeComboBox1
             // 
+            this.kryptonRibbonGroupThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalOffice2003;
             this.kryptonRibbonGroupThemeComboBox1.DisplayMember = "Key";
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 500;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
-            this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
+            this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;
             this.kryptonRibbonGroupThemeComboBox1.MaximumSize = new System.Drawing.Size(500, 0);
             this.kryptonRibbonGroupThemeComboBox1.MinimumSize = new System.Drawing.Size(400, 0);
             this.kryptonRibbonGroupThemeComboBox1.ValueMember = "Value";
-            // 
-            // kryptonPanel1
-            // 
-            this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
-            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 115);
-            this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(838, 373);
-            this.kryptonPanel1.TabIndex = 1;
-            // 
-            // kryptonThemeComboBox1
-            // 
-            this.kryptonThemeComboBox1.DropDownWidth = 394;
-            this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(34, 82);
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(394, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox1.TabIndex = 2;
-            // 
-            // kcmdClose
-            // 
-            this.kcmdClose.ImageLarge = ((System.Drawing.Image)(resources.GetObject("kcmdClose.ImageLarge")));
-            this.kcmdClose.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kcmdClose.ImageSmall")));
-            this.kcmdClose.Text = "Close";
-            // 
-            // kryptonContextMenuItem2
-            // 
-            this.kryptonContextMenuItem2.Text = "Menu Item";
-            // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010BlackDarkMode;
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Copy = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Copy")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Cut = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Cut")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.New = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.New")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Open = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Open")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.PageSetup = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PageSetup")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Paste = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Paste")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Print = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Print")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Redo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Redo")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Save = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Save")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAll = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAll")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAs = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAs")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Undo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Undo")));
-            // 
-            // kryptonCustomPaletteBase1
-            // 
-            this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor1 = System.Drawing.Color.Empty;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor2 = System.Drawing.Color.Empty;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor3 = System.Drawing.Color.Empty;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor4 = System.Drawing.Color.Empty;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.BackColor5 = System.Drawing.Color.Empty;
-            this.kryptonCustomPaletteBase1.Ribbon.RibbonTab.StateNormal.TextColor = System.Drawing.Color.White;
-            this.kryptonCustomPaletteBase1.ThemeName = null;
-            this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // RibbonTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 488);
-            this.CloseBox = true;
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Name = "RibbonTest";
             this.Text = "Form3";
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,7 +269,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems2;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton1;
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton2;
         private Krypton.Ribbon.KryptonRibbonQATButton kryptonRibbonQATButton3;
