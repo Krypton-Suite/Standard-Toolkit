@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Implemented [#1650](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1650), EditorConfig null masking needs to be "Unhidden"
 * Resolved [#822](https://github.com/Krypton-Suite/Standard-Toolkit/issues/822), Unable to make closed auto hidden docked page visible after config reloading (fix courtesy of [dyurshevich](https://github.com/dyurshevich))
 * Resolved [#1646](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1646), `KryptonRibbonGroupThemeComboBox` does not react to index changes anymore.
 * Resolved [#1633](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1633), `KryptonRibbon` - Clicking the Mini QAT Menu Button causes an exception.
