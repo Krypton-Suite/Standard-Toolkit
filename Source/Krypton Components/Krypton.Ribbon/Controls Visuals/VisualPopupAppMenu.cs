@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
 
-        private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
+        private void OnButtonSpecPaint(object? sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
 

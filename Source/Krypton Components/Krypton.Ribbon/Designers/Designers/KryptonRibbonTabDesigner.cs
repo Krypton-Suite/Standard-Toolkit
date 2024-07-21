@@ -185,7 +185,7 @@ namespace Krypton.Ribbon
             _clearGroupsVerb.Enabled = clearGroups;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonTab?.Ribbon != null)
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -260,7 +260,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -296,7 +296,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -329,7 +329,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddGroup(object sender, EventArgs e)
+        private void OnAddGroup(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -359,7 +359,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearGroups(object sender, EventArgs e)
+        private void OnClearGroups(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteTab(object sender, EventArgs e)
+        private void OnDeleteTab(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -431,7 +431,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null
@@ -442,9 +442,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our tab is being removed
             if ( _ribbonTab is not null && e.Component == _ribbonTab)
@@ -462,7 +462,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if ((_ribbonTab is not null)
                 && _ribbonTab.Ribbon != null

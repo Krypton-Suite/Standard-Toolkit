@@ -116,7 +116,7 @@ namespace Krypton.Docking
             base.DragMove(screenPt);
         }
 
-        private void OnFloatingWindowMove(object sender, EventArgs e)
+        private void OnFloatingWindowMove(object? sender, EventArgs e)
         {
             _moveTimer.Stop();
 
