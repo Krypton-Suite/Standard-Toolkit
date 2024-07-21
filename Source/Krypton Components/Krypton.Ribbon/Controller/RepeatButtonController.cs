@@ -333,7 +333,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRepeatTick(object sender, EventArgs e) =>
+        private void OnRepeatTick(object? sender, EventArgs e) =>
             // Keep generating clicks
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         #endregion

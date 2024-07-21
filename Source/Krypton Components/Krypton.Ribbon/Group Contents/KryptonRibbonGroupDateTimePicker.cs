@@ -980,39 +980,39 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnDateTimePickerGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnDateTimePickerGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnDateTimePickerLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnDateTimePickerLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnDateTimePickerFormatChanged(object sender, EventArgs e) => OnFormatChanged(e);
+        private void OnDateTimePickerFormatChanged(object? sender, EventArgs e) => OnFormatChanged(e);
 
-        private void OnDateTimePickerCheckedChanged(object sender, EventArgs e) => OnCheckedChanged(e);
+        private void OnDateTimePickerCheckedChanged(object? sender, EventArgs e) => OnCheckedChanged(e);
 
-        private void OnDateTimePickerCloseUp(object sender, DateTimePickerCloseArgs e) => OnCloseUp(e);
+        private void OnDateTimePickerCloseUp(object? sender, DateTimePickerCloseArgs e) => OnCloseUp(e);
 
-        private void OnDateTimePickerDropDown(object sender, DateTimePickerDropArgs e) => OnDropDown(e);
+        private void OnDateTimePickerDropDown(object? sender, DateTimePickerDropArgs e) => OnDropDown(e);
 
-        private void OnDateTimePickerValueNullableChanged(object sender, EventArgs e) => OnValueNullableChanged(e);
+        private void OnDateTimePickerValueNullableChanged(object? sender, EventArgs e) => OnValueNullableChanged(e);
 
-        private void OnDateTimePickerValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnDateTimePickerValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDateTimePickerKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnDateTimePickerKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnDateTimePickerKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnDateTimePickerKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnDateTimePickerKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnDateTimePickerKeyDown(object?  sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnDateTimePickerKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
             DateTimePicker.LocalCustomPalette = Ribbon.LocalCustomPalette;

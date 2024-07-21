@@ -332,7 +332,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupsClearing(object sender, EventArgs e)
+        private void OnRibbonGroupsClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (KryptonRibbonGroup group in Groups)
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupsCleared(object sender, EventArgs e)
+        private void OnRibbonGroupsCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((_ribbon != null) && (_ribbon.SelectedTab == this))

@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
         #endregion    
 
         #region Implementation
-        private void OnSelectedTabChanged(object sender, EventArgs e)
+        private void OnSelectedTabChanged(object? sender, EventArgs e)
         {
             // Notify a change in the selected tab value, marks the form as dirty
             MemberDescriptor? propertyTab = TypeDescriptor.GetProperties(_ribbon!)[@"SelectedTab"];
@@ -252,11 +252,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e) =>
+        private void OnToggleHelpers(object? sender, EventArgs e) =>
             // Invert the current toggle helper mode
             _ribbon!.InDesignHelperMode = !_ribbon.InDesignHelperMode;
 
-        private void OnAddTab(object sender, EventArgs e)
+        private void OnAddTab(object? sender, EventArgs e)
         {
             if (_designerHost is null)
             {
@@ -293,7 +293,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearTabs(object sender, EventArgs e)
+        private void OnClearTabs(object? sender, EventArgs e)
         {
             if (_designerHost is null)
             {
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonMouseUp(object sender, MouseEventArgs e)
+        private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
         {
             // Get any component associated with the current mouse position
             if (_ribbon is not null
@@ -372,9 +372,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == _ribbon)

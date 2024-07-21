@@ -534,17 +534,17 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeButtonClick(object sender, EventArgs e) => GroupColorButton!.PerformClick(_viewLarge.FinishDelegate);
+        private void OnLargeButtonClick(object? sender, EventArgs e) => GroupColorButton!.PerformClick(_viewLarge.FinishDelegate);
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewLarge.FinishDelegate);
+        private void OnLargeButtonDropDown(object? sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewLarge.FinishDelegate);
 
-        private void OnMediumSmallButtonClick(object sender, EventArgs e) => GroupColorButton!.PerformClick(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonClick(object? sender, EventArgs e) => GroupColorButton!.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnMediumSmallButtonDropDown(object sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonDropDown(object? sender, EventArgs e) => GroupColorButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupColorButton!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupColorButton!.OnDesignTimeContextMenu(e);
 
-        private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

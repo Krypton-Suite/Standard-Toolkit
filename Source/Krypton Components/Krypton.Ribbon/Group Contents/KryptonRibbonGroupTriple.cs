@@ -542,7 +542,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupTripleClearing(object sender, EventArgs e)
+        private void OnRibbonGroupTripleClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (IRibbonGroupItem item in Items!)
@@ -553,7 +553,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupTripleCleared(object sender, EventArgs e)
+        private void OnRibbonGroupTripleCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((Ribbon != null)

@@ -325,7 +325,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
+        private void OnButtonClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
     }
 }

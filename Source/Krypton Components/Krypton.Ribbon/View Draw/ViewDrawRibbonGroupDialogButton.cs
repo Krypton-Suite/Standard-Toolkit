@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             // We do not operate the dialog launcher at design time
             if (!_ribbon.InDesignMode)

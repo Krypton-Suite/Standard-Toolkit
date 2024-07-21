@@ -650,7 +650,7 @@ namespace Krypton.Ribbon
             _viewToEdge = regenEdge;
         }
 
-        private void OnClusterPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnClusterPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
 
@@ -673,7 +673,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
+        private void OnContextClick(object? sender, MouseEventArgs e)
         {
             if (_ribbon.InDesignMode)
             {

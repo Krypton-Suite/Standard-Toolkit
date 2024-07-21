@@ -736,7 +736,7 @@ namespace Krypton.Ribbon
             return palette.GetMetricBool(drawState, PaletteMetricBool.SplitWithFading) == InheritBool.True;
         }
 
-        private void ActionFinished(object sender, EventArgs e)
+        private void ActionFinished(object? sender, EventArgs e)
         {
             var fireAction = true;
 
@@ -758,11 +758,11 @@ namespace Krypton.Ribbon
             Controller!.RemoveFixed();
         }
 
-        private void OnClick(object sender, EventArgs e) => Click?.Invoke(this, e);
+        private void OnClick(object? sender, EventArgs e) => Click?.Invoke(this, e);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => ContextClick?.Invoke(this, e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => ContextClick?.Invoke(this, e);
 
-        private void OnDropDown(object sender, EventArgs e) => DropDown?.Invoke(this, e);
+        private void OnDropDown(object? sender, EventArgs e) => DropDown?.Invoke(this, e);
         #endregion
     }
 }

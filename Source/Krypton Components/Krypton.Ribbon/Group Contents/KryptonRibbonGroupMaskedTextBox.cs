@@ -1006,45 +1006,45 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnMaskedTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
+        private void OnMaskedTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnMaskedMaskChanged(object sender, EventArgs e) => OnMaskChanged(e);
+        private void OnMaskedMaskChanged(object? sender, EventArgs e) => OnMaskChanged(e);
 
-        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e) => OnIsOverwriteModeChanged(e);
+        private void OnMaskedIsOverwriteModeChanged(object? sender, EventArgs e) => OnIsOverwriteModeChanged(e);
 
-        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
+        private void OnMaskedMaskInputRejected(object? sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
 
-        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
+        private void OnMaskedTypeValidationCompleted(object? sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
 
-        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnMaskedTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnMaskedTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnMaskedTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnMaskedTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnMaskedTextBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnMaskedTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnMaskedTextBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnMaskedTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnMaskedTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnMaskedTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnMaskedTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             MaskedTextBox.PaletteMode = Ribbon!.PaletteMode;
             MaskedTextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
