@@ -541,19 +541,19 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnPreviousClick(object sender, EventArgs e) => _navigator.PerformPreviousAction();
+        private void OnPreviousClick(object? sender, EventArgs e) => _navigator.PerformPreviousAction();
 
-        private void OnNextClick(object sender, EventArgs e) => _navigator.PerformNextAction();
+        private void OnNextClick(object? sender, EventArgs e) => _navigator.PerformNextAction();
 
-        private void OnContextClick(object sender, EventArgs e) => _navigator.PerformContextAction();
+        private void OnContextClick(object? sender, EventArgs e) => _navigator.PerformContextAction();
 
-        private void OnCloseClick(object sender, EventArgs e) => _navigator.PerformCloseAction();
+        private void OnCloseClick(object? sender, EventArgs e) => _navigator.PerformCloseAction();
 
-        private void OnMaximizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMaximizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnMinimizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMinimizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnCloseButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnCloseButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
         #endregion
     }
 }

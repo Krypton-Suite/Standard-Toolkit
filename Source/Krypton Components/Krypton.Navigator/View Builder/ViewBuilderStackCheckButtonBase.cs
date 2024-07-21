@@ -554,7 +554,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -851,7 +851,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPagesCleared(object sender, EventArgs e)
+        private void OnPagesCleared(object? sender, EventArgs e)
         {
             if (!Navigator.IsDisposed && _events)
             {
@@ -951,23 +951,23 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnEnabledChanged(object sender, EventArgs e)
+        private void OnEnabledChanged(object? sender, EventArgs e)
         {
             UpdateStatePalettes();
             Navigator.PerformLayout();
             Navigator.Invalidate();
         }
 
-        private void OnAutoSizeChanged(object sender, EventArgs e) =>
+        private void OnAutoSizeChanged(object? sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
 
-        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
+        private void OnViewportAnimation(object? sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
-        private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
+        private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            var reorderItem = (ViewDrawNavCheckButtonStack)sender;
+            var reorderItem = sender as ViewDrawNavCheckButtonStack ?? throw new ArgumentNullException(nameof(sender));
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
@@ -975,10 +975,10 @@ namespace Krypton.Navigator
             e.DragRect = dragRect;
         }
 
-        private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
+        private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            var reorderView = (ViewDrawNavCheckButtonStack)sender;
+            var reorderView = sender as ViewDrawNavCheckButtonStack ?? throw new ArgumentNullException(nameof(sender));
 
             // Scan the collection of children
             var foundReorderView = false;

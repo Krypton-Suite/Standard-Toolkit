@@ -717,11 +717,11 @@ namespace Krypton.Workspace
                 #endregion
 
                 #region Implementation
-                private void OnPageTextChanged(object sender, EventArgs e) => Text = $"Page ({PageItem?.Text})";
+                private void OnPageTextChanged(object? sender, EventArgs e) => Text = $"Page ({PageItem?.Text})";
 
-                private void OnCellPropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"Cell ({CellItem?.StarSize})";
+                private void OnCellPropertyChanged(object? sender, PropertyChangedEventArgs e) => Text = $"Cell ({CellItem?.StarSize})";
 
-                private void OnSequencePropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"{SequenceItem?.Orientation} ({SequenceItem?.StarSize})";
+                private void OnSequencePropertyChanged(object? sender, PropertyChangedEventArgs e) => Text = $"{SequenceItem?.Orientation} ({SequenceItem?.StarSize})";
                 #endregion
             }
 
@@ -1049,7 +1049,7 @@ namespace Krypton.Workspace
             #endregion
 
             #region Implementation
-            private void OnVisibleChanged(object sender, EventArgs e)
+            private void OnVisibleChanged(object? sender, EventArgs e)
             {
                 if (Visible)
                 {
@@ -1061,7 +1061,7 @@ namespace Krypton.Workspace
                 }
             }
 
-            private void buttonOK_Click(object sender, EventArgs e)
+            private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
                 object[] rootItems = new object[_treeView.Nodes.Count];
@@ -1086,7 +1086,7 @@ namespace Krypton.Workspace
                 _treeView.Nodes.Clear();
             }
 
-            private void buttonMoveUp_Click(object sender, EventArgs e)
+            private void buttonMoveUp_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
                 var node = _treeView.SelectedNode as MenuTreeNode;
@@ -1226,7 +1226,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void buttonMoveDown_Click(object sender, EventArgs e)
+            private void buttonMoveDown_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
                 var node = _treeView.SelectedNode as MenuTreeNode;
@@ -1332,7 +1332,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddPage_Click(object sender, EventArgs e)
+            private void buttonAddPage_Click(object? sender, EventArgs e)
             {
                 // Create new page and menu node for the page
                 var page = (KryptonPage)CreateInstance(typeof(KryptonPage));
@@ -1363,7 +1363,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddCell_Click(object sender, EventArgs e)
+            private void buttonAddCell_Click(object? sender, EventArgs e)
             {
                 // Create new cell and menu node for the cell and two nodes for the child pages
                 var cell = (KryptonWorkspaceCell)CreateInstance(typeof(KryptonWorkspaceCell));
@@ -1414,7 +1414,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddSequence_Click(object sender, EventArgs e)
+            private void buttonAddSequence_Click(object? sender, EventArgs e)
             {
                 // Create new sequence and menu node for the sequence
                 var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("sequence"));
@@ -1457,7 +1457,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void buttonDelete_Click(object sender, EventArgs e)
+            private void buttonDelete_Click(object? sender, EventArgs e)
             {
                 if (_treeView.SelectedNode is not null)
                 {
@@ -1492,7 +1492,7 @@ namespace Krypton.Workspace
                 UpdatePropertyGrid();
             }
 
-            private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+            private void treeView_AfterSelect(object? sender, TreeViewEventArgs e)
             {
                 UpdateButtons();
                 UpdatePropertyGrid();

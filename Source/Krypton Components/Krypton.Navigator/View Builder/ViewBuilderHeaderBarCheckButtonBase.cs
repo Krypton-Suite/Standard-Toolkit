@@ -132,7 +132,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -239,7 +239,7 @@ namespace Krypton.Navigator
         private PaletteState GetRemappingPaletteState() =>
             Navigator.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        private void OnEnabledChanged(object sender, EventArgs e)
+        private void OnEnabledChanged(object? sender, EventArgs e)
         {
             if (_buttonManager != null)
             {

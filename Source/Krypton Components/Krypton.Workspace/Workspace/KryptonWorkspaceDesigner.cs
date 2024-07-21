@@ -124,7 +124,7 @@ namespace Krypton.Workspace
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our workspace is being removed
             if (e is not null 

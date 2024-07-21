@@ -28,7 +28,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A ComponentEventArgs containing event data.</param>
-        protected override void OnComponentRemoving(object sender, ComponentEventArgs e)
+        protected override void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == Navigator)
