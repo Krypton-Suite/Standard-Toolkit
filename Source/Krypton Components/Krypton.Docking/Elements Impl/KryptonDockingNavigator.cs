@@ -927,7 +927,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnDockableNavigatorDisposed(object sender, EventArgs e)
+        private void OnDockableNavigatorDisposed(object? sender, EventArgs e)
         {
             // Unhook from events to prevent memory leaking
             DockableNavigatorControl.Disposed -= OnDockableNavigatorDisposed;
@@ -944,7 +944,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockableNavigatorPageInserting(object sender, KryptonPageEventArgs e)
+        private void OnDockableNavigatorPageInserting(object? sender, KryptonPageEventArgs e)
         {
             // Remove any store page for the unique name of this page being added. In either case of adding a store
             // page or a regular page we want to ensure there does not exist a store page for that same unique name.
@@ -956,7 +956,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockableNavigatorBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnDockableNavigatorBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the navigator
             var pages = e.Pages.Where(page => page is not KryptonStorePage && DockableNavigatorControl.Pages.Contains(page)).ToList();
@@ -973,7 +973,7 @@ namespace Krypton.Docking
             e.Cancel = true;
         }
 
-        private void OnDockableNavigatorPageDrop(object sender, PageDropEventArgs e)
+        private void OnDockableNavigatorPageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a navigator and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;

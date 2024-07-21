@@ -208,7 +208,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnFloatspaceCellCountChanged(object sender, EventArgs e)
+        private void OnFloatspaceCellCountChanged(object? sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
             if (FloatspaceControl is { CellCount: 0 })
@@ -217,11 +217,11 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFloatspaceCellVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
+        private void OnFloatspaceCellVisibleCountChanged(object? sender, EventArgs e) => UpdateCellSettings();
 
-        private void OnTabVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
+        private void OnTabVisibleCountChanged(object? sender, EventArgs e) => UpdateCellSettings();
 
-        private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
+        private void OnFloatspaceCellAdding(object? sender, WorkspaceCellEventArgs e)
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
             var childMinSize = e.Cell.GetMinSize();
@@ -229,9 +229,9 @@ namespace Krypton.Docking
                 Math.Max(MinimumSize.Height, childMinSize.Height) + 20);
         }
 
-        private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;
+        private void OnFloatspaceCellRemoved(object? sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;
 
-        private void OnLayoutWorkspace(object sender, EventArgs e) => FloatspaceControl?.PerformNeedPaint(true);
+        private void OnLayoutWorkspace(object? sender, EventArgs e) => FloatspaceControl?.PerformNeedPaint(true);
 
         private void UpdateCellSettings()
         {
