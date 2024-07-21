@@ -405,7 +405,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightClick(object sender, MouseEventArgs e)
+        protected virtual void OnRightClick(object? sender, MouseEventArgs e)
         {
             // Can only select the page if not already selected and allowed to select a tab
             if ((Navigator.SelectedPage != Page) && Navigator.AllowTabSelect)
@@ -568,7 +568,7 @@ namespace Krypton.Navigator
             _contentProvider.PaletteContent = _currentContent;
         }
 
-        private void OnClick(object sender, EventArgs e)
+        private void OnClick(object? sender, EventArgs e)
         {
             // Generate click event for the page header
             Navigator.OnTabClicked(new KryptonPageEventArgs(Page, Navigator.Pages.IndexOf(Page!)));
@@ -606,17 +606,17 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, Page);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, Page);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
+        private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+        private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }
