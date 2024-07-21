@@ -147,7 +147,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A KryptonPageEventArgs containing the event data.</param>
-        protected override void OnSpaceCellPageInserting(object sender, KryptonPageEventArgs e)
+        protected override void OnSpaceCellPageInserting(object? sender, KryptonPageEventArgs e)
         {
             // Remove any store page for the unique name of this page being added. In either case of adding a store
             // page or a regular page we want to ensure there does not exist a store page for that same unique name.
@@ -225,7 +225,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PageDropEventArgs containing the event data.</param>
-        protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
+        protected override void RaiseSpacePageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;
@@ -266,14 +266,14 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnFloatspacePageCloseClicked(object sender, UniqueNameEventArgs e)
+        private void OnFloatspacePageCloseClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
-        private void OnFloatspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
+        private void OnFloatspacePagesDoubleClicked(object? sender, UniqueNamesEventArgs e)
         {
             // If the number of pages to be converted into a separate floating window is less than the
             // total number of visible pages then we allow the change to occur. Otherwise it would cause
@@ -285,7 +285,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFloatspaceDropDownClicked(object sender, CancelDropDownEventArgs e)
+        private void OnFloatspaceDropDownClicked(object? sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
@@ -298,7 +298,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFloatspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnFloatspaceBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the floatspace
             var pages = e.Pages.Where(page => page is not KryptonStorePage && (FloatspaceControl.CellForPage(page) != null)).ToList();

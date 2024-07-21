@@ -567,7 +567,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PageDropEventArgs containing the event data.</param>
-        protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
+        protected override void RaiseSpacePageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;
@@ -592,7 +592,7 @@ namespace Krypton.Docking
         #endregion    
 
         #region Implementation
-        private void OnDockableWorkspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnDockableWorkspaceBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the dockspace
             var pages = new List<KryptonPage>();
