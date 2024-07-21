@@ -288,6 +288,9 @@ namespace Krypton.Toolkit
                         // Use the provided palette value
                         SetPalette(value);
                         CurrentGlobalPaletteMode = GetModeForPalette(value);
+                        // Notify the KryptonManager that there is a custom palette assigned to it
+                        // Fixes bug: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1092
+                        GlobalPaletteMode = PaletteMode.Custom;
                     }
                     else
                     {
@@ -1125,10 +1128,10 @@ namespace Krypton.Toolkit
                     break;
                 default:
                     // Should not happen!
-                    
+
                     // Disable since palette mode is an enum and is not nullable
                     //Debug.Assert(paletteMode is not null); 
-                    
+
                     DebugTools.NotImplemented(paletteMode.ToString());
                     break;
             }

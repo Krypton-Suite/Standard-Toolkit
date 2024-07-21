@@ -49,7 +49,7 @@ namespace TestForm
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2007Blue;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
             this.kryptonManager1.ToolkitImages.ToolbarImages.Copy = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Copy")));
             this.kryptonManager1.ToolkitImages.ToolbarImages.Cut = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Cut")));
             this.kryptonManager1.ToolkitImages.ToolbarImages.New = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.New")));
@@ -74,11 +74,12 @@ namespace TestForm
             // 
             // kryptonThemeComboBox1
             // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
             this.kryptonThemeComboBox1.DropDownWidth = 301;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(239, 217);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(301, 21);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(301, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
@@ -89,6 +90,7 @@ namespace TestForm
             this.kryptonScrollBar1.Location = new System.Drawing.Point(66, 12);
             this.kryptonScrollBar1.Name = "kryptonScrollBar1";
             this.kryptonScrollBar1.Opacity = 1D;
+            this.kryptonScrollBar1.ScrollBarWidth = 19;
             this.kryptonScrollBar1.Size = new System.Drawing.Size(19, 404);
             this.kryptonScrollBar1.TabIndex = 1;
             this.kryptonScrollBar1.Text = "kryptonScrollBar1";
@@ -97,7 +99,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 428);
+            this.ClientSize = new System.Drawing.Size(762, 453);
             this.Controls.Add(this.kryptonScrollBar1);
             this.Controls.Add(this.kryptonThemeComboBox1);
             this.Name = "CustomPaletteTest";

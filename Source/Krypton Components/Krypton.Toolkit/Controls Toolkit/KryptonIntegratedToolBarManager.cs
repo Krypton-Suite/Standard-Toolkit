@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"IntegrateToolBarIntoParentForm(bool showIntegratedToolBar, KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e);
             }
         }
 
@@ -404,7 +404,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e);
             }
         }
 
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e);
             }
         }
 

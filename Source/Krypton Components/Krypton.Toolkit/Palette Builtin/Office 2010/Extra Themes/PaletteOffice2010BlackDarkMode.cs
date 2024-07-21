@@ -138,15 +138,15 @@ namespace Krypton.Toolkit
             Color.FromArgb(153, 153, 153), // FormBorderInactiveLight
             Color.FromArgb(171, 171, 171), // FormBorderInactiveDark
             Color.FromArgb(65, 65, 65), // FormBorderHeaderActive
-            Color.FromArgb(154, 154, 154), // FormBorderHeaderInactive
+            Color.FromArgb(167, 167, 167), // FormBorderHeaderInactive
             Color.FromArgb(42, 43, 43), // FormBorderHeaderActive1
             Color.FromArgb(74, 74, 74), // FormBorderHeaderActive2
             Color.FromArgb(146, 146, 146), // FormBorderHeaderInctive1
             Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
             Color.FromArgb(255, 255, 255), // FormHeaderShortActive
-            Color.FromArgb(41, 41, 41), // FormHeaderShortInactive
+            Color.FromArgb(167, 167, 167), // FormHeaderShortInactive
             Color.White, // FormHeaderLongActive
-            Color.FromArgb(41, 41, 41), // FormHeaderLongInactive
+            Color.FromArgb(167, 167, 167), // FormHeaderLongInactive
             Color.FromArgb(88, 95, 104), // FormButtonBorderTrack
             Color.FromArgb(91, 105, 123), // FormButtonBack1Track
             Color.FromArgb(173, 199, 214), // FormButtonBack2Track
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
             Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
             Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText - old value 70, 70, 70
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -276,11 +276,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(91, 91, 91), // GridDataCellSelected
             Color.White, // InputControlTextNormal
-            Color.FromArgb(166, 166, 166), // InputControlTextDisabled
+            Color.FromArgb(167, 167, 167), // InputControlTextDisabled
             Color.FromArgb(137, 137, 137), // InputControlBorderNormal
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
-            SystemColors.Control, // InputControlBackDisabled
+            Color.FromArgb(102,102, 102), // InputControlBackDisabled
             Color.FromArgb(78, 78, 80), // InputControlBackInactive
             Color.FromArgb(91, 91, 91), // InputDropDownNormal1
             Color.FromArgb(88, 88, 88), // InputDropDownNormal2
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 241, 242), // SeparatorHighInternalBorder1
             Color.FromArgb(195, 200, 206), // SeparatorHighInternalBorder2
             Color.FromArgb(172, 172, 172), // RibbonGalleryBorder
-            Color.FromArgb(218, 226, 226), // RibbonGalleryBackNormal
+            Color.FromArgb(41, 41, 41), // RibbonGalleryBackNormal - Old value 218, 226, 226
             Color.FromArgb(247, 247, 247), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
@@ -934,9 +934,9 @@ namespace Krypton.Toolkit
 
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _calendarTextColor = Color.White;
-        private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-        private static readonly Color _disabledText = Color.FromArgb(115, 115, 115);
-        private static readonly Color _disabledBack = Color.FromArgb(60, 60, 60);
+        private static readonly Color _disabledText2 = Color.FromArgb(160, 160, 160); //(166, 166, 166);
+        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
@@ -1015,7 +1015,7 @@ namespace Krypton.Toolkit
         [
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-            Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
+            Color.FromArgb(129, 129, 129), // Button, Tracking, Back 1
             Color.FromArgb(89, 89, 89), // Button, Tracking, Back 2
             Color.FromArgb(91, 91, 91), // Button, Pressed, Back 1
             Color.FromArgb(89, 89, 89),  // Button, Pressed, Back 2

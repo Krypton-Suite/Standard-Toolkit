@@ -113,7 +113,7 @@ namespace TestForm
             setup.SetupDataGridView(this.kryptonOutlookGrid1, true);
 
             kryptonOutlookGrid1.ShowLines = true;
-            LoadData();
+            //LoadData();
         }
 
         private Image? GetFlag(string country)

@@ -54,7 +54,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void SetTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+        [Obsolete("Deprecated and will be removed in V100. Replace this with calls to ApplyTheme( . . . )")]
+        public static void SetTheme(string themeName, KryptonManager manager) =>
+            //TODO V100 Remove SetTheme method
+            ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
 
         /// <summary>
         /// Applies the global theme.

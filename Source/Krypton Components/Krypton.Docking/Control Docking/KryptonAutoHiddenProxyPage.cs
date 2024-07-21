@@ -32,6 +32,10 @@ namespace Krypton.Docking
 
             // Text property was updated by the base class constructor, so now we update the actual referenced class
             Page.Text = Text;
+
+            // Fix for 822: https://github.com/Krypton-Suite/Standard-Toolkit/issues/822#issuecomment-2228211126
+
+            Visible = page.Visible;
         }
 
         /// <summary>

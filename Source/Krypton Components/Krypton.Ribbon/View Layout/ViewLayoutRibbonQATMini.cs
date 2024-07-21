@@ -67,6 +67,9 @@ namespace Krypton.Ribbon
             Add(_border, ViewDockStyle.Fill);
             Add(_extraSeparator, ViewDockStyle.Right);
             Add(_extraButton, ViewDockStyle.Right);
+
+            // OwnerForm property can be intialized after _ribbon has been assigned.
+            OwnerForm ??= _ribbon.FindKryptonForm();
         }
 
         /// <summary>
@@ -289,11 +292,15 @@ namespace Krypton.Ribbon
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = _ribbon.RectangleToScreen(button.ClientRectangle);
 
-            // If integrated into the caption area
-            // Adjust for the height/width of borders
-            Padding borders = OwnerForm!.RealWindowBorders;
-            screenRect.X -= borders.Left;
-            screenRect.Y -= borders.Top;
+            // Only if the ribbon is on a KForm this adjustment is needed.
+            if (OwnerForm is not null)
+            {
+                // If integrated into the caption area
+                // Adjust for the height/width of borders
+                Padding borders = OwnerForm!.RealWindowBorders;
+                screenRect.X -= borders.Left;
+                screenRect.Y -= borders.Top;
+            }
 
             if (_extraButton is { Overflow: true })
             {
@@ -303,6 +310,7 @@ namespace Krypton.Ribbon
             {
                 _ribbon.DisplayQATCustomizeMenu(screenRect, _borderContents, finishDelegate);
             }
+
         }
         #endregion
     }

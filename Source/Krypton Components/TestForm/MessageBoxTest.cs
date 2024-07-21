@@ -45,5 +45,12 @@ namespace TestForm
                 MessageBox.Show(exception.ToString());
             }
         }
+
+        private void kbtnCustomMessageBox_Click(object sender, EventArgs e)
+        {
+            var customMessageBoxTest = new CustomMessageBoxTest();
+
+            customMessageBoxTest.Show();
+        }
     }
 }

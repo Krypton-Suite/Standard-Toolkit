@@ -49,12 +49,7 @@ namespace Krypton.Toolkit
             bool? showCloseButton)
         {
             // Store incoming values
-            if (text != null && !text.Contains('\n'))
-            {
-                _text = "\r\n"; // \n means that the single line text should align with the icon
-            }
-
-            _text += text;
+            _text = text;
             _caption = caption;
             _buttons = buttons;
             _kryptonMessageBoxIcon = icon;
@@ -87,7 +82,7 @@ namespace Krypton.Toolkit
             Text = string.IsNullOrEmpty(_caption) 
                 ? string.Empty 
                 : _caption!.Split(Environment.NewLine.ToCharArray())[0];
-            kwlblMessageText.Text = _text;
+            ktextBoxMessageText.Text = _text;
         }
 
         private void UpdateTextExtra(bool? showCtrlCopy)
@@ -487,12 +482,14 @@ namespace Krypton.Toolkit
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                SizeF scaledMonitorSize = screen!.Bounds.Size;
-                scaledMonitorSize.Width *= 2 / 3.0f;
-                scaledMonitorSize.Height *= 0.95f;
-                SizeF messageSize = g.MeasureString(_text, kwlblMessageText.Font, scaledMonitorSize);
+                Size scaledMonitorSize = screen!.Bounds.Size;
+                scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
+                scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
+                Font textFont = ktextBoxMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal) ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
+                Font captionFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+                SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", kwlblMessageText.Font, scaledMonitorSize);
+                SizeF captionSize = TextRenderer.MeasureText($@"{_caption} {TextExtra}", captionFont, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -501,15 +498,18 @@ namespace Krypton.Toolkit
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
-                // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
-                // character it contains, this ensures there is always definitely enough space for it all
-                messageSize.Width += 5;
                 textSize = Size.Ceiling(messageSize);
             }
 
-            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
-                            kwlblMessageText.Margin.Left + kwlblMessageText.Margin.Right,
-                Math.Max(_messageIcon.Height + 10, textSize.Height));
+            // Calculate the size of the icon area and text area including margins
+            Padding textPadding = ktextBoxMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
+            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+                _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+            Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
+                textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
+            return new Size(textArea.Width + iconArea.Width,
+                Math.Max(iconArea.Height, textArea.Height));
         }
 
         private Size UpdateButtonsSizing()

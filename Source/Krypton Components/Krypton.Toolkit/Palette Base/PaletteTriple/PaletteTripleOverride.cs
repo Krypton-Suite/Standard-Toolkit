@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
 
         #region SetPalettes
         /// <summary>
-        /// Update the the normal and override palettes.
+        /// Update the normal and override palettes.
         /// </summary>
         /// <param name="normalTriple">New normal palette.</param>
         /// <param name="overrideTriple">New override palette.</param>
@@ -138,12 +138,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border palette.
         /// </summary>
-        public IPaletteBorder? PaletteBorder => _overrideBorder;
+        public IPaletteBorder PaletteBorder => _overrideBorder;
 
         /// <summary>
         /// Gets the border palette.
         /// </summary>
-        public IPaletteContent? PaletteContent => _overrideContent;
+        public IPaletteContent PaletteContent => _overrideContent;
 
         #endregion
     }

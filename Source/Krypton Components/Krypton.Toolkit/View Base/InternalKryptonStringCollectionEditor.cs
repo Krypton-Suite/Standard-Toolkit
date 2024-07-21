@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
             kbtnOk.Size = new Size(90, 25);
             kbtnOk.TabIndex = 2;
             kbtnOk.Values.Text = "O&K";
-            kbtnOk.Click += new EventHandler(kbtnOk_Click);
+            kbtnOk.Click += kbtnOk_Click;
             // 
             // kbtnCancel
             // 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
             kbtnCancel.Size = new Size(90, 25);
             kbtnCancel.TabIndex = 1;
             kbtnCancel.Values.Text = "C&ancel";
-            kbtnCancel.Click += new EventHandler(kbtnCancel_Click);
+            kbtnCancel.Click += kbtnCancel_Click;
             // 
             // kbEdge
             // 
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxCut
             // 
             kcRichTextBoxCut.Text = "kryptonCommand1";
-            kcRichTextBoxCut.Execute += new EventHandler(kcRichTextBoxCut_Execute);
+            kcRichTextBoxCut.Execute += kcRichTextBoxCut_Execute;
             // 
             // kryptonContextMenuItem2
             // 
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxCopy
             // 
             kcRichTextBoxCopy.Text = "kryptonCommand1";
-            kcRichTextBoxCopy.Execute += new EventHandler(kcRichTextBoxCopy_Execute);
+            kcRichTextBoxCopy.Execute += kcRichTextBoxCopy_Execute;
             // 
             // kryptonContextMenuItem3
             // 
@@ -208,7 +208,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxPaste
             // 
             kcRichTextBoxPaste.Text = "kryptonCommand1";
-            kcRichTextBoxPaste.Execute += new EventHandler(kcRichTextBoxPaste_Execute);
+            kcRichTextBoxPaste.Execute += kcRichTextBoxPaste_Execute;
             // 
             // kryptonContextMenuItem7
             // 
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxSelectAll
             // 
             kcRichTextBoxSelectAll.Text = "kryptonCommand1";
-            kcRichTextBoxSelectAll.Execute += new EventHandler(kcRichTextBoxSelectAll_Execute);
+            kcRichTextBoxSelectAll.Execute += kcRichTextBoxSelectAll_Execute;
             // 
             // ktxtStringCollection
             // 
@@ -261,7 +261,7 @@ namespace Krypton.Toolkit
             // kcTextBoxCut
             // 
             kcTextBoxCut.Text = "kryptonCommand1";
-            kcTextBoxCut.Execute += new EventHandler(kcTextBoxCut_Execute);
+            kcTextBoxCut.Execute += kcTextBoxCut_Execute;
             // 
             // kryptonContextMenuItem5
             // 
@@ -272,7 +272,7 @@ namespace Krypton.Toolkit
             // kcTextBoxCopy
             // 
             kcTextBoxCopy.Text = "kryptonCommand1";
-            kcTextBoxCopy.Execute += new EventHandler(kcTextBoxCopy_Execute);
+            kcTextBoxCopy.Execute += kcTextBoxCopy_Execute;
             // 
             // kryptonContextMenuItem6
             // 
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
             // kcTextBoxPaste
             // 
             kcTextBoxPaste.Text = "kryptonCommand1";
-            kcTextBoxPaste.Execute += new EventHandler(kcTextBoxPaste_Execute);
+            kcTextBoxPaste.Execute += kcTextBoxPaste_Execute;
             // 
             // kryptonContextMenuItem8
             // 
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
             // kcTextBoxSelectAll
             // 
             kcTextBoxSelectAll.Text = "kryptonCommand1";
-            kcTextBoxSelectAll.Execute += new EventHandler(kcTextBoxSelectAll_Execute);
+            kcTextBoxSelectAll.Execute += kcTextBoxSelectAll_Execute;
             // 
             // klblHeader
             // 

@@ -149,13 +149,13 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    kwlblMessageText.Text = text;
+                    ktextBoxMessageText.Text = text;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
                     klwlblMessageText.Text = text;
                     break;
                 case null:
-                    kwlblMessageText.Text = text;
+                    ktextBoxMessageText.Text = text;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {
-                kwlblMessageText.Text = _text;
+                ktextBoxMessageText.Text = _text;
             }
             else
             {
@@ -978,13 +978,14 @@ namespace Krypton.Toolkit
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                SizeF scaledMonitorSize = screen!.Bounds.Size;
-                scaledMonitorSize.Width *= 2 / 3.0f;
-                scaledMonitorSize.Height *= 0.95f;
-                kwlblMessageText.UpdateFont();
-                SizeF messageSize = g.MeasureString(_text, kwlblMessageText.Font, scaledMonitorSize);
+                Size scaledMonitorSize = screen!.Bounds.Size;
+                scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
+                scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
+                Font textFont = GetMessageTextFont(_contentAreaType);
+                Font captionFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+                SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", kwlblMessageText.Font, scaledMonitorSize);
+                SizeF captionSize = TextRenderer.MeasureText($@"{_caption} {TextExtra}", captionFont, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -993,15 +994,51 @@ namespace Krypton.Toolkit
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
-                // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
-                // character it contains, this ensures there is always definitely enough space for it all
-                messageSize.Width += 5;
                 textSize = Size.Ceiling(messageSize);
             }
 
-            return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
-                            kwlblMessageText.Margin.Left + kwlblMessageText.Margin.Right,
-                Math.Max(_messageIcon.Height + 10, textSize.Height));
+            // Calculate the size of the icon area and text area including margins
+            Padding textPadding = GetMessageTextPadding(_contentAreaType);
+            Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
+            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+                _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+            Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
+                textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
+            return new Size(textArea.Width + iconArea.Width,
+                Math.Max(iconArea.Height, textArea.Height));
+        }
+
+        private Font GetMessageTextFont(MessageBoxContentAreaType? contentAreaType)
+        {
+            switch (contentAreaType)
+            {
+                case MessageBoxContentAreaType.Normal:
+                    return ktextBoxMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal)
+                        ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+                case MessageBoxContentAreaType.LinkLabel:
+                    klwlblMessageText.UpdateFont();
+                    return klwlblMessageText.Font
+                        ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+                case null:
+                    return KryptonManager.CurrentGlobalPalette.BaseFont;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
+        }
+
+        private Padding GetMessageTextPadding(MessageBoxContentAreaType? contentAreaType)
+        {
+            switch (contentAreaType)
+            {
+                case MessageBoxContentAreaType.Normal:
+                    return ktextBoxMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                case MessageBoxContentAreaType.LinkLabel:
+                    return klwlblMessageText.Padding;
+                case null:
+                    return new Padding(0);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
         }
 
         private Size UpdateButtonsSizing()
@@ -1087,44 +1124,39 @@ namespace Krypton.Toolkit
             {
                 Close();
             }
-            else if (!e.Control
-                     || (e.KeyCode != Keys.C)
-                    )
+            else if (e.KeyData == (Keys.Control | Keys.C))
             {
-                return;
-            }
+                const string DIVIDER = @"---------------------------";
+                const string BUTTON_TEXT_SPACER = @"   ";
+                // Pressing Ctrl+C should copy message text into the clipboard
+                var sb = new StringBuilder();
 
-            const string DIVIDER = @"---------------------------";
-            const string BUTTON_TEXT_SPACER = @"   ";
-
-            // Pressing Ctrl+C should copy message text into the clipboard
-            var sb = new StringBuilder();
-
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(Text);
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(kwlblMessageText.Text);
-            sb.AppendLine(DIVIDER);
-            sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
-            if (_button2.Enabled)
-            {
-                sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
-                if (_button3.Enabled)
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(Text);
+                sb.AppendLine(DIVIDER);
+                sb.AppendLine(klwlblMessageText.Text);
+                sb.AppendLine(DIVIDER);
+                sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+                if (_button2.Enabled)
                 {
-                    sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+                    if (_button3.Enabled)
+                    {
+                        sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                    }
+
+                    if (_button4.Enabled)
+                    {
+                        sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
+                    }
                 }
 
-                if (_button4.Enabled)
-                {
-                    sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
-                }
+                sb.AppendLine(string.Empty);
+                sb.AppendLine(DIVIDER);
+
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+                Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
             }
-
-            sb.AppendLine(string.Empty);
-            sb.AppendLine(DIVIDER);
-
-            Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
-            Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
         private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1155,17 +1187,17 @@ namespace Krypton.Toolkit
                 case MessageBoxContentAreaType.Normal:
                     klwlblMessageText.Visible = false;
 
-                    kwlblMessageText.Visible = true;
+                    ktextBoxMessageText.Visible = true;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
                     klwlblMessageText.Visible = true;
 
-                    kwlblMessageText.Visible = false;
+                    ktextBoxMessageText.Visible = false;
                     break;
                 case null:
                     klwlblMessageText.Visible = false;
 
-                    kwlblMessageText.Visible = true;
+                    ktextBoxMessageText.Visible = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);

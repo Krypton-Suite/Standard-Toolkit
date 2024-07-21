@@ -788,7 +788,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    StateCommon?.Item.SetStyles(_style);
+                    StateCommon.Item.SetStyles(_style);
                     OverrideFocus.Item.SetStyles(_style);
                     _listBox.Recreate();
                     PerformNeedPaint(true);
@@ -1519,15 +1519,7 @@ namespace Krypton.Toolkit
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
-                PaletteState state;
-                if (IsActive)
-                {
-                    state = PaletteState.Tracking;
-                }
-                else
-                {
-                    state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                }
+                PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
                 _listBox.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;

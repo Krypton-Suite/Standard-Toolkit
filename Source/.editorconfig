@@ -46,8 +46,8 @@ dotnet_diagnostic.CA1822.severity = None
 dotnet_diagnostic.CS8073.severity = None
 
 #Warning	CS8618	Non-nullable field '_panelMessage' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.	
-dotnet_diagnostic.CS8618.severity = None
+dotnet_diagnostic.CS8618.severity = suggestion
 
 #Warning	CS8622	Nullability of reference types in type of parameter 'sender' of ####
-dotnet_diagnostic.CS8622.severity = None
+dotnet_diagnostic.CS8622.severity = Warning
 

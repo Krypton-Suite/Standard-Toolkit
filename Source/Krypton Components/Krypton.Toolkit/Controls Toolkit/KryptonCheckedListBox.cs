@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
 #endif
             }
 
-#endregion
+            #endregion
         }
 
         /// <summary>
@@ -944,7 +944,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-#endregion
+        #endregion
 
         #region Instance Fields
 
@@ -2168,22 +2168,14 @@ namespace Krypton.Toolkit
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
-                PaletteState state;
-                if (IsActive)
-                {
-                    state = PaletteState.Tracking;
-                }
-                else
-                {
-                    state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                }
+                PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
                 _listBox.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;
             }
         }
 
-        private IPaletteDouble GetDoubleState() => Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
+        private IPaletteDouble GetDoubleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
         private void OnListBoxDrawItem(object? sender, DrawItemEventArgs e)
         {

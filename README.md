@@ -8,7 +8,7 @@
 	* [Canary](#canary)
 	* [Stable](#stable)
 	* [Documentation](#documentation)
-	    * [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
+		* [Contributing to the Standard Toolkit](#contributing-to-the-standard-toolkit)
 	* [Package Support Information](#package-support-information)
 		* [Release Cadence](#release-cadence)
 		* [Package Descriptions](#package-descriptions)
@@ -19,11 +19,12 @@
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
 	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
-	    * [Support for .NET 6/7](#support-for-net-67)
+		* [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
 		* [`KryptonInputBox`](#kryptoninputbox)
 		* [Building the Toolkit](#building-the-toolkit)
+	* [V85.## (2024-06-24 - Build 2406 - June 2024)](#v85-2024-06-24---build-2406---june-2024)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -184,6 +185,9 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
+- [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
+   - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
+   - Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
 - [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 - and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
   - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
@@ -192,8 +196,8 @@ There are list of changes that have occurred during the development of the V90.#
 - [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
   - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
 - [#1356](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356), AppButton colours don't change while switching themes
-    - See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
-    - `RibbonAppButton` has become `RibbonFileAppButton` 
+	- See https://github.com/Krypton-Suite/Standard-Toolkit/issues/1356#issuecomment-2039412890
+	- `RibbonAppButton` has become `RibbonFileAppButton` 
 	- Addition `RibbonFileAppTab` to hold the tab text (Defaults to `File`)
 	- Colours for the `FileAppTab` have been moved into the `StateCommon` area
 - [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
@@ -232,6 +236,19 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 ### Building the Toolkit
 As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
+## V85.## (2024-06-24 - Build 2406 - June 2024)
+There are a list of changes that have occurred during the development of the V85.## version
+
+* [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
+	- The Option to use `SystemDefault` no longer exists a font rendering hint#
+* [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
+	- Added property `ShowDrop`, which displays a drop down arrow on the button.
+	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
+	- When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
+	- When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.
+	- The ButtonSpec's `Type` property does not need setting to "Context" to display the menu.
+* [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`   
+   
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
 

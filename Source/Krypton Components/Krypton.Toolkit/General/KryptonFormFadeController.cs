@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         /// </summary>
         private async Task<DialogResult> ShowDialog(float fadeSpeed, FadeCompleted? finished)
         {
-            _parentForm!.BeginInvoke(new Action(() => _showDialogResult.SetResult(_owner!.ShowDialog(_parentForm))));
+            _parentForm!.BeginInvoke(() => _showDialogResult.SetResult(_owner!.ShowDialog(_parentForm)));
 
             _fadeCompleted = finished!;
 

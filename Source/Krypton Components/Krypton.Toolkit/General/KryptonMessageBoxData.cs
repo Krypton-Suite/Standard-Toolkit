@@ -98,6 +98,10 @@ namespace Krypton.Toolkit
         /// <value>The show close button.</value>
         public bool? ShowCloseButton { get; set; }
 
+        /// <summary>Gets or sets the use RTL layout of the <see cref="KryptonMessageBox"/> UI.</summary>
+        /// <value>The use RTL layout in an <see cref="KryptonMessageBox"/>.</value>
+        public KryptonUseRTLLayout UseRtlLayout { get; set; }
+
         #endregion
 
         #region Identity
@@ -106,6 +110,8 @@ namespace Krypton.Toolkit
         public KryptonMessageBoxDataDep()
         {
             ShowCloseButton = true;
+
+            UseRtlLayout = KryptonUseRTLLayout.No;
         }
 
         #endregion

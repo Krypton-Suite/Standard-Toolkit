@@ -80,8 +80,12 @@ namespace Krypton.Ribbon
             // Give paint delegate to textbox so its palette changes are redrawn
             GroupTrackBar.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupTrackBar.TrackBar);
+            UpdateVisible(GroupTrackBar.TrackBar);
+
             // Hook into changes in the ribbon custom definition
-            GroupTrackBar.PropertyChanged += OnTextBoxPropertyChanged;
+            GroupTrackBar.PropertyChanged += OnTrackBarPropertyChanged;
             _nullControlWidth = (int)(50 * FactorDpiX);
         }
 
@@ -107,7 +111,7 @@ namespace Krypton.Ribbon
                     GroupTrackBar.MouseEnterControl -= OnMouseEnterControl;
                     GroupTrackBar.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupTrackBar.ViewPaintDelegate = null;
-                    GroupTrackBar.PropertyChanged -= OnTextBoxPropertyChanged;
+                    GroupTrackBar.PropertyChanged -= OnTrackBarPropertyChanged;
                     _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
@@ -357,7 +361,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void OnContextClick(object sender, MouseEventArgs e) => GroupTrackBar?.OnDesignTimeContextMenu(e);
 
-        private void OnTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTrackBarPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             const bool UPDATE_PAINT = false;

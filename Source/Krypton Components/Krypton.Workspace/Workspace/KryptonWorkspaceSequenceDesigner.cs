@@ -91,7 +91,7 @@ namespace Krypton.Workspace
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our sequence is being removed
             if (e.Component == _sequence)

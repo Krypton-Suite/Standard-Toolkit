@@ -6,9 +6,6 @@
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -900,8 +897,7 @@ namespace Krypton.Ribbon
             _drawDocker.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state;
-            state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDocker.ElementState = state;
         }

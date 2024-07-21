@@ -183,15 +183,15 @@ namespace Krypton.Toolkit
             Color.FromArgb(153, 153, 153), // FormBorderInactiveLight
             Color.FromArgb(171, 171, 171), // FormBorderInactiveDark
             Color.FromArgb(65, 65, 65), // FormBorderHeaderActive
-            Color.FromArgb(154, 154, 154), // FormBorderHeaderInactive
+            Color.FromArgb(167, 167, 167), // FormBorderHeaderInactive
             Color.FromArgb(42, 43, 43), // FormBorderHeaderActive1
             Color.FromArgb(74, 74, 74), // FormBorderHeaderActive2
             Color.FromArgb(146, 146, 146), // FormBorderHeaderInctive1
             Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
             Color.FromArgb(255, 255, 255), // FormHeaderShortActive
-            Color.FromArgb(41, 41, 41), // FormHeaderShortInactive
+            Color.FromArgb(167, 167, 167), // FormHeaderShortInactive
             Color.White, // FormHeaderLongActive
-            Color.FromArgb(225, 225, 225), // FormHeaderLongInactive
+            Color.FromArgb(167, 167, 167), // FormHeaderLongInactive
             Color.FromArgb(88, 95, 104), // FormButtonBorderTrack
             Color.FromArgb(91, 105, 123), // FormButtonBack1Track
             Color.FromArgb(173, 199, 214), // FormButtonBack2Track
@@ -321,11 +321,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(91, 91, 91), // GridDataCellSelected
             Color.White, // InputControlTextNormal
-            Color.FromArgb(166, 166, 166), // InputControlTextDisabled
+            Color.FromArgb(167, 167, 167), // InputControlTextDisabled
             Color.FromArgb(137, 137, 137), // InputControlBorderNormal
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
-            SystemColors.Control, // InputControlBackDisabled
+            Color.FromArgb(102, 102, 102), // InputControlBackDisabled
             Color.FromArgb(78, 78, 80), // InputControlBackInactive
             Color.FromArgb(91, 91, 91), // InputDropDownNormal1
             Color.FromArgb(88, 88, 88), // InputDropDownNormal2
@@ -726,8 +726,8 @@ namespace Krypton.Toolkit
 
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-        private static readonly Color _disabledText = Color.FromArgb(115, 115, 115);
-        private static readonly Color _disabledBack = Color.FromArgb(60, 60, 60);
+        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
@@ -766,53 +766,53 @@ namespace Krypton.Toolkit
         private static readonly Color[] _appButtonNormal =
         [
             Color.FromArgb(243, 245, 248),
-                                                             Color.FromArgb(214, 220, 231),
-                                                             Color.FromArgb(188, 198, 211),
-                                                             Color.FromArgb(254, 254, 255),
-                                                             Color.FromArgb(206, 213, 225)
+            Color.FromArgb(214, 220, 231),
+            Color.FromArgb(188, 198, 211),
+            Color.FromArgb(254, 254, 255),
+            Color.FromArgb(206, 213, 225)
         ];
 
         private static readonly Color[] _appButtonTrack =
         [
             Color.FromArgb(255, 251, 230),
-                                                            Color.FromArgb(178, 178, 178),
-                                                            Color.FromArgb(176, 176, 176),
-                                                            Color.FromArgb(179, 179, 179),
-                                                            Color.FromArgb(160, 160, 160)
+            Color.FromArgb(178, 178, 178),
+            Color.FromArgb(176, 176, 176),
+            Color.FromArgb(179, 179, 179),
+            Color.FromArgb(160, 160, 160)
         ];
 
         private static readonly Color[] _appButtonPressed =
         [
             Color.FromArgb(235, 227, 196),
-                                                              Color.FromArgb(185, 185, 185),
-                                                              Color.FromArgb(35, 35, 35),
-                                                              Color.FromArgb(50, 50, 50),
-                                                              Color.FromArgb(100, 100, 100)
+            Color.FromArgb(185, 185, 185),
+            Color.FromArgb(35, 35, 35),
+            Color.FromArgb(50, 50, 50),
+            Color.FromArgb(100, 100, 100)
         ];
 
         private static readonly Color[] _buttonBorderColors =
         [
             Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(139, 139, 139),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(30, 30, 30),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(4, 3, 3),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(30, 30, 30),  // Button, Checked, Border 1
-                                                                Color.FromArgb(4, 3, 3)   // Button, Checked, Border 2
+            Color.FromArgb(187, 186, 186), // Button, Tracking, Border 1
+            Color.FromArgb(139, 139, 139), // Button, Tracking, Border 2
+            Color.FromArgb(30, 30, 30), // Button, Pressed, Border 1
+            Color.FromArgb(4, 3, 3), // Button, Pressed, Border 2
+            Color.FromArgb(30, 30, 30), // Button, Checked, Border 1
+            Color.FromArgb(4, 3, 3) // Button, Checked, Border 2
         ];
 
         private static readonly Color[] _buttonBackColors =
         [
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                              Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                              Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
-                                                              Color.FromArgb(33, 33, 33), // Button, Tracking, Back 2
-                                                              Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
-                                                              Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
-                                                              Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
-                                                              Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
-                                                              Color.FromArgb(70, 70, 70)  // Button, Checked Tracking, Back 2
+            Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
+            Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
+            Color.FromArgb(129, 129, 129), // Button, Tracking, Back 2
+            Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
+            Color.FromArgb(91, 91, 91), // Button, Pressed, Back 2
+            Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
+            Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
+            Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
+            Color.FromArgb(70, 70, 70) // Button, Checked Tracking, Back 2
         ];
 
         #endregion

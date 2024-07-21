@@ -107,10 +107,17 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        /// <summary>Gets or sets the width of the scroll bar.</summary>
+        /// <value>The width of the scroll bar.</value>
         public int ScrollBarWidth
         {
             get => Width; set => Width = value;
         }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override string Text { get; set; }
 
         #endregion
 

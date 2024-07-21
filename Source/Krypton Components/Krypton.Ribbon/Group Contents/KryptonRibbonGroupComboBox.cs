@@ -413,7 +413,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-        public string Text
+        public virtual string Text
         {
             get => ComboBox.Text;
             set => ComboBox.Text = value;
@@ -491,7 +491,7 @@ namespace Krypton.Ribbon
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        public ComboBoxStyle DropDownStyle
+        public virtual ComboBoxStyle DropDownStyle
         {
             get => ComboBox.DropDownStyle;
             set => ComboBox.DropDownStyle = value;
@@ -589,7 +589,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
-        public ComboBox.ObjectCollection Items => ComboBox.Items;
+        public virtual ComboBox.ObjectCollection Items => ComboBox.Items;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -632,7 +632,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
         [Browsable(true)]
-        public AutoCompleteStringCollection AutoCompleteCustomSource
+        public virtual AutoCompleteStringCollection AutoCompleteCustomSource
         {
             get => ComboBox.AutoCompleteCustomSource;
             set => ComboBox.AutoCompleteCustomSource = value;
@@ -645,7 +645,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteMode AutoCompleteMode
+        public virtual AutoCompleteMode AutoCompleteMode
         {
             get => ComboBox.AutoCompleteMode;
             set => ComboBox.AutoCompleteMode = value;
@@ -658,7 +658,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteSource AutoCompleteSource
+        public virtual AutoCompleteSource AutoCompleteSource
         {
             get => ComboBox.AutoCompleteSource;
             set => ComboBox.AutoCompleteSource = value;
@@ -671,7 +671,7 @@ namespace Krypton.Ribbon
         [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
-        public string FormatString
+        public virtual string FormatString
         {
             get => ComboBox.FormatString;
             set => ComboBox.FormatString = value;
@@ -1109,7 +1109,7 @@ namespace Krypton.Ribbon
 
         private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private protected void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
 
         private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
 

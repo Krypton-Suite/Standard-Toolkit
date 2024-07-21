@@ -143,8 +143,8 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(40, 40, 40), // TextLabelControl
-            Color.FromArgb(40, 40, 40), // TextButtonNormal
+            Color.FromArgb(255, 255, 255), // TextLabelControl
+            Color.FromArgb(255, 255, 255), // TextButtonNormal
             Color.FromArgb(52, 52, 52), // TextButtonChecked
             Color.FromArgb(141, 148, 157), // ButtonNormalBorder1
             Color.FromArgb(131, 138, 147), // ButtonNormalBorder2
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack1
             Color.FromArgb(213, 219, 231), // HeaderSecondaryBack2
             Color.FromArgb(21, 66, 139), // HeaderText
-            Color.FromArgb(40, 40, 40), // StatusStripText
+            Color.FromArgb(255, 255, 255), // StatusStripText
             Color.FromArgb(155, 163, 167), // ButtonBorder
             Color.FromArgb(255, 255, 255), // SeparatorLight
             Color.FromArgb(110, 109, 143), // SeparatorDark
@@ -193,9 +193,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(83, 99, 136), // FormBorderHeaderActive2
             Color.FromArgb(119, 132, 161), // FormBorderHeaderInctive1
             Color.FromArgb(83, 99, 136), // FormBorderHeaderInctive2
-            Color.FromArgb(52, 52, 52), // FormHeaderShortActive
+            Color.FromArgb(255, 255, 255), // FormHeaderShortActive
             Color.FromArgb(138, 138, 138), // FormHeaderShortInactive
-            Color.FromArgb(92, 98, 106), // FormHeaderLongActive
+            Color.FromArgb(255, 255, 255), // FormHeaderLongActive
             Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
             Color.FromArgb(189, 199, 212), // FormButtonBorderTrack
             Color.FromArgb(222, 230, 242), // FormButtonBack1Track
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(125, 131, 140), // FormButtonBack1Pressed
             Color.FromArgb(213, 226, 233), // FormButtonBack2Pressed
             Color.Black, // TextButtonFormNormal
-            Color.Black, // TextButtonFormTracking
+            Color.FromArgb(255, 255, 255), // TextButtonFormTracking
             Color.Black, // TextButtonFormPressed
             Color.Silver, // LinkNotVisitedOverrideControl
             Color.Purple, // LinkVisitedOverrideControl
@@ -212,8 +212,8 @@ namespace Krypton.Toolkit
             Color.Silver, // LinkNotVisitedOverridePanel
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
-            Color.FromArgb(40, 40, 40), // TextLabelPanel
-            Color.FromArgb(40, 40, 40), // RibbonTabTextNormal (Old value 255, 255, 255)
+            Color.FromArgb(255, 255, 255), // TextLabelPanel
+            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal (Old value 255, 255, 255)
             Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
@@ -235,11 +235,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(243, 245, 249), // RibbonGroupsArea5
             Color.FromArgb(189, 191, 193), // RibbonGroupBorder1
             Color.FromArgb(133, 133, 133), // RibbonGroupBorder2
-            Color.FromArgb(40, 40, 40), // RibbonGroupTitle1 (Old value 40, 40, 40)
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitle1 (Old value 255, 255, 255)
             Color.FromArgb(52, 52, 52), // RibbonGroupTitle2 (Old value 195, 199, 209)
             Color.FromArgb(183, 183, 183), // RibbonGroupBorderContext1
             Color.FromArgb(131, 131, 131), // RibbonGroupBorderContext2
-            Color.FromArgb(40, 40, 40), // RibbonGroupTitleContext1 (Old value 40, 40, 40)
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitleContext1 (Old value 255, 255, 255)
             Color.FromArgb(52, 52, 52), // RibbonGroupTitleContext2 (Old value 195, 199, 209)
             Color.FromArgb(101, 104, 112), // RibbonGroupDialogDark
             Color.FromArgb(242, 242, 242), // RibbonGroupDialogLight
@@ -269,7 +269,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(226, 229, 234), // RibbonGroupFrameInside2
             Color.FromArgb(220, 224, 231), // RibbonGroupFrameInside3
             Color.FromArgb(232, 234, 238), // RibbonGroupFrameInside4
-            Color.FromArgb(40, 40, 40), // RibbonGroupCollapsedText (Old value 76, 83, 92)
+            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText (Old value 76, 83, 92)
             Color.FromArgb(179, 185, 195), // AlternatePressedBack1
             Color.FromArgb(216, 224, 224), // AlternatePressedBack2
             Color.FromArgb(125, 125, 125), // AlternatePressedBorder1
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(245, 199, 149), // GridSheetRowSelected
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(194, 217, 240), // GridDataCellSelected
-            Color.Black, // InputControlTextNormal
+            Color.FromArgb(255, 255, 255), // InputControlTextNormal
             Color.FromArgb(51, 51, 51), // InputControlTextDisabled
             Color.FromArgb(169, 177, 184), // InputControlBorderNormal
             Color.FromArgb(177, 187, 198), // InputControlBorderDisabled
@@ -330,8 +330,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 248, 203), // InputDropDownNormal2
             Color.FromArgb(51, 51, 51), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2
-            Color.FromArgb(40, 40, 40), // ContextMenuHeading
-            Color.FromArgb(40, 40, 40), // ContextMenuHeadingText (Old value 76, 83, 92)
+            Color.FromArgb(255, 255, 255), // ContextMenuHeading
+            Color.FromArgb(255, 255, 255), // ContextMenuHeadingText (Old value 76, 83, 92)
             Color.FromArgb(239, 239, 239), // ContextMenuImageColumn
             Color.FromArgb(119, 132, 161), // AppButtonBack1
             Color.FromArgb(83, 99, 136), // AppButtonBack2
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder4
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder5
-            Color.FromArgb(40, 40, 40), // RibbonGroupTitleText
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitleText
             GlobalStaticValues.EMPTY_COLOR, // RibbonDropArrowLight
             GlobalStaticValues.EMPTY_COLOR, // RibbonDropArrowDark
             Color.FromArgb(237, 242, 248), // HeaderDockInactiveBack1
@@ -796,11 +796,11 @@ namespace Krypton.Toolkit
         [
             Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
             Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-            Color.FromArgb(54, 64, 88), // Button, Tracking, Back 1
+            Color.FromArgb(102, 117, 161), // Button, Tracking, Back 1
             Color.FromArgb(106, 123, 164), // Button, Tracking, Back 2
-            Color.FromArgb(95, 107, 137), // Button, Pressed, Back 1
-            Color.FromArgb(54, 64, 88), // Button, Pressed, Back 2
-            Color.FromArgb(54, 64, 88), // Button, Checked, Back 1
+            Color.FromArgb(73, 84, 113), // Button, Pressed, Back 1
+            Color.FromArgb(102, 117, 161), // Button, Pressed, Back 2
+            Color.FromArgb(102, 117, 161), // Button, Checked, Back 1
             Color.FromArgb(122, 137, 174), // Button, Checked, Back 2
             Color.FromArgb(119, 134, 172), // Button, Checked Tracking, Back 1
             Color.FromArgb(135, 148, 182) // Button, Checked Tracking, Back 2

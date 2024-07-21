@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
                 {
                     bool b1 = (bool)_val;
                     bool b2 = (bool)o2!;
-                    compareResult = (b1 == b2 ? 0 : b1 == true ? 1 : -1) * orderModifier;
+                    compareResult = (b1 == b2 ? 0 : b1 ? 1 : -1) * orderModifier;
                 }
                 else if (_val is float)
                 {
