@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationBasicForm_Resize(object? sender, EventArgs e)
         {
             WindowState = WindowState switch
             {
@@ -243,9 +243,9 @@ namespace Krypton.Toolkit
             };
         }
 
-        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e) => kbtnDismiss.Focus();
+        private void VisualToastNotificationBasicForm_GotFocus(object? sender, EventArgs e) => kbtnDismiss.Focus();
 
-        private void VisualToastNotificationBasicForm_LocationChanged(object sender, EventArgs e)
+        private void VisualToastNotificationBasicForm_LocationChanged(object? sender, EventArgs e)
         {
             if (_basicToastNotificationData.ReportToastLocation)
             {

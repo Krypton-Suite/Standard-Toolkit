@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnStartTimerTick(object sender, EventArgs e)
+        private void OnStartTimerTick(object? sender, EventArgs e)
         {
             // One tick timer, so always stop
             _startTimer.Stop();
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnStopDetectMoveTimerTick(object sender, EventArgs e)
+        private void OnStopDetectMoveTimerTick(object? sender, EventArgs e)
         {
             // One tick timer, so always stop
             _detectMoveTimer.Stop();
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCloseTimerTick(object sender, EventArgs e)
+        private void OnCloseTimerTick(object? sender, EventArgs e)
         {
             // Raises event indicating the tooltip should be removed
             _closeTimer.Stop();

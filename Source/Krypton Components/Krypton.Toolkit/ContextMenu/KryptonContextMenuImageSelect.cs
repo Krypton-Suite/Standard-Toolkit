@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnTrackingTick(object sender, EventArgs e)
+        private void OnTrackingTick(object? sender, EventArgs e)
         {
             // If no change in tracking index over last interval
             if (_trackingIndex == _cacheTrackingIndex)

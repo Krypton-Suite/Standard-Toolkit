@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnHeaderGroupMouseUp(object sender, MouseEventArgs e)
+        private void OnHeaderGroupMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_headerGroup != null) && (e.Button == MouseButtons.Left))
             {
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnHeaderGroupDoubleClick(object sender, Point pt)
+        private void OnHeaderGroupDoubleClick(object? sender, Point pt)
         {
             // Get any component associated with the current mouse position
             var component = _headerGroup?.DesignerComponentFromPoint(pt);
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (Equals(e.Component, _headerGroup))

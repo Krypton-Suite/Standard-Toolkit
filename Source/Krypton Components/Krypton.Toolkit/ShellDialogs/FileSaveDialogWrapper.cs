@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private protected override void FormResize(object sender, EventArgs e)
+        private protected override void FormResize(object? sender, EventArgs e)
         {
             // Panel controls button placement now (Due to messed up transparency)
             //return;

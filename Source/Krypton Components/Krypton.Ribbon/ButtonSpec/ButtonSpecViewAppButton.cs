@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnFinishDelegate(object sender, EventArgs? e) =>
+        protected override void OnFinishDelegate(object? sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller?.RemoveFixed();
         #endregion

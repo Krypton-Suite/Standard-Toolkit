@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e)
         {
             // Assuming the panel has a parent
             if (_panel?.Parent != null)

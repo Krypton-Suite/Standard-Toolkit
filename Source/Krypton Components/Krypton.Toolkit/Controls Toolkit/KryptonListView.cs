@@ -395,7 +395,7 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listView);
         }
 
-        private void OnListBoxClick(object sender, EventArgs e) => OnClick(e);
+        private void OnListBoxClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Clean up any resources being used.
@@ -1345,7 +1345,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnListViewGotFocus(object sender, EventArgs e)
+        private void OnListViewGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _listView.Invalidate();
@@ -1353,7 +1353,7 @@ namespace Krypton.Toolkit
             OnGotFocus(e);
         }
 
-        private void OnListViewLostFocus(object sender, EventArgs e)
+        private void OnListViewLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _listView.Invalidate();

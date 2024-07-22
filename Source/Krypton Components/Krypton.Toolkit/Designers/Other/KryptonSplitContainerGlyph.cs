@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnSelectionChanged(object sender, EventArgs e)
+        private void OnSelectionChanged(object? sender, EventArgs e)
         {
             if (_splitContainer is not null && _selectionService is not null)
             {

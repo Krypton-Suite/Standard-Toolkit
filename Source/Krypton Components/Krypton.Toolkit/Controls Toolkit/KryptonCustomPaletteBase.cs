@@ -2954,7 +2954,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaintLayoutEventArgs containing event data.</param>
-        protected override void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -2982,7 +2982,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnBasePaletteChanged(object sender, EventArgs e)
+        protected override void OnBasePaletteChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -2996,7 +2996,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnBaseRendererChanged(object sender, EventArgs e)
+        protected override void OnBaseRendererChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -3010,7 +3010,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -5808,7 +5808,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnMenuToolStatusPaint(object sender, NeedLayoutEventArgs e)
+        private void OnMenuToolStatusPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Only raise the need to paint if painting has not been suspended
             if (_suspendCount == 0)

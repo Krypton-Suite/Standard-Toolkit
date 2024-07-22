@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void Timer1OnTick(object sender, EventArgs e)
+        private void Timer1OnTick(object? sender, EventArgs e)
         {
             var text = new StringBuilder(6);
             if (PI.GetWindowText(_redEdit.hWnd, text, 4) <= 0)
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
             _alphaPanel.StateCommon.Color1 = Color.FromArgb(_alphaSlider.Value, red, green, blue);
         }
 
-        private void AlphaSlider_ValueChanged(object sender, EventArgs e)
+        private void AlphaSlider_ValueChanged(object? sender, EventArgs e)
         {
             _alphaSlider.ToolTipValues.Description = _alphaSlider.Value.ToString(CultureInfo.InvariantCulture);
             _alphaLabel.Text = _alphaSlider.ToolTipValues.Description;

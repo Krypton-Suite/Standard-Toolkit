@@ -1906,7 +1906,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
             _buttonManager?.RecreateButtons();
@@ -1993,7 +1993,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed)
             {
@@ -2060,11 +2060,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckBoxClick(object sender, EventArgs e) =>
+        private void OnCheckBoxClick(object? sender, EventArgs e) =>
             // Invert the current checked state
             Checked = !Checked;
 
-        private void OnDropDownClick(object sender, EventArgs e)
+        private void OnDropDownClick(object? sender, EventArgs e)
         {
             // Never shown the calendar at design time
             if (!InRibbonDesignMode)
@@ -2168,7 +2168,7 @@ namespace Krypton.Toolkit
             _buttonDropDown.RemoveFixed();
         }
 
-        private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
+        private void OnMonthCalendarDateChanged(object? sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the existing time
             var newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day, _dateTime.Hour, _dateTime.Minute,
@@ -2192,10 +2192,10 @@ namespace Krypton.Toolkit
             _dropDownMonthChanged = true;
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             // Must unhook from menu so it can be garbage collected
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Unhook from month calendar events
@@ -2220,7 +2220,7 @@ namespace Krypton.Toolkit
             kcm.Dispose();
         }
 
-        private void OnUpClick(object sender, EventArgs e)
+        private void OnUpClick(object? sender, EventArgs e)
         {
             // Never operate the control at design time
             if (!InRibbonDesignMode)
@@ -2232,7 +2232,7 @@ namespace Krypton.Toolkit
             _buttonUp.RemoveFixed();
         }
 
-        private void OnDownClick(object sender, EventArgs e)
+        private void OnDownClick(object? sender, EventArgs e)
         {
             // Never operate the control at design time
             if (!InRibbonDesignMode)
@@ -2244,14 +2244,14 @@ namespace Krypton.Toolkit
             _buttonDown.RemoveFixed();
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

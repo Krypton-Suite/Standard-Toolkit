@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
+        protected virtual void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Need to recalculate anything relying on the palette
             OnNeedPaint(sender, e);
 
@@ -502,15 +502,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette!.GetRenderer();
 
-        private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
+        private void OnProviderClosing(object? sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e) => _contextMenu?.Close(e.CloseReason);
+        private void OnProviderClose(object? sender, CloseReasonEventArgs e) => _contextMenu?.Close(e.CloseReason);
 
-        private void OnProviderClose(object sender, EventArgs e)
+        private void OnProviderClose(object? sender, EventArgs e)
         {
             // Unhook from event source
             var provider = sender as ContextMenuProvider;

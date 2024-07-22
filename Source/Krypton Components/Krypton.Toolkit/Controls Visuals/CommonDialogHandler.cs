@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnResizeTimedEvent(object sender, ElapsedEventArgs e)
+        private void OnResizeTimedEvent(object? sender, ElapsedEventArgs e)
         {
             _resizeTimer.Dispose();
             if (_wrapperForm != null)
@@ -491,7 +491,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void FormResize(object sender, EventArgs e)
+        private void FormResize(object? sender, EventArgs e)
         {
             if (_resizeHandle != IntPtr.Zero)
             {

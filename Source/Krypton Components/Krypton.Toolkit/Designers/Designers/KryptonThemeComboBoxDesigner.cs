@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
             throw new NotImplementedException();
         }
 
-        private void OnReset(object sender, EventArgs e)
+        private void OnReset(object? sender, EventArgs e)
         {
             if (_themeComboBox != null)
             {

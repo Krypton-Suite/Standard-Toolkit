@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
         }
-        private void OnPropertyGridClick(object sender, EventArgs e) => OnClick(e);
+        private void OnPropertyGridClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Clean up any resources being used.
@@ -961,7 +961,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnPropertyGridGotFocus(object sender, EventArgs e)
+        private void OnPropertyGridGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _propertyGrid.Invalidate();
@@ -969,7 +969,7 @@ namespace Krypton.Toolkit
             OnGotFocus(e);
         }
 
-        private void OnPropertyGridLostFocus(object sender, EventArgs e)
+        private void OnPropertyGridLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _propertyGrid.Invalidate();

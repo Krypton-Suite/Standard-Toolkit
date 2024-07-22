@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationNumericUpDownUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationNumericUpDownUserInputWithProgressBarForm_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {

@@ -221,18 +221,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnCheckedChanged(object sender, EventArgs e)
+        private void OnCheckedChanged(object? sender, EventArgs e)
         {
             ViewDrawRadioButton.CheckState = KryptonContextMenuRadioButton.Checked;
             _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
 
         #endregion
 
         #region Implementation
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

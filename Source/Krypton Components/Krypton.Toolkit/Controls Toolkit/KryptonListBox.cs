@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
         }
 
-        private void OnListBoxClick(object sender, EventArgs e) =>
+        private void OnListBoxClick(object? sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier
@@ -1323,7 +1323,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             _listBox.RefreshItemSizes();
             base.OnPaletteChanged(e);
@@ -1528,7 +1528,7 @@ namespace Krypton.Toolkit
 
         private IPaletteDouble GetDoubleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
-        private void OnListBoxDrawItem(object sender, DrawItemEventArgs e)
+        private void OnListBoxDrawItem(object? sender, DrawItemEventArgs e)
         {
             // We cannot do anything with an invalid index
             if (e.Index < 0)
@@ -1634,7 +1634,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnListBoxMeasureItem(object sender, MeasureItemEventArgs e)
+        private void OnListBoxMeasureItem(object? sender, MeasureItemEventArgs e)
         {
             UpdateContentFromItemIndex(e.Index);
 
@@ -1666,13 +1666,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnListBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
+        private void OnListBoxDataSourceChanged(object? sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnListBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
+        private void OnListBoxDisplayMemberChanged(object? sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnListBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
+        private void OnListBoxValueMemberChanged(object? sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnListBoxSelectedIndexChanged(object sender, EventArgs e)
+        private void OnListBoxSelectedIndexChanged(object? sender, EventArgs e)
         {
             switch (_listBox.SelectionMode)
             {
@@ -1720,22 +1720,22 @@ namespace Krypton.Toolkit
             return left.Where((t, i) => t != right[i]).Any();
         }
 
-        private void OnListBoxSelectedValueChanged(object sender, EventArgs e)
+        private void OnListBoxSelectedValueChanged(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _listBox.Invalidate();
             OnSelectedValueChanged(e);
         }
 
-        private void OnListBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
+        private void OnListBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnListBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
+        private void OnListBoxFormatInfoChanged(object? sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnListBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
+        private void OnListBoxFormatStringChanged(object? sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnListBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
+        private void OnListBoxFormattingEnabledChanged(object? sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnListBoxGotFocus(object sender, EventArgs e)
+        private void OnListBoxGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _listBox.Invalidate();
@@ -1743,7 +1743,7 @@ namespace Krypton.Toolkit
             OnGotFocus(e);
         }
 
-        private void OnListBoxLostFocus(object sender, EventArgs e)
+        private void OnListBoxLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _listBox.Invalidate();
@@ -1751,19 +1751,19 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnListBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnListBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnListBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnListBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnListBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnListBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnListBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnListBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnListBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnListBoxMouseChange(object sender, EventArgs e)
+        private void OnListBoxMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_listBox.MouseOver != _trackingMouseEnter)
@@ -1784,9 +1784,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
         #endregion
     }

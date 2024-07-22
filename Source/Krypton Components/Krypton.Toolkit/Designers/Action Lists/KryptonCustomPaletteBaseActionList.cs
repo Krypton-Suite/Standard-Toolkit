@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnResetClick(object sender, EventArgs e)
+        private void OnResetClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnPopulateClick(object sender, EventArgs e)
+        private void OnPopulateClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnImportClick(object sender, EventArgs e)
+        private void OnImportClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -109,9 +109,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e) => _palette?.ActionListExport();
+        private void OnExportClick(object? sender, EventArgs e) => _palette?.ActionListExport();
 
-        private void OnUpgradePalette(object sender, EventArgs e)
+        private void OnUpgradePalette(object? sender, EventArgs e)
         {
             try
             {

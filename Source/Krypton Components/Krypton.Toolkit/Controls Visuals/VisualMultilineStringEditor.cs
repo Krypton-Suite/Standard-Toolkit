@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The control.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnKeyDownTextBox(object sender, KeyEventArgs e)
+        private void OnKeyDownTextBox(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {

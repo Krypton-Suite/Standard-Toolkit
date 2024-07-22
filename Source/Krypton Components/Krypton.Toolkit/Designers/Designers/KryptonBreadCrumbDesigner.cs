@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnBreadCrumbMouseUp(object sender, MouseEventArgs e)
+        private void OnBreadCrumbMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_breadCrumb != null) && (e.Button == MouseButtons.Left))
             {
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_breadCrumb != null) && (Equals(e.Component, _breadCrumb)))
