@@ -741,7 +741,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCMSClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnCMSClosed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook event from object
             var cms = sender as ContextMenuStrip;

@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnUpgrade(object sender, EventArgs e)
+        private void OnUpgrade(object? sender, EventArgs e)
         {
             try
             {
@@ -117,9 +117,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExport(object sender, EventArgs e) => _palette?.ActionListExport();
+        private void OnExport(object? sender, EventArgs e) => _palette?.ActionListExport();
 
-        private void OnImport(object sender, EventArgs e)
+        private void OnImport(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnPopulate(object sender, EventArgs e)
+        private void OnPopulate(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnReset(object sender, EventArgs e)
+        private void OnReset(object? sender, EventArgs e)
         {
             if (_palette != null)
             {

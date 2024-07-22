@@ -580,7 +580,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -617,7 +617,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void OnContextMenuDisposed(object sender, EventArgs e)
+        internal void OnContextMenuDisposed(object? sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (_contextMenu != null)

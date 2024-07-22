@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our context menu is being removed
             if ((_contextMenu != null) && (Equals(e.Component, _contextMenu)))

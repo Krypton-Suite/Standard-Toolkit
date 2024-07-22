@@ -1021,7 +1021,7 @@ namespace Krypton.Toolkit
             UpdateToolStripManager();
         }
 
-        private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        private static void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             // If the color table has changed then need to update tool strip immediately
             if (e.NeedColorTable)

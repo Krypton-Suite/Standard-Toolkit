@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnComboBoxMouseUp(object sender, MouseEventArgs e)
+        private void OnComboBoxMouseUp(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_comboBox != null) && (Equals(e.Component, _comboBox)))

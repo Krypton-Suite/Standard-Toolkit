@@ -929,7 +929,7 @@ namespace Krypton.Toolkit
 
 
         //Krypton Palette Events
-        private static void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private static void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -951,7 +951,7 @@ namespace Krypton.Toolkit
         }
 
         //Krypton Palette Events
-        private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        private static void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();
         }

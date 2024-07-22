@@ -738,7 +738,7 @@ namespace Krypton.Toolkit
             return path;
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // Unhook events from old palette
             if (_palette != null)
@@ -773,8 +773,8 @@ namespace Krypton.Toolkit
         }
 
         // Palette indicates we might need to repaint, so lets do it
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
-        private void OnLabelTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
+        private void OnLabelTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void StartMarquee()
         {
@@ -784,7 +784,7 @@ namespace Krypton.Toolkit
             _marqueeTimer.Start();
         }
 
-        private void OnMarqueeTick(object sender, EventArgs e)
+        private void OnMarqueeTick(object? sender, EventArgs e)
         {
             _marqueeLocation++;
             if (_marqueeLocation > Maximum)

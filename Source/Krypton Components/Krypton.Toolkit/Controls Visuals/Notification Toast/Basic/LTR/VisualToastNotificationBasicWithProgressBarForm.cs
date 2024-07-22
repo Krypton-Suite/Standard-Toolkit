@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
             itbDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationBasicWithProgressBarForm_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -223,12 +223,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_GotFocus(object sender, EventArgs e)
+        private void VisualToastNotificationBasicWithProgressBarForm_GotFocus(object? sender, EventArgs e)
         {
             kbtnDismiss.Focus();
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_LocationChanged(object sender, EventArgs e)
+        private void VisualToastNotificationBasicWithProgressBarForm_LocationChanged(object? sender, EventArgs e)
         {
             if (_basicToastNotificationData.ReportToastLocation)
             {

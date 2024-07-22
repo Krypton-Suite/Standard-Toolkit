@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
             VisualContextMenu?.PerformNeedPaint(e.NeedLayout);
         }
 
-        private void OnContextMenuDisposed(object sender, EventArgs e)
+        private void OnContextMenuDisposed(object? sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (VisualContextMenu != null)

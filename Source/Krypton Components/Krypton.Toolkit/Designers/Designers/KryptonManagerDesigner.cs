@@ -92,14 +92,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void OnReset(object sender, EventArgs e)
+        private void OnReset(object? sender, EventArgs e)
         {
             if (_manager != null)
             {

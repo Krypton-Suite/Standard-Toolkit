@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
+        private void OnRadioButtonCheckedChanged(object? sender, EventArgs e)
         {
             // Only interested if the button has become checked
             if (sender is KryptonContextMenuRadioButton { Checked: true } radioButton)

@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnCalendarMouseUp(object sender, MouseEventArgs e)
+        private void OnCalendarMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_monthCalendar != null) && (e.Button == MouseButtons.Left))
             {
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (Equals(e.Component, _monthCalendar))

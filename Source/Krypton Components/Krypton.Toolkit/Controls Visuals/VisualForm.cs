@@ -945,7 +945,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
+        protected virtual void OnButtonSpecChanged(object? sender, EventArgs e)
         {
         }
 
@@ -975,7 +975,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e)
+        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e)
         {
         }
 
@@ -985,7 +985,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1660,7 +1660,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -1724,12 +1724,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
-        private void OnDpiChanged(object sender, DpiChangedEventArgs e) => UpdateDpiFactors();
+        private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
         #endregion
 

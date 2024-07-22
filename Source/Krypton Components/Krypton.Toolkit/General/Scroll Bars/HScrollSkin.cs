@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        public void scrollSkin_ControlAdded(object sender, ControlEventArgs e)
+        public void scrollSkin_ControlAdded(object? sender, ControlEventArgs e)
         {
             if ( e is not null 
                 && e.Control is not null 
@@ -220,12 +220,12 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e) => PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
+        private void VScrollBar1_miScroll(object? sender, ScrollEventArgs e) => PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
 
         #endregion
 
         #region "   Horizontal Scroll   "
-        private void HScrollBar1_miScroll(object sender, ScrollEventArgs e)
+        private void HScrollBar1_miScroll(object? sender, ScrollEventArgs e)
         {
             if (_win.GetType() == typeof(ListView))
             {
@@ -317,9 +317,9 @@ namespace Krypton.Toolkit
 
         #region "   DGV Scrollbars VisibleChanged   "
 
-        private void HorizontalScrollBar_VisibleChanged(object sender, EventArgs e)
+        private void HorizontalScrollBar_VisibleChanged(object? sender, EventArgs e)
         {
-            var hscroll = (HScrollBar)sender;
+            var hscroll = sender as HScrollBar ?? throw new ArgumentNullException(nameof(sender));
             if (hscroll.Visible)
             {
                 _HScrollBar1.Visible = true;
@@ -330,9 +330,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VerticalScrollBar_VisibleChanged(object sender, EventArgs e)
+        private void VerticalScrollBar_VisibleChanged(object? sender, EventArgs e)
         {
-            var vscroll = (VScrollBar)sender;
+            var vscroll = sender as VScrollBar ?? throw new ArgumentNullException(nameof(sender));
             if (vscroll.Visible)
             {
                 _VScrollBar1.Visible = true;
@@ -347,9 +347,9 @@ namespace Krypton.Toolkit
 
         #region "   DGV Scroll   "
 
-        private void dgv_Scroll(object sender, ScrollEventArgs e)
+        private void dgv_Scroll(object? sender, ScrollEventArgs e)
         {
-            var dgv = (DataGridView)sender;
+            var dgv = sender as DataGridView ?? throw new ArgumentNullException(nameof(sender));
             if (GetDGVScrollbar(ref dgv, out HSB))
             {
                 if (HSB.Visible)
@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void win_Resize(object sender, EventArgs e)
+        private void win_Resize(object? sender, EventArgs e)
         {
             VScrollBar1.Size = new Size(0x12, _win.Height); //for the gap 
             VScrollBar1.Left = _win.Right - 0x12;
@@ -542,7 +542,7 @@ namespace Krypton.Toolkit
 
 
         //Krypton Palette Events
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -561,7 +561,7 @@ namespace Krypton.Toolkit
         }
 
         //Krypton Palette Events
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
     }

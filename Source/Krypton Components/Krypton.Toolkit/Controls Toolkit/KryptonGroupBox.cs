@@ -775,9 +775,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer?.Uncover();
+        private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
-        private void OnValuesTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnValuesTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
         {

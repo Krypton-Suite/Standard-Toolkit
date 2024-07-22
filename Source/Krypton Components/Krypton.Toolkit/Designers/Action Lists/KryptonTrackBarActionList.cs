@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnOrientationClick(object sender, EventArgs e)
+        private void OnOrientationClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 

@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
+        protected virtual void OnButtonSpecChanged(object? sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -646,7 +646,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Need to recalculate anything relying on the palette
             DirtyPaletteCounter++;
@@ -983,7 +983,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnGlobalPaletteChanged(object sender, EventArgs e)
+        protected virtual void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -1105,7 +1105,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette?.GetRenderer()!;
 
@@ -1172,7 +1172,7 @@ namespace Krypton.Toolkit
             BeginInvoke(_refreshCall);
         }
 
-        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
         {
             // Get the actual strip instance
             ContextMenuStrip? cms = base.ContextMenuStrip;
@@ -1181,13 +1181,13 @@ namespace Krypton.Toolkit
             cms!.Renderer = CreateToolStripRenderer();
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         #endregion
     }

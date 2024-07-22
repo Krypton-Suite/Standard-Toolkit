@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected override void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             base.OnCommandPropertyChanged(sender, e);
 

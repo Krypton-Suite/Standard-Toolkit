@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
             ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
-        private void VisualToastNotificationBasicWithProgressBarRtlAwareForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationBasicWithProgressBarRtlAwareForm_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationBasicWithProgressBarRtlAwareForm_LocationChanged(object sender, EventArgs e)
+        private void VisualToastNotificationBasicWithProgressBarRtlAwareForm_LocationChanged(object? sender, EventArgs e)
         {
             if (_basicToastNotificationData.ReportToastLocation)
             {

@@ -531,7 +531,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PaletteLayoutEventArgs that contains the event data.</param>
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             Invalidate();
         }
@@ -541,7 +541,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // (5) Unhook events from old palette
             if (_palette != null)
@@ -700,7 +700,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnHideGroupBox(object sender, EventArgs e)
+        private void OnHideGroupBox(object? sender, EventArgs e)
         {
             Hide();
         }
@@ -710,7 +710,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnClearGrouping(object sender, EventArgs e)
+        private void OnClearGrouping(object? sender, EventArgs e)
         {
             OnClearGrouping(new EventArgs());
             _columnsList.Clear();
@@ -722,7 +722,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnFullCollapse(object sender, EventArgs e)
+        private void OnFullCollapse(object? sender, EventArgs e)
         {
             OnFullCollapse(new EventArgs());
         }
@@ -732,7 +732,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnFullExpand(object sender, EventArgs e)
+        private void OnFullExpand(object? sender, EventArgs e)
         {
             OnFullExpand(new EventArgs());
         }
@@ -742,7 +742,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A OutlookGridColumnEventArgs that contains the event data.</param>
-        private void OnGroupCollapse(object sender, EventArgs e)
+        private void OnGroupCollapse(object? sender, EventArgs e)
         {
             OnGroupCollapse(new OutlookGridColumnEventArgs(new OutlookGridColumn(_columnsList[_indexselected]?.ColumnName, null, null, SortOrder.None, -1, -1, null)));
         }
@@ -752,7 +752,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A OutlookGridColumnEventArgs that contains the event data.</param>
-        private void OnGroupExpand(object sender, EventArgs e)
+        private void OnGroupExpand(object? sender, EventArgs e)
         {
             OnGroupExpand(new OutlookGridColumnEventArgs(new OutlookGridColumn(_columnsList[_indexselected]?.ColumnName, null, null, SortOrder.None, -1, -1, null)));
         }
@@ -762,7 +762,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnSortAscending(object sender, EventArgs e)
+        private void OnSortAscending(object? sender, EventArgs e)
         {
             //Change the sortOrder in the list
             OutlookGridGroupBoxColumn? col = _columnsList[_indexselected];
@@ -778,7 +778,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnSortDescending(object sender, EventArgs e)
+        private void OnSortDescending(object? sender, EventArgs e)
         {
             //Change the sortOrder in the list
             OutlookGridGroupBoxColumn? col = _columnsList[_indexselected];
@@ -794,7 +794,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnUngroup(object sender, EventArgs e)
+        private void OnUngroup(object? sender, EventArgs e)
         {
             OutlookGridGroupBoxColumn? col = _columnsList[_indexselected];
             OnColumnGroupRemoved(new OutlookGridColumnEventArgs(new OutlookGridColumn(col!.ColumnName, null, null, SortOrder.None, -1, -1, null)));
@@ -807,9 +807,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnGroupIntervalClick(object sender, EventArgs e)
+        private void OnGroupIntervalClick(object? sender, EventArgs e)
         {
-            KryptonContextMenuItem item = (KryptonContextMenuItem)sender;
+            var item = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
             OutlookGridGroupBoxColumn? col = _columnsList[_indexselected];
             OutlookGridColumn colEvent = new(col!.ColumnName, null, null, SortOrder.None, -1, -1, null)
                 {
@@ -825,9 +825,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A EventArgs that contains the event data.</param>
-        private void OnSortBySummaryCount(object sender, EventArgs e)
+        private void OnSortBySummaryCount(object? sender, EventArgs e)
         {
-            KryptonContextMenuItem item = (KryptonContextMenuItem)sender;
+            var item = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
             OutlookGridGroupBoxColumn? col = _columnsList[_indexselected];
             OutlookGridColumn colEvent = new(col!.ColumnName, null, null, SortOrder.None, -1, -1, null)
                 {
@@ -843,7 +843,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A DragEventArgs that contains the event data.</param>
-        private void KryptonOutlookGridGroupBox_DragDrop(object sender, DragEventArgs e)
+        private void KryptonOutlookGridGroupBox_DragDrop(object? sender, DragEventArgs e)
         {
             string? columnToMove = e.Data?.GetData(typeof(string)) as string;
             string? columnName;
@@ -901,7 +901,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A DragEventArgs that contains the event data.</param>
-        private void KryptonOutlookGridGroupBox_DragEnter(object sender, DragEventArgs e)
+        private void KryptonOutlookGridGroupBox_DragEnter(object? sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }

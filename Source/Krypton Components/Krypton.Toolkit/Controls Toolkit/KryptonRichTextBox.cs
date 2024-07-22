@@ -2110,7 +2110,7 @@ namespace Krypton.Toolkit
 
         private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
-        private void OnRichTextBoxMouseChange(object sender, EventArgs e)
+        private void OnRichTextBoxMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_richTextBox.MouseOver != _trackingMouseEnter)
@@ -2131,9 +2131,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnRichTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnRichTextBoxTextChanged(object sender, EventArgs e)
+        private void OnRichTextBoxTextChanged(object? sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(CueHint.CueHintText)
                 && TextLength <= 1)
@@ -2146,51 +2146,51 @@ namespace Krypton.Toolkit
             OnTextChanged(e);
         }
 
-        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnRichTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnRichTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnRichTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnRichTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnRichTextBoxGotFocus(object sender, EventArgs e)
+        private void OnRichTextBoxGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
 
-        private void OnRichTextBoxLostFocus(object sender, EventArgs e)
+        private void OnRichTextBoxLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
 
-        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnRichTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnRichTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnRichTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnRichTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRichTextBoxVScroll(object sender, EventArgs e) => OnVScroll(e);
+        private void OnRichTextBoxVScroll(object? sender, EventArgs e) => OnVScroll(e);
 
-        private void OnRichTextBoxHScroll(object sender, EventArgs e) => OnHScroll(e);
+        private void OnRichTextBoxHScroll(object? sender, EventArgs e) => OnHScroll(e);
 
-        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e) => OnSelectionChanged(e);
+        private void OnRichTextBoxSelectionChanged(object? sender, EventArgs e) => OnSelectionChanged(e);
 
-        private void OnRichTextBoxProtected(object sender, EventArgs e) => OnProtected(e);
+        private void OnRichTextBoxProtected(object? sender, EventArgs e) => OnProtected(e);
 
-        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
+        private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRichTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnRichTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnRichTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -2257,14 +2257,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

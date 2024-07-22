@@ -943,7 +943,7 @@ namespace Krypton.Toolkit
             return offset;
         }
 
-        private void OnAnimationTick(object sender, EventArgs e)
+        private void OnAnimationTick(object? sender, EventArgs e)
         {
             // Limit check the animation offset, incase the limits have changed
             _animationOffset.X = Math.Min(Math.Max(_animationOffset.X, _limit.X), 0);

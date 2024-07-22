@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private void OnResize(object sender, EventArgs e)
+        private void OnResize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
