@@ -210,7 +210,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEditFlags(object sender, EventArgs e)
+        private void OnEditFlags(object? sender, EventArgs e)
         {
             var editFlags = new KryptonPageFormEditFlags(_page);
             editFlags.ShowDialog();
@@ -274,7 +274,7 @@ namespace Krypton.Navigator
             graphics.DrawRectangle(borderPen, clientRect);
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_page != null) && (e.Component == _page))

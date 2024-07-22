@@ -348,7 +348,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
             _headerGroup?.ViewBuilderPropertyChanged(e);
@@ -359,7 +359,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
+        private void OnEnabledChanged(object? sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

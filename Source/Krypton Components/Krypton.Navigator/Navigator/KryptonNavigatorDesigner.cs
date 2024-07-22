@@ -312,7 +312,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A ComponentEventArgs containing event data.</param>
-        protected virtual void OnComponentRemoving(object sender, ComponentEventArgs e)
+        protected virtual void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == Navigator)
@@ -348,7 +348,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnAddPage(object sender, EventArgs e)
+        private void OnAddPage(object? sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator AddPage");
@@ -405,7 +405,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnRemovePage(object sender, EventArgs e)
+        private void OnRemovePage(object? sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator RemovePage");
@@ -439,7 +439,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnClearPages(object sender, EventArgs e)
+        private void OnClearPages(object? sender, EventArgs e)
         {
             if (KryptonMessageBox.Show(@"Are you sure that all pages should be removed?",
                                 @"Clear Pages",
@@ -488,15 +488,15 @@ namespace Krypton.Navigator
 
         private void OnPageRemoved(object sender, TypedCollectionEventArgs<KryptonPage> e) => UpdateVerbStatus();
 
-        private void OnPagesCleared(object sender, EventArgs e) => UpdateVerbStatus();
+        private void OnPagesCleared(object? sender, EventArgs e) => UpdateVerbStatus();
 
-        private void OnSelectedPageChanged(object sender, EventArgs e)
+        private void OnSelectedPageChanged(object? sender, EventArgs e)
         {
             MarkSelectionAsChanged();
             UpdateVerbStatus();
         }
 
-        private void OnNavigatorMouseUp(object sender, MouseEventArgs e)
+        private void OnNavigatorMouseUp(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {

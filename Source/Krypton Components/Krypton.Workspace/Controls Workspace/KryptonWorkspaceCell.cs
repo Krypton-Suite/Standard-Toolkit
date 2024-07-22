@@ -633,7 +633,7 @@ namespace Krypton.Workspace
         #endregion
 
         #region Implementation
-        private void OnPagesChanged(object sender, EventArgs e)
+        private void OnPagesChanged(object? sender, EventArgs e)
         {
             // Need to raise property changed so that the owning workspace will layout as 
             // a change in pages might cause compacting to perform extra actions.
@@ -643,7 +643,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnMaximizeRestoreButtonClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(this, EventArgs.Empty);
+        private void OnMaximizeRestoreButtonClicked(object? sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(this, EventArgs.Empty);
         #endregion
 
         /// <summary>

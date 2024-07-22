@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRepeatTick(object sender, EventArgs e)
+        private void OnRepeatTick(object? sender, EventArgs e)
         {
             if (Target.Enabled)
             {

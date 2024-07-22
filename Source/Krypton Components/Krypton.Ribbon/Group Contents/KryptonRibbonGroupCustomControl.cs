@@ -377,9 +377,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnCustomControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnCustomControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnCustomControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnCustomControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate

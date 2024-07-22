@@ -367,14 +367,14 @@ namespace Krypton.Docking
             Add(new KryptonDockingEdge(@"Right", control, DockingEdge.Right));
         }
 
-        private void OnControlDisposed(object sender, EventArgs e)
+        private void OnControlDisposed(object? sender, EventArgs e)
         {
             // Unhook events to allow garbage collection
             Control.SizeChanged -= OnControlSizeChanged;
             Control.Disposed -= OnControlDisposed;
         }
 
-        private void OnControlSizeChanged(object sender, EventArgs e)
+        private void OnControlSizeChanged(object? sender, EventArgs e)
         {
             if (!Control.Size.IsEmpty)
             {

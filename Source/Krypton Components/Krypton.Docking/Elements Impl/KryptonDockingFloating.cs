@@ -142,10 +142,10 @@ namespace Krypton.Docking
             return floatingWindowElement;
         }
 
-        private void OnDockingFloatingWindowDisposed(object sender, EventArgs e)
+        private void OnDockingFloatingWindowDisposed(object? sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            var floatingWindowElement = (KryptonDockingFloatingWindow)sender;
+            var floatingWindowElement = sender as KryptonDockingFloatingWindow ?? throw new ArgumentNullException(nameof(sender));
             floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
             // Remove the element from our child collection as it is no longer valid

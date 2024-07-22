@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
             _moveLastVerb.Enabled = moveLast;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonButton?.Ribbon != null)
@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -197,7 +197,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -231,7 +231,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -265,7 +265,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -297,7 +297,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteButton(object sender, EventArgs e)
+        private void OnDeleteButton(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -333,7 +333,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnEnabled(object sender, EventArgs e)
+        private void OnEnabled(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -351,7 +351,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnChecked(object sender, EventArgs e)
+        private void OnChecked(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -360,7 +360,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTypePush(object sender, EventArgs e)
+        private void OnTypePush(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTypeCheck(object sender, EventArgs e)
+        private void OnTypeCheck(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -378,7 +378,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTypeDropDown(object sender, EventArgs e)
+        private void OnTypeDropDown(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -387,7 +387,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTypeSplit(object sender, EventArgs e)
+        private void OnTypeSplit(object? sender, EventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {
@@ -396,9 +396,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if (_ribbonButton?.Ribbon != null)
             {

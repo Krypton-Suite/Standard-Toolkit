@@ -99,7 +99,7 @@ namespace Krypton.Docking
         #endregion   
 
         #region Implementation
-        private void OnCellCloseAction(object sender, CloseActionEventArgs e)
+        private void OnCellCloseAction(object? sender, CloseActionEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(e.Item?.UniqueName))
             {

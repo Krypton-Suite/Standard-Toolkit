@@ -842,7 +842,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDropMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnDropMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             if (_dropMenu != null)
             {
@@ -878,13 +878,15 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnDropImageSelect(object sender, EventArgs e)
+        private void OnDropImageSelect(object? sender, EventArgs e)
         {
-            var imageSelect = (KryptonContextMenuImageSelect)sender;
-            SelectedIndex = imageSelect.SelectedIndex;
+            if (sender is KryptonContextMenuImageSelect imageSelect && imageSelect is not null)
+            {
+                SelectedIndex = imageSelect.SelectedIndex;
+            }
         }
 
-        private void OnDropImageTracking(object sender, ImageSelectEventArgs e) =>
+        private void OnDropImageTracking(object? sender, ImageSelectEventArgs e) =>
             //KryptonContextMenuImageSelect imageSelect = (KryptonContextMenuImageSelect)sender;
             TrackingIndex = e.ImageIndex;
 
@@ -904,7 +906,7 @@ namespace Krypton.Ribbon
 
         private PaletteGalleryState GetGalleryState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
-        private void OnTrackingTick(object sender, EventArgs e)
+        private void OnTrackingTick(object? sender, EventArgs e)
         {
             // If no change in tracking index over last interval
             if (_trackingIndex == _cacheTrackingIndex)

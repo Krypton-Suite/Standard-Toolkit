@@ -443,13 +443,13 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateLarge);
+        private void OnLargeCheckBoxClick(object? sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
+        private void OnMediumSmallCheckBoxClick(object? sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupCheckBox.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupCheckBox.OnDesignTimeContextMenu(e);
 
-        private void ActionFinishedLarge(object sender, EventArgs e)
+        private void ActionFinishedLarge(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -458,7 +458,7 @@ namespace Krypton.Ribbon
             _viewLargeController?.RemoveFixed();
         }
 
-        private void ActionFinishedMediumSmall(object sender, EventArgs e)
+        private void ActionFinishedMediumSmall(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -467,7 +467,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallController?.RemoveFixed();
         }
 
-        private void OnCheckBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCheckBoxPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

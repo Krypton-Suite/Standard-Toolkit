@@ -575,21 +575,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnTrackBarGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnTrackBarGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnTrackBarLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnTrackBarLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnTrackBarValueChanged(object sender, EventArgs e) => ValueChanged?.Invoke(this, e);
+        private void OnTrackBarValueChanged(object? sender, EventArgs e) => ValueChanged?.Invoke(this, e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             TrackBar!.PaletteMode = Ribbon!.PaletteMode;
             TrackBar.LocalCustomPalette = Ribbon!.LocalCustomPalette;

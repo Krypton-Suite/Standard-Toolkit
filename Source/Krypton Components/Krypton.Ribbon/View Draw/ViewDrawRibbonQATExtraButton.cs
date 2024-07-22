@@ -197,7 +197,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void ClickFinished(object sender, EventArgs e)
+        private void ClickFinished(object? sender, EventArgs e)
         {
             // Get access to our mouse controller
             var controller = MouseController as LeftDownButtonController;
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
             controller?.RemoveFixed();
         }
 
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             Form? ownerForm = _ribbon.FindForm();
 

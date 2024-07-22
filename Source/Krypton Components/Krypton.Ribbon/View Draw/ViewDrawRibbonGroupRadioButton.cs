@@ -433,13 +433,13 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateLarge);
+        private void OnLargeRadioButtonClick(object? sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
+        private void OnMediumSmallRadioButtonClick(object? sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupRadioButton.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupRadioButton.OnDesignTimeContextMenu(e);
 
-        private void ActionFinishedLarge(object sender, EventArgs e)
+        private void ActionFinishedLarge(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -448,7 +448,7 @@ namespace Krypton.Ribbon
             _viewLargeController?.RemoveFixed();
         }
 
-        private void ActionFinishedMediumSmall(object sender, EventArgs e)
+        private void ActionFinishedMediumSmall(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -457,7 +457,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallController?.RemoveFixed();
         }
 
-        private void OnRadioButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnRadioButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

@@ -811,7 +811,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnVisibleClick(object sender, EventArgs e)
+        private void OnVisibleClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
             var verb = sender as DesignerVerb;

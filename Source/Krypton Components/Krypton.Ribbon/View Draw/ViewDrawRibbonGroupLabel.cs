@@ -395,9 +395,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupLabel!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupLabel!.OnDesignTimeContextMenu(e);
 
-        private void OnLabelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnLabelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

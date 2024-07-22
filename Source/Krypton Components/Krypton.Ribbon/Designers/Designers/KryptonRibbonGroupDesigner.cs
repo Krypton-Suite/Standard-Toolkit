@@ -190,7 +190,7 @@ namespace Krypton.Ribbon
             _clearItemsVerb.Enabled = clearItems;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonGroup.Ribbon != null)
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -231,7 +231,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -265,7 +265,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -331,7 +331,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTriple(object sender, EventArgs e)
+        private void OnAddTriple(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon != null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -375,7 +375,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddLines(object sender, EventArgs e)
+        private void OnAddLines(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -420,7 +420,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddSep(object sender, EventArgs e)
+        private void OnAddSep(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -450,7 +450,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddGallery(object sender, EventArgs e)
+        private void OnAddGallery(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearItems(object sender, EventArgs e)
+        private void OnClearItems(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteGroup(object sender, EventArgs e)
+        private void OnDeleteGroup(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null)
                 && _ribbonGroup.RibbonTab is not null
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -563,7 +563,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnCollapsable(object sender, EventArgs e)
+        private void OnCollapsable(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -574,7 +574,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDialogLauncher(object sender, EventArgs e)
+        private void OnDialogLauncher(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
@@ -585,9 +585,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our group is being removed
             if (e.Component == _ribbonGroup)
@@ -605,7 +605,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null)
                 && _ribbonGroup.RibbonTab is not null
@@ -701,14 +701,14 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveToTab(object sender, EventArgs e)
+        private void OnMoveToTab(object? sender, EventArgs e)
         {
             if ((_ribbonGroup.Ribbon is not null) 
                 && _ribbonGroup.RibbonTab is not null
                 && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Cast to correct type
-                var tabMenuItem = (ToolStripMenuItem)sender;
+                var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
                 var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tabMenuItem.Tag)));

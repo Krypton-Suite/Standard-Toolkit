@@ -643,11 +643,11 @@ namespace Krypton.Docking
             AutoHiddenGroupControl.Pages.AddRange(pages);
         }
 
-        private void OnAutoHiddenGroupStoringPage(object sender, UniqueNameEventArgs e) =>
+        private void OnAutoHiddenGroupStoringPage(object? sender, UniqueNameEventArgs e) =>
             // We only allow a single 'store' page in this docking location at a time
             DockingManager?.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, new[] { e.UniqueName });
 
-        private void OnAutoHiddenGroupTabClicked(object sender, KryptonPageEventArgs e)
+        private void OnAutoHiddenGroupTabClicked(object? sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
             if (e.Item is KryptonAutoHiddenProxyPage proxyPage)
@@ -656,7 +656,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
+        private void OnAutoHiddenGroupHoverStart(object? sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
             if (e.Item is KryptonAutoHiddenProxyPage proxyPage)
@@ -665,9 +665,9 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnAutoHiddenGroupHoverEnd(object sender, EventArgs e) => OnPageHoverEnd(e);
+        private void OnAutoHiddenGroupHoverEnd(object? sender, EventArgs e) => OnPageHoverEnd(e);
 
-        private void OnAutoHiddenGroupTabVisibleCountChanged(object sender, EventArgs e)
+        private void OnAutoHiddenGroupTabVisibleCountChanged(object? sender, EventArgs e)
         {
             if (AutoHiddenGroupControl.Pages.VisibleCount == 0)
             {
@@ -686,7 +686,7 @@ namespace Krypton.Docking
                 }
             }
         }
-        private void OnAutoHiddenGroupDisposed(object sender, EventArgs e)
+        private void OnAutoHiddenGroupDisposed(object? sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
             AutoHiddenGroupControl.StoringPage -= OnAutoHiddenGroupStoringPage;

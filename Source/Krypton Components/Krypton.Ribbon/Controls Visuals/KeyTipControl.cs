@@ -278,9 +278,9 @@ namespace Krypton.Ribbon
             _redrawTimer.Start();
         }
 
-        private void OnRedrawTick(object sender, EventArgs e)
+        private void OnRedrawTick(object? sender, EventArgs e)
         {
-            _redrawTimer = (Timer)sender;
+            _redrawTimer = sender as Timer ?? throw new ArgumentNullException(nameof(sender));
             _redrawTimer.Stop();
             _redrawTimer.Dispose();
 

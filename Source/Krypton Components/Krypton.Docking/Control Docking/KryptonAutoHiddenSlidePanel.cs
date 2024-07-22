@@ -758,7 +758,7 @@ namespace Krypton.Docking
             _control.Controls.SetChildIndex(this, panelIndex);
         }
 
-        private void OnCheckMakeHidden(object sender, EventArgs e)
+        private void OnCheckMakeHidden(object? sender, EventArgs e)
         {
             // Do we still need to make ourselves hidden?
             if (!ContainsFocus)
@@ -767,7 +767,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSlideTimerTick(object sender, EventArgs e)
+        private void OnSlideTimerTick(object? sender, EventArgs e)
         {
             // Check to see if we allowed to perform operations
             if (Disposing || IsDisposed)
@@ -882,7 +882,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDismissTimerTick(object sender, EventArgs e)
+        private void OnDismissTimerTick(object? sender, EventArgs e)
         {
             // Check to see if we allowed to perform operations
             if (Disposing || IsDisposed)
@@ -923,7 +923,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspaceCellLosesFocus(object sender, WorkspaceCellEventArgs e)
+        private void OnDockspaceCellLosesFocus(object? sender, WorkspaceCellEventArgs e)
         {
             // Check to see if we allowed to perform operations
             if (Disposing || IsDisposed)
@@ -949,15 +949,15 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnControlSizeChanged(object sender, EventArgs e) =>
+        private void OnControlSizeChanged(object? sender, EventArgs e) =>
             // Change in parent control size means we always hide
             MakeHidden();
 
-        private void OnDockspaceSeparatorMoving(object sender, SplitterCancelEventArgs e) => SplitterMoving?.Invoke(sender, e);
+        private void OnDockspaceSeparatorMoving(object? sender, SplitterCancelEventArgs e) => SplitterMoving?.Invoke(sender, e);
 
-        private void OnDockspaceSeparatorMoved(object sender, SplitterEventArgs e) => SplitterMoved?.Invoke(sender, e);
+        private void OnDockspaceSeparatorMoved(object? sender, SplitterEventArgs e) => SplitterMoved?.Invoke(sender, e);
 
-        private void OnDockspaceSeparatorMoveRect(object sender, SplitterMoveRectMenuArgs e)
+        private void OnDockspaceSeparatorMoveRect(object? sender, SplitterMoveRectMenuArgs e)
         {
             if (!_dockspaceSlide.ContainsFocus)
             {
@@ -968,11 +968,11 @@ namespace Krypton.Docking
             SplitterMoveRect?.Invoke(sender, e);
         }
 
-        private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e) => PageCloseClicked?.Invoke(sender, e);
+        private void OnDockspacePageCloseClicked(object? sender, UniqueNameEventArgs e) => PageCloseClicked?.Invoke(sender, e);
 
-        private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e) => PageAutoHiddenClicked?.Invoke(sender, e);
+        private void OnDockspacePageAutoHiddenClicked(object? sender, UniqueNameEventArgs e) => PageAutoHiddenClicked?.Invoke(sender, e);
 
-        private void OnDockspacePageDropDownClicked(object sender, CancelDropDownEventArgs e)
+        private void OnDockspacePageDropDownClicked(object? sender, CancelDropDownEventArgs e)
         {
             // Click the drop-down button should cause the slide out to be focused so that it
             // does not slide back again if you move the mouse away from the slide out area

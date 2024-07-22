@@ -456,7 +456,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
+        protected virtual void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Need to recalculate anything relying on the palette
             OnNeedPaint(sender, e);
         #endregion
@@ -513,19 +513,19 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
 
         private void OnButtonSpecPaint(object? sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 
-        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
+        private void OnProviderClosing(object? sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e) =>
+        private void OnProviderClose(object? sender, CloseReasonEventArgs e) =>
             // Remove ourself from being shown
             VisualPopupManager.Singleton.EndPopupTracking(this);
 
-        private void OnProviderClose(object sender, EventArgs e)
+        private void OnProviderClose(object? sender, EventArgs e)
         {
             // Unhook from event source
             //var provider = (IContextMenuProvider)sender;

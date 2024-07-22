@@ -724,21 +724,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnGalleryImageListChanged(object sender, EventArgs e) => OnImageListChanged(e);
+        private void OnGalleryImageListChanged(object? sender, EventArgs e) => OnImageListChanged(e);
 
-        private void OnGallerySelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private void OnGallerySelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnGalleryTrackingImage(object sender, ImageSelectEventArgs e) => OnTrackingImage(e);
+        private void OnGalleryTrackingImage(object? sender, ImageSelectEventArgs e) => OnTrackingImage(e);
 
-        private void OnGalleryGalleryDropMenu(object sender, GalleryDropMenuEventArgs e) => OnGalleryDropMenu(e);
+        private void OnGalleryGalleryDropMenu(object? sender, GalleryDropMenuEventArgs e) => OnGalleryDropMenu(e);
 
-        private void OnGalleryGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnGalleryGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnGalleryLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnGalleryLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
         #endregion
     }
 }

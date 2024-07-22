@@ -580,25 +580,25 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnButtonUp(object sender, MouseEventArgs e)
+        private void OnButtonUp(object? sender, MouseEventArgs e)
         {
             PrevLine();
             _gallery.PerformNeedPaint(true);
         }
 
-        private void OnButtonDown(object sender, MouseEventArgs e)
+        private void OnButtonDown(object? sender, MouseEventArgs e)
         {
             NextLine();
             _gallery.PerformNeedPaint(true);
         }
 
-        private void OnButtonContext(object sender, MouseEventArgs e)
+        private void OnButtonContext(object? sender, MouseEventArgs e)
         {
             _buttonContext.ForceLeave();
             _gallery.OnDropButton();
         }
 
-        private void OnScrollTick(object sender, EventArgs e)
+        private void OnScrollTick(object? sender, EventArgs e)
         {
             // Update the offset by scroll move amount
             if (_offset != 0)

@@ -529,7 +529,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -772,16 +772,18 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed;
-
-            // Fire any associated finish delegate
-            if (_kcmFinishDelegate != null)
+            if (sender is KryptonContextMenu kcm)
             {
-                _kcmFinishDelegate(this, e);
-                _kcmFinishDelegate = null;
+                kcm.Closed -= OnKryptonContextMenuClosed;
+
+                // Fire any associated finish delegate
+                if (_kcmFinishDelegate != null)
+                {
+                    _kcmFinishDelegate(this, e);
+                    _kcmFinishDelegate = null;
+                }
             }
         }
         #endregion
