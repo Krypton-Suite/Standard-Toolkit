@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal class ExceptionHandler
     {
-        #region Constructor
+        #region Idendity
 
         /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
         public ExceptionHandler()
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, [CallerFilePath] string callingFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string? callingMethod = "") => KryptonMessageBox.Show(
-            $"An unexpected error has occurred: {exception.Message}.\r\n\r\nFaulting class: '{callingFilePath}'.\r\n\r\nFaulting method: '{callingMethod}'.\r\n\r\nFaulting Line: {lineNumber}.",
+            $"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{callingFilePath}'.\n\nError in method: '{callingMethod}'.\n\nLine: {lineNumber}.",
             title, buttons, icon, showCtrlCopy: true);
 
     /// <summary>Captures a stack trace of the exception.</summary>
