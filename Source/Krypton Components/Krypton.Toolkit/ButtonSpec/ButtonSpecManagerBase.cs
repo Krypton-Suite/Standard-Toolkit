@@ -809,19 +809,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnButtonSpecInserted(object sender, ButtonSpecEventArgs e)
+        private void OnButtonSpecInserted(object? sender, ButtonSpecEventArgs e)
         {
             RecreateAll();
             PerformNeedPaint(true);
         }
 
-        private void OnButtonSpecRemoved(object sender, ButtonSpecEventArgs e)
+        private void OnButtonSpecRemoved(object? sender, ButtonSpecEventArgs e)
         {
             RecreateAll();
             PerformNeedPaint(true);
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

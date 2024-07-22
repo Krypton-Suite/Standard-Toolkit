@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
                 #endregion
 
                 #region Implementation
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+                private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
                 #endregion
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
-            private void buttonOK_Click(object sender, EventArgs e)
+            private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
                 var rootItems = new object[treeView1.Nodes.Count];
@@ -582,7 +582,7 @@ namespace Krypton.Toolkit
                 return null;
             }
 
-            private void buttonMoveUp_Click(object sender, EventArgs e)
+            private void buttonMoveUp_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
                 MenuTreeNode node = (MenuTreeNode)treeView1.SelectedNode!;
@@ -639,7 +639,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonMoveDown_Click(object sender, EventArgs e)
+            private void buttonMoveDown_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
                 var node = treeView1.SelectedNode as MenuTreeNode;
@@ -682,7 +682,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddSibling_Click(object sender, EventArgs e)
+            private void buttonAddSibling_Click(object? sender, EventArgs e)
             {
                 KryptonBreadCrumbItem item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
@@ -720,7 +720,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddChild_Click(object sender, EventArgs e)
+            private void buttonAddChild_Click(object? sender, EventArgs e)
             {
                 var item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
@@ -749,7 +749,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonDelete_Click(object sender, EventArgs e)
+            private void buttonDelete_Click(object? sender, EventArgs e)
             {
                 TreeNode node = treeView1.SelectedNode!;
 
@@ -778,7 +778,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+            private void treeView1_AfterSelect(object? sender, TreeViewEventArgs e)
             {
                 UpdateButtons();
                 UpdatePropertyGrid();

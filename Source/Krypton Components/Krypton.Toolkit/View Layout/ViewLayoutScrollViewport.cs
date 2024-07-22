@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private VisualOrientation ViewportOrientation(bool vertical) => vertical ? VisualOrientation.Left : VisualOrientation.Top;
 
-        private void OnScrollVChanged(object sender, EventArgs e)
+        private void OnScrollVChanged(object? sender, EventArgs e)
         {
             // Update viewport with the new scroll offset
             Viewport.SetOffsetV(ScrollbarV.ScrollPosition);
@@ -438,7 +438,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnScrollHChanged(object sender, EventArgs e)
+        private void OnScrollHChanged(object? sender, EventArgs e)
         {
             // Update viewport with the new scroll offset
             Viewport.SetOffsetH(ScrollbarH.ScrollPosition);
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+        private void OnAnimateStep(object? sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
 
         #endregion
     }

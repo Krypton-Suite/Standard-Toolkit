@@ -868,7 +868,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -892,9 +892,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             // Raise the standard click event
             OnClick(EventArgs.Empty);
@@ -903,7 +903,7 @@ namespace Krypton.Toolkit
             OnMouseClick(e);
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
 
         #region Event Handlers
 
-        private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void KryptonContextMenu_Closed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             if (sender is KryptonContextMenu kcm)
             {
@@ -987,7 +987,7 @@ namespace Krypton.Toolkit
             //} 
         }
 
-        private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        private void ContextMenuStrip_Closing(object? sender, ToolStripDropDownClosingEventArgs e)
         {
             if (sender is ContextMenuStrip cms)
             {

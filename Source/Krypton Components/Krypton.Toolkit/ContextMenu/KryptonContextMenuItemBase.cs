@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ToolTipManager? ToolTipManager { get; }
 
-        internal void OnShowToolTip(object sender, ToolTipEventArgs e)
+        internal void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             //if (!IsDisposed)
             {
@@ -234,14 +234,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void OnCancelToolTip(object sender, EventArgs e) =>
+        internal void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        internal void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        internal void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

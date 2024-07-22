@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnFinishDelegate(object sender, EventArgs? e) =>
+        protected virtual void OnFinishDelegate(object? sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller?.RemoveFixed();
 
@@ -362,7 +362,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             var performFinishDelegate = true;
             // Never show a context menu in design mode
@@ -425,10 +425,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook from context menu event, so that it can garbage collected in the future
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Remove the fixed button appearance
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
 
         private void OnNeedPaint(object? sender, NeedLayoutEventArgs e) => PerformNeedPaint(e.NeedLayout);
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

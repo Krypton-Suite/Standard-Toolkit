@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnItemClick(object sender, MouseEventArgs e)
+        private void OnItemClick(object? sender, MouseEventArgs e)
         {
             // Set new selection index
             _imageSelect.SelectedIndex = _imageIndex;

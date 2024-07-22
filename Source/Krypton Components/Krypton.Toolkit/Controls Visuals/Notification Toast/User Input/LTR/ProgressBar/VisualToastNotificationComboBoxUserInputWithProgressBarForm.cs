@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
             ControlBox = _data.ShowCloseBox ?? false;
         }
 
-        private void VisualToastNotificationComboBoxUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationComboBoxUserInputWithProgressBarForm_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {

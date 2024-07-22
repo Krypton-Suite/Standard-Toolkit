@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnScrollBarChange(object sender, ScrollEventArgs e)
+        private void OnScrollBarChange(object? sender, ScrollEventArgs e)
         {
             // Update with the new scroll value
             _scrollBar!.Value = e.NewValue;

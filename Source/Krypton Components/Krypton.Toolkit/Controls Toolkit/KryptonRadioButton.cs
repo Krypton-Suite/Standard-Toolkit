@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRadioButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnRadioButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void AutoUpdateOthers()
         {
@@ -666,7 +666,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnControllerClick(object sender, EventArgs e) => OnClick(e);
+        private void OnControllerClick(object? sender, EventArgs e) => OnClick(e);
 
         private void UpdateForOrientation()
         {

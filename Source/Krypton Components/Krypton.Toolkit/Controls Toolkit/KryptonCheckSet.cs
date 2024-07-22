@@ -469,26 +469,26 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckedChanging(object sender, CancelEventArgs e)
+        private void OnCheckedChanging(object? sender, CancelEventArgs e)
         {
             // Are we allowed to process the event?
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                var checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
 
                 // Prevent the checked button becoming unchecked unless AllowUncheck is defined
                 e.Cancel = checkedButton.Checked && !AllowUncheck;
             }
         }
 
-        private void OnCheckedChanged(object sender, EventArgs e)
+        private void OnCheckedChanged(object? sender, EventArgs e)
         {
             // Are we allowed to process the event?
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                var checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
 
                 if (checkedButton.Checked)
                 {

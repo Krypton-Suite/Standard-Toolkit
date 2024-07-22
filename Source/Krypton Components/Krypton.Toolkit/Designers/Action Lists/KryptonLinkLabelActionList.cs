@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnLinkVisitedClick(object sender, EventArgs e)
+        private void OnLinkVisitedClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 

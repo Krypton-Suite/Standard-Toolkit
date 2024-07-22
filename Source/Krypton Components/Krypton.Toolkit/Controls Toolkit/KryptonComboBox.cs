@@ -2640,7 +2640,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             base.OnPaletteChanged(e);
             _comboBox.Invalidate();
@@ -2760,7 +2760,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxDrawItem(object sender, DrawItemEventArgs e)
+        private void OnComboBoxDrawItem(object? sender, DrawItemEventArgs e)
         {
             Rectangle drawBounds = e.Bounds;
 
@@ -2900,7 +2900,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxMeasureItem(object sender, MeasureItemEventArgs e)
+        private void OnComboBoxMeasureItem(object? sender, MeasureItemEventArgs e)
         {
             UpdateContentFromItemIndex(e.Index);
 
@@ -2939,7 +2939,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxMouseChange(object sender, EventArgs e)
+        private void OnComboBoxMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _comboBox.MouseOver || _subclassEdit is { MouseOver: true };
@@ -2966,7 +2966,7 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxGotFocus(object sender, EventArgs e)
+        private void OnComboBoxGotFocus(object? sender, EventArgs e)
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
@@ -2984,7 +2984,7 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxLostFocus(object sender, EventArgs e)
+        private void OnComboBoxLostFocus(object? sender, EventArgs e)
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
@@ -2999,28 +2999,28 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnComboBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnComboBoxTextUpdate(object sender, EventArgs e) => OnTextUpdate(e);
+        private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 
-        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
+        private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
+        private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
-        private void OnComboBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
+        private void OnComboBoxDataSourceChanged(object? sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
+        private void OnComboBoxDisplayMemberChanged(object? sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnComboBoxDropDownClosed(object sender, EventArgs e)
+        private void OnComboBoxDropDownClosed(object? sender, EventArgs e)
         {
             _comboBox.Dropped = false;
             Refresh();
             OnDropDownClosed(e);
         }
 
-        private void OnComboBoxDropDown(object sender, EventArgs e)
+        private void OnComboBoxDropDown(object? sender, EventArgs e)
         {
             _comboBox.Dropped = true;
             _hoverIndex = -1;
@@ -3028,27 +3028,27 @@ namespace Krypton.Toolkit
             OnDropDown(e);
         }
 
-        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnComboBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnComboBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnComboBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnComboBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnComboBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnComboBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
+        private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
+        private void OnComboBoxFormatInfoChanged(object? sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnComboBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
+        private void OnComboBoxFormatStringChanged(object? sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
+        private void OnComboBoxFormattingEnabledChanged(object? sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e)
+        private void OnComboBoxSelectedValueChanged(object? sender, EventArgs e)
         {
             UpdateEditControl();
             PerformNeedPaint(false);
@@ -3056,9 +3056,9 @@ namespace Krypton.Toolkit
             OnSelectedValueChanged(e);
         }
 
-        private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
+        private void OnComboBoxValueMemberChanged(object? sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -3126,12 +3126,12 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object? sender, EventArgs e) => _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page anymore
@@ -3166,9 +3166,9 @@ namespace Krypton.Toolkit
             tip.ShowCalculatingSize(PointToScreen(point));
         }
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
         internal void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 

@@ -834,7 +834,7 @@ namespace Krypton.Toolkit
             return distance;
         }
 
-        private void OnDelayTimerExpire(object sender, EventArgs e)
+        private void OnDelayTimerExpire(object? sender, EventArgs e)
         {
             if (_itemDelayTimer != null)
             {

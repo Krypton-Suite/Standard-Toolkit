@@ -665,7 +665,7 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
         }
 
-        private void OnTreeClick(object sender, EventArgs e) => OnClick(e);
+        private void OnTreeClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Releases all resources used by the Control. 
@@ -1698,7 +1698,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             UpdateItemHeight();
             base.OnPaletteChanged(e);
@@ -2025,7 +2025,7 @@ namespace Krypton.Toolkit
             return depth * _treeView.Indent;
         }
 
-        private void OnTreeViewDrawNode(object sender, DrawTreeNodeEventArgs e)
+        private void OnTreeViewDrawNode(object? sender, DrawTreeNodeEventArgs e)
         {
             // We cannot do anything without a valid node
             if (e.Node == null)
@@ -2369,7 +2369,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnTreeViewGotFocus(object sender, EventArgs e)
+        private void OnTreeViewGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _treeView.Invalidate();
@@ -2377,7 +2377,7 @@ namespace Krypton.Toolkit
             OnGotFocus(e);
         }
 
-        private void OnTreeViewLostFocus(object sender, EventArgs e)
+        private void OnTreeViewLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _treeView.Invalidate();
@@ -2385,47 +2385,47 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnTreeViewKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnTreeViewKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTreeViewKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnTreeViewKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTreeViewKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnTreeViewKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTreeViewPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnTreeViewPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnTreeViewValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnTreeViewValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnTreeViewValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnTreeViewValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnTreeViewNodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
+        private void OnTreeViewNodeMouseHover(object? sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
 
-        private void OnTreeViewNodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseDoubleClick(e);
+        private void OnTreeViewNodeMouseDoubleClick(object? sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseDoubleClick(e);
 
-        private void OnTreeViewNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseClick(e);
+        private void OnTreeViewNodeMouseClick(object? sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseClick(e);
 
-        private void OnTreeViewItemDrag(object sender, ItemDragEventArgs e) => OnItemDrag(e);
+        private void OnTreeViewItemDrag(object? sender, ItemDragEventArgs e) => OnItemDrag(e);
 
-        private void OnTreeViewBeforeSelect(object sender, TreeViewCancelEventArgs e) => OnBeforeSelect(e);
+        private void OnTreeViewBeforeSelect(object? sender, TreeViewCancelEventArgs e) => OnBeforeSelect(e);
 
-        private void OnTreeViewBeforeLabelEdit(object sender, NodeLabelEditEventArgs e) => OnBeforeLabelEdit(e);
+        private void OnTreeViewBeforeLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnBeforeLabelEdit(e);
 
-        private void OnTreeViewBeforeExpand(object sender, TreeViewCancelEventArgs e) => OnBeforeExpand(e);
+        private void OnTreeViewBeforeExpand(object? sender, TreeViewCancelEventArgs e) => OnBeforeExpand(e);
 
-        private void OnTreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e) => OnBeforeCollapse(e);
+        private void OnTreeViewBeforeCollapse(object? sender, TreeViewCancelEventArgs e) => OnBeforeCollapse(e);
 
-        private void OnTreeViewBeforeCheck(object sender, TreeViewCancelEventArgs e) => OnBeforeCheck(e);
+        private void OnTreeViewBeforeCheck(object? sender, TreeViewCancelEventArgs e) => OnBeforeCheck(e);
 
-        private void OnTreeViewAfterSelect(object sender, TreeViewEventArgs e) => OnAfterSelect(e);
+        private void OnTreeViewAfterSelect(object? sender, TreeViewEventArgs e) => OnAfterSelect(e);
 
-        private void OnTreeViewAfterLabelEdit(object sender, NodeLabelEditEventArgs e) => OnAfterLabelEdit(e);
+        private void OnTreeViewAfterLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnAfterLabelEdit(e);
 
-        private void OnTreeViewAfterExpand(object sender, TreeViewEventArgs e) => OnAfterExpand(e);
+        private void OnTreeViewAfterExpand(object? sender, TreeViewEventArgs e) => OnAfterExpand(e);
 
-        private void OnTreeViewAfterCollapse(object sender, TreeViewEventArgs e) => OnAfterCollapse(e);
+        private void OnTreeViewAfterCollapse(object? sender, TreeViewEventArgs e) => OnAfterCollapse(e);
 
-        private void OnTreeViewAfterCheck(object sender, TreeViewEventArgs e) => OnAfterCheck(e);
+        private void OnTreeViewAfterCheck(object? sender, TreeViewEventArgs e) => OnAfterCheck(e);
 
-        private void OnTreeViewMouseChange(object sender, EventArgs e)
+        private void OnTreeViewMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_treeView.MouseOver != _trackingMouseEnter)
@@ -2446,9 +2446,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
         #endregion
 

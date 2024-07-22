@@ -443,7 +443,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
+        private void OnGroupPanelPaint(object? sender, NeedLayoutEventArgs e)
         {
             // If the child panel is layout out but not because we are, then it must be
             // laying out because a child has changed visibility/size/etc. If we are an

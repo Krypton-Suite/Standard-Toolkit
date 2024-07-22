@@ -1541,7 +1541,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             InvalidateChildren();
             base.OnPaletteChanged(e);
@@ -1874,13 +1874,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDomainUpDownTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnDomainUpDownTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnDomainUpDownScroll(object sender, ScrollEventArgs e) => OnScroll(e);
+        private void OnDomainUpDownScroll(object? sender, ScrollEventArgs e) => OnScroll(e);
 
-        private void OnDomainUpDownSelectedItemChanged(object sender, EventArgs e) => OnSelectedItemChanged(e);
+        private void OnDomainUpDownSelectedItemChanged(object? sender, EventArgs e) => OnSelectedItemChanged(e);
 
-        private void OnDomainUpDownGotFocus(object sender, EventArgs e)
+        private void OnDomainUpDownGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -1888,7 +1888,7 @@ namespace Krypton.Toolkit
             base.OnGotFocus(e);
         }
 
-        private void OnDomainUpDownLostFocus(object sender, EventArgs e)
+        private void OnDomainUpDownLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -1898,19 +1898,19 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnDomainUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnDomainUpDownKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnDomainUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnDomainUpDownKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnDomainUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnDomainUpDownKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnDomainUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnDomainUpDownValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnDomainUpDownValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -1977,21 +1977,21 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnDomainUpDownMouseChange(object sender, EventArgs e)
+        private void OnDomainUpDownMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _domainUpDown.MouseOver ||

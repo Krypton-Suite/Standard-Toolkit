@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             && _shadowValues.EnableShadows
             && _parentForm.Visible;
 
-        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e)
+        private void KryptonFormOnClosing(object? sender, /*Cancel*/EventArgs e)
         {
             _allowDrawing = false;
             FlashWindowExListener.FlashEvent -= OnFlashWindowExListenerOnFlashEvent;
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void FormLoaded(object sender, EventArgs e)
+        private void FormLoaded(object? sender, EventArgs e)
         {
             _allowDrawing = (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
                             && (Process.GetCurrentProcess().ProcessName != @"devenv");
@@ -126,15 +126,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e) => ReCalcBrushes();
+        private void ShadowValues_ColourChanged(object? sender, ColorEventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e) => ReCalcBrushes();
+        private void ShadowValues_BlurDistanceChanged(object? sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_OpacityChanged(object sender, EventArgs e) => ReCalcBrushes();
+        private void ShadowValues_OpacityChanged(object? sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_MarginsChanged(object sender, EventArgs e) => SetShadowFormsSizes();
+        private void ShadowValues_MarginsChanged(object? sender, EventArgs e) => SetShadowFormsSizes();
 
-        private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
+        private void ShadowValues_EnableShadowsChanged(object? sender, EventArgs e)
         {
             if (!_allowDrawing
                 || _shadowForms == null)

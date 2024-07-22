@@ -915,10 +915,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRepeatTimer(object sender, EventArgs e)
+        private void OnRepeatTimer(object? sender, EventArgs e)
         {
             // Modify subsequent repeat timing
-            _t = (System.Windows.Forms.Timer)sender;
+            _t = sender as System.Windows.Forms.Timer ?? throw new ArgumentNullException(nameof(sender));
             _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         }

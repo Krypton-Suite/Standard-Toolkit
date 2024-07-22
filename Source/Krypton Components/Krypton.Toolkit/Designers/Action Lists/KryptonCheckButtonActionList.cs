@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnCheckedClick(object sender, EventArgs e)
+        private void OnCheckedClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 

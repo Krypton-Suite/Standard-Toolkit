@@ -111,12 +111,14 @@ namespace Krypton.Toolkit
         /// <value>The width of the scroll bar.</value>
         public int ScrollBarWidth
         {
-            get => Width; set => Width = value;
+            get => Width; 
+            set => Width = value;
         }
 
         /// <inheritdoc />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text { get; set; }
 
         #endregion
@@ -1166,7 +1168,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">An object that contains the event data.</param>
-        private void ProgressTimerTick(object sender, EventArgs e) => ProgressThumb(true);
+        private void ProgressTimerTick(object? sender, EventArgs e) => ProgressThumb(true);
 
         /// <summary>
         /// Resets the scroll status of the scrollbar.
@@ -1443,7 +1445,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -1465,7 +1467,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
 
@@ -1586,7 +1588,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void ScrollHereClick(object sender, EventArgs e)
+        private void ScrollHereClick(object? sender, EventArgs e)
         {
             int thumbSize, thumbPos, arrowSize, size;
 
@@ -1633,42 +1635,42 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void TopClick(object sender, EventArgs e) => Value = _minimum;
+        private void TopClick(object? sender, EventArgs e) => Value = _minimum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void BottomClick(object sender, EventArgs e) => Value = _maximum;
+        private void BottomClick(object? sender, EventArgs e) => Value = _maximum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeUpClick(object sender, EventArgs e) => Value = GetValue(false, true);
+        private void LargeUpClick(object? sender, EventArgs e) => Value = GetValue(false, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeDownClick(object sender, EventArgs e) => Value = GetValue(false, false);
+        private void LargeDownClick(object? sender, EventArgs e) => Value = GetValue(false, false);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallUpClick(object sender, EventArgs e) => Value = GetValue(true, true);
+        private void SmallUpClick(object? sender, EventArgs e) => Value = GetValue(true, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallDownClick(object sender, EventArgs e) => Value = GetValue(true, false);
+        private void SmallDownClick(object? sender, EventArgs e) => Value = GetValue(true, false);
 
         #endregion
 

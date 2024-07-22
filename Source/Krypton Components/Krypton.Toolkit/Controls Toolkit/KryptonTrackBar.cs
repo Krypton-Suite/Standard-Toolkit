@@ -743,9 +743,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDrawValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnDrawValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDrawScroll(object sender, EventArgs e) => OnScroll(e);
+        private void OnDrawScroll(object? sender, EventArgs e) => OnScroll(e);
 
         #endregion
     }

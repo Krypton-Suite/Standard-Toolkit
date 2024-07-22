@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnDomainUpDownMouseUp(object sender, MouseEventArgs e)
+        private void OnDomainUpDownMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_domainUpDown != null) && (e.Button == MouseButtons.Left))
             {
@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_domainUpDown != null) && (Equals(e.Component, _domainUpDown)))

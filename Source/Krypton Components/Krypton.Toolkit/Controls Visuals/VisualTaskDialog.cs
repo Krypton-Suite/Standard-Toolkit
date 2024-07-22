@@ -1017,7 +1017,7 @@ namespace Krypton.Toolkit
             return requiredSize;
         }
 
-        private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
+        private void OnRadioButtonCheckedChanged(object? sender, EventArgs e)
         {
             var button = sender as KryptonRadioButton;
             _defaultRadioButton = button?.Tag as KryptonTaskDialogCommand;
@@ -1027,7 +1027,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandClicked(object sender, EventArgs e)
+        private void OnCommandClicked(object? sender, EventArgs e)
         {
             Close();
 

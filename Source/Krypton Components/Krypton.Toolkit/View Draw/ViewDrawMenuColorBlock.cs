@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
         #endregion
     }
 }

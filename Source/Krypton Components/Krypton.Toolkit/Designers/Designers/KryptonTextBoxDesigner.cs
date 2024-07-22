@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnTextBoxMouseUp(object sender, MouseEventArgs e)
+        private void OnTextBoxMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_textBox != null) && (e.Button == MouseButtons.Left))
             {
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_textBox != null) && (Equals(e.Component, _textBox)))

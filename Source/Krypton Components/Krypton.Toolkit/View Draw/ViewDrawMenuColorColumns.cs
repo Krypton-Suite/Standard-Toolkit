@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
             return columns;
         }
 
-        private void OnSelectedColorChanged(object sender, ColorEventArgs e) => _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
+        private void OnSelectedColorChanged(object? sender, ColorEventArgs e) => _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
 
         #endregion
     }

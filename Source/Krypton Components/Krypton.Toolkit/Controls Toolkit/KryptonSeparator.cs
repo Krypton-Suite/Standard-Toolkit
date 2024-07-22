@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnRedrawTick(object sender, EventArgs e)
+        private void OnRedrawTick(object? sender, EventArgs e)
         {
             _redrawTimer?.Stop();
 

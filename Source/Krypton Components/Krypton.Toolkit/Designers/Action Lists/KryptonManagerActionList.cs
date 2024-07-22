@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnReset(object sender, EventArgs e)
+        private void OnReset(object? sender, EventArgs e)
         {
             if (_manager != null)
             {

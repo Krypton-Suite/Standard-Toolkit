@@ -732,7 +732,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -773,9 +773,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             var showingContextMenu = false;
 
@@ -895,16 +895,16 @@ namespace Krypton.Toolkit
             _ => KryptonContextMenuPositionV.Below
         };
 
-        private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, EventArgs e) => ContextMenuClosed();
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)

@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuCheckButton.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuCheckButton.PerformClick();
 
         #endregion
     }

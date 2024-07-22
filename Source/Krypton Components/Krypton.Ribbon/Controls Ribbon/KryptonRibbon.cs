@@ -1465,7 +1465,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
             TabsArea?.RecreateButtons();

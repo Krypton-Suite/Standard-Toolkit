@@ -392,7 +392,7 @@ namespace Krypton.Toolkit
             Insert(0, _overflowButton);
         }
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             // Only allow a single context menu at a time
             if (!_showingContextMenu)
@@ -482,10 +482,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             // Cast to correct type
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
 
             // Unhook from context menu and dispose of it, we only use each menu instance once
             kcm.Closed -= OnKryptonContextMenuClosed;
@@ -499,14 +499,14 @@ namespace Krypton.Toolkit
             _showingContextMenu = false;
         }
 
-        private void OnChildCrumbClick(object sender, EventArgs e)
+        private void OnChildCrumbClick(object? sender, EventArgs e)
         {
             // Make the clicked child crumb the newly selected item
             var childItem = sender as KryptonContextMenuItem;
             _kryptonBreadCrumb.SelectedItem = _menuItemToCrumb[childItem!];
         }
 
-        private void OnOverflowButtonClick(object sender, MouseEventArgs e)
+        private void OnOverflowButtonClick(object? sender, MouseEventArgs e)
         {
             // Only allow a single context menu at a time
             if (!_showingContextMenu)
