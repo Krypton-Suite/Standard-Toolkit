@@ -756,7 +756,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnNearClick(object sender, EventArgs e)
+        private void OnNearClick(object? sender, EventArgs e)
         {
             // Scroll left/up
             _scrollOffset -= _scrollSpeed;
@@ -765,7 +765,7 @@ namespace Krypton.Ribbon
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
         }
 
-        private void OnFarClick(object sender, EventArgs e)
+        private void OnFarClick(object? sender, EventArgs e)
         {
             // Scroll down/right
             _scrollOffset += _scrollSpeed;
@@ -774,7 +774,7 @@ namespace Krypton.Ribbon
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
         }
 
-        private void OnViewControlPaintBackground(object sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
+        private void OnViewControlPaintBackground(object? sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
         #endregion
     }
 }

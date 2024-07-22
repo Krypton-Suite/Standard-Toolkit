@@ -4093,7 +4093,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnStringPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Piggyback the name of the changed property in the unique name parameter
             string[]? uniqueNames = e.PropertyName is null
@@ -4103,9 +4103,9 @@ namespace Krypton.Docking
             PropogateAction(DockingPropogateAction.StringChanged, uniqueNames);
         }
 
-        private void OnDropDownWorkspaceClicked(object sender, EventArgs e)
+        private void OnDropDownWorkspaceClicked(object? sender, EventArgs e)
         {
-            var workspaceItem = (KryptonContextMenuItem)sender;
+            var workspaceItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             // Action depends on the current location
             if (workspaceItem.Tag is string uniqueName)
@@ -4126,9 +4126,9 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDropDownNavigatorClicked(object sender, EventArgs e)
+        private void OnDropDownNavigatorClicked(object? sender, EventArgs e)
         {
-            var workspaceItem = (KryptonContextMenuItem)sender;
+            var workspaceItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             if (workspaceItem.Tag is string uniqueName)
             {
@@ -4149,9 +4149,9 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDropDownAutoHiddenClicked(object sender, EventArgs e)
+        private void OnDropDownAutoHiddenClicked(object? sender, EventArgs e)
         {
-            var autoHiddenItem = (KryptonContextMenuItem)sender;
+            var autoHiddenItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             if (autoHiddenItem.Tag is string uniqueName)
             {
@@ -4172,9 +4172,9 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDropDownDockedClicked(object sender, EventArgs e)
+        private void OnDropDownDockedClicked(object? sender, EventArgs e)
         {
-            var dockedItem = (KryptonContextMenuItem)sender;
+            var dockedItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             if (dockedItem.Tag is string uniqueName)
             {
@@ -4195,10 +4195,10 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDropDownFloatingClicked(object sender, EventArgs e)
+        private void OnDropDownFloatingClicked(object? sender, EventArgs e)
         {
             // Get the unique name of the page that needs to be converted to floating
-            var floatingItem = (KryptonContextMenuItem)sender;
+            var floatingItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             if (floatingItem.Tag is string uniqueName)
             {
@@ -4219,10 +4219,10 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDropDownCloseClicked(object sender, EventArgs e)
+        private void OnDropDownCloseClicked(object? sender, EventArgs e)
         {
-            var closeItem = (KryptonContextMenuItem)sender;
-            CloseRequest(new[] { (string)closeItem.Tag! });
+            var closeItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+            CloseRequest(new[] { (closeItem.Tag as string) ?? string.Empty});
         }
 
         private static KryptonPage[] ArrayFromCollection(KryptonPageCollection pages)

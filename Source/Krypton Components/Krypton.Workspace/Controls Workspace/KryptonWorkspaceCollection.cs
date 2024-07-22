@@ -182,14 +182,14 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
+        protected void OnChildPropertyChanged(object? sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
 
         /// <summary>
         /// Handle a maximize/restore request from a child item.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildMaximizeRestoreClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
+        protected void OnChildMaximizeRestoreClicked(object? sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.

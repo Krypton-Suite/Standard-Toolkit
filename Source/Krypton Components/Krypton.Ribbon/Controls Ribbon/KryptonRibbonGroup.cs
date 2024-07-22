@@ -525,7 +525,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupItemsClearing(object sender, EventArgs e)
+        private void OnRibbonGroupItemsClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (KryptonRibbonGroupContainer container in Items)
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
+        private void OnRibbonGroupItemsCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((_ribbon != null)

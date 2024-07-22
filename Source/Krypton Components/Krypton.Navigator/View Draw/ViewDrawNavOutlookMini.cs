@@ -126,13 +126,13 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnMiniClick(object sender, EventArgs e) =>
+        private void OnMiniClick(object? sender, EventArgs e) =>
             // Ask the navigator to show the specified page as a popup window 
             // relative to our location as an element and firing the provided
             // delegate when the popup is dismissed.
             Navigator.ShowPopupPage(Page!, this, _finishDelegate);
 
-        private void OnPopupFinished(object sender, EventArgs e) =>
+        private void OnPopupFinished(object? sender, EventArgs e) =>
             // Remove the fixed display of the button, now the associated popup has been removed
             _controller.RemoveFixed();
         #endregion

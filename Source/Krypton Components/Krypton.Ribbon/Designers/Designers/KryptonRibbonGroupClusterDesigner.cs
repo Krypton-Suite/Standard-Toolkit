@@ -179,7 +179,7 @@ namespace Krypton.Ribbon
             _clearItemsVerb.Enabled = clearItems;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonCluster!.Ribbon != null)
@@ -188,7 +188,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -288,7 +288,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -320,7 +320,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddButton(object sender, EventArgs e)
+        private void OnAddButton(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -348,7 +348,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddColorButton(object sender, EventArgs e)
+        private void OnAddColorButton(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearItems(object sender, EventArgs e)
+        private void OnClearItems(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -411,7 +411,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteCluster(object sender, EventArgs e)
+        private void OnDeleteCluster(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -447,7 +447,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {
@@ -456,9 +456,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our cluster is being removed
             if (e.Component == _ribbonCluster)
@@ -485,7 +485,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if (_ribbonCluster!.Ribbon != null)
             {

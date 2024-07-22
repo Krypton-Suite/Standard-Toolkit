@@ -697,7 +697,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (Navigator.StateCommon == null)
             {

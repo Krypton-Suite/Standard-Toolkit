@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonSeparator.Ribbon != null)
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null) 
                 && _ribbonSeparator.RibbonGroup is not null
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                 && _ribbonSeparator.RibbonGroup is not null
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                 && _ribbonSeparator.RibbonGroup is not null
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                 && _ribbonSeparator.RibbonGroup is not null
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteSeparator(object sender, EventArgs e)
+        private void OnDeleteSeparator(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                 && _ribbonSeparator.RibbonGroup is not null
@@ -336,9 +336,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                 && _ribbonSeparator.RibbonGroup is not null
@@ -414,14 +414,14 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveToGroup(object sender, EventArgs e)
+        private void OnMoveToGroup(object? sender, EventArgs e)
         {
             if ((_ribbonSeparator.Ribbon is not null)
                && _ribbonSeparator.RibbonGroup is not null
                && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Cast to correct type
-                var groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
                 var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("destination"));

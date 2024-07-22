@@ -514,7 +514,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnUpdateTimer(object sender, EventArgs e)
+        private void OnUpdateTimer(object? sender, EventArgs e)
         {
             _updateTimer.Stop();
             UpdateTargetState();

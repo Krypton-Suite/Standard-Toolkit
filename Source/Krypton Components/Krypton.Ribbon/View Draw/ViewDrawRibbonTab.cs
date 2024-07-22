@@ -725,9 +725,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e) => MakeDirty();
+        private void OnTabPropertyChanged(object? sender, PropertyChangedEventArgs e) => MakeDirty();
 
-        private void OnTabClicked(object sender, MouseEventArgs e)
+        private void OnTabClicked(object? sender, MouseEventArgs e)
         {
             // We never click to become unchecked
             if (!Checked)
@@ -741,7 +741,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabContextClicked(object sender, MouseEventArgs e)
+        private void OnTabContextClicked(object? sender, MouseEventArgs e)
         {
             if (Ribbon.InDesignMode)
             {

@@ -291,7 +291,7 @@ namespace Krypton.Ribbon
             _clearItemsVerb.Enabled = clearItems;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonTriple.Ribbon is not null)
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -330,7 +330,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -362,7 +362,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -424,7 +424,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddButton(object sender, EventArgs e)
+        private void OnAddButton(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -452,7 +452,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddColorButton(object sender, EventArgs e)
+        private void OnAddColorButton(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCheckBox(object sender, EventArgs e)
+        private void OnAddCheckBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -508,7 +508,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRadioButton(object sender, EventArgs e)
+        private void OnAddRadioButton(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddLabel(object sender, EventArgs e)
+        private void OnAddLabel(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -564,7 +564,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCustomControl(object sender, EventArgs e)
+        private void OnAddCustomControl(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -592,7 +592,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTextBox(object sender, EventArgs e)
+        private void OnAddTextBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -620,7 +620,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTrackBar(object sender, EventArgs e)
+        private void OnAddTrackBar(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -648,7 +648,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddThemeComboBox(object sender, EventArgs e)
+        private void OnAddThemeComboBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -676,7 +676,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e)
+        private void OnAddMaskedTextBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -704,7 +704,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRichTextBox(object sender, EventArgs e)
+        private void OnAddRichTextBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -732,7 +732,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddComboBox(object sender, EventArgs e)
+        private void OnAddComboBox(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -760,7 +760,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddNumericUpDown(object sender, EventArgs e)
+        private void OnAddNumericUpDown(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -788,7 +788,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDomainUpDown(object sender, EventArgs e)
+        private void OnAddDomainUpDown(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -816,7 +816,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDateTimePicker(object sender, EventArgs e)
+        private void OnAddDateTimePicker(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -844,7 +844,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearItems(object sender, EventArgs e)
+        private void OnClearItems(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -882,7 +882,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteTriple(object sender, EventArgs e)
+        private void OnDeleteTriple(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -915,7 +915,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -924,7 +924,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxLarge(object sender, EventArgs e)
+        private void OnMaxLarge(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -933,7 +933,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxMedium(object sender, EventArgs e)
+        private void OnMaxMedium(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -942,7 +942,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxSmall(object sender, EventArgs e)
+        private void OnMaxSmall(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -951,7 +951,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinLarge(object sender, EventArgs e)
+        private void OnMinLarge(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -960,7 +960,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinMedium(object sender, EventArgs e)
+        private void OnMinMedium(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -969,7 +969,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinSmall(object sender, EventArgs e)
+        private void OnMinSmall(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -978,9 +978,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our triple is being removed
             if (e.Component == _ribbonTriple && _ribbonTriple.Items is not null)
@@ -998,7 +998,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -1160,12 +1160,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveToGroup(object sender, EventArgs e)
+        private void OnMoveToGroup(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Cast to correct type
-                var groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
                 var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("destination"));

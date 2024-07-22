@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Object that intiated the call.</param>
         /// <param name="e">Eventargs object data (not used).</param>
-        private void KryptonManagerGlobalPaletteChanged(object sender, EventArgs e)
+        private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
         {
             SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
         }

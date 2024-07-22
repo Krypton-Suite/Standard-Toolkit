@@ -173,7 +173,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void DropIndicators_Paint(object sender, PaintEventArgs e)
+        private void DropIndicators_Paint(object? sender, PaintEventArgs e)
         {
             using var context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer);
             _renderer?.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);

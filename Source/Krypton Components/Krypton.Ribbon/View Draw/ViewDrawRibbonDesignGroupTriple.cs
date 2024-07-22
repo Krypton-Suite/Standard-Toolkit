@@ -126,7 +126,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             // Create the context strip the first time around
             if (_cms == null)
@@ -186,35 +186,35 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddButton();
+        private void OnAddButton(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddColorButton();
+        private void OnAddColorButton(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddColorButton();
 
-        private void OnAddCheckBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCheckBox();
+        private void OnAddCheckBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCheckBox();
 
-        private void OnAddRadioButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRadioButton();
+        private void OnAddRadioButton(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRadioButton();
 
-        private void OnAddLabel(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddLabel();
+        private void OnAddLabel(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddLabel();
 
-        private void OnAddCustomControl(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCustomControl();
+        private void OnAddCustomControl(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCustomControl();
 
-        private void OnAddTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTextBox();
+        private void OnAddTextBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTextBox();
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddMaskedTextBox();
+        private void OnAddMaskedTextBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddMaskedTextBox();
 
-        private void OnAddRichTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRichTextBox();
+        private void OnAddRichTextBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRichTextBox();
 
-        private void OnAddComboBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddComboBox();
+        private void OnAddComboBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddComboBox();
 
-        private void OnAddNumericUpDown(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddNumericUpDown();
+        private void OnAddNumericUpDown(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddNumericUpDown();
 
-        private void OnAddDomainUpDown(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDomainUpDown();
+        private void OnAddDomainUpDown(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDomainUpDown();
 
-        private void OnAddDateTimePicker(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDateTimePicker();
+        private void OnAddDateTimePicker(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDateTimePicker();
 
-        private void OnAddTrackBar(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTrackBar();
+        private void OnAddTrackBar(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTrackBar();
 
-        private void OnAddThemeComboBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddThemeComboBox();
+        private void OnAddThemeComboBox(object? sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddThemeComboBox();
 
         #endregion
     }

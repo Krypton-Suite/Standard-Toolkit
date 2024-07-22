@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnItemClick(object sender, MouseEventArgs e) => _gallery.SelectedIndex = _imageIndex;
+        private void OnItemClick(object? sender, MouseEventArgs e) => _gallery.SelectedIndex = _imageIndex;
         #endregion
     }
 }

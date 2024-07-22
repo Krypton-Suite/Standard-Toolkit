@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             base.OnClick(sender, e);
 

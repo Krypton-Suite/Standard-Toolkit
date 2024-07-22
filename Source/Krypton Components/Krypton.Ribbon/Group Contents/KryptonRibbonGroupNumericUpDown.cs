@@ -691,29 +691,29 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnNumericUpDownValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnNumericUpDownValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnNumericUpDownGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnNumericUpDownGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnNumericUpDownLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnNumericUpDownLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnNumericUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnNumericUpDownKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnNumericUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnNumericUpDownKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnNumericUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnNumericUpDownKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             NumericUpDown!.PaletteMode = Ribbon!.PaletteMode;
             NumericUpDown.LocalCustomPalette = Ribbon.LocalCustomPalette;

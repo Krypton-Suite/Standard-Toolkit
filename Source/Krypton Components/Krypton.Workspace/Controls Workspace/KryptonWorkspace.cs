@@ -2296,14 +2296,14 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
-        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e) => PerformNeedPaint(true);
+        protected void OnChildrenPropertyChanged(object? sender, PropertyChangedEventArgs e) => PerformNeedPaint(true);
 
         /// <summary>
         /// Request to toggle the maximized state.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
-        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e)
+        protected void OnChildrenMaximizeRestoreClicked(object? sender, EventArgs e)
         {
             if (sender is KryptonWorkspaceCell cell)
             {
@@ -3728,13 +3728,12 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellEnter(object sender, EventArgs e)
+        private void OnCellEnter(object? sender, EventArgs e)
         {
-            var cell = (KryptonWorkspaceCell)sender;
-            ActiveCell = cell;
+            ActiveCell = sender as KryptonWorkspaceCell;
         }
 
-        private void OnCellSelectedPageChanged(object sender, EventArgs e)
+        private void OnCellSelectedPageChanged(object? sender, EventArgs e)
         {
             if (!IsActivePageChangedEventSuspended)
             {
@@ -3753,7 +3752,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellShowContextMenu(object sender, ShowContextMenuArgs e)
+        private void OnCellShowContextMenu(object? sender, ShowContextMenuArgs e)
         {
             // Do we customize the context menu of the page header?
             if (ContextMenus.ShowContextMenu && !e.Cancel)
@@ -3840,13 +3839,13 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellClosedContextMenu(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnCellClosedContextMenu(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook from context menu
-            var contextMenu = (KryptonContextMenu)sender;
-            contextMenu.Closed -= OnCellClosedContextMenu;
+            var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
 
             // Remove our menu items as we only want them to be inside the currently showing context menu
+            contextMenu.Closed -= OnCellClosedContextMenu;
             contextMenu.Items.Remove(_menuSeparator1);
             contextMenu.Items.Remove(_menuItems!);
 
@@ -3857,7 +3856,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellCtrlTabWrap(object sender, CtrlTabCancelEventArgs e)
+        private void OnCellCtrlTabWrap(object? sender, CtrlTabCancelEventArgs e)
         {
             // Prevent the cell from wrapping around when ctrl+tabbing
             e.Cancel = true;
@@ -3907,37 +3906,37 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnPageClose(object sender, EventArgs e)
+        private void OnPageClose(object? sender, EventArgs e)
         {
             ClosePage(_menuPage!);
             ClearContextMenuCache();
         }
 
-        private void OnPageCloseAllButThis(object sender, EventArgs e)
+        private void OnPageCloseAllButThis(object? sender, EventArgs e)
         {
             CloseAllButThisPage(_menuPage!);
             ClearContextMenuCache();
         }
 
-        private void OnPageMoveNext(object sender, EventArgs e)
+        private void OnPageMoveNext(object? sender, EventArgs e)
         {
             MovePageNext(_menuPage!, true);
             ClearContextMenuCache();
         }
 
-        private void OnPageMovePrevious(object sender, EventArgs e)
+        private void OnPageMovePrevious(object? sender, EventArgs e)
         {
             MovePagePrevious(_menuPage!, true);
             ClearContextMenuCache();
         }
 
-        private void OnPageSplitVert(object sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Vertical);
+        private void OnPageSplitVert(object? sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Vertical);
 
-        private void OnPageSplitHorz(object sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Horizontal);
+        private void OnPageSplitHorz(object? sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Horizontal);
 
-        private void OnPageMaximizeRestore(object sender, EventArgs e) => MaximizedCell = MaximizedCell != null ? null : _menuCell;
+        private void OnPageMaximizeRestore(object? sender, EventArgs e) => MaximizedCell = MaximizedCell != null ? null : _menuCell;
 
-        private void OnPageRebalance(object sender, EventArgs e) => ApplyRebalance();
+        private void OnPageRebalance(object? sender, EventArgs e) => ApplyRebalance();
 
         private void PageSplitDirection(KryptonWorkspaceCell cell,
                                         KryptonPage page,

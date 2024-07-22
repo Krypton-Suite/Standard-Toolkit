@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
             _moveLastVerb.Enabled = moveLast;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonGallery.Ribbon != null)
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonGallery.Ribbon is not null) 
                 && _ribbonGallery.RibbonGroup is not null
@@ -270,7 +270,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if ((_ribbonGallery.Ribbon is not null)
                 && _ribbonGallery.RibbonGroup is not null
@@ -304,7 +304,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if ((_ribbonGallery.Ribbon is not null)
                 && _ribbonGallery.RibbonGroup is not null
@@ -338,7 +338,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if ((_ribbonGallery.Ribbon is not null)
                 && _ribbonGallery.RibbonGroup is not null
@@ -370,7 +370,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteGallery(object sender, EventArgs e)
+        private void OnDeleteGallery(object? sender, EventArgs e)
         {
             if ((_ribbonGallery.Ribbon is not null)
                 && _ribbonGallery.RibbonGroup is not null
@@ -405,7 +405,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnEnabled(object sender, EventArgs e)
+        private void OnEnabled(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -417,7 +417,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxLarge(object sender, EventArgs e)
+        private void OnMaxLarge(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxMedium(object sender, EventArgs e)
+        private void OnMaxMedium(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -447,7 +447,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMaxSmall(object sender, EventArgs e)
+        private void OnMaxSmall(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -456,7 +456,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinLarge(object sender, EventArgs e)
+        private void OnMinLarge(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -465,7 +465,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinMedium(object sender, EventArgs e)
+        private void OnMinMedium(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMinSmall(object sender, EventArgs e)
+        private void OnMinSmall(object? sender, EventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {
@@ -483,9 +483,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if (_ribbonGallery.Ribbon != null)
             {

@@ -454,13 +454,13 @@ namespace Krypton.Ribbon
             _viewMediumSmall.ButtonType = GroupClusterButton.ButtonType;
         }
 
-        private void OnSmallButtonClick(object sender, EventArgs e) => GroupClusterButton!.PerformClick(_viewMediumSmall.FinishDelegate);
+        private void OnSmallButtonClick(object? sender, EventArgs e) => GroupClusterButton!.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnSmallButtonDropDown(object sender, EventArgs e) => GroupClusterButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
+        private void OnSmallButtonDropDown(object? sender, EventArgs e) => GroupClusterButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupClusterButton!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupClusterButton!.OnDesignTimeContextMenu(e);
 
-        private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             // Create the context strip the first time around
             if (_cms == null)
@@ -130,9 +130,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddButton();
+        private void OnAddButton(object? sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddColorButton();
+        private void OnAddColorButton(object? sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddColorButton();
         #endregion
     }
 }

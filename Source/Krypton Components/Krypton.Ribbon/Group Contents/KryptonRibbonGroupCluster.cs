@@ -350,7 +350,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupClusterClearing(object sender, EventArgs e)
+        private void OnRibbonGroupClusterClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (IRibbonGroupItem item in Items)
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupClusterCleared(object sender, EventArgs e)
+        private void OnRibbonGroupClusterCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))

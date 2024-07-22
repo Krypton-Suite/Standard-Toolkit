@@ -263,9 +263,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonSeparator!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => _ribbonSeparator!.OnDesignTimeContextMenu(e);
 
-        private void OnSeparatorPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSeparatorPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

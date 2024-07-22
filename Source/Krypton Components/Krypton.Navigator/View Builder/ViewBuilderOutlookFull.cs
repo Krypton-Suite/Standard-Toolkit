@@ -253,7 +253,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -268,7 +268,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
+        private void OnViewportAnimation(object? sender, EventArgs e) => Navigator.PerformNeedPaint(true);
         #endregion
     }
 }

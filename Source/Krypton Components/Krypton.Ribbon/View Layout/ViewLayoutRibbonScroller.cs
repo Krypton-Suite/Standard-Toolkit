@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
             return rect;
         }
 
-        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
+        private void OnButtonClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
         #endregion
     }
 }

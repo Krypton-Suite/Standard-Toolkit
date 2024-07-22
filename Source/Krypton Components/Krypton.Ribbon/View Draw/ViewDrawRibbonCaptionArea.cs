@@ -467,7 +467,7 @@ namespace Krypton.Ribbon
             // decide if we integrate with top chrome or show this control instead.
             _ribbon.ParentChanged += OnRibbonParentChanged;
 
-        private void OnRibbonParentChanged(object sender, EventArgs e)
+        private void OnRibbonParentChanged(object? sender, EventArgs e)
         {
             // Unhook from any current krypton form monitoring
             if (_kryptonForm != null)
@@ -635,7 +635,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnIntegratedNeedPaint(object sender, NeedLayoutEventArgs e)
+        private void OnIntegratedNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // If we have integrated the button into the custom chrome caption area
             if (_integrated)

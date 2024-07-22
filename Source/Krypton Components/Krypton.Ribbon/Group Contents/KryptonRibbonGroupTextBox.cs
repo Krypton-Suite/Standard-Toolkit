@@ -1012,41 +1012,41 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
+        private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnTextBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnTextBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             TextBox!.PaletteMode = Ribbon!.PaletteMode;
             TextBox.LocalCustomPalette = Ribbon.LocalCustomPalette;

@@ -498,19 +498,19 @@ namespace Krypton.Navigator
             _buttonManager?.RecreateButtons();
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnLeftMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
+        private void OnLeftMouseDown(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
 
-        private void OnRightMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
+        private void OnRightMouseDown(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
 
-        private void OnLeftDoubleClick(object sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
+        private void OnLeftDoubleClick(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
         #endregion
     }
 }

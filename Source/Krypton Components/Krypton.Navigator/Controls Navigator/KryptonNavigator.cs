@@ -2336,7 +2336,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageClearing(object sender, EventArgs e)
+        private void OnPageClearing(object? sender, EventArgs e)
         {
             // If there is a page currently selected
             if (SelectedPage != null)
@@ -2367,7 +2367,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageCleared(object sender, EventArgs e)
+        private void OnPageCleared(object? sender, EventArgs e)
         {
             // Ignore call as view builder is already destructed
             if (!IsDisposed
@@ -2384,7 +2384,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageVisibleChanged(object sender, EventArgs e)
+        private void OnPageVisibleChanged(object? sender, EventArgs e)
         {
             // Ignore call as view builder is already destructed
             if (!IsDisposed
@@ -2432,7 +2432,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageEnabledChanged(object sender, EventArgs e)
+        private void OnPageEnabledChanged(object? sender, EventArgs e)
         {
             // Ignore call as view builder is already destructed
             if (!IsDisposed
@@ -2451,7 +2451,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPageAppearanceChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPageAppearanceChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Ignore call as view builder is already destructed
             if (!IsDisposed
@@ -2764,7 +2764,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Private
-        private void OnOpeningContextMenu(object sender, CancelEventArgs e)
+        private void OnOpeningContextMenu(object? sender, CancelEventArgs e)
         {
             // Ignore call as view builder is already destructed
             if (!IsDisposed && (ViewBuilder != null))
@@ -2777,7 +2777,7 @@ namespace Krypton.Navigator
                 else
                 {
                     // Get access to the menu items for selecting a page
-                    var contextMenu = (KryptonContextMenu)sender;
+                    var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
 
                     // Kill any existing contents and add a items collection for the page entries
                     contextMenu.Items.Clear();
@@ -2851,7 +2851,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && (ViewBuilder != null))
             {
@@ -2945,11 +2945,11 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnStartHover(object sender, ToolTipEventArgs e)
+        private void OnStartHover(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed
                 && (ViewBuilder != null)
@@ -2976,7 +2976,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnEndHover(object sender, EventArgs e)
+        private void OnEndHover(object? sender, EventArgs e)
         {
             // Only notify the end of the hover if we have generated a start
             if (_tabHoverStarted)
@@ -2986,27 +2986,27 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnVisualPopupPageDisposed(object sender, EventArgs e)
+        private void OnVisualPopupPageDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupPage = (VisualPopupPage)sender;
+            var popupPage = sender as VisualPopupPage ?? throw new ArgumentNullException(nameof(sender));
             popupPage.Disposed -= OnVisualPopupPageDisposed;
 
             // Not showing a popup page any more
             _visualPopupPage = null;
         }
 
-        private void OnChildPanelControlRemoved(object sender, ControlEventArgs e)
+        private void OnChildPanelControlRemoved(object? sender, ControlEventArgs e)
         {
             // Cast to correct type
             // If a krypton page is being removed
@@ -3188,11 +3188,11 @@ namespace Krypton.Navigator
             return false;
         }
 
-        private void OnViewManagerLayoutBefore(object sender, EventArgs e) =>
+        private void OnViewManagerLayoutBefore(object? sender, EventArgs e) =>
             // Tell the view to perform pre layout actions
             ViewBuilder?.PreLayout();
 
-        private void OnViewManagerLayoutAfter(object sender, EventArgs e) =>
+        private void OnViewManagerLayoutAfter(object? sender, EventArgs e) =>
             // Tell the view to perform post layout actions
             ViewBuilder?.PostLayout();
 
@@ -3205,7 +3205,7 @@ namespace Krypton.Navigator
             _kcm.Items.Clear();
         }
 
-        private void OnContextMenuClick(object sender, EventArgs e)
+        private void OnContextMenuClick(object? sender, EventArgs e)
         {
             // Cast to correct type
             var menuItem = sender as KryptonContextMenuItem;

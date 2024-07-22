@@ -541,7 +541,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupLineClearing(object sender, EventArgs e)
+        private void OnRibbonGroupLineClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (var item in Items!)
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupLineCleared(object sender, EventArgs e)
+        private void OnRibbonGroupLineCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((Ribbon != null) && (RibbonTab != null) && (Ribbon.SelectedTab == RibbonTab))

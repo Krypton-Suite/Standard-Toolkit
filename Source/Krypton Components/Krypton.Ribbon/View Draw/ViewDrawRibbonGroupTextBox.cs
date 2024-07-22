@@ -377,9 +377,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupTextBox!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupTextBox!.OnDesignTimeContextMenu(e);
 
-        private void OnTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTextBoxPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             const bool UPDATE_PAINT = false;
@@ -588,7 +588,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLayoutAction(object sender, EventArgs e)
+        private void OnLayoutAction(object? sender, EventArgs e)
         {
             // If not disposed then we still have a element reference
             if (GroupTextBox != null)
@@ -598,7 +598,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMouseEnterControl(object sender, EventArgs e)
+        private void OnMouseEnterControl(object? sender, EventArgs e)
         {
             // Reset the active group setting
             _activeGroup = null;
@@ -627,7 +627,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMouseLeaveControl(object sender, EventArgs e)
+        private void OnMouseLeaveControl(object? sender, EventArgs e)
         {
             // If we have a cached group we made active
             if (_activeGroup != null)

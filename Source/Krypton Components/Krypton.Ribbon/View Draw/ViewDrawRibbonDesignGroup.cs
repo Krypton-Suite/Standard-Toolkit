@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e) => Ribbon.SelectedTab?.OnDesignTimeAddGroup();
+        protected override void OnClick(object? sender, EventArgs e) => Ribbon.SelectedTab?.OnDesignTimeAddGroup();
         #endregion
     }
 }

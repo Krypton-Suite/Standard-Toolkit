@@ -312,7 +312,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PageDropEventArgs containing the event data.</param>
-        protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
+        protected override void RaiseSpacePageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;
@@ -425,7 +425,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnDockspaceCellVisibleCountChanged(object sender, EventArgs e)
+        private void OnDockspaceCellVisibleCountChanged(object? sender, EventArgs e)
         {
             if (DockspaceControl.CellVisibleCount == 0)
             {
@@ -445,7 +445,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspaceCellCountChanged(object sender, EventArgs e)
+        private void OnDockspaceCellCountChanged(object? sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
             if (DockspaceControl.CellCount == 0)
@@ -454,28 +454,28 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e)
+        private void OnDockspacePageCloseClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
-        private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
+        private void OnDockspacePageAutoHiddenClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the switch from docked to auto hidden is handled for cell that contains the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedCellToAutoHiddenGroupRequest(e.UniqueName);
         }
 
-        private void OnDockspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
+        private void OnDockspacePagesDoubleClicked(object? sender, UniqueNamesEventArgs e)
         {
             // Generate event so that the switch from docked to floating is handled for the provided list of named pages
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedToFloatingWindowRequest(e.UniqueNames);
         }
 
-        private void OnDockspaceDropDownClicked(object sender, CancelDropDownEventArgs e)
+        private void OnDockspaceDropDownClicked(object? sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
@@ -485,7 +485,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnDockspaceBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the dockspace
             var pages = new List<KryptonPage>();

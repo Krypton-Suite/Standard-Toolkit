@@ -859,7 +859,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -1249,13 +1249,13 @@ namespace Krypton.Ribbon
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+        private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
+        private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
+        private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = Color.Empty;
 
-        private void OnClickMoreColors(object sender, EventArgs e)
+        private void OnClickMoreColors(object? sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
             var cea = new CancelEventArgs();
@@ -1279,7 +1279,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             var kcm = sender as KryptonContextMenu;
             kcm!.Closed -= OnKryptonContextMenuClosed;

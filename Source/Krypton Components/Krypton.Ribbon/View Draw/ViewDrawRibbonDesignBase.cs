@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(object sender, EventArgs e)
+        protected virtual void OnClick(object? sender, EventArgs e)
         {
         }
         #endregion
