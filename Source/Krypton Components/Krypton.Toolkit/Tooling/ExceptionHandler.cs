@@ -38,15 +38,17 @@ namespace Krypton.Toolkit
         /// <param name="lineNumber">The line number.</param>
         /// <param name="callingMethod">The calling method.</param>
         /// <param name="showStackTrace">Show the stack trace.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught",
+        public static void CaptureException(
+            Exception exception, 
+            string title = @"Exception Caught",
             KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
-            KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, [CallerFilePath] string callingFilePath = "",
+            KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, 
+            [CallerFilePath] string callingFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string? callingMethod = "", bool? showStackTrace = false)
+            [CallerMemberName] string callingMethod = "", 
+            bool showStackTrace = false)
         {
-            bool showStackTraceFlag = showStackTrace ?? false;
-
-            if (showStackTraceFlag)
+            if (showStackTrace)
             {
                 KryptonMessageBox.Show(
                     $"An unexpected error has occurred: {exception.Message}.\r\n\r\n" +
