@@ -51,20 +51,24 @@ namespace Krypton.Toolkit
             if (showStackTrace)
             {
                 KryptonMessageBox.Show(
-                    $"An unexpected error has occurred: {exception.Message}.\r\n\r\n" +
-                    $"Class: '{callingFilePath}'\r\n\r\n" +
-                    $"Method: '{callingMethod}'\r\n\r\n" +
-                    $"Line: {lineNumber}\r\n\r\n" +
-                    $"Stacktrace:\r\n\r\n{exception.StackTrace}\r\n\r\n",
-                    title, buttons, icon, showCtrlCopy: true);
+                        $"An unexpected error has occurred:\r\n\r\n" +
+                        $"Class: {callingFilePath}\r\n" +
+                        $"Method: {callingMethod}\r\n" +
+                        $"Line: {lineNumber}\r\n" +
+                        $"Message: {exception.Message}\r\n\r\n" +
+                        $"Stacktrace:\r\n{exception.StackTrace}\r\n",
+                        title,
+                        buttons,
+                        icon,
+                        showCtrlCopy: true);
             }
             else
             {
                 KryptonMessageBox.Show(
-                    $"An unexpected error has occurred: {exception.Message}.\r\n\r\n" +
-                    $"Class: '{callingFilePath}'\r\n\r\n" +
-                    $"Method: '{callingMethod}'\r\n\r\n" +
-                    $"Line: {lineNumber}\r\n\r\n",
+                    $"An unexpected error has occurred:\r\n\r\n" +
+                    $"Class: {callingFilePath}\r\n" +
+                    $"Method: {callingMethod}\r\n" +
+                    $"Line: {lineNumber}\r\n",
                     title, buttons, icon, showCtrlCopy: true);
             }
         }
