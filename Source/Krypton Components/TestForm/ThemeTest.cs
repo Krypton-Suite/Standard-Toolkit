@@ -60,9 +60,9 @@ namespace TestForm
         {
             // Note: For ExceptionHandler testing
 
-            //ArgumentOutOfRangeException aooe = new ArgumentOutOfRangeException();
+            ArgumentOutOfRangeException aooe = new ArgumentOutOfRangeException();
 
-            //ExceptionHandler.CaptureException(aooe);
+            ExceptionHandler.CaptureException(aooe, showStackTrace: true);
         }
     }
 }

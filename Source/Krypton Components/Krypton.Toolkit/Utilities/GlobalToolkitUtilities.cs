@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
             }
 
             return null;
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
             }
 
             return null;

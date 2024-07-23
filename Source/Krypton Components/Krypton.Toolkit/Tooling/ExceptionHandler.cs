@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// This class is designed to handle thrown exceptions. (FOR INTERNAL USE ONLY!)
     /// </summary>
-    internal class ExceptionHandler
+    public class ExceptionHandler
     {
         #region Idendity
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Methods
+        #region Implementation
 
         /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
@@ -37,15 +37,37 @@ namespace Krypton.Toolkit
         /// <param name="callingFilePath">The calling file path.</param>
         /// <param name="lineNumber">The line number.</param>
         /// <param name="callingMethod">The calling method.</param>
+        /// <param name="showStackTrace">Show the stack trace.</param>
         public static void CaptureException(Exception exception, string title = @"Exception Caught",
             KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
             KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, [CallerFilePath] string callingFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string? callingMethod = "") => KryptonMessageBox.Show(
-            $"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{callingFilePath}'.\n\nError in method: '{callingMethod}'.\n\nLine: {lineNumber}.",
-            title, buttons, icon, showCtrlCopy: true);
+            [CallerMemberName] string? callingMethod = "", bool? showStackTrace = false)
+        {
+            bool showStackTraceFlag = showStackTrace ?? false;
 
-    /// <summary>Captures a stack trace of the exception.</summary>
+            if (showStackTraceFlag)
+            {
+                KryptonMessageBox.Show(
+                    $"An unexpected error has occurred: {exception.Message}.\r\n\r\n" +
+                    $"Class: '{callingFilePath}'\r\n\r\n" +
+                    $"Method: '{callingMethod}'\r\n\r\n" +
+                    $"Line: {lineNumber}\r\n\r\n" +
+                    $"Stacktrace:\r\n\r\n{exception.StackTrace}\r\n\r\n",
+                    title, buttons, icon, showCtrlCopy: true);
+            }
+            else
+            {
+                KryptonMessageBox.Show(
+                    $"An unexpected error has occurred: {exception.Message}.\r\n\r\n" +
+                    $"Class: '{callingFilePath}'\r\n\r\n" +
+                    $"Method: '{callingMethod}'\r\n\r\n" +
+                    $"Line: {lineNumber}\r\n\r\n",
+                    title, buttons, icon, showCtrlCopy: true);
+            }
+        }
+
+        /// <summary>Captures a stack trace of the exception.</summary>
         /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
         public static void PrintStackTrace(Exception exception, string fileName)
@@ -61,13 +83,15 @@ namespace Krypton.Toolkit
 
                 writer.Write(exception.ToString());
 
+                writer.Write(exception.StackTrace);
+
                 writer.Close();
 
                 writer.Dispose();
             }
             catch (Exception e)
             {
-                CaptureException(e);
+                CaptureException(e, showStackTrace: true);
             }
         }
 
@@ -93,7 +117,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                CaptureException(e);
+                CaptureException(e, showStackTrace: true);
             }
         }
         #endregion

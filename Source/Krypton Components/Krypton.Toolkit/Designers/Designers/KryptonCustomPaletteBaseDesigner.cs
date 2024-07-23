@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc);
+                ExceptionHandler.CaptureException(exc, showStackTrace: true);
             }
         }
 

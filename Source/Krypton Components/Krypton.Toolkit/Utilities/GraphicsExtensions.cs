@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             {
                 //Console.WriteLine("Unable to extract the icon from the binary");
 
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
             }
 
             return result;
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: true);
 
                 return null;
             }
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception ex)
             {
-                ExceptionHandler.CaptureException(ex);
+                ExceptionHandler.CaptureException(ex, showStackTrace: true);
 
                 // /* EXTRACT ICON ERROR */
                 //// BUBBLE UP
