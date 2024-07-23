@@ -193,9 +193,9 @@ namespace Krypton.Toolkit
             Color.FromArgb(179, 209, 247), // FormBorderHeaderInctive1
             Color.FromArgb(96, 150, 220), // FormBorderHeaderInctive2
             Color.FromArgb(21, 66, 139), // FormHeaderShortActive
-            Color.FromArgb(160, 160, 160), // FormHeaderShortInactive
+            Color.FromArgb(150, 143, 134), // FormHeaderShortInactive
             Color.FromArgb(105, 112, 121), // FormHeaderLongActive
-            Color.FromArgb(160, 160, 160), // FormHeaderLongInactive
+            Color.FromArgb(150, 143, 134), // FormHeaderLongInactive
             Color.FromArgb(158, 193, 241), // FormButtonBorderTrack
             Color.FromArgb(210, 228, 254), // FormButtonBack1Track
             Color.FromArgb(255, 255, 255), // FormButtonBack2Track
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText2 = Color.FromArgb(51, 51, 51);
-        private static readonly Color _disabledText = Color.FromArgb(89, 89, 89);
+        private static readonly Color _disabledText = Color.FromArgb(150, 143, 134);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);

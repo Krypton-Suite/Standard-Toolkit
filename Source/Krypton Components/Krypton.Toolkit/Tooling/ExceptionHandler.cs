@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal class ExceptionHandler
     {
-        #region Constructor
+        #region Idendity
 
         /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
         public ExceptionHandler()
