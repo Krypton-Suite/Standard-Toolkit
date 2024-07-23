@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// This class is designed to handle thrown exceptions. (FOR INTERNAL USE ONLY!)
     /// </summary>
-    public class ExceptionHandler
+    internal class ExceptionHandler
     {
         #region Idendity
 
