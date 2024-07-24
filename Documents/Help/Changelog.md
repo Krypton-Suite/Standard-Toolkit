@@ -2,6 +2,11 @@
 
 =======
 
+## 2024-07-xx - Build 2408 (Patch 2) - July 2024
+* Resolved [#1677](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1677), `KryptonComboBox` cuts of text on high DPI.
+
+=======
+
 ## 2024-07-22 - Build 2407 (Patch 1) - July 2024
 * Resolved [#1373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1373), `KT.CommonHelper.CheckContextMenuForShortcut()` handles direct type casts differently from .NET 8.0 onward. Solution courtesy of @Tape-Worm.
 * Resolved [#1613](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1613), `KryptonMessageBox` text is not centered vertically.
