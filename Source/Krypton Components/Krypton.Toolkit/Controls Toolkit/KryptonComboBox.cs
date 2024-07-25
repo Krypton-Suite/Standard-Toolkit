@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
                 _kryptonComboBox = kryptonComboBox;
 
                 // Remove from view until size for the first time by the Krypton control
-                ItemHeight = 15;
+                UpdateItemHeight(); // Ensure ItemHeight is set properly; see #1677
                 DropDownHeight = 200;
                 //DrawMode = DrawMode.OwnerDrawFixed; // #20 fix, but this causes other problems; see #578
                 DrawMode = DrawMode.OwnerDrawVariable;
@@ -224,39 +224,7 @@ namespace Krypton.Toolkit
             /// <param name="e">Contains the event data.</param>
             protected override void OnFontChanged(EventArgs e)
             {
-                // Working on Windows XP or earlier systems?
-                //if (_osMajorVersion < 6)
-                //{
-                //    // Fudge by adding one to the font height, this gives the actual space used by the
-                //    // combo box control to draw an individual item in the main part of the control
-                //    ItemHeight = Font.Height + 1;
-                //}
-                //else
-                //{
-                //    // Vista performs differently depending of the use of themes...
-                //    if (IsAppThemed)
-                //    {
-                //        // Fudge by subtracting 1, which ensure correct sizing of combo box main area
-                //        //ItemHeight = Font.Height - 1;
-
-                //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                //        // when subtracting one from the font height. 
-                //        ItemHeight = Font.Height;
-                //    }
-                //    else
-                //    {
-                //        // On under Vista without themes is the font height the actual height used
-                //        // by the combo box for the space required for drawing the actual item
-                //        ItemHeight = Font.Height;
-                //    }
-                //}
-
-                // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                // when subtracting one from the font height. 
-                ItemHeight = _osMajorVersion < 6
-                    ? Font.Height + 1
-                    : Font.Height;
-
+                UpdateItemHeight();
                 base.OnFontChanged(e);
             }
 
@@ -594,6 +562,42 @@ namespace Krypton.Toolkit
                                                                                      _palette.PaletteContent,
                                                                                      state);
                 }
+            }
+
+            private void UpdateItemHeight()
+            {
+                // Working on Windows XP or earlier systems?
+                //if (_osMajorVersion < 6)
+                //{
+                //    // Fudge by adding one to the font height, this gives the actual space used by the
+                //    // combo box control to draw an individual item in the main part of the control
+                //    ItemHeight = Font.Height + 1;
+                //}
+                //else
+                //{
+                //    // Vista performs differently depending of the use of themes...
+                //    if (IsAppThemed)
+                //    {
+                //        // Fudge by subtracting 1, which ensure correct sizing of combo box main area
+                //        //ItemHeight = Font.Height - 1;
+
+                //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
+                //        // when subtracting one from the font height. 
+                //        ItemHeight = Font.Height;
+                //    }
+                //    else
+                //    {
+                //        // On under Vista without themes is the font height the actual height used
+                //        // by the combo box for the space required for drawing the actual item
+                //        ItemHeight = Font.Height;
+                //    }
+                //}
+
+                // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
+                // when subtracting one from the font height. 
+                ItemHeight = _osMajorVersion < 6
+                    ? Font.Height + 1
+                    : Font.Height;
             }
 
             private bool IsAppThemed
