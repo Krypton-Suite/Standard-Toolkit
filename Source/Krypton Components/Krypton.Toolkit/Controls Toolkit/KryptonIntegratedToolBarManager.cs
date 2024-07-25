@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: true);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -404,7 +404,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: true);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: true);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: true);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -529,7 +529,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: true);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 

@@ -32,45 +32,38 @@ namespace Krypton.Toolkit
         /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <param name="title">The title.</param>
-        /// <param name="buttons">The buttons.</param>
-        /// <param name="icon">The icon.</param>
-        /// <param name="callingFilePath">The calling file path.</param>
+        /// <param name="callerFilePath">The calling file path.</param>
         /// <param name="lineNumber">The line number.</param>
-        /// <param name="callingMethod">The calling method.</param>
+        /// <param name="callerMethod">The calling method.</param>
         /// <param name="showStackTrace">Show the stack trace.</param>
         public static void CaptureException(
             Exception exception, 
-            string title = @"Exception Caught",
-            KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
-            KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, 
-            [CallerFilePath] string callingFilePath = "",
+            string title = "Exception Caught",
+            [CallerFilePath] string callerFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string callingMethod = "", 
+            [CallerMemberName] string callerMethod = "", 
             bool showStackTrace = false)
         {
+            StringBuilder messageBuilder = new StringBuilder();
+
+            messageBuilder.Append($"An unexpected error has occurred:\r\n\r\n");
+            messageBuilder.Append($"Class: {callerFilePath}\r\n");
+            messageBuilder.Append($"Method: {callerMethod}\r\n");
+            messageBuilder.Append($"Line: {lineNumber}\r\n");
+            messageBuilder.Append($"Message: {exception.Message}\r\n\r\n");
+
             if (showStackTrace)
             {
-                KryptonMessageBox.Show(
-                        $"An unexpected error has occurred:\r\n\r\n" +
-                        $"Class: {callingFilePath}\r\n" +
-                        $"Method: {callingMethod}\r\n" +
-                        $"Line: {lineNumber}\r\n" +
-                        $"Message: {exception.Message}\r\n\r\n" +
-                        $"Stacktrace:\r\n{exception.StackTrace}\r\n",
-                        title,
-                        buttons,
-                        icon,
-                        showCtrlCopy: true);
+                messageBuilder.Append($"Stacktrace:\r\n{exception.StackTrace}\r\n");
             }
-            else
-            {
-                KryptonMessageBox.Show(
-                    $"An unexpected error has occurred:\r\n\r\n" +
-                    $"Class: {callingFilePath}\r\n" +
-                    $"Method: {callingMethod}\r\n" +
-                    $"Line: {lineNumber}\r\n",
-                    title, buttons, icon, showCtrlCopy: true);
-            }
+
+            string message = messageBuilder.ToString();
+
+            KryptonMessageBoxButtons okButton = KryptonMessageBoxButtons.OK;
+
+            KryptonMessageBoxIcon exceptionIcon = KryptonMessageBoxIcon.Error;
+
+            KryptonMessageBox.Show(message, title, okButton, exceptionIcon, showCtrlCopy: true);
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
@@ -97,7 +90,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                CaptureException(e, showStackTrace: true);
+                CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -123,7 +116,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                CaptureException(e, showStackTrace: true);
+                CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
         #endregion

@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc, showStackTrace: true);
+                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
         #endregion
