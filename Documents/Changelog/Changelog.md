@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1657), What is/does "GenericToolkitImages" supposed to do
 * Resolved [#1661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1661), Office 2007 Dark Blue theme: Form Text is hard to read when app loses focus
 * Implemented [#1650](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1650), EditorConfig null masking needs to be "Unhidden"
 * Resolved [#822](https://github.com/Krypton-Suite/Standard-Toolkit/issues/822), Unable to make closed auto hidden docked page visible after config reloading (fix courtesy of [dyurshevich](https://github.com/dyurshevich))
@@ -136,7 +137,7 @@
 
 =======
 
-## 2024-07-xx - Build 2408 (Patch 2) - July 2024
+## 2024-08-26 - Build 2408 (Patch 2) - August 2024
 * Resolved [#1677](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1677), `KryptonComboBox` cuts of text on high DPI.
 
 =======
