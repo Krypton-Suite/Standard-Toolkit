@@ -474,7 +474,7 @@ namespace Krypton.Toolkit
         protected override void OnVisibleChanged(EventArgs e)
         {
             // Note: Why does this throw an exception?
-            VisibleChanged!.Invoke(this, e);
+            VisibleChanged?.Invoke(this, e);
 
             base.OnVisibleChanged(e);
         }
