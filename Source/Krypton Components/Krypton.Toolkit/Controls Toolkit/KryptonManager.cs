@@ -213,8 +213,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToolkitStrings() ||
                                    ShouldSerializeUseKryptonFileDialogs() ||
                                    ShouldSerializeBaseFont() ||
-                                   ShouldSerializeGlobalPaletteMode() ||
-                                   ShouldSerializeToolkitImages());
+                                   ShouldSerializeGlobalPaletteMode());
 
         /// <summary>
         /// Reset All values
@@ -228,7 +227,6 @@ namespace Krypton.Toolkit
             ResetUseKryptonFileDialogs();
             ResetBaseFont();
             ResetGlobalPaletteMode();
-            ResetToolkitImages();
         }
 
         /// <summary>
@@ -389,18 +387,6 @@ namespace Krypton.Toolkit
         public KryptonGlobalToolkitStrings ToolkitStrings => Strings;
         private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
         private void ResetToolkitStrings() => Strings.Reset();
-
-        /// <summary>Gets the toolkit images.</summary>
-        [Category(@"Data")]
-        [Description(@"A collection of images that are used throughout the toolkit.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public KryptonImageStorage ToolkitImages => Images;
-
-        private bool ShouldSerializeToolkitImages() => !Images.IsDefault;
-
-        private void ResetToolkitImages() => Images.Reset();
 
         #endregion
 
