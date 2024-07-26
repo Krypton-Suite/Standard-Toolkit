@@ -59,10 +59,14 @@ namespace TestForm
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
             // Note: For ExceptionHandler testing
-
-            //ArgumentOutOfRangeException aooe = new ArgumentOutOfRangeException();
-
-            //ExceptionHandler.CaptureException(aooe);
+            //try
+            //{
+            //    throw new ArgumentOutOfRangeException();
+            //}
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.CaptureException(ex, showStackTrace: true);
+            //}
         }
     }
 }

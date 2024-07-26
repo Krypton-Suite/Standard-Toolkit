@@ -16,6 +16,8 @@ namespace Krypton.Toolkit
     /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
+        internal const bool DEFAULT_USE_STACK_TRACE = true;
+
         /// <summary>The default date and time value</summary>
         public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
 

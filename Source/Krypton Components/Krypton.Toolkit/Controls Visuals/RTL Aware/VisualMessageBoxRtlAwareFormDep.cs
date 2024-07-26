@@ -1174,7 +1174,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exception)
             {
-                ExceptionHandler.CaptureException(exception);
+                ExceptionHandler.CaptureException(exception, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 

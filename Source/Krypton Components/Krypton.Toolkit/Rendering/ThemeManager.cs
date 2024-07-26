@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc);
+                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc);
+                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
