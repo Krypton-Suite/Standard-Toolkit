@@ -364,20 +364,6 @@ namespace TestForm
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Copy = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Copy")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Cut = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Cut")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.New = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.New")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Open = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Open")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.PageSetup = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PageSetup")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Paste = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Paste")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Print = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Print")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.PrintPreview")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.QuickPrint")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Redo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Redo")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Save = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Save")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAll = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAll")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.SaveAs = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.SaveAs")));
-            this.kryptonManager1.ToolkitImages.ToolbarImages.Undo = ((System.Drawing.Image)(resources.GetObject("kryptonManager1.ToolkitImages.ToolbarImages.Undo")));
             // 
             // kbtnAbout
             // 
