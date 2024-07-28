@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>
         /// It will synchronize the SelectedIndex with the newly assigned Global Palette.
         /// </summary>
-        /// <param name="sender">Object that intiated the call.</param>
+        /// <param name="sender">Object that initiated the call.</param>
         /// <param name="e">Eventargs object data (not used).</param>
         private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
         {
