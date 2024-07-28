@@ -42,9 +42,6 @@ namespace Krypton.Toolkit
 
             // Sets the intial palette from either global or DefaultPalette property
             SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
-
-            // React to theme changes from outside this control.
-            KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         }
 
         #endregion
@@ -82,6 +79,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
+        /// <summary>
+        /// Routine that will be executed when the control is fully instantiated.
+        /// </summary>
+        /// <param name="e">EventArgs param. Not used in this implementation.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            // React to theme changes from outside this control.
+            KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+            base.OnHandleCreated(e);
+        }
 
         /// <summary>
         /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>

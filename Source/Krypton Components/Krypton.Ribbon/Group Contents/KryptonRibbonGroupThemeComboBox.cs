@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
     [DefaultProperty(nameof(Text))]
-    public sealed class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
+    public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
     {
         // TODO: grouped Ribbon controls do expose designers, needs a closer look
 
@@ -56,7 +56,6 @@ namespace Krypton.Ribbon
             // React to theme changes from outside this control.
             KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         }
-
         #endregion
 
         #region Public
@@ -101,13 +100,20 @@ namespace Krypton.Ribbon
         /// <param name="e">Eventargs object data (not used).</param>
         private void KryptonManagerGlobalPaletteChanged(object? sender, EventArgs e)
         {
-            SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+            /*
+             * Only executes when fully initialized.
+             * OnHandleCreated could not be used here since this control derives from Component.
+             */
+
+            if (ComboBox is not null)
+            {
+                SelectedIndex = CommonHelperThemeSelectors.KryptonManagerGlobalPaletteChanged(_isLocalUpdate, ref _isExternalUpdate, SelectedIndex, Items);
+            }
         }
 
         #endregion
 
         #region Protected Overrides
-
         /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
@@ -119,7 +125,6 @@ namespace Krypton.Ribbon
 
             base.OnSelectedIndexChanged(e);
         }
-
         #endregion
 
         #region Removed Designer
