@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1685), Theme Selectors `KryptonManagerGlobalPaletteChanged` event sometimes gets fired while the control is not fully initialized.
 * Resolved [#1689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1689), MessageBox text is "Hard to read" when using "MS 365 dark theme"
 * Resolved [#1672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1672), `KryptonContextMenuItemBase`: does not have a "Text" access AP
 * Resolved [#1686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1686), `TestForm`: MessageBox "No Close button" is not respected anymore
