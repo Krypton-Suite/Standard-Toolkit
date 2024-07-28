@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
+        protected string _text;
         private bool _visible;
         private ToolTipValues _toolTipValues = new ToolTipValues(null);
         private VisualPopupToolTip? _visualPopupToolTip;
@@ -48,6 +49,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected KryptonContextMenuItemBase()
         {
+            _text = string.Empty;
             _visible = true;
             ToolTipManager = new ToolTipManager(_toolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
@@ -134,6 +136,25 @@ namespace Krypton.Toolkit
                 {
                     _visible = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(Visible)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the standard menu item text.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual string Text
+        {
+            get => _text;
+
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }

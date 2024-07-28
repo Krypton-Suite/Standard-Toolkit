@@ -55,7 +55,6 @@ namespace Krypton.Toolkit
         public KryptonContextMenuHeading(string initialText)
         {
             // Default fields
-            _text = initialText;
             _extraText = string.Empty;
             _image = null;
             _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
@@ -141,18 +140,10 @@ namespace Krypton.Toolkit
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(@"Heading")]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set 
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
