@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/168	6), `TestForm`: MessageBox "No Close button" is not respected anymore
 * Resolved [#1683](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1683), After #1657 `TestForm` forms still have Toolkit Image strings in the designer files
 * Resolved [#1657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1657), What is/does "GenericToolkitImages" supposed to do
 * Resolved [#1661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1661), Office 2007 Dark Blue theme: Form Text is hard to read when app loses focus
