@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1672), `KryptonContextMenuItemBase`: does not have a "Text" access AP
 * Resolved [#1686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1686), `TestForm`: MessageBox "No Close button" is not respected anymore
 * Resolved [#1683](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1683), After #1657 `TestForm` forms still have Toolkit Image strings in the designer files
 * Resolved [#1657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1657), What is/does "GenericToolkitImages" supposed to do

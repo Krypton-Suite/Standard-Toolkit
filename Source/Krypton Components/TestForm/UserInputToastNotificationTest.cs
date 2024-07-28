@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Collections;
-
 namespace TestForm
 {
     public partial class UserInputToastNotificationTest : KryptonForm
@@ -19,7 +17,7 @@ namespace TestForm
 
         private bool _useRTLReading;
 
-        private string _stringResult;
+        private string? _stringResult;
 
         private int _integerResult;
 
@@ -50,7 +48,7 @@ namespace TestForm
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-            KryptonUserInputToastNotificationData data = new KryptonUserInputToastNotificationData()
+            var data = new KryptonUserInputToastNotificationData()
             {
                 BorderColor1 = kcbtnBorderColor1.SelectedColor,
                 BorderColor2 = kcbtnBorderColor2.SelectedColor,
@@ -103,7 +101,7 @@ namespace TestForm
                         KryptonMessageBox.Show($"Result = {_stringResult}");
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new InvalidEnumArgumentException(@"InputAreaType()");
                 }
             }
             else
