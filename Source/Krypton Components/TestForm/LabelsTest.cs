@@ -7,8 +7,6 @@
  */
 #endregion
 
-
-
 namespace TestForm
 {
     public partial class LabelsTest : KryptonForm

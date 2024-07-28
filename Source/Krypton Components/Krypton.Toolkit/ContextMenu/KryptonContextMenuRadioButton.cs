@@ -28,7 +28,6 @@ namespace Krypton.Toolkit
         private bool _autoClose;
         private bool _checked;
         private bool _enabled;
-        private string _text;
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
@@ -173,18 +172,10 @@ namespace Krypton.Toolkit
         [Description(@"Main radio button text.")]
         [DefaultValue(nameof(RadioButton))]
         [Localizable(true)]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set 
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
@@ -238,7 +229,6 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Radio button image color to make transparent.")]
         [Localizable(true)]
-        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
