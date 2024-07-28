@@ -59,6 +59,7 @@ namespace TestForm
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
             // Note: For ExceptionHandler testing
+
             //try
             //{
             //    throw new ArgumentOutOfRangeException();
