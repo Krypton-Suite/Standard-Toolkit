@@ -20,11 +20,11 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        protected string _text;
+        private protected string _text;
         private bool _visible;
-        private ToolTipValues _toolTipValues = new ToolTipValues(null);
+        private ToolTipValues _toolTipValues = new(null);
         private VisualPopupToolTip? _visualPopupToolTip;
-        private IContextMenuProvider _provider;
+        private IContextMenuProvider? _provider;
         #endregion
 
         #region Events
@@ -240,22 +240,24 @@ namespace Krypton.Toolkit
                     _toolTipValues.Image = args.Icon;
 
                     // Create the actual tooltip popup object
-                    var renderer = _provider.ProviderRedirector.Target!.GetRenderer();
-                    _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
-                        _toolTipValues,
-                        renderer,
-                        PaletteBackStyle.ControlToolTip,
-                        PaletteBorderStyle.ControlToolTip,
-                        CommonHelper.ContentStyleFromLabelStyle(_toolTipValues.ToolTipStyle),
-                        _toolTipValues.ToolTipShadow);
-
-                    _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                    _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                    if (_provider != null)
+                    {
+                        var renderer = _provider.ProviderRedirector.Target!.GetRenderer();
+                        _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
+                            _toolTipValues,
+                            renderer,
+                            PaletteBackStyle.ControlToolTip,
+                            PaletteBorderStyle.ControlToolTip,
+                            CommonHelper.ContentStyleFromLabelStyle(_toolTipValues.ToolTipStyle),
+                            _toolTipValues.ToolTipShadow);
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                        _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                    }
                 }
             }
         }
 
-        internal void OnCancelToolTip(object? sender, EventArgs e) =>
+        internal void OnCancelToolTip(object? _, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 

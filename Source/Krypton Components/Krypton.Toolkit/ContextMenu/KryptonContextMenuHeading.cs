@@ -24,7 +24,6 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
-        private string _text;
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;

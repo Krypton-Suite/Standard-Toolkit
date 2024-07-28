@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Globalization;
-
 namespace TestForm
 {
     public class OutlookGridPriceGroup : OutlookGridDefaultGroup

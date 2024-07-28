@@ -25,7 +25,6 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _autoClose;
-        private string _text;
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
@@ -240,18 +239,10 @@ namespace Krypton.Toolkit
         [Description(@"Main link label text.")]
         [DefaultValue(nameof(LinkLabel))]
         [Localizable(true)]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
