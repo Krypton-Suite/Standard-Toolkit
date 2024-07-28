@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.ComponentModel;
-
 namespace TestForm
 {
     public partial class TextBoxEventTest : KryptonForm
