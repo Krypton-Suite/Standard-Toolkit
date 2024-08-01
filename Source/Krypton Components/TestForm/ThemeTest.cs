@@ -7,6 +7,8 @@
  */
 #endregion
 
+using System.IO;
+
 namespace TestForm
 {
     public partial class ThemeTest : KryptonForm
@@ -68,6 +70,39 @@ namespace TestForm
             //{
             //    ExceptionHandler.CaptureException(ex, showStackTrace: true);
             //}
+        }
+
+        private void bsaBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog()
+            {
+                Title = "Open a custom theme:",
+                Filter = "XML Files|*.xml"
+            };
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                kryptonTextBox1.Text = Path.GetFullPath(dlg.FileName);
+            }
+        }
+
+        private void kryptonTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            kbtnCustomTheme.Enabled = !string.IsNullOrEmpty(kryptonTextBox1.Text);
+        }
+
+        private void kbtnCustomTheme_Click(object sender, EventArgs e)
+        {
+            string themePath = kryptonTextBox1.Text;
+
+            KryptonCustomPaletteBase palette = new KryptonCustomPaletteBase();
+
+            using (Stream stream = new FileStream(themePath, FileMode.Open))
+            {
+                palette.ImportWithUpgrade(stream);
+            }
+
+            //KryptonManager.CurrentGlobalPalette = palette;
         }
     }
 }

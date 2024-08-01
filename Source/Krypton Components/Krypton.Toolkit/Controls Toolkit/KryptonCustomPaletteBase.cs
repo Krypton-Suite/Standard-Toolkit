@@ -2249,35 +2249,44 @@ namespace Krypton.Toolkit
 
         private void PerformUpgrade(Stream stream)
         {
-            using var reader = new StreamReader(stream);
-            var end = reader.ReadToEnd();
-            reader.Close();
-
-            using (var currentSupportedPaletteSchemaReader = new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
+            try
             {
-                using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+                using var reader = new StreamReader(stream);
+
+                var end = reader.ReadToEnd();
+                reader.Close();
+
+                using (var currentSupportedPaletteSchemaReader =
+                       new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
                 {
-                    var xslToXmlTransformer = new XmlTransformer();
+                    using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+                    {
+                        var xslToXmlTransformer = new XmlTransformer();
 
-                    xslToXmlTransformer.Load(xslTextReader);
+                        xslToXmlTransformer.Load(xslTextReader);
 
-                    end = TransformXml(xslToXmlTransformer, end);
+                        end = TransformXml(xslToXmlTransformer, end);
+                    }
                 }
-            }
 
-            using var ms = new MemoryStream();
-            using (var writer = new StreamWriter(ms,
-                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
-                       1024, true))
-            {
-                writer.WriteLine("<?xml version=\"1.0\"?>");
-                writer.Write(end);
-                writer.Flush();
-                writer.Close();
+                using var ms = new MemoryStream();
+                using (var writer = new StreamWriter(ms,
+                           /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
+                           1024, true))
+                {
+                    writer.WriteLine("<?xml version=\"1.0\"?>");
+                    writer.Write(end);
+                    writer.Flush();
+                    writer.Close();
+                }
+                ms.Position = 0;
+                // If this goes boom, then something more needs to be done !
+                ImportFromStream(ms);
             }
-            ms.Position = 0;
-            // If this goes boom, then something more needs to be done !
-            ImportFromStream(ms);
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            }
         }
 
         /// <summary>
@@ -3207,7 +3216,8 @@ namespace Krypton.Toolkit
 
                 if (version < GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION)
                 {
-                    throw new ArgumentException($"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    throw new ArgumentException(
+                        $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
                 }
 
                 // Grab the properties and images elements
@@ -3235,6 +3245,10 @@ namespace Krypton.Toolkit
                 // Set the palette name
                 // TODO: Get paletteName from the paletteBase
                 //SetPaletteName(root.SelectSingleNode(Name));
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
             finally
             {
@@ -3338,10 +3352,14 @@ namespace Krypton.Toolkit
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
 
                 // Add a comment about the source of the document
-                doc.AppendChild(doc.CreateComment("Created by exporting the settings of a KryptonCustomPaletteBase instance."));
-                doc.AppendChild(doc.CreateComment("For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
-                doc.AppendChild(doc.CreateComment("New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
-                doc.AppendChild(doc.CreateComment($"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                doc.AppendChild(
+                    doc.CreateComment("Created by exporting the settings of a KryptonCustomPaletteBase instance."));
+                doc.AppendChild(doc.CreateComment(
+                    "For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
+                doc.AppendChild(doc.CreateComment(
+                    "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
+                doc.AppendChild(doc.CreateComment(
+                    $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
                 doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
@@ -3367,6 +3385,12 @@ namespace Krypton.Toolkit
                 ExportImagesToElement(doc, images, imageCache);
 
                 return doc;
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+
+                return new XmlDocument();
             }
             finally
             {
