@@ -495,9 +495,18 @@ cd Scripts
 build-nightly.cmd Pack
 
 :buildandpackcanary
+cls
 
+cd Scripts
+
+build-canary.cmd Pack
 
 :buildandpackstable
+cls
+
+cd Scripts
+
+build-stable.cmd Pack
 
 :: ===================================================================================================
 
