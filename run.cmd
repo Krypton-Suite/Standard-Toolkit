@@ -1,4 +1,4 @@
-:: Last updated: Friday 24th May, 2024 @ 10:00
+:: Last updated: Saturday 4th August, 2024 @ 16:00
 
 @echo off
 
@@ -6,28 +6,28 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 2.2. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 2.3. Please select an option below.
 
 @echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-::echo 4. Rebuild project
-::echo 4. Clean, Build and create NuGet packages
-echo 4. Debug project
-echo 5. NuGet Tools
-echo 6. End
+echo 4. Build and Pack Toolkit
+echo 5. Debug project
+echo 6. NuGet Tools
+echo 7. Miscellaneous tasks
+echo 8. End
 
-set /p answer="Enter number (1 - 6): "
+set /p answer="Enter number (1 - 8): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-::if %answer%==4 (goto rebuildproject)
-::if %answer%==4 (goto buildandcreatenugetpackages)
-if %answer%==4 (goto debugproject)
-if %answer%==5 (goto nugettools)
-if %answer%==6 (goto exitbuildsystem)
+if %answer%==4 (goto buildandpacktoolkit)
+if %answer%==5 (goto debugproject)
+if %answer%==6 (goto nugettools)
+if %answer%==7 (goto miscellaneoustasks)
+if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -44,21 +44,21 @@ cls
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
-::echo 4. Rebuild project
-::echo 4. Clean, Build and create NuGet packages
-echo 4. Debug project
-echo 5. NuGet Tools
-echo 6. End
+echo 4. Build and Pack Toolkit
+echo 5. Debug project
+echo 6. NuGet Tools
+echo 7. Miscellaneous tasks
+echo 8. End
 
-set /p answer="Enter number (1 - 6): "
+set /p answer="Enter number (1 - 8): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
-::if %answer%==4 (goto rebuildproject)
-::if %answer%==4 (goto buildandcreatenugetpackages)
-if %answer%==4 (goto debugproject)
-if %answer%==5 (goto nugettools)
-if %answer%==6 (goto exitbuildsystem)
+if %answer%==4 (goto buildandpacktoolkit)
+if %answer%==5 (goto debugproject)
+if %answer%==6 (goto nugettools)
+if %answer%==7 (goto miscellaneoustasks)
+if %answer%==8 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -124,6 +124,46 @@ pause
 
 goto debugmenu
 
+:buildandpacktoolkitmenu
+
+cls
+
+echo 1. Build and pack nightly
+echo 2. Build and pack canary
+echo 3. Build and pack stable
+echo 4. Go to main mainmenu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto buildandpacknightly)
+if %answer%==2 (goto buildandpackcanary)
+if %answer%==3 (goto buildandpackstable)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto buildandpacktoolkitmenu
+
+:miscellaneoustasksmenu
+
+cls
+
+echo 1. Install prerequisites
+echo 2. Update prerequisites
+echo 3. Go to main menu
+
+set /p answer="Enter number (1 - 3): "
+if %answer%==1 (goto installprerequisites)
+if %answer%==2 (goto updateprerequisites)
+if %answer%==3 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto miscellaneoustasksmenu
+
 :: ===================================================================================================
 
 :clearscreen
@@ -160,6 +200,29 @@ pause
 
 goto mainmenu
 
+:clearproject
+
+echo Deleting the 'Bin' folder
+rd /s /q "Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+echo Deleting the 'Logs' folder
+del /f "Logs"
+
 :: ===================================================================================================
 
 :cleanproject
@@ -176,6 +239,12 @@ goto debugmenu
 
 :nugettools
 goto nugettools
+
+:buildandpacktoolkit
+goto buildandpacktoolkitmenu
+
+:miscellaneoustasks
+goto miscellaneoustasksmenu
 
 :exitbuildsystem
 @echo Exiting the build system, have a good day. Bye!
@@ -414,5 +483,40 @@ rebuild-build-nightly.cmd
 
 :: ===================================================================================================
 
+:buildandpacknightly
+cls
+
+:: goto clearproject
+
+cd Scripts
+
+:: build-nightly.cmd
+
+build-nightly.cmd Pack
+
+:buildandpackcanary
+
+
+:buildandpackstable
 
 :: ===================================================================================================
+
+:installprerequisites
+cls
+
+cd Scripts
+
+install-prerequisites.cmd
+
+:updateprerequisites
+cls
+
+cd Scripts
+
+update-prerequisites.cmd
+
+:: ===================================================================================================
+
+:clearlogfiles
+
+:clearbinaries

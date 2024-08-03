@@ -45,3 +45,4 @@ if not "%~1" == "" set targets=%~1
 @echo Build Completed: %date% %time% %zone%
 
 :exitbatch
+main-menu.cmd
