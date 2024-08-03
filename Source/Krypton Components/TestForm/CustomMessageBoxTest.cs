@@ -169,38 +169,57 @@ namespace TestForm
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-            if (!krbIconWinLogo.Checked
-                && !krbIconShield.Checked
-#if NET8_0_OR_GREATER
-#else
-                && !krbButtonsCancelTryContinue.Checked
-#endif
-               )
-            {
-                if (kcbShowHelp.Checked)
-                {
-                    MessageBox.Show(krtbMessageBody.Text, ktxtCaption.Text,
-                        (MessageBoxButtons)_mbButtons,
-                        _mbIcon, MessageBoxDefaultButton.Button1,
-                        _options,
-                        kcbShowHelp.Checked);
-                }
-                else
-                {
-                    MessageBox.Show(this, krtbMessageBody.Text, ktxtCaption.Text,
-                        (MessageBoxButtons)_mbButtons,
-                        _mbIcon, MessageBoxDefaultButton.Button1,
-                        _options);
-                }
-            }
+            string text =
+                "// *****************************************************************************\r\n" +
+                "// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)\n" +
+                "//  © Component Factory Pty Ltd, 2006-2016, All rights reserved.\n" +
+                "// The software and associated documentation supplied hereunder are the\n" +
+                "//  proprietary information of Component Factory Pty Ltd, 13 Swallows Close,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\r" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  proprietary\tinformatio\tof\tComponent\tFactory\tPty\tLtd, 13\tSwallows\tClose,\n" +
+                "//  Mornington,\r\n// Vic 3931,\r// Australia\n// and are supplied subject to licence terms.\n" +
+                "//\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2024. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)\n" +
+                "//  Version 4.7.0.0  www.ComponentFactory.com\r\n" +
+                "// *****************************************************************************\r\n";
 
-            var res = KryptonMessageBox.Show(this, krtbMessageBody.Text, ktxtCaption.Text,
+            string s = CommonHelper.NormalizeLineBreaks(text);
+            krtbMessageBody.WordWrap = false;
+            krtbMessageBody.Text = s;
+            this.MaximizeBox = true;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            krtbMessageBody.Dock = DockStyle.Fill;
+            var res = KryptonMessageBox.Show(this, s, ktxtCaption.Text,
                 _mbButtons,
                 displayHelpButton: kcbShowHelp.Checked,
                 _kmbIcon, KryptonMessageBoxDefaultButton.Button1,
                 options: _options, kchkShowCtrlCopyText.Checked);
 
-            krtbMessageBody.Text = $@"Krypton DialogResult = {res}";
         }
 
         private void kbtnTestText_Click(object sender, EventArgs e)
