@@ -2442,10 +2442,11 @@ namespace Krypton.Toolkit
                 ForceControlLayout();
             }
 
-            if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
-            {
-                DropDownWidth = Size.Width;
-            }
+            // ToDo: Create a new API for this in a later version
+            //if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
+            //{
+            //    DropDownWidth = Size.Width;
+            //}
 
             base.OnPaint(e);
             Paint?.Invoke(this, e!);
