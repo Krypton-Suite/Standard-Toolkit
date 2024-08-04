@@ -485,7 +485,7 @@ namespace Krypton.Toolkit
         {
             // Update size of the message label but with a maximum width
             Size textSize;
-            using (Graphics g = krtbMessageText.CreateGraphics())
+            using (Graphics g = CreateGraphics())
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen screen = showOwner is IWin32Window window
