@@ -2164,20 +2164,6 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
 
-        /// <summary>Gets or sets the height and width of the control.</summary>
-        [DefaultValue(typeof(Size), "121, 21")]
-        public new Size Size
-        {
-            get => base.Size;
-
-            set
-            {
-                base.Size = value;
-
-                UpdateDropDownWidth(value);
-            }
-        }
-
         #endregion
 
         #region Protected
@@ -3174,8 +3160,6 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        internal void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 
         #endregion
     }

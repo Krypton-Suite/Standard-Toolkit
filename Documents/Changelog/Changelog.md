@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1706](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1706), Restore: `KryptonComboBox` (On Form) does not respect designers `DropDownWidth` setting
 * Resolved [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704), Remove properties from `KryptonRichtTextBox`
 * Implemented [#1700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1700), Adds a method to `CommonHelper` which normalizes line breaks within a string, `CommonHelper.NormalizeLineBreaks`.
 * Resolved [#1685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1685), Theme Selectors `KryptonManagerGlobalPaletteChanged` event sometimes gets fired while the control is not fully initialized.
@@ -132,8 +133,6 @@
 * Resolved [#1169](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1169), Button Spec Krypton Context Menu (Canary)
 * Implemented [#1166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1166), Use a struct to contain `KryptonMessageBox` data
 * Implemented [#1161](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1161), A proper about box
-* New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
-	- Note: The `DropDownWidth` can still be set independently from the `Size` property
 * Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
 	- Use `KryptonAboutToolkit.Show();` to invoke
