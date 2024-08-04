@@ -16,18 +16,17 @@ echo 3. Create NuGet packages
 echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
-echo 7. Miscellaneous tasks
-echo 8. End
+::echo 7. Miscellaneous tasks
+echo 7. End
 
-set /p answer="Enter number (1 - 8): "
+set /p answer="Enter number (1 - 7): "
 if %answer%==1 (goto cleanproject)
 if %answer%==2 (goto buildproject)
 if %answer%==3 (goto createnugetpackages)
 if %answer%==4 (goto buildandpacktoolkit)
 if %answer%==5 (goto debugproject)
 if %answer%==6 (goto nugettools)
-if %answer%==7 (goto miscellaneoustasks)
-if %answer%==8 (goto exitbuildsystem)
+if %answer%==7 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -507,22 +506,6 @@ cls
 cd Scripts
 
 build-stable.cmd Pack
-
-:: ===================================================================================================
-
-:installprerequisites
-cls
-
-cd Scripts
-
-install-prerequisites.cmd
-
-:updateprerequisites
-cls
-
-cd Scripts
-
-update-prerequisites.cmd
 
 :: ===================================================================================================
 
