@@ -20,7 +20,6 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _synchronizeDropDownWidth;
         private Font? _font;
         private Color _color1;
         internal Padding _padding;
