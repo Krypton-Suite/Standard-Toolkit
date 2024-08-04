@@ -45,7 +45,6 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Default the initial values
-            _synchronizeDropDownWidth = false;
             _font = null;
             _color1 = GlobalStaticValues.EMPTY_COLOR;
             _padding = CommonHelper.InheritPadding;
