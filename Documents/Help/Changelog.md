@@ -3,6 +3,7 @@
 =======
 
 ## 2024-07-xx - Build 2408 (Patch 2) - July 2024
+* Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
 * Resolved [#1675](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1675), Catastrophic failure wherever `KryptonGroupPanel` is used.
 * Resolved [#1677](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1677), `KryptonComboBox` cuts of text on high DPI.
 

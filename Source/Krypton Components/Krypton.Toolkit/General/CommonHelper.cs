@@ -11,6 +11,8 @@
 #endregion
 
 // ReSharper disable UnusedMember.Global
+using System.Text.RegularExpressions;
+
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -97,6 +99,42 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get => _nextId++;
+        }
+
+        /// <summary>
+        /// Converts line breaks in the string to the system default line break, Environment.NewLine.
+        /// </summary>
+        /// <param name="text">String to process.</param>
+        /// <returns>
+        /// Normalized resultant string.<br/>
+        /// If the input string is an empty string, the input string is returned.
+        /// </returns>
+        public static string NormalizeLineBreaks(string text)
+        {
+            string result = text;
+
+            if (result.Length > 0)
+            {
+                // Convert line breaks to the system provided line break
+                if (!Environment.NewLine.Equals("\r\n"))
+                {
+                    result = Regex.Replace(result, @"\r\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\n"))
+                {
+                    // Replaces \n but not \r\n
+                    result = Regex.Replace(result, "(?<!\r)\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\r"))
+                {
+                    // Replaces \r but not \r\n
+                    result = Regex.Replace(result, "\r(?!\n)", Environment.NewLine);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

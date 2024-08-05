@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window? _showOwner;
         private readonly HelpInfo? _helpInfo;
+        private readonly KryptonMessageBoxNativeWindow _krtbNativeWindow;
 
         // Action button features (aka _button5)
         private readonly bool _showActionButton;
@@ -79,7 +80,7 @@ namespace Krypton.Toolkit
                                        LinkArea? contentLinkArea)
         {
             // Store incoming values
-            _text = text;
+            _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
             _caption = caption;
             _buttons = buttons;
             _kryptonMessageBoxIcon = icon;
@@ -97,9 +98,16 @@ namespace Krypton.Toolkit
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
+            _krtbNativeWindow = new();
 
             // Create the form contents
             InitializeComponent();
+
+            // Hookup the native window on the KRTB, only after IntializeComponent().
+            _krtbNativeWindow.AssignHandle(krtbMessageText.RichTextBox.Handle);
+
+            // Default Cursor for the KRTB when the cursors hovers over it
+            krtbMessageText.RichTextBox.Cursor = Cursors.Arrow;
 
             RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
 
@@ -129,9 +137,9 @@ namespace Krypton.Toolkit
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {
-                _messageText.Text = _text;
+                krtbMessageText.Text = _text;
 
-                _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
+                krtbMessageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
                     ? RightToLeft.Yes
                     : _options.HasFlag(MessageBoxOptions.RtlReading)
                         ? RightToLeft.Inherit
@@ -577,15 +585,21 @@ namespace Krypton.Toolkit
             using (Graphics g = CreateGraphics())
             {
                 // Find size of the label, with a max of 2/3 screen width
-                Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                Size scaledMonitorSize = screen.Bounds.Size;
+                Screen screen = showOwner is IWin32Window window
+                    ? Screen.FromHandle(window.Handle)
+                    : Screen.PrimaryScreen ?? throw new NullReferenceException("Screen.PrimaryScreen returned null");
+
+                Size scaledMonitorSize = screen.WorkingArea.Size;
                 scaledMonitorSize.Width =(int)(scaledMonitorSize.Width * 2 / 3.0f);
                 scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
-                Font textFont = _messageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal);
+
+                Font textFont = krtbMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal);
                 Font captionFont = KryptonManager.CurrentGlobalPalette!.BaseFont;
-                SizeF messageSize = TextRenderer.MeasureText(_text, textFont, scaledMonitorSize);
+
+                // Measure the string
+                SizeF messageSize = g.MeasureString(_text, textFont, new SizeF(scaledMonitorSize.Width, scaledMonitorSize.Height));
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = TextRenderer.MeasureText($@"{_caption} {TextExtra}", captionFont, scaledMonitorSize);
+                SizeF captionSize = TextRenderer.MeasureText($"{_caption} {TextExtra}", captionFont, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -598,14 +612,17 @@ namespace Krypton.Toolkit
             }
             
             // Calculate the size of the icon area and text area including margins
-            Padding textPadding = _messageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textPadding = krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
             Padding textAreaAllMargin = Padding.Add(textPadding, _panelContentArea.Margin);
+
             Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
-                                     _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+                _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
+
             Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
-                                     textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
-            return new Size(textArea.Width + iconArea.Width, 
-                            Math.Max(iconArea.Height, textArea.Height));
+                textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
+
+            return new Size(textArea.Width + iconArea.Width,
+                Math.Max(iconArea.Height, textArea.Height));
         }
 
         private Size UpdateButtonsSizing()
@@ -698,7 +715,12 @@ namespace Krypton.Toolkit
             return new Size((maxButtonSize.Width * numButtons) + (GAP * (numButtons + 1)), maxButtonSize.Height + (GAP * 2));
         }
 
-        private void AnyKeyDown(object sender, KeyEventArgs e)
+        private void OnFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _krtbNativeWindow.ReleaseHandle();
+        }
+
+        private void AnyKeyDown(object sender, KeyEventArgs e)  
         {
             // Escape key kills the dialog if we allow it to be closed
             if (ControlBox
@@ -717,7 +739,7 @@ namespace Krypton.Toolkit
                 sb.AppendLine(DIVIDER);
                 sb.AppendLine(Text);
                 sb.AppendLine(DIVIDER);
-                sb.AppendLine(_messageText.Text);
+                sb.AppendLine(krtbMessageText.Text);
                 sb.AppendLine(DIVIDER);
                 sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
                 if (_button2.Enabled)
@@ -791,12 +813,12 @@ namespace Krypton.Toolkit
                 case MessageBoxContentAreaType.Normal:
                     _linkLabelMessageText.Visible = false;
 
-                    _messageText.Visible = true;
+                    krtbMessageText.Visible = true;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
                     _linkLabelMessageText.Visible = true;
 
-                    _messageText.Visible = false;
+                    krtbMessageText.Visible = false;
                     break;
             }
         }
