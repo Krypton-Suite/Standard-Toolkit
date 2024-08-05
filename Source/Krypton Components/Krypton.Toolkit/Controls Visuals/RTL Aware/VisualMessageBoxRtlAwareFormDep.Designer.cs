@@ -38,7 +38,7 @@
             this._button2 = new Krypton.Toolkit.MessageButton();
             this._messageIcon = new System.Windows.Forms.PictureBox();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
-            this.ktextBoxMessageText = new Krypton.Toolkit.KryptonTextBox();
+            this.krtbMessageText = new Krypton.Toolkit.KryptonRichTextBox();
             this.klwlblMessageText = new Krypton.Toolkit.KryptonLinkWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -184,7 +184,7 @@
             // 
             // kpnlContentArea
             // 
-            this.kpnlContentArea.Controls.Add(this.ktextBoxMessageText);
+            this.kpnlContentArea.Controls.Add(this.krtbMessageText);
             this.kpnlContentArea.Controls.Add(this.klwlblMessageText);
             this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContentArea.Location = new System.Drawing.Point(4, 12);
@@ -193,20 +193,22 @@
             this.kpnlContentArea.Size = new System.Drawing.Size(166, 19);
             this.kpnlContentArea.TabIndex = 1;
             // 
-            // ktextBoxMessageText
+            // krtbMessageText
             // 
-            this.ktextBoxMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktextBoxMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
-            this.ktextBoxMessageText.Location = new System.Drawing.Point(0, 0);
-            this.ktextBoxMessageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.ktextBoxMessageText.Multiline = true;
-            this.ktextBoxMessageText.Name = "ktextBoxMessageText";
-            this.ktextBoxMessageText.ReadOnly = true;
-            this.ktextBoxMessageText.Size = new System.Drawing.Size(166, 19);
-            this.ktextBoxMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
-            this.ktextBoxMessageText.TabIndex = 2;
-            this.ktextBoxMessageText.TabStop = false;
-            this.ktextBoxMessageText.Text = "Message Text\r\n.\ttabbed";
+            this.krtbMessageText.DetectUrls = false;
+            this.krtbMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.krtbMessageText.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
+            this.krtbMessageText.Location = new System.Drawing.Point(0, 0);
+            this.krtbMessageText.Margin = new System.Windows.Forms.Padding(0);
+            this.krtbMessageText.Name = "krtbMessageText";
+            this.krtbMessageText.ReadOnly = true;
+            this.krtbMessageText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.krtbMessageText.Size = new System.Drawing.Size(150, 19);
+            this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
+            this.krtbMessageText.TabIndex = 0;
+            this.krtbMessageText.TabStop = false;
+            this.krtbMessageText.Text = "Message Text\n.\ttabbed";
+            this.krtbMessageText.WordWrap = false;
             // 
             // klwlblMessageText
             // 
@@ -236,6 +238,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -263,6 +266,6 @@
         private PictureBox _messageIcon;
         private KryptonPanel kpnlContentArea;
         private KryptonLinkWrapLabel klwlblMessageText;
-        private KryptonTextBox ktextBoxMessageText;
+        private KryptonRichTextBox krtbMessageText;
     }
 }
