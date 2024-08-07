@@ -14,12 +14,18 @@ namespace TestForm
 {
     public partial class ColorTestimonials : KryptonForm
     {
+        private RectangleF _rectOriginalImage;
+        private RectangleF _rectInvertedImage;
+
         public ColorTestimonials()
         {
             InitializeComponent();
 
             cbEnableTransparancy.Checked = false;
             tbarAlpha.Enabled = false;
+
+            _rectOriginalImage = new RectangleF(0, 0, pboxOriginal.Size.Width, pboxOriginal.Size.Height);
+            _rectInvertedImage = new RectangleF(0, 0, pboxInverted.Size.Width, pboxInverted.Size.Height);
 
             tbarAlpha.Value = ColorInverting.ChannelMinValue;
             tbarRed.Value   = ColorInverting.ChannelMinValue;
@@ -60,7 +66,7 @@ namespace TestForm
                 ? Color.FromArgb((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : Color.FromArgb((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            SetColorImage(pboxOriginal, color);
+            SetColorImage(pboxOriginal, ref color, ref _rectOriginalImage);
 
             return color;
         }
@@ -72,7 +78,7 @@ namespace TestForm
                 ? ColorInverting.InvertARGBFromInt((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : ColorInverting.InvertRGBFromInt((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            SetColorImage(pboxInverted, color);
+            SetColorImage(pboxInverted, ref color, ref _rectInvertedImage);
 
             return color;
         }
@@ -109,12 +115,12 @@ namespace TestForm
             nudBlue.Value = color.B;
         }
 
-        private void SetColorImage(KryptonPictureBox kryptonPictureBox, Color color)
+        private void SetColorImage(KryptonPictureBox kryptonPictureBox, ref Color color, ref RectangleF rect)
         {
             Bitmap b = new Bitmap(kryptonPictureBox.Size.Width, kryptonPictureBox.Size.Height);
             Graphics g = Graphics.FromImage(b);
 
-            g.FillRectangle(new SolidBrush(color), new RectangleF(0, 0, kryptonPictureBox.Size.Width, kryptonPictureBox.Size.Height));
+            g.FillRectangle(new SolidBrush(color), rect);
 
             kryptonPictureBox.Image = b;
         }
