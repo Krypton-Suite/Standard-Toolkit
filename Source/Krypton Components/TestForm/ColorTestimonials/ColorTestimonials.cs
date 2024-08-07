@@ -32,58 +32,91 @@ namespace TestForm
         private void tbarAlpha_ValueChanged(object sender, EventArgs e)
         {
             nudAlpha.Value = tbarAlpha.Value;
-            SetColor();
+            SetColorFromOriginal();
         }
 
         private void tbarRed_ValueChanged(object sender, EventArgs e)
         {
             nudRed.Value = tbarRed.Value;
-            SetColor();
+            SetColorFromOriginal();
         }
 
         private void tbarGreen_ValueChanged(object sender, EventArgs e)
         {
             nudGreen.Value = tbarGreen.Value;
-            SetColor();
+            SetColorFromOriginal();
         }
 
         private void tbarBlue_ValueChanged(object sender, EventArgs e)
         {
             nudBlue.Value = tbarBlue.Value;
-            SetColor();
+            SetColorFromOriginal();
         }
 
-        private void SetColor()
+        private Color UpdateOriginalColor()
         {
-            // Original colors
-            Bitmap b = new Bitmap(pboxOriginal.Size.Width, pboxOriginal.Size.Height);
-            Graphics g = Graphics.FromImage(b);
-
+            // Original color
             Color color = cbEnableTransparancy.Checked
                 ? Color.FromArgb((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : Color.FromArgb((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            g.FillRectangle(new SolidBrush(color), new RectangleF(0, 0, pboxOriginal.Size.Width, pboxOriginal.Size.Height));
+            SetColorImage(pboxOriginal, color);
 
-            pboxOriginal.Image = b;
+            return color;
+        }
 
-            // Inverted colors
-            b = new Bitmap(pboxOriginal.Size.Width, pboxOriginal.Size.Height);
-            g = Graphics.FromImage(b);
-
-            color = cbEnableTransparancy.Checked
+        private Color UpdateInvertedColor()
+        {
+            // Inverted color
+            Color color = cbEnableTransparancy.Checked
                 ? ColorInverting.InvertARGBFromInt((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : ColorInverting.InvertRGBFromInt((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            g.FillRectangle(new SolidBrush(color), new RectangleF(0, 0, pboxInverted.Size.Width, pboxInverted.Size.Height));
+            SetColorImage(pboxInverted, color);
+
+            return color;
+        }
+
+        private void SetColorFromOriginal()
+        {
+            // Update and get colors
+            UpdateOriginalColor();
+            Color color = UpdateInvertedColor();
 
             // Update displayed inverted values
-            lblInvertedAlpha.Text = color.A.ToString();
-            lblInvertedRed.Text = color.R.ToString();
-            lblInvertedGreen.Text = color.G.ToString();
-            lblInvertedBlue.Text = color.B.ToString();
+            if (cbEnableTransparancy.Checked)
+            {
+                nudAlphaInverted.Value = color.A;
+            }
+            nudRedInverted.Value = color.R;
+            nudGreenInverted.Value = color.G;
+            nudBlueInverted.Value = color.B;
+        }
 
-            pboxInverted.Image = b;
+        private void SetColorFromInverted()
+        {
+            // Update and get colors
+            Color color = UpdateOriginalColor();
+            UpdateInvertedColor();
+
+            // Update displayed original values
+            if (cbEnableTransparancy.Checked)
+            {
+                nudAlpha.Value = color.A;
+            }
+            nudRed.Value = color.R;
+            nudGreen.Value = color.G;
+            nudBlue.Value = color.B;
+        }
+
+        private void SetColorImage(KryptonPictureBox kryptonPictureBox, Color color)
+        {
+            Bitmap b = new Bitmap(kryptonPictureBox.Size.Width, kryptonPictureBox.Size.Height);
+            Graphics g = Graphics.FromImage(b);
+
+            g.FillRectangle(new SolidBrush(color), new RectangleF(0, 0, kryptonPictureBox.Size.Width, kryptonPictureBox.Size.Height));
+
+            kryptonPictureBox.Image = b;
         }
 
         private void nudAlpha_ValueChanged(object sender, EventArgs e)
@@ -110,8 +143,34 @@ namespace TestForm
         {
             tbarAlpha.Enabled = cbEnableTransparancy.Checked;
             nudAlpha.Enabled = cbEnableTransparancy.Checked;
+            nudAlphaInverted.Enabled = cbEnableTransparancy.Checked;
 
-            SetColor();
+            SetColorFromOriginal();
+        }
+
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nudAlphaInverted_ValueChanged(object sender, EventArgs e)
+        {
+            nudAlpha.Value = ColorInverting.Invert((byte)nudAlphaInverted.Value);
+        }
+
+        private void nudRedInverted_ValueChanged(object sender, EventArgs e)
+        {
+            nudRed.Value = ColorInverting.Invert((byte)nudRedInverted.Value);
+        }
+
+        private void nudGreenInverted_ValueChanged(object sender, EventArgs e)
+        {
+            nudGreen.Value = ColorInverting.Invert((byte)nudGreenInverted.Value);
+        }
+
+        private void nudBlueInverted_ValueChanged(object sender, EventArgs e)
+        {
+            nudBlue.Value = ColorInverting.Invert((byte)nudBlueInverted.Value);
         }
     }
 }
