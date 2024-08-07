@@ -38,28 +38,28 @@ namespace TestForm
         private void tbarAlpha_ValueChanged(object sender, EventArgs e)
         {
             nudAlpha.Value = tbarAlpha.Value;
-            SetColorFromOriginal();
+            SetColor();
         }
 
         private void tbarRed_ValueChanged(object sender, EventArgs e)
         {
             nudRed.Value = tbarRed.Value;
-            SetColorFromOriginal();
+            SetColor();
         }
 
         private void tbarGreen_ValueChanged(object sender, EventArgs e)
         {
             nudGreen.Value = tbarGreen.Value;
-            SetColorFromOriginal();
+            SetColor();
         }
 
         private void tbarBlue_ValueChanged(object sender, EventArgs e)
         {
             nudBlue.Value = tbarBlue.Value;
-            SetColorFromOriginal();
+            SetColor();
         }
 
-        private Color UpdateOriginalColor()
+        private void UpdateOriginalColor()
         {
             // Original color
             Color color = cbEnableTransparancy.Checked
@@ -67,8 +67,6 @@ namespace TestForm
                 : Color.FromArgb((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
             SetColorImage(pboxOriginal, ref color, ref _rectOriginalImage);
-
-            return color;
         }
 
         private Color UpdateInvertedColor()
@@ -83,7 +81,7 @@ namespace TestForm
             return color;
         }
 
-        private void SetColorFromOriginal()
+        private void SetColor()
         {
             // Update and get colors
             UpdateOriginalColor();
@@ -97,22 +95,6 @@ namespace TestForm
             nudRedInverted.Value = color.R;
             nudGreenInverted.Value = color.G;
             nudBlueInverted.Value = color.B;
-        }
-
-        private void SetColorFromInverted()
-        {
-            // Update and get colors
-            Color color = UpdateOriginalColor();
-            UpdateInvertedColor();
-
-            // Update displayed original values
-            if (cbEnableTransparancy.Checked)
-            {
-                nudAlpha.Value = color.A;
-            }
-            nudRed.Value = color.R;
-            nudGreen.Value = color.G;
-            nudBlue.Value = color.B;
         }
 
         private void SetColorImage(KryptonPictureBox kryptonPictureBox, ref Color color, ref RectangleF rect)
@@ -151,7 +133,7 @@ namespace TestForm
             nudAlpha.Enabled = cbEnableTransparancy.Checked;
             nudAlphaInverted.Enabled = cbEnableTransparancy.Checked;
 
-            SetColorFromOriginal();
+            SetColor();
         }
 
         private void kryptonButton1_Click(object sender, EventArgs e)
