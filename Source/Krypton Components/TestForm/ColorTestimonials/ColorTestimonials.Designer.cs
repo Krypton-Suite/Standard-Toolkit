@@ -38,7 +38,7 @@
             this.nudGreenInverted = new Krypton.Toolkit.KryptonNumericUpDown();
             this.nudRedInverted = new Krypton.Toolkit.KryptonNumericUpDown();
             this.nudAlphaInverted = new Krypton.Toolkit.KryptonNumericUpDown();
-            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.btnColorFromHexColor = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel6 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
@@ -84,7 +84,7 @@
             this.kryptonPanel1.Controls.Add(this.nudGreenInverted);
             this.kryptonPanel1.Controls.Add(this.nudRedInverted);
             this.kryptonPanel1.Controls.Add(this.nudAlphaInverted);
-            this.kryptonPanel1.Controls.Add(this.kryptonButton1);
+            this.kryptonPanel1.Controls.Add(this.btnColorFromHexColor);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel6);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel5);
             this.kryptonPanel1.Controls.Add(this.kryptonGroupBox2);
@@ -283,16 +283,16 @@
             0});
             this.nudAlphaInverted.ValueChanged += new System.EventHandler(this.nudAlphaInverted_ValueChanged);
             // 
-            // kryptonButton1
+            // btnColorFromHexColor
             // 
-            this.kryptonButton1.Location = new System.Drawing.Point(42, 190);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(259, 25);
-            this.kryptonButton1.StateCommon.Border.Rounding = 5F;
-            this.kryptonButton1.TabIndex = 14;
-            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "Color from Hex Color (#FFFFFF)";
-            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
+            this.btnColorFromHexColor.Location = new System.Drawing.Point(42, 190);
+            this.btnColorFromHexColor.Name = "btnColorFromHexColor";
+            this.btnColorFromHexColor.Size = new System.Drawing.Size(259, 25);
+            this.btnColorFromHexColor.StateCommon.Border.Rounding = 5F;
+            this.btnColorFromHexColor.TabIndex = 14;
+            this.btnColorFromHexColor.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnColorFromHexColor.Values.Text = "Color from Hex Color (#FFFFFF)";
+            this.btnColorFromHexColor.Click += new System.EventHandler(this.btnColorFromHexColor_Click);
             // 
             // kryptonLabel6
             // 
@@ -614,7 +614,7 @@
         private KryptonPictureBox pboxOriginal;
         private KryptonLabel kryptonLabel6;
         private KryptonLabel kryptonLabel5;
-        private KryptonButton kryptonButton1;
+        private KryptonButton btnColorFromHexColor;
         private KryptonButton btnCopyOriginal;
         private KryptonNumericUpDown nudBlueInverted;
         private KryptonNumericUpDown nudGreenInverted;

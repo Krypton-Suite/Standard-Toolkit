@@ -158,7 +158,7 @@ namespace TestForm
         {
             nudBlue.Value = ColorInverting.Invert((byte)nudBlueInverted.Value);
         }
-        private void kryptonButton1_Click(object sender, EventArgs e)
+        private void btnColorFromHexColor_Click(object sender, EventArgs e)
         {
             CheckHexColorInput();
         }
