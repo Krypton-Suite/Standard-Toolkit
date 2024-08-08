@@ -84,7 +84,7 @@
         /// </summary>
         /// <param name="i">Channel value.</param>
         /// <returns>Inverted value.</returns>
-        public int Invert(byte i)
+        public static int Invert(byte i)
         {
             return ChannelMaxValue - i;
         }
