@@ -291,7 +291,7 @@
             this.kryptonButton1.StateCommon.Border.Rounding = 5F;
             this.kryptonButton1.TabIndex = 14;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "Color form Hex Color (#FFFFFF)";
+            this.kryptonButton1.Values.Text = "Color from Hex Color (#FFFFFF)";
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // kryptonLabel6
