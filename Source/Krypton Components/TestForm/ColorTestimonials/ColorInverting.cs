@@ -88,5 +88,29 @@
         {
             return ChannelMaxValue - i;
         }
+
+        /// <summary>
+        /// Checks if the input string is in the format "#FFFFFF"
+        /// </summary>
+        /// <param name="hexColor">String to check.</param>
+        /// <returns>True if the string is in the correct format, otherwise false.</returns>
+        public static bool IsHexColor(string hexColor)
+        {
+            if (hexColor.Length == 7 && hexColor[0] == '#')
+            {
+                try
+                {
+                    Convert.ToInt32(hexColor.Substring(1), 16);
+                    return true;
+                }
+                catch
+                {
+                }
+            }
+
+            return false;
+        }
+
+
     }
 }

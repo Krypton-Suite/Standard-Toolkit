@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,9 +31,9 @@ namespace TestForm
             _rectInvertedImage = new RectangleF(0, 0, pboxInverted.Size.Width, pboxInverted.Size.Height);
 
             tbarAlpha.Value = ColorInverting.ChannelMinValue;
-            tbarRed.Value   = ColorInverting.ChannelMinValue;
+            tbarRed.Value = ColorInverting.ChannelMinValue;
             tbarGreen.Value = ColorInverting.ChannelMinValue;
-            tbarBlue.Value  = ColorInverting.ChannelMinValue;
+            tbarBlue.Value = ColorInverting.ChannelMinValue;
 
             cbEnableTransparancy_CheckedChanged(null!, null!);
         }
@@ -136,11 +139,6 @@ namespace TestForm
             SetColor();
         }
 
-        private void kryptonButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void nudAlphaInverted_ValueChanged(object sender, EventArgs e)
         {
             nudAlpha.Value = ColorInverting.Invert((byte)nudAlphaInverted.Value);
@@ -159,6 +157,94 @@ namespace TestForm
         private void nudBlueInverted_ValueChanged(object sender, EventArgs e)
         {
             nudBlue.Value = ColorInverting.Invert((byte)nudBlueInverted.Value);
+        }
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+            CheckHexColorInput();
+        }
+
+        private bool CheckHexColorInput()
+        {
+            bool result = false;
+
+            if (ColorInverting.IsHexColor(tbHexColor.Text))
+            {
+                if (cbEnableTransparancy.Checked)
+                {
+                    nudAlpha.Value = ColorInverting.ChannelMaxValue;
+                }
+
+                nudRed.Value = Convert.ToInt32(tbHexColor.Text.Substring(1, 2), 16);
+                nudGreen.Value = Convert.ToInt32(tbHexColor.Text.Substring(3, 2), 16);
+                nudBlue.Value = Convert.ToInt32(tbHexColor.Text.Substring(5, 2), 16);
+
+                result = true;
+            }
+            else
+            {
+                KryptonMessageBox.Show(
+                    "Incorrect hexadecimal input string.\n" +
+                    "Use the format \"#FFFFFF\"",
+                    this.Text,
+                    icon: KryptonMessageBoxIcon.Exclamation,
+                    buttons: KryptonMessageBoxButtons.OK);
+            }
+
+            return result;
+        }
+
+        private void tbHexColor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter))
+            {
+                CheckHexColorInput();
+            }
+        }
+
+        private void btnCopyOriginal_Click(object sender, EventArgs e)
+        {
+            if (cbEnableTransparancy.Checked)
+            {
+                Clipboard.SetText(
+                    $"Color.FromArgb({((int)nudAlpha.Value)}, {((int)nudRed.Value)}, {((int)nudGreen.Value)}, {((int)nudBlue.Value)});");
+            }
+            else
+            {
+                Clipboard.SetText(
+                    $"Color.FromArgb({((int)nudRed.Value)}, {((int)nudGreen.Value)}, {((int)nudBlue.Value)});");
+            }
+        }
+
+        private void btnCopyInverted_Click(object sender, EventArgs e)
+        {
+            if (cbEnableTransparancy.Checked)
+            {
+                Clipboard.SetText(
+                    $"Color.FromArgb({((int)nudAlphaInverted.Value)}, {((int)nudRedInverted.Value)}, {((int)nudGreenInverted.Value)}, {((int)nudBlueInverted.Value)});");
+            }
+            else
+            {
+                Clipboard.SetText(
+                    $"Color.FromArgb({((int)nudRedInverted.Value)}, {((int)nudGreenInverted.Value)}, {((int)nudBlueInverted.Value)});");
+            }
+        }
+
+        private void btnLighter_Click(object sender, EventArgs e)
+        {
+            Color color = ControlPaint.Light(Color.FromArgb(((int)nudRed.Value), ((int)nudGreen.Value), ((int)nudBlue.Value)));
+
+            nudRed.Value   = color.R;
+            nudGreen.Value = color.G;
+            nudBlue.Value  = color.B;
+        }
+
+        private void btnDarker_Click(object sender, EventArgs e)
+        {
+            Color color = ControlPaint.Dark(Color.FromArgb(((int)nudRed.Value), ((int)nudGreen.Value), ((int)nudBlue.Value)));
+
+            nudRed.Value   = color.R;
+            nudGreen.Value = color.G;
+            nudBlue.Value  = color.B;
         }
     }
 }

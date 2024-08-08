@@ -29,7 +29,11 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
+            this.btnDarker = new Krypton.Toolkit.KryptonButton();
+            this.btnLighter = new Krypton.Toolkit.KryptonButton();
+            this.tbHexColor = new Krypton.Toolkit.KryptonTextBox();
+            this.btnCopyInverted = new Krypton.Toolkit.KryptonButton();
+            this.btnCopyOriginal = new Krypton.Toolkit.KryptonButton();
             this.nudBlueInverted = new Krypton.Toolkit.KryptonNumericUpDown();
             this.nudGreenInverted = new Krypton.Toolkit.KryptonNumericUpDown();
             this.nudRedInverted = new Krypton.Toolkit.KryptonNumericUpDown();
@@ -71,7 +75,11 @@
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonButton2);
+            this.kryptonPanel1.Controls.Add(this.btnDarker);
+            this.kryptonPanel1.Controls.Add(this.btnLighter);
+            this.kryptonPanel1.Controls.Add(this.tbHexColor);
+            this.kryptonPanel1.Controls.Add(this.btnCopyInverted);
+            this.kryptonPanel1.Controls.Add(this.btnCopyOriginal);
             this.kryptonPanel1.Controls.Add(this.nudBlueInverted);
             this.kryptonPanel1.Controls.Add(this.nudGreenInverted);
             this.kryptonPanel1.Controls.Add(this.nudRedInverted);
@@ -100,14 +108,60 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(1153, 652);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonButton2
+            // btnDarker
             // 
-            this.kryptonButton2.Location = new System.Drawing.Point(59, 302);
-            this.kryptonButton2.Name = "kryptonButton2";
-            this.kryptonButton2.Size = new System.Drawing.Size(136, 25);
-            this.kryptonButton2.TabIndex = 19;
-            this.kryptonButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton2.Values.Text = "kryptonButton2";
+            this.btnDarker.Location = new System.Drawing.Point(178, 221);
+            this.btnDarker.Name = "btnDarker";
+            this.btnDarker.Size = new System.Drawing.Size(123, 25);
+            this.btnDarker.StateCommon.Border.Rounding = 5F;
+            this.btnDarker.TabIndex = 21;
+            this.btnDarker.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnDarker.Values.Text = "Darker";
+            this.btnDarker.Click += new System.EventHandler(this.btnDarker_Click);
+            // 
+            // btnLighter
+            // 
+            this.btnLighter.Location = new System.Drawing.Point(42, 221);
+            this.btnLighter.Name = "btnLighter";
+            this.btnLighter.Size = new System.Drawing.Size(123, 25);
+            this.btnLighter.StateCommon.Border.Rounding = 5F;
+            this.btnLighter.TabIndex = 21;
+            this.btnLighter.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnLighter.Values.Text = "Lighter";
+            this.btnLighter.Click += new System.EventHandler(this.btnLighter_Click);
+            // 
+            // tbHexColor
+            // 
+            this.tbHexColor.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbHexColor.Location = new System.Drawing.Point(313, 189);
+            this.tbHexColor.MaxLength = 7;
+            this.tbHexColor.Name = "tbHexColor";
+            this.tbHexColor.Size = new System.Drawing.Size(74, 27);
+            this.tbHexColor.StateCommon.Border.Rounding = 5F;
+            this.tbHexColor.TabIndex = 20;
+            this.tbHexColor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbHexColor_KeyDown);
+            // 
+            // btnCopyInverted
+            // 
+            this.btnCopyInverted.Location = new System.Drawing.Point(554, 189);
+            this.btnCopyInverted.Name = "btnCopyInverted";
+            this.btnCopyInverted.Size = new System.Drawing.Size(146, 25);
+            this.btnCopyInverted.StateCommon.Border.Rounding = 5F;
+            this.btnCopyInverted.TabIndex = 19;
+            this.btnCopyInverted.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnCopyInverted.Values.Text = "Copy Inverted";
+            this.btnCopyInverted.Click += new System.EventHandler(this.btnCopyInverted_Click);
+            // 
+            // btnCopyOriginal
+            // 
+            this.btnCopyOriginal.Location = new System.Drawing.Point(398, 190);
+            this.btnCopyOriginal.Name = "btnCopyOriginal";
+            this.btnCopyOriginal.Size = new System.Drawing.Size(148, 25);
+            this.btnCopyOriginal.StateCommon.Border.Rounding = 5F;
+            this.btnCopyOriginal.TabIndex = 19;
+            this.btnCopyOriginal.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnCopyOriginal.Values.Text = "Copy Original";
+            this.btnCopyOriginal.Click += new System.EventHandler(this.btnCopyOriginal_Click);
             // 
             // nudBlueInverted
             // 
@@ -231,12 +285,13 @@
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.Location = new System.Drawing.Point(59, 260);
+            this.kryptonButton1.Location = new System.Drawing.Point(42, 190);
             this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(136, 25);
+            this.kryptonButton1.Size = new System.Drawing.Size(259, 25);
+            this.kryptonButton1.StateCommon.Border.Rounding = 5F;
             this.kryptonButton1.TabIndex = 14;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "kryptonButton1";
+            this.kryptonButton1.Values.Text = "Color form Hex Color (#FFFFFF)";
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // kryptonLabel6
@@ -560,10 +615,14 @@
         private KryptonLabel kryptonLabel6;
         private KryptonLabel kryptonLabel5;
         private KryptonButton kryptonButton1;
-        private KryptonButton kryptonButton2;
+        private KryptonButton btnCopyOriginal;
         private KryptonNumericUpDown nudBlueInverted;
         private KryptonNumericUpDown nudGreenInverted;
         private KryptonNumericUpDown nudRedInverted;
         private KryptonNumericUpDown nudAlphaInverted;
+        private KryptonTextBox tbHexColor;
+        private KryptonButton btnCopyInverted;
+        private KryptonButton btnLighter;
+        private KryptonButton btnDarker;
     }
 }
