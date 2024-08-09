@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tbDgvSystemColorFilter = new Krypton.Toolkit.KryptonTextBox();
             this.btnClearDgvSystemColorFilter = new Krypton.Toolkit.ButtonSpecAny();
@@ -162,6 +162,11 @@
             this.dgvSystemColors.RowHeadersVisible = false;
             this.dgvSystemColors.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvSystemColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvSystemColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSystemColors.ShowCellErrors = false;
+            this.dgvSystemColors.ShowCellToolTips = false;
+            this.dgvSystemColors.ShowEditingIcon = false;
+            this.dgvSystemColors.ShowRowErrors = false;
             this.dgvSystemColors.Size = new System.Drawing.Size(280, 182);
             this.dgvSystemColors.StateCommon.BackStyle = Krypton.Toolkit.PaletteBackStyle.GridBackgroundSheet;
             this.dgvSystemColors.StateCommon.DataCell.Border.Rounding = 5F;
@@ -172,7 +177,7 @@
             // 
             // colColor
             // 
-            this.colColor.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colColor.DefaultCellStyle = dataGridViewCellStyle7;
             this.colColor.HeaderText = "Color";
             this.colColor.Name = "colColor";
             this.colColor.ReadOnly = true;
@@ -182,7 +187,7 @@
             // 
             // colName
             // 
-            this.colName.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colName.DefaultCellStyle = dataGridViewCellStyle8;
             this.colName.HeaderText = "name";
             this.colName.Name = "colName";
             this.colName.ReadOnly = true;

@@ -317,9 +317,9 @@ namespace TestForm
                 string upperFilter = tbDgvSystemColorFilter.Text.ToUpper();
                 int rowIndex;
 
-                for (int i = 0 ; i < _systemColors.Count ; i++)
+                for (int i = 0; i < _systemColors.Count; i++)
                 {
-                    if (_systemColors[i].Name.ToUpper().Contains( upperFilter))
+                    if (_systemColors[i].Name.ToUpper().Contains(upperFilter))
                     {
                         rowIndex = dgvSystemColors.Rows.Add();
                         dgvSystemColors[0, rowIndex].Value = "";
