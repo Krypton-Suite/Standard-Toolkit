@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.tbDgvSystemColorFilter = new Krypton.Toolkit.KryptonTextBox();
+            this.btnClearDgvSystemColorFilter = new Krypton.Toolkit.ButtonSpecAny();
+            this.dgvSystemColors = new Krypton.Toolkit.KryptonDataGridView();
+            this.colColor = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.colName = new Krypton.Toolkit.KryptonDataGridViewTextBoxColumn();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.btnDarker = new Krypton.Toolkit.KryptonButton();
             this.btnLighter = new Krypton.Toolkit.KryptonButton();
             this.tbHexColor = new Krypton.Toolkit.KryptonTextBox();
@@ -61,6 +69,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSystemColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2.Panel)).BeginInit();
             this.kryptonGroupBox2.Panel.SuspendLayout();
@@ -75,6 +84,9 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.tbDgvSystemColorFilter);
+            this.kryptonPanel1.Controls.Add(this.dgvSystemColors);
+            this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.btnDarker);
             this.kryptonPanel1.Controls.Add(this.btnLighter);
             this.kryptonPanel1.Controls.Add(this.tbHexColor);
@@ -108,9 +120,93 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(1153, 652);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // tbDgvSystemColorFilter
+            // 
+            this.tbDgvSystemColorFilter.ButtonSpecs.Add(this.btnClearDgvSystemColorFilter);
+            this.tbDgvSystemColorFilter.Location = new System.Drawing.Point(12, 12);
+            this.tbDgvSystemColorFilter.MaxLength = 0;
+            this.tbDgvSystemColorFilter.Name = "tbDgvSystemColorFilter";
+            this.tbDgvSystemColorFilter.Size = new System.Drawing.Size(280, 33);
+            this.tbDgvSystemColorFilter.StateCommon.Border.Rounding = 5F;
+            this.tbDgvSystemColorFilter.TabIndex = 25;
+            this.tbDgvSystemColorFilter.TextChanged += new System.EventHandler(this.tbDgvSystemColorFilter_TextChanged);
+            // 
+            // btnClearDgvSystemColorFilter
+            // 
+            this.btnClearDgvSystemColorFilter.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.btnClearDgvSystemColorFilter.Type = Krypton.Toolkit.PaletteButtonSpecStyle.FormClose;
+            this.btnClearDgvSystemColorFilter.UniqueName = "47faa98af8ea4fb48b77674c1a1dce5f";
+            this.btnClearDgvSystemColorFilter.Click += new System.EventHandler(this.btnClearDgvSystemColorFilter_Click);
+            // 
+            // dgvSystemColors
+            // 
+            this.dgvSystemColors.AllowUserToAddRows = false;
+            this.dgvSystemColors.AllowUserToDeleteRows = false;
+            this.dgvSystemColors.AllowUserToResizeColumns = false;
+            this.dgvSystemColors.AllowUserToResizeRows = false;
+            this.dgvSystemColors.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvSystemColors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvSystemColors.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colColor,
+            this.colName});
+            this.dgvSystemColors.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvSystemColors.GridStyles.Style = Krypton.Toolkit.DataGridViewStyle.Sheet;
+            this.dgvSystemColors.GridStyles.StyleBackground = Krypton.Toolkit.PaletteBackStyle.GridBackgroundSheet;
+            this.dgvSystemColors.GridStyles.StyleColumn = Krypton.Toolkit.GridStyle.Sheet;
+            this.dgvSystemColors.GridStyles.StyleDataCells = Krypton.Toolkit.GridStyle.Sheet;
+            this.dgvSystemColors.GridStyles.StyleRow = Krypton.Toolkit.GridStyle.Sheet;
+            this.dgvSystemColors.Location = new System.Drawing.Point(12, 51);
+            this.dgvSystemColors.MultiSelect = false;
+            this.dgvSystemColors.Name = "dgvSystemColors";
+            this.dgvSystemColors.ReadOnly = true;
+            this.dgvSystemColors.RowHeadersVisible = false;
+            this.dgvSystemColors.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvSystemColors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvSystemColors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSystemColors.ShowCellErrors = false;
+            this.dgvSystemColors.ShowCellToolTips = false;
+            this.dgvSystemColors.ShowEditingIcon = false;
+            this.dgvSystemColors.ShowRowErrors = false;
+            this.dgvSystemColors.Size = new System.Drawing.Size(280, 182);
+            this.dgvSystemColors.StateCommon.BackStyle = Krypton.Toolkit.PaletteBackStyle.GridBackgroundSheet;
+            this.dgvSystemColors.StateCommon.DataCell.Border.Rounding = 5F;
+            this.dgvSystemColors.StateCommon.HeaderColumn.Border.Rounding = 5F;
+            this.dgvSystemColors.StateCommon.HeaderRow.Border.Rounding = 5F;
+            this.dgvSystemColors.TabIndex = 24;
+            this.dgvSystemColors.DoubleClick += new System.EventHandler(this.dgvSystemColors_DoubleClick);
+            // 
+            // colColor
+            // 
+            this.colColor.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colColor.HeaderText = "Color";
+            this.colColor.Name = "colColor";
+            this.colColor.ReadOnly = true;
+            this.colColor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colColor.Width = 100;
+            // 
+            // colName
+            // 
+            this.colName.DefaultCellStyle = dataGridViewCellStyle8;
+            this.colName.HeaderText = "name";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colName.Width = 200;
+            // 
+            // kryptonButton1
+            // 
+            this.kryptonButton1.Location = new System.Drawing.Point(70, 302);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(139, 25);
+            this.kryptonButton1.TabIndex = 22;
+            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton1.Values.Text = "kryptonButton1";
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
+            // 
             // btnDarker
             // 
-            this.btnDarker.Location = new System.Drawing.Point(178, 221);
+            this.btnDarker.Location = new System.Drawing.Point(478, 204);
             this.btnDarker.Name = "btnDarker";
             this.btnDarker.Size = new System.Drawing.Size(123, 25);
             this.btnDarker.StateCommon.Border.Rounding = 5F;
@@ -121,7 +217,7 @@
             // 
             // btnLighter
             // 
-            this.btnLighter.Location = new System.Drawing.Point(42, 221);
+            this.btnLighter.Location = new System.Drawing.Point(342, 204);
             this.btnLighter.Name = "btnLighter";
             this.btnLighter.Size = new System.Drawing.Size(123, 25);
             this.btnLighter.StateCommon.Border.Rounding = 5F;
@@ -133,7 +229,7 @@
             // tbHexColor
             // 
             this.tbHexColor.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbHexColor.Location = new System.Drawing.Point(313, 189);
+            this.tbHexColor.Location = new System.Drawing.Point(613, 172);
             this.tbHexColor.MaxLength = 7;
             this.tbHexColor.Name = "tbHexColor";
             this.tbHexColor.Size = new System.Drawing.Size(74, 27);
@@ -143,7 +239,7 @@
             // 
             // btnCopyInverted
             // 
-            this.btnCopyInverted.Location = new System.Drawing.Point(554, 189);
+            this.btnCopyInverted.Location = new System.Drawing.Point(854, 172);
             this.btnCopyInverted.Name = "btnCopyInverted";
             this.btnCopyInverted.Size = new System.Drawing.Size(146, 25);
             this.btnCopyInverted.StateCommon.Border.Rounding = 5F;
@@ -154,7 +250,7 @@
             // 
             // btnCopyOriginal
             // 
-            this.btnCopyOriginal.Location = new System.Drawing.Point(398, 190);
+            this.btnCopyOriginal.Location = new System.Drawing.Point(698, 173);
             this.btnCopyOriginal.Name = "btnCopyOriginal";
             this.btnCopyOriginal.Size = new System.Drawing.Size(148, 25);
             this.btnCopyOriginal.StateCommon.Border.Rounding = 5F;
@@ -170,7 +266,7 @@
             0,
             0,
             0});
-            this.nudBlueInverted.Location = new System.Drawing.Point(711, 155);
+            this.nudBlueInverted.Location = new System.Drawing.Point(1011, 138);
             this.nudBlueInverted.Maximum = new decimal(new int[] {
             255,
             0,
@@ -200,7 +296,7 @@
             0,
             0,
             0});
-            this.nudGreenInverted.Location = new System.Drawing.Point(711, 121);
+            this.nudGreenInverted.Location = new System.Drawing.Point(1011, 104);
             this.nudGreenInverted.Maximum = new decimal(new int[] {
             255,
             0,
@@ -230,7 +326,7 @@
             0,
             0,
             0});
-            this.nudRedInverted.Location = new System.Drawing.Point(711, 88);
+            this.nudRedInverted.Location = new System.Drawing.Point(1011, 71);
             this.nudRedInverted.Maximum = new decimal(new int[] {
             255,
             0,
@@ -260,7 +356,7 @@
             0,
             0,
             0});
-            this.nudAlphaInverted.Location = new System.Drawing.Point(711, 55);
+            this.nudAlphaInverted.Location = new System.Drawing.Point(1011, 38);
             this.nudAlphaInverted.Maximum = new decimal(new int[] {
             255,
             0,
@@ -285,7 +381,7 @@
             // 
             // btnColorFromHexColor
             // 
-            this.btnColorFromHexColor.Location = new System.Drawing.Point(42, 190);
+            this.btnColorFromHexColor.Location = new System.Drawing.Point(342, 173);
             this.btnColorFromHexColor.Name = "btnColorFromHexColor";
             this.btnColorFromHexColor.Size = new System.Drawing.Size(259, 25);
             this.btnColorFromHexColor.StateCommon.Border.Rounding = 5F;
@@ -296,7 +392,7 @@
             // 
             // kryptonLabel6
             // 
-            this.kryptonLabel6.Location = new System.Drawing.Point(552, 28);
+            this.kryptonLabel6.Location = new System.Drawing.Point(852, 11);
             this.kryptonLabel6.Name = "kryptonLabel6";
             this.kryptonLabel6.Size = new System.Drawing.Size(88, 20);
             this.kryptonLabel6.TabIndex = 13;
@@ -304,7 +400,7 @@
             // 
             // kryptonLabel5
             // 
-            this.kryptonLabel5.Location = new System.Drawing.Point(396, 28);
+            this.kryptonLabel5.Location = new System.Drawing.Point(696, 11);
             this.kryptonLabel5.Name = "kryptonLabel5";
             this.kryptonLabel5.Size = new System.Drawing.Size(86, 20);
             this.kryptonLabel5.TabIndex = 13;
@@ -312,7 +408,7 @@
             // 
             // kryptonGroupBox2
             // 
-            this.kryptonGroupBox2.Location = new System.Drawing.Point(552, 55);
+            this.kryptonGroupBox2.Location = new System.Drawing.Point(852, 38);
             this.kryptonGroupBox2.Name = "kryptonGroupBox2";
             // 
             // kryptonGroupBox2.Panel
@@ -333,7 +429,7 @@
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(396, 54);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(696, 37);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -354,7 +450,7 @@
             // 
             // cbEnableTransparancy
             // 
-            this.cbEnableTransparancy.Location = new System.Drawing.Point(42, 28);
+            this.cbEnableTransparancy.Location = new System.Drawing.Point(342, 11);
             this.cbEnableTransparancy.Name = "cbEnableTransparancy";
             this.cbEnableTransparancy.Size = new System.Drawing.Size(139, 20);
             this.cbEnableTransparancy.TabIndex = 7;
@@ -368,7 +464,7 @@
             0,
             0,
             0});
-            this.nudBlue.Location = new System.Drawing.Point(313, 155);
+            this.nudBlue.Location = new System.Drawing.Point(613, 138);
             this.nudBlue.Maximum = new decimal(new int[] {
             255,
             0,
@@ -398,7 +494,7 @@
             0,
             0,
             0});
-            this.nudGreen.Location = new System.Drawing.Point(313, 121);
+            this.nudGreen.Location = new System.Drawing.Point(613, 104);
             this.nudGreen.Maximum = new decimal(new int[] {
             255,
             0,
@@ -428,7 +524,7 @@
             0,
             0,
             0});
-            this.nudRed.Location = new System.Drawing.Point(313, 88);
+            this.nudRed.Location = new System.Drawing.Point(613, 71);
             this.nudRed.Maximum = new decimal(new int[] {
             255,
             0,
@@ -458,7 +554,7 @@
             0,
             0,
             0});
-            this.nudAlpha.Location = new System.Drawing.Point(313, 55);
+            this.nudAlpha.Location = new System.Drawing.Point(613, 38);
             this.nudAlpha.Maximum = new decimal(new int[] {
             255,
             0,
@@ -484,7 +580,7 @@
             // kryptonLabel4
             // 
             this.kryptonLabel4.AutoSize = false;
-            this.kryptonLabel4.Location = new System.Drawing.Point(12, 155);
+            this.kryptonLabel4.Location = new System.Drawing.Point(312, 138);
             this.kryptonLabel4.Name = "kryptonLabel4";
             this.kryptonLabel4.Size = new System.Drawing.Size(30, 25);
             this.kryptonLabel4.TabIndex = 1;
@@ -493,7 +589,7 @@
             // kryptonLabel3
             // 
             this.kryptonLabel3.AutoSize = false;
-            this.kryptonLabel3.Location = new System.Drawing.Point(12, 122);
+            this.kryptonLabel3.Location = new System.Drawing.Point(312, 105);
             this.kryptonLabel3.Name = "kryptonLabel3";
             this.kryptonLabel3.Size = new System.Drawing.Size(24, 25);
             this.kryptonLabel3.TabIndex = 1;
@@ -502,7 +598,7 @@
             // kryptonLabel2
             // 
             this.kryptonLabel2.AutoSize = false;
-            this.kryptonLabel2.Location = new System.Drawing.Point(12, 89);
+            this.kryptonLabel2.Location = new System.Drawing.Point(312, 72);
             this.kryptonLabel2.Name = "kryptonLabel2";
             this.kryptonLabel2.Size = new System.Drawing.Size(30, 25);
             this.kryptonLabel2.TabIndex = 1;
@@ -511,7 +607,7 @@
             // kryptonLabel1
             // 
             this.kryptonLabel1.AutoSize = false;
-            this.kryptonLabel1.Location = new System.Drawing.Point(12, 56);
+            this.kryptonLabel1.Location = new System.Drawing.Point(312, 39);
             this.kryptonLabel1.Name = "kryptonLabel1";
             this.kryptonLabel1.Size = new System.Drawing.Size(30, 25);
             this.kryptonLabel1.TabIndex = 1;
@@ -521,7 +617,7 @@
             // 
             this.tbarBlue.AutoSize = false;
             this.tbarBlue.LargeChange = 3;
-            this.tbarBlue.Location = new System.Drawing.Point(42, 157);
+            this.tbarBlue.Location = new System.Drawing.Point(342, 140);
             this.tbarBlue.Maximum = 255;
             this.tbarBlue.Name = "tbarBlue";
             this.tbarBlue.Size = new System.Drawing.Size(259, 27);
@@ -533,7 +629,7 @@
             // 
             this.tbarGreen.AutoSize = false;
             this.tbarGreen.LargeChange = 3;
-            this.tbarGreen.Location = new System.Drawing.Point(42, 124);
+            this.tbarGreen.Location = new System.Drawing.Point(342, 107);
             this.tbarGreen.Maximum = 255;
             this.tbarGreen.Name = "tbarGreen";
             this.tbarGreen.Size = new System.Drawing.Size(259, 27);
@@ -545,7 +641,7 @@
             // 
             this.tbarRed.AutoSize = false;
             this.tbarRed.LargeChange = 3;
-            this.tbarRed.Location = new System.Drawing.Point(42, 91);
+            this.tbarRed.Location = new System.Drawing.Point(342, 74);
             this.tbarRed.Maximum = 255;
             this.tbarRed.Name = "tbarRed";
             this.tbarRed.Size = new System.Drawing.Size(259, 27);
@@ -557,7 +653,7 @@
             // 
             this.tbarAlpha.AutoSize = false;
             this.tbarAlpha.LargeChange = 3;
-            this.tbarAlpha.Location = new System.Drawing.Point(42, 58);
+            this.tbarAlpha.Location = new System.Drawing.Point(342, 41);
             this.tbarAlpha.Maximum = 255;
             this.tbarAlpha.Name = "tbarAlpha";
             this.tbarAlpha.Size = new System.Drawing.Size(259, 27);
@@ -577,6 +673,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSystemColors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2.Panel)).EndInit();
             this.kryptonGroupBox2.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2)).EndInit();
@@ -624,5 +721,11 @@
         private KryptonButton btnCopyInverted;
         private KryptonButton btnLighter;
         private KryptonButton btnDarker;
+        private KryptonButton kryptonButton1;
+        private KryptonDataGridView dgvSystemColors;
+        private KryptonDataGridViewTextBoxColumn colColor;
+        private KryptonDataGridViewTextBoxColumn colName;
+        private KryptonTextBox tbDgvSystemColorFilter;
+        private ButtonSpecAny btnClearDgvSystemColorFilter;
     }
 }

@@ -10,32 +10,61 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Reflection;
 using Krypton.Toolkit;
 
 namespace TestForm
 {
     public partial class ColorTestimonials : KryptonForm
     {
-        private RectangleF _rectOriginalImage;
-        private RectangleF _rectInvertedImage;
+        private readonly RectangleF _rectOriginalImage;
+        private readonly RectangleF _rectInvertedImage;
+        private readonly List<Color> _systemColors;
 
         public ColorTestimonials()
         {
             InitializeComponent();
 
+            _systemColors = new();
             cbEnableTransparancy.Checked = false;
-            tbarAlpha.Enabled = false;
 
             _rectOriginalImage = new RectangleF(0, 0, pboxOriginal.Size.Width, pboxOriginal.Size.Height);
             _rectInvertedImage = new RectangleF(0, 0, pboxInverted.Size.Width, pboxInverted.Size.Height);
 
-            tbarAlpha.Value = ColorInverting.ChannelMinValue;
-            tbarRed.Value = ColorInverting.ChannelMinValue;
-            tbarGreen.Value = ColorInverting.ChannelMinValue;
-            tbarBlue.Value = ColorInverting.ChannelMinValue;
+            tbarAlpha.Enabled = false;
+            tbarAlpha.Value   = ColorInverting.ChannelMinValue;
+            tbarRed.Value     = ColorInverting.ChannelMinValue;
+            tbarGreen.Value   = ColorInverting.ChannelMinValue;
+            tbarBlue.Value    = ColorInverting.ChannelMinValue;
 
             cbEnableTransparancy_CheckedChanged(null!, null!);
+
+            GetSystemColors();
+            FillDgvSystemColors();
+        }
+
+        private void GetSystemColors()
+        {
+            foreach (PropertyInfo propertyInfo in typeof(System.Drawing.Color).GetProperties(BindingFlags.Static | BindingFlags.Public))
+            {
+                if (propertyInfo.GetValue(0) is Color color && color.Name.Length > 0)
+                {
+                    _systemColors.Add(color);
+                }
+            }
+        }
+
+        private void FillDgvSystemColors()
+        {
+            dgvSystemColors.Rows.Clear();
+
+            for ( int i = 0 ; i < _systemColors.Count ; i++)
+            {
+                dgvSystemColors.Rows.Add();
+                dgvSystemColors[0, i].Value = "";
+                dgvSystemColors[0, i].Style.BackColor = _systemColors[i];
+                dgvSystemColors[1, i].Value = _systemColors[i].Name;
+            }
         }
 
         private void tbarAlpha_ValueChanged(object sender, EventArgs e)
@@ -69,7 +98,7 @@ namespace TestForm
                 ? Color.FromArgb((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : Color.FromArgb((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            SetColorImage(pboxOriginal, ref color, ref _rectOriginalImage);
+            SetColorImage(pboxOriginal, in color, in _rectOriginalImage);
         }
 
         private Color UpdateInvertedColor()
@@ -79,7 +108,7 @@ namespace TestForm
                 ? ColorInverting.InvertARGBFromInt((byte)tbarAlpha.Value, (byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value)
                 : ColorInverting.InvertRGBFromInt((byte)tbarRed.Value, (byte)tbarGreen.Value, (byte)tbarBlue.Value);
 
-            SetColorImage(pboxInverted, ref color, ref _rectInvertedImage);
+            SetColorImage(pboxInverted, in color, in _rectInvertedImage);
 
             return color;
         }
@@ -95,12 +124,13 @@ namespace TestForm
             {
                 nudAlphaInverted.Value = color.A;
             }
-            nudRedInverted.Value = color.R;
+
+            nudRedInverted.Value   = color.R;
             nudGreenInverted.Value = color.G;
-            nudBlueInverted.Value = color.B;
+            nudBlueInverted.Value  = color.B;
         }
 
-        private void SetColorImage(KryptonPictureBox kryptonPictureBox, ref Color color, ref RectangleF rect)
+        private void SetColorImage(KryptonPictureBox kryptonPictureBox, in Color color, in RectangleF rect)
         {
             Bitmap b = new Bitmap(kryptonPictureBox.Size.Width, kryptonPictureBox.Size.Height);
             Graphics g = Graphics.FromImage(b);
@@ -132,8 +162,8 @@ namespace TestForm
 
         private void cbEnableTransparancy_CheckedChanged(object sender, EventArgs e)
         {
-            tbarAlpha.Enabled = cbEnableTransparancy.Checked;
-            nudAlpha.Enabled = cbEnableTransparancy.Checked;
+            tbarAlpha.Enabled        = cbEnableTransparancy.Checked;
+            nudAlpha.Enabled         = cbEnableTransparancy.Checked;
             nudAlphaInverted.Enabled = cbEnableTransparancy.Checked;
 
             SetColor();
@@ -174,9 +204,9 @@ namespace TestForm
                     nudAlpha.Value = ColorInverting.ChannelMaxValue;
                 }
 
-                nudRed.Value = Convert.ToInt32(tbHexColor.Text.Substring(1, 2), 16);
+                nudRed.Value   = Convert.ToInt32(tbHexColor.Text.Substring(1, 2), 16);
                 nudGreen.Value = Convert.ToInt32(tbHexColor.Text.Substring(3, 2), 16);
-                nudBlue.Value = Convert.ToInt32(tbHexColor.Text.Substring(5, 2), 16);
+                nudBlue.Value  = Convert.ToInt32(tbHexColor.Text.Substring(5, 2), 16);
 
                 result = true;
             }
@@ -245,6 +275,59 @@ namespace TestForm
             nudRed.Value   = color.R;
             nudGreen.Value = color.G;
             nudBlue.Value  = color.B;
+        }
+
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void dgvSystemColors_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvSystemColors.SelectedRows.Count == 1)
+            {
+                Color color = dgvSystemColors.SelectedRows[0].Cells[0].Style.BackColor;
+
+                if (cbEnableTransparancy.Checked)
+                {
+                    nudAlpha.Value = color.A;
+                }
+
+                nudRed.Value = color.R;
+                nudGreen.Value = color.G;
+                nudBlue.Value = color.B;
+            }
+        }
+
+        private void btnClearDgvSystemColorFilter_Click(object sender, EventArgs e)
+        {
+            tbDgvSystemColorFilter.Text = "";
+        }
+
+        private void tbDgvSystemColorFilter_TextChanged(object sender, EventArgs e)
+        {
+            if (tbDgvSystemColorFilter.Text.Length == 0)
+            {
+                FillDgvSystemColors();
+            }
+            else
+            {
+                dgvSystemColors.Rows.Clear();
+
+                string upperFilter = tbDgvSystemColorFilter.Text.ToUpper();
+                int rowIndex;
+
+                for (int i = 0; i < _systemColors.Count; i++)
+                {
+                    if (_systemColors[i].Name.ToUpper().Contains(upperFilter))
+                    {
+                        rowIndex = dgvSystemColors.Rows.Add();
+                        dgvSystemColors[0, rowIndex].Value = "";
+                        dgvSystemColors[0, rowIndex].Style.BackColor = _systemColors[i];
+                        dgvSystemColors[1, rowIndex].Value = _systemColors[i].Name;
+                    }
+                }
+            }
         }
     }
 }
