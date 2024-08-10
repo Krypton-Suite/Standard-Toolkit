@@ -724,9 +724,10 @@ namespace Krypton.Toolkit
 
         #region Colours
 
+        private static readonly Color _buttonTextTracking = Color.Black;
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-        private static readonly Color _disabledText = Color.FromArgb(100, 100, 100);
+        private static readonly Color _disabledText = Color.FromArgb(32, 32, 32);
         private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
@@ -2743,7 +2744,7 @@ namespace Krypton.Toolkit
                     or PaletteContentStyle.ButtonCustom2
                     or PaletteContentStyle.ButtonCustom3 => state switch
                     {
-                        PaletteState.Tracking => Color.Fuchsia,
+                        PaletteState.Tracking => _buttonTextTracking,
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                         _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
                     },
@@ -2754,6 +2755,7 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonCalendarDay => state switch
                 {
+                    PaletteState.Tracking => _buttonTextTracking,
                     PaletteState.Disabled => _disabledText2,
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -2761,6 +2763,7 @@ namespace Krypton.Toolkit
                     or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb
                     or PaletteContentStyle.ButtonButtonSpec => state switch
                     {
+                        PaletteState.Tracking => _buttonTextTracking,
                         PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                                                        ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
                                                        : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
