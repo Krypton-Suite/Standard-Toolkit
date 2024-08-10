@@ -39,6 +39,7 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ButtonsTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonColorButton1 = new Krypton.Toolkit.KryptonColorButton();
             this.kcbtnDropDown = new Krypton.Toolkit.KryptonColorButton();
             this.kryptonButton5 = new Krypton.Toolkit.KryptonButton();
             this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
@@ -53,13 +54,16 @@ namespace TestForm
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonColorButton1 = new Krypton.Toolkit.KryptonColorButton();
+            this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonColorButton1);
             this.kryptonPanel1.Controls.Add(this.kcbtnDropDown);
             this.kryptonPanel1.Controls.Add(this.kryptonButton5);
@@ -73,13 +77,25 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(522, 180);
+            this.kryptonPanel1.Size = new System.Drawing.Size(522, 202);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonColorButton1
+            // 
+            this.kryptonColorButton1.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
+            this.kryptonColorButton1.Enabled = false;
+            this.kryptonColorButton1.Location = new System.Drawing.Point(267, 165);
+            this.kryptonColorButton1.Name = "kryptonColorButton1";
+            this.kryptonColorButton1.Size = new System.Drawing.Size(243, 25);
+            this.kryptonColorButton1.TabIndex = 8;
+            this.kryptonColorButton1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonColorButton1.Values.Image")));
+            this.kryptonColorButton1.Values.RoundedCorners = 8;
+            this.kryptonColorButton1.Values.Text = "Disabled Drop Down Color";
             // 
             // kcbtnDropDown
             // 
             this.kcbtnDropDown.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
-            this.kcbtnDropDown.Location = new System.Drawing.Point(13, 137);
+            this.kcbtnDropDown.Location = new System.Drawing.Point(18, 165);
             this.kcbtnDropDown.Name = "kcbtnDropDown";
             this.kcbtnDropDown.Size = new System.Drawing.Size(243, 25);
             this.kcbtnDropDown.TabIndex = 7;
@@ -92,7 +108,7 @@ namespace TestForm
             // 
             this.kryptonButton5.Enabled = false;
             this.kryptonButton5.KryptonContextMenu = this.kryptonContextMenu1;
-            this.kryptonButton5.Location = new System.Drawing.Point(262, 106);
+            this.kryptonButton5.Location = new System.Drawing.Point(267, 134);
             this.kryptonButton5.Name = "kryptonButton5";
             this.kryptonButton5.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton5.TabIndex = 6;
@@ -113,6 +129,7 @@ namespace TestForm
             this.kryptonContextMenuItem1,
             this.kryptonContextMenuItem2,
             this.kryptonContextMenuItem3});
+            this.kryptonContextMenuItems1.Text = "";
             // 
             // kryptonContextMenuItem1
             // 
@@ -129,7 +146,7 @@ namespace TestForm
             // kryptonButton6
             // 
             this.kryptonButton6.Enabled = false;
-            this.kryptonButton6.Location = new System.Drawing.Point(262, 75);
+            this.kryptonButton6.Location = new System.Drawing.Point(267, 103);
             this.kryptonButton6.Name = "kryptonButton6";
             this.kryptonButton6.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton6.TabIndex = 4;
@@ -141,7 +158,7 @@ namespace TestForm
             // kryptonButton7
             // 
             this.kryptonButton7.KryptonContextMenu = this.kryptonContextMenu1;
-            this.kryptonButton7.Location = new System.Drawing.Point(13, 106);
+            this.kryptonButton7.Location = new System.Drawing.Point(18, 134);
             this.kryptonButton7.Name = "kryptonButton7";
             this.kryptonButton7.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton7.TabIndex = 5;
@@ -153,7 +170,7 @@ namespace TestForm
             // 
             // kryptonButton8
             // 
-            this.kryptonButton8.Location = new System.Drawing.Point(13, 75);
+            this.kryptonButton8.Location = new System.Drawing.Point(18, 103);
             this.kryptonButton8.Name = "kryptonButton8";
             this.kryptonButton8.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton8.TabIndex = 3;
@@ -166,7 +183,7 @@ namespace TestForm
             // 
             this.kryptonButton4.Enabled = false;
             this.kryptonButton4.KryptonContextMenu = this.kryptonContextMenu1;
-            this.kryptonButton4.Location = new System.Drawing.Point(262, 44);
+            this.kryptonButton4.Location = new System.Drawing.Point(267, 72);
             this.kryptonButton4.Name = "kryptonButton4";
             this.kryptonButton4.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton4.TabIndex = 2;
@@ -177,7 +194,7 @@ namespace TestForm
             // kryptonButton2
             // 
             this.kryptonButton2.Enabled = false;
-            this.kryptonButton2.Location = new System.Drawing.Point(262, 13);
+            this.kryptonButton2.Location = new System.Drawing.Point(267, 41);
             this.kryptonButton2.Name = "kryptonButton2";
             this.kryptonButton2.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton2.TabIndex = 1;
@@ -187,7 +204,7 @@ namespace TestForm
             // kryptonButton3
             // 
             this.kryptonButton3.KryptonContextMenu = this.kryptonContextMenu1;
-            this.kryptonButton3.Location = new System.Drawing.Point(13, 44);
+            this.kryptonButton3.Location = new System.Drawing.Point(18, 72);
             this.kryptonButton3.Name = "kryptonButton3";
             this.kryptonButton3.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton3.TabIndex = 1;
@@ -197,30 +214,35 @@ namespace TestForm
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonButton1.Location = new System.Drawing.Point(18, 41);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(243, 25);
             this.kryptonButton1.TabIndex = 0;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "Normal Button";
             // 
-            // kryptonColorButton1
+            // buttonSpecAny1
             // 
-            this.kryptonColorButton1.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
-            this.kryptonColorButton1.Enabled = false;
-            this.kryptonColorButton1.Location = new System.Drawing.Point(262, 137);
-            this.kryptonColorButton1.Name = "kryptonColorButton1";
-            this.kryptonColorButton1.Size = new System.Drawing.Size(243, 25);
-            this.kryptonColorButton1.TabIndex = 8;
-            this.kryptonColorButton1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonColorButton1.Values.Image")));
-            this.kryptonColorButton1.Values.RoundedCorners = 8;
-            this.kryptonColorButton1.Values.Text = "Disabled Drop Down Color";
+            this.buttonSpecAny1.Text = "Test Text";
+            this.buttonSpecAny1.UniqueName = "bad5983b9e7f4d82b15e55a1a19807bb";
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kryptonThemeComboBox1.DropDownWidth = 492;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(18, 13);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(492, 22);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 9;
             // 
             // ButtonsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 180);
+            this.ButtonSpecs.Add(this.buttonSpecAny1);
+            this.ClientSize = new System.Drawing.Size(522, 202);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -233,6 +255,7 @@ namespace TestForm
             this.Text = "Buttons Test";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -255,5 +278,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
         private KryptonColorButton kryptonColorButton1;
+        private ButtonSpecAny buttonSpecAny1;
+        private KryptonThemeComboBox kryptonThemeComboBox1;
     }
 }

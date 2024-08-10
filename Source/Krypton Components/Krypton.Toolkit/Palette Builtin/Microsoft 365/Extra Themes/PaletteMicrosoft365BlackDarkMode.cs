@@ -183,15 +183,15 @@ namespace Krypton.Toolkit
             Color.FromArgb(153, 153, 153), // FormBorderInactiveLight
             Color.FromArgb(171, 171, 171), // FormBorderInactiveDark
             Color.FromArgb(65, 65, 65), // FormBorderHeaderActive
-            Color.FromArgb(167, 167, 167), // FormBorderHeaderInactive
+            Color.FromArgb(100, 100, 100), // FormBorderHeaderInactive
             Color.FromArgb(42, 43, 43), // FormBorderHeaderActive1
             Color.FromArgb(74, 74, 74), // FormBorderHeaderActive2
             Color.FromArgb(146, 146, 146), // FormBorderHeaderInctive1
             Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
             Color.FromArgb(255, 255, 255), // FormHeaderShortActive
-            Color.FromArgb(167, 167, 167), // FormHeaderShortInactive
+            Color.FromArgb(100, 100, 100), // FormHeaderShortInactive
             Color.White, // FormHeaderLongActive
-            Color.FromArgb(167, 167, 167), // FormHeaderLongInactive
+            Color.FromArgb(100, 100, 100), // FormHeaderLongInactive
             Color.FromArgb(88, 95, 104), // FormButtonBorderTrack
             Color.FromArgb(91, 105, 123), // FormButtonBack1Track
             Color.FromArgb(173, 199, 214), // FormButtonBack2Track
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
             Color.FromArgb(91, 91, 91), // GridDataCellSelected
             Color.White, // InputControlTextNormal
-            Color.FromArgb(167, 167, 167), // InputControlTextDisabled
+            Color.FromArgb(100, 100, 100), // InputControlTextDisabled
             Color.FromArgb(137, 137, 137), // InputControlBorderNormal
             Color.FromArgb(204, 204, 204), // InputControlBorderDisabled
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
@@ -724,9 +724,10 @@ namespace Krypton.Toolkit
 
         #region Colours
 
+        private static readonly Color _buttonTextTracking = Color.Black;
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText = Color.FromArgb(32, 32, 32);
         private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
@@ -2743,7 +2744,7 @@ namespace Krypton.Toolkit
                     or PaletteContentStyle.ButtonCustom2
                     or PaletteContentStyle.ButtonCustom3 => state switch
                     {
-                        PaletteState.Tracking => Color.Fuchsia,
+                        PaletteState.Tracking => _buttonTextTracking,
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                         _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
                     },
@@ -2754,6 +2755,7 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonCalendarDay => state switch
                 {
+                    PaletteState.Tracking => _buttonTextTracking,
                     PaletteState.Disabled => _disabledText2,
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -2761,6 +2763,7 @@ namespace Krypton.Toolkit
                     or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb
                     or PaletteContentStyle.ButtonButtonSpec => state switch
                     {
+                        PaletteState.Tracking => _buttonTextTracking,
                         PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                                                        ? _ribbonColours[(int)SchemeOfficeColors.TextLabelControl]
                                                        : _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
