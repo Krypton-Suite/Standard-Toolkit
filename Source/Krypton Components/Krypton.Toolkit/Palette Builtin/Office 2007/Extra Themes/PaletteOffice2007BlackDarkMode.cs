@@ -743,7 +743,7 @@ namespace Krypton.Toolkit
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
         private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-        private static readonly Color _disabledText = Color.FromArgb(100, 100, 100);
+        private static readonly Color _disabledText = Color.FromArgb(32, 32, 32);
         private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
         private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
