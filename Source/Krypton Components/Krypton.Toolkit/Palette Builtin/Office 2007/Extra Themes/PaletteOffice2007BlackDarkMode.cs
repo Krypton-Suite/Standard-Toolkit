@@ -252,10 +252,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
             SystemColors.Control, // InputControlBackDisabled
             Color.FromArgb(232, 232, 232), // InputControlBackInactive
-            Color.FromArgb(91, 91, 91), // InputDropDownNormal1
-            Color.FromArgb(88, 88, 88), // InputDropDownNormal2
-            Color.FromArgb(166, 166, 166), // InputDropDownDisabled1
-            Color.Transparent, // InputDropDownDisabled2
+            Color.White, // InputDropDownNormal1
+            Color.FromArgb(100, 100, 100), // InputDropDownNormal2
+            Color.FromArgb(82, 82, 82), // InputDropDownDisabled1
+            Color.FromArgb(95, 95, 95), // InputDropDownDisabled2
             Color.FromArgb(41, 41, 41), // ContextMenuHeading
             Color.White, // ContextMenuHeadingText
             Color.FromArgb(54, 54, 54), // ContextMenuImageColumn
@@ -3417,9 +3417,11 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
-                PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
-: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
+                PaletteContentStyle.ButtonInputControl => state switch
+                {
+                    PaletteState.Disabled => _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3498,9 +3500,11 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
-                PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal2]
-: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled2],
+                PaletteContentStyle.ButtonInputControl => state switch
+                {
+                    PaletteState.Disabled => _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1], 
+                    _ => _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3913,9 +3917,11 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
-                PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
-: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
+                PaletteContentStyle.ButtonInputControl => state switch
+                { 
+                    PaletteState.Disabled => _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3992,9 +3998,11 @@ namespace Krypton.Toolkit
                     PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormPressed],
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonFormNormal]
                 },
-                PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
-? _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal2]
-: _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled2],
+                PaletteContentStyle.ButtonInputControl => state switch
+                {
+                    PaletteState.Disabled => _ribbonColours[(int)SchemeOfficeColors.InputDropDownDisabled1],
+                    _ => _ribbonColours[(int)SchemeOfficeColors.InputDropDownNormal1]
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
