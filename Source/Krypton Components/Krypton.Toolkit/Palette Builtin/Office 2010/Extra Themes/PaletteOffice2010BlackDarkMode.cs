@@ -282,10 +282,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(10, 10, 10), // InputControlBackNormal
             Color.FromArgb(102,102, 102), // InputControlBackDisabled
             Color.FromArgb(78, 78, 80), // InputControlBackInactive
-            Color.FromArgb(91, 91, 91), // InputDropDownNormal1
-            Color.FromArgb(88, 88, 88), // InputDropDownNormal2
-            Color.FromArgb(166, 166, 166), // InputDropDownDisabled1
-            Color.Transparent, // InputDropDownDisabled2
+            Color.White, // InputDropDownNormal1
+            Color.FromArgb(100, 100, 100), // InputDropDownNormal2
+            Color.FromArgb(82, 82, 82), // InputDropDownDisabled1
+            Color.FromArgb(95, 95, 95), // InputDropDownDisabled2
             Color.FromArgb(41, 41, 41), // ContextMenuHeading
             Color.White, // ContextMenuHeadingText
             Color.FromArgb(54, 54, 54), // ContextMenuImageColumn

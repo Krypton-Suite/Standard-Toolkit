@@ -4,7 +4,6 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Resolved [#1708](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1708). `KryptonButton` crashes program on invalid type cast.
-* Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
 * Resolved [#1706](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1706), Restore: `KryptonComboBox` (On Form) does not respect designers `DropDownWidth` setting
 * Resolved [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704), Remove properties from `KryptonRichtTextBox`
 * Implemented [#1700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1700), Adds a method to `CommonHelper` which normalizes line breaks within a string, `CommonHelper.NormalizeLineBreaks`.
@@ -146,6 +145,9 @@
 =======
 
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
+* Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
+* Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
+* Resolved [#1675](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1675), Catastrophic failure wherever `KryptonGroupPanel` is used.
 * Resolved [#1677](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1677), `KryptonComboBox` cuts of text on high DPI.
 
 =======
