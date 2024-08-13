@@ -130,7 +130,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Phil Wright (A.K.A ComponentFactory)</Authors>
-		<Copyright>© Krypton Suite (Peter Wagner (Wagnerp) and Simon Coghlan (Smurf-IV)), 2017 - 2024. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</Copyright>
+		<Copyright>© Krypton Suite (Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac and Ahmed Abdelhameed) 2017 - 2024. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<Choose>
