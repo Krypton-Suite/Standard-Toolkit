@@ -5631,8 +5631,11 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return panel.StateDisabled;
+               
+                case PaletteState.Tracking: // #1552 KPanel does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return panel.StateNormal;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
