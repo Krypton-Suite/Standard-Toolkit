@@ -42,6 +42,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThemeTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnCustomTheme = new Krypton.Toolkit.KryptonButton();
             this.kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.bsaBrowse = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
@@ -122,7 +123,7 @@ namespace TestForm
             this.buttonSpecAny15 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonCommand15 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
-            this.kbtnCustomTheme = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -134,6 +135,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kbtnCustomTheme);
             this.kryptonPanel1.Controls.Add(this.kryptonTextBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
@@ -147,8 +149,19 @@ namespace TestForm
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1075, 499);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1051, 475);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnCustomTheme
+            // 
+            this.kbtnCustomTheme.Enabled = false;
+            this.kbtnCustomTheme.Location = new System.Drawing.Point(15, 333);
+            this.kbtnCustomTheme.Name = "kbtnCustomTheme";
+            this.kbtnCustomTheme.Size = new System.Drawing.Size(181, 42);
+            this.kbtnCustomTheme.TabIndex = 15;
+            this.kbtnCustomTheme.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnCustomTheme.Values.Text = "Use Custom Theme";
+            this.kbtnCustomTheme.Click += new System.EventHandler(this.kbtnCustomTheme_Click);
             // 
             // kryptonTextBox1
             // 
@@ -227,7 +240,7 @@ namespace TestForm
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(535, 449);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(511, 425);
             this.kryptonPropertyGrid1.TabIndex = 2;
             // 
             // kryptonManager1
@@ -247,7 +260,7 @@ namespace TestForm
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1075, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1051, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -515,11 +528,11 @@ namespace TestForm
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 499);
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 475);
             this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel2.Size = new System.Drawing.Size(1075, 66);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1051, 66);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonLabel2
@@ -539,11 +552,11 @@ namespace TestForm
             this.toolStripStatusLabel1,
             this.kryptonProgressBarToolStripItem1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 565);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 541);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 17, 0);
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(1075, 36);
+            this.statusStrip1.Size = new System.Drawing.Size(1051, 36);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -757,16 +770,16 @@ namespace TestForm
             this.kryptonCustomPaletteBase1.ThemeName = null;
             this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
-            // kbtnCustomTheme
+            // kryptonButton2
             // 
-            this.kbtnCustomTheme.Enabled = false;
-            this.kbtnCustomTheme.Location = new System.Drawing.Point(15, 333);
-            this.kbtnCustomTheme.Name = "kbtnCustomTheme";
-            this.kbtnCustomTheme.Size = new System.Drawing.Size(181, 42);
-            this.kbtnCustomTheme.TabIndex = 15;
-            this.kbtnCustomTheme.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnCustomTheme.Values.Text = "Use Custom Theme";
-            this.kbtnCustomTheme.Click += new System.EventHandler(this.kbtnCustomTheme_Click);
+            this.kryptonButton2.Enabled = false;
+            this.kryptonButton2.Location = new System.Drawing.Point(202, 332);
+            this.kryptonButton2.Name = "kryptonButton2";
+            this.kryptonButton2.Size = new System.Drawing.Size(181, 42);
+            this.kryptonButton2.TabIndex = 16;
+            this.kryptonButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton2.Values.Text = "Upgrade Custom Theme";
+            this.kryptonButton2.Click += new System.EventHandler(this.kryptonButton2_Click);
             // 
             // ThemeTest
             // 
@@ -786,7 +799,7 @@ namespace TestForm
             this.ButtonSpecs.Add(this.buttonSpecAny13);
             this.ButtonSpecs.Add(this.buttonSpecAny14);
             this.ButtonSpecs.Add(this.buttonSpecAny15);
-            this.ClientSize = new System.Drawing.Size(1067, 593);
+            this.ClientSize = new System.Drawing.Size(1051, 577);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.statusStrip1);
@@ -895,5 +908,6 @@ namespace TestForm
         private KryptonTextBox kryptonTextBox1;
         private ButtonSpecAny bsaBrowse;
         private KryptonButton kbtnCustomTheme;
+        private KryptonButton kryptonButton2;
     }
 }

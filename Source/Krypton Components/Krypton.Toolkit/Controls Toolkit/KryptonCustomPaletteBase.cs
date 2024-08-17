@@ -2220,7 +2220,8 @@ namespace Krypton.Toolkit
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
         public void ImportWithUpgrade(Stream stream)
-        {try
+        {
+            try
             {
                 // Prevent lots of redraw events until all loading completes
                 SuspendUpdates();
@@ -2244,6 +2245,34 @@ namespace Krypton.Toolkit
             {
                 // Must match the SuspendUpdates even if exception occurs
                 ResumeUpdates();
+            }
+        }
+
+        /// <summary>Upgrades the specified palette.</summary>
+        /// <param name="themeFilePath">The theme file path.</param>
+        public void UpgradePalette(string themeFilePath)
+        {
+            try
+            {
+                KryptonManager manager = new KryptonManager();
+
+                FileStream stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+
+                KryptonCustomPaletteBase customPaletteBase = new KryptonCustomPaletteBase();
+
+                customPaletteBase.ImportWithUpgrade(stream);
+
+                manager.GlobalCustomPalette = customPaletteBase;
+
+                manager.GlobalPaletteMode = PaletteMode.Custom;
+
+                stream.Close();
+
+                stream.Dispose();
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
             }
         }
 
