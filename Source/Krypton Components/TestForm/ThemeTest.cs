@@ -108,7 +108,7 @@ namespace TestForm
 
         private void kryptonButton2_Click(object sender, EventArgs e)
         {
-            kryptonCustomPaletteBase1.UpgradePalette(kryptonTextBox1.Text);
+            kryptonCustomPaletteBase1.ImportWithUpgrade(kryptonTextBox1.Text);
         }
     }
 }
