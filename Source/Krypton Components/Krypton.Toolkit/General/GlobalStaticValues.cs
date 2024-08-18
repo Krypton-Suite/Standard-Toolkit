@@ -71,6 +71,9 @@ namespace Krypton.Toolkit
         /// <summary>The empty color</summary>
         public static readonly Color EMPTY_COLOR = Color.Empty;
 
+        /// <summary>The default null color</summary>
+        public static readonly Color? DEFAULT_NULL_COLOR = null;
+
         /// <summary>The transparency key color</summary>
         public static readonly Color TRANSPARENCY_KEY_COLOR = Color.Magenta;
 

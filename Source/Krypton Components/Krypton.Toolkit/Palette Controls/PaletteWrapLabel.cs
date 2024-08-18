@@ -93,6 +93,7 @@ namespace Krypton.Toolkit
         [Description(@"Color for the text.")]
         [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
+        [AllowNull]
         public virtual Color TextColor
         {
             get => _textColor;
