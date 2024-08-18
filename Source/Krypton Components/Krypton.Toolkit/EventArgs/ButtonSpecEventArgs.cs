@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             Debug.Assert(index >= 0);
 
             // Remember parameter details
-            ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(spec)));
+            ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(spec)));
             Index = index;
         }
         #endregion

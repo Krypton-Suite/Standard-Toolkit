@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming alternatives
-            _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
-            _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
+            _primary = primary ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(primary)));
+            _backup = backup ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(backup)));
 
             // Default other state
             Apply = true;

@@ -1324,10 +1324,18 @@ namespace Krypton.Toolkit
         /// Specifies a panel client input style.
         /// </summary>
         PanelClient,
+        /*/// <summary>
+        /// Specifies a panel client input style, with inverted text colors.
+        /// </summary>
+        PanelClientInverted,*/
         /// <summary>
         /// Specifies the panel alternate input style.
         /// </summary>
         PanelAlternate
+        /*/// <summary>
+        /// Specifies the panel alternate input style, with inverted text colors.
+        /// </summary>
+        PanelAlternateInverted*/
         /*
         /// <summary>
         /// Specifies the disabled input style.

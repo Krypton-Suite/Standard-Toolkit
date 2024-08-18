@@ -82,8 +82,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonTextBox.Ribbon != null)
             {
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonTextBox) > 0;
                 movePrev = items.IndexOf(_ribbonTextBox) > 0;
                 moveNext = items.IndexOf(_ribbonTextBox) < (items.Count - 1);
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveFirst");
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MovePrevious");
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveNext");
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox MoveLast");
@@ -377,7 +377,7 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTextBox DeleteTextBox");
@@ -414,7 +414,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox.Ribbon is not null)
             {
-                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("propertyEnabled"));
                 var oldValue = (bool?)propertyEnabled.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonTextBox.Ribbon is not null)
             {
-                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonTextBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("propertyVisible"));
                 var oldValue = (bool?)propertyVisible.GetValue(_ribbonTextBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTextBox, null, oldValue, newValue);

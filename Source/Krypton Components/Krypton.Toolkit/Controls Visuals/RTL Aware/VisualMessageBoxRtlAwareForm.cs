@@ -89,6 +89,9 @@ namespace Krypton.Toolkit
             Text = string.IsNullOrEmpty(_caption) 
                 ? string.Empty 
                 : _caption!.Split(Environment.NewLine.ToCharArray())[0];
+
+            krtbMessageText.StateCommon.Content.Color1 = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+
             krtbMessageText.Text = _text;
         }
 

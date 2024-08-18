@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
+            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("clone"));
 
             cloned.Items.AddRange(Items);
 

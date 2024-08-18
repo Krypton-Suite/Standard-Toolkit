@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         #region Private
 
         private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl 
-            ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+            ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

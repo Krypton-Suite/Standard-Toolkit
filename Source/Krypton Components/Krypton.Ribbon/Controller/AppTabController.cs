@@ -250,12 +250,12 @@ namespace Krypton.Ribbon
 
             if (ribbon is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+                throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(ribbon)));
             }
 
             if (ribbon.TabsArea is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+                throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
             }
 
             switch (e.KeyData)
@@ -376,12 +376,12 @@ namespace Krypton.Ribbon
         {
             if (ribbon is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull("ribbon"));
+                throw new NullReferenceException(GlobalStaticMethods.ParameterCannotBeNull("ribbon"));
             }
 
             if (ribbon.TabsArea is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
+                throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull("ribbon.TabsArea"));
             }
 
             // We leave key tips usage whenever we use the application button

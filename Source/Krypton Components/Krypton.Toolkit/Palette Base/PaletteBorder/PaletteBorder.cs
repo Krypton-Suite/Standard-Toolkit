@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
+            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(inherit)));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

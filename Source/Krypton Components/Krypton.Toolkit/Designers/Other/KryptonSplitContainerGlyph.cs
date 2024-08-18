@@ -41,14 +41,14 @@ namespace Krypton.Toolkit
             Debug.Assert(relatedDesigner is not null);
 
             // Remember incoming references
-            _selectionService = selectionService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(selectionService)));
-            _behaviorService = behaviorService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(behaviorService)));
-            _adorner = adorner ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(adorner)));
+            _selectionService = selectionService ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(selectionService)));
+            _behaviorService = behaviorService ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(behaviorService)));
+            _adorner = adorner ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(adorner)));
 
             // Find the related control
             if ( relatedDesigner is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(relatedDesigner)));
+                throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(relatedDesigner)));
             }
 
             _splitContainer = relatedDesigner.Component as KryptonSplitContainer;

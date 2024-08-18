@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dateTimeCell"));
+            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("dateTimeCell"));
 
             dateTimeCell.AutoShift = AutoShift;
             dateTimeCell.Checked = Checked;
@@ -704,7 +704,7 @@ namespace Krypton.Toolkit
         #region Private
 
         private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker => 
-            DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+            DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

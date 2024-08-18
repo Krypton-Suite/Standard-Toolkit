@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kbtnOk = new Krypton.Toolkit.KryptonButton();
@@ -202,6 +201,7 @@
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 0;
+            this.kbtnOk.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOk.Values.Text = "kryptonButton1";
             this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
@@ -213,6 +213,7 @@
             this.kbtnSystemInformation.Name = "kbtnSystemInformation";
             this.kbtnSystemInformation.Size = new System.Drawing.Size(161, 25);
             this.kbtnSystemInformation.TabIndex = 1;
+            this.kbtnSystemInformation.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnSystemInformation.Values.Text = "kryptonButton2";
             this.kbtnSystemInformation.Click += new System.EventHandler(this.kbtnSystemInformation_Click);
             // 
@@ -257,11 +258,11 @@
             this.tscMain.ContentPanel.Controls.Add(this.kpnlFileInformation);
             this.tscMain.ContentPanel.Controls.Add(this.kpnlTheme);
             this.tscMain.ContentPanel.Controls.Add(this.kpnlToolkitInformation);
-            this.tscMain.ContentPanel.Size = new System.Drawing.Size(777, 326);
+            this.tscMain.ContentPanel.Size = new System.Drawing.Size(777, 328);
             this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tscMain.Location = new System.Drawing.Point(0, 0);
             this.tscMain.Name = "tscMain";
-            this.tscMain.Size = new System.Drawing.Size(777, 351);
+            this.tscMain.Size = new System.Drawing.Size(777, 353);
             this.tscMain.TabIndex = 0;
             this.tscMain.Text = "toolStripContainer1";
             // 
@@ -275,7 +276,7 @@
             this.kpnlGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlGeneralInformation.Location = new System.Drawing.Point(0, 0);
             this.kpnlGeneralInformation.Name = "kpnlGeneralInformation";
-            this.kpnlGeneralInformation.Size = new System.Drawing.Size(777, 326);
+            this.kpnlGeneralInformation.Size = new System.Drawing.Size(777, 328);
             this.kpnlGeneralInformation.TabIndex = 3;
             // 
             // tlpnlGeneralInformation
@@ -297,7 +298,7 @@
             this.tlpnlGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpnlGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpnlGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpnlGeneralInformation.Size = new System.Drawing.Size(777, 326);
+            this.tlpnlGeneralInformation.Size = new System.Drawing.Size(777, 328);
             this.tlpnlGeneralInformation.TabIndex = 1;
             // 
             // pbxImage
@@ -307,7 +308,7 @@
             this.pbxImage.Margin = new System.Windows.Forms.Padding(5);
             this.pbxImage.Name = "pbxImage";
             this.tlpnlGeneralInformation.SetRowSpan(this.pbxImage, 4);
-            this.pbxImage.Size = new System.Drawing.Size(64, 316);
+            this.pbxImage.Size = new System.Drawing.Size(64, 318);
             this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxImage.TabIndex = 0;
             this.pbxImage.TabStop = false;
@@ -320,7 +321,7 @@
             this.kwlVersionLabel.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
             this.kwlVersionLabel.Location = new System.Drawing.Point(77, 0);
             this.kwlVersionLabel.Name = "kwlVersionLabel";
-            this.kwlVersionLabel.Size = new System.Drawing.Size(697, 81);
+            this.kwlVersionLabel.Size = new System.Drawing.Size(697, 82);
             this.kwlVersionLabel.Text = "kryptonWrapLabel2";
             this.kwlVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -330,9 +331,9 @@
             this.kwlBuiltOn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.kwlBuiltOn.ForeColor = System.Drawing.Color.Black;
             this.kwlBuiltOn.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlBuiltOn.Location = new System.Drawing.Point(77, 81);
+            this.kwlBuiltOn.Location = new System.Drawing.Point(77, 82);
             this.kwlBuiltOn.Name = "kwlBuiltOn";
-            this.kwlBuiltOn.Size = new System.Drawing.Size(697, 81);
+            this.kwlBuiltOn.Size = new System.Drawing.Size(697, 82);
             this.kwlBuiltOn.Text = "kryptonWrapLabel3";
             this.kwlBuiltOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -342,9 +343,9 @@
             this.kwlCopyright.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.kwlCopyright.ForeColor = System.Drawing.Color.Black;
             this.kwlCopyright.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlCopyright.Location = new System.Drawing.Point(77, 162);
+            this.kwlCopyright.Location = new System.Drawing.Point(77, 164);
             this.kwlCopyright.Name = "kwlCopyright";
-            this.kwlCopyright.Size = new System.Drawing.Size(697, 81);
+            this.kwlCopyright.Size = new System.Drawing.Size(697, 82);
             this.kwlCopyright.Text = "kryptonWrapLabel4";
             this.kwlCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -354,9 +355,9 @@
             this.kryptonWrapLabel5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.kryptonWrapLabel5.ForeColor = System.Drawing.Color.Black;
             this.kryptonWrapLabel5.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kryptonWrapLabel5.Location = new System.Drawing.Point(77, 243);
+            this.kryptonWrapLabel5.Location = new System.Drawing.Point(77, 246);
             this.kryptonWrapLabel5.Name = "kryptonWrapLabel5";
-            this.kryptonWrapLabel5.Size = new System.Drawing.Size(697, 83);
+            this.kryptonWrapLabel5.Size = new System.Drawing.Size(697, 82);
             this.kryptonWrapLabel5.Text = "kryptonWrapLabel5";
             this.kryptonWrapLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -366,16 +367,15 @@
             this.kpnlDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlDescription.Location = new System.Drawing.Point(0, 0);
             this.kpnlDescription.Name = "kpnlDescription";
-            this.kpnlDescription.Size = new System.Drawing.Size(777, 326);
+            this.kpnlDescription.Size = new System.Drawing.Size(777, 328);
             this.kpnlDescription.TabIndex = 2;
             // 
             // krtbDescription
             // 
             this.krtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.krtbDescription.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
             this.krtbDescription.Location = new System.Drawing.Point(0, 0);
             this.krtbDescription.Name = "krtbDescription";
-            this.krtbDescription.Size = new System.Drawing.Size(777, 326);
+            this.krtbDescription.Size = new System.Drawing.Size(777, 328);
             this.krtbDescription.TabIndex = 0;
             this.krtbDescription.Text = "";
             // 
@@ -385,7 +385,7 @@
             this.kpnlFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlFileInformation.Location = new System.Drawing.Point(0, 0);
             this.kpnlFileInformation.Name = "kpnlFileInformation";
-            this.kpnlFileInformation.Size = new System.Drawing.Size(777, 326);
+            this.kpnlFileInformation.Size = new System.Drawing.Size(777, 328);
             this.kpnlFileInformation.TabIndex = 1;
             // 
             // tscFileInformation
@@ -396,11 +396,11 @@
             this.tscFileInformation.ContentPanel.Controls.Add(this.kpnlApplication);
             this.tscFileInformation.ContentPanel.Controls.Add(this.kpnlAssemblies);
             this.tscFileInformation.ContentPanel.Controls.Add(this.kpnlAssemblyDetails);
-            this.tscFileInformation.ContentPanel.Size = new System.Drawing.Size(777, 301);
+            this.tscFileInformation.ContentPanel.Size = new System.Drawing.Size(777, 303);
             this.tscFileInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tscFileInformation.Location = new System.Drawing.Point(0, 0);
             this.tscFileInformation.Name = "tscFileInformation";
-            this.tscFileInformation.Size = new System.Drawing.Size(777, 326);
+            this.tscFileInformation.Size = new System.Drawing.Size(777, 328);
             this.tscFileInformation.TabIndex = 1;
             this.tscFileInformation.Text = "toolStripContainer2";
             // 
@@ -414,7 +414,7 @@
             this.kpnlApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlApplication.Location = new System.Drawing.Point(0, 0);
             this.kpnlApplication.Name = "kpnlApplication";
-            this.kpnlApplication.Size = new System.Drawing.Size(777, 301);
+            this.kpnlApplication.Size = new System.Drawing.Size(777, 303);
             this.kpnlApplication.TabIndex = 1;
             // 
             // kdgvApplication
@@ -432,7 +432,7 @@
             this.kdgvApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvApplication.Location = new System.Drawing.Point(0, 0);
             this.kdgvApplication.Name = "kdgvApplication";
-            this.kdgvApplication.Size = new System.Drawing.Size(777, 301);
+            this.kdgvApplication.Size = new System.Drawing.Size(777, 303);
             this.kdgvApplication.TabIndex = 0;
             // 
             // clmnApplicationKey
@@ -453,7 +453,7 @@
             this.kpnlAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlAssemblies.Location = new System.Drawing.Point(0, 0);
             this.kpnlAssemblies.Name = "kpnlAssemblies";
-            this.kpnlAssemblies.Size = new System.Drawing.Size(777, 301);
+            this.kpnlAssemblies.Size = new System.Drawing.Size(777, 303);
             this.kpnlAssemblies.TabIndex = 1;
             // 
             // kdgvAssemblies
@@ -473,7 +473,7 @@
             this.kdgvAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvAssemblies.Location = new System.Drawing.Point(0, 0);
             this.kdgvAssemblies.Name = "kdgvAssemblies";
-            this.kdgvAssemblies.Size = new System.Drawing.Size(777, 301);
+            this.kdgvAssemblies.Size = new System.Drawing.Size(777, 303);
             this.kdgvAssemblies.TabIndex = 0;
             // 
             // clmnAssembly
@@ -506,7 +506,7 @@
             this.kpnlAssemblyDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlAssemblyDetails.Location = new System.Drawing.Point(0, 0);
             this.kpnlAssemblyDetails.Name = "kpnlAssemblyDetails";
-            this.kpnlAssemblyDetails.Size = new System.Drawing.Size(777, 301);
+            this.kpnlAssemblyDetails.Size = new System.Drawing.Size(777, 303);
             this.kpnlAssemblyDetails.TabIndex = 0;
             // 
             // kiadAssemblyDetails
@@ -515,7 +515,7 @@
             this.kiadAssemblyDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kiadAssemblyDetails.Location = new System.Drawing.Point(0, 0);
             this.kiadAssemblyDetails.Name = "kiadAssemblyDetails";
-            this.kiadAssemblyDetails.Size = new System.Drawing.Size(777, 301);
+            this.kiadAssemblyDetails.Size = new System.Drawing.Size(777, 303);
             this.kiadAssemblyDetails.TabIndex = 0;
             // 
             // tsFileInformation
@@ -580,7 +580,7 @@
             this.kpnlTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlTheme.Location = new System.Drawing.Point(0, 0);
             this.kpnlTheme.Name = "kpnlTheme";
-            this.kpnlTheme.Size = new System.Drawing.Size(777, 326);
+            this.kpnlTheme.Size = new System.Drawing.Size(777, 328);
             this.kpnlTheme.TabIndex = 0;
             // 
             // tlpTheme
@@ -596,18 +596,19 @@
             this.tlpTheme.RowCount = 2;
             this.tlpTheme.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpTheme.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpTheme.Size = new System.Drawing.Size(777, 326);
+            this.tlpTheme.Size = new System.Drawing.Size(777, 328);
             this.tlpTheme.TabIndex = 0;
             // 
             // kryptonThemeComboBox1
             // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonThemeComboBox1.DropDownWidth = 767;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(5, 300);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(5, 301);
             this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(5);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(767, 21);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(767, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
@@ -620,7 +621,7 @@
             this.kwlCurrentTheme.Location = new System.Drawing.Point(3, 0);
             this.kwlCurrentTheme.Name = "kwlCurrentTheme";
             this.kwlCurrentTheme.Padding = new System.Windows.Forms.Padding(5);
-            this.kwlCurrentTheme.Size = new System.Drawing.Size(771, 295);
+            this.kwlCurrentTheme.Size = new System.Drawing.Size(771, 296);
             this.kwlCurrentTheme.Text = "kryptonWrapLabel1";
             this.kwlCurrentTheme.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
@@ -630,7 +631,7 @@
             this.kpnlToolkitInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlToolkitInformation.Location = new System.Drawing.Point(0, 0);
             this.kpnlToolkitInformation.Name = "kpnlToolkitInformation";
-            this.kpnlToolkitInformation.Size = new System.Drawing.Size(777, 326);
+            this.kpnlToolkitInformation.Size = new System.Drawing.Size(777, 328);
             this.kpnlToolkitInformation.TabIndex = 4;
             // 
             // tscToolkitInformation
@@ -642,11 +643,11 @@
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlDiscord);
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlDeveloperInformation);
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlVersions);
-            this.tscToolkitInformation.ContentPanel.Size = new System.Drawing.Size(777, 301);
+            this.tscToolkitInformation.ContentPanel.Size = new System.Drawing.Size(777, 303);
             this.tscToolkitInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tscToolkitInformation.Location = new System.Drawing.Point(0, 0);
             this.tscToolkitInformation.Name = "tscToolkitInformation";
-            this.tscToolkitInformation.Size = new System.Drawing.Size(777, 326);
+            this.tscToolkitInformation.Size = new System.Drawing.Size(777, 328);
             this.tscToolkitInformation.TabIndex = 2;
             this.tscToolkitInformation.Text = "toolStripContainer1";
             // 
@@ -660,7 +661,7 @@
             this.kpnlToolkitGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlToolkitGeneralInformation.Location = new System.Drawing.Point(0, 0);
             this.kpnlToolkitGeneralInformation.Name = "kpnlToolkitGeneralInformation";
-            this.kpnlToolkitGeneralInformation.Size = new System.Drawing.Size(777, 301);
+            this.kpnlToolkitGeneralInformation.Size = new System.Drawing.Size(777, 303);
             this.kpnlToolkitGeneralInformation.TabIndex = 3;
             // 
             // tlpGeneralInformation
@@ -682,7 +683,7 @@
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpGeneralInformation.Size = new System.Drawing.Size(777, 301);
+            this.tlpGeneralInformation.Size = new System.Drawing.Size(777, 303);
             this.tlpGeneralInformation.TabIndex = 0;
             // 
             // pbxLogo
@@ -692,7 +693,7 @@
             this.pbxLogo.Margin = new System.Windows.Forms.Padding(5);
             this.pbxLogo.Name = "pbxLogo";
             this.pbxLogo.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-            this.pbxLogo.Size = new System.Drawing.Size(64, 200);
+            this.pbxLogo.Size = new System.Drawing.Size(64, 201);
             this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxLogo.TabIndex = 0;
             this.pbxLogo.TabStop = false;
@@ -707,7 +708,7 @@
             this.klwlblGeneralInformation.Location = new System.Drawing.Point(79, 5);
             this.klwlblGeneralInformation.Margin = new System.Windows.Forms.Padding(5);
             this.klwlblGeneralInformation.Name = "klwlblGeneralInformation";
-            this.klwlblGeneralInformation.Size = new System.Drawing.Size(693, 200);
+            this.klwlblGeneralInformation.Size = new System.Drawing.Size(693, 201);
             this.klwlblGeneralInformation.Text = "Some of the components used in this application are part of the Krypton Standard " +
     "Toolkit.\r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblGeneralInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -718,7 +719,7 @@
             // 
             this.klblCurrentTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.klblCurrentTheme.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
-            this.klblCurrentTheme.Location = new System.Drawing.Point(79, 245);
+            this.klblCurrentTheme.Location = new System.Drawing.Point(79, 246);
             this.klblCurrentTheme.Margin = new System.Windows.Forms.Padding(5);
             this.klblCurrentTheme.Name = "klblCurrentTheme";
             this.klblCurrentTheme.Size = new System.Drawing.Size(693, 20);
@@ -727,13 +728,14 @@
             // 
             // ktcmbCurrentTheme
             // 
+            this.ktcmbCurrentTheme.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.ktcmbCurrentTheme.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ktcmbCurrentTheme.DropDownWidth = 693;
             this.ktcmbCurrentTheme.IntegralHeight = false;
-            this.ktcmbCurrentTheme.Location = new System.Drawing.Point(79, 275);
+            this.ktcmbCurrentTheme.Location = new System.Drawing.Point(79, 276);
             this.ktcmbCurrentTheme.Margin = new System.Windows.Forms.Padding(5);
             this.ktcmbCurrentTheme.Name = "ktcmbCurrentTheme";
-            this.ktcmbCurrentTheme.Size = new System.Drawing.Size(693, 21);
+            this.ktcmbCurrentTheme.Size = new System.Drawing.Size(693, 22);
             this.ktcmbCurrentTheme.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.ktcmbCurrentTheme.TabIndex = 3;
             // 
@@ -741,7 +743,7 @@
             // 
             this.klblBuiltOn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.klblBuiltOn.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.klblBuiltOn.Location = new System.Drawing.Point(79, 215);
+            this.klblBuiltOn.Location = new System.Drawing.Point(79, 216);
             this.klblBuiltOn.Margin = new System.Windows.Forms.Padding(5);
             this.klblBuiltOn.Name = "klblBuiltOn";
             this.klblBuiltOn.Size = new System.Drawing.Size(693, 20);
@@ -754,7 +756,7 @@
             this.kpnlDiscord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlDiscord.Location = new System.Drawing.Point(0, 0);
             this.kpnlDiscord.Name = "kpnlDiscord";
-            this.kpnlDiscord.Size = new System.Drawing.Size(777, 301);
+            this.kpnlDiscord.Size = new System.Drawing.Size(777, 303);
             this.kpnlDiscord.TabIndex = 2;
             // 
             // klwlblDiscord
@@ -766,7 +768,7 @@
             this.klwlblDiscord.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this.klwlblDiscord.Location = new System.Drawing.Point(0, 0);
             this.klwlblDiscord.Name = "klwlblDiscord";
-            this.klwlblDiscord.Size = new System.Drawing.Size(777, 301);
+            this.klwlblDiscord.Size = new System.Drawing.Size(777, 303);
             this.klwlblDiscord.Text = "kryptonLinkWrapLabel1";
             this.klwlblDiscord.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.klwlblDiscord.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblDiscord_LinkClicked);
@@ -777,7 +779,7 @@
             this.kpnlDeveloperInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlDeveloperInformation.Location = new System.Drawing.Point(0, 0);
             this.kpnlDeveloperInformation.Name = "kpnlDeveloperInformation";
-            this.kpnlDeveloperInformation.Size = new System.Drawing.Size(777, 301);
+            this.kpnlDeveloperInformation.Size = new System.Drawing.Size(777, 303);
             this.kpnlDeveloperInformation.TabIndex = 1;
             // 
             // tlpDeveloperInformation
@@ -795,7 +797,7 @@
             this.tlpDeveloperInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpDeveloperInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpDeveloperInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpDeveloperInformation.Size = new System.Drawing.Size(777, 301);
+            this.tlpDeveloperInformation.Size = new System.Drawing.Size(777, 303);
             this.tlpDeveloperInformation.TabIndex = 0;
             // 
             // klwlblRepositories
@@ -835,7 +837,7 @@
             this.klwlblDemos.Location = new System.Drawing.Point(5, 205);
             this.klwlblDemos.Margin = new System.Windows.Forms.Padding(5);
             this.klwlblDemos.Name = "klwlblDemos";
-            this.klwlblDemos.Size = new System.Drawing.Size(767, 91);
+            this.klwlblDemos.Size = new System.Drawing.Size(767, 93);
             this.klwlblDemos.Text = "kryptonLinkWrapLabel1";
             this.klwlblDemos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.klwlblDemos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblDemos_LinkClicked);
@@ -846,7 +848,7 @@
             this.kpnlVersions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlVersions.Location = new System.Drawing.Point(0, 0);
             this.kpnlVersions.Name = "kpnlVersions";
-            this.kpnlVersions.Size = new System.Drawing.Size(777, 301);
+            this.kpnlVersions.Size = new System.Drawing.Size(777, 303);
             this.kpnlVersions.TabIndex = 0;
             // 
             // kdgvVersions
@@ -865,7 +867,7 @@
             this.kdgvVersions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvVersions.Location = new System.Drawing.Point(0, 0);
             this.kdgvVersions.Name = "kdgvVersions";
-            this.kdgvVersions.Size = new System.Drawing.Size(777, 301);
+            this.kdgvVersions.Size = new System.Drawing.Size(777, 303);
             this.kdgvVersions.TabIndex = 0;
             // 
             // clmnFileName

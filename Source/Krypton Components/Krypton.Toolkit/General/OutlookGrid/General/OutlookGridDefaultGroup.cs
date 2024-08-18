@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
         public virtual OutlookGridColumn Column 
         {
             get => _column!;
-            set => _column = value ?? throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(this.Column)));
+            set => _column = value ?? throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull(nameof(this.Column)));
         }
 
         /// <summary>

@@ -81,8 +81,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new lines component
-                    var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("lines"));
+                    var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("lines"));
                     _ribbonGroup.Items.Add(lines);
 
                     // Get access to the Lines.Items property
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("host"));
 
                     // We need to remove all the items from the tab
                     for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -593,7 +593,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonGroup)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("host"));
 
                 // We need to remove all containers from the group
                 for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
@@ -711,7 +711,7 @@ namespace Krypton.Ribbon
                 var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
-                var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
+                var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

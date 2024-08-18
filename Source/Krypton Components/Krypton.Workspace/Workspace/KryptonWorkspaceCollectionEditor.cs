@@ -1103,7 +1103,7 @@ namespace Krypton.Workspace
                         if (isNodePage)
                         {
                             // Remove page from parent cell
-                            var parentNode = node.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(node.Parent)));
+                            var parentNode = node.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(node.Parent)));
 
                             parentNode.CellItem!.Pages.Remove(node.PageItem!);
                             parentNode.Nodes.Remove(node);
@@ -1417,7 +1417,7 @@ namespace Krypton.Workspace
             private void buttonAddSequence_Click(object? sender, EventArgs e)
             {
                 // Create new sequence and menu node for the sequence
-                var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("sequence"));
+                var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("sequence"));
                 TreeNode newNode = new MenuTreeNode(sequence);
 
                 var selectedNode = _treeView.SelectedNode as MenuTreeNode;
@@ -1436,7 +1436,7 @@ namespace Krypton.Workspace
                     else
                     {
                         // Selected node is a cell, so insert after this cell
-                        var selectedParentNode = selectedNode.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(selectedNode.Parent)));
+                        var selectedParentNode = selectedNode.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(selectedNode.Parent)));
                         var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                         selectedParentNode.SequenceItem!.Children!.Insert(selectedIndex + 1, sequence);
                         selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
@@ -1655,7 +1655,7 @@ namespace Krypton.Workspace
                 after = separator.WorkspaceItem;
 
                 // Workspace item before the separator (to the left or above)
-                var beforeSequence = after.WorkspaceParent as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(after.WorkspaceParent)));
+                var beforeSequence = after.WorkspaceParent as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(after.WorkspaceParent)));
 
                 // Previous items might be invisible and so search till we find the visible one we expect
                 before = null;
@@ -1845,7 +1845,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                var sequence = Context!.Instance as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Context.Instance)));
+                var sequence = Context!.Instance as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(Context.Instance)));
                 return sequence.WorkspaceControl;
             }
         }

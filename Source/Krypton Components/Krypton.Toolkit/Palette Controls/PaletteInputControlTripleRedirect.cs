@@ -125,11 +125,21 @@ namespace Krypton.Toolkit
                         PaletteBorderStyle.InputControlStandalone,
                         PaletteContentStyle.LabelNormalControl);
                     break;
+                //case InputControlStyle.PanelClientInverted:
+                //    SetStyles(PaletteBackStyle.PanelClient,
+                //              PaletteBorderStyle.InputControlStandalone,
+                //              PaletteContentStyle.ContextMenuItemTextAlternate);
+                //    break;
                 case InputControlStyle.PanelAlternate:
                     SetStyles(PaletteBackStyle.PanelAlternate,
                         PaletteBorderStyle.InputControlStandalone,
                         PaletteContentStyle.LabelNormalControl);
                     break;
+                //case InputControlStyle.PanelAlternateInverted:
+                //    SetStyles(PaletteBackStyle.PanelAlternate,
+                //        PaletteBorderStyle.InputControlStandalone,
+                //        PaletteContentStyle.ContextMenuItemTextAlternate);
+                //    break;
             }
         }
 

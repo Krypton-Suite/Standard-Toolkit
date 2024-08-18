@@ -120,8 +120,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -861,7 +861,7 @@ namespace Krypton.Ribbon
                         RaiseComponentChanging(propertyItems);
 
                         // Need access to host in order to delete a component
-                        var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                        var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("host"));
 
                         // We need to remove all the items from the triple group
                         for (var i = _ribbonTriple.Items.Count - 1 ; i >= 0 ; i--)
@@ -986,7 +986,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonTriple && _ribbonTriple.Items is not null)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("host"));
 
                 // We need to remove all items from the triple group
                 for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
@@ -1168,7 +1168,7 @@ namespace Krypton.Ribbon
                 var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
-                var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("destination"));
+                var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("destination"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");

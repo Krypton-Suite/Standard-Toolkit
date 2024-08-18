@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             // base.EditValue needs a valid reference to provider.
             if (provider is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(provider)));
+                throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(provider)));
             }
 
             if ((context is not null) && (value is not null))

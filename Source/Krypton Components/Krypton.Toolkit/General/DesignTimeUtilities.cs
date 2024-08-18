@@ -88,7 +88,9 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_THREE = @"Custom 3";
         internal const string DEFAULT_INPUT_CONTROL_STYLE_RIBBON = @"Ribbon";
         internal const string DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE = @"Panel Alternate";
+        internal const string DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE_INVERTED = @"Panel Alternate (Inverted)";
         internal const string DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT = @"Panel Client";
+        internal const string DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT_INVERTED = @"Panel Client (Inverted)";
         internal const string DEFAULT_INPUT_CONTROL_STYLE_STANDALONE = @"Standalone";
 
         #endregion

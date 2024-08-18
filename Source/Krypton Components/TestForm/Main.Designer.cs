@@ -41,6 +41,7 @@ namespace TestForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Krypton.Toolkit.KryptonInputBoxData kryptonInputBoxData1 = new Krypton.Toolkit.KryptonInputBoxData();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonButton12 = new Krypton.Toolkit.KryptonButton();
@@ -105,6 +106,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton12);
@@ -144,6 +146,14 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1214, 853);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonRichTextBox1
+            // 
+            this.kryptonRichTextBox1.Location = new System.Drawing.Point(910, 7);
+            this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
+            this.kryptonRichTextBox1.Size = new System.Drawing.Size(100, 96);
+            this.kryptonRichTextBox1.TabIndex = 45;
+            this.kryptonRichTextBox1.Text = "kryptonRichTextBox1";
             // 
             // kryptonThemeComboBox1
             // 
@@ -719,5 +729,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonCommand kcmdOpenImage;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
+        private KryptonRichTextBox kryptonRichTextBox1;
     }
 }
