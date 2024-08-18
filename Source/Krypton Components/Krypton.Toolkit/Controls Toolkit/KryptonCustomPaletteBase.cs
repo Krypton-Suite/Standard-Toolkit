@@ -2220,7 +2220,8 @@ namespace Krypton.Toolkit
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
         public void ImportWithUpgrade(Stream stream)
-        {try
+        {
+            try
             {
                 // Prevent lots of redraw events until all loading completes
                 SuspendUpdates();
@@ -2244,6 +2245,26 @@ namespace Krypton.Toolkit
             {
                 // Must match the SuspendUpdates even if exception occurs
                 ResumeUpdates();
+            }
+        }
+
+        /// <summary>Upgrades the specified palette and upgrades it if needed.</summary>
+        /// <param name="themeFilePath">The theme file path.</param>
+        public void ImportWithUpgrade(string themeFilePath)
+        {
+            try
+            {
+                FileStream stream = new(path: themeFilePath, mode: FileMode.Open);
+
+                ImportWithUpgrade(stream);
+
+                stream.Close();
+
+                stream.Dispose();
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
             }
         }
 
@@ -5616,6 +5637,7 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return header.StateDisabled;
+                case PaletteState.Tracking: // #1729 KHeader does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return header.StateNormal;
                 default:
@@ -5650,7 +5672,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return label.StateDisabled;
                 case PaletteState.Normal:
-                case PaletteState.ContextNormal:    // Occurrs from the TreeGrid
+                case PaletteState.ContextNormal:    // Occurs from the TreeGrid
                 case PaletteState.Tracking:
                 case PaletteState.Pressed:
                     return label.StateNormal;
@@ -5713,6 +5735,8 @@ namespace Krypton.Toolkit
                     return ContextMenu.StateNormal.ItemImage.Back;
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Back;
+                case PaletteState.CheckedTracking:
+                    return ContextMenu.StateHighlight.ItemHighlight.Back;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5764,6 +5788,8 @@ namespace Krypton.Toolkit
                     return ContextMenu.StateNormal.ItemImage.Border;
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Border;
+                case PaletteState.CheckedTracking:
+                    return ContextMenu.StateHighlight.ItemHighlight.Border;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

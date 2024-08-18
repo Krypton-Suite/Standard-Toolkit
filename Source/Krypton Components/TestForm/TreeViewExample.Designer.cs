@@ -70,83 +70,83 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.ktvTest);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(973, 784);
+            this.kryptonPanel1.Size = new System.Drawing.Size(730, 637);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnClose
             // 
             this.kbtnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnClose.Location = new System.Drawing.Point(779, 742);
-            this.kbtnClose.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnClose.Location = new System.Drawing.Point(584, 603);
             this.kbtnClose.Name = "kbtnClose";
-            this.kbtnClose.Size = new System.Drawing.Size(184, 31);
+            this.kbtnClose.Size = new System.Drawing.Size(138, 25);
             this.kbtnClose.TabIndex = 8;
+            this.kbtnClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnClose.Values.Text = "Close";
+            this.kbtnClose.Click += new System.EventHandler(this.kbtnClose_Click);
             // 
             // buttonAppend
             // 
             this.buttonAppend.AutoSize = true;
-            this.buttonAppend.Location = new System.Drawing.Point(17, 606);
-            this.buttonAppend.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAppend.Location = new System.Drawing.Point(13, 492);
             this.buttonAppend.Name = "buttonAppend";
-            this.buttonAppend.Size = new System.Drawing.Size(419, 34);
+            this.buttonAppend.Size = new System.Drawing.Size(314, 28);
             this.buttonAppend.TabIndex = 4;
+            this.buttonAppend.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonAppend.Values.Text = "Append";
             this.buttonAppend.Click += new System.EventHandler(this.buttonAppend_Click);
             // 
             // buttonInsert
             // 
             this.buttonInsert.AutoSize = true;
-            this.buttonInsert.Location = new System.Drawing.Point(17, 645);
-            this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonInsert.Location = new System.Drawing.Point(13, 524);
             this.buttonInsert.Name = "buttonInsert";
-            this.buttonInsert.Size = new System.Drawing.Size(419, 34);
+            this.buttonInsert.Size = new System.Drawing.Size(314, 28);
             this.buttonInsert.TabIndex = 5;
+            this.buttonInsert.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonInsert.Values.Text = "Insert";
             this.buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
             // 
             // buttonClear
             // 
             this.buttonClear.AutoSize = true;
-            this.buttonClear.Location = new System.Drawing.Point(17, 724);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonClear.Location = new System.Drawing.Point(13, 588);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(419, 34);
+            this.buttonClear.Size = new System.Drawing.Size(314, 28);
             this.buttonClear.TabIndex = 7;
+            this.buttonClear.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonClear.Values.Text = "Clear";
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // buttonRemove
             // 
             this.buttonRemove.AutoSize = true;
-            this.buttonRemove.Location = new System.Drawing.Point(17, 684);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRemove.Location = new System.Drawing.Point(13, 556);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(419, 34);
+            this.buttonRemove.Size = new System.Drawing.Size(314, 28);
             this.buttonRemove.TabIndex = 6;
+            this.buttonRemove.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonRemove.Values.Text = "Remove";
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // kbtnToggleNodeCheckBox
             // 
-            this.kbtnToggleNodeCheckBox.Location = new System.Drawing.Point(17, 567);
-            this.kbtnToggleNodeCheckBox.Margin = new System.Windows.Forms.Padding(4);
+            this.kbtnToggleNodeCheckBox.Location = new System.Drawing.Point(13, 461);
             this.kbtnToggleNodeCheckBox.Name = "kbtnToggleNodeCheckBox";
-            this.kbtnToggleNodeCheckBox.Size = new System.Drawing.Size(419, 31);
+            this.kbtnToggleNodeCheckBox.Size = new System.Drawing.Size(314, 25);
             this.kbtnToggleNodeCheckBox.TabIndex = 3;
+            this.kbtnToggleNodeCheckBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnToggleNodeCheckBox.Values.Text = "Toggle Node CheckBox";
             this.kbtnToggleNodeCheckBox.Click += new System.EventHandler(this.kbtnToggleNodeCheckBox_Click);
             // 
             // kryptonPropertyGrid1
             // 
-            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(445, 50);
-            this.kryptonPropertyGrid1.Margin = new System.Windows.Forms.Padding(4);
+            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(334, 41);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
             this.kryptonPropertyGrid1.SelectedObject = this.ktvTest;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(503, 508);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(377, 413);
             this.kryptonPropertyGrid1.TabIndex = 2;
             // 
             // ktvTest
@@ -154,12 +154,11 @@ namespace TestForm
             this.ktvTest.CheckBoxes = true;
             this.ktvTest.ImageIndex = 0;
             this.ktvTest.ImageList = this.imageList;
-            this.ktvTest.Location = new System.Drawing.Point(17, 16);
-            this.ktvTest.Margin = new System.Windows.Forms.Padding(4);
+            this.ktvTest.Location = new System.Drawing.Point(13, 13);
             this.ktvTest.MultiSelect = true;
             this.ktvTest.Name = "ktvTest";
             this.ktvTest.SelectedImageIndex = 0;
-            this.ktvTest.Size = new System.Drawing.Size(419, 543);
+            this.ktvTest.Size = new System.Drawing.Size(314, 441);
             this.ktvTest.TabIndex = 0;
             this.ktvTest.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.ktvTest_BeforeCheck);
             // 
@@ -178,12 +177,12 @@ namespace TestForm
             // 
             // kryptonThemeComboBox1
             // 
+            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 503;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(445, 16);
-            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(334, 13);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(503, 25);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(377, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
@@ -201,13 +200,12 @@ namespace TestForm
             // 
             // TreeViewExample
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnClose;
-            this.ClientSize = new System.Drawing.Size(973, 784);
+            this.ClientSize = new System.Drawing.Size(730, 637);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "TreeViewExample";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
