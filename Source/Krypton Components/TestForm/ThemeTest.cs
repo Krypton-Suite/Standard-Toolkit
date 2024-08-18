@@ -88,6 +88,7 @@ namespace TestForm
 
         private void kryptonTextBox1_TextChanged(object sender, EventArgs e)
         {
+            kryptonButton2.Enabled = !string.IsNullOrEmpty(kryptonTextBox1.Text);
             kbtnCustomTheme.Enabled = !string.IsNullOrEmpty(kryptonTextBox1.Text);
         }
 
@@ -103,6 +104,11 @@ namespace TestForm
             }
 
             //KryptonManager.CurrentGlobalPalette = palette;
+        }
+
+        private void kryptonButton2_Click(object sender, EventArgs e)
+        {
+            kryptonCustomPaletteBase1.ImportWithUpgrade(kryptonTextBox1.Text);
         }
     }
 }
