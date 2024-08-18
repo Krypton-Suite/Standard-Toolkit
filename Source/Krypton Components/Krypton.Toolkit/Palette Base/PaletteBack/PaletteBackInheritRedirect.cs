@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector() => _redirect ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public PaletteRedirect GetRedirector() => _redirect ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         #endregion
 
@@ -76,49 +76,49 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBackDraw(PaletteState state) => _redirect?.GetBackDraw(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override InheritBool GetBackDraw(PaletteState state) => _redirect?.GetBackDraw(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the graphics drawing hint.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => _redirect?.GetBackGraphicsHint(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => _redirect?.GetBackGraphicsHint(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the first background color from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor1(PaletteState state) => _redirect?.GetBackColor1(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override Color GetBackColor1(PaletteState state) => _redirect?.GetBackColor1(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the second back color from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor2(PaletteState state) => _redirect?.GetBackColor2(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override Color GetBackColor2(PaletteState state) => _redirect?.GetBackColor2(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the color drawing style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBackColorStyle(PaletteState state) => _redirect?.GetBackColorStyle(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override PaletteColorStyle GetBackColorStyle(PaletteState state) => _redirect?.GetBackColorStyle(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the color alignment style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => _redirect?.GetBackColorAlign(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => _redirect?.GetBackColorAlign(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the color background angle from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public override float GetBackColorAngle(PaletteState state) => _redirect?.GetBackColorAngle(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override float GetBackColorAngle(PaletteState state) => _redirect?.GetBackColorAngle(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets a background image from the redirector.
@@ -132,14 +132,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public override PaletteImageStyle GetBackImageStyle(PaletteState state) => _redirect?.GetBackImageStyle(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override PaletteImageStyle GetBackImageStyle(PaletteState state) => _redirect?.GetBackImageStyle(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         /// <summary>
         /// Gets the image alignment style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => _redirect?.GetBackImageAlign(Style, state) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_redirect)));
+        public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => _redirect?.GetBackImageAlign(Style, state) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_redirect)));
 
         #endregion
     }

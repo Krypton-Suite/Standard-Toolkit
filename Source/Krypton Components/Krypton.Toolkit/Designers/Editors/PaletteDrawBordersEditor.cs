@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
             // base.EditValue needs a valid reference to provider.
             if (provider is null)
             {
-                throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(provider)));
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(provider)));
             }
 
             if ((context is not null) && (value is not null))
             {
-                // Grab the service needed to show the drop down
+                // Grab the service needed to show the drop
                 if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService service)
                 {
                     // Create the custom control used to edit value
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
                         Value = (PaletteDrawBorders)value
                     };
 
-                    // Show as a drop down control
+                    // Show as a drop control
                     service.DropDownControl(selector);
 
                     // Return the updated value

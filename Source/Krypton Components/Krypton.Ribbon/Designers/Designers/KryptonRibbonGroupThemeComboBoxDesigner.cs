@@ -77,8 +77,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("_designerHost"));
-            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("_changeService"));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_designerHost"));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("_changeService"));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonThemeComboBox) > 0;
                 movePrev = items.IndexOf(_ribbonThemeComboBox) > 0;
                 moveNext = items.IndexOf(_ribbonThemeComboBox) < (items.Count - 1);
@@ -228,7 +228,7 @@ namespace Krypton.Ribbon
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupThemeComboBoxBox MoveFirst");
@@ -263,7 +263,7 @@ namespace Krypton.Ribbon
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupThemeComboBox MovePrevious");
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupThemeComboBox MoveNext");
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupThemeComboBox MoveLast");
@@ -372,7 +372,7 @@ namespace Krypton.Ribbon
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupThemeComboBox DeleteThemeComboBox");
@@ -409,7 +409,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
-                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonThemeComboBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("propertyEnabled"));
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonThemeComboBox)[nameof(Enabled)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyEnabled"));
                 var oldValue = (bool?)propertyEnabled.GetValue(_ribbonThemeComboBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonThemeComboBox, null, oldValue, newValue);
@@ -421,7 +421,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonThemeComboBox.Ribbon is not null)
             {
-                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonThemeComboBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("propertyVisible"));
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonThemeComboBox)[nameof(Visible)] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyVisible"));
                 var oldValue = (bool?)propertyVisible.GetValue(_ribbonThemeComboBox);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonThemeComboBox, null, oldValue, newValue);

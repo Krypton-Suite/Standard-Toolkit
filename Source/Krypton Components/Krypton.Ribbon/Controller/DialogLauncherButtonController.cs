@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
 
             if (Ribbon.TabsArea is null)
             {
-                throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
             }
 
             switch (e.KeyData)

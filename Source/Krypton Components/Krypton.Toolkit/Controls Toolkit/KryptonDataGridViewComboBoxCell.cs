@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("dataGridViewCell"));
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dataGridViewCell"));
 
             dataGridViewCell.DropDownStyle = DropDownStyle;
             dataGridViewCell.DropDownHeight = DropDownHeight;

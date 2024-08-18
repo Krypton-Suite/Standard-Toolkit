@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
             
             // Remember inheritance for metric values
-            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(inherit)));
+            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
         }
         #endregion
 

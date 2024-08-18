@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
                 ? string.Empty 
                 : _caption!.Split(Environment.NewLine.ToCharArray())[0];
 
-            krtbMessageText.StateCommon.Content.Color1 = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+            krtbMessageText.StateCommon.Content.Color1 = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
             krtbMessageText.Text = _text;
         }

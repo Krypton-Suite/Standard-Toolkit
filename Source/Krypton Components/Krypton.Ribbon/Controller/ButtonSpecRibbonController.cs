@@ -49,21 +49,21 @@ namespace Krypton.Ribbon
 
             if (ribbon is null)
             {
-                throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(ribbon)));
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
             }
 
             if (ribbon.TabsArea is null)
             {
-                throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
             }
 
             if (ribbon.TabsArea.ButtonSpecManager is null)
             {
-                throw new NullReferenceException(GlobalStaticMethods.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
             }
 
             // Get the button spec associated with this controller
-            ViewDrawButton? viewButton = Target as ViewDrawButton ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(Target)));
+            ViewDrawButton? viewButton = Target as ViewDrawButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Target)));
             
             ButtonSpec? buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) ?? throw new NullReferenceException( "ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) returned null.");
 

@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         public void SetInherit([DisallowNull] IPaletteContent paletteContent)
         {
             Debug.Assert(paletteContent != null);
-            _inherit = paletteContent ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(paletteContent)));
+            _inherit = paletteContent ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(paletteContent)));
         }
         #endregion
 

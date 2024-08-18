@@ -156,17 +156,17 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    krtbMessageText.StateCommon.Content.Color1 = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+                    krtbMessageText.StateCommon.Content.Color1 = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
                     krtbMessageText.Text = text;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
-                    klwlblMessageText.StateCommon.TextColor = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+                    klwlblMessageText.StateCommon.TextColor = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
                     klwlblMessageText.Text = text;
                     break;
                 case null:
-                    krtbMessageText.StateCommon.Content.Color1 = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+                    krtbMessageText.StateCommon.Content.Color1 = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
                     krtbMessageText.Text = text;
                     break;
@@ -181,13 +181,13 @@ namespace Krypton.Toolkit
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {
-                krtbMessageText.StateCommon.Content.Color1 = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+                krtbMessageText.StateCommon.Content.Color1 = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
                 krtbMessageText.Text = _text;
             }
             else
             {
-                klwlblMessageText.StateCommon.TextColor = GlobalStaticMethods.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
+                klwlblMessageText.StateCommon.TextColor = GlobalStaticFunctions.IsUsingDefaultBlackThemes() ? Color.White : GlobalStaticValues.EMPTY_COLOR;
 
                 klwlblMessageText.Text = _text;
             }

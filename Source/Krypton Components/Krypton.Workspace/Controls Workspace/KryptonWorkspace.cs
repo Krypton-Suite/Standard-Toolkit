@@ -3797,12 +3797,12 @@ namespace Krypton.Workspace
 
                 if (_menuPage is null)
                 {
-                    throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_menuPage)));
+                    throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuPage)));
                 }
 
                 if (_menuCell is null)
                 {
-                    throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_menuCell)));
+                    throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuCell)));
                 }
 
                 // Update the individual menu options

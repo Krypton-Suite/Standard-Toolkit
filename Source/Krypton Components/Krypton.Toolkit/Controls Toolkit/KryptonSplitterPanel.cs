@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(container is not null);
 
-            Owner = container ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(container)));
+            Owner = container ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(container)));
         }
         #endregion
 

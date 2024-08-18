@@ -68,8 +68,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_designerHost)));
-            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_changeService)));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -136,7 +136,7 @@ namespace Krypton.Ribbon
 
             if (_ribbonLabel.Ribbon != null)
             {
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 moveFirst = items.IndexOf(_ribbonLabel) > 0;
                 movePrev = items.IndexOf(_ribbonLabel) > 0;
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
             if (_ribbonLabel.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLabel MoveFirst");
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
             if (_ribbonLabel.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLabel MovePrevious");
@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
             if (_ribbonLabel.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems  ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems  ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLabel MoveNext");
@@ -273,7 +273,7 @@ namespace Krypton.Ribbon
             if (_ribbonLabel.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLabel MoveLast");
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
             if (_ribbonLabel.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("items"));
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLabel DeleteLabel");

@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _gallery = component as KryptonGallery;
 
             // We need to know when we are being removed
-            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull(nameof(_changeService)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
             _changeService.ComponentRemoving += OnComponentRemoving;
         }
 
@@ -130,7 +130,7 @@ namespace Krypton.Ribbon
             if (e.Component == _gallery)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all the range instances
                 for (var i = _gallery!.DropButtonRanges.Count - 1; i >= 0; i--)

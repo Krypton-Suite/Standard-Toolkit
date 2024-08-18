@@ -828,7 +828,7 @@ namespace Krypton.Toolkit
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
-                    OutlookGridColumn? col = _internalColumns.FindFromColumnIndex(e.ColumnIndex) ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("col"));
+                    OutlookGridColumn? col = _internalColumns.FindFromColumnIndex(e.ColumnIndex) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("col"));
                     if (col.DataGridViewColumn!.SortMode != DataGridViewColumnSortMode.NotSortable)
                     {
                         SortOrder previousSort = col.SortDirection;

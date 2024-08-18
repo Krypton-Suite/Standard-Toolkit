@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewIconColumn ?? throw new NullReferenceException(GlobalStaticMethods.VariableCannotBeNull("cloned"));
+            var cloned = base.Clone() as KryptonDataGridViewIconColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             foreach (IconSpec sp in IconSpecs)
             {
