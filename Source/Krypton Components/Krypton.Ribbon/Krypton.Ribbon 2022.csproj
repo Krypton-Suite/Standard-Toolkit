@@ -36,6 +36,7 @@
         <WarningLevel>8</WarningLevel> <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
         <AnalysisLevel>latest</AnalysisLevel>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     </PropertyGroup>
 
     <PropertyGroup>

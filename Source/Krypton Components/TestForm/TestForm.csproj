@@ -9,6 +9,7 @@
         <AnalysisLevel>latest</AnalysisLevel>
         <UseWindowsForms>true</UseWindowsForms>
         <LangVersion>preview</LangVersion>
+        <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     </PropertyGroup>
 
     <ItemGroup>
