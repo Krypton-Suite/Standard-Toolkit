@@ -2252,10 +2252,12 @@ namespace Krypton.Toolkit
         /// <param name="themeFilePath">The theme file path.</param>
         public void ImportWithUpgrade(string themeFilePath)
         {
-            var stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+            FileStream? stream = null;
 
             try
             {
+                stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+
                 ImportWithUpgrade(stream);
             }
             catch (Exception e)
@@ -2264,9 +2266,9 @@ namespace Krypton.Toolkit
             }
             finally
             {
-                stream.Close();
+                stream?.Close();
 
-                stream.Dispose();
+                stream?.Dispose();
             }
         }
 
