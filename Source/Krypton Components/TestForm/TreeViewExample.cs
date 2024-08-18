@@ -103,5 +103,10 @@ namespace TestForm
         {
             ktvTest.Nodes.Clear();
         }
+
+        private void kbtnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

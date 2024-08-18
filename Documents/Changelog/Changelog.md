@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1729](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1729), `KryptonCustomPaletteBase` does not implement ##Tracking states
 * Resolved [#1693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1693), `KryptonCustomPaletteBase` Illegal characters in path
 * Resolved [#1552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1552), `KryptonMessageBox` throws an error when using custom theme `Asphalt_v19.xml`.
 * Resolved [#1708](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1708). `KryptonButton` crashes program on invalid type cast.
