@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         /// <param name="context">An ITypeDescriptorContext that can be used to gain additional context information.</param>
         /// <returns>UITypeEditorEditStyle value.</returns>
         /// <remarks>
-        /// We show a drop down for editing the PaletteDrawBorders value.
+        /// We show a drop-down for editing the PaletteDrawBorders value.
         /// </remarks>
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => context?.Instance != null
             ? UITypeEditorEditStyle.DropDown
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
 
             if ((context is not null) && (value is not null))
             {
-                // Grab the service needed to show the drop
+                // Grab the service needed to show the drop-down
                 if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService service)
                 {
                     // Create the custom control used to edit value
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
                         Value = (PaletteDrawBorders)value
                     };
 
-                    // Show as a drop control
+                    // Show as a drop-down control
                     service.DropDownControl(selector);
 
                     // Return the updated value
