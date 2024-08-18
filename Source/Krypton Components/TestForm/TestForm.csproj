@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
-        <!--<TargetFramework>net48</TargetFramework>-->
+        <TargetFrameworks>net48;net8.0-windows;net9.0-windows</TargetFrameworks>
         <Nullable>enable</Nullable>
-        <WarningLevel>8</WarningLevel> <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <WarningLevel>8</WarningLevel>
         <AnalysisLevel>latest</AnalysisLevel>
-        <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
+        <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
         <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     </PropertyGroup>
 
