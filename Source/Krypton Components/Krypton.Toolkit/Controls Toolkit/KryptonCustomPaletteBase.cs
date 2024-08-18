@@ -2248,19 +2248,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Upgrades the specified palette.</summary>
+        /// <summary>Upgrades the specified palette and upgrades it if needed.</summary>
         /// <param name="themeFilePath">The theme file path.</param>
         public void ImportWithUpgrade(string themeFilePath)
         {
             try
             {
-                KryptonManager manager = new KryptonManager();
-
                 FileStream stream = new(path: themeFilePath, mode: FileMode.Open);
 
                 ImportWithUpgrade(stream);
-
-                manager.GlobalPaletteMode = PaletteMode.Custom;
 
                 stream.Close();
 
