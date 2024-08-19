@@ -33,9 +33,12 @@
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <WarningLevel>8</WarningLevel> <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <WarningLevel>8</WarningLevel>
         <AnalysisLevel>latest</AnalysisLevel>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
+        <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     </PropertyGroup>
 
     <PropertyGroup>
