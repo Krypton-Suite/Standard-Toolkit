@@ -75,6 +75,10 @@ namespace Krypton.Toolkit
             // Default Cursor for the KRTB when the cursors hovers over it
             krtbMessageText.RichTextBox.Cursor = Cursors.Arrow;
 
+            // #1692 text font colour for input controls does not work correct on KMBees when using dark themes.
+            // Set the text colour to the one a control uses.
+            krtbMessageText.StateCommon.Content.Color1 = GlobalStaticValues.KryptonMessageBoxRichTextBoxTextColor;
+
             // Update contents to match requirements
             UpdateText();
             UpdateIcon();

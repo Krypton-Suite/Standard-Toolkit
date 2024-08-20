@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1692](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1692), Resolves `KryptonMessageBoxes` incompatibility between message text and dark themes.
 * Implemented [#1734](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1734), Add `ForceDesignerDPIUnaware` option
 * Resolved [#1729](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1729), `KryptonCustomPaletteBase` does not implement ##Tracking states
 * Resolved [#1693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1693), `KryptonCustomPaletteBase` Illegal characters in path
