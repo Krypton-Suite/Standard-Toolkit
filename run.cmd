@@ -1,4 +1,4 @@
-:: Last updated: Saturday 4th August, 2024 @ 16:00
+:: Last updated: Wednesday 21st August, 2024 @ 19:00
 
 @echo off
 
@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 2.3. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 2.4. Please select an option below.
 
 @echo ==============================================================================================
 

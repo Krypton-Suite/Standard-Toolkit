@@ -36,6 +36,8 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
+@echo Started to build Nightly release
+
 @echo Started: %date% %time% %zone%
 @echo
 set targets=Build
@@ -46,7 +48,9 @@ if not "%~1" == "" set targets=%~1
 
 ::-graphBuild:True
 
-@echo Build Completed: %date% %time% %zone%
+@echo Nightly release build completed: %date% %time% %zone%
+
+@echo You can find the build Logs in ../Logs
 
 pause
 
