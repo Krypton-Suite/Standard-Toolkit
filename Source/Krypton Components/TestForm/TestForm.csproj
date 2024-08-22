@@ -7,6 +7,8 @@
         <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
         <WarningLevel>8</WarningLevel>
         <AnalysisLevel>latest</AnalysisLevel>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>preview</LangVersion>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     </PropertyGroup>
 
@@ -45,7 +47,6 @@
             <Version>4.0.0.0</Version>
             <!-- Designers for the `TFMs != net4` are "Pulled in" via Visual studios ".nuget\packages\microsoft.windowsdesktop.app.ref" -->
         </Reference>
-        <Reference Include="System.Windows.Forms" />
     </ItemGroup>
 
 </Project>
