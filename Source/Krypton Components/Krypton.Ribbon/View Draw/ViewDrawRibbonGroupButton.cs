@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -537,17 +537,17 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeButtonClick(object sender, EventArgs e) => GroupButton!.PerformClick(_viewLarge.FinishDelegate);
+        private void OnLargeButtonClick(object? sender, EventArgs e) => GroupButton!.PerformClick(_viewLarge.FinishDelegate);
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupButton!.PerformDropDown(_viewLarge.FinishDelegate);
+        private void OnLargeButtonDropDown(object? sender, EventArgs e) => GroupButton!.PerformDropDown(_viewLarge.FinishDelegate);
 
-        private void OnMediumSmallButtonClick(object sender, EventArgs e) => GroupButton!.PerformClick(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonClick(object? sender, EventArgs e) => GroupButton!.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnMediumSmallButtonDropDown(object sender, EventArgs e) => GroupButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
+        private void OnMediumSmallButtonDropDown(object? sender, EventArgs e) => GroupButton!.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupButton!.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupButton!.OnDesignTimeContextMenu(e);
 
-        private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

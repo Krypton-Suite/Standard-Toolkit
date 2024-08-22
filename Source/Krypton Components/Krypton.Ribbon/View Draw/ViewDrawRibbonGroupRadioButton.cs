@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -433,13 +433,13 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateLarge);
+        private void OnLargeRadioButtonClick(object? sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallRadioButtonClick(object sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
+        private void OnMediumSmallRadioButtonClick(object? sender, EventArgs e) => GroupRadioButton.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupRadioButton.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupRadioButton.OnDesignTimeContextMenu(e);
 
-        private void ActionFinishedLarge(object sender, EventArgs e)
+        private void ActionFinishedLarge(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -448,7 +448,7 @@ namespace Krypton.Ribbon
             _viewLargeController?.RemoveFixed();
         }
 
-        private void ActionFinishedMediumSmall(object sender, EventArgs e)
+        private void ActionFinishedMediumSmall(object? sender, EventArgs e)
         {
             // Remove any popups that result from an action occurring
             _ribbon.ActionOccurred();
@@ -457,7 +457,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallController?.RemoveFixed();
         }
 
-        private void OnRadioButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnRadioButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;

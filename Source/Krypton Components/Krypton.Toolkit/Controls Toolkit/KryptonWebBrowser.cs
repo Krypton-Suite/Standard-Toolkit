@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
         {
             // Get the actual strip instance
             ContextMenuStrip? cms = base.ContextMenuStrip;
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
         }
 
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         /// <summary>Called when there is a change in base renderer or base palette.</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             _renderer = _palette.GetRenderer();
 

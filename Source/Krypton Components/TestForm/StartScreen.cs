@@ -194,5 +194,10 @@ namespace TestForm
 
             aboutBox.Show();
         }
+
+        private void btnColourTestimonials_Click(object sender, EventArgs e)
+        {
+            new ColorTestimonials().Show();
+        }
     }
 }

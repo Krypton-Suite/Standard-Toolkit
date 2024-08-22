@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnCalendarMouseUp(object sender, MouseEventArgs e)
+        private void OnCalendarMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_monthCalendar != null) && (e.Button == MouseButtons.Left))
             {
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (Equals(e.Component, _monthCalendar))

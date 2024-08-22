@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -842,7 +842,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDropMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnDropMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             if (_dropMenu != null)
             {
@@ -878,13 +878,15 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnDropImageSelect(object sender, EventArgs e)
+        private void OnDropImageSelect(object? sender, EventArgs e)
         {
-            var imageSelect = (KryptonContextMenuImageSelect)sender;
-            SelectedIndex = imageSelect.SelectedIndex;
+            if (sender is KryptonContextMenuImageSelect imageSelect && imageSelect is not null)
+            {
+                SelectedIndex = imageSelect.SelectedIndex;
+            }
         }
 
-        private void OnDropImageTracking(object sender, ImageSelectEventArgs e) =>
+        private void OnDropImageTracking(object? sender, ImageSelectEventArgs e) =>
             //KryptonContextMenuImageSelect imageSelect = (KryptonContextMenuImageSelect)sender;
             TrackingIndex = e.ImageIndex;
 
@@ -904,7 +906,7 @@ namespace Krypton.Ribbon
 
         private PaletteGalleryState GetGalleryState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
-        private void OnTrackingTick(object sender, EventArgs e)
+        private void OnTrackingTick(object? sender, EventArgs e)
         {
             // If no change in tracking index over last interval
             if (_trackingIndex == _cacheTrackingIndex)

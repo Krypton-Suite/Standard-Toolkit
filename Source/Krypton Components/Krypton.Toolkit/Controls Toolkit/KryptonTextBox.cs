@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1844,47 +1844,47 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
+        private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnTextBoxGotFocus(object sender, EventArgs e)
+        private void OnTextBoxGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
 
-        private void OnTextBoxLostFocus(object sender, EventArgs e)
+        private void OnTextBoxLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
 
-        private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -1958,19 +1958,19 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object? sender, EventArgs e) => _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnTextBoxMouseChange(object sender, EventArgs e)
+        private void OnTextBoxMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_textBox.MouseOver != _trackingMouseEnter)
@@ -1991,13 +1991,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
+        private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnTextBoxClick(object sender, EventArgs e) =>
+        private void OnTextBoxClick(object? sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier

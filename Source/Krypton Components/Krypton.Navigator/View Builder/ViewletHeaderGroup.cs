@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -498,19 +498,19 @@ namespace Krypton.Navigator
             _buttonManager?.RecreateButtons();
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnLeftMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
+        private void OnLeftMouseDown(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
 
-        private void OnRightMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
+        private void OnRightMouseDown(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
 
-        private void OnLeftDoubleClick(object sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
+        private void OnLeftDoubleClick(object? sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
         #endregion
     }
 }

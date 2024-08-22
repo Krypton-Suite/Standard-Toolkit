@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1794,51 +1794,51 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnMaskedTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
+        private void OnMaskedTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnMaskedTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnMaskedTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnMaskedTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnMaskedMaskChanged(object sender, EventArgs e) => OnMaskChanged(e);
+        private void OnMaskedMaskChanged(object? sender, EventArgs e) => OnMaskChanged(e);
 
-        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e) => OnIsOverwriteModeChanged(e);
+        private void OnMaskedIsOverwriteModeChanged(object? sender, EventArgs e) => OnIsOverwriteModeChanged(e);
 
-        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
+        private void OnMaskedMaskInputRejected(object? sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
 
-        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
+        private void OnMaskedTypeValidationCompleted(object? sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
 
-        private void OnMaskedTextBoxGotFocus(object sender, EventArgs e)
+        private void OnMaskedTextBoxGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
 
-        private void OnMaskedTextBoxLostFocus(object sender, EventArgs e)
+        private void OnMaskedTextBoxLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
 
-        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnMaskedTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnMaskedTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnMaskedTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnMaskedTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnMaskedTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnMaskedTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnMaskedTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnMaskedTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -1905,24 +1905,24 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
+        private void OnCancelToolTip(object? sender, EventArgs e)
         {
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
             _visualPopupToolTip = null;
         }
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnMaskedTextBoxMouseChange(object sender, EventArgs e)
+        private void OnMaskedTextBoxMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_maskedTextBox.MouseOver != _trackingMouseEnter)

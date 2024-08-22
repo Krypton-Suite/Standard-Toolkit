@@ -1465,7 +1465,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
             TabsArea?.RecreateButtons();
@@ -2877,7 +2877,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void OnRibbonContextsClearing(object sender, EventArgs e)
+        private void OnRibbonContextsClearing(object? sender, EventArgs e)
         {
             // Unhook from all the context instances
             foreach (KryptonRibbonContext context in RibbonContexts)
@@ -2886,7 +2886,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonContextsCleared(object sender, EventArgs e)
+        private void OnRibbonContextsCleared(object? sender, EventArgs e)
         {
             // Layout now the collection has been cleared down
             CaptionArea?.UpdateVisible();
@@ -2909,11 +2909,11 @@ namespace Krypton.Ribbon
             PerformNeedPaint(true);
         }
 
-        private void OnContextPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        private void OnContextPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
             // Layout to show the context change
             PerformNeedPaint(true);
 
-        private void OnRibbonTabsClearing(object sender, EventArgs e)
+        private void OnRibbonTabsClearing(object? sender, EventArgs e)
         {
             // Remove all the back references
             foreach (KryptonRibbonTab tab in RibbonTabs)
@@ -2926,7 +2926,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonTabsCleared(object sender, EventArgs e)
+        private void OnRibbonTabsCleared(object? sender, EventArgs e)
         {
             // Do not remember a tab this is now removed
             _minSelectedTab = null;
@@ -2974,7 +2974,7 @@ namespace Krypton.Ribbon
             PerformNeedPaint(true);
         }
 
-        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTabPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -2988,7 +2988,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonQATButtonsClearing(object sender, EventArgs e)
+        private void OnRibbonQATButtonsClearing(object? sender, EventArgs e)
         {
             // Stop tracking changes in button properties
             // TODO: Use typed 'where' clause
@@ -2998,7 +2998,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonQATButtonsCleared(object sender, EventArgs e)
+        private void OnRibbonQATButtonsCleared(object? sender, EventArgs e)
         {
             // Display not updated until a layout occurs
             PerformNeedPaint(true);
@@ -3064,7 +3064,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnQATButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnQATButtonPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Changing button property requires a layout effect change
             PerformNeedPaint(true);
@@ -3073,7 +3073,7 @@ namespace Krypton.Ribbon
             CaptionArea?.QATButtonsChanged();
         }
 
-        private void OnInvertQATLocation(object sender, EventArgs e)
+        private void OnInvertQATLocation(object? sender, EventArgs e)
         {
             // Remove any popups, the customize context menu can appear because
             // the use selected the QAT overflow button causing a popup to show
@@ -3085,7 +3085,7 @@ namespace Krypton.Ribbon
             QATLocation = QATLocation == QATLocation.Above ? QATLocation.Below : QATLocation.Above;
         }
 
-        private void OnInvertMinimizeMode(object sender, EventArgs e)
+        private void OnInvertMinimizeMode(object? sender, EventArgs e)
         {
             // Remove any popups, the customize context menu can appear because
             // the use selected the QAT overflow button causing a popup to show
@@ -3117,7 +3117,7 @@ namespace Krypton.Ribbon
             // Update the screen location of popup to reflect a change in selected tab
             _minimizedPopup?.Show(TabsArea!, _drawMinimizedPanel);
 
-        private void OnMinimizedPopupDisposed(object sender, EventArgs e)
+        private void OnMinimizedPopupDisposed(object? sender, EventArgs e)
         {
             // We no longer have a popup showing
             _minimizedPopup = null;
@@ -3129,7 +3129,7 @@ namespace Krypton.Ribbon
             PerformNeedPaint(true);
         }
 
-        private void OnQATCustomizeClick(object sender, EventArgs e)
+        private void OnQATCustomizeClick(object? sender, EventArgs e)
         {
             // Remove any popups, the customize context menu can appear because
             // the use selected the QAT overflow button causing a popup to show
@@ -3139,7 +3139,7 @@ namespace Krypton.Ribbon
             KillKeyboardMode();
 
             // Cast to correct type
-            var menuItem = (KryptonContextMenuItem)sender;
+            var menuItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             // Find index of the item to toggle
             var index = (int)(menuItem.Tag ?? -1);
@@ -3172,7 +3172,7 @@ namespace Krypton.Ribbon
             _kcm.Items.Clear();
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             // Fire any associated finish delegate
             if (_kcmFinishDelegate != null)

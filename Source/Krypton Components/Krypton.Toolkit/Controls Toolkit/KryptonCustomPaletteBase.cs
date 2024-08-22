@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -2220,7 +2220,8 @@ namespace Krypton.Toolkit
         /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
         /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
         public void ImportWithUpgrade(Stream stream)
-        {try
+        {
+            try
             {
                 // Prevent lots of redraw events until all loading completes
                 SuspendUpdates();
@@ -2247,37 +2248,71 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Upgrades the specified palette and upgrades it if needed.</summary>
+        /// <param name="themeFilePath">The theme file path.</param>
+        public void ImportWithUpgrade(string themeFilePath)
+        {
+            FileStream? stream = null;
+
+            try
+            {
+                stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+
+                ImportWithUpgrade(stream);
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+            finally
+            {
+
+                stream?.Close();
+
+                stream?.Dispose();
+            }
+        }
+
         private void PerformUpgrade(Stream stream)
         {
-            using var reader = new StreamReader(stream);
-            var end = reader.ReadToEnd();
-            reader.Close();
-
-            using (var currentSupportedPaletteSchemaReader = new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
+            try
             {
-                using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+                using var reader = new StreamReader(stream);
+
+                var end = reader.ReadToEnd();
+                reader.Close();
+
+                using (var currentSupportedPaletteSchemaReader =
+                       new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
                 {
-                    var xslToXmlTransformer = new XmlTransformer();
+                    using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+                    {
+                        var xslToXmlTransformer = new XmlTransformer();
 
-                    xslToXmlTransformer.Load(xslTextReader);
+                        xslToXmlTransformer.Load(xslTextReader);
 
-                    end = TransformXml(xslToXmlTransformer, end);
+                        end = TransformXml(xslToXmlTransformer, end);
+                    }
                 }
-            }
 
-            using var ms = new MemoryStream();
-            using (var writer = new StreamWriter(ms,
-                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
-                       1024, true))
-            {
-                writer.WriteLine("<?xml version=\"1.0\"?>");
-                writer.Write(end);
-                writer.Flush();
-                writer.Close();
+                using var ms = new MemoryStream();
+                using (var writer = new StreamWriter(ms,
+                           /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
+                           1024, true))
+                {
+                    writer.WriteLine("<?xml version=\"1.0\"?>");
+                    writer.Write(end);
+                    writer.Flush();
+                    writer.Close();
+                }
+                ms.Position = 0;
+                // If this goes boom, then something more needs to be done !
+                ImportFromStream(ms);
             }
-            ms.Position = 0;
-            // If this goes boom, then something more needs to be done !
-            ImportFromStream(ms);
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            }
         }
 
         /// <summary>
@@ -2954,7 +2989,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaintLayoutEventArgs containing event data.</param>
-        protected override void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        protected override void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -2982,7 +3017,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnBasePaletteChanged(object sender, EventArgs e)
+        protected override void OnBasePaletteChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -2996,7 +3031,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnBaseRendererChanged(object sender, EventArgs e)
+        protected override void OnBaseRendererChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -3010,7 +3045,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
@@ -3207,7 +3242,8 @@ namespace Krypton.Toolkit
 
                 if (version < GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION)
                 {
-                    throw new ArgumentException($"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    throw new ArgumentException(
+                        $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
                 }
 
                 // Grab the properties and images elements
@@ -3235,6 +3271,10 @@ namespace Krypton.Toolkit
                 // Set the palette name
                 // TODO: Get paletteName from the paletteBase
                 //SetPaletteName(root.SelectSingleNode(Name));
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
             finally
             {
@@ -3338,10 +3378,14 @@ namespace Krypton.Toolkit
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
 
                 // Add a comment about the source of the document
-                doc.AppendChild(doc.CreateComment("Created by exporting the settings of a KryptonCustomPaletteBase instance."));
-                doc.AppendChild(doc.CreateComment("For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
-                doc.AppendChild(doc.CreateComment("New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
-                doc.AppendChild(doc.CreateComment($"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                doc.AppendChild(
+                    doc.CreateComment("Created by exporting the settings of a KryptonCustomPaletteBase instance."));
+                doc.AppendChild(doc.CreateComment(
+                    "For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
+                doc.AppendChild(doc.CreateComment(
+                    "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
+                doc.AppendChild(doc.CreateComment(
+                    $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
                 doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
@@ -3367,6 +3411,12 @@ namespace Krypton.Toolkit
                 ExportImagesToElement(doc, images, imageCache);
 
                 return doc;
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+
+                return new XmlDocument();
             }
             finally
             {
@@ -5592,6 +5642,7 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return header.StateDisabled;
+                case PaletteState.Tracking: // #1729 KHeader does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return header.StateNormal;
                 default:
@@ -5607,8 +5658,11 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return panel.StateDisabled;
+               
+                case PaletteState.Tracking: // #1552 KPanel does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return panel.StateNormal;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5623,7 +5677,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return label.StateDisabled;
                 case PaletteState.Normal:
-                case PaletteState.ContextNormal:    // Occurrs from the TreeGrid
+                case PaletteState.ContextNormal:    // Occurs from the TreeGrid
                 case PaletteState.Tracking:
                 case PaletteState.Pressed:
                     return label.StateNormal;
@@ -5686,6 +5740,8 @@ namespace Krypton.Toolkit
                     return ContextMenu.StateNormal.ItemImage.Back;
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Back;
+                case PaletteState.CheckedTracking:
+                    return ContextMenu.StateHighlight.ItemHighlight.Back;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5737,6 +5793,8 @@ namespace Krypton.Toolkit
                     return ContextMenu.StateNormal.ItemImage.Border;
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Border;
+                case PaletteState.CheckedTracking:
+                    return ContextMenu.StateHighlight.ItemHighlight.Border;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5808,7 +5866,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnMenuToolStatusPaint(object sender, NeedLayoutEventArgs e)
+        private void OnMenuToolStatusPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Only raise the need to paint if painting has not been suspended
             if (_suspendCount == 0)

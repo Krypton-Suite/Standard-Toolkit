@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1365,52 +1365,55 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnRichTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnRichTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnRichTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnRichTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnRichTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnRichTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnRichTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnRichTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnRichTextBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnRichTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnRichTextBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnRichTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnRichTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnRichTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnRichTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRichTextBoxVScroll(object sender, EventArgs e) => OnVScroll(e);
+        private void OnRichTextBoxVScroll(object? sender, EventArgs e) => OnVScroll(e);
 
-        private void OnRichTextBoxHScroll(object sender, EventArgs e) => OnHScroll(e);
+        private void OnRichTextBoxHScroll(object? sender, EventArgs e) => OnHScroll(e);
 
-        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e) => OnSelectionChanged(e);
+        private void OnRichTextBoxSelectionChanged(object? sender, EventArgs e) => OnSelectionChanged(e);
 
-        private void OnRichTextBoxProtected(object sender, EventArgs e) => OnProtected(e);
+        private void OnRichTextBoxProtected(object? sender, EventArgs e) => OnProtected(e);
 
-        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
+        private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
-            RichTextBox!.PaletteMode = Ribbon!.PaletteMode;
-            RichTextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+            if (RichTextBox is not null && Ribbon is not null)
+            {
+                RichTextBox.PaletteMode = Ribbon.PaletteMode;
+                RichTextBox.LocalCustomPalette = Ribbon.LocalCustomPalette;
+            }
         }
 
         #endregion

@@ -329,10 +329,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(31, 31, 31), // InputControlBackNormal
             SystemColors.Control, // InputControlBackDisabled
             Color.FromArgb(78, 78, 80), // InputControlBackInactive
-            Color.FromArgb(91, 91, 91), // InputDropDownNormal1
-            Color.FromArgb(88, 88, 88), // InputDropDownNormal2
-            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
-            Color.Transparent, // InputDropDownDisabled2
+            Color.White, // InputDropDownNormal1
+            Color.FromArgb(100, 100, 100), // InputDropDownNormal2
+            Color.FromArgb(82, 82, 82), // InputDropDownDisabled1
+            Color.FromArgb(95, 95, 95), // InputDropDownDisabled2
             Color.FromArgb(15, 15, 15), // ContextMenuHeading
             Color.White, // ContextMenuHeadingText
             Color.FromArgb(54, 54, 54), // ContextMenuImageColumn
@@ -725,6 +725,7 @@ namespace Krypton.Toolkit
 
         #region Colours
 
+        private static readonly Color _buttonTextTracking = Color.Black;
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78);
         private static readonly Color _disabledText = Color.FromArgb(172, 172, 172);
@@ -2735,12 +2736,16 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
                 PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
-                PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
-? _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
-: _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state  switch
+                    {
+                        PaletteState.Tracking => _buttonTextTracking,
+                        PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
+                        _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonChecked]
+                },
                 PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal],
                 PaletteContentStyle.ButtonCalendarDay => state switch
                 {
+                    PaletteState.Tracking => _buttonTextTracking,
                     PaletteState.Disabled => _disabledText2,
                     _ => _ribbonColours[(int)SchemeOfficeColors.TextButtonNormal]
                 },

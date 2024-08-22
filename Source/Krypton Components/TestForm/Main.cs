@@ -7,7 +7,6 @@
  */
 #endregion
 
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -342,7 +341,7 @@ namespace TestForm
 
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
-            KryptonMessageBox.Show(string.Empty, @"Test with no Text");
+            KryptonMessageBoxDep.Show(string.Empty, @"Test with no Text", showCloseButton: kryptonCheckBox1.Checked);
         }
 
         private void kryptonButton12_Click(object sender, EventArgs e)

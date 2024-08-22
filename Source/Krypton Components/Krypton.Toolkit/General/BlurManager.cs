@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         #endregion Identity
 
-        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e) => RemoveBlur();
+        private void KryptonFormOnClosing(object? sender, /*Cancel*/EventArgs e) => RemoveBlur();
 
         private void RemoveBlur()
         {
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void BlurValuesOnOpacityChanged(object sender, EventArgs e)
+        private void BlurValuesOnOpacityChanged(object? sender, EventArgs e)
         {
             if (_visualBlur != null)
             {
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void BlurValues_EnableBlurChanged(object sender, EventArgs e)
+        private void BlurValues_EnableBlurChanged(object? sender, EventArgs e)
         {
             if (!_blurValues.BlurWhenFocusLost)
             {
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DetectIsTopMost(object sender, EventArgs e)
+        private void DetectIsTopMost(object? sender, EventArgs e)
         {
             if ((_visualBlur != null)
                 && IsOverlapped()

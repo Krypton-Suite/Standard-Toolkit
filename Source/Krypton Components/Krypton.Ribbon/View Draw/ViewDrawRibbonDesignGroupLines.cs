@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             // Create the context strip the first time around
             if (_cms == null)
@@ -183,37 +183,37 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddButton();
+        private void OnAddButton(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddColorButton();
+        private void OnAddColorButton(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddColorButton();
 
-        private void OnAddCheckBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCheckBox();
+        private void OnAddCheckBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCheckBox();
 
-        private void OnAddRadioButton(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddRadioButton();
+        private void OnAddRadioButton(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddRadioButton();
 
-        private void OnAddCluster(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCluster();
+        private void OnAddCluster(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCluster();
 
-        private void OnAddLabel(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddLabel();
+        private void OnAddLabel(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddLabel();
 
-        private void OnAddCustomControl(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCustomControl();
+        private void OnAddCustomControl(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddCustomControl();
 
-        private void OnAddTextBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddTextBox();
+        private void OnAddTextBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddTextBox();
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddMaskedTextBox();
+        private void OnAddMaskedTextBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddMaskedTextBox();
 
-        private void OnAddRichTextBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddRichTextBox();
+        private void OnAddRichTextBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddRichTextBox();
 
-        private void OnAddComboBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddComboBox();
+        private void OnAddComboBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddComboBox();
 
-        private void OnAddNumericUpDown(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddNumericUpDown();
+        private void OnAddNumericUpDown(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddNumericUpDown();
 
-        private void OnAddDomainUpDown(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddDomainUpDown();
+        private void OnAddDomainUpDown(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddDomainUpDown();
 
-        private void OnAddDateTimePicker(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddDateTimePicker();
+        private void OnAddDateTimePicker(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddDateTimePicker();
 
-        private void OnAddTrackBar(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddTrackBar();
+        private void OnAddTrackBar(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddTrackBar();
 
-        private void OnAddThemeComboBox(object sender, EventArgs e) => _ribbonLines.OnDesignTimeAddThemeComboBox();
+        private void OnAddThemeComboBox(object? sender, EventArgs e) => _ribbonLines.OnDesignTimeAddThemeComboBox();
 
         #endregion
     }

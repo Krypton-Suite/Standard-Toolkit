@@ -55,9 +55,7 @@ if %answer%==n exit
 @echo Invalid input, please try again.
 
 :run
-cd ..
-
-run.cmd
+main-menu.cmd
 
 :end
 pause

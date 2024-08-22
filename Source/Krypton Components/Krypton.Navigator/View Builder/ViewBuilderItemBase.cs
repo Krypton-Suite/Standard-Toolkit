@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -883,7 +883,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -1115,7 +1115,7 @@ namespace Krypton.Navigator
 
         private bool BarHorizontal => Navigator.Bar.BarOrientation is VisualOrientation.Top or VisualOrientation.Bottom;
 
-        private void OnItemPagesCleared(object sender, EventArgs e)
+        private void OnItemPagesCleared(object? sender, EventArgs e)
         {
             if (!Navigator.IsDisposed && (_events > 0))
             {
@@ -1153,7 +1153,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnItemPageInserted(object sender, TypedCollectionEventArgs<KryptonPage> e)
+        private void OnItemPageInserted(object? sender, TypedCollectionEventArgs<KryptonPage> e)
         {
             if (!Navigator.IsDisposed && (_events > 0))
             {
@@ -1186,13 +1186,13 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnNavigatorEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
+        private void OnNavigatorEnabledChanged(object? sender, EventArgs e) => UpdateStatePalettes();
 
-        private void OnNavigatorRightToLeftChanged(object sender, EventArgs e) => UpdateItemOrientation();
+        private void OnNavigatorRightToLeftChanged(object? sender, EventArgs e) => UpdateItemOrientation();
 
-        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
+        private void OnViewportAnimation(object? sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
-        private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
+        private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual button view
             var reorderItem = sender as INavCheckItem;
@@ -1207,10 +1207,10 @@ namespace Krypton.Navigator
             e.DragRect = dragRect;
         }
 
-        private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
+        private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual button view
-            var reorderItem = (INavCheckItem)sender;
+            var reorderItem = sender as INavCheckItem ?? throw new ArgumentNullException(nameof(sender));
             var reorderView = reorderItem.View;
 
             // Scan the collection of children

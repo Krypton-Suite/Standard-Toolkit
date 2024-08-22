@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1044,7 +1044,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
             _buttonManager.RecreateButtons();
@@ -1055,11 +1055,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer?.Uncover();
+        private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
-        private void OnHeaderGroupTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnHeaderGroupTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed)
             {
@@ -1127,12 +1127,12 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object? sender, EventArgs e) => _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page anymore
@@ -1140,19 +1140,16 @@ namespace Krypton.Toolkit
         }
 
         // Monitor the button spec being clicked
-        private void OnButtonSpecInserted(object sender, ButtonSpecEventArgs e) => e.ButtonSpec.Click += OnButtonSpecClicked;
+        private void OnButtonSpecInserted(object? sender, ButtonSpecEventArgs e) => e.ButtonSpec.Click += OnButtonSpecClicked;
 
         // Unhook from monitoring the button spec
-        private void OnButtonSpecRemoved(object sender, ButtonSpecEventArgs e) => e.ButtonSpec.Click -= OnButtonSpecClicked;
+        private void OnButtonSpecRemoved(object? sender, ButtonSpecEventArgs e) => e.ButtonSpec.Click -= OnButtonSpecClicked;
 
-        private void OnButtonSpecClicked(object sender, EventArgs e)
+        private void OnButtonSpecClicked(object? sender, EventArgs e)
         {
             // Do we need to automatically switch collapsed modes?
-            if (AutoCollapseArrow)
+            if (AutoCollapseArrow && sender is ButtonSpecHeaderGroup buttonSpec)
             {
-                // Cast to correct type
-                var buttonSpec = (ButtonSpecHeaderGroup)sender;
-
                 // Action depends on the arrow
                 switch (buttonSpec.Type)
                 {

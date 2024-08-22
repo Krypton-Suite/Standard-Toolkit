@@ -3,6 +3,22 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1692](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1692), Resolves `KryptonMessageBoxes` incompatibility between message text and dark themes.
+* Implemented [#1734](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1734), Add `ForceDesignerDPIUnaware` option
+* Resolved [#1729](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1729), `KryptonCustomPaletteBase` does not implement ##Tracking states
+* Resolved [#1693](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1693), `KryptonCustomPaletteBase` Illegal characters in path
+* Resolved [#1552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1552), `KryptonMessageBox` throws an error when using custom theme `Asphalt_v19.xml`.
+* Resolved [#1708](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1708). `KryptonButton` crashes program on invalid type cast.
+* Resolved [#1706](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1706), Restore: `KryptonComboBox` (On Form) does not respect designers `DropDownWidth` setting
+* Resolved [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704), Remove properties from `KryptonRichtTextBox`
+* Implemented [#1700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1700), Adds a method to `CommonHelper` which normalizes line breaks within a string, `CommonHelper.NormalizeLineBreaks`.
+* Resolved [#1685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1685), Theme Selectors `KryptonManagerGlobalPaletteChanged` event sometimes gets fired while the control is not fully initialized.
+* Resolved [#1689](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1689), MessageBox text is "Hard to read" when using "MS 365 dark theme"
+* Resolved [#1672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1672), `KryptonContextMenuItemBase`: does not have a "Text" access AP
+* Resolved [#1686](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1686), `TestForm`: MessageBox "No Close button" is not respected anymore
+* Resolved [#1683](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1683), After #1657 `TestForm` forms still have Toolkit Image strings in the designer files
+* Resolved [#1657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1657), What is/does "GenericToolkitImages" supposed to do
+* Resolved [#1661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1661), Office 2007 Dark Blue theme: Form Text is hard to read when app loses focus
 * Implemented [#1650](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1650), EditorConfig null masking needs to be "Unhidden"
 * Resolved [#822](https://github.com/Krypton-Suite/Standard-Toolkit/issues/822), Unable to make closed auto hidden docked page visible after config reloading (fix courtesy of [dyurshevich](https://github.com/dyurshevich))
 * Resolved [#1646](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1646), `KryptonRibbonGroupThemeComboBox` does not react to index changes anymore.
@@ -123,8 +139,6 @@
 * Resolved [#1169](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1169), Button Spec Krypton Context Menu (Canary)
 * Implemented [#1166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1166), Use a struct to contain `KryptonMessageBox` data
 * Implemented [#1161](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1161), A proper about box
-* New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
-	- Note: The `DropDownWidth` can still be set independently from the `Size` property
 * Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
 	- Use `KryptonAboutToolkit.Show();` to invoke
@@ -132,6 +146,14 @@
 * Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
 * Version bump `85.xx.xx.xx` -> `90.xx.xx.xx`
+
+=======
+
+## 2024-08-26 - Build 2408 (Patch 2) - August 2024
+* Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
+* Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
+* Resolved [#1675](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1675), Catastrophic failure wherever `KryptonGroupPanel` is used.
+* Resolved [#1677](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1677), `KryptonComboBox` cuts of text on high DPI.
 
 =======
 

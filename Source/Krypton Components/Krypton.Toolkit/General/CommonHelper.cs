@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -98,6 +98,42 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get => _nextId++;
+        }
+
+        /// <summary>
+        /// Converts line breaks in the string to the system default line break, Environment.NewLine.
+        /// </summary>
+        /// <param name="text">String to process.</param>
+        /// <returns>
+        /// Normalized resultant string.<br/>
+        /// If the input string is an empty string, the input string is returned.
+        /// </returns>
+        public static string NormalizeLineBreaks(string text)
+        {
+            string result = text;
+
+            if (result.Length > 0)
+            {
+                // Convert line breaks to the system provided line break
+                if (!Environment.NewLine.Equals("\r\n"))
+                {
+                    result = Regex.Replace(result, @"\r\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\n"))
+                {
+                    // Replaces \n but not \r\n
+                    result = Regex.Replace(result, "(?<!\r)\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\r"))
+                {
+                    // Replaces \r but not \r\n
+                    result = Regex.Replace(result, "\r(?!\n)", Environment.NewLine);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

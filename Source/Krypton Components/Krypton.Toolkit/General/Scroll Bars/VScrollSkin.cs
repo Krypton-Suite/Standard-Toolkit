@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void scrollSkin_ControlAdded(object sender, ControlEventArgs e)
+        private void scrollSkin_ControlAdded(object? sender, ControlEventArgs e)
         {
             if (e is not null
                 && e.Control is not null
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e)
+        private void VScrollBar1_miScroll(object? sender, ScrollEventArgs e)
         {
             if (_win.GetType() == typeof(ListView))
             {
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region "   Horizontal Scroll   "
-        private void HScrollBar1_miScroll(object sender, ScrollEventArgs e)
+        private void HScrollBar1_miScroll(object? sender, ScrollEventArgs e)
         {
             if (_win.GetType() == typeof(ListView))
             {
@@ -428,37 +428,23 @@ namespace Krypton.Toolkit
 
         #region "   DGV Scrollbar VisibleChanged    "
 
-        private void VerticalScrollBar_VisibleChanged(object sender, EventArgs e)
+        private void VerticalScrollBar_VisibleChanged(object? sender, EventArgs e)
         {
-            var vscroll = (VScrollBar)sender;
-            if (vscroll.Visible)
-            {
-                _vScrollBar1.Visible = true;
-            }
-            else
-            {
-                _vScrollBar1.Visible = false;
-            }
+            var vscroll = sender as VScrollBar ?? throw new ArgumentNullException(nameof(sender));
+            _vScrollBar1.Visible = vscroll.Visible;
         }
 
-        private void HorizontalScrollBar_VisibleChanged(object sender, EventArgs e)
+        private void HorizontalScrollBar_VisibleChanged(object? sender, EventArgs e)
         {
-            var hscroll = (HScrollBar)sender;
-            if (hscroll.Visible)
-            {
-                _hScrollBar1.Visible = true;
-            }
-            else
-            {
-                _hScrollBar1.Visible = false;
-            }
+            var hscroll = sender as HScrollBar ?? throw new ArgumentNullException(nameof(sender));
+            _hScrollBar1.Visible = hscroll.Visible;
         }
 
         #endregion
 
         #region "   DGV Scroll   "
 
-        private void dgv_Scroll(object sender, ScrollEventArgs e)
+        private void dgv_Scroll(object? sender, ScrollEventArgs e)
         {
             var dgv = (DataGridView)_win;
             if (GetDGVScrollbar(ref dgv, out VSB))
@@ -501,7 +487,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void win_Resize(object sender, EventArgs e)
+        private void win_Resize(object? sender, EventArgs e)
         {
             VScrollBar1.Size = new Size(0x12, _win.Height); //for the gap 
             VScrollBar1.Left = _win.Right - 0x12;
@@ -735,7 +721,7 @@ namespace Krypton.Toolkit
 
 
         //Krypton Palette Events
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -754,7 +740,7 @@ namespace Krypton.Toolkit
         }
 
         //Krypton Palette Events
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
     }

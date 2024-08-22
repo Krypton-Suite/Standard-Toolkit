@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -210,14 +210,14 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnRibbonEnableChanged(object sender, EventArgs e) => UpdateEnabled();
+        private void OnRibbonEnableChanged(object? sender, EventArgs e) => UpdateEnabled();
 
         private void UpdateEnabled() =>
             // Content is only enabled if the QAT button is enabled
             // and the owning ribbon control is also enabled
             _drawContent.Enabled = base.Enabled && _ribbon.Enabled;
 
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             // We do not operate the qat button at design time
             if (!_ribbon.InDesignMode)

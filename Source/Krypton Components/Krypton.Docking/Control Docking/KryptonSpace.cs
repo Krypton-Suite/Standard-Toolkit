@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -585,15 +585,15 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFocusControlAdded(object sender, ControlEventArgs e) =>
+        private void OnFocusControlAdded(object? sender, ControlEventArgs e) =>
             // Add focus monitoring to the control
             FocusMonitorControl(e.Control, true);
 
-        private void OnFocusControlRemoved(object sender, ControlEventArgs e) =>
+        private void OnFocusControlRemoved(object? sender, ControlEventArgs e) =>
             // Remove focus monitoring from the control
             FocusMonitorControl(e.Control, true);
 
-        private void OnFocusChanged(object sender, EventArgs e)
+        private void OnFocusChanged(object? sender, EventArgs e)
         {
             // No point requesting the update more than once
             if (!_awaitingFocusUpdate && IsHandleCreated)
@@ -606,7 +606,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFocusUpdate(object sender, EventArgs e)
+        private void OnFocusUpdate(object? sender, EventArgs e)
         {
             // Should we apply docking specific appearance changes to reflect changes in focus?
             if (ApplyDockingAppearance)
@@ -645,7 +645,7 @@ namespace Krypton.Docking
             _awaitingFocusUpdate = false;
         }
 
-        private void OnVisibleUpdate(object sender, EventArgs e)
+        private void OnVisibleUpdate(object? sender, EventArgs e)
         {
             if (ApplyDockingVisibility)
             {
@@ -698,7 +698,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellShowContextMenu(object sender, ShowContextMenuArgs e)
+        private void OnCellShowContextMenu(object? sender, ShowContextMenuArgs e)
         {
             // Make sure we have a menu for displaying
             e.KryptonContextMenu ??= new KryptonContextMenu();
@@ -712,18 +712,20 @@ namespace Krypton.Docking
             e.Cancel = args.Cancel;
         }
 
-        private void OnCellPrimaryHeaderLeftClicked(object sender, EventArgs e)
+        private void OnCellPrimaryHeaderLeftClicked(object? sender, EventArgs e)
         {
             // Should we apply docking specific change of focus when the primary header is clicked?
             if (ApplyDockingAppearance)
             {
                 // Set the focus into the active page
-                var cell = (KryptonWorkspaceCell)sender;
-                cell.SelectedPage?.SelectNextControl(cell.SelectedPage, true, true, true, false);
+                if (sender is KryptonWorkspaceCell cell)
+                {
+                    cell.SelectedPage?.SelectNextControl(cell.SelectedPage, true, true, true, false);
+                }
             }
         }
 
-        private void OnCellPrimaryHeaderRightClicked(object sender, EventArgs e)
+        private void OnCellPrimaryHeaderRightClicked(object? sender, EventArgs e)
         {
             // Should we apply docking specific change of focus when the primary header is clicked?
             if (ApplyDockingAppearance)
@@ -748,7 +750,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellPrimaryHeaderDoubleClicked(object sender, EventArgs e)
+        private void OnCellPrimaryHeaderDoubleClicked(object? sender, EventArgs e)
         {
             // Should we apply docking specific change of focus when the primary header is clicked?
             if (ApplyDockingAppearance)
@@ -756,12 +758,14 @@ namespace Krypton.Docking
                 var uniqueNames = new List<string>();
 
                 // Create list of visible pages that are not placeholders
-                var cell = (KryptonWorkspaceCell)sender;
-                foreach (KryptonPage page in cell.Pages)
+                if (sender is KryptonWorkspaceCell cell)
                 {
-                    if (page.LastVisibleSet && page is not KryptonStorePage)
+                    foreach (KryptonPage page in cell.Pages)
                     {
-                        uniqueNames.Add(page.UniqueName);
+                        if (page.LastVisibleSet && page is not KryptonStorePage)
+                        {
+                            uniqueNames.Add(page.UniqueName);
+                        }
                     }
                 }
 
@@ -772,7 +776,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellTabDoubleClicked(object sender, KryptonPageEventArgs e)
+        private void OnCellTabDoubleClicked(object? sender, KryptonPageEventArgs e)
         {
             if (e.Item != null)
             {
@@ -780,7 +784,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellTabVisibleCountChanged(object sender, EventArgs e)
+        private void OnCellTabVisibleCountChanged(object? sender, EventArgs e)
         {
             if (ApplyDockingAppearance)
             {
@@ -810,7 +814,7 @@ namespace Krypton.Docking
             UpdateVisible(_setFocus);
         }
 
-        private void OnCellSelectedPageChanged(object sender, EventArgs e)
+        private void OnCellSelectedPageChanged(object? sender, EventArgs e)
         {
             if (ApplyDockingCloseAction || ApplyDockingPinAction)
             {
@@ -852,12 +856,13 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellCloseAction(object sender, EventArgs e)
+        private void OnCellCloseAction(object? sender, EventArgs e)
         {
             if (ApplyDockingCloseAction)
             {
                 // Find the page associated with the cell that fired this button spec
-                var buttonSpec = (ButtonSpec)sender;
+                var buttonSpec = sender as ButtonSpec ?? throw new ArgumentNullException(nameof(sender));
+
                 foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.CloseButtonSpec == buttonSpec))
                 {
                     if (cellState.Cell?.SelectedPage != null)
@@ -870,12 +875,13 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellAutoHiddenAction(object sender, EventArgs e)
+        private void OnCellAutoHiddenAction(object? sender, EventArgs e)
         {
             if (ApplyDockingPinAction)
             {
                 // Find the page associated with the cell that fired this button spec
-                var buttonSpec = (ButtonSpec)sender;
+                var buttonSpec = sender as ButtonSpec ?? throw new ArgumentNullException(nameof(sender));
+
                 foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.PinButtonSpec == buttonSpec))
                 {
                     if (cellState.Cell?.SelectedPage != null)
@@ -888,12 +894,12 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnCellDropDownOpening(object sender, CancelEventArgs e)
+        private void OnCellDropDownOpening(object? sender, CancelEventArgs e)
         {
             if (ApplyDockingDropDownAction)
             {
                 // Search for the cell that contains the button spec that has this context menu
-                var kcm = (KryptonContextMenu)sender;
+                var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
                 foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => (cellState.DropDownButtonSpec != null)
                                         && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
                          )

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -417,9 +417,9 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void kbtnCancel_Click(object sender, EventArgs e) => Owner!.DialogResult = DialogResult.Cancel;
+        private void kbtnCancel_Click(object? sender, EventArgs e) => Owner!.DialogResult = DialogResult.Cancel;
 
-        private void kbtnOk_Click(object sender, EventArgs e)
+        private void kbtnOk_Click(object? sender, EventArgs e)
         {
             if (_useTextBox)
             {
@@ -449,21 +449,21 @@ namespace Krypton.Toolkit
             Owner!.DialogResult = DialogResult.OK;
         }
 
-        private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
+        private void kcRichTextBoxCut_Execute(object? sender, EventArgs e) => krtbContents.Cut();
 
-        private void kcRichTextBoxCopy_Execute(object sender, EventArgs e) => Clipboard.SetText(krtbContents.Text);
+        private void kcRichTextBoxCopy_Execute(object? sender, EventArgs e) => Clipboard.SetText(krtbContents.Text);
 
-        private void kcRichTextBoxPaste_Execute(object sender, EventArgs e) => krtbContents.Paste();
+        private void kcRichTextBoxPaste_Execute(object? sender, EventArgs e) => krtbContents.Paste();
 
-        private void kcTextBoxCut_Execute(object sender, EventArgs e) => ktxtStringCollection.Cut();
+        private void kcTextBoxCut_Execute(object? sender, EventArgs e) => ktxtStringCollection.Cut();
 
-        private void kcTextBoxCopy_Execute(object sender, EventArgs e) => Clipboard.SetText(ktxtStringCollection.Text);
+        private void kcTextBoxCopy_Execute(object? sender, EventArgs e) => Clipboard.SetText(ktxtStringCollection.Text);
 
-        private void kcTextBoxPaste_Execute(object sender, EventArgs e) => ktxtStringCollection.Paste();
+        private void kcTextBoxPaste_Execute(object? sender, EventArgs e) => ktxtStringCollection.Paste();
 
-        private void kcRichTextBoxSelectAll_Execute(object sender, EventArgs e) => krtbContents.SelectAll();
+        private void kcRichTextBoxSelectAll_Execute(object? sender, EventArgs e) => krtbContents.SelectAll();
 
-        private void kcTextBoxSelectAll_Execute(object sender, EventArgs e) => ktxtStringCollection.SelectAll();
+        private void kcTextBoxSelectAll_Execute(object? sender, EventArgs e) => ktxtStringCollection.SelectAll();
 
         internal void SetContentsArray(string[] contentArray) => _contents = contentArray;
 

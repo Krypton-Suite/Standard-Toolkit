@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -559,7 +559,7 @@ namespace Krypton.Ribbon
             _invalidateTimer.Tick += OnRedrawTick;
         }
 
-        private void OnRibbonParentChanged(object sender, EventArgs e)
+        private void OnRibbonParentChanged(object? sender, EventArgs e)
         {
             // Unhook from watching any top level window
             if (_formContainer != null)
@@ -584,21 +584,21 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonFormActivated(object sender, EventArgs e)
+        private void OnRibbonFormActivated(object? sender, EventArgs e)
         {
             _ribbon.ViewRibbonManager?.Active();
             _ribbon.UpdateBackStyle();
         }
 
-        private void OnRibbonFormDeactivate(object sender, EventArgs e)
+        private void OnRibbonFormDeactivate(object? sender, EventArgs e)
         {
             _ribbon.ViewRibbonManager?.Inactive();
             _ribbon.UpdateBackStyle();
         }
 
-        private void OnRibbonFormSizeChanged(object sender, EventArgs e) => CheckRibbonSize();
+        private void OnRibbonFormSizeChanged(object? sender, EventArgs e) => CheckRibbonSize();
 
-        private void OnRibbonMdiChildActivate(object sender, EventArgs e)
+        private void OnRibbonMdiChildActivate(object? sender, EventArgs e)
         {
             // Cast to correct type
             var topForm = sender as Form;
@@ -636,14 +636,14 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonMdiChildSizeChanged(object sender, EventArgs e)
+        private void OnRibbonMdiChildSizeChanged(object? sender, EventArgs e)
         {
             // Update pendant buttons to reflect new child state
             ButtonSpecManager?.RecreateButtons();
             PerformNeedPaint(true);
         }
 
-        private void OnRedrawTick(object sender, EventArgs e)
+        private void OnRedrawTick(object? sender, EventArgs e)
         {
             _invalidateTimer.Stop();
 
@@ -656,7 +656,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAppButtonReleased(object sender, EventArgs e)
+        private void OnAppButtonReleased(object? sender, EventArgs e)
         {
             // We do not operate the application button at design time
             if (!_ribbon.InDesignMode)
@@ -665,7 +665,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAppButtonClicked(object sender, EventArgs e)
+        private void OnAppButtonClicked(object? sender, EventArgs e)
         {
             // We do not operate the application button at design time
             if (_ribbon.InDesignMode)
@@ -741,7 +741,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAppMenuDisposed(object sender, EventArgs e)
+        private void OnAppMenuDisposed(object? sender, EventArgs e)
         {
             // We always kill keyboard mode when the app button menu is removed
             _ribbon.KillKeyboardMode();
@@ -772,7 +772,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClicked(object sender, MouseEventArgs e)
+        private void OnContextClicked(object? sender, MouseEventArgs e)
         {
             if (!_ribbon.InDesignMode)
             {
@@ -780,7 +780,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!_ribbon.IsDisposed)
             {
@@ -921,21 +921,23 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            if (sender is VisualPopupToolTip popupToolTip && popupToolTip is not null)
+            {
+                popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
-            // Not showing a popup page anymore
-            _visualPopupToolTip = null;
+                // Not showing a popup page anymore
+                _visualPopupToolTip = null;
+            }
         }
 
-        private void OnTabsPaintBackground(object sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
+        private void OnTabsPaintBackground(object? sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
 
         #endregion
     }

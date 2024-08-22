@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         private bool _alreadySetup;
         private protected float _scaleFactor;
 
-        private protected virtual void FormResize(object sender, EventArgs e)
+        private protected virtual void FormResize(object? sender, EventArgs e)
         {
             if (_commonDialogHandler._wrapperForm == null)
             {

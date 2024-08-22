@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -208,7 +208,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnFloatspaceCellCountChanged(object sender, EventArgs e)
+        private void OnFloatspaceCellCountChanged(object? sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
             if (FloatspaceControl is { CellCount: 0 })
@@ -217,11 +217,11 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFloatspaceCellVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
+        private void OnFloatspaceCellVisibleCountChanged(object? sender, EventArgs e) => UpdateCellSettings();
 
-        private void OnTabVisibleCountChanged(object sender, EventArgs e) => UpdateCellSettings();
+        private void OnTabVisibleCountChanged(object? sender, EventArgs e) => UpdateCellSettings();
 
-        private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
+        private void OnFloatspaceCellAdding(object? sender, WorkspaceCellEventArgs e)
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
             var childMinSize = e.Cell.GetMinSize();
@@ -229,9 +229,9 @@ namespace Krypton.Docking
                 Math.Max(MinimumSize.Height, childMinSize.Height) + 20);
         }
 
-        private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;
+        private void OnFloatspaceCellRemoved(object? sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;
 
-        private void OnLayoutWorkspace(object sender, EventArgs e) => FloatspaceControl?.PerformNeedPaint(true);
+        private void OnLayoutWorkspace(object? sender, EventArgs e) => FloatspaceControl?.PerformNeedPaint(true);
 
         private void UpdateCellSettings()
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -755,7 +755,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
+        protected virtual void OnButtonSpecChanged(object? sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e is not null);
 
@@ -1139,7 +1139,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -1158,7 +1158,7 @@ namespace Krypton.Toolkit
 
         private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => PerformNeedPaint(true);
 
-        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
         {
             // Get the actual strip instance
             ContextMenuStrip? cms = base.ContextMenuStrip;
@@ -1170,13 +1170,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         #endregion
     }

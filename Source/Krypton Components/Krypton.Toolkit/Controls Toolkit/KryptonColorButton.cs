@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1096,7 +1096,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -1141,9 +1141,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             var showingContextMenu = false;
 
@@ -1266,9 +1266,9 @@ namespace Krypton.Toolkit
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
 
@@ -1276,7 +1276,7 @@ namespace Krypton.Toolkit
             HookContextMenuEvents(_kryptonContextMenu!.Items, false);
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)
@@ -1465,13 +1465,13 @@ namespace Krypton.Toolkit
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+        private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
+        private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
+        private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
 
-        private void OnClickMoreColors(object sender, EventArgs e)
+        private void OnClickMoreColors(object? sender, EventArgs e)
         {
             // Give user a chance to cancel showing the Krypton more colors dialog
             var cea = new CancelEventArgs();

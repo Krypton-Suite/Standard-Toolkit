@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             {
                 //Console.WriteLine("Unable to extract the icon from the binary");
 
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
 
             return result;
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
 
                 return null;
             }
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception ex)
             {
-                ExceptionHandler.CaptureException(ex);
+                ExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
 
                 // /* EXTRACT ICON ERROR */
                 //// BUBBLE UP

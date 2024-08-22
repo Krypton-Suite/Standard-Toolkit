@@ -23,9 +23,9 @@ namespace TestForm
         private Color _borderColor2;
         private ContentAlignment _titleAlignment;
         private Font _contentFont;
-        private Font _titleFont;
+        private Font? _titleFont;
         private int _countDownSeconds;
-        private KryptonToastNotificationIcon _notificationIcon;
+        private KryptonToastNotificationIcon? _notificationIcon;
         private string _notificationTitleText;
         private string _notificationContentText;
 
@@ -33,13 +33,12 @@ namespace TestForm
 
         public BasicToastNotificationTest()
         {
-
             InitializeComponent();
         }
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-            KryptonBasicToastNotificationData notificationData = new KryptonBasicToastNotificationData()
+            var notificationData = new KryptonBasicToastNotificationData()
             {
                 CountDownSeconds = _countDownSeconds,
                 CustomImage = null,
@@ -60,7 +59,7 @@ namespace TestForm
                 UseRtlReading = _useRtlReading
             };
 
-            KryptonBasicToastNotificationData notificationDataWithLocation = new KryptonBasicToastNotificationData()
+            var notificationDataWithLocation = new KryptonBasicToastNotificationData()
             {
                 CountDownSeconds = _countDownSeconds,
                 CustomImage = null,
@@ -108,14 +107,14 @@ namespace TestForm
 
             foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
             {
-                kcmbToastIcon.Items.Add(value.ToString());
+                kcmbToastIcon.Items.Add(value!.ToString());
             }
 
             kcmbToastIcon.SelectedIndex = 8;
 
             foreach (var value in Enum.GetValues(typeof(ContentAlignment)))
             {
-                kcmbToastTitleAlignment.Items.Add(value.ToString());
+                kcmbToastTitleAlignment.Items.Add(value!.ToString());
             }
 
             kcmbToastTitleAlignment.SelectedIndex = 4;
@@ -131,7 +130,7 @@ namespace TestForm
 
         private void kbtnContentFont_Click(object sender, EventArgs e)
         {
-            KryptonFontDialog contentFontDialog = new KryptonFontDialog();
+            var contentFontDialog = new KryptonFontDialog();
 
             if (contentFontDialog.ShowDialog() == DialogResult.OK)
             {

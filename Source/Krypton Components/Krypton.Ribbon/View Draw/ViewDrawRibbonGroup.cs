@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -944,7 +944,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnCollapsedClick(object sender, MouseEventArgs e)
+        private void OnCollapsedClick(object? sender, MouseEventArgs e)
         {
             // We do not operate the collapsed button at design time
             if (!_ribbon.InDesignMode)
@@ -964,7 +964,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisualPopupGroupDisposed(object sender, EventArgs e)
+        private void OnVisualPopupGroupDisposed(object? sender, EventArgs e)
         {
             // Not pressed any more
             _popupGroup = null;
@@ -973,7 +973,7 @@ namespace Krypton.Ribbon
             _container.Refresh();
         }
 
-        private void OnGroupPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnGroupPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             var updatePaint = false;
@@ -1029,7 +1029,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
+        private void OnContextClick(object? sender, MouseEventArgs e) => _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
         #endregion
     }
 }

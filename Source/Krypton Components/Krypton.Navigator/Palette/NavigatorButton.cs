@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -541,19 +541,19 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnPreviousClick(object sender, EventArgs e) => _navigator.PerformPreviousAction();
+        private void OnPreviousClick(object? sender, EventArgs e) => _navigator.PerformPreviousAction();
 
-        private void OnNextClick(object sender, EventArgs e) => _navigator.PerformNextAction();
+        private void OnNextClick(object? sender, EventArgs e) => _navigator.PerformNextAction();
 
-        private void OnContextClick(object sender, EventArgs e) => _navigator.PerformContextAction();
+        private void OnContextClick(object? sender, EventArgs e) => _navigator.PerformContextAction();
 
-        private void OnCloseClick(object sender, EventArgs e) => _navigator.PerformCloseAction();
+        private void OnCloseClick(object? sender, EventArgs e) => _navigator.PerformCloseAction();
 
-        private void OnMaximizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMaximizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnMinimizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMinimizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnCloseButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnCloseButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
         #endregion
     }
 }

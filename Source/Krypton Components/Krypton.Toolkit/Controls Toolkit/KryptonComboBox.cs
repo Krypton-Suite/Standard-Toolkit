@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
                 _kryptonComboBox = kryptonComboBox;
 
                 // Remove from view until size for the first time by the Krypton control
-                ItemHeight = 15;
+                UpdateItemHeight();  // Ensure ItemHeight is set properly; see #1677
                 DropDownHeight = 200;
                 //DrawMode = DrawMode.OwnerDrawFixed; // #20 fix, but this causes other problems; see #578
                 DrawMode = DrawMode.OwnerDrawVariable;
@@ -224,39 +224,7 @@ namespace Krypton.Toolkit
             /// <param name="e">Contains the event data.</param>
             protected override void OnFontChanged(EventArgs e)
             {
-                // Working on Windows XP or earlier systems?
-                //if (_osMajorVersion < 6)
-                //{
-                //    // Fudge by adding one to the font height, this gives the actual space used by the
-                //    // combo box control to draw an individual item in the main part of the control
-                //    ItemHeight = Font.Height + 1;
-                //}
-                //else
-                //{
-                //    // Vista performs differently depending of the use of themes...
-                //    if (IsAppThemed)
-                //    {
-                //        // Fudge by subtracting 1, which ensure correct sizing of combo box main area
-                //        //ItemHeight = Font.Height - 1;
-
-                //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                //        // when subtracting one from the font height. 
-                //        ItemHeight = Font.Height;
-                //    }
-                //    else
-                //    {
-                //        // On under Vista without themes is the font height the actual height used
-                //        // by the combo box for the space required for drawing the actual item
-                //        ItemHeight = Font.Height;
-                //    }
-                //}
-
-                // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
-                // when subtracting one from the font height. 
-                ItemHeight = _osMajorVersion < 6
-                    ? Font.Height + 1
-                    : Font.Height;
-
+                UpdateItemHeight();
                 base.OnFontChanged(e);
             }
 
@@ -594,6 +562,42 @@ namespace Krypton.Toolkit
                                                                                      _palette.PaletteContent,
                                                                                      state);
                 }
+            }
+
+            private void UpdateItemHeight()
+            {
+                // Working on Windows XP or earlier systems?
+                //if (_osMajorVersion < 6)
+                //{
+                //    // Fudge by adding one to the font height, this gives the actual space used by the
+                //    // combo box control to draw an individual item in the main part of the control
+                //    ItemHeight = Font.Height + 1;
+                //}
+                //else
+                //{
+                //    // Vista performs differently depending of the use of themes...
+                //    if (IsAppThemed)
+                //    {
+                //        // Fudge by subtracting 1, which ensure correct sizing of combo box main area
+                //        //ItemHeight = Font.Height - 1;
+
+                //        // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
+                //        // when subtracting one from the font height. 
+                //        ItemHeight = Font.Height;
+                //    }
+                //    else
+                //    {
+                //        // On under Vista without themes is the font height the actual height used
+                //        // by the combo box for the space required for drawing the actual item
+                //        ItemHeight = Font.Height;
+                //    }
+                //}
+
+                // #1455 - The lower part of the text can become clipped with chars like g, y, p, etc.
+                // when subtracting one from the font height. 
+                ItemHeight = _osMajorVersion < 6
+                    ? Font.Height + 1
+                    : Font.Height;
             }
 
             private bool IsAppThemed
@@ -2160,20 +2164,6 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
 
-        /// <summary>Gets or sets the height and width of the control.</summary>
-        [DefaultValue(typeof(Size), "121, 21")]
-        public new Size Size
-        {
-            get => base.Size;
-
-            set
-            {
-                base.Size = value;
-
-                UpdateDropDownWidth(value);
-            }
-        }
-
         #endregion
 
         #region Protected
@@ -2438,10 +2428,11 @@ namespace Krypton.Toolkit
                 ForceControlLayout();
             }
 
-            if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
-            {
-                DropDownWidth = Size.Width;
-            }
+            // ToDo: Create a new API for this in a later version
+            //if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
+            //{
+            //    DropDownWidth = Size.Width;
+            //}
 
             base.OnPaint(e);
             Paint?.Invoke(this, e!);
@@ -2640,7 +2631,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             base.OnPaletteChanged(e);
             _comboBox.Invalidate();
@@ -2760,7 +2751,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxDrawItem(object sender, DrawItemEventArgs e)
+        private void OnComboBoxDrawItem(object? sender, DrawItemEventArgs e)
         {
             Rectangle drawBounds = e.Bounds;
 
@@ -2900,7 +2891,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxMeasureItem(object sender, MeasureItemEventArgs e)
+        private void OnComboBoxMeasureItem(object? sender, MeasureItemEventArgs e)
         {
             UpdateContentFromItemIndex(e.Index);
 
@@ -2939,7 +2930,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComboBoxMouseChange(object sender, EventArgs e)
+        private void OnComboBoxMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _comboBox.MouseOver || _subclassEdit is { MouseOver: true };
@@ -2966,7 +2957,7 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxGotFocus(object sender, EventArgs e)
+        private void OnComboBoxGotFocus(object? sender, EventArgs e)
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
@@ -2984,7 +2975,7 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxLostFocus(object sender, EventArgs e)
+        private void OnComboBoxLostFocus(object? sender, EventArgs e)
         {
             if (DropDownStyle == ComboBoxStyle.DropDown)
             {
@@ -2999,28 +2990,28 @@ namespace Krypton.Toolkit
             _comboBox.Invalidate();
         }
 
-        private void OnComboBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnComboBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnComboBoxTextUpdate(object sender, EventArgs e) => OnTextUpdate(e);
+        private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 
-        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
+        private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
+        private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
-        private void OnComboBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
+        private void OnComboBoxDataSourceChanged(object? sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
+        private void OnComboBoxDisplayMemberChanged(object? sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnComboBoxDropDownClosed(object sender, EventArgs e)
+        private void OnComboBoxDropDownClosed(object? sender, EventArgs e)
         {
             _comboBox.Dropped = false;
             Refresh();
             OnDropDownClosed(e);
         }
 
-        private void OnComboBoxDropDown(object sender, EventArgs e)
+        private void OnComboBoxDropDown(object? sender, EventArgs e)
         {
             _comboBox.Dropped = true;
             _hoverIndex = -1;
@@ -3028,27 +3019,27 @@ namespace Krypton.Toolkit
             OnDropDown(e);
         }
 
-        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnComboBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnComboBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnComboBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnComboBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnComboBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnComboBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnComboBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnComboBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
+        private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
+        private void OnComboBoxFormatInfoChanged(object? sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnComboBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
+        private void OnComboBoxFormatStringChanged(object? sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
+        private void OnComboBoxFormattingEnabledChanged(object? sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e)
+        private void OnComboBoxSelectedValueChanged(object? sender, EventArgs e)
         {
             UpdateEditControl();
             PerformNeedPaint(false);
@@ -3056,9 +3047,9 @@ namespace Krypton.Toolkit
             OnSelectedValueChanged(e);
         }
 
-        private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
+        private void OnComboBoxValueMemberChanged(object? sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -3126,12 +3117,12 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object? sender, EventArgs e) => _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page anymore
@@ -3166,11 +3157,9 @@ namespace Krypton.Toolkit
             tip.ShowCalculatingSize(PointToScreen(point));
         }
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        internal void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
             _moveLastVerb.Enabled = moveLast;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonCustomControl!.Ribbon != null)
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -289,7 +289,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -323,7 +323,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteCustomControl(object sender, EventArgs e)
+        private void OnDeleteCustomControl(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -391,7 +391,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnEnabled(object sender, EventArgs e)
+        private void OnEnabled(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {
@@ -415,9 +415,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if (_ribbonCustomControl!.Ribbon != null)
             {

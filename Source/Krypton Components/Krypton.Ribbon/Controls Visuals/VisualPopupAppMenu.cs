@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -456,7 +456,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
+        protected virtual void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Need to recalculate anything relying on the palette
             OnNeedPaint(sender, e);
         #endregion
@@ -513,19 +513,19 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e) =>
+        private void OnBaseChanged(object? sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
 
         private void OnButtonSpecPaint(object? sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 
-        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
+        private void OnProviderClosing(object? sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
 
-        private void OnProviderClose(object sender, CloseReasonEventArgs e) =>
+        private void OnProviderClose(object? sender, CloseReasonEventArgs e) =>
             // Remove ourself from being shown
             VisualPopupManager.Singleton.EndPopupTracking(this);
 
-        private void OnProviderClose(object sender, EventArgs e)
+        private void OnProviderClose(object? sender, EventArgs e)
         {
             // Unhook from event source
             //var provider = (IContextMenuProvider)sender;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -869,7 +869,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedResyncPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedResyncPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Ensure the current cell style values are in sync with the new 
             // palette setting and any state overrides that are defined
@@ -885,7 +885,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -989,7 +989,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
+        protected virtual void OnButtonSpecChanged(object? sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -2345,17 +2345,17 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             // Only need a one tick timer
             if (_showTimer != null)
@@ -2599,7 +2599,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -2617,12 +2617,12 @@ namespace Krypton.Toolkit
 
         private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
 
-        private void OnSyncPropertyChanged(object sender, EventArgs e) =>
+        private void OnSyncPropertyChanged(object? sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
             // setting and any state overrides that are defined.
             SyncCellStylesWithPalette();
 
-        private void OnSyncBackPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSyncBackPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Only interested in the first color from the background palettes
             if (e.PropertyName == "Color1")
@@ -2635,7 +2635,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Menus
-        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
         {
             // Get the actual strip instance
             ContextMenuStrip? cms = base.ContextMenuStrip;
@@ -2654,13 +2654,13 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

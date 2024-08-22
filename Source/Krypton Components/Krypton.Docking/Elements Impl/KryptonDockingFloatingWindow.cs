@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -260,24 +260,24 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnFloatingWindowCloseClicked(object sender, UniqueNamesEventArgs e)
+        private void OnFloatingWindowCloseClicked(object? sender, UniqueNamesEventArgs e)
         {
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(e.UniqueNames);
         }
 
-        private void OnFloatingWindowCaptionDragging(object sender, ScreenAndOffsetEventArgs e)
+        private void OnFloatingWindowCaptionDragging(object? sender, ScreenAndOffsetEventArgs e)
         {
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.DoDragDrop(e.ScreenPoint, e.ElementOffset, null, this);
         }
 
-        private void OnDockingFloatspaceDisposed(object sender, EventArgs e)
+        private void OnDockingFloatspaceDisposed(object? sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            var floatspaceElement = (KryptonDockingFloatspace)sender;
+            var floatspaceElement = sender as KryptonDockingFloatspace ?? throw new ArgumentNullException(nameof(sender));
             floatspaceElement.Disposed -= OnDockingFloatspaceDisposed;
 
             // Kill the floatspace window
@@ -287,7 +287,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnFloatingWindowDisposed(object sender, EventArgs e)
+        private void OnFloatingWindowDisposed(object? sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
             FloatingWindow.Disposed -= OnFloatingWindowDisposed;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1093,55 +1093,55 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnComboBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnComboBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnComboBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnComboBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnComboBoxTextUpdate(object sender, EventArgs e) => OnTextUpdate(e);
+        private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 
-        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
+        private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private protected void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private protected void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
+        private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
-        private void OnComboBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
+        private void OnComboBoxDataSourceChanged(object? sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
+        private void OnComboBoxDisplayMemberChanged(object? sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnComboBoxDropDownClosed(object sender, EventArgs e) => OnDropDownClosed(e);
+        private void OnComboBoxDropDownClosed(object? sender, EventArgs e) => OnDropDownClosed(e);
 
-        private void OnComboBoxDropDown(object sender, EventArgs e) => OnDropDown(e);
+        private void OnComboBoxDropDown(object? sender, EventArgs e) => OnDropDown(e);
 
-        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnComboBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnComboBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnComboBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnComboBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
+        private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
+        private void OnComboBoxFormatInfoChanged(object? sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnComboBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
+        private void OnComboBoxFormatStringChanged(object? sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
+        private void OnComboBoxFormattingEnabledChanged(object? sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e) => OnSelectedValueChanged(e);
+        private void OnComboBoxSelectedValueChanged(object? sender, EventArgs e) => OnSelectedValueChanged(e);
 
-        private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
+        private void OnComboBoxValueMemberChanged(object? sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
         {
             ComboBox.PaletteMode = Ribbon!.PaletteMode;
             ComboBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;

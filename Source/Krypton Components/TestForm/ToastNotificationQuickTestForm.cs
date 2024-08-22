@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Collections;
-
 namespace TestForm
 {
     public partial class ToastNotificationQuickTestForm : KryptonForm

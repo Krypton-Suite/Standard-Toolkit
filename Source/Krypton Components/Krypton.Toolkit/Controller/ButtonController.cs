@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -915,10 +915,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRepeatTimer(object sender, EventArgs e)
+        private void OnRepeatTimer(object? sender, EventArgs e)
         {
             // Modify subsequent repeat timing
-            _t = (System.Windows.Forms.Timer)sender;
+            _t = sender as System.Windows.Forms.Timer ?? throw new ArgumentNullException(nameof(sender));
             _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         }

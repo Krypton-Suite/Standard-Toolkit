@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1667,7 +1667,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             InvalidateChildren();
             base.OnPaletteChanged(e);
@@ -2007,11 +2007,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNumericUpDownTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnNumericUpDownTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnNumericUpDownValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnNumericUpDownValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnNumericUpDownGotFocus(object sender, EventArgs e)
+        private void OnNumericUpDownGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -2021,7 +2021,7 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnNumericUpDownLostFocus(object sender, EventArgs e)
+        private void OnNumericUpDownLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -2031,19 +2031,19 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnNumericUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnNumericUpDownKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnNumericUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnNumericUpDownKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnNumericUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnNumericUpDownKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnNumericUpDownValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnNumericUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnNumericUpDownValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -2110,21 +2110,21 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page anymore
             _visualPopupToolTip = null;
         }
 
-        private void OnNumericUpDownMouseChange(object sender, EventArgs e)
+        private void OnNumericUpDownMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _numericUpDown.MouseOver ||

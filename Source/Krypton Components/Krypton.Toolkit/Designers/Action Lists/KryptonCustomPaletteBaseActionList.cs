@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnResetClick(object sender, EventArgs e)
+        private void OnResetClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnPopulateClick(object sender, EventArgs e)
+        private void OnPopulateClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnImportClick(object sender, EventArgs e)
+        private void OnImportClick(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -109,9 +109,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e) => _palette?.ActionListExport();
+        private void OnExportClick(object? sender, EventArgs e) => _palette?.ActionListExport();
 
-        private void OnUpgradePalette(object sender, EventArgs e)
+        private void OnUpgradePalette(object? sender, EventArgs e)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc);
+                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
         #endregion

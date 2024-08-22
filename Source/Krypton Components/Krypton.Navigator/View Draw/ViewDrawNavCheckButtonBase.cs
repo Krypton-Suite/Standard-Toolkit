@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -422,7 +422,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(object sender, EventArgs e)
+        protected virtual void OnClick(object? sender, EventArgs e)
         {
             // Generate click event for the page header
             Navigator.OnTabClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page!)));
@@ -459,7 +459,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightClick(object sender, MouseEventArgs e)
+        protected virtual void OnRightClick(object? sender, MouseEventArgs e)
         {
             // Can only select the page if not already selected and allowed to select a tab
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
@@ -490,17 +490,17 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, _page);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, _page);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
+        private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+        private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }

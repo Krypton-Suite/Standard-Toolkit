@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,7 +24,6 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
-        private string _text;
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
@@ -55,7 +54,6 @@ namespace Krypton.Toolkit
         public KryptonContextMenuHeading(string initialText)
         {
             // Default fields
-            _text = initialText;
             _extraText = string.Empty;
             _image = null;
             _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
@@ -141,18 +139,10 @@ namespace Krypton.Toolkit
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(@"Heading")]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set 
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>

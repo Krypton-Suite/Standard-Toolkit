@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -616,7 +616,10 @@ namespace Krypton.Toolkit
                 catch (InvalidEnumArgumentException)
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
-                    if (owner is VisualMessageBoxForm)
+                    if (owner is VisualMessageBoxForm 
+                        or VisualMessageBoxFormDep 
+                        or VisualMessageBoxRtlAwareForm 
+                        or VisualMessageBoxRtlAwareFormDep)
                     {
                         // need to gain access to `dialogResult` and set it forcefully
                         FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -868,7 +871,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -892,9 +895,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             // Raise the standard click event
             OnClick(EventArgs.Empty);
@@ -903,7 +906,7 @@ namespace Krypton.Toolkit
             OnMouseClick(e);
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)
@@ -974,7 +977,7 @@ namespace Krypton.Toolkit
 
         #region Event Handlers
 
-        private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void KryptonContextMenu_Closed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             if (sender is KryptonContextMenu kcm)
             {
@@ -987,7 +990,7 @@ namespace Krypton.Toolkit
             //} 
         }
 
-        private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        private void ContextMenuStrip_Closing(object? sender, ToolStripDropDownClosingEventArgs e)
         {
             if (sender is ContextMenuStrip cms)
             {

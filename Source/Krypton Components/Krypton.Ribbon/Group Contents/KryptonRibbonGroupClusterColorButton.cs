@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -811,7 +811,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -1196,13 +1196,13 @@ namespace Krypton.Ribbon
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+        private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
+        private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
+        private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = Color.Empty;
 
-        private void OnClickMoreColors(object sender, EventArgs e)
+        private void OnClickMoreColors(object? sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
             var cea = new CancelEventArgs();
@@ -1226,7 +1226,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             var kcm = sender as KryptonContextMenu;
             kcm!.Closed -= OnKryptonContextMenuClosed;

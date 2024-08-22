@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                     return -1;
                 }
 
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+                private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
                 #endregion
@@ -685,7 +685,7 @@ namespace Krypton.Toolkit
 
             #region Implementation
 
-            private void buttonOK_Click(object sender, EventArgs e)
+            private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
                 var rootItems = new object[_treeView.Nodes.Count];
@@ -710,7 +710,7 @@ namespace Krypton.Toolkit
                 Context!.OnComponentChanged();
             }
 
-            private void buttonMoveUp_Click(object sender, EventArgs e)
+            private void buttonMoveUp_Click(object? sender, EventArgs e)
             {
                 // We should have a selected node!
                 if (_treeView.SelectedNode is MenuTreeNode node)
@@ -755,7 +755,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonMoveDown_Click(object sender, EventArgs e)
+            private void buttonMoveDown_Click(object? sender, EventArgs e)
             {
                 // We should have a selected node!
                 if (_treeView.SelectedNode is MenuTreeNode node)
@@ -800,31 +800,31 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddItem_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
+            private void buttonAddItem_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
 
-            private void buttonAddItems_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
+            private void buttonAddItems_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
 
-            private void buttonAddHeading_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
+            private void buttonAddHeading_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
 
-            private void buttonAddMonthCalendar_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
+            private void buttonAddMonthCalendar_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
 
-            private void buttonAddSeparator_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
+            private void buttonAddSeparator_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
 
-            private void buttonAddCheckBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
+            private void buttonAddCheckBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
 
-            private void buttonAddCheckButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
+            private void buttonAddCheckButton_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
 
-            private void buttonAddRadioButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
+            private void buttonAddRadioButton_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
 
-            private void buttonAddLinkLabel_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
+            private void buttonAddLinkLabel_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
 
-            private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
+            private void buttonAddColorColumns_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
-            private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
+            private void buttonAddImageSelect_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
-            private void buttonAddComboBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
+            private void buttonAddComboBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
-            private void buttonDelete_Click(object sender, EventArgs e)
+            private void buttonDelete_Click(object? sender, EventArgs e)
             {
                 // We should have a selected node!
                 if (_treeView.SelectedNode is MenuTreeNode node)
@@ -862,7 +862,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void SelectionChanged(object sender, TreeViewEventArgs e)
+            private void SelectionChanged(object? sender, TreeViewEventArgs e)
             {
                 UpdateButtons();
                 UpdatePropertyGrid();

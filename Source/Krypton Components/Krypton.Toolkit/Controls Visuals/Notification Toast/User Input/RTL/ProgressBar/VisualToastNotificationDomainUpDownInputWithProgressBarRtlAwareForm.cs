@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
 
         private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
-        private void VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationDomainUpDownInputWithProgressBarRtlAwareForm_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {

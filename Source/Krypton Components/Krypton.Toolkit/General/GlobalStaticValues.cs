@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,6 +16,8 @@ namespace Krypton.Toolkit
     /// <summary>Provides a collection of static values, used within the toolkit.</summary>
     public class GlobalStaticValues
     {
+        internal const bool DEFAULT_USE_STACK_TRACE = true;
+
         /// <summary>The default date and time value</summary>
         public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
 
@@ -46,7 +48,7 @@ namespace Krypton.Toolkit
         public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
 
         /// <summary>The default highlight debugging color</summary>
-        public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Fuchsia;
+        public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Magenta;
 
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";
@@ -369,6 +371,18 @@ namespace Krypton.Toolkit
         public static readonly string DEFAULT_SHORT_SEED_TEXT = $"Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)\r\n\u00a9 Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.\r\n\r\nNew BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)\r\nModifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved.";
 
         public static readonly string DEFAULT_LONG_SEED_TEXT = $"BSD 3-Clause License\r\n\r\nCopyright (c) 2017 - {DateTime.Now.Year}, Krypton Suite\r\n\r\nAll rights reserved.\r\n\r\nRedistribution and use in source and binary forms, with or without\r\nmodification, are permitted provided that the following conditions are met:\r\n\r\n1. Redistributions of source code must retain the above copyright notice, this\r\n   list of conditions and the following disclaimer.\r\n\r\n2. Redistributions in binary form must reproduce the above copyright notice,\r\n   this list of conditions and the following disclaimer in the documentation\r\n   and/or other materials provided with the distribution.\r\n\r\n3. Neither the name of the copyright holder nor the names of its\r\n   contributors may be used to endorse or promote products derived from\r\n   this software without specific prior written permission.\r\n\r\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\r\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\r\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\r\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\r\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\r\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\r\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\r\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\r\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\r\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+
+        #region Properties
+        /// <summary> 
+        /// KryptonMessageBoxes that use the KRichtTextBox need another color for the text.<br/>
+        /// Set the text colour to the one a non-input control uses.
+        /// </summary>
+        public static Color KryptonMessageBoxRichTextBoxTextColor 
+        {
+            // per ticket #1692
+            get => KryptonManager.CurrentGlobalPalette.GetContentLongTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+        }
+        #endregion
 
         #region Methods
         /// <summary>

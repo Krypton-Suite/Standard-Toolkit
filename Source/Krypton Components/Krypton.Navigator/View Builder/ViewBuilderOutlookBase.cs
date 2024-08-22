@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -1358,7 +1358,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
             _headerGroup.ViewBuilderPropertyChanged(e);
@@ -1956,7 +1956,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnPagesCleared(object sender, EventArgs e)
+        private void OnPagesCleared(object? sender, EventArgs e)
         {
             if (!Navigator.IsDisposed && _events)
             {
@@ -2086,14 +2086,14 @@ namespace Krypton.Navigator
             return !checkButton!.Visible;
         }
 
-        private void OnEnabledChanged(object sender, EventArgs e)
+        private void OnEnabledChanged(object? sender, EventArgs e)
         {
             UpdateStatePalettes();
             Navigator.PerformLayout();
             Navigator.Invalidate();
         }
 
-        private void OnAutoSizeChanged(object sender, EventArgs e) =>
+        private void OnAutoSizeChanged(object? sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
             _oldRoot?.SetMinimumAsPreferred(!Navigator.AutoSize);
 
@@ -2105,7 +2105,7 @@ namespace Krypton.Navigator
             return _viewLayout.Any(child => child.Visible && (child is ViewDrawNavOutlookStack));
         }
 
-        private void OnDropDownClick(object sender, EventArgs e)
+        private void OnDropDownClick(object? sender, EventArgs e)
         {
             if (!Navigator.InternalDesignMode)
             {
@@ -2172,7 +2172,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnShowMoreClick(object sender, EventArgs e)
+        private void OnShowMoreClick(object? sender, EventArgs e)
         {
             // Cast to correct type
             ViewDrawNavOutlookOverflow? checkButton = GetMoreOverflow();
@@ -2195,7 +2195,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnShowFewerClick(object sender, EventArgs e)
+        private void OnShowFewerClick(object? sender, EventArgs e)
         {
             // Find the last visible button on the stack bar
             foreach (ViewBase child in _viewLayout.Reverse())
@@ -2223,7 +2223,7 @@ namespace Krypton.Navigator
             PerformNeedPaint(true);
         }
 
-        private void OnPageAddRemoveClick(object sender, EventArgs e)
+        private void OnPageAddRemoveClick(object? sender, EventArgs e)
         {
             // Cast to correct type
             var menuItem = sender as KryptonContextMenuItem;
@@ -2246,10 +2246,10 @@ namespace Krypton.Navigator
             _kcm.Items.Clear();
         }
 
-        private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
+        private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            var reorderItem = (ViewDrawNavOutlookStack)sender;
+            var reorderItem = sender as ViewDrawNavOutlookStack ?? throw new ArgumentNullException(nameof(sender));
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewLayout.ClientRectangle);
@@ -2269,7 +2269,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
+        private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
             var reorderView = sender as ViewDrawNavOutlookStack;

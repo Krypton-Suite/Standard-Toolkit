@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -599,15 +599,15 @@ namespace Krypton.Ribbon
             Add(_viewLarge);
         }
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupGallery?.LastGallery?.ShownGalleryDropDown(_ribbon.ViewRectangleToScreen(_viewLarge),
+        private void OnLargeButtonDropDown(object? sender, EventArgs e) => GroupGallery?.LastGallery?.ShownGalleryDropDown(_ribbon.ViewRectangleToScreen(_viewLarge),
                 KryptonContextMenuPositionH.Left,
                 KryptonContextMenuPositionV.Below,
                 _viewLarge.FinishDelegate,
                 GroupGallery.DropButtonItemWidth);
 
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupGallery?.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupGallery?.OnDesignTimeContextMenu(e);
 
-        private void OnGalleryPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnGalleryPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             const bool UPDATE_PAINT = false;
@@ -824,7 +824,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLayoutAction(object sender, EventArgs e)
+        private void OnLayoutAction(object? sender, EventArgs e)
         {
             // If not disposed then we still have a element reference
             if (GroupGallery != null)
@@ -835,7 +835,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMouseEnterControl(object sender, EventArgs e)
+        private void OnMouseEnterControl(object? sender, EventArgs e)
         {
             // Reset the active group setting
             _activeGroup = null;
@@ -864,7 +864,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMouseLeaveControl(object sender, EventArgs e)
+        private void OnMouseLeaveControl(object? sender, EventArgs e)
         {
             // If we have a cached group we made active
             if (_activeGroup != null)

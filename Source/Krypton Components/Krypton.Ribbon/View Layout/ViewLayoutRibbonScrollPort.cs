@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -756,7 +756,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnNearClick(object sender, EventArgs e)
+        private void OnNearClick(object? sender, EventArgs e)
         {
             // Scroll left/up
             _scrollOffset -= _scrollSpeed;
@@ -765,7 +765,7 @@ namespace Krypton.Ribbon
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
         }
 
-        private void OnFarClick(object sender, EventArgs e)
+        private void OnFarClick(object? sender, EventArgs e)
         {
             // Scroll down/right
             _scrollOffset += _scrollSpeed;
@@ -774,7 +774,7 @@ namespace Krypton.Ribbon
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
         }
 
-        private void OnViewControlPaintBackground(object sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
+        private void OnViewControlPaintBackground(object? sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
         #endregion
     }
 }
