@@ -31,7 +31,6 @@
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
-        <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
         <WarningLevel>8</WarningLevel>
