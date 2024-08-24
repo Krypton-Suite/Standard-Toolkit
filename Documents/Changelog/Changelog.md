@@ -150,6 +150,11 @@
 
 =======
 
+# 2024-xx-xx - Build 24xx (Patch 3) - xxxx 2024
+* Resolved [#833](https://github.com/Krypton-Suite/Standard-Toolkit/issues/833), Specific themes need a revisit
+
+=======
+
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
 * Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
