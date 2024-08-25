@@ -3,7 +3,6 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
-* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
 * Resolved [#1692](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1692), Resolves `KryptonMessageBoxes` incompatibility between message text and dark themes.
 * Implemented [#1734](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1734), Add `ForceDesignerDPIUnaware` option
 * Resolved [#1729](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1729), `KryptonCustomPaletteBase` does not implement ##Tracking states
@@ -156,6 +155,7 @@
 =======
 
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
+* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
 * Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
 * Resolved [#1675](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1675), Catastrophic failure wherever `KryptonGroupPanel` is used.
