@@ -827,8 +827,7 @@ namespace Krypton.Toolkit
 
             base.OnResize(e);
 
-            if (/*ApplyCustomChrome
-                &&*/ !((MdiParent != null)
+            if (!((MdiParent != null)
                      && CommonHelper.IsFormMaximized(this))
                 )
             {
@@ -880,6 +879,7 @@ namespace Krypton.Toolkit
         //    base.OnPaint(e);
         //}
 
+        ///// <inheritdoc />
         //protected override void OnPaintBackground(PaintEventArgs e)
         //{
         //    if (AcrylicValues.EnableAcrylic)
@@ -888,38 +888,37 @@ namespace Krypton.Toolkit
         //    }
         //}
 
-        /// <inheritdoc />
-        protected override void OnLoad(EventArgs e)
-        {
-            /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-            if (FadeValues.FadingEnabled)
-            {
-                #if NETCOREAPP3_0_OR_GREATER
-                    KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-                #else
-                    KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-                #endif
-            }
-            */
-            base.OnLoad(e);
-        }
+        ///// <inheritdoc />
+        //protected override void OnLoad(EventArgs e)
+        //{
+        //    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
+        //    if (FadeValues.FadingEnabled)
+        //    {
+        //        #if NETCOREAPP3_0_OR_GREATER
+        //            KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+        //        #else
+        //            KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+        //        #endif
+        //    }
+        //    */
+        //    base.OnLoad(e);
+        //}
 
-        /// <inheritdoc />
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-            if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
-            {
-                #if NETCOREAPP3_0_OR_GREATER
-                    KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-                #else
-                    KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-                #endif
-            }
-            */
-            base.OnClosing(e);
-        }
-
+        ///// <inheritdoc />
+        //protected override void OnClosing(CancelEventArgs e)
+        //{
+        //    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
+        //    if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
+        //    {
+        //        #if NETCOREAPP3_0_OR_GREATER
+        //            KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+        //        #else
+        //            KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+        //        #endif
+        //    }
+        //    */
+        //    base.OnClosing(e);
+        //}
         #endregion
 
         #region Protected Virtual
@@ -1012,13 +1011,8 @@ namespace Krypton.Toolkit
         {
             var processed = false;
 
-            // We do not process the message if on an MDI child, because doing so prevents the 
-            // LayoutMdi call on the parent from working and cascading/tiling the children
-            //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
-            //    ((MdiParent == null) || ApplyCustomChrome))
             if (!CommonHelper.IsFormMaximized(this)
                 && _themedApp
-                //&& ((MdiParent == null) || ApplyCustomChrome)
                 )
             {
                 switch (m.Msg)
@@ -1029,7 +1023,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.GETMINMAXINFO:
                         OnWM_GETMINMAXINFO(ref m);
                         /* Setting handled to false enables the application to process its own Min/Max requirements,
-                * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
+                        * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
                         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
                         // Still got to call - base - to allow the "application to process its own Min/Max requirements" !!
                         base.WndProc(ref m);

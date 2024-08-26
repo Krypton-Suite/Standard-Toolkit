@@ -733,13 +733,8 @@ namespace Krypton.Toolkit
                            )
                         {
                             // Get the window borders
-
-                            // Finally check that the actual form is using custom chrome
-                            //if (kryptonForm.ApplyCustomChrome)
-                            {
-                                // Extend down into the bottom border
-                                backRect.Height += kryptonForm.RealWindowBorders.Bottom;
-                            }
+                            // Extend down into the bottom border
+                            backRect.Height += kryptonForm.RealWindowBorders.Bottom;
                         }
 
                         // Cannot paint a zero sized area
