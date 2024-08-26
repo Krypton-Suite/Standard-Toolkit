@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(132, 178, 233), // FormButtonBack1Pressed
             Color.FromArgb(192, 231, 252), // FormButtonBack2Pressed
             Color.FromArgb(21, 66, 139), // TextButtonFormNormal
-            Color.FromArgb(21, 66, 139), // TextButtonFormTracking
+            Color.FromArgb(255, 255, 255), // TextButtonFormTracking
             Color.FromArgb(21, 66, 139), // TextButtonFormPressed
             Color.Blue, // LinkNotVisitedOverrideControl
             Color.Purple, // LinkVisitedOverrideControl
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(21, 66, 139), // TextLabelPanel
             Color.FromArgb(21, 66, 139), // RibbonTabTextNormal
-            Color.FromArgb(21, 66, 139), // RibbonTabTextChecked
+            Color.FromArgb(255, 255, 255), // RibbonTabTextChecked
             Color.FromArgb(134, 179, 236), // RibbonTabSelected1
             Color.FromArgb(63, 122, 197), // RibbonTabSelected2
             Color.FromArgb(134, 179, 236), // RibbonTabSelected3
