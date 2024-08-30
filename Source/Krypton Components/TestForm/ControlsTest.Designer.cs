@@ -38,18 +38,18 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsTest));
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsTest));
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
             this.kryptonRibbonContext1 = new Krypton.Ribbon.KryptonRibbonContext();
@@ -69,6 +69,10 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox2 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLinkLabel2 = new Krypton.Toolkit.KryptonLinkLabel();
+            this.kryptonLinkLabel1 = new Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonComboBox2 = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonRichTextBox2 = new Krypton.Toolkit.KryptonRichTextBox();
@@ -110,10 +114,6 @@ namespace TestForm
             this.kryptonGalleryRange1 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange2 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange3 = new Krypton.Ribbon.KryptonGalleryRange();
-            this.kryptonLinkLabel1 = new Krypton.Toolkit.KryptonLinkLabel();
-            this.kryptonLinkLabel2 = new Krypton.Toolkit.KryptonLinkLabel();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -136,12 +136,11 @@ namespace TestForm
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.kryptonRibbonContext1});
-            this.kryptonRibbon1.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon1.RibbonFileAppButton.FormCloseBoxVisible = true;
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1,
             this.kryptonRibbonTab2});
-            this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab2;
+            this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(1323, 115);
             this.kryptonRibbon1.TabIndex = 0;
             // 
@@ -305,6 +304,40 @@ namespace TestForm
             this.kryptonPanel1.Size = new System.Drawing.Size(1323, 471);
             this.kryptonPanel1.TabIndex = 1;
             // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.Enabled = false;
+            this.kryptonLabel2.Location = new System.Drawing.Point(110, 409);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabel2.TabIndex = 43;
+            this.kryptonLabel2.Values.Text = "kryptonLabel2";
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(13, 409);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabel1.TabIndex = 42;
+            this.kryptonLabel1.Values.Text = "kryptonLabel1";
+            // 
+            // kryptonLinkLabel2
+            // 
+            this.kryptonLinkLabel2.Enabled = false;
+            this.kryptonLinkLabel2.Location = new System.Drawing.Point(207, 353);
+            this.kryptonLinkLabel2.Name = "kryptonLinkLabel2";
+            this.kryptonLinkLabel2.Size = new System.Drawing.Size(110, 20);
+            this.kryptonLinkLabel2.TabIndex = 41;
+            this.kryptonLinkLabel2.Values.Text = "kryptonLinkLabel2";
+            // 
+            // kryptonLinkLabel1
+            // 
+            this.kryptonLinkLabel1.Location = new System.Drawing.Point(207, 327);
+            this.kryptonLinkLabel1.Name = "kryptonLinkLabel1";
+            this.kryptonLinkLabel1.Size = new System.Drawing.Size(110, 20);
+            this.kryptonLinkLabel1.TabIndex = 40;
+            this.kryptonLinkLabel1.Values.Text = "kryptonLinkLabel1";
+            // 
             // kryptonComboBox2
             // 
             this.kryptonComboBox2.DropDownWidth = 149;
@@ -409,13 +442,13 @@ namespace TestForm
             this.kryptonListView1.HideSelection = false;
             this.kryptonListView1.HotTracking = true;
             this.kryptonListView1.HoverSelection = true;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.kryptonListView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.kryptonListView1.Location = new System.Drawing.Point(648, 35);
             this.kryptonListView1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonListView1.Name = "kryptonListView1";
@@ -441,13 +474,13 @@ namespace TestForm
             this.listKrypton.HideSelection = false;
             this.listKrypton.HotTracking = true;
             this.listKrypton.HoverSelection = true;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
-            listViewItem9.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
             this.listKrypton.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8,
-            listViewItem9});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.listKrypton.Location = new System.Drawing.Point(521, 35);
             this.listKrypton.Margin = new System.Windows.Forms.Padding(2);
             this.listKrypton.Name = "listKrypton";
@@ -781,40 +814,6 @@ namespace TestForm
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(275, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
-            // 
-            // kryptonLinkLabel1
-            // 
-            this.kryptonLinkLabel1.Location = new System.Drawing.Point(207, 327);
-            this.kryptonLinkLabel1.Name = "kryptonLinkLabel1";
-            this.kryptonLinkLabel1.Size = new System.Drawing.Size(110, 20);
-            this.kryptonLinkLabel1.TabIndex = 40;
-            this.kryptonLinkLabel1.Values.Text = "kryptonLinkLabel1";
-            // 
-            // kryptonLinkLabel2
-            // 
-            this.kryptonLinkLabel2.Enabled = false;
-            this.kryptonLinkLabel2.Location = new System.Drawing.Point(207, 353);
-            this.kryptonLinkLabel2.Name = "kryptonLinkLabel2";
-            this.kryptonLinkLabel2.Size = new System.Drawing.Size(110, 20);
-            this.kryptonLinkLabel2.TabIndex = 41;
-            this.kryptonLinkLabel2.Values.Text = "kryptonLinkLabel2";
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(13, 409);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(88, 20);
-            this.kryptonLabel1.TabIndex = 42;
-            this.kryptonLabel1.Values.Text = "kryptonLabel1";
-            // 
-            // kryptonLabel2
-            // 
-            this.kryptonLabel2.Enabled = false;
-            this.kryptonLabel2.Location = new System.Drawing.Point(110, 409);
-            this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(88, 20);
-            this.kryptonLabel2.TabIndex = 43;
-            this.kryptonLabel2.Values.Text = "kryptonLabel2";
             // 
             // ControlsTest
             // 
