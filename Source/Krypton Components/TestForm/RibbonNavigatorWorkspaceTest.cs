@@ -15,5 +15,10 @@ namespace TestForm
         {
             InitializeComponent();
         }
+
+        private void buttonSpecExpandCollapse_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
