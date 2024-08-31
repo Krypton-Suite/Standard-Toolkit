@@ -9,16 +9,11 @@
 
 namespace TestForm
 {
-    public partial class NavigatorTest : KryptonForm
+    public partial class RibbonNavigatorWorkspaceTest : KryptonForm
     {
-        public NavigatorTest()
+        public RibbonNavigatorWorkspaceTest()
         {
             InitializeComponent();
-        }
-
-        private void buttonSpecExpandCollapse_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
