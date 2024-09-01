@@ -159,15 +159,7 @@ namespace Krypton.Toolkit
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-        private static readonly Color[] _ribbonGroupCollapsedBackContext = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-        ];
-        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = [Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-        ];
-        private static readonly Color[] _ribbonGroupCollapsedBorderContext = [Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235)
-        ];
-        private static readonly Color[] _trackBarColors = [Color.FromArgb(180, 180, 180), Color.FromArgb(33, 37, 50), Color.FromArgb(126, 131, 142), Color.FromArgb(99, 99, 99), Color.FromArgb(32, Color.White), Color.FromArgb(35, 35, 35)
-        ];
-        private static readonly Color _inputControlTextDisabled = Color.FromArgb(120, 120, 120);
+        private static readonly Color _inputControlTextDisabled = Color.FromArgb(172, 168, 153);
         private static readonly Color _colorDark00 = Color.Black;
         private static readonly Color _colorWhite119 = Color.FromArgb(119, 119, 119);
         private static readonly Color _colorWhite128 = Color.FromArgb(128, 128, 128);
@@ -188,6 +180,40 @@ namespace Krypton.Toolkit
         private static readonly Color _menuItemDisabledBack2 = Color.FromArgb(164, 190, 190, 190);
         private static readonly Color _menuItemDisabledBorder = Color.FromArgb(164, 172, 172, 172);
         private static readonly Color _menuItemDisabledImageBorder = Color.FromArgb(200, 200, 200);
+
+        #endregion
+
+        #region Color Arrays
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContext =
+        [
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        ];
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
+        [
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        ];
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContext =
+        [
+            Color.FromArgb(128, 199, 199, 199),
+            Color.FromArgb(199, 199, 199),
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        ];
+
+        private static readonly Color[] _trackBarColors =
+        [
+            Color.FromArgb(180, 180, 180),
+            Color.FromArgb(33, 37, 50),
+            Color.FromArgb(126, 131, 142),
+            Color.FromArgb(99, 99, 99),
+            Color.FromArgb(32, Color.White),
+            Color.FromArgb(35, 35, 35)
+        ];
 
         #endregion
 
