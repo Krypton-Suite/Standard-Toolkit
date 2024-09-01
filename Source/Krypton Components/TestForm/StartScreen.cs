@@ -199,5 +199,10 @@ namespace TestForm
         {
             new ColorTestimonials().Show();
         }
+
+        private void kbtnRibbonNavigatorWorkspace_Click(object sender, EventArgs e)
+        {
+            new RibbonNavigatorWorkspaceTest().Show();
+        }
     }
 }

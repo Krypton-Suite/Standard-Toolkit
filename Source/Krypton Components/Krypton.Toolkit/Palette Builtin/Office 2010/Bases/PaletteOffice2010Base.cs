@@ -3533,6 +3533,8 @@ namespace Krypton.Toolkit
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
                         case PaletteState.Tracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
+                        case PaletteState.ContextTracking:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
                         default:
