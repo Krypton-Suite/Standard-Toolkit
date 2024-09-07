@@ -1748,7 +1748,7 @@ namespace Krypton.Toolkit
                         PaletteState.Disabled => _buttonBackColors[1],
                         PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorTrack2],
                         PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorPressed2],
-                        PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorChecked2],
+                        PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => Color.FromArgb(73, 73, 73), // ToDo: Find out why this is a problem... _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorChecked2],
                         _ => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalNavigatorBack2]
                     };
                 default:
