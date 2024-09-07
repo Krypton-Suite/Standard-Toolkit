@@ -3409,10 +3409,12 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
+                        case PaletteState.ContextNormal:
                         case PaletteState.CheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
+                        case PaletteState.ContextTracking:
                         case PaletteState.Tracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
