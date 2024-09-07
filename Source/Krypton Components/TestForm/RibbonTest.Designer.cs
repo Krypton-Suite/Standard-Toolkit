@@ -40,6 +40,8 @@
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
+            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.krgbTrigger1715 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.contextRed = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen2 = new Krypton.Ribbon.KryptonRibbonTab();
@@ -103,6 +105,7 @@
             this.kryptonRibbon.RibbonFileAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem1});
             this.kryptonRibbon.RibbonFileAppButton.AppButtonShowRecentDocs = false;
+            this.kryptonRibbon.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.tabHome,
             this.contextRed,
@@ -143,7 +146,8 @@
             // kryptonRibbonGroup1
             // 
             this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple1});
+            this.kryptonRibbonGroupTriple1,
+            this.kryptonRibbonGroupTriple2});
             // 
             // kryptonRibbonGroupTriple1
             // 
@@ -158,6 +162,17 @@
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 121;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;
+            // 
+            // kryptonRibbonGroupTriple2
+            // 
+            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.krgbTrigger1715});
+            // 
+            // krgbTrigger1715
+            // 
+            this.krgbTrigger1715.TextLine1 = "Trigger";
+            this.krgbTrigger1715.TextLine2 = "#1715";
+            this.krgbTrigger1715.Click += new System.EventHandler(this.krgbTrigger1715_Click);
             // 
             // contextRed
             // 
@@ -212,7 +227,7 @@
             // kryptonThemeComboBox1
             // 
             this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office2007Silver;
-            this.kryptonThemeComboBox1.DropDownWidth = 126;
+            this.kryptonThemeComboBox1.DropDownWidth = 500;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(20, 295);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
@@ -574,5 +589,7 @@
         private KryptonLabel labelContextsInstructions;
         private KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonManager kryptonManager1;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
+        private Krypton.Ribbon.KryptonRibbonGroupButton krgbTrigger1715;
     }
 }

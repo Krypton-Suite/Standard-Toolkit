@@ -3530,15 +3530,18 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                        case PaletteState.ContextNormal:
                         case PaletteState.CheckedNormal:
-                        case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.Empty;
-                        case PaletteState.ContextTracking:
                         case PaletteState.Tracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
+                        case PaletteState.ContextNormal:
+                        case PaletteState.ContextCheckedNormal:
+                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder;
                         default:
                             // Should never happen!
                             Debug.Assert(false);

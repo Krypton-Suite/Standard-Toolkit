@@ -3,6 +3,8 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1715), Not Implemented Exception thrown for `GetRibbonBackColorStyle` `PaletteOffice2010Base.cs`
+* Resolved [#1299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1299), Ribbon context colours not implemented
 * Resolved [#1749](https://github.com/Krypton-Suite/Standard-Toolkit/issues1749), Rounded Form borders have "Triangles" in corners.
 * Resolved [#1692](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1692), Resolves `KryptonMessageBoxes` incompatibility between message text and dark themes.
 * Implemented [#1734](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1734), Add `ForceDesignerDPIUnaware` option

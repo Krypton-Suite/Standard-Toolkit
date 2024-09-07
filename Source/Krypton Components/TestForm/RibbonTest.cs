@@ -88,14 +88,9 @@ namespace TestForm
             }
         }
 
-        private void kryptonContextMenuItem1_Click(object sender, EventArgs e)
+        private void krgbTrigger1715_Click(object sender, EventArgs e)
         {
-            Close();
-        }
-
-        private void kryptonContextMenuItem1_Click_1(object sender, EventArgs e)
-        {
-
+            kryptonRibbon.SelectedTab!.ContextName = @"Testing";
         }
     }
 }
