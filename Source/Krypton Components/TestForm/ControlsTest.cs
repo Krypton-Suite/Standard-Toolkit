@@ -22,5 +22,12 @@ namespace TestForm
 
             kryptonRibbonGroupComboBox2.SelectedIndex = 1;
         }
+
+        private void krgbBug833Test_Click(object sender, EventArgs e)
+        {
+            var bug833Test = new Bug833Test();
+
+            bug833Test.Show();
+        }
     }
 }

@@ -114,6 +114,8 @@ namespace TestForm
             this.kryptonGalleryRange1 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange2 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange3 = new Krypton.Ribbon.KryptonGalleryRange();
+            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.krgbBug833Test = new Krypton.Ribbon.KryptonRibbonGroupButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -136,6 +138,7 @@ namespace TestForm
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.kryptonRibbonContext1});
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon1.RibbonFileAppButton.FormCloseBoxVisible = true;
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1,
@@ -157,7 +160,8 @@ namespace TestForm
             // 
             this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
             this.kryptonRibbonGroupTriple1,
-            this.kryptonRibbonGroupLines1});
+            this.kryptonRibbonGroupLines1,
+            this.kryptonRibbonGroupTriple2});
             // 
             // kryptonRibbonGroupTriple1
             // 
@@ -815,6 +819,17 @@ namespace TestForm
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
+            // kryptonRibbonGroupTriple2
+            // 
+            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.krgbBug833Test});
+            // 
+            // krgbBug833Test
+            // 
+            this.krgbBug833Test.TextLine1 = "Bug 833";
+            this.krgbBug833Test.TextLine2 = "Test";
+            this.krgbBug833Test.Click += new System.EventHandler(this.krgbBug833Test_Click);
+            // 
             // ControlsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -910,5 +925,7 @@ namespace TestForm
         private KryptonLinkLabel kryptonLinkLabel2;
         private KryptonLabel kryptonLabel1;
         private KryptonLabel kryptonLabel2;
+        private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
+        private Krypton.Ribbon.KryptonRibbonGroupButton krgbBug833Test;
     }
 }
