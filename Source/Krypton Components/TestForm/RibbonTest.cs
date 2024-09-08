@@ -17,22 +17,10 @@ namespace TestForm
         {
             InitializeComponent();
         }
-
-        private void buttonEditColor_Click(object sender, EventArgs e)
+        
+        private void kcmClose_Click(object sender, EventArgs e)
         {
-            // Let user change the color definition
-            using var kcd = new KryptonColorDialog();
-
-            kcd.AllowFullOpen = true;
-
-            if (kcd.ShowDialog() == DialogResult.OK)
-            {
-                // Update the Displayed color feedback
-                panelContextColor.StateCommon.Color1 = kcd.Color;
-                textBoxContextName.Text = kcd.Color.Name;
-
-                textBoxSelectedContexts.Text = $"{textBoxSelectedContexts.Text},{textBoxContextName.Text}";
-            }
+            Close();
         }
 
         private void buttonSelectedApply_Click(object sender, EventArgs e)
@@ -46,6 +34,19 @@ namespace TestForm
             if (e.KeyCode == Keys.Enter)
             {
                 buttonSelectedApply_Click(buttonSelectedApply, EventArgs.Empty);
+            }
+        }
+        
+        private void buttonEditColor_Click(object sender, EventArgs e)
+        {
+            using var kcd = new KryptonColorDialog();
+
+            kcd.AllowFullOpen = true;
+
+            if (kcd.ShowDialog() == DialogResult.OK)
+            {
+                // Update the Displayed color feedback
+                panelContextColor.StateCommon.Color1 = kcd.Color;
             }
         }
 
@@ -78,18 +79,10 @@ namespace TestForm
             textBoxSelectedContexts.Text = newSelectedContext;
             kryptonRibbon.SelectedContext = newSelectedContext;
         }
-
-        private void ColorChanged(object sender, EventArgs e)
+        
+        private void themeColorChanged_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioOffice2003.Checked)
-            {
-                kryptonManager1.GlobalPaletteMode = PaletteMode.ProfessionalOffice2003;
-            }
-        }
 
-        private void krgbTrigger1715_Click(object sender, EventArgs e)
-        {
-            kryptonRibbon.SelectedTab!.ContextName = @"Testing";
         }
     }
 }
