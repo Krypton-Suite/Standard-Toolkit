@@ -2194,14 +2194,14 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonCalendarDay => state == PaletteState.Disabled ? _disabledText2 : Color.Black,
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or
                     PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
-                {
-                    PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                       ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                       : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed
-                        => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
-                },
+                    {
+                        PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
+                           ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+                           : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+                        PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed
+                            => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
+                        _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
+                    },
                 PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
                 {
                     PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeOfficeColors.TextButtonFormTracking],
@@ -3529,14 +3529,16 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
-                        case PaletteState.ContextCheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
                         case PaletteState.Tracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
-                        case PaletteState.ContextTracking:
-                            return PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
+                        case PaletteState.ContextNormal:
+                        case PaletteState.ContextCheckedNormal:
+                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
