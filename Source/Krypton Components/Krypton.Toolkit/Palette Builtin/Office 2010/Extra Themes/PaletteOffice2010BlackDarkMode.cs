@@ -1748,7 +1748,7 @@ namespace Krypton.Toolkit
                         PaletteState.Disabled => _buttonBackColors[1],
                         PaletteState.Tracking => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorTrack2],
                         PaletteState.Pressed => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorPressed2],
-                        PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorChecked2],
+                        PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => Color.FromArgb(73, 73, 73), // ToDo: Find out why this is a problem... _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorChecked2],
                         _ => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalNavigatorBack2]
                     };
                 default:
@@ -4364,12 +4364,16 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
-                        case PaletteState.ContextCheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
                         case PaletteState.Tracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
+                        case PaletteState.ContextNormal:
+                        case PaletteState.ContextCheckedNormal:
+                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder;
                         default:
                             // Should never happen!
                             Debug.Assert(false);

@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved.
+ *
  */
 #endregion
 
@@ -17,7 +17,7 @@ namespace TestForm
         {
             InitializeComponent();
         }
-
+        
         private void kcmClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -30,12 +30,13 @@ namespace TestForm
 
         private void textBoxSelectedContexts_KeyDown(object sender, KeyEventArgs e)
         {
+            // Pressing enter in text box is same as pressing the apply button
             if (e.KeyCode == Keys.Enter)
             {
                 buttonSelectedApply_Click(buttonSelectedApply, EventArgs.Empty);
             }
         }
-
+        
         private void buttonEditColor_Click(object sender, EventArgs e)
         {
             using var kcd = new KryptonColorDialog();
@@ -78,7 +79,7 @@ namespace TestForm
             textBoxSelectedContexts.Text = newSelectedContext;
             kryptonRibbon.SelectedContext = newSelectedContext;
         }
-
+        
         private void themeColorChanged_CheckedChanged(object sender, EventArgs e)
         {
 

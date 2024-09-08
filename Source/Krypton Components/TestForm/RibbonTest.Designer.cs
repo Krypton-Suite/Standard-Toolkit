@@ -1,13 +1,4 @@
-﻿#region BSD License
-/*
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
- *  
- */
-#endregion
-
-namespace TestForm
+﻿namespace TestForm
 {
     partial class RibbonTest
     {
@@ -39,19 +30,18 @@ namespace TestForm
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonTest));
-            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonRibbon = new Krypton.Ribbon.KryptonRibbon();
             this.contextDefRed = new Krypton.Ribbon.KryptonRibbonContext();
             this.contextDefGreen = new Krypton.Ribbon.KryptonRibbonContext();
-            this.kcmClose = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.tabHome = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
+            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.krgbTrigger1715 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.contextRed = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen2 = new Krypton.Ribbon.KryptonRibbonTab();
@@ -105,18 +95,6 @@ namespace TestForm
             this.groupSelectedContexts.SuspendLayout();
             this.SuspendLayout();
             // 
-            // kryptonContextMenuItems1
-            // 
-            this.kryptonContextMenuItems1.Text = "";
-            // 
-            // kryptonContextMenuItems2
-            // 
-            this.kryptonContextMenuItems2.Text = "";
-            // 
-            // kryptonContextMenuItem2
-            // 
-            this.kryptonContextMenuItem2.Text = "Menu Item";
-            // 
             // kryptonRibbon
             // 
             this.kryptonRibbon.InDesignHelperMode = true;
@@ -134,7 +112,6 @@ namespace TestForm
             this.contextGreen2});
             this.kryptonRibbon.SelectedContext = "Red,Green";
             this.kryptonRibbon.SelectedTab = this.tabHome;
-            this.kryptonRibbon.Size = new System.Drawing.Size(643, 115);
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor2 = System.Drawing.Color.Yellow;
             this.kryptonRibbon.StateCommon.RibbonAppButton.BackColor3 = System.Drawing.Color.Lime;
@@ -153,12 +130,6 @@ namespace TestForm
             this.contextDefGreen.ContextName = "Green";
             this.contextDefGreen.ContextTitle = "Green";
             // 
-            // kcmClose
-            // 
-            this.kcmClose.Image = ((System.Drawing.Image)(resources.GetObject("kcmClose.Image")));
-            this.kcmClose.Text = "E&xit";
-            this.kcmClose.Click += new System.EventHandler(this.kcmClose_Click);
-            // 
             // tabHome
             // 
             this.tabHome.Groups.AddRange(new Krypton.Ribbon.KryptonRibbonGroup[] {
@@ -168,7 +139,8 @@ namespace TestForm
             // kryptonRibbonGroup1
             // 
             this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple1});
+            this.kryptonRibbonGroupTriple1,
+            this.kryptonRibbonGroupTriple2});
             // 
             // kryptonRibbonGroupTriple1
             // 
@@ -183,6 +155,17 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 121;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;
+            // 
+            // kryptonRibbonGroupTriple2
+            // 
+            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.krgbTrigger1715});
+            // 
+            // krgbTrigger1715
+            // 
+            this.krgbTrigger1715.TextLine1 = "Trigger";
+            this.krgbTrigger1715.TextLine2 = "#1715";
+            this.krgbTrigger1715.Click += new System.EventHandler(this.krgbTrigger1715_Click);
             // 
             // contextRed
             // 
