@@ -106,7 +106,7 @@
 		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
 	</PropertyGroup>
 	<PropertyGroup>
-		<NoWarn>1701;1702</NoWarn>
+		<NoWarn>1701;1702;WFO1000</NoWarn>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<PackageLicenseFile>License.md</PackageLicenseFile>

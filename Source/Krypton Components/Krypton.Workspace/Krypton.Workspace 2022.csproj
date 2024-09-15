@@ -92,7 +92,7 @@
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
-        <NoWarn>1701;1702</NoWarn>
+        <NoWarn>1701;1702;WFO1000</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'!='Debug'">
         <Optimize>True</Optimize>

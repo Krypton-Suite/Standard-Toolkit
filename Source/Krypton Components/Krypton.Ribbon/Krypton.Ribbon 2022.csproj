@@ -34,6 +34,7 @@
         <Nullable>enable</Nullable>
         <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
         <WarningLevel>8</WarningLevel>
+		<NoWarn>WFO1000</NoWarn>
         <AnalysisLevel>latest</AnalysisLevel>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
         <!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
@@ -130,7 +131,7 @@
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
-        <NoWarn>1701;1702</NoWarn>
+        <NoWarn>1701;1702;WFO1000</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'!='Debug'">
