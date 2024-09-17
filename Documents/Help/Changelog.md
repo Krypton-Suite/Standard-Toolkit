@@ -3,6 +3,7 @@
 =======
 
 ## 2024-07-xx - Build 2408 (Patch 2) - July 2024
+* Resolved [1772](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1772), `KryptonDataGridViewComboBox` properties, `AutoCompleteMode` and `AutoCompleteSource` have incorrect default values.
 * Resolved [#1755](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1755), Ribbon `GalleryButtonController` timer component causes an exception on mouse movements.
 * Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes

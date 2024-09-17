@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The AutoCompleteMode property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue(121)]
+        [DefaultValue(AutoCompleteMode.None)]
         public AutoCompleteMode AutoCompleteMode
         {
             get => _autoCompleteMode;
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The AutoCompleteSource property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue(121)]
+        [DefaultValue(AutoCompleteSource.None)]
         public AutoCompleteSource AutoCompleteSource
         {
             get => _autoCompleteSource;
