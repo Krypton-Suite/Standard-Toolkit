@@ -33,15 +33,12 @@
             this.kryptonRibbon = new Krypton.Ribbon.KryptonRibbon();
             this.contextDefRed = new Krypton.Ribbon.KryptonRibbonContext();
             this.contextDefGreen = new Krypton.Ribbon.KryptonRibbonContext();
-            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.tabHome = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
-            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.krgbTrigger1715 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.contextRed = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.contextGreen2 = new Krypton.Ribbon.KryptonRibbonTab();
@@ -139,8 +136,7 @@
             // kryptonRibbonGroup1
             // 
             this.kryptonRibbonGroup1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.kryptonRibbonGroupTriple1,
-            this.kryptonRibbonGroupTriple2});
+            this.kryptonRibbonGroupTriple1});
             // 
             // kryptonRibbonGroupTriple1
             // 
@@ -155,17 +151,6 @@
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 121;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 16;
-            // 
-            // kryptonRibbonGroupTriple2
-            // 
-            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.krgbTrigger1715});
-            // 
-            // krgbTrigger1715
-            // 
-            this.krgbTrigger1715.TextLine1 = "Trigger";
-            this.krgbTrigger1715.TextLine2 = "#1715";
-            this.krgbTrigger1715.Click += new System.EventHandler(this.krgbTrigger1715_Click);
             // 
             // contextRed
             // 

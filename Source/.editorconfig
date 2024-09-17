@@ -78,7 +78,7 @@ csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimenta
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-dotnet_diagnostic.WFO1000.severity = warning
+dotnet_diagnostic.WFO1000.severity = suggestion
 
 
 [*.{cs,vb}]
@@ -146,3 +146,6 @@ dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_qualification_for_event = false:silent
