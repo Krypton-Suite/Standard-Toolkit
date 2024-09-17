@@ -533,12 +533,10 @@
             this.ButtonSpecs.Add(this.buttonSpecAny10);
             this.ClientSize = new System.Drawing.Size(600, 635);
             this.Controls.Add(this.kryptonPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
