@@ -17,11 +17,6 @@ namespace TestForm
         {
             InitializeComponent();
         }
-        
-        private void kcmClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
 
         private void buttonSelectedApply_Click(object sender, EventArgs e)
         {
@@ -36,9 +31,10 @@ namespace TestForm
                 buttonSelectedApply_Click(buttonSelectedApply, EventArgs.Empty);
             }
         }
-        
+
         private void buttonEditColor_Click(object sender, EventArgs e)
         {
+            // Let user change the color definition
             using var kcd = new KryptonColorDialog();
 
             kcd.AllowFullOpen = true;
@@ -47,6 +43,9 @@ namespace TestForm
             {
                 // Update the Displayed color feedback
                 panelContextColor.StateCommon.Color1 = kcd.Color;
+                textBoxContextName.Text = kcd.Color.Name;
+
+                textBoxSelectedContexts.Text = $"{textBoxSelectedContexts.Text},{textBoxContextName.Text}";
             }
         }
 
@@ -79,10 +78,20 @@ namespace TestForm
             textBoxSelectedContexts.Text = newSelectedContext;
             kryptonRibbon.SelectedContext = newSelectedContext;
         }
-        
-        private void themeColorChanged_CheckedChanged(object sender, EventArgs e)
+
+        private void kryptonContextMenuItem1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ColorChanged_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void klrgbtnTest1715_Click(object sender, EventArgs e)
+        {
+            kryptonRibbon.SelectedTab!.ContextName = @"Testing";
         }
     }
 }
