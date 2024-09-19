@@ -198,7 +198,7 @@
             this.panelFill.Margin = new System.Windows.Forms.Padding(7);
             this.panelFill.Name = "panelFill";
             this.panelFill.Padding = new System.Windows.Forms.Padding(9);
-            this.panelFill.Size = new System.Drawing.Size(715, 488);
+            this.panelFill.Size = new System.Drawing.Size(683, 456);
             this.panelFill.TabIndex = 1;
             // 
             // kryptonWorkspace
@@ -209,7 +209,7 @@
             | Krypton.Workspace.CompactFlags.AtLeastOneVisibleCell)));
             this.kryptonWorkspace.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWorkspace.Location = new System.Drawing.Point(176, 9);
+            this.kryptonWorkspace.Location = new System.Drawing.Point(194, 9);
             this.kryptonWorkspace.Name = "kryptonWorkspace";
             // 
             // 
@@ -221,7 +221,7 @@
             this.kryptonWorkspace.Root.UniqueName = "03CE3DB6856D4BE671B66A4FB4EF68C3";
             this.kryptonWorkspace.Root.WorkspaceControl = this.kryptonWorkspace;
             this.kryptonWorkspace.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kryptonWorkspace.Size = new System.Drawing.Size(530, 470);
+            this.kryptonWorkspace.Size = new System.Drawing.Size(480, 438);
             this.kryptonWorkspace.SplitterWidth = 5;
             this.kryptonWorkspace.TabIndex = 3;
             this.kryptonWorkspace.TabStop = true;
@@ -241,7 +241,7 @@
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(528, 205);
+            this.kryptonPage1.Size = new System.Drawing.Size(478, 189);
             this.kryptonPage1.Text = "Page 1";
             this.kryptonPage1.TextDescription = "Page 1 Description";
             this.kryptonPage1.TextTitle = "Page 1 Title";
@@ -416,7 +416,7 @@
             this.kryptonPage4.LastVisibleSet = true;
             this.kryptonPage4.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage4.Name = "kryptonPage4";
-            this.kryptonPage4.Size = new System.Drawing.Size(260, 206);
+            this.kryptonPage4.Size = new System.Drawing.Size(235, 190);
             this.kryptonPage4.Text = "Page 5";
             this.kryptonPage4.TextDescription = "Page 5 Description";
             this.kryptonPage4.TextTitle = "Page 5 Title";
@@ -484,7 +484,7 @@
             this.kryptonPage6.LastVisibleSet = true;
             this.kryptonPage6.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage6.Name = "kryptonPage6";
-            this.kryptonPage6.Size = new System.Drawing.Size(261, 206);
+            this.kryptonPage6.Size = new System.Drawing.Size(236, 190);
             this.kryptonPage6.Text = "Page 8";
             this.kryptonPage6.TextDescription = "Page 8 Description";
             this.kryptonPage6.TextTitle = "Page 8 Title";
@@ -508,9 +508,9 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.kryptonPanel1.Location = new System.Drawing.Point(167, 9);
+            this.kryptonPanel1.Location = new System.Drawing.Point(185, 9);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(9, 470);
+            this.kryptonPanel1.Size = new System.Drawing.Size(9, 438);
             this.kryptonPanel1.TabIndex = 2;
             // 
             // navigatorOutlook
@@ -549,7 +549,7 @@
             this.pageGlobalPalettes,
             this.kryptonDisplayMode});
             this.navigatorOutlook.SelectedIndex = 0;
-            this.navigatorOutlook.Size = new System.Drawing.Size(158, 470);
+            this.navigatorOutlook.Size = new System.Drawing.Size(176, 438);
             this.navigatorOutlook.TabIndex = 0;
             this.navigatorOutlook.Text = "kryptonNavigator1";
             // 
@@ -581,7 +581,7 @@
             this.pageGlobalPalettes.MinimumSize = new System.Drawing.Size(145, 50);
             this.pageGlobalPalettes.Name = "pageGlobalPalettes";
             this.pageGlobalPalettes.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
-            this.pageGlobalPalettes.Size = new System.Drawing.Size(156, 363);
+            this.pageGlobalPalettes.Size = new System.Drawing.Size(156, 394);
             this.pageGlobalPalettes.Text = "Palettes";
             this.pageGlobalPalettes.TextDescription = "Palettes";
             this.pageGlobalPalettes.TextTitle = "Palettes";
@@ -812,7 +812,7 @@
             this.kryptonRibbonTab1,
             this.kryptonRibbonTab2});
             this.kryptonRibbon.SelectedTab = this.kryptonRibbonTab1;
-            this.kryptonRibbon.Size = new System.Drawing.Size(715, 142);
+            this.kryptonRibbon.Size = new System.Drawing.Size(683, 142);
             this.kryptonRibbon.TabIndex = 0;
             // 
             // qatAlbania
@@ -1281,7 +1281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(715, 630);
+            this.ClientSize = new System.Drawing.Size(683, 598);
             this.CloseBox = false;
             this.Controls.Add(this.panelFill);
             this.Controls.Add(this.kryptonRibbon);
