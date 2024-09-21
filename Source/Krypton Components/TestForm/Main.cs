@@ -355,5 +355,12 @@ namespace TestForm
         {
 
         }
+
+        private void kbtnDialogs_Click(object sender, EventArgs e)
+        {
+            var kde = new KryptonDialogExamples();
+
+            kde.ShowDialog();
+        }
     }
 }

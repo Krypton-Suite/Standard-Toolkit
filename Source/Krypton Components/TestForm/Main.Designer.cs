@@ -96,6 +96,7 @@ namespace TestForm
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
+            this.kbtnDialogs = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -105,6 +106,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnDialogs);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton12);
@@ -631,6 +633,17 @@ namespace TestForm
             this.kcmdOpenImage.Text = "&...";
             this.kcmdOpenImage.Execute += new System.EventHandler(this.kcmdOpenImage_Execute);
             // 
+            // kbtnDialogs
+            // 
+            this.kbtnDialogs.Location = new System.Drawing.Point(13, 408);
+            this.kbtnDialogs.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnDialogs.Name = "kbtnDialogs";
+            this.kbtnDialogs.Size = new System.Drawing.Size(136, 20);
+            this.kbtnDialogs.TabIndex = 45;
+            this.kbtnDialogs.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnDialogs.Values.Text = "Dialogs";
+            this.kbtnDialogs.Click += new System.EventHandler(this.kbtnDialogs_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -719,5 +732,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonCommand kcmdOpenImage;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
+        private KryptonButton kbtnDialogs;
     }
 }
