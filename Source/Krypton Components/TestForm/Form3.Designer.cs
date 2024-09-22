@@ -54,8 +54,13 @@
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
+            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
+            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor2 = System.Drawing.Color.Empty;
+            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor3 = System.Drawing.Color.Empty;
+            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor4 = System.Drawing.Color.Blue;
+            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor5 = System.Drawing.Color.Fuchsia;
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonTab1
