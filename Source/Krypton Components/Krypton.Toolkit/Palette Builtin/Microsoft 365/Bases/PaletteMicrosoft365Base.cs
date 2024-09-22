@@ -1997,18 +1997,18 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteContentStyle.HeaderForm 
-                    or PaletteContentStyle.HeaderPrimary 
-                    or PaletteContentStyle.HeaderDockInactive 
-                    or PaletteContentStyle.HeaderDockActive 
-                    or PaletteContentStyle.HeaderSecondary 
-                    or PaletteContentStyle.HeaderCustom1 
-                    or PaletteContentStyle.HeaderCustom2 
-                    or PaletteContentStyle.HeaderCustom3 
-                    or PaletteContentStyle.ButtonNavigatorStack 
-                    or PaletteContentStyle.ButtonNavigatorOverflow 
-                    or PaletteContentStyle.ButtonListItem 
-                    or PaletteContentStyle.ButtonCommand 
+                PaletteContentStyle.HeaderForm
+                    or PaletteContentStyle.HeaderPrimary
+                    or PaletteContentStyle.HeaderDockInactive
+                    or PaletteContentStyle.HeaderDockActive
+                    or PaletteContentStyle.HeaderSecondary
+                    or PaletteContentStyle.HeaderCustom1
+                    or PaletteContentStyle.HeaderCustom2
+                    or PaletteContentStyle.HeaderCustom3
+                    or PaletteContentStyle.ButtonNavigatorStack
+                    or PaletteContentStyle.ButtonNavigatorOverflow
+                    or PaletteContentStyle.ButtonListItem
+                    or PaletteContentStyle.ButtonCommand
                     or PaletteContentStyle.LabelNormalControl
                     or PaletteContentStyle.LabelBoldControl
                     or PaletteContentStyle.LabelItalicControl
@@ -2043,34 +2043,34 @@ namespace Krypton.Toolkit
                     or PaletteContentStyle.GridDataCellCustom2
                     or PaletteContentStyle.GridDataCellCustom3 => PaletteRelativeAlign.Near,
                 PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.HeaderCalendar => PaletteRelativeAlign.Center,
-                PaletteContentStyle.InputControlStandalone 
-                    or PaletteContentStyle.InputControlRibbon 
-                    or PaletteContentStyle.InputControlCustom1 
-                    or PaletteContentStyle.InputControlCustom2 
+                PaletteContentStyle.InputControlStandalone
+                    or PaletteContentStyle.InputControlRibbon
+                    or PaletteContentStyle.InputControlCustom1
+                    or PaletteContentStyle.InputControlCustom2
                     or PaletteContentStyle.InputControlCustom3
                     or PaletteContentStyle.ButtonInputControl => PaletteRelativeAlign.Near,
-                PaletteContentStyle.TabHighProfile 
-                    or PaletteContentStyle.TabStandardProfile 
-                    or PaletteContentStyle.TabLowProfile 
-                    or PaletteContentStyle.TabOneNote 
-                    or PaletteContentStyle.TabDock 
-                    or PaletteContentStyle.TabDockAutoHidden 
-                    or PaletteContentStyle.TabCustom1 
-                    or PaletteContentStyle.TabCustom2 
-                    or PaletteContentStyle.TabCustom3 
-                    or PaletteContentStyle.ButtonStandalone 
-                    or PaletteContentStyle.ButtonGallery 
-                    or PaletteContentStyle.ButtonCalendarDay 
-                    or PaletteContentStyle.ButtonAlternate 
-                    or PaletteContentStyle.ButtonLowProfile 
-                    or PaletteContentStyle.ButtonBreadCrumb 
-                    or PaletteContentStyle.ButtonButtonSpec 
-                    or PaletteContentStyle.ButtonCluster 
-                    or PaletteContentStyle.ButtonForm 
-                    or PaletteContentStyle.ButtonFormClose 
-                    or PaletteContentStyle.ButtonNavigatorMini 
-                    or PaletteContentStyle.ButtonCustom1 
-                    or PaletteContentStyle.ButtonCustom2 
+                PaletteContentStyle.TabHighProfile
+                    or PaletteContentStyle.TabStandardProfile
+                    or PaletteContentStyle.TabLowProfile
+                    or PaletteContentStyle.TabOneNote
+                    or PaletteContentStyle.TabDock
+                    or PaletteContentStyle.TabDockAutoHidden
+                    or PaletteContentStyle.TabCustom1
+                    or PaletteContentStyle.TabCustom2
+                    or PaletteContentStyle.TabCustom3
+                    or PaletteContentStyle.ButtonStandalone
+                    or PaletteContentStyle.ButtonGallery
+                    or PaletteContentStyle.ButtonCalendarDay
+                    or PaletteContentStyle.ButtonAlternate
+                    or PaletteContentStyle.ButtonLowProfile
+                    or PaletteContentStyle.ButtonBreadCrumb
+                    or PaletteContentStyle.ButtonButtonSpec
+                    or PaletteContentStyle.ButtonCluster
+                    or PaletteContentStyle.ButtonForm
+                    or PaletteContentStyle.ButtonFormClose
+                    or PaletteContentStyle.ButtonNavigatorMini
+                    or PaletteContentStyle.ButtonCustom1
+                    or PaletteContentStyle.ButtonCustom2
                     or PaletteContentStyle.ButtonCustom3 => PaletteRelativeAlign.Center,
                 PaletteContentStyle.ContextMenuItemShortcutText => PaletteRelativeAlign.Far,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -3531,12 +3531,17 @@ namespace Krypton.Toolkit
                     {
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
+                        case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.Empty;
                         case PaletteState.Tracking:
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalPressedDark;
                         default:
                             // Should never happen!
                             Debug.Assert(false);

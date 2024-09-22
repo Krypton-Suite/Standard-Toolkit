@@ -72,7 +72,6 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawForm _drawDocker;
@@ -124,13 +123,13 @@ namespace Krypton.Toolkit
 
             // Create storage objects
             ButtonSpecs = new FormButtonSpecCollection(this);
-            _buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
+            var buttonSpecsFixed = new FormFixedButtonSpecCollection(this);
 
             // Add the fixed set of window form buttons
             ButtonSpecMin = new ButtonSpecFormWindowMin(this);
             ButtonSpecMax = new ButtonSpecFormWindowMax(this);
             ButtonSpecClose = new ButtonSpecFormWindowClose(this);
-            _buttonSpecsFixed.AddRange(new ButtonSpecFormFixed[] { ButtonSpecMin, ButtonSpecMax, ButtonSpecClose });
+            buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 
             // Create the palette storage
             StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate);
@@ -175,7 +174,7 @@ namespace Krypton.Toolkit
             };
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, buttonSpecsFixed,
                 [_drawHeading],
                 [StateCommon.Header],
                 [PaletteMetricInt.HeaderButtonEdgeInsetForm],
@@ -202,6 +201,7 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
+            TransparencyKey = Color.Magenta; // Bug #1749
         }
 
         /// <summary>
@@ -824,7 +824,7 @@ namespace Krypton.Toolkit
             if (_statusStrip == e.Control)
             {
                 // Unhook from status strip events
-                UnmonitorStatusStrip();
+                UnMonitorStatusStrip();
 
                 // Recalc to test if status strip should be unintegrated
                 RecalcNonClient();
@@ -898,11 +898,7 @@ namespace Krypton.Toolkit
             _drawHeading.Enabled = WindowActive;
             _drawContent.Enabled = WindowActive;
 
-            // Only need to redraw if showing custom chrome
-            //if (ApplyCustomChrome)
-            {
-                PerformNeedPaint(false);
-            }
+            PerformNeedPaint(false);
 
             base.OnWindowActiveChanged();
         }
@@ -980,7 +976,7 @@ namespace Krypton.Toolkit
                 || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
             {
                 // Get the mouse controller for this button
-                ViewBase? viewBase = ViewManager?.Root?.ViewFromPoint(pt);
+                ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
                 IMouseController? controller = viewBase?.FindMouseController();
 
                 // Ensure the button shows as 'normal' state when mouse not over and pressed
@@ -1009,7 +1005,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            var borders = RealWindowBorders;
+            Padding borders = RealWindowBorders;
             // Restrict the top border to the same size as the left as we are using
             // the values for the size of the border hit testing for resizing the window
             // and not the size of the border for drawing purposes.
@@ -1019,7 +1015,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the elements that contains the mouse point
-            ViewBase? mouseView = ViewManager?.Root?.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager?.Root.ViewFromPoint(pt);
 
             // Scan up the view hierarchy until a recognized element is found
             while (mouseView != null)
@@ -1385,10 +1381,16 @@ namespace Krypton.Toolkit
             {
                 // If we notice we have become maximized but the layout has not updated for
                 // the maximized state then we need to update the region ourself right now
-                if ((GetWindowState() == FormWindowState.Maximized) &&
-                    (_regionWindowState != FormWindowState.Maximized))
+                if (GetWindowState() == FormWindowState.Maximized)
                 {
-                    UpdateRegionForMaximized();
+                    if (_regionWindowState != FormWindowState.Maximized)
+                    {
+                        UpdateRegionForMaximized();
+                    }
+                }
+                else
+                {
+                    g.FillRectangle(Brushes.Magenta, rect); // Bug #1749
                 }
 
                 // We draw the main form and header background
@@ -1478,7 +1480,7 @@ namespace Krypton.Toolkit
         {
             if (_statusStrip != null)
             {
-                UnmonitorStatusStrip();
+                UnMonitorStatusStrip();
             }
 
             // Hook into event handlers
@@ -1487,7 +1489,7 @@ namespace Krypton.Toolkit
             _statusStrip.DockChanged += OnStatusDockChanged;
         }
 
-        private void UnmonitorStatusStrip()
+        private void UnMonitorStatusStrip()
         {
             if (_statusStrip != null)
             {
@@ -1571,7 +1573,7 @@ namespace Krypton.Toolkit
             var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
-            // Not showing a popup page any more
+            // Not showing a popup page anymore
             _visualPopupToolTip = null;
         }
 
@@ -1653,7 +1655,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Calls the method that draws the drop shadow around the form.
         /// </summary>
-        /// <param name="useDropShadow">Use dropshadow user input value.</param>
+        /// <param name="useDropShadow">Use drop shadow user input value.</param>
         public void UpdateDropShadowDraw(bool useDropShadow)
         {
             if (useDropShadow)
@@ -1752,8 +1754,8 @@ namespace Krypton.Toolkit
         /// <param name="value">if set to <c>true</c> [value].</param>
         public static void SetIsInAdministratorMode(bool value)
         {
-            // TODO: @wagnerp: what is this supposed to be doing ?
-            var form = new KryptonForm();
+            //// TODO: @wagnerp: what is this supposed to be doing ?
+            //var form = new KryptonForm();
 
             //form.IsInAdministratorMode = value;
         }

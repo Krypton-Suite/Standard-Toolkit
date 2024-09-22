@@ -1635,6 +1635,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RibbonText
+
         /// <summary>
         /// Gets the tab color for the item text.
         /// </summary>
@@ -1642,6 +1643,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state);
+
         #endregion
 
         #region ElementColor

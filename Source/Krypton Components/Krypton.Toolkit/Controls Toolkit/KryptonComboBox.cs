@@ -850,6 +850,11 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private int _cachedHeight;
         private int _hoverIndex;
+
+        // #1697 Work-around
+        // When changing DropDownStyle while the control is disabled the newly selected style was not applied.
+        // _deferredComboBoxStyle caches the selected change which is applied when the control is enabled again.
+        private ComboBoxStyle? _deferredComboBoxStyle;
         #endregion
 
         #region Events
@@ -1192,6 +1197,11 @@ namespace Krypton.Toolkit
             _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(PaletteState.Tracking)!;
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
+
+            // #1697 Work-around
+            // When changing DropDownStyle while the control is disabled the newly selected style was not applied.
+            // _deferredComboBoxStyle caches the selected change which is applied when the control is enabled again.
+            _deferredComboBoxStyle = null;
         }
 
         /// <summary>
@@ -1595,19 +1605,38 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
-            get => _comboBox.DropDownStyle;
+            // #1697 Work-around
+            // When _deferredComboBoxStyle has been set this value takes precedence over _comboBox.DropDownStyle
+            get => _deferredComboBoxStyle.HasValue
+                ? _deferredComboBoxStyle.Value
+                : _comboBox.DropDownStyle;
 
             set
             {
-                if (_comboBox.DropDownStyle != value)
+                // #1697 Work-around
+                // If the _deferredComboBoxStyle has been set and DropDownStyle is changed again while the control is disabled this change has to be recorded.
+                if (_comboBox.DropDownStyle != value || (_deferredComboBoxStyle.HasValue && _deferredComboBoxStyle.Value != value))
                 {
                     if (value == ComboBoxStyle.Simple)
                     {
                         throw new ArgumentOutOfRangeException(nameof(_comboBox.DropDownStyle), @"KryptonComboBox does not support the DropDownStyle.Simple style.");
                     }
 
-                    _comboBox.DropDownStyle = value;
-                    UpdateEditControl();
+                    // #1697 Work-around
+                    // When changing DropDownStyle while the control is disabled the newly selected style was not applied.
+                    // _deferredComboBoxStyle caches the selected change which is applied when the control is enabled again.
+                    if (Enabled)
+                    {
+                        _comboBox.DropDownStyle = value;
+                        UpdateEditControl();
+                    }
+                    else
+                    {
+
+                        // #1697 Work-around
+                        // If the controls is disabled, record the change in DropDownStyle
+                        _deferredComboBoxStyle = value;
+                    }
                 }
             }
         }
@@ -2363,6 +2392,15 @@ namespace Krypton.Toolkit
 
             // Let base class fire standard event
             base.OnEnabledChanged(e);
+
+            // #1697 Work-around
+            // When changing DropDownStyle while the control is disabled the newly selected style was not applied.
+            if (Enabled && _deferredComboBoxStyle.HasValue)
+            {
+                DropDownStyle = _deferredComboBoxStyle.Value;
+                _deferredComboBoxStyle = null;
+            }
+            
         }
 
         /// <summary>

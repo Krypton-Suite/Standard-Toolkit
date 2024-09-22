@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(255, 255, 255), // (70, 70, 70),  (76, 83, 92), // TextLabelControl
+            Color.FromArgb(70, 70, 70),  // (76, 83, 92), // TextLabelControl
             Color.FromArgb(70, 70, 70), // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
@@ -416,44 +416,44 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
             PaletteState state) => style switch
-        {
-            PaletteButtonSpecStyle.FormClose => state switch
             {
-                PaletteState.Tracking => _formCloseActive,
-                PaletteState.Normal => _formCloseNormal,
-                PaletteState.Pressed => _formClosePressed,
-                _ => _formCloseDisabled
-            },
-            PaletteButtonSpecStyle.FormMin => state switch
-            {
-                PaletteState.Normal => _formMinimiseNormal,
-                PaletteState.Tracking => _formMinimiseActive,
-                PaletteState.Pressed => _formMinimisePressed,
-                _ => _formMinimiseDisabled
-            },
-            PaletteButtonSpecStyle.FormMax => state switch
-            {
-                PaletteState.Normal => _formMaximiseNormal,
-                PaletteState.Tracking => _formMaximiseActive,
-                PaletteState.Pressed => _formMaximisePressed,
-                _ => _formMaximiseDisabled
-            },
-            PaletteButtonSpecStyle.FormRestore => state switch
-            {
-                PaletteState.Normal => _formRestoreNormal,
-                PaletteState.Tracking => _formRestoreActive,
-                PaletteState.Pressed => _formRestorePressed,
-                _ => _formRestoreDisabled
-            },
-            PaletteButtonSpecStyle.FormHelp => state switch
-            {
-                PaletteState.Tracking => _formHelpActive,
-                PaletteState.Pressed => _formHelpPressed,
-                PaletteState.Normal => _formHelpNormal,
-                _ => _formHelpDisabled
-            },
-            _ => base.GetButtonSpecImage(style, state)
-        };
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Tracking => _formCloseActive,
+                    PaletteState.Normal => _formCloseNormal,
+                    PaletteState.Pressed => _formClosePressed,
+                    _ => _formCloseDisabled
+                },
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseActive,
+                    PaletteState.Pressed => _formMinimisePressed,
+                    _ => _formMinimiseDisabled
+                },
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Normal => _formMaximiseNormal,
+                    PaletteState.Tracking => _formMaximiseActive,
+                    PaletteState.Pressed => _formMaximisePressed,
+                    _ => _formMaximiseDisabled
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreActive,
+                    PaletteState.Pressed => _formRestorePressed,
+                    _ => _formRestoreDisabled
+                },
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                    PaletteState.Tracking => _formHelpActive,
+                    PaletteState.Pressed => _formHelpPressed,
+                    PaletteState.Normal => _formHelpNormal,
+                    _ => _formHelpDisabled
+                },
+                _ => base.GetButtonSpecImage(style, state)
+            };
         #endregion
 
         #region Tab Row Background
@@ -4012,13 +4012,17 @@ namespace Krypton.Toolkit
                     {
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
+                        case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
+                            return PaletteRibbonColorStyle.Empty;
                         case PaletteState.Tracking:
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
                             return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalPressedDark;
                         default:
                             // Should never happen!
                             Debug.Assert(false);

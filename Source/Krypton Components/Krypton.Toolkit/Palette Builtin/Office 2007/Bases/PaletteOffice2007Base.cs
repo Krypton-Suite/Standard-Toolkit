@@ -4049,13 +4049,17 @@ namespace Krypton.Toolkit
                     {
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorder2;
+                        case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
-                            return PaletteRibbonColorStyle.RibbonGroupAreaBorderContext;
+                            return PaletteRibbonColorStyle.Empty;
                         case PaletteState.Tracking:
-                            return PaletteRibbonColorStyle.RibbonTabTracking2007;
+                        case PaletteState.ContextTracking:
+                        case PaletteState.ContextCheckedTracking:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
                         case PaletteState.FocusOverride:
-                            return PaletteRibbonColorStyle.RibbonTabContextSelected;
+                            return PaletteRibbonColorStyle.RibbonTabFocus2010;
+                        case PaletteState.ContextPressed:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalPressedDark;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
