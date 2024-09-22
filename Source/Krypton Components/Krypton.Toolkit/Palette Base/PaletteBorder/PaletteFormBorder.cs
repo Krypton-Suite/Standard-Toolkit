@@ -47,9 +47,36 @@ namespace Krypton.Toolkit
             set => base.Width = value;
         }
 
+        /// <summary>
+        /// Gets the graphics hint for drawing the border.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(PaletteGraphicsHint.None)]
+        public override PaletteGraphicsHint GraphicsHint
+        {
+            // #1757
+            get => PaletteGraphicsHint.None;
+
+            set
+            {
+                // Do nothing
+            }
+        }
+
+        /// <inheritdoc />
+        public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state)
+        {
+            // #1757: Make sure that the little transparency elements on the curves do not show up for Form Borders
+            return PaletteGraphicsHint.None;
+        }
+
         /// https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
         internal (int xBorder, int yBorder) BorderWidths(FormBorderStyle formFormBorderStyle)
         {
+            //GraphicsHint = PaletteGraphicsHint.None;
             var xBorder = base.Width;
             var yBorder = base.Width;
             if (!UseThemeFormChromeBorderWidth)
