@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         [Description(@"Hint for drawing graphics.")]
         [DefaultValue(PaletteGraphicsHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
-        public PaletteGraphicsHint GraphicsHint
+        public virtual PaletteGraphicsHint GraphicsHint
         {
             get => _storage?.BorderGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
+        public virtual PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
             GraphicsHint != PaletteGraphicsHint.Inherit ? GraphicsHint : _inherit.GetBorderGraphicsHint(state);
         #endregion
 

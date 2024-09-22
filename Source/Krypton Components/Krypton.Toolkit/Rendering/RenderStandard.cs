@@ -762,7 +762,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Only use antialiasing if the border is rounded
-                        PaletteGraphicsHint smoothMode = paletteBorder.GetBorderRounding(state) > 0 ? PaletteGraphicsHint.AntiAlias : paletteBorder.GetBorderGraphicsHint(state);
+                        PaletteGraphicsHint smoothMode = paletteBorder.GetBorderGraphicsHint(state);
                         // We want to draw using antialiasing for a nice smooth effect
                         using var gh = new GraphicsHint(context.Graphics, smoothMode);
                         context.Graphics.DrawPath(borderPen, borderPath0);
@@ -3821,6 +3821,12 @@ namespace Krypton.Toolkit
                 var halfBorderWidth = middle ? borderWidth / 2f : 0f;
 
                 RectangleF rectF = rect;
+                if (forBorder)  // #1757
+                {
+                    // Remove the transparency 1/2 pixel around borders
+                    rectF.Inflate(0.5f, 0.5f);
+                }
+
                 // Only adjust the edges that are being drawn
                 if (CommonHelper.HasTopBorder(borders))
                 {
@@ -3922,11 +3928,11 @@ namespace Krypton.Toolkit
             if (rounding <= 0)
             {
                 //// If the width is an odd number then need to reduce by 1 in each dimension
-                //if (forBorder && middle && ((width % 2) == 1))
-                //{
-                //    rectF.Width--;
-                //    rectF.Height--;
-                //}
+                if (forBorder && middle && ((width % 2) == 1))
+                {
+                    rectF.Width--;
+                    rectF.Height--;
+                }
 
                 // Just add a simple rectangle as a quick way of adding four lines
                 borderPath.AddRectangle(rectF);
@@ -3935,13 +3941,13 @@ namespace Krypton.Toolkit
             {
                 // If trying to get the outside edge then perform some offsetting so that
                 // when converted to a region it draws nicely inside the path outline
-                if (!middle && ((width % 2) == 1))
-                {
-                    rectF.X -= 0.25f;
-                    rectF.Y -= 0.25f;
-                    rectF.Width += 0.75f;
-                    rectF.Height += 0.75f;
-                }
+                //if (!middle && ((width % 2) == 1))
+                //{
+                //    rectF.X -= 0.25f;
+                //    rectF.Y -= 0.25f;
+                //    rectF.Width += 0.75f;
+                //    rectF.Height += 0.75f;
+                //}
 
                 // The border is made of up a quarter of a circle arc, in each corner
                 borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
@@ -4050,13 +4056,13 @@ namespace Krypton.Toolkit
 
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
-            if (!middle)
-            {
-                rectF.X -= 0.25f;
-                rectF.Y -= 0.25f;
-                rectF.Width += 0.75f;
-                rectF.Height += 0.75f;
-            }
+            //if (!middle)
+            //{
+            //    rectF.X -= 0.25f;
+            //    rectF.Y -= 0.25f;
+            //    rectF.Width += 0.75f;
+            //    rectF.Height += 0.75f;
+            //}
 
             // Add only the border for drawing
             switch (borders)
@@ -4153,13 +4159,13 @@ namespace Krypton.Toolkit
         {
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
-            if (!middle)
-            {
-                rectF.X -= 0.25f;
-                rectF.Y -= 0.25f;
-                rectF.Width += 0.75f;
-                rectF.Height += 0.75f;
-            }
+            //if (!middle)
+            //{
+            //    rectF.X -= 0.25f;
+            //    rectF.Y -= 0.25f;
+            //    rectF.Width += 0.75f;
+            //    rectF.Height += 0.75f;
+            //}
 
             // Add only the border for drawing
             switch (borders)
@@ -4236,13 +4242,13 @@ namespace Krypton.Toolkit
         {
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
-            if (!middle)
-            {
-                rectF.X -= 0.25f;
-                rectF.Y -= 0.25f;
-                rectF.Width += 0.75f;
-                rectF.Height += 0.75f;
-            }
+            //if (!middle)
+            //{
+            //    rectF.X -= 0.25f;
+            //    rectF.Y -= 0.25f;
+            //    rectF.Width += 0.75f;
+            //    rectF.Height += 0.75f;
+            //}
             // Define area that covers the border and the inside
             switch (borders)
             {
