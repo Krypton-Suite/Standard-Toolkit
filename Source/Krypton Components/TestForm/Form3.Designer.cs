@@ -54,13 +54,8 @@
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
-            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor2 = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor3 = System.Drawing.Color.Empty;
-            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor4 = System.Drawing.Color.Blue;
-            this.kryptonRibbon1.StateCommon.RibbonGroupBackArea.BackColor5 = System.Drawing.Color.Fuchsia;
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonTab1
@@ -121,7 +116,6 @@
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(12, 238);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(380, 22);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
             // Form3
