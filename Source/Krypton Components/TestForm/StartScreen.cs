@@ -204,5 +204,10 @@ namespace TestForm
         {
             new RibbonNavigatorWorkspaceTest().Show();
         }
+
+        private void kbtnPropertyGrid_Click(object sender, EventArgs e)
+        {
+            new PropertyGridTest().Show();
+        }
     }
 }

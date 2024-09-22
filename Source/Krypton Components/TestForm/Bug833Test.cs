@@ -9,16 +9,11 @@
 
 namespace TestForm
 {
-    public partial class RibbonTest : KryptonForm
+    public partial class Bug833Test : KryptonForm
     {
-        public RibbonTest()
+        public Bug833Test()
         {
             InitializeComponent();
-        }
-
-        private void krgbtnTest1715_Click(object sender, EventArgs e)
-        {
-            kryptonRibbon.SelectedTab!.ContextName = @"Testing";
         }
     }
 }

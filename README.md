@@ -312,7 +312,8 @@ As of version 60, all `using` statements are contained in one file per project u
 The Krypton Suite contains user interface components designed to make it quick and easy for developers to create professional looking applications. It provides the essential building blocks needed to create a consistent look and feel across all your products. You can use the built-in palettes to achieve the same appearance as industry standard applications such as Microsoft Office `2007/2010/2013` & Microsoft 365, Visual Studio 2010. Alternatively you can create your own custom palettes to create a completely unique user interface. The Krypton Suite consists of five products called ***Krypton Toolkit***, ***Krypton Ribbon***, ***Krypton Navigator***, ***Krypton Workspace*** and ***Krypton Docking***.
 
 ## What is this Repository About?
-- Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) have been fixing and adding more capabilities to this toolkit.
+- Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & 
+Ahmed-Abdelhameed have been fixing and adding more capabilities to this toolkit.
 - There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
 - All .Net Versions from 4.6.2 are catered for (interim releases, i.e. releases in-between Long Term Support (LTS) versions of .NET will **only** be supported for the duration of that particular version, usually 24 months.)
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.

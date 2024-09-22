@@ -3,14 +3,14 @@
     <Choose>
         <When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
             <PropertyGroup>
-                <TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
+                <TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
             </PropertyGroup>
         </When>
         <Otherwise>
             <PropertyGroup>
-                <TargetFrameworks>net48;net481;net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
+                <TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
 
-                <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net6.0-windows;net8.0-windows</TargetFrameworks>
+                <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net8.0-windows</TargetFrameworks>
             </PropertyGroup>
         </Otherwise>
     </Choose>
