@@ -144,11 +144,11 @@ namespace Krypton.Toolkit
                                                                 Color.FromArgb(254, 209,  94),    // RibbonTabHighlight4
                                                                 Color.FromArgb(205, 209, 180),    // RibbonTabHighlight5
                                                                 Color.FromArgb(116, 153, 203),    // RibbonTabSeparatorColor
-                                                                Color.FromArgb(141, 178, 227),    // RibbonGroupsArea1
-                                                                Color.FromArgb(192, 249, 255),    // RibbonGroupsArea2
+                                                                Color.FromArgb(219, 230, 244),    // RibbonGroupsArea1
+                                                                Color.FromArgb(231, 242, 255),    // RibbonGroupsArea2
                                                                 Color.FromArgb(201, 217, 237),    // RibbonGroupsArea3
-                                                                Color.FromArgb(231, 242, 255),    // RibbonGroupsArea4
-                                                                Color.FromArgb(219, 230, 244),    // RibbonGroupsArea5
+                                                                Color.FromArgb(192, 249, 255),    // RibbonGroupsArea4
+                                                                Color.FromArgb(141, 178, 227),    // RibbonGroupsArea5
                                                                 Color.FromArgb(197, 210, 223),    // RibbonGroupBorder1
                                                                 Color.FromArgb(158, 191, 219),    // RibbonGroupBorder2
                                                                 Color.FromArgb(193, 216, 242),    // RibbonGroupTitle1
@@ -2332,7 +2332,7 @@ namespace Krypton.Toolkit
 ? _ribbonColours[(int)SchemeOfficeColors.InputControlBorderDisabled]
 : _ribbonColours[(int)SchemeOfficeColors.InputControlBorderNormal],
                 PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.GridDataCellBorder],
-                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea1],
+                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea5],
                 PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.AppButtonBorder],
                 PaletteBorderStyle.ContextMenuOuter => _contextMenuBorder,
                 PaletteBorderStyle.ContextMenuInner => _contextMenuInnerBack,
@@ -4857,7 +4857,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGroupArea:
                     return state == PaletteState.ContextCheckedNormal
                         ? _contextGroupAreaInside
-                        : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea2];
+                        : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea4];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
@@ -5098,7 +5098,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? _lightGray : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea4];
+                    return state == PaletteState.ContextCheckedNormal ? _lightGray : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea2];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
@@ -5177,7 +5177,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? Color.White : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea5];
+                    return state == PaletteState.ContextCheckedNormal ? Color.White : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupsArea1];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)

@@ -2,10 +2,15 @@
 
 =======
 
-## 2024-07-xx - Build 2408 (Patch 2) - July 2024
-* Resolved [1772](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1772), `KryptonDataGridViewComboBox` properties, `AutoCompleteMode` and `AutoCompleteSource` have incorrect default values.
+# 2024-10-14 - Build 2410 (Patch 3) - October 2024
+* Resolved [#297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/297), Office 2k7 colour usages are wrong
+* Resolved [#1772](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1772), `KryptonDataGridViewComboBoxCell` properties, `AutoCompleteMode` and `AutoCompleteSource` have incorrect default values.
+
+=======
+
+## 2024-08-26 - Build 2408 (Patch 2) - August 2024
+* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
 * Resolved [#1755](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1755), Ribbon `GalleryButtonController` timer component causes an exception on mouse movements.
-* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
 * Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
 * Resolved [#1675](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1675), Catastrophic failure wherever `KryptonGroupPanel` is used.
