@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1757](https://github.com/Krypton-Suite/Standard-Toolkit/issues1757), KForm has a thin magenta border after the fix of #1749
 * Implemented [#1765](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1765), Colours for `KryptonRibbon` contexts need sorting out
 * Resolved [#1715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1715), Not Implemented Exception thrown for `GetRibbonBackColorStyle` `PaletteOffice2010Base.cs`
 * Resolved [#1299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1299), Ribbon context colours not implemented
