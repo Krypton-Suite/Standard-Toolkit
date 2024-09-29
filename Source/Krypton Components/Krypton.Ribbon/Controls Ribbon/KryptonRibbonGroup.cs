@@ -432,7 +432,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(CollectionEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
