@@ -1280,7 +1280,7 @@ namespace Krypton.Toolkit
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
-                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
+                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5],
                 PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
@@ -1353,7 +1353,7 @@ namespace Krypton.Toolkit
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
-                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
+                PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5],
                 PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
@@ -3644,7 +3644,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1];
+                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5];
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
@@ -3804,7 +3804,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea2];
+                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea4];
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
@@ -4056,7 +4056,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea4];
+                    return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea2];
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)
                     {
@@ -4137,7 +4137,7 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case PaletteRibbonBackStyle.RibbonGroupArea:
-                    return state == PaletteState.ContextCheckedNormal ? GlobalStaticValues.EMPTY_COLOR : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5];
+                    return state == PaletteState.ContextCheckedNormal ? GlobalStaticValues.EMPTY_COLOR : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1];
 
                 case PaletteRibbonBackStyle.RibbonTab:
                     switch (state)

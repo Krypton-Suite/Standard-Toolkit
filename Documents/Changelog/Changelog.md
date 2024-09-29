@@ -154,9 +154,9 @@
 
 =======
 
-# 2024-xx-xx - Build 24xx (Patch 3) - xxxx 2024
+# 2024-10-14 - Build 2410 (Patch 3) - October 2024
+* Resolved [#297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/297), Office 2k7 colour usages are wrong
 * Resolved [#1772](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1772), `KryptonDataGridViewComboBoxCell` properties, `AutoCompleteMode` and `AutoCompleteSource` have incorrect default values.
-* Resolved [#833](https://github.com/Krypton-Suite/Standard-Toolkit/issues/833), Specific themes need a revisit
 
 =======
 

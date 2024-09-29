@@ -12,54 +12,54 @@
 
 namespace Krypton.Toolkit
 {
-	#region Class: PaletteSparkleBlue
-	/// <summary>
-	/// Provides a fixed blue variation on the sparkle appearance.
-	/// </summary>
-	public class PaletteSparkleBlue : PaletteSparkleBase
-	{
-		#region Static Fields
-		private static readonly ImageList _checkBoxList;
-		private static readonly Image?[] _radioButtonArray;
+    #region Class: PaletteSparkleBlue
+    /// <summary>
+    /// Provides a fixed blue variation on the sparkle appearance.
+    /// </summary>
+    public class PaletteSparkleBlue : PaletteSparkleBase
+    {
+        #region Static Fields
+        private static readonly ImageList _checkBoxList;
+        private static readonly Image?[] _radioButtonArray;
 
-		private static readonly Color[] _appButtonNormal =
-		[
-			Color.FromArgb(243, 245, 248),
-			Color.FromArgb(214, 220, 231),
-			Color.FromArgb(188, 198, 211),
-			Color.FromArgb(254, 254, 255),
-			Color.FromArgb(206, 213, 225)
-		];
+        private static readonly Color[] _appButtonNormal =
+        [
+            Color.FromArgb(243, 245, 248),
+            Color.FromArgb(214, 220, 231),
+            Color.FromArgb(188, 198, 211),
+            Color.FromArgb(254, 254, 255),
+            Color.FromArgb(206, 213, 225)
+        ];
 
-		private static readonly Color[] _appButtonTrack =
-		[
-			Color.FromArgb(215, 239, 245),
-			Color.FromArgb(146, 214, 238),
-			Color.FromArgb(60, 155, 201),
-			Color.FromArgb(93, 201, 248),
-			Color.FromArgb(25, 168, 238)
-		];
+        private static readonly Color[] _appButtonTrack =
+        [
+            Color.FromArgb(215, 239, 245),
+            Color.FromArgb(146, 214, 238),
+            Color.FromArgb(60, 155, 201),
+            Color.FromArgb(93, 201, 248),
+            Color.FromArgb(25, 168, 238)
+        ];
 
-		private static readonly Color[] _appButtonPressed =
-		[
-			Color.FromArgb(196, 227, 235),
-			Color.FromArgb(149, 198, 228),
-			Color.FromArgb(7, 97, 166),
-			Color.FromArgb(57, 155, 242),
-			Color.FromArgb(9, 136, 236)
-		];
+        private static readonly Color[] _appButtonPressed =
+        [
+            Color.FromArgb(196, 227, 235),
+            Color.FromArgb(149, 198, 228),
+            Color.FromArgb(7, 97, 166),
+            Color.FromArgb(57, 155, 242),
+            Color.FromArgb(9, 136, 236)
+        ];
 
-		private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
-		[
-			Color.FromArgb(128, 168, 184, 196),
-			Color.FromArgb(168, 184, 196),
-			Color.FromArgb(48, 255, 255, 255),
-			Color.FromArgb(192, 207, 220)
-		];
+        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
+        [
+            Color.FromArgb(128, 168, 184, 196),
+            Color.FromArgb(168, 184, 196),
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(192, 207, 220)
+        ];
 
-		private static readonly Color[] _sparkleColors =
-		[
-			Color.FromArgb(99, 108, 135), // 0 _colorDark99
+        private static readonly Color[] _sparkleColors =
+        [
+            Color.FromArgb(99, 108, 135), // 0 _colorDark99
 			Color.FromArgb(86, 94, 118), // 1 _colorDark86
 			Color.FromArgb(72, 81, 102), // 2 _colorDark72
 			Color.FromArgb(45, 45, 45), // 3 _colorDark45
@@ -99,9 +99,9 @@ namespace Krypton.Toolkit
 			Color.FromArgb(10, 20, 255) // 37 _focusTabFill
 		];
 
-		private static readonly Color[] _ribbonColors =
-		[
-			Color.FromArgb(76, 83, 92), // TextLabelControl
+        private static readonly Color[] _ribbonColors =
+        [
+            Color.FromArgb(76, 83, 92), // TextLabelControl
 			Color.FromArgb(70, 70, 70), // TextButtonNormal
 			Color.Black, // TextButtonChecked
 			Color.FromArgb(137, 135, 133), // ButtonNormalBorder1
@@ -186,11 +186,11 @@ namespace Krypton.Toolkit
 			Color.FromArgb(82, 120, 213), // RibbonTabHighlight4
 			Color.FromArgb(137, 137, 148), // RibbonTabHighlight5
 			Color.Black, // RibbonTabSeparatorColor
-			Color.Black, // RibbonGroupsArea1
-			Color.Black, // RibbonGroupsArea2
+			Color.FromArgb(140, 140, 150), // RibbonGroupsArea1
+			Color.FromArgb(140, 140, 150), // RibbonGroupsArea2
 			Color.FromArgb(96, 96, 110), // RibbonGroupsArea3
-			Color.FromArgb(140, 140, 150), // RibbonGroupsArea4
-			Color.FromArgb(140, 140, 150), // RibbonGroupsArea5
+			Color.FromArgb(0, 0, 0), // RibbonGroupsArea4
+			Color.FromArgb(0, 0, 0), // RibbonGroupsArea5
 			Color.Black, // RibbonGroupBorder1
 			Color.Black, // RibbonGroupBorder2
 			Color.DimGray, // RibbonGroupTitle1
@@ -257,13 +257,13 @@ namespace Krypton.Toolkit
 			Color.Gray, // RibbonGroupSeparatorDark                                                      
 			Color.Black, // RibbonGroupSeparatorLight                                                      
 			Color.FromArgb(210, 217,
-				219), // ButtonClusterButtonBack1                                                      
+                219), // ButtonClusterButtonBack1                                                      
 			Color.FromArgb(214, 222,
-				223), // ButtonClusterButtonBack2                                                      
+                223), // ButtonClusterButtonBack2                                                      
 			Color.FromArgb(179, 188,
-				191), // ButtonClusterButtonBorder1                                                      
+                191), // ButtonClusterButtonBorder1                                                      
 			Color.FromArgb(145, 156,
-				159), // ButtonClusterButtonBorder2                                                      
+                159), // ButtonClusterButtonBorder2                                                      
 			Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
 			Color.White, // GridListNormal1                                                    
 			Color.FromArgb(212, 215, 219), // GridListNormal2                                                    
@@ -317,40 +317,40 @@ namespace Krypton.Toolkit
 			GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
 			GlobalStaticValues.EMPTY_COLOR // RibbonGroupBorder4
 		];
-		#endregion
+        #endregion
 
-		#region Identity
-		static PaletteSparkleBlue()
-		{
-			_checkBoxList = new ImageList();
-			_checkBoxList.ImageSize = new Size(13, 13);
-			_checkBoxList.ColorDepth = ColorDepth.Depth24Bit;
-			_checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkle);
-			_radioButtonArray =
-			[
-				SparkleRadioButtonImageResources.RadioButtonSparkleD,
-				SparkleRadioButtonImageResources.RadioButtonSparkleN,
-				SparkleRadioButtonImageResources.RadioButtonSparkleT,
-				SparkleRadioButtonImageResources.RadioButtonSparkleP,
-				SparkleRadioButtonImageResources.RadioButtonSparkleDC,
-				SparkleRadioButtonImageResources.RadioButtonSparkleNC,
-				SparkleRadioButtonImageResources.RadioButtonSparkleTC,
-				SparkleRadioButtonImageResources.RadioButtonSparklePC
-			];
-		}
+        #region Identity
+        static PaletteSparkleBlue()
+        {
+            _checkBoxList = new ImageList();
+            _checkBoxList.ImageSize = new Size(13, 13);
+            _checkBoxList.ColorDepth = ColorDepth.Depth24Bit;
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkle);
+            _radioButtonArray =
+            [
+                SparkleRadioButtonImageResources.RadioButtonSparkleD,
+                SparkleRadioButtonImageResources.RadioButtonSparkleN,
+                SparkleRadioButtonImageResources.RadioButtonSparkleT,
+                SparkleRadioButtonImageResources.RadioButtonSparkleP,
+                SparkleRadioButtonImageResources.RadioButtonSparkleDC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleNC,
+                SparkleRadioButtonImageResources.RadioButtonSparkleTC,
+                SparkleRadioButtonImageResources.RadioButtonSparklePC
+            ];
+        }
 
-		/// <summary>
-		/// Initialize a new instance of the PaletteSparkleBlue class.
-		/// </summary>
-		public PaletteSparkleBlue()
-			: base(_ribbonColors, _sparkleColors,
-				   _appButtonNormal, _appButtonTrack, _appButtonPressed,
-				   _ribbonGroupCollapsedBorderContextTracking,
-				   _checkBoxList, _radioButtonArray)
-		{
-			ThemeName = nameof(PaletteSparkleBlue);
-		}
-		#endregion
-	}
-	#endregion
+        /// <summary>
+        /// Initialize a new instance of the PaletteSparkleBlue class.
+        /// </summary>
+        public PaletteSparkleBlue()
+            : base(_ribbonColors, _sparkleColors,
+                   _appButtonNormal, _appButtonTrack, _appButtonPressed,
+                   _ribbonGroupCollapsedBorderContextTracking,
+                   _checkBoxList, _radioButtonArray)
+        {
+            ThemeName = nameof(PaletteSparkleBlue);
+        }
+        #endregion
+    }
+    #endregion
 }
