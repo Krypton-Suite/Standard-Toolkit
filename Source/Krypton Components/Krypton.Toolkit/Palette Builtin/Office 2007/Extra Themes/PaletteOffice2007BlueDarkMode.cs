@@ -147,11 +147,11 @@ namespace Krypton.Toolkit
             Color.FromArgb(254, 209, 94), // RibbonTabHighlight4
             Color.FromArgb(205, 209, 180), // RibbonTabHighlight5
             Color.FromArgb(116, 153, 203), // RibbonTabSeparatorColor
-            Color.FromArgb(134, 179, 236), // RibbonGroupsArea1
-            Color.FromArgb(63, 122, 197), // RibbonGroupsArea2
-            Color.FromArgb(201, 217, 237), // RibbonGroupsArea3
-            Color.FromArgb(231, 242, 255), // RibbonGroupsArea4
-            Color.FromArgb(219, 230, 244), // RibbonGroupsArea5
+            Color.FromArgb(219, 230, 244),    // RibbonGroupsArea1
+            Color.FromArgb(231, 242, 255),    // RibbonGroupsArea2
+            Color.FromArgb(201, 217, 237),    // RibbonGroupsArea3
+            Color.FromArgb(63, 122, 197),    // RibbonGroupsArea4
+            Color.FromArgb(134, 179, 236),    // RibbonGroupsArea5
             Color.FromArgb(197, 210, 223), // RibbonGroupBorder1
             Color.FromArgb(158, 191, 219), // RibbonGroupBorder2
             Color.FromArgb(193, 216, 242), // RibbonGroupTitle1
