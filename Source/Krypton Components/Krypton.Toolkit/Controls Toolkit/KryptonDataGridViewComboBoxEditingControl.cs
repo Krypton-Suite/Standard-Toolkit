@@ -54,7 +54,16 @@ namespace Krypton.Toolkit
         public virtual object? EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = (string)value;
+
+            set
+            {
+                // #1800 correct to the standard of the Winforms counterpart
+                // Text is only set if the cast is correct. null value will also be rejected.
+                if (value is string str)
+                {
+                    Text = str;
+                }
+            }
         }
 
         /// <summary>
