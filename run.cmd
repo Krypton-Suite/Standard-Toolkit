@@ -73,14 +73,16 @@ echo 1. Build nightly version
 echo    a. Rebuild project
 echo 2. Build canary version
 echo 3. Build stable version
-echo 4. Go back to main menu
+echo 4. Build long term stable version
+echo 5. Go back to main menu
 
-set /p answer="Enter number or letter (1 - 4, a - *): "
+set /p answer="Enter number or letter (1 - 5, a - *): "
 if %answer%==1 (goto buildnightly)
 if %answer%==a (goto rebuildproject)
 if %answer%==2 (goto buildcanary)
 if %answer%==3 (goto buildstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto buildlongtermstable)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -94,13 +96,15 @@ cls
 echo 1. Pack nightly version
 echo 2. Pack canary version
 echo 3. Pack stable version
-echo 4. Go back to main menu
+echo 4. Pack long term stable version
+echo 5. Go back to main menu
 
-set /p answer="Enter number (1 - 4): "
+set /p answer="Enter number (1 - 5): "
 if %answer%==1 (goto packnightly)
 if %answer%==2 (goto packcanary)
 if %answer%==3 (goto packstable)
-if %answer%==4 (goto mainmenu)
+if %answer%==4 (goto packlongtermstable)
+if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -226,6 +230,15 @@ build-stable.cmd
 
 cd ..
 
+:buildlongtermstable
+cls
+
+cd Scripts
+
+build-long-term-stable.cmd
+
+cd ..
+
 :: ===================================================================================================
 
 :packnightly
@@ -269,6 +282,26 @@ pause
 
 goto packstable
 
+:packlongtermstable
+cls
+
+echo 1. Produce 'Lite' long term stable packages
+echo 2. Produce 'full' long term stable packages
+echo 3. Produce 'full/lite' long term stable packages
+echo 4. Go back to main menu
+
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packlongtermstablelite)
+if %answer%==2 (goto packlongtermstablefull)
+if %answer%==3 (goto packlongtermstableboth)
+if %answer%==4 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto packlongtermstable
+
 :: ===================================================================================================
 
 :packstablelite
@@ -291,6 +324,29 @@ cls
 cd Scripts
 
 build-stable.cmd Pack
+
+:: ===================================================================================================
+
+:packlongtermstablelite
+cls
+
+cd Scripts
+
+build-long-term-stable.cmd PackLite
+
+:packlongtermstablefull
+cls
+
+cd Scripts
+
+build-long-term-stable.cmd PackAll
+
+:packlongtermstableboth
+cls
+
+cd Scripts
+
+build-long-term-stable.cmd Pack
 
 :: ===================================================================================================
 
