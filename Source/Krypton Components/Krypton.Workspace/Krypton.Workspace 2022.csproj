@@ -39,7 +39,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-        <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+        <Configurations>Debug;Release;Installer;Nightly;Canary;LTS</Configurations>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <WarningLevel>6</WarningLevel>

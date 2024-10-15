@@ -3,8 +3,9 @@
 =======
 
 # 2024-10-14 - Build 2410 (Patch 3) - October 2024
+* Implemented [#1813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1813), LTS Configuration
 * Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800) `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
-* Implement [#1792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1792), Enable 'SourceLink' for NuGet packages
+* Implemented [#1792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1792), Enable 'SourceLink' for NuGet packages
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .netcore onwards [Returns error due to abstract class]
 * Resolved [#297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/297), Office 2k7 colour usages are wrong
 * Resolved [#1772](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1772), `KryptonDataGridViewComboBoxCell` properties, `AutoCompleteMode` and `AutoCompleteSource` have incorrect default values.
@@ -280,7 +281,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#380](https://github.com/Krypton-Suite/Standard-Toolkit/issues/380), MDI Child form not fully maximizing not merging on the ribbon
 * Resolved [#571](https://github.com/Krypton-Suite/Standard-Toolkit/issues/571), CenterScreen start on Form is no longer respected
 * Resolved [#441](https://github.com/Krypton-Suite/Standard-Toolkit/issues/441), Wrong Ribbon Form Height when Windows is using scaling; e.g. 200% dpi
-* Implement [#493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/493), Invoke `PaletteState.Pressed` for all controlbox items in all office palettes
+* Implemented [#493](https://github.com/Krypton-Suite/Standard-Toolkit/issues/493), Invoke `PaletteState.Pressed` for all controlbox items in all office palettes
 * Resolved [#487](https://github.com/Krypton-Suite/Standard-Toolkit/issues/487), The position of the KryptonForm Control Buttons are too low, when no desktop scaling preference is applied
 * Implemented [#53](https://github.com/Krypton-Suite/Standard-Toolkit/issues/53), Need images of what this toolkit can give a developer on landing page 
 * Resolved [#34](https://github.com/Krypton-Suite/Standard-Toolkit/issues/34), KryptonRibbon.RibbonAppButton.AppButtonMenuItems has error
@@ -354,7 +355,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/361), Nightlies version needs to have something that allows installers to upgrade correctly
 * Resolved [#358](https://github.com/Krypton-Suite/Standard-Toolkit/issues/358), Since the "Nightlies" have been created, loading the Standard toolkit project causes Visual Studio to go ape
 * Resolved [#336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/336), "Office 2010 And 365 Minimise Icons Change Size" on hover
-* Implement [#335](https://github.com/Krypton-Suite/Standard-Toolkit/issues/335), Create 'Nightly' NuGet packages When Merges into alpha are done
+* Implemented [#335](https://github.com/Krypton-Suite/Standard-Toolkit/issues/335), Create 'Nightly' NuGet packages When Merges into alpha are done
 * Resolved [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
 - Sort out the Callback actions that were removed
 * Resolved [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
@@ -389,7 +390,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/254), VisualStudio Themes should not be listed yet, as they cause an exception when used
 * Resolved [#242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/242), `KryptonMessageBox` display is off the left of the display area
 * Resolved [#234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/234), `KryptonDataGridViewBinary`#### Classes should **not** be in the standard toolkit
-* Implement [#212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/212), The `KryptonPropertyGrid` should be moved into the `Standard-Toolkit`
+* Implemented [#212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/212), The `KryptonPropertyGrid` should be moved into the `Standard-Toolkit`
 * Centralised `AsssemblyInfo` and `Version` information
 * Implemented [#223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/223), Can the build also echo out the DateTime, after the time elapsed
 * Resolved [#159](https://github.com/Krypton-Suite/Standard-Toolkit/issues/159), Office 365 tracking colours are wrong
@@ -416,7 +417,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 =======
 
 ## 2021-08-02 Build 2108 - August 2021 (Canary)
-* Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
+* Implemented [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
 * Resolved [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150), Change the Default type of Theme for A KryptonLabel to be "Normal- Panel"
     - Make sure that the `NormalPanel` is the default style
     - Also Resolved the WrapLabel Style not being set correctly
@@ -426,7 +427,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
     - Update the projects to comply/use the latest analysers
 * RichTextBox now allows CueHint Text
 * ComboBox now allows CueHint Text
-* Implement [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
+* Implemented [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
 * New logo for both canary and stable builds
 * Resolved [#138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/138), `KryptonListView` throws a `System.Resources.MissingManifestResourceException`
     - If you want a standard List then use ListBox or CheckedListBox
@@ -434,11 +435,11 @@ Cannot add items to KryptonGroupBox in WinForms Designer
     - This implements LargeIcons / Small Icons / Tiles with and without checkboxes as allowed
 * New `KryptonMessageBoxIcon` to replace the default `MessageBoxIcon` option
 * Updated `KryptonMessageBox` icons
-* Implement [#162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/162), Default rounding of control corners
+* Implemented [#162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/162), Default rounding of control corners
 * New the `KryptonButton` will now change its text, based on the `DialogResult` property
-* Implement [#154](https://github.com/Krypton-Suite/Standard-Toolkit/issues/154), Ability to alter both a `KryptonManager` and a `KryptonPalette` from within a `KryptonForm`
-* Implement [#149](https://github.com/Krypton-Suite/Standard-Toolkit/issues/149), Change the default theme from `Office 2010 - Blue` to `Office 365 - Blue`
-* Implement [#147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/147), Update `csproj` files to handle `AssemblyInfo` data
+* Implemented [#154](https://github.com/Krypton-Suite/Standard-Toolkit/issues/154), Ability to alter both a `KryptonManager` and a `KryptonPalette` from within a `KryptonForm`
+* Implemented [#149](https://github.com/Krypton-Suite/Standard-Toolkit/issues/149), Change the default theme from `Office 2010 - Blue` to `Office 365 - Blue`
+* Implemented [#147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/147), Update `csproj` files to handle `AssemblyInfo` data
 * New `KryptonInputBoxManager` control, now you can configure a `KryptonInputBox` through the designer
 * Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` ***CueHint*** features
 * New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)

@@ -50,6 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PROJ Files", "PROJ Files", 
 		..\..\Scripts\canary.proj = ..\..\Scripts\canary.proj
 		..\..\Scripts\debug.proj = ..\..\Scripts\debug.proj
 		..\..\Scripts\installer.proj = ..\..\Scripts\installer.proj
+		..\..\Scripts\longtermstable.proj = ..\..\Scripts\longtermstable.proj
 		..\..\Scripts\nightly.proj = ..\..\Scripts\nightly.proj
 	EndProjectSection
 EndProject
@@ -59,6 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scri
 	ProjectSection(SolutionItems) = preProject
 		..\..\Scripts\build-canary-2022.cmd = ..\..\Scripts\build-canary-2022.cmd
 		..\..\Scripts\build-installer-2022.cmd = ..\..\Scripts\build-installer-2022.cmd
+		..\..\Scripts\build-long-term-stable.cmd = ..\..\Scripts\build-long-term-stable.cmd
 		..\..\Scripts\build-nightly-2022.cmd = ..\..\Scripts\build-nightly-2022.cmd
 		..\..\Scripts\build-stable-2022.cmd = ..\..\Scripts\build-stable-2022.cmd
 	EndProjectSection
@@ -116,6 +118,7 @@ Global
 		Canary|Any CPU = Canary|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Installer|Any CPU = Installer|Any CPU
+		LTS|Any CPU = LTS|Any CPU
 		Nightly|Any CPU = Nightly|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
@@ -126,6 +129,8 @@ Global
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.LTS|Any CPU.ActiveCfg = LTS|Any CPU
+		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.LTS|Any CPU.Build.0 = LTS|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{E653EA23-58F4-45C7-B258-0843B1AE92A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,6 +141,8 @@ Global
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.LTS|Any CPU.ActiveCfg = LTS|Any CPU
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.LTS|Any CPU.Build.0 = LTS|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -146,6 +153,8 @@ Global
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.LTS|Any CPU.ActiveCfg = LTS|Any CPU
+		{37664E81-FE79-4EAD-8B04-A77C443FB181}.LTS|Any CPU.Build.0 = LTS|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{37664E81-FE79-4EAD-8B04-A77C443FB181}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -156,6 +165,8 @@ Global
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.LTS|Any CPU.ActiveCfg = LTS|Any CPU
+		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.LTS|Any CPU.Build.0 = LTS|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -166,6 +177,8 @@ Global
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.LTS|Any CPU.ActiveCfg = LTS|Any CPU
+		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.LTS|Any CPU.Build.0 = LTS|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
 		{44D3FB26-8CF6-45E1-8036-93F111EC3287}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -176,6 +189,8 @@ Global
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Installer|Any CPU.Build.0 = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.LTS|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.LTS|Any CPU.Build.0 = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.Build.0 = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
