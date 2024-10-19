@@ -251,7 +251,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellBorderStyle CellBorderStyle {
+        public new DataGridViewCellBorderStyle CellBorderStyle 
+        {
             get => base.CellBorderStyle;
             set => base.CellBorderStyle = value;
         }
@@ -262,7 +263,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle {
+        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle 
+        {
             get => base.ColumnHeadersBorderStyle;
             set => base.ColumnHeadersBorderStyle = value;
         }
@@ -273,7 +275,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle {
+        public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle 
+        {
             get => base.ColumnHeadersDefaultCellStyle;
             set => base.ColumnHeadersDefaultCellStyle = value;
         }
@@ -284,7 +287,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle DefaultCellStyle {
+        public new DataGridViewCellStyle DefaultCellStyle 
+        {
             get => base.DefaultCellStyle;
             set => base.DefaultCellStyle = value;
         }
@@ -295,7 +299,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new bool EnableHeadersVisualStyles {
+        public new bool EnableHeadersVisualStyles 
+        {
             get => base.EnableHeadersVisualStyles;
             set => base.EnableHeadersVisualStyles = value;
         }
@@ -306,7 +311,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color GridColor {
+        public new Color GridColor 
+        {
             get => base.GridColor;
             set => base.GridColor = value;
         }
@@ -317,7 +323,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle {
+        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle 
+        {
             get => base.RowHeadersBorderStyle;
             set => base.RowHeadersBorderStyle = value;
         }
@@ -328,7 +335,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle RowHeadersDefaultCellStyle {
+        public new DataGridViewCellStyle RowHeadersDefaultCellStyle 
+        {
             get => base.RowHeadersDefaultCellStyle;
             set => base.RowHeadersDefaultCellStyle = value;
         }
@@ -344,7 +352,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [Description(@"When true and AutoGenerateColumns is true the KryptonDataGridView will use Krypton column types, when false the standard WinForms column types.")]
         [DefaultValue(true)]
-        public bool AutoGenerateKryptonColumns {
+        public bool AutoGenerateKryptonColumns 
+        {
             get;
             set;
         } = true;
@@ -354,7 +363,8 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip? ContextMenuStrip {
+        public override ContextMenuStrip? ContextMenuStrip 
+        {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
 
@@ -386,7 +396,8 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu? KryptonContextMenu {
+        public virtual KryptonContextMenu? KryptonContextMenu 
+        {
             get => _kryptonContextMenu;
 
             set
@@ -416,7 +427,8 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Determine if the outer borders of the grid cells are drawn.")]
         [DefaultValue(false)]
-        public bool HideOuterBorders {
+        public bool HideOuterBorders 
+        {
             get => _hideOuterBorders;
 
             set
@@ -434,7 +446,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Palette applied to drawing.")]
-        public PaletteMode PaletteMode {
+        public PaletteMode PaletteMode 
+        {
             [DebuggerStepThrough]
             get => _paletteMode;
 
@@ -481,7 +494,8 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette {
+        public PaletteBase? Palette 
+        {
             [DebuggerStepThrough]
             get => _localPalette;
 
@@ -537,7 +551,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer {
+        public IRenderer? Renderer 
+        {
             [DebuggerStepThrough]
             get;
             private set;
@@ -794,7 +809,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Point CellOver {
+        public Point CellOver 
+        {
             get => _cellOver;
             set => _cellOver = value;
         }
@@ -1673,7 +1689,8 @@ namespace Krypton.Toolkit
             SyncCellStylesWithPalette();
         }
 
-        internal bool RightToLeftInternal {
+        internal bool RightToLeftInternal 
+        {
             get
             {
                 // Only need to cache reflection info the first time around
