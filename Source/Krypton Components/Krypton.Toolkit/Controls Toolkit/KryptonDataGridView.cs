@@ -1753,7 +1753,7 @@ namespace Krypton.Toolkit
              */
             for (int i = 0 ; i < columnsProcessed.Count ; i++)
             {
-                Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                Columns[columnsProcessed[i]].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             }
         }
 
