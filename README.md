@@ -18,7 +18,7 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
-	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
+	* [V90.## (2024-11-12 - Build 2411 - November 2024)](v90-24-11-12--build-2411---november-2024)
 		* [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
@@ -183,7 +183,7 @@ Follow the links to see the different objects and layouts that this framework al
 
 # Breaking Changes
 
-## V90.## (2024-11-xx - Build 2411 - November 2024)
+## V90.## (2024-11-12 - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
 - [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
    - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
