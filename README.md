@@ -191,7 +191,7 @@ There are list of changes that have occurred during the development of the V90.#
 - [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 - and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
   - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
-  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the winform `MessageBox`
+  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the WinForm `MessageBox`
   - And a start of the introduction of the `KryptonMessageDialog` implementation of the UWP `MessageDialog`
 - [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
   - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
