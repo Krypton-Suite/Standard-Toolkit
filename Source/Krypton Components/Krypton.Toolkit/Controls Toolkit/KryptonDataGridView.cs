@@ -350,6 +350,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        [Browsable(false)]
+        [Description(@"When true and AutoGenerateColumns is true the KryptonDataGridView will use Krypton column types, when false the standard WinForms column types.")]
+        [DefaultValue(true)]
+        public bool AutoGenerateKryptonColumns {
+            get;
+            set;
+        } = true;
+
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
         [Category(@"Behavior")]
@@ -1002,6 +1010,60 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Override
+        /// <inheritdoc/>
+        protected override void OnDataMemberChanged(EventArgs e)
+        {
+            base.OnDataMemberChanged(e);
+
+            if (AutoGenerateColumns
+                && AutoGenerateKryptonColumns
+                && DataSource is not null)
+            {
+                ReplaceDefaultColumsWithKryptonColumns();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnDataSourceChanged(EventArgs e)
+        {
+            base.OnDataSourceChanged(e);
+
+            if (AutoGenerateColumns
+                && AutoGenerateKryptonColumns
+                && DataSource is not null)
+            {
+                ReplaceDefaultColumsWithKryptonColumns();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnAutoGenerateColumnsChanged(EventArgs e)
+        {
+            // First handle the base the event
+            base.OnAutoGenerateColumnsChanged(e);
+
+            // If needed convert the winforms columns to Krypton columns
+            if (AutoGenerateColumns
+                && AutoGenerateKryptonColumns
+                && DataSource is not null)
+            {
+                ReplaceDefaultColumsWithKryptonColumns();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
+        {
+            base.OnDataBindingComplete(e);
+
+            if (AutoGenerateColumns
+                && AutoGenerateKryptonColumns
+                && DataSource is not null)
+            {
+                ReplaceDefaultColumsWithKryptonColumns();
+            }
+        }
+
         /// <summary>
         /// Raises the PaintBackground event.  
         /// </summary>
@@ -1633,6 +1695,52 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Handles the auto generation of Krypton columns<br/>
+        /// </summary>
+        private void ReplaceDefaultColumsWithKryptonColumns()
+        {
+            DataGridViewColumn currentColumn;
+            KryptonDataGridViewTextBoxColumn newColumn;
+            List<int> columnsProcessed = [];
+            int index;
+
+            for (int i = 0 ; i < ColumnCount ; i++)
+            {
+                currentColumn = Columns[i];
+
+                /* 
+                 * Auto generated columns are always of type System.Windows.Forms.DataGridViewTextBoxColumn.
+                 * Only columns that are of type DataGridViewTextBoxColumn and have the DataPropertyName set will be converted to krypton Columns.
+                 */
+                if (currentColumn is DataGridViewTextBoxColumn && currentColumn.DataPropertyName.Length > 0)
+                {
+                    index = currentColumn.Index;
+                    columnsProcessed.Add(index);
+
+                    newColumn = new KryptonDataGridViewTextBoxColumn
+                    {
+                        Name = currentColumn.Name,
+                        DataPropertyName = currentColumn.DataPropertyName,
+                        HeaderText = currentColumn.HeaderText,
+                        Width = currentColumn.Width
+                    };
+
+                    Columns.RemoveAt(index);
+                    Columns.Insert(index, newColumn);
+                }
+            }
+
+            /*
+             * After the columns have been replaced they need a little help so they have the same width as when only Winforms columns would've been auto added.
+             * Setting this value in the above for loop does not work.
+             */
+            for (int i = 0 ; i < columnsProcessed.Count ; i++)
+            {
+                Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            }
+        }
+
         private void SetupVisuals()
         {
             // Setup the invoke used to refresh display
