@@ -18,26 +18,18 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
-	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
+	* [V90.00 (2024-11-12 - Build 2411 - November 2024)](v90-24-11-12--build-2411---november-2024)
 		* [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
 		* [`KryptonInputBox`](#kryptoninputbox)
 		* [Building the Toolkit](#building-the-toolkit)
-	* [V85.## (2024-06-24 - Build 2406 - June 2024)](#v85-2024-06-24---build-2406---june-2024)
-	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
+	* [V85.00 (2024-06-24 - Build 2406 - June 2024)](#v85-2024-06-24---build-2406---june-2024)
+	* [V80.00 (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
 		* [Palette usages](#palette-usages)
 		* [Depreciation of `KryptonManager.Strings`](#depreciation-of-kryptonmanagerstrings)
-	* [V70.## (2022-11-08 - Build 2211 - November 2022)](#v70-2022-11-08---build-2211---november-2022)
-		* [Ribbon Tooltips](#ribbon-tooltips)
-		* [`dpiAware`](#dpiaware)
-	* [`KryptonTaskDialog`](#kryptontaskdialog)
-	* [`KryptonPalette`](#kryptonpalette)
-	* [`KryptonMessageBox`](#kryptonmessagebox)
-	* [Strong Named Assemblies](#strong-named-assemblies)
-	* [Management of `using` Statements](#management-of-using-statements)
 * [Known Issues & Workarounds](#known-issues--workarounds)
 	* [Introduction](#introduction)
 	* [What is this Repository About?](#what-is-this-repository-about)
@@ -183,15 +175,15 @@ Follow the links to see the different objects and layouts that this framework al
 
 # Breaking Changes
 
-## V90.## (2024-11-xx - Build 2411 - November 2024)
-There are list of changes that have occurred during the development of the V90.## version
+## V90.00 (2024-11-12 - Build 2411 - November 2024)
+There are list of changes that have occurred during the development of the V90.00 version
 - [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
    - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
    - Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
 - [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **Breaking Change** Take KMB back to the Winform override (Remove Checkbox etc)
 - and [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), **Breaking Change placeholder** Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
   - The introduction of new Parameters elements to the `KryptonMessageBox` is now supported in the `KryptonMessageBoxDep` class
-  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the winform `MessageBox`
+  - This is so that the `KryptonMessageBox` gets back to being a drop in replacement for the WinForm `MessageBox`
   - And a start of the introduction of the `KryptonMessageDialog` implementation of the UWP `MessageDialog`
 - [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **Breaking Change** `KryptonMessageBox` does not obey tab characters like `MessageBox`
   - The optional `ContentAlignment` for a `KryptonMessageBox.Show` command is no longer possible.
@@ -221,7 +213,7 @@ There are list of changes that have occurred during the development of the V90.#
   - The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
 
 ### Support for .NET 6/7
-As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
+As of V90.00, support for .NET 6 and 7 has been removed due to their release cadences.
 
 
 ### `KryptonButton` Properties
@@ -234,13 +226,13 @@ If using `KryptonAboutToolkit`, please note that this has been superceded by `Kr
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ### Building the Toolkit
-As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
+As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
-## V85.## (2024-06-24 - Build 2406 - June 2024)
-There are a list of changes that have occurred during the development of the V85.## version
+## V85.00 (2024-06-24 - Build 2406 - June 2024)
+There are a list of changes that have occurred during the development of the V85.00 version
 
 * [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
-	- The Option to use `SystemDefault` no longer exists a font rendering hint#
+	- The Option to use `SystemDefault` no longer exists a font rendering hint
 * [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
 	- Added property `ShowDrop`, which displays a drop down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
@@ -249,11 +241,11 @@ There are a list of changes that have occurred during the development of the V85
 	- The ButtonSpec's `Type` property does not need setting to "Context" to display the menu.
 * [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`   
    
-## V80.## (2023-11-14 - Build 2311 - November 2023)
-There are list of changes that have occurred during the development of the V80.## version
+## V80.00 (2023-11-14 - Build 2311 - November 2023)
+There are list of changes that have occurred during the development of the V80.00 version
 
 ### Support for .NET Core 3.1 and .NET 5
-As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
+As of V80.00, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
 
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:
