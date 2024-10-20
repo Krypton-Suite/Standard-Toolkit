@@ -176,7 +176,7 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 
 ## V90.00 (2024-11-12 - Build 2411 - November 2024)
-There are list of changes that have occurred during the development of the V90.## version
+There are list of changes that have occurred during the development of the V90.00 version
 - [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
    - `KryptonPropertyGrid` now uses the State### sets like the rest of the controls.
    - Any build breaks in the designers can just be deleted, as the the colouring will be done by the `State####` equivalents
@@ -213,7 +213,7 @@ There are list of changes that have occurred during the development of the V90.#
   - The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
 
 ### Support for .NET 6/7
-As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
+As of V90.00, support for .NET 6 and 7 has been removed due to their release cadences.
 
 
 ### `KryptonButton` Properties
@@ -229,10 +229,10 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
 ## V85.00 (2024-06-24 - Build 2406 - June 2024)
-There are a list of changes that have occurred during the development of the V85.## version
+There are a list of changes that have occurred during the development of the V85.00 version
 
 * [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
-	- The Option to use `SystemDefault` no longer exists a font rendering hint#
+	- The Option to use `SystemDefault` no longer exists a font rendering hint
 * [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
 	- Added property `ShowDrop`, which displays a drop down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
@@ -242,7 +242,7 @@ There are a list of changes that have occurred during the development of the V85
 * [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`   
    
 ## V80.00 (2023-11-14 - Build 2311 - November 2023)
-There are list of changes that have occurred during the development of the V80.## version
+There are list of changes that have occurred during the development of the V80.00 version
 
 ### Support for .NET Core 3.1 and .NET 5
 As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
