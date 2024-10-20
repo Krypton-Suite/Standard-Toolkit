@@ -226,7 +226,7 @@ If using `KryptonAboutToolkit`, please note that this has been superceded by `Kr
 The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ### Building the Toolkit
-As of V90.## support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
+As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
 ## V85.00 (2024-06-24 - Build 2406 - June 2024)
 There are a list of changes that have occurred during the development of the V85.00 version
@@ -245,7 +245,7 @@ There are a list of changes that have occurred during the development of the V85
 There are list of changes that have occurred during the development of the V80.00 version
 
 ### Support for .NET Core 3.1 and .NET 5
-As of V80.##, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
+As of V80.00, support for .NET Core 3.1 and .NET 5 has been removed due to their release cadences. It is strongly advised that you migrate your application to .NET 8, as the latest LTS version, or the slightly older .NET 6, if you require a more supported version. If you do not make these mitigations, the packages **will** fail to install when upgrading, if your project is configured to use either .NET Core 3.1 and .NET 5.
 
 ### KryptonMessageBoxButtons
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/728:
