@@ -60,9 +60,16 @@ namespace Krypton.Toolkit
             // will be converted to String.Empty.
 
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = value is string str && str is not null
-                ? str
-                : string.Empty;
+
+            set
+            {
+                // #1800 correct to the standard of the Winforms counterpart
+                // Text is only set if the cast is correct. null value will also be rejected.
+                if (value is string str)
+                {
+                    Text = str;
+                }
+            }
         }
 
         /// <summary>

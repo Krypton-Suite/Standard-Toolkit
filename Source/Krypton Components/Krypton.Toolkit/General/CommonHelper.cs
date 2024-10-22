@@ -186,14 +186,12 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                Hashtable? hashTableShortCuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
+                var hashTableShortCuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
                 ToolStripMenuItem? menuItem = null;
 
                 if (hashTableShortCuts is null)
                 {
-                    Dictionary<Keys, ToolStripMenuItem>? dictionaryShortcuts = _cachedShortcutPI!.GetValue(cms, null) as Dictionary<Keys, ToolStripMenuItem>;
-
-                    if (dictionaryShortcuts is not null)
+                    if (_cachedShortcutPI.GetValue(cms, null) is Dictionary<Keys, ToolStripMenuItem> dictionaryShortcuts)
                     {
                         dictionaryShortcuts.TryGetValue(keyData, out menuItem);
                     }
@@ -709,13 +707,13 @@ namespace Krypton.Toolkit
         public static PaletteDrawBorders ReverseOrientateDrawBorders(PaletteDrawBorders borders,
                                                                      VisualOrientation orientation)
         {
-            // No need to perform an change for top orientation
+            // No need to perform a change for top orientation
             if (orientation == VisualOrientation.Top)
             {
                 return borders;
             }
 
-            // No need to change the All or None values
+            // No need to change the "All" or "None" values
             if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
@@ -1449,13 +1447,13 @@ namespace Krypton.Toolkit
         /// <returns>Reference to new instance.</returns>
         public static object CreateInstance(Type itemType, IDesignerHost? host)
         {
-            object retObj;
+            object? retObj;
 
             // Cannot use the designer host to create component unless the type implements IComponent
             if (typeof(IComponent).IsAssignableFrom(itemType) && (host != null))
             {
                 // Ask host to create component for us
-                retObj = host.CreateComponent(itemType, null!)!;
+                retObj = host.CreateComponent(itemType, null!);
 
                 // If the new object has an associated designer then use that now to initialize the instance
                 if (host.GetDesigner((IComponent)retObj) is IComponentInitializer designer)
@@ -1466,7 +1464,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Cannot use host for creation, so do it the standard way instead
-                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!)!;
+                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
             return retObj ?? false;
