@@ -209,5 +209,10 @@ namespace TestForm
         {
             new PropertyGridTest().Show();
         }
+
+        private void kbtnDateTime_Click(object sender, EventArgs e)
+        {
+            new DateTimeExample().Show();
+        }
     }
 }
