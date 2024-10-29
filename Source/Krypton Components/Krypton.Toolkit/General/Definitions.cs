@@ -10,7 +10,6 @@
 
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
-#pragma warning disable 1591
 
 namespace Krypton.Toolkit
 {
@@ -3090,6 +3089,7 @@ namespace Krypton.Toolkit
 
     #region ISplashScreenData
 
+    /// <summary>Contains the data required for the <seealso cref="KryptonSplashScreen"/>.</summary>
     public interface ISplashScreenData
     {
         Assembly Assembly { set; get; }
@@ -3097,6 +3097,10 @@ namespace Krypton.Toolkit
         bool ShowCopyright { set; get; }
 
         bool ShowVersion { set; get; }
+
+        bool ShowProgressBar { set; get; }
+
+        bool ShowProgressBarPercentage { set; get; }
 
         Image ApplicationLogo { set; get; }
 
