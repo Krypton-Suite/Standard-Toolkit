@@ -3087,4 +3087,21 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region ISplashScreenData
+
+    public interface ISplashScreenData
+    {
+        Assembly Assembly { set; get; }
+
+        bool ShowCopyright { set; get; }
+
+        bool ShowVersion { set; get; }
+
+        Image ApplicationLogo { set; get; }
+
+        int Timeout { set; get; }
+    }
+
+    #endregion
 }

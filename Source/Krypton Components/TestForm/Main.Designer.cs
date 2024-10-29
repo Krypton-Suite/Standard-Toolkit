@@ -41,6 +41,7 @@ namespace TestForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Krypton.Toolkit.KryptonInputBoxData kryptonInputBoxData1 = new Krypton.Toolkit.KryptonInputBoxData();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnDialogs = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonButton12 = new Krypton.Toolkit.KryptonButton();
@@ -96,7 +97,6 @@ namespace TestForm
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
-            this.kbtnDialogs = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -146,6 +146,17 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1214, 853);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnDialogs
+            // 
+            this.kbtnDialogs.Location = new System.Drawing.Point(13, 408);
+            this.kbtnDialogs.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnDialogs.Name = "kbtnDialogs";
+            this.kbtnDialogs.Size = new System.Drawing.Size(136, 20);
+            this.kbtnDialogs.TabIndex = 45;
+            this.kbtnDialogs.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnDialogs.Values.Text = "Dialogs";
+            this.kbtnDialogs.Click += new System.EventHandler(this.kbtnDialogs_Click);
             // 
             // kryptonThemeComboBox1
             // 
@@ -632,17 +643,6 @@ namespace TestForm
             // 
             this.kcmdOpenImage.Text = "&...";
             this.kcmdOpenImage.Execute += new System.EventHandler(this.kcmdOpenImage_Execute);
-            // 
-            // kbtnDialogs
-            // 
-            this.kbtnDialogs.Location = new System.Drawing.Point(13, 408);
-            this.kbtnDialogs.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnDialogs.Name = "kbtnDialogs";
-            this.kbtnDialogs.Size = new System.Drawing.Size(136, 20);
-            this.kbtnDialogs.TabIndex = 45;
-            this.kbtnDialogs.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnDialogs.Values.Text = "Dialogs";
-            this.kbtnDialogs.Click += new System.EventHandler(this.kbtnDialogs_Click);
             // 
             // Main
             // 
