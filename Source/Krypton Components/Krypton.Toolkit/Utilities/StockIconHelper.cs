@@ -70,6 +70,10 @@ namespace Krypton.Toolkit
 
         private const uint SHGSI_ICON = 0x000000100;
 
+        /// <summary>Gets the stock icon.</summary>
+        /// <param name="stockIconId">The stock icon identifier.</param>
+        /// <returns>The selected icon.</returns>
+        /// <exception cref="InvalidOperationException">Failed to retrieve icon</exception>
         public static Icon GetStockIcon(StockIconId stockIconId)
         {
             SHSTOCKICONINFO info = new SHSTOCKICONINFO();
@@ -79,13 +83,22 @@ namespace Krypton.Toolkit
 
             if (result == 0)
             {
-                return Icon.FromHandle(info.hIcon);
+                Icon icon = Icon.FromHandle(info.hIcon);
+
+                DestroyIcon(info.hIcon);
+
+                return icon;
             }
             else
             {
                 throw new InvalidOperationException("Failed to retrieve icon");
             }
         }
+
+        /// <summary>Destroys the icon.</summary>
+        /// <param name="handle">The handle.</param>
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool DestroyIcon(IntPtr handle);
     }
 
 }
