@@ -83,7 +83,11 @@ namespace Krypton.Toolkit
 
             if (result == 0)
             {
-                return Icon.FromHandle(info.hIcon);
+                Icon icon = Icon.FromHandle(info.hIcon);
+
+                DestroyIcon(info.hIcon);
+
+                return icon;
             }
             else
             {
@@ -94,7 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>Destroys the icon.</summary>
         /// <param name="handle">The handle.</param>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern bool DestroyIcon(IntPtr handle);
+        private static extern bool DestroyIcon(IntPtr handle);
     }
 
 }

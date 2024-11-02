@@ -9,21 +9,29 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonSplashScreen : KryptonForm/*, ISplashScreenData*/
+    /// <summary>The public interface to the <see cref="VisualSplashScreenForm"/> class.</summary>
+    [ToolboxItem(false)]
+    [DesignerCategory(@"code")]
+    public static class KryptonSplashScreen
     {
-        #region Instance Fields
+        #region Public
 
-        private ISplashScreenData _splashScreenData;
+        /// <summary>Shows the specified splash screen.</summary>
+        /// <param name="splashScreenData">The splash screen data.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        public static DialogResult Show(ISplashScreenData splashScreenData) => ShowCore(splashScreenData);
 
         #endregion
 
-        #region Identity
+        #region Implementation
 
-        public KryptonSplashScreen(ISplashScreenData splashScreenData)
+        private static DialogResult ShowCore(ISplashScreenData splashScreenData)
         {
-            InitializeComponent();
+            using var kssf = new VisualSplashScreenForm(splashScreenData);
 
-            _splashScreenData = splashScreenData;
+            return kssf.ShowDialog();
         }
 
         #endregion

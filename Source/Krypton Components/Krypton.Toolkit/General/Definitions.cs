@@ -3089,7 +3089,7 @@ namespace Krypton.Toolkit
 
     #region ISplashScreenData
 
-    /// <summary>Contains the data required for the <seealso cref="KryptonSplashScreen"/>.</summary>
+    /// <summary>Contains the data required for the <seealso cref="VisualSplashScreenForm"/>.</summary>
     public interface ISplashScreenData
     {
         Assembly Assembly { set; get; }
@@ -3105,6 +3105,8 @@ namespace Krypton.Toolkit
         Image ApplicationLogo { set; get; }
 
         int Timeout { set; get; }
+
+        /*IWin32Window*/ KryptonForm NextWindow { set; get; }
     }
 
     #endregion
