@@ -362,5 +362,10 @@ namespace TestForm
 
             kde.ShowDialog();
         }
+
+        private void kryptonButton13_Click(object sender, EventArgs e)
+        {
+            new CheckBoxStyleExamples().Show();
+        }
     }
 }

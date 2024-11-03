@@ -92,6 +92,9 @@
             this.kbtnClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnClose.Values.Text = "X";
             this.kbtnClose.Click += new System.EventHandler(this.kbtnClose_Click);
+            this.kbtnClose.MouseEnter += new System.EventHandler(this.kbtnClose_MouseEnter);
+            this.kbtnClose.MouseLeave += new System.EventHandler(this.kbtnClose_MouseLeave);
+            this.kbtnClose.MouseHover += new System.EventHandler(this.kbtnClose_MouseHover);
             // 
             // kbtnMinimize
             // 
@@ -157,7 +160,7 @@
             this.tmrCountdown.Interval = 1000;
             this.tmrCountdown.Tick += new System.EventHandler(this.tmrCountdown_Tick);
             // 
-            // KryptonSplashScreen
+            // VisualSplashScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -165,7 +168,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Name = "KryptonSplashScreen";
+            this.Name = "VisualSplashScreenForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VisualSplashScreenForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VisualSplashScreenForm_FormClosed);

@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
 
         private void VisualSplashScreenForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            _splashScreenData.NextWindow?.Show();
         }
 
         private void kbtnMinimize_Click(object sender, EventArgs e)
@@ -73,8 +73,23 @@ namespace Krypton.Toolkit
             {
                 Hide();
 
-                _splashScreenData.NextWindow.Show();
+                _splashScreenData.NextWindow?.Show();
             }
+        }
+
+        private void kbtnClose_MouseEnter(object sender, EventArgs e)
+        {
+            kbtnClose.StateCommon.Content.ShortText.Color1 = Color.Red;
+        }
+
+        private void kbtnClose_MouseHover(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kbtnClose_MouseLeave(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

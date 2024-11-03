@@ -3106,7 +3106,7 @@ namespace Krypton.Toolkit
 
         int Timeout { set; get; }
 
-        /*IWin32Window*/ KryptonForm NextWindow { set; get; }
+        /*IWin32Window*/ KryptonForm? NextWindow { set; get; }
     }
 
     #endregion

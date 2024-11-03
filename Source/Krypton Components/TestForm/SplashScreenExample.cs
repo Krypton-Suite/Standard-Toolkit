@@ -20,17 +20,21 @@ namespace TestForm
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-            ISplashScreenData splashScreenData = null;
+            ISplashScreenData? splashScreenData = null;
 
-            splashScreenData.ApplicationLogo = Image.FromFile(ktxtLogo.Text);
-                Assembly = Assembly.LoadFile(ktxtAssembly.Text),
-                NextWindow = null,
-                ShowCopyright = kchkShowCopyright.Checked,
-                ShowProgressBar = kchkShowProgressBar.Checked,
-                ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked,
-                ShowVersion = kchkShowVersion.Checked,
-                Timeout = (int)knudTimeout.Value
-            };
+            if (splashScreenData != null)
+            {
+                splashScreenData.ApplicationLogo = Image.FromFile(ktxtLogo.Text);
+                splashScreenData.Assembly = Assembly.LoadFile(ktxtAssembly.Text);
+                splashScreenData.NextWindow = null;
+                splashScreenData.ShowCopyright = kchkShowCopyright.Checked;
+                splashScreenData.ShowProgressBar = kchkShowProgressBar.Checked;
+                splashScreenData.ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked;
+                splashScreenData.ShowVersion = kchkShowVersion.Checked;
+                splashScreenData.Timeout = (int)knudTimeout.Value;
+
+                KryptonSplashScreen.Show(splashScreenData);
+            }
         }
     }
 }

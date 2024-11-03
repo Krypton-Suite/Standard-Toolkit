@@ -214,5 +214,15 @@ namespace TestForm
         {
             new DateTimeExample().Show();
         }
+
+        private void kbtnControlStyles_Click(object sender, EventArgs e)
+        {
+            new ControlStyles().Show();
+        }
+
+        private void kbtnSplashScreen_Click(object sender, EventArgs e)
+        {
+            new SplashScreenExample().Show();
+        }
     }
 }

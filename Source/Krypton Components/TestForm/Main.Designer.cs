@@ -97,6 +97,7 @@ namespace TestForm
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             this.kcmdOpenImage = new Krypton.Toolkit.KryptonCommand();
+            this.kryptonButton13 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -106,6 +107,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton13);
             this.kryptonPanel1.Controls.Add(this.kbtnDialogs);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
@@ -644,6 +646,16 @@ namespace TestForm
             this.kcmdOpenImage.Text = "&...";
             this.kcmdOpenImage.Execute += new System.EventHandler(this.kcmdOpenImage_Execute);
             // 
+            // kryptonButton13
+            // 
+            this.kryptonButton13.Location = new System.Drawing.Point(13, 434);
+            this.kryptonButton13.Name = "kryptonButton13";
+            this.kryptonButton13.Size = new System.Drawing.Size(134, 25);
+            this.kryptonButton13.TabIndex = 46;
+            this.kryptonButton13.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton13.Values.Text = "kryptonButton13";
+            this.kryptonButton13.Click += new System.EventHandler(this.kryptonButton13_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -733,5 +745,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonButton kbtnDialogs;
+        private KryptonButton kryptonButton13;
     }
 }
