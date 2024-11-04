@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,20 +21,26 @@ namespace TestForm
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-            ISplashScreenData? splashScreenData = null;
+           KryptonSplashScreen.Show(Assembly.LoadFrom(ktxtAssembly.Text), kchkShowProgressBar.Checked, Convert.ToInt32(knudTimeout.Value), Image.FromFile(ktxtLogo.Text));
+        }
 
-            if (splashScreenData != null)
+        private void kcmdChosenAssembly_Execute(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                splashScreenData.ApplicationLogo = Image.FromFile(ktxtLogo.Text);
-                splashScreenData.Assembly = Assembly.LoadFile(ktxtAssembly.Text);
-                splashScreenData.NextWindow = null;
-                splashScreenData.ShowCopyright = kchkShowCopyright.Checked;
-                splashScreenData.ShowProgressBar = kchkShowProgressBar.Checked;
-                splashScreenData.ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked;
-                splashScreenData.ShowVersion = kchkShowVersion.Checked;
-                splashScreenData.Timeout = (int)knudTimeout.Value;
+                ktxtAssembly.Text = Path.GetFullPath(ofd.FileName);
+            }
+        }
 
-                KryptonSplashScreen.Show(splashScreenData);
+        private void kcmdChosenLogo_Execute(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                ktxtLogo.Text = Path.GetFullPath(ofd.FileName);
             }
         }
     }

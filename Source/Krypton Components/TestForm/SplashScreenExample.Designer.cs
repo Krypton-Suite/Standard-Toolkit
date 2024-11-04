@@ -29,20 +29,22 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
-            this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.ktxtAssembly = new Krypton.Toolkit.KryptonTextBox();
+            this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
+            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
+            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.knudTimeout = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
+            this.kchkShowProgressBarPercentage = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkShowVersion = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkShowProgressBar = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkShowCopyright = new Krypton.Toolkit.KryptonCheckBox();
             this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
-            this.kchkShowCopyright = new Krypton.Toolkit.KryptonCheckBox();
-            this.kchkShowProgressBar = new Krypton.Toolkit.KryptonCheckBox();
-            this.kchkShowVersion = new Krypton.Toolkit.KryptonCheckBox();
-            this.kchkShowProgressBarPercentage = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
-            this.knudTimeout = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.ktxtAssembly = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kcmdChosenAssembly = new Krypton.Toolkit.KryptonCommand();
+            this.kcmdChosenLogo = new Krypton.Toolkit.KryptonCommand();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -61,6 +63,39 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(389, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // kbtnShow
+            // 
+            this.kbtnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kbtnShow.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.kbtnShow.Location = new System.Drawing.Point(191, 13);
+            this.kbtnShow.Name = "kbtnShow";
+            this.kbtnShow.Size = new System.Drawing.Size(90, 25);
+            this.kbtnShow.TabIndex = 2;
+            this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnShow.Values.Text = "&Show";
+            this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
+            // 
+            // kbtnCancel
+            // 
+            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.kbtnCancel.Location = new System.Drawing.Point(287, 13);
+            this.kbtnCancel.Name = "kbtnCancel";
+            this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
+            this.kbtnCancel.TabIndex = 1;
+            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnCancel.Values.Text = "Cance&l";
+            this.kbtnCancel.Values.UseAsADialogButton = true;
+            // 
+            // kryptonBorderEdge1
+            // 
+            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
+            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(389, 1);
+            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
+            // 
             // kryptonPanel2
             // 
             this.kryptonPanel2.Controls.Add(this.knudTimeout);
@@ -78,116 +113,6 @@
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(389, 162);
             this.kryptonPanel2.TabIndex = 1;
-            // 
-            // kryptonBorderEdge1
-            // 
-            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(389, 1);
-            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
-            // 
-            // kbtnCancel
-            // 
-            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(287, 13);
-            this.kbtnCancel.Name = "kbtnCancel";
-            this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCancel.TabIndex = 1;
-            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnCancel.Values.Text = "Cance&l";
-            this.kbtnCancel.Values.UseAsADialogButton = true;
-            // 
-            // kbtnShow
-            // 
-            this.kbtnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnShow.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnShow.Location = new System.Drawing.Point(191, 13);
-            this.kbtnShow.Name = "kbtnShow";
-            this.kbtnShow.Size = new System.Drawing.Size(90, 25);
-            this.kbtnShow.TabIndex = 2;
-            this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnShow.Values.Text = "&Show";
-            this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
-            this.kryptonLabel1.Location = new System.Drawing.Point(13, 13);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(69, 20);
-            this.kryptonLabel1.TabIndex = 0;
-            this.kryptonLabel1.Values.Text = "Assembly:";
-            // 
-            // ktxtAssembly
-            // 
-            this.ktxtAssembly.Location = new System.Drawing.Point(89, 13);
-            this.ktxtAssembly.Name = "ktxtAssembly";
-            this.ktxtAssembly.ShowEllipsisButton = true;
-            this.ktxtAssembly.Size = new System.Drawing.Size(290, 24);
-            this.ktxtAssembly.TabIndex = 1;
-            this.ktxtAssembly.Text = "kryptonTextBox1";
-            // 
-            // ktxtLogo
-            // 
-            this.ktxtLogo.Location = new System.Drawing.Point(89, 43);
-            this.ktxtLogo.Name = "ktxtLogo";
-            this.ktxtLogo.ShowEllipsisButton = true;
-            this.ktxtLogo.Size = new System.Drawing.Size(290, 24);
-            this.ktxtLogo.TabIndex = 3;
-            this.ktxtLogo.Text = "kryptonTextBox2";
-            // 
-            // kryptonLabel2
-            // 
-            this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
-            this.kryptonLabel2.Location = new System.Drawing.Point(13, 43);
-            this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(43, 20);
-            this.kryptonLabel2.TabIndex = 2;
-            this.kryptonLabel2.Values.Text = "Logo:";
-            // 
-            // kchkShowCopyright
-            // 
-            this.kchkShowCopyright.Location = new System.Drawing.Point(13, 73);
-            this.kchkShowCopyright.Name = "kchkShowCopyright";
-            this.kchkShowCopyright.Size = new System.Drawing.Size(111, 20);
-            this.kchkShowCopyright.TabIndex = 4;
-            this.kchkShowCopyright.Values.Text = "Show Copyright";
-            // 
-            // kchkShowProgressBar
-            // 
-            this.kchkShowProgressBar.Location = new System.Drawing.Point(234, 73);
-            this.kchkShowProgressBar.Name = "kchkShowProgressBar";
-            this.kchkShowProgressBar.Size = new System.Drawing.Size(121, 20);
-            this.kchkShowProgressBar.TabIndex = 6;
-            this.kchkShowProgressBar.Values.Text = "Show ProgressBar";
-            // 
-            // kchkShowVersion
-            // 
-            this.kchkShowVersion.Location = new System.Drawing.Point(130, 73);
-            this.kchkShowVersion.Name = "kchkShowVersion";
-            this.kchkShowVersion.Size = new System.Drawing.Size(98, 20);
-            this.kchkShowVersion.TabIndex = 7;
-            this.kchkShowVersion.Values.Text = "Show Version";
-            // 
-            // kchkShowProgressBarPercentage
-            // 
-            this.kchkShowProgressBarPercentage.Location = new System.Drawing.Point(13, 99);
-            this.kchkShowProgressBarPercentage.Name = "kchkShowProgressBarPercentage";
-            this.kchkShowProgressBarPercentage.Size = new System.Drawing.Size(186, 20);
-            this.kchkShowProgressBarPercentage.TabIndex = 8;
-            this.kchkShowProgressBarPercentage.Values.Text = "Show ProgressBar Percentage";
-            // 
-            // kryptonLabel3
-            // 
-            this.kryptonLabel3.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
-            this.kryptonLabel3.Location = new System.Drawing.Point(13, 125);
-            this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(62, 20);
-            this.kryptonLabel3.TabIndex = 9;
-            this.kryptonLabel3.Values.Text = "Timeout:";
             // 
             // knudTimeout
             // 
@@ -215,6 +140,93 @@
             0,
             0,
             0});
+            // 
+            // kryptonLabel3
+            // 
+            this.kryptonLabel3.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.kryptonLabel3.Location = new System.Drawing.Point(13, 125);
+            this.kryptonLabel3.Name = "kryptonLabel3";
+            this.kryptonLabel3.Size = new System.Drawing.Size(62, 20);
+            this.kryptonLabel3.TabIndex = 9;
+            this.kryptonLabel3.Values.Text = "Timeout:";
+            // 
+            // kchkShowProgressBarPercentage
+            // 
+            this.kchkShowProgressBarPercentage.Location = new System.Drawing.Point(13, 99);
+            this.kchkShowProgressBarPercentage.Name = "kchkShowProgressBarPercentage";
+            this.kchkShowProgressBarPercentage.Size = new System.Drawing.Size(186, 20);
+            this.kchkShowProgressBarPercentage.TabIndex = 8;
+            this.kchkShowProgressBarPercentage.Values.Text = "Show ProgressBar Percentage";
+            // 
+            // kchkShowVersion
+            // 
+            this.kchkShowVersion.Location = new System.Drawing.Point(130, 73);
+            this.kchkShowVersion.Name = "kchkShowVersion";
+            this.kchkShowVersion.Size = new System.Drawing.Size(98, 20);
+            this.kchkShowVersion.TabIndex = 7;
+            this.kchkShowVersion.Values.Text = "Show Version";
+            // 
+            // kchkShowProgressBar
+            // 
+            this.kchkShowProgressBar.Location = new System.Drawing.Point(234, 73);
+            this.kchkShowProgressBar.Name = "kchkShowProgressBar";
+            this.kchkShowProgressBar.Size = new System.Drawing.Size(121, 20);
+            this.kchkShowProgressBar.TabIndex = 6;
+            this.kchkShowProgressBar.Values.Text = "Show ProgressBar";
+            // 
+            // kchkShowCopyright
+            // 
+            this.kchkShowCopyright.Location = new System.Drawing.Point(13, 73);
+            this.kchkShowCopyright.Name = "kchkShowCopyright";
+            this.kchkShowCopyright.Size = new System.Drawing.Size(111, 20);
+            this.kchkShowCopyright.TabIndex = 4;
+            this.kchkShowCopyright.Values.Text = "Show Copyright";
+            // 
+            // ktxtLogo
+            // 
+            this.ktxtLogo.Location = new System.Drawing.Point(89, 43);
+            this.ktxtLogo.Name = "ktxtLogo";
+            this.ktxtLogo.ShowEllipsisButton = true;
+            this.ktxtLogo.Size = new System.Drawing.Size(290, 24);
+            this.ktxtLogo.TabIndex = 3;
+            this.ktxtLogo.Text = "kryptonTextBox2";
+            // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.kryptonLabel2.Location = new System.Drawing.Point(13, 43);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(43, 20);
+            this.kryptonLabel2.TabIndex = 2;
+            this.kryptonLabel2.Values.Text = "Logo:";
+            // 
+            // ktxtAssembly
+            // 
+            this.ktxtAssembly.Location = new System.Drawing.Point(89, 13);
+            this.ktxtAssembly.Name = "ktxtAssembly";
+            this.ktxtAssembly.ShowEllipsisButton = true;
+            this.ktxtAssembly.Size = new System.Drawing.Size(290, 24);
+            this.ktxtAssembly.TabIndex = 1;
+            this.ktxtAssembly.Text = "kryptonTextBox1";
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.kryptonLabel1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(69, 20);
+            this.kryptonLabel1.TabIndex = 0;
+            this.kryptonLabel1.Values.Text = "Assembly:";
+            // 
+            // kcmdChosenAssembly
+            // 
+            this.kcmdChosenAssembly.Text = ".&..";
+            this.kcmdChosenAssembly.Execute += new System.EventHandler(this.kcmdChosenAssembly_Execute);
+            // 
+            // kcmdChosenLogo
+            // 
+            this.kcmdChosenLogo.Text = ".&..";
+            this.kcmdChosenLogo.Execute += new System.EventHandler(this.kcmdChosenLogo_Execute);
             // 
             // SplashScreenExample
             // 
@@ -255,5 +267,7 @@
         private KryptonCheckBox kchkShowProgressBarPercentage;
         private KryptonLabel kryptonLabel3;
         private KryptonNumericUpDown knudTimeout;
+        private KryptonCommand kcmdChosenAssembly;
+        private KryptonCommand kcmdChosenLogo;
     }
 }

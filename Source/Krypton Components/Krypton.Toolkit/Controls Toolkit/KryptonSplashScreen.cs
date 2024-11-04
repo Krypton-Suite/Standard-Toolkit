@@ -23,6 +23,9 @@ namespace Krypton.Toolkit
         /// </returns>
         public static DialogResult Show(ISplashScreenData splashScreenData) => ShowCore(splashScreenData);
 
+        public static void Show(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo) =>
+            ShowCore(entryAssembly, showProgressBar, timeOut, applicationLogo);
+
         #endregion
 
         #region Implementation
@@ -33,6 +36,8 @@ namespace Krypton.Toolkit
 
             return kssf.ShowDialog();
         }
+
+        private static void ShowCore(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo) => new VisualSplashScreenForm(entryAssembly, showProgressBar, timeOut, applicationLogo).Show();
 
         #endregion
     }

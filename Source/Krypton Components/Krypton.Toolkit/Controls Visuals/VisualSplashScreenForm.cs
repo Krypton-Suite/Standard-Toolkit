@@ -13,6 +13,16 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
+        private Assembly _entryAssembly;
+
+        private Image _applicationLogo;
+
+        private bool _showProgressBar;
+
+        private int _timeOut;
+
+        private IWin32Window _nextWindow;
+
         private ISplashScreenData _splashScreenData;
 
         #endregion
@@ -28,21 +38,34 @@ namespace Krypton.Toolkit
             _splashScreenData = splashScreenData;
         }
 
+        public VisualSplashScreenForm(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo)
+        {
+            InitializeComponent();
+
+            _entryAssembly = entryAssembly;
+
+            _showProgressBar = showProgressBar;
+
+            _timeOut = timeOut ?? 5000;
+
+            _applicationLogo = applicationLogo;
+        }
+
         #endregion
 
         #region Implementation
 
         private void VisualSplashScreenForm_Load(object sender, EventArgs e)
         {
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(_splashScreenData.Assembly.Location);
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(/*_splashScreenData.Assembly.Location*/ _entryAssembly.Location);
 
-            pbxApplicationIcon.Image = _splashScreenData.ApplicationLogo;
+            pbxApplicationIcon.Image = /*_splashScreenData.ApplicationLogo*/ _applicationLogo;
 
             klblCopyright.Text = $"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {fvi.LegalCopyright}";
 
             klblVersion.Text = $"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
 
-            kpbProgress.Visible = _splashScreenData.ShowProgressBar;
+            kpbProgress.Visible = /*_splashScreenData.ShowProgressBar*/ _showProgressBar;
         }
 
         private void VisualSplashScreenForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -73,7 +96,8 @@ namespace Krypton.Toolkit
             {
                 Hide();
 
-                _splashScreenData.NextWindow?.Show();
+                //_splashScreenData.NextWindow?.Show();
+                
             }
         }
 
