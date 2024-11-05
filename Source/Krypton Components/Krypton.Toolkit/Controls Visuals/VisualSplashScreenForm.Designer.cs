@@ -147,6 +147,7 @@
             this.kwlblCopyright.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblCopyright.Size = new System.Drawing.Size(794, 25);
             this.kwlblCopyright.Text = "Copyright: {0}";
+            this.kwlblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kwlblVersion
             // 
@@ -160,6 +161,7 @@
             this.kwlblVersion.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblVersion.Size = new System.Drawing.Size(794, 25);
             this.kwlblVersion.Text = "Version: {0}";
+            this.kwlblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tmrCountdown
             // 

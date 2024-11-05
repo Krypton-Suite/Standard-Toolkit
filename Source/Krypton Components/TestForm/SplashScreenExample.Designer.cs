@@ -46,6 +46,8 @@
             this.kcmdChosenAssembly = new Krypton.Toolkit.KryptonCommand();
             this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
             this.bsaBrowseLogo = new Krypton.Toolkit.ButtonSpecAny();
+            this.kcbShowMinimizeButton = new Krypton.Toolkit.KryptonCheckBox();
+            this.kcbShowCloseButton = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -58,7 +60,7 @@
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 162);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 192);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonPanel1.Size = new System.Drawing.Size(389, 50);
@@ -99,6 +101,8 @@
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kcbShowCloseButton);
+            this.kryptonPanel2.Controls.Add(this.kcbShowMinimizeButton);
             this.kryptonPanel2.Controls.Add(this.ktxtLogo);
             this.kryptonPanel2.Controls.Add(this.knudTimeout);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel3);
@@ -112,7 +116,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(389, 162);
+            this.kryptonPanel2.Size = new System.Drawing.Size(389, 192);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // knudTimeout
@@ -122,7 +126,7 @@
             0,
             0,
             0});
-            this.knudTimeout.Location = new System.Drawing.Point(89, 125);
+            this.knudTimeout.Location = new System.Drawing.Point(89, 153);
             this.knudTimeout.Maximum = new decimal(new int[] {
             20000,
             0,
@@ -145,7 +149,7 @@
             // kryptonLabel3
             // 
             this.kryptonLabel3.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
-            this.kryptonLabel3.Location = new System.Drawing.Point(13, 125);
+            this.kryptonLabel3.Location = new System.Drawing.Point(13, 153);
             this.kryptonLabel3.Name = "kryptonLabel3";
             this.kryptonLabel3.Size = new System.Drawing.Size(62, 20);
             this.kryptonLabel3.TabIndex = 9;
@@ -153,7 +157,7 @@
             // 
             // kchkShowProgressBarPercentage
             // 
-            this.kchkShowProgressBarPercentage.Location = new System.Drawing.Point(13, 99);
+            this.kchkShowProgressBarPercentage.Location = new System.Drawing.Point(13, 127);
             this.kchkShowProgressBarPercentage.Name = "kchkShowProgressBarPercentage";
             this.kchkShowProgressBarPercentage.Size = new System.Drawing.Size(186, 20);
             this.kchkShowProgressBarPercentage.TabIndex = 8;
@@ -236,11 +240,27 @@
             this.bsaBrowseLogo.KryptonCommand = this.kcmdChosenLogo;
             this.bsaBrowseLogo.UniqueName = "86ec36b6055b41198bfca216d71b6799";
             // 
+            // kcbShowMinimizeButton
+            // 
+            this.kcbShowMinimizeButton.Location = new System.Drawing.Point(145, 99);
+            this.kcbShowMinimizeButton.Name = "kcbShowMinimizeButton";
+            this.kcbShowMinimizeButton.Size = new System.Drawing.Size(146, 20);
+            this.kcbShowMinimizeButton.TabIndex = 12;
+            this.kcbShowMinimizeButton.Values.Text = "Show Minimize Button";
+            // 
+            // kcbShowCloseButton
+            // 
+            this.kcbShowCloseButton.Location = new System.Drawing.Point(13, 99);
+            this.kcbShowCloseButton.Name = "kcbShowCloseButton";
+            this.kcbShowCloseButton.Size = new System.Drawing.Size(126, 20);
+            this.kcbShowCloseButton.TabIndex = 13;
+            this.kcbShowCloseButton.Values.Text = "Show Close Button";
+            // 
             // SplashScreenExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 212);
+            this.ClientSize = new System.Drawing.Size(389, 242);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -278,5 +298,7 @@
         private KryptonCommand kcmdChosenLogo;
         private KryptonTextBox ktxtLogo;
         private ButtonSpecAny bsaBrowseLogo;
+        private KryptonCheckBox kcbShowCloseButton;
+        private KryptonCheckBox kcbShowMinimizeButton;
     }
 }

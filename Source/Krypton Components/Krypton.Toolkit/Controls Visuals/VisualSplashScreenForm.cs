@@ -74,6 +74,10 @@ namespace Krypton.Toolkit
             kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
 
             kpbProgress.Visible = _splashScreenData.ShowProgressBar;
+
+            kbtnClose.Visible = _splashScreenData.ShowCloseButton;
+
+            kbtnMinimize.Visible = _splashScreenData.ShowMinimizeButton;
         }
 
         private void VisualSplashScreenForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -99,6 +103,8 @@ namespace Krypton.Toolkit
         private void tmrCountdown_Tick(object sender, EventArgs e)
         {
             kpbProgress.Increment(1);
+
+            kpbProgress.Text = _splashScreenData.ShowProgressBarPercentage ? $@"{kpbProgress.Value}%" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
             if (kpbProgress.Value == kpbProgress.Maximum)
             {

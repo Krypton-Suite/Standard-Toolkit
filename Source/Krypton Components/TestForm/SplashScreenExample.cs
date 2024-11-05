@@ -27,6 +27,8 @@ namespace TestForm
                 Assembly = Assembly.GetExecutingAssembly(), //Assembly.LoadFile(ktxtAssembly.Text),
                 NextWindow = this,
                 ShowCopyright = kchkShowCopyright.Checked,
+                ShowCloseButton = kcbShowCloseButton.Checked,
+                ShowMinimizeButton = kcbShowMinimizeButton.Checked,
                 ShowProgressBar = kchkShowProgressBar.Checked,
                 ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked,
                 ShowVersion = kchkShowVersion.Checked,
