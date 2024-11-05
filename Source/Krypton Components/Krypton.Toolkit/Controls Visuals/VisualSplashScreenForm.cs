@@ -13,17 +13,17 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private Assembly _entryAssembly;
+        private readonly Assembly _entryAssembly;
 
-        private Image _applicationLogo;
+        private readonly Image _applicationLogo;
 
-        private bool _showProgressBar;
+        private readonly bool _showProgressBar;
 
         private int _timeOut;
 
-        private IWin32Window _nextWindow;
+        private IWin32Window? _nextWindow;
 
-        private ISplashScreenData _splashScreenData;
+        private readonly KryptonSplashScreenData _splashScreenData;
 
         #endregion
 
@@ -31,14 +31,20 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="VisualSplashScreenForm" /> class.</summary>
         /// <param name="splashScreenData">The splash screen data.</param>
-        public VisualSplashScreenForm(ISplashScreenData splashScreenData)
+        public VisualSplashScreenForm(KryptonSplashScreenData splashScreenData)
         {
             InitializeComponent();
 
             _splashScreenData = splashScreenData;
         }
 
-        public VisualSplashScreenForm(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo)
+        /// <summary>Initializes a new instance of the <see cref="VisualSplashScreenForm" /> class.</summary>
+        /// <param name="entryAssembly">The entry assembly.</param>
+        /// <param name="showProgressBar">if set to <c>true</c> [show progress bar].</param>
+        /// <param name="timeOut">The time out.</param>
+        /// <param name="applicationLogo">The application logo.</param>
+        /// <param name="nextWindow">The next window.</param>
+        public VisualSplashScreenForm(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow)
         {
             InitializeComponent();
 
@@ -49,6 +55,8 @@ namespace Krypton.Toolkit
             _timeOut = timeOut ?? 5000;
 
             _applicationLogo = applicationLogo;
+
+            _nextWindow = nextWindow ?? null;
         }
 
         #endregion
@@ -57,13 +65,13 @@ namespace Krypton.Toolkit
 
         private void VisualSplashScreenForm_Load(object sender, EventArgs e)
         {
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(/*_splashScreenData.Assembly.Location*/ _entryAssembly.Location);
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(_splashScreenData.Assembly.Location /*_entryAssembly.Location*/);
 
-            pbxApplicationIcon.Image = /*_splashScreenData.ApplicationLogo*/ _applicationLogo;
+            pbxApplicationIcon.Image = _splashScreenData.ApplicationLogo /*_applicationLogo*/;
 
-            klblCopyright.Text = $"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {fvi.LegalCopyright}";
+            kwlblCopyright.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {fvi.LegalCopyright}";
 
-            klblVersion.Text = $"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
+            kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
 
             kpbProgress.Visible = /*_splashScreenData.ShowProgressBar*/ _showProgressBar;
         }
@@ -75,7 +83,7 @@ namespace Krypton.Toolkit
 
         private void VisualSplashScreenForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _splashScreenData.NextWindow?.Show();
+            //_splashScreenData.NextWindow?.Show();
         }
 
         private void kbtnMinimize_Click(object sender, EventArgs e)

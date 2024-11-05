@@ -21,7 +21,19 @@ namespace TestForm
 
         private void kbtnShow_Click(object sender, EventArgs e)
         {
-           KryptonSplashScreen.Show(Assembly.LoadFrom(ktxtAssembly.Text), kchkShowProgressBar.Checked, Convert.ToInt32(knudTimeout.Value), Image.FromFile(ktxtLogo.Text));
+            KryptonSplashScreenData splashScreenData = new KryptonSplashScreenData()
+            {
+                ApplicationLogo = new Bitmap(ktxtLogo.Text),
+                Assembly = Assembly.GetExecutingAssembly(), //Assembly.LoadFile(ktxtAssembly.Text),
+                NextWindow = this,
+                ShowCopyright = kchkShowCopyright.Checked,
+                ShowProgressBar = kchkShowProgressBar.Checked,
+                ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked,
+                ShowVersion = kchkShowVersion.Checked,
+                Timeout = Convert.ToInt32(knudTimeout.Value)
+            };
+
+            KryptonSplashScreen.Show(splashScreenData);
         }
 
         private void kcmdChosenAssembly_Execute(object sender, EventArgs e)

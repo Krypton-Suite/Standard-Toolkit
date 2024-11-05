@@ -3087,27 +3087,4 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region ISplashScreenData
-
-    /// <summary>Contains the data required for the <seealso cref="VisualSplashScreenForm"/>.</summary>
-    public interface ISplashScreenData
-    {
-        Assembly Assembly { set; get; }
-
-        bool ShowCopyright { set; get; }
-
-        bool ShowVersion { set; get; }
-
-        bool ShowProgressBar { set; get; }
-
-        bool ShowProgressBarPercentage { set; get; }
-
-        Image ApplicationLogo { set; get; }
-
-        int Timeout { set; get; }
-
-        /*IWin32Window*/ KryptonForm? NextWindow { set; get; }
-    }
-
-    #endregion
 }

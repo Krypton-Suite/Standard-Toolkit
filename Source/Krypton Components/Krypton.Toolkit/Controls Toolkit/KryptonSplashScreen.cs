@@ -21,23 +21,23 @@ namespace Krypton.Toolkit
         /// <returns>
         ///   <br />
         /// </returns>
-        public static DialogResult Show(ISplashScreenData splashScreenData) => ShowCore(splashScreenData);
+        public static DialogResult Show(KryptonSplashScreenData splashScreenData) => ShowCore(splashScreenData);
 
-        public static void Show(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo) =>
-            ShowCore(entryAssembly, showProgressBar, timeOut, applicationLogo);
+        public static void Show(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow) =>
+            ShowCore(entryAssembly, showProgressBar, timeOut, applicationLogo, nextWindow);
 
         #endregion
 
         #region Implementation
 
-        private static DialogResult ShowCore(ISplashScreenData splashScreenData)
+        private static DialogResult ShowCore(KryptonSplashScreenData splashScreenData)
         {
             using var kssf = new VisualSplashScreenForm(splashScreenData);
 
             return kssf.ShowDialog();
         }
 
-        private static void ShowCore(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo) => new VisualSplashScreenForm(entryAssembly, showProgressBar, timeOut, applicationLogo).Show();
+        private static void ShowCore(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow) => new VisualSplashScreenForm(entryAssembly, showProgressBar, timeOut, applicationLogo, nextWindow).Show();
 
         #endregion
     }

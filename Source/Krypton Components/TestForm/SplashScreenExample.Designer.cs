@@ -123,7 +123,7 @@
             0});
             this.knudTimeout.Location = new System.Drawing.Point(89, 125);
             this.knudTimeout.Maximum = new decimal(new int[] {
-            100,
+            20000,
             0,
             0,
             0});
@@ -136,7 +136,7 @@
             this.knudTimeout.Size = new System.Drawing.Size(290, 22);
             this.knudTimeout.TabIndex = 10;
             this.knudTimeout.Value = new decimal(new int[] {
-            0,
+            5000,
             0,
             0,
             0});
