@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,9 +28,9 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="element">Element value.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteElementColorRedirect(PaletteRedirect? redirect,
+        public PaletteElementColorRedirect(PaletteRedirect redirect,
                                            PaletteElement element,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
             : base(null, needPaint)
         {
             // Setup inheritance to recover values from the redirect instance
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect) => _redirect.SetRedirector(redirect);
+        public virtual void SetRedirector(PaletteRedirect redirect) => _redirect.SetRedirector(redirect);
 
         #endregion
     }

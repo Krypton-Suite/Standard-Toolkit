@@ -9,6 +9,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 
 pause
+goto exitbatch
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -35,21 +36,26 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
+@echo Started to build Nightly release
+@echo:
 @echo Started: %date% %time% %zone%
-@echo
+@echo:
 set targets=Build
 if not "%~1" == "" set targets=%~1
-"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=build.log 
-
+"%msbuildpath%\msbuild.exe" -t:%targets% nightly.proj /fl /flp:logfile=../Logs/nightly-build-log.log /bl:../Logs/nightly-build-log.binlog  /clp:Summary;ShowTimestamp /v:quiet
+@echo:
 :: -t:rebuild
 
 ::-graphBuild:True
 
-@echo Build Completed: %date% %time% %zone%
-
+@echo Nightly release build completed: %date% %time% %zone%
+@echo:
+@echo You can find the build Logs in ../Logs
+@echo:
 pause
 
 @echo Do you want to return to complete another task? (Y/N)
+@echo:
 set /p answer="Enter input: "
 if %answer%==Y (goto run)
 if %answer%==y (goto run)
@@ -59,6 +65,4 @@ if %answer%==n exit
 @echo Invalid input, please try again.
 
 :run
-cd ..
-
-run.cmd
+main-menu.cmd

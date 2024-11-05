@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -22,15 +22,15 @@ namespace Krypton.Ribbon
 
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ViewDrawRibbonDesignCluster? _viewAddItem;
+        private ViewDrawRibbonDesignCluster _viewAddItem;
         private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
         private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
         private readonly PaletteBorderEdge _paletteBorderEdge;
@@ -52,18 +52,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonCluster">Reference to cluster definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupCluster([DisallowNull] KryptonRibbon ribbon,
-                                            [DisallowNull] KryptonRibbonGroupCluster ribbonCluster,
-                                            [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupCluster([DisallowNull] KryptonRibbon? ribbon,
+                                            [DisallowNull] KryptonRibbonGroupCluster? ribbonCluster,
+                                            [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonCluster != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonCluster is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonCluster = ribbonCluster;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonCluster = ribbonCluster ?? throw new ArgumentNullException(nameof(ribbonCluster));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
             _currentSize = GroupItemSize.Medium;
 
             // Associate the component with this view element for design time selection
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             ViewBase? view = null;
 
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -162,7 +162,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             ViewBase? view = null;
 
@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -197,7 +197,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             ViewBase? view = null;
 
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -233,12 +233,12 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             ViewBase? view = null;
 
             // Scan all the children, which must be containers
-            foreach (ViewBase child in Reverse())
+            foreach (ViewBase? child in Reverse())
             {
                 // Only interested in visible children!
                 if (child.Visible)
@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -336,8 +336,8 @@ namespace Krypton.Ribbon
             }
 
             // Our current size is based on the parent one
-            var viewLines = (ViewLayoutRibbonGroupLines)Parent;
-            _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
+            var viewLines = Parent as ViewLayoutRibbonGroupLines;
+            _currentSize = viewLines?.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
         /// <summary>
@@ -360,10 +360,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     Size childSize = child.GetPreferredSize(context);
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Define visible state of the separators
             _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
@@ -422,10 +422,10 @@ namespace Krypton.Ribbon
                 // Position each item from left/top to right/bottom 
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Cache preferred size of the child
                         Size childSize = viewToSize[child];
@@ -434,7 +434,7 @@ namespace Krypton.Ribbon
                         context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
 
                         // Position the element
-                        this[i].Layout(context);
+                        this[i]?.Layout(context);
 
                         // Move across to next position
                         x += childSize.Width;
@@ -528,7 +528,7 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Ask the item definition to return an appropriate view
-                    itemView = item.CreateView(_ribbon, _needPaint);
+                    itemView = item.CreateView(_ribbon, _needPaint!);
 
                     // Create a border edge to go with the item view
                     itemEdge = new ViewDrawRibbonGroupClusterEdge(_ribbon, _paletteBorderEdge);
@@ -621,12 +621,12 @@ namespace Krypton.Ribbon
                 view.Dispose();
             }
 
-            foreach (ViewBase view in _viewToEdge.Values)
+            foreach (var view in _viewToEdge.Values)
             {
                 view.Dispose();
             }
 
-            // Always add the end separator as the last view element (excluding any desing time additions)
+            // Always add the end separator as the last view element (excluding any design time additions)
             Add(_endSep);
 
             // Define visible state of the separators
@@ -639,7 +639,7 @@ namespace Krypton.Ribbon
                 // Create the design time 'Item' first time it is needed
                 _viewAddItem ??= new ViewDrawRibbonDesignCluster(_ribbon,
                         _ribbonCluster,
-                        _needPaint);
+                        _needPaint!);
 
                 // Always add at end of the list of items
                 Add(_viewAddItem);
@@ -650,7 +650,7 @@ namespace Krypton.Ribbon
             _viewToEdge = regenEdge;
         }
 
-        private void OnClusterPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnClusterPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
 
@@ -673,7 +673,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
+        private void OnContextClick(object? sender, MouseEventArgs e)
         {
             if (_ribbon.InDesignMode)
             {

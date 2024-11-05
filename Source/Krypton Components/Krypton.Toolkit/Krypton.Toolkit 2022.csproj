@@ -1,26 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <Choose>
-        <When Condition="'$(Configuration)' == 'Nightly'">
+        <When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
             <PropertyGroup>
-                <TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+                <TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
             </PropertyGroup>
         </When>
         <Otherwise>
-            <Choose>
-                <When Condition="'$(Configuration)' == 'Canary'">
-                    <PropertyGroup>
-                        <TargetFrameworks>net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
-                    </PropertyGroup>
-                </When>
-                <Otherwise>
-                    <PropertyGroup>
-                        <TargetFrameworks>net48;net481;net6.0-windows;net7.0-windows</TargetFrameworks>
+            <PropertyGroup>
+                <TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
 
-                        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
-                    </PropertyGroup>
-                </Otherwise>
-            </Choose>
+                <TargetFrameworks Condition="'$(TFMs)' == 'all'">net462;net47;net471;net472;net48;net481;net8.0-windows</TargetFrameworks>
+            </PropertyGroup>
         </Otherwise>
     </Choose>
 
@@ -41,14 +32,16 @@
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <NoWarn>1701;1702</NoWarn>
         <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
-        <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <WarningLevel>6</WarningLevel>
+        <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+        <WarningLevel>8</WarningLevel>
+        <AnalysisLevel>latest</AnalysisLevel>
         <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+        <!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
+        <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     </PropertyGroup>
 
     <ItemGroup>
@@ -82,6 +75,12 @@
         </Compile>
         <Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
         <Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
+        <Compile Update="Controls Visuals\RTL Aware\VisualMessageBoxRtlAwareFormDep.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="Controls Visuals\VisualMessageBoxFormDep.cs">
+            <SubType>Form</SubType>
+        </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
             <SubType>Component</SubType>
@@ -164,6 +163,11 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="ResourceFiles\AboutToolkit\AboutToolkitImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>AboutToolkitImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Arrows\BlueArrowResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -198,6 +202,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>ColourScaleImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\CommandLink\CommandLinkImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>CommandLinkImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -300,9 +309,9 @@
             <DependentUpon>GridImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Logos\ToolkitLogoImageResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>ToolkitLogoImageResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ToolkitLogoImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\MDI\GenericMDIImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -318,6 +327,21 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\OutlookGrid\OutlookGridImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>OutlookGridImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>OutlookGridStringResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\PaletteSchemas\PaletteSchemaResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>PaletteSchemaResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -350,9 +374,14 @@
             <DependentUpon>VisualStudioRadioButtonImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>SizeGripStyleResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>SizeGripStyleResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\Sort\SortingImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>SortingImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Stars\StarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -364,15 +393,20 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>TaskDialogImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ToastNotificationImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Toolbars\GenericToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>GenericToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\Microsoft365ToolbarImageResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>Microsoft365ToolbarImageResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Microsoft365ToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\Office2003ToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -400,9 +434,9 @@
             <DependentUpon>Office2016ToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\Office2019ToolbarImageResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>Office2019ToolbarImageResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Office2019ToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\SystemToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -410,9 +444,9 @@
             <DependentUpon>SystemToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Toolbars\VisualStudioToolbarImageResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>VisualStudioToolbarImageResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>VisualStudioToolbarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\TreeItems\TreeItemImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -428,6 +462,11 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs" />
     </ItemGroup>
@@ -596,6 +635,10 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\AboutToolkit\AboutToolkitImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>AboutToolkitImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Arrows\BlueArrowResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>BlueArrowResources.Designer.cs</LastGenOutput>
@@ -623,6 +666,10 @@
         <EmbeddedResource Update="ResourceFiles\ColourScales\ColourScaleImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\CommandLink\CommandLinkImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>CommandLinkImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -705,8 +752,8 @@
             <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Logos\ToolkitLogoImageResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>ToolkitLogoImageResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ToolkitLogoImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\MDI\GenericMDIImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -719,6 +766,18 @@
         <EmbeddedResource Update="ResourceFiles\MessageBox\MessageBoxImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>MessageBoxImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\OutlookGrid\OutlookGridImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>OutlookGridImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>OutlookGridStringResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\PaletteSchemas\PaletteSchemaResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>PaletteSchemaResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -745,8 +804,12 @@
             <LastGenOutput>VisualStudioRadioButtonImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>SizeGripStyleResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>SizeGripStyleResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Sort\SortingImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>SortingImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Stars\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -756,13 +819,17 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>TaskDialogImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ToastNotificationImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\GenericToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>GenericToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\Microsoft365ToolbarImageResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Microsoft365ToolbarImageResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Microsoft365ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\Office2003ToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -785,16 +852,16 @@
             <LastGenOutput>Office2016ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\Office2019ToolbarImageResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Office2019ToolbarImageResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Office2019ToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\SystemToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SystemToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\VisualStudioToolbarImageResources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>VisualStudioToolbarImageResources.Designer.cs</LastGenOutput>
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>VisualStudioToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\TreeItems\TreeItemImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -808,9 +875,16 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-      <None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
+        <None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Storage\Images\Generic\" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)'!='Debug'">

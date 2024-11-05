@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,22 +19,22 @@ namespace Krypton.Navigator
     {
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteNavigatorNormabled class.
+        /// Initialize a new instance of the PaletteNavigator class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigator(PaletteNavigatorRedirect? redirect,
                                 NeedPaintHandler needPaint)
-            : base(redirect, needPaint)
+            : base(redirect!, needPaint)
         {
             // Create the palette storage
-            PalettePage = new PalettePage(redirect.PalettePage, needPaint);
+            PalettePage = new PalettePage(redirect!.PalettePage, needPaint);
             HeaderGroup = new PaletteNavigatorHeaderGroup(redirect.HeaderGroup, redirect.HeaderGroup.HeaderPrimary, redirect.HeaderGroup.HeaderSecondary, redirect.HeaderGroup.HeaderBar, redirect.HeaderGroup.HeaderOverflow, needPaint);
             CheckButton = new PaletteTriple(redirect.CheckButton, needPaint);
             OverflowButton = new PaletteTriple(redirect.OverflowButton, needPaint);
             MiniButton = new PaletteTriple(redirect.MiniButton, needPaint);
             BorderEdge = new PaletteBorderEdge(redirect.BorderEdge, needPaint);
-            Separator = new PaletteSeparatorPadding(redirect.Separator, redirect.Separator, needPaint);
+            Separator = new PaletteSeparatorPadding(redirect.Separator!, redirect.Separator!, needPaint);
             Tab = new PaletteTabTriple(redirect.Tab, needPaint);
             RibbonTab = new PaletteRibbonTabContent(redirect.RibbonTab.TabDraw, redirect.RibbonTab.TabDraw, redirect.RibbonTab.Content, needPaint);
         }
@@ -45,16 +45,17 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (base.IsDefault &&
-                                           PalettePage.IsDefault &&
-                                           HeaderGroup.IsDefault &&
-                                           CheckButton.IsDefault &&
-                                           OverflowButton.IsDefault &&
-                                           MiniButton.IsDefault &&
-                                           BorderEdge.IsDefault &&
-                                           Separator.IsDefault &&
-                                           Tab.IsDefault &&
-                                           RibbonTab.IsDefault);
+                                             PalettePage.IsDefault &&
+                                             HeaderGroup.IsDefault &&
+                                             CheckButton.IsDefault &&
+                                             OverflowButton.IsDefault &&
+                                             MiniButton.IsDefault &&
+                                             BorderEdge.IsDefault &&
+                                             Separator.IsDefault &&
+                                             Tab.IsDefault &&
+                                             RibbonTab.IsDefault);
 
         #endregion
 
@@ -63,17 +64,21 @@ namespace Krypton.Navigator
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritNavigator">Source for inheriting.</param>
-        public void SetInherit(PaletteNavigator? inheritNavigator)
+        public void SetInherit(PaletteNavigator inheritNavigator)
         {
+            if ( inheritNavigator is null)
+            {
+                 throw new ArgumentNullException(nameof(inheritNavigator));
+            }
             // Setup inheritance references for storage objects
             base.SetInherit(inheritNavigator);
-            PalettePage.SetInherit(inheritNavigator.PalettePage);
-            HeaderGroup.SetInherit(inheritNavigator.HeaderGroup);
+            PalettePage?.SetInherit(inheritNavigator.PalettePage);
+            HeaderGroup?.SetInherit(inheritNavigator.HeaderGroup);
             CheckButton.SetInherit(inheritNavigator.CheckButton);
             OverflowButton.SetInherit(inheritNavigator.OverflowButton);
             MiniButton.SetInherit(inheritNavigator.MiniButton);
             BorderEdge.SetInherit(inheritNavigator.BorderEdge);
-            Separator.SetInherit(inheritNavigator.Separator);
+            Separator?.SetInherit(inheritNavigator.Separator);
             Tab.SetInherit(inheritNavigator.Tab);
             RibbonTab.SetInherit(inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.TabDraw, inheritNavigator.RibbonTab.Content);
         }
@@ -177,7 +182,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header group appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigatorHeaderGroup? HeaderGroup { get; }
+        public PaletteNavigatorHeaderGroup HeaderGroup { get; }
 
         private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
 
@@ -216,7 +221,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? Separator { get; }
+        public PaletteSeparatorPadding Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 
@@ -249,7 +254,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
-        internal PalettePage? PalettePage { get; }
+        internal PalettePage PalettePage { get; }
 
         #endregion
     }

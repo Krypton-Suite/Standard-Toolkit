@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,16 +45,16 @@ namespace Krypton.Ribbon
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
         public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull]ViewLayoutDocker target,
-            [DisallowNull]NeedPaintHandler needPaint)
+                                        [DisallowNull] ViewLayoutDocker target,
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         public virtual void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -242,9 +242,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
@@ -258,12 +268,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

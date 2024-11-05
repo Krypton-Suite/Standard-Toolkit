@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -99,6 +99,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Create a border offset down and right for drawing a shadow
             Rectangle shadowRect = ClientRectangle;
             shadowRect.X++;
@@ -112,7 +117,7 @@ namespace Krypton.Ribbon
             using GraphicsPath borderPath = CreateBorderPath(ClientRectangle),
                 shadowPath = CreateBorderPath(shadowRect);
             // Are we allowed to draw a border?
-            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder!.GetBorderDraw(State) == InheritBool.True)
             {
                 // Draw the border shadow
                 using var aa = new AntiAlias(context.Graphics);
@@ -129,7 +134,7 @@ namespace Krypton.Ribbon
             }
 
             // Are we allowed to draw the content?
-            if (_ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_ribbon.StateCommon.RibbonScroller.PaletteContent!.GetContentDraw(State) == InheritBool.True)
             {
                 // Get the text color from palette
                 Color textColor = _ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentShortTextColor1(State);
@@ -201,7 +206,7 @@ namespace Krypton.Ribbon
             // Create path that describes the arrow in orientation needed
             using GraphicsPath arrowPath = CreateArrowPath(rect);
             using var arrowBrush = new SolidBrush(textColor);
-            g.FillPath(arrowBrush, arrowPath);
+            g?.FillPath(arrowBrush, arrowPath);
         }
 
         private GraphicsPath CreateArrowPath(Rectangle rect)

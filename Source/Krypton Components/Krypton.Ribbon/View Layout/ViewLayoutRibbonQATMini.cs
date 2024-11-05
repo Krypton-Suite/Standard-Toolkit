@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
-        private readonly ViewDrawRibbonQATExtraButtonMini? _extraButton;
+        private readonly ViewDrawRibbonQATExtraButtonMini _extraButton;
         private readonly ViewLayoutSeparator _extraSeparator;
         #endregion
 
@@ -37,10 +37,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
-                                       NeedPaintHandler needPaintDelegate)
+                                       [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+
+            if (needPaintDelegate is null)
+            {
+                throw new ArgumentNullException(nameof(needPaintDelegate));
+            }
+
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
             _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
@@ -60,6 +67,9 @@ namespace Krypton.Ribbon
             Add(_border, ViewDockStyle.Fill);
             Add(_extraSeparator, ViewDockStyle.Right);
             Add(_extraButton, ViewDockStyle.Right);
+
+            // OwnerForm property can be intialized after _ribbon has been assigned.
+            OwnerForm ??= _ribbon.FindKryptonForm();
         }
 
         /// <summary>
@@ -131,17 +141,13 @@ namespace Krypton.Ribbon
             var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
-            keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
+            keyTipList.AddRange(_borderContents.GetQATKeyTips(_ribbon.FindKryptonForm()!));
 
             // If we have the extra button and it is in overflow appearance
             if (_extraButton is {Overflow : true })
             {
                 // If integrated into the caption area then get the caption area height
-                var borders = Padding.Empty;
-                if (OwnerForm is { ApplyComposition: false })
-                {
-                    borders = OwnerForm.RealWindowBorders;
-                }
+                var borders = OwnerForm!.RealWindowBorders;
 
                 // Get the screen location of the extra button
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
@@ -165,10 +171,10 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetFirstQATView()
+        public ViewBase GetFirstQATView()
         {
             // Find the first qat button
-            ViewBase? view = _borderContents.GetFirstQATView() ?? _extraButton;
+            ViewBase view = _borderContents.GetFirstQATView() ?? _extraButton;
 
             // If defined then use the extra button
 
@@ -181,7 +187,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetLastQATView() =>
+        public ViewBase GetLastQATView() =>
             // Last view is the extra button if defined
             _extraButton ?? _borderContents.GetLastQATView();
 
@@ -195,9 +201,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetNextQATView(ViewBase qatButton)
+        public ViewBase GetNextQATView(ViewBase qatButton)
         {
-            ViewBase? view = _borderContents.GetNextQATView(qatButton);
+            ViewBase view = _borderContents.GetNextQATView(qatButton);
 
             // If no qat button is found and not already at the extra button
             if ((view == null) && (_extraButton != qatButton))
@@ -205,7 +211,7 @@ namespace Krypton.Ribbon
                 view = _extraButton;
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -215,7 +221,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase qatButton) =>
+        public ViewBase GetPreviousQATView(ViewBase qatButton) =>
             // If on the extra button then find the right most qat button instead
             qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
 
@@ -245,7 +251,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -286,11 +292,12 @@ namespace Krypton.Ribbon
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = _ribbon.RectangleToScreen(button.ClientRectangle);
 
-            // If integrated into the caption area
-            if (OwnerForm is { ApplyComposition: false })
+            // Only if the ribbon is on a KForm this adjustment is needed.
+            if (OwnerForm is not null)
             {
+                // If integrated into the caption area
                 // Adjust for the height/width of borders
-                Padding borders = OwnerForm.RealWindowBorders;
+                Padding borders = OwnerForm!.RealWindowBorders;
                 screenRect.X -= borders.Left;
                 screenRect.Y -= borders.Top;
             }
@@ -303,6 +310,7 @@ namespace Krypton.Ribbon
             {
                 _ribbon.DisplayQATCustomizeMenu(screenRect, _borderContents, finishDelegate);
             }
+
         }
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -33,11 +33,11 @@ namespace Krypton.Ribbon
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
         public ButtonSpecViewAppButton(PaletteRedirect? redirector,
-                                       IPaletteMetric? paletteMetric,
+                                       IPaletteMetric paletteMetric,
                                        PaletteMetricPadding metricPadding,
                                        ButtonSpecManagerBase? manager,
                                        ButtonSpec buttonSpec)
-            : base(redirector, paletteMetric, metricPadding, manager, buttonSpec)
+            : base(redirector!, paletteMetric, metricPadding, manager!, buttonSpec)
         {
         }
         #endregion
@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         /// <returns>Controller instance.</returns>
         public override ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
                                                                    NeedPaintHandler needPaint,
-                                                                   MouseEventHandler clickHandler)
+                                                                   MouseEventHandler? clickHandler)
         {
             // Create a ribbon specific button controller
             var managerAppButton = (ButtonSpecManagerLayoutAppButton)Manager;
@@ -78,9 +78,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnFinishDelegate(object sender, EventArgs e) =>
+        protected override void OnFinishDelegate(object? sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
-            _controller.RemoveFixed();
+            _controller?.RemoveFixed();
         #endregion
     }
 }

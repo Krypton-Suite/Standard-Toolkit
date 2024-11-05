@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBorderEdge class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBorderEdge(PaletteBase? target)
+        public PaletteRedirectBorderEdge(PaletteBase target)
             : this(target, null, null)
         {
         }
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectBorderEdge(PaletteBase? target,
+        public PaletteRedirectBorderEdge(PaletteBase target,
                                          PaletteBorderEdge? disabled,
                                          PaletteBorderEdge? normal)
             : base(target)
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         {
             PaletteBorderEdge? inherit = GetInherit(state);
 
-            return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? Color.Empty;
+            return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         {
             PaletteBorderEdge? inherit = GetInherit(state);
 
-            return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? Color.Empty;
+            return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

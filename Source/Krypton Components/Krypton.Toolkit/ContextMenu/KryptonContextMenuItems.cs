@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _standardStyle;
         private bool _imageColumn;
-        private readonly PaletteRedirectDouble? _redirectImageColumn;
+        private readonly PaletteRedirectDouble _redirectImageColumn;
         #endregion
 
         #region Identity
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             // Default fields
             _standardStyle = true;
             _imageColumn = true;
-            Items = new KryptonContextMenuItemCollection();
+            Items = [];
 
             // Add any initial set of item
             if (children != null)
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Collection of standard menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
         public KryptonContextMenuItemCollection Items { get; }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if the an image column is provided for background of images.
+        /// Gets and sets if the image column is provided for background of images.
         /// </summary>
         [KryptonPersist]
         [Category(@"Appearance")]
@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

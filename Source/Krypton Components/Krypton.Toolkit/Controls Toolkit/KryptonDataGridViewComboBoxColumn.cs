@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewComboBoxColumn()
             : base(new KryptonDataGridViewComboBoxCell())
         {
-            Items = new List<object>();
-            AutoCompleteCustomSource = new AutoCompleteStringCollection();
+            Items = [];
+            AutoCompleteCustomSource = [];
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
 
             cloned.Items.AddRange(Items);
 
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 
@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
-        public object DataSource
+        public object? DataSource
         {
 
             get =>
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewComboBoxCell
         /// </summary>
-        private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => (KryptonDataGridViewComboBoxCell)CellTemplate;
+        private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => CellTemplate as KryptonDataGridViewComboBoxCell;
 
         #endregion
 

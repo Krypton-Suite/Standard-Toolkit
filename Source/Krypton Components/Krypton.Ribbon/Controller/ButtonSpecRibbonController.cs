@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,14 +45,30 @@ namespace Krypton.Ribbon
         public override void KeyDown(Control c, KeyEventArgs e)
         {
             ViewBase? newView = null;
-            var ribbon = (KryptonRibbon)c;
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
+
+            if (ribbon.TabsArea.ButtonSpecManager is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
+            }
 
             // Get the button spec associated with this controller
-            var viewButton = (ViewDrawButton)Target;
-            ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton);
+            ViewDrawButton? viewButton = Target as ViewDrawButton ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(Target)));
+            
+            ButtonSpec? buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) ?? throw new NullReferenceException( "ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) returned null.");
 
-            // Note if we are on the near edge
-            var isNear = buttonSpec.Edge == PaletteRelativeEdgeAlign.Near;
+            // Note If we are on the near edge
+            var isNear = buttonSpec.Edge is PaletteRelativeEdgeAlign.Near;
 
             switch (e.KeyData)
             {
@@ -156,7 +172,7 @@ namespace Krypton.Ribbon
                             if (e.KeyData != Keys.Left)
                             {
                                 // Get the last control on the selected tab
-                                newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ?? 
+                                newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ??
                                           (ribbon.SelectedTab != null // Get the currently selected tab page
                                               ? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab)
                                               : ribbon.TabsArea.LayoutTabs.GetViewForLastRibbonTab());

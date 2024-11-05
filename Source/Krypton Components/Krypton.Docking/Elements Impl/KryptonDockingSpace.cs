@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -63,10 +63,16 @@ namespace Krypton.Docking
             if (pages != null)
             {
                 ObserveAutoHiddenSlideSize(pages);
-                // If there is no active cell...
+                // If there is no active cell, or cell is page-less...
                 KryptonWorkspaceCell? cell = SpaceControl?.ActiveCell;
-                if (cell == null)
+                if (cell == null || cell.Pages.Count == 0)
                 {
+                    // Remove the page-less cell if exists...
+                    if (cell?.Pages.Count == 0)
+                    {
+                        SpaceControl!.Root.Children!.Remove(cell);
+                    }
+
                     // ...create a new cell and place at the end of the root collection
                     cell = new KryptonWorkspaceCell();
                     SpaceControl!.Root.Children!.Add(cell);
@@ -811,7 +817,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A KryptonPageEventArgs containing the event data.</param>
-        protected virtual void OnSpaceCellPageInserting(object sender, KryptonPageEventArgs e)
+        protected virtual void OnSpaceCellPageInserting(object? sender, KryptonPageEventArgs e)
         {
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
@@ -871,7 +877,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PageDropEventArgs containing the event data.</param>
-        protected abstract void RaiseSpacePageDrop(object sender, PageDropEventArgs e);
+        protected abstract void RaiseSpacePageDrop(object? sender, PageDropEventArgs e);
 
         /// <summary>
         /// Perform docking element specific actions based on the loading xml.
@@ -899,7 +905,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnSpaceDisposed(object sender, EventArgs e)
+        private void OnSpaceDisposed(object? sender, EventArgs e)
         {
             // Unhook from events to prevent memory leaking
             if (SpaceControl != null)
@@ -913,7 +919,7 @@ namespace Krypton.Docking
             RaiseRemoved();
         }
 
-        private void OnSpaceCellAdding(object sender, WorkspaceCellEventArgs e)
+        private void OnSpaceCellAdding(object? sender, WorkspaceCellEventArgs e)
         {
             var childMinSize = e.Cell.GetMinSize();
             if (SpaceControl != null)
@@ -928,16 +934,17 @@ namespace Krypton.Docking
             e.Cell.Disposed += OnSpaceCellRemoved;
         }
 
-        private void OnSpaceCellRemoved(object sender, EventArgs e)
+        private void OnSpaceCellRemoved(object? sender, EventArgs e)
         {
             // Remove event hooks so cell can be garbage collected
-            var cell = (KryptonWorkspaceCell)sender;
-            cell.Disposed -= OnSpaceCellRemoved;
-
-            RaiseCellRemoved(cell);
+            if (sender is KryptonWorkspaceCell cell)
+            {
+                cell.Disposed -= OnSpaceCellRemoved;
+                RaiseCellRemoved(cell);
+            }
         }
 
-        private void OnSpaceControlPageLoading(object sender, PageLoadingEventArgs e)
+        private void OnSpaceControlPageLoading(object? sender, PageLoadingEventArgs e)
         {
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
@@ -947,7 +954,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSpaceControlPageSaving(object sender, PageSavingEventArgs e)
+        private void OnSpaceControlPageSaving(object? sender, PageSavingEventArgs e)
         {
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
@@ -957,7 +964,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSpaceControlRecreateLoadingPage(object sender, RecreateLoadingPageEventArgs e)
+        private void OnSpaceControlRecreateLoadingPage(object? sender, RecreateLoadingPageEventArgs e)
         {
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.RaiseRecreateLoadingPage(e);

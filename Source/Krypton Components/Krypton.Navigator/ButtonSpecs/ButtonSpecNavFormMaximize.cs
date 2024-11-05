@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -13,7 +13,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private KryptonNavigator _navigator;
+        private readonly KryptonNavigator _navigator;
 
         #endregion
 
@@ -30,15 +30,8 @@ namespace Krypton.Navigator
 
         #region ButtonSpecNavFixed Implementation
 
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (_navigator.Owner!.ApplyComposition && _navigator.Owner!.ApplyCustomChrome)
-            {
-                return false;
-            }
-
             // The maximize button is never present on tool windows
             switch (_navigator.Owner!.FormBorderStyle)
             {
@@ -59,7 +52,7 @@ namespace Krypton.Navigator
 
         public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) =>
+        public override ButtonEnabled GetEnabled(PaletteBase palette) =>
             // Has the maximize buttons been turned off?
             _navigator.Owner!.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 
@@ -77,7 +70,7 @@ namespace Krypton.Navigator
                 {
                     // Only if the mouse is still within the button bounds do we perform action
                     var mea = (MouseEventArgs)e;
-                    if (GetView()!.ClientRectangle.Contains(mea.Location))
+                    if (GetView().ClientRectangle.Contains(mea.Location))
                     {
                         // Toggle between maximized and restored
                         /*_navigator.Owner!.SendSysCommand(_navigator.Owner!.WindowState == FormWindowState.Maximized

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonGroupColorButton _ribbonColorButton;
+        private KryptonRibbonGroupColorButton? _ribbonColorButton;
         private DesignerVerbCollection _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
                 if (disposing)
                 {
                     // Unhook from events
-                    _ribbonColorButton.DesignTimeContextMenu -= OnContextMenu;
+                    _ribbonColorButton!.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
             }
@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
             // Create verbs first time around
             if (_verbs == null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Color Button First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Color Button Previous", OnMovePrevious);
@@ -139,12 +139,12 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = items.IndexOf(_ribbonColorButton) > 0;
-                movePrev = items.IndexOf(_ribbonColorButton) > 0;
-                moveNext = items.IndexOf(_ribbonColorButton) < (items.Count - 1);
+                moveFirst = items?.IndexOf(_ribbonColorButton) > 0;
+                movePrev = items?.IndexOf(_ribbonColorButton) > 0;
+                moveNext = items?.IndexOf(_ribbonColorButton) < (items!.Count - 1);
                 moveLast = items.IndexOf(_ribbonColorButton) < (items.Count - 1);
             }
 
@@ -154,18 +154,18 @@ namespace Krypton.Ribbon
             _moveLastVerb.Enabled = moveLast;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _ribbonColorButton.Ribbon.InDesignHelperMode = !_ribbonColorButton.Ribbon.InDesignHelperMode;
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -176,13 +176,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the button
-                    items.Remove(_ribbonColorButton);
-                    items.Insert(0, _ribbonColorButton);
+                    items?.Remove(_ribbonColorButton);
+                    items?.Insert(0, _ribbonColorButton);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -195,9 +195,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -208,12 +208,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonColorButton) - 1;
+                    var index = items!.IndexOf(_ribbonColorButton) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonColorButton);
                     items.Insert(index, _ribbonColorButton);
@@ -229,9 +229,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -242,12 +242,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonColorButton) + 1;
+                    var index = items!.IndexOf(_ribbonColorButton) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonColorButton);
                     items.Insert(index, _ribbonColorButton);
@@ -263,9 +263,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -276,13 +276,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    items.Remove(_ribbonColorButton);
-                    items.Insert(items.Count, _ribbonColorButton);
+                    items?.Remove(_ribbonColorButton);
+                    items?.Insert(items.Count, _ribbonColorButton);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -295,9 +295,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteButton(object sender, EventArgs e)
+        private void OnDeleteButton(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -308,14 +308,14 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonColorButton.RibbonContainer!)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
 
                     // Remove the button from the group
-                    items.Remove(_ribbonColorButton);
+                    items?.Remove(_ribbonColorButton);
 
                     // Get designer to destroy it
                     _designerHost.DestroyComponent(_ribbonColorButton);
@@ -331,74 +331,74 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Visible, !_ribbonColorButton.Visible);
                 _ribbonColorButton.Visible = !_ribbonColorButton.Visible;
             }
         }
 
-        private void OnEnabled(object sender, EventArgs e)
+        private void OnEnabled(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Enabled, !_ribbonColorButton.Enabled);
                 _ribbonColorButton.Enabled = !_ribbonColorButton.Enabled;
             }
         }
 
-        private void OnChecked(object sender, EventArgs e)
+        private void OnChecked(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Checked, !_ribbonColorButton.Checked);
                 _ribbonColorButton.Checked = !_ribbonColorButton.Checked;
             }
         }
 
-        private void OnTypePush(object sender, EventArgs e)
+        private void OnTypePush(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Push);
                 _ribbonColorButton.ButtonType = GroupButtonType.Push;
             }
         }
 
-        private void OnTypeCheck(object sender, EventArgs e)
+        private void OnTypeCheck(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Check);
                 _ribbonColorButton.ButtonType = GroupButtonType.Check;
             }
         }
 
-        private void OnTypeDropDown(object sender, EventArgs e)
+        private void OnTypeDropDown(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.DropDown);
                 _ribbonColorButton.ButtonType = GroupButtonType.DropDown;
             }
         }
 
-        private void OnTypeSplit(object sender, EventArgs e)
+        private void OnTypeSplit(object? sender, EventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Split);
                 _ribbonColorButton.ButtonType = GroupButtonType.Split;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
-            if (_ribbonColorButton.Ribbon != null)
+            if (_ribbonColorButton!.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -455,7 +455,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonColorButton.RibbonContainer)
+                switch (_ribbonColorButton!.RibbonContainer)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;
@@ -464,6 +464,7 @@ namespace Krypton.Ribbon
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(_ribbonColorButton.RibbonContainer!.ToString());
                         return null;
                 }
             }

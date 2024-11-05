@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -521,7 +521,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public virtual Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+            public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
             /// <summary>
             /// Gets the content long text.
@@ -655,7 +655,7 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = ButtonElementState(upRect);
                 _viewButton.Layout(layoutContext);
                 _viewButton.Render(renderContext);
-                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                renderContext.Renderer!.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
                 // Down button
                 layoutContext.DisplayRectangle = downRect;
@@ -719,22 +719,20 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private VisualPopupToolTip? _visualPopupToolTip;
-        private readonly ButtonSpecManagerLayout _buttonManager;
+        private readonly ButtonSpecManagerLayout? _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalNumericUpDown _numericUpDown;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
-        private SubclassEdit _subclassEdit;
+        private SubclassEdit? _subclassEdit;
         private SubclassButtons? _subclassButtons;
         private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -873,10 +871,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -888,8 +886,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_numericUpDown);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -904,7 +900,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
 
                 // Tell the buttons class to cleanup resources
                 _subclassButtons?.Dispose();
@@ -915,19 +911,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -951,7 +934,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public NumericUpDown? NumericUpDown => _numericUpDown;
+        public NumericUpDown NumericUpDown => _numericUpDown;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -988,7 +971,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -1102,11 +1085,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -1400,7 +1383,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _numericUpDown.Select(start, length);
+        public void Select(int start, int length) => _numericUpDown?.Select(start, length);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1440,12 +1423,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Displays the previous item in the collection.
         /// </summary>
-        public void UpButton() => NumericUpDown.UpButton();
+        public void UpButton() => NumericUpDown?.UpButton();
 
         /// <summary>
         /// Displays the next item in the collection.
         /// </summary>
-        public void DownButton() => NumericUpDown.DownButton();
+        public void DownButton() => NumericUpDown?.DownButton();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1550,9 +1533,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1661,7 +1644,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             PerformNeedPaint(true);
 
@@ -1684,7 +1667,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             InvalidateChildren();
             base.OnPaletteChanged(e);
@@ -1750,7 +1733,7 @@ namespace Krypton.Toolkit
                 if (IsHandleCreated || _forcedLayout || (DesignMode && (_numericUpDown != null)))
                 {
                     Rectangle fillRect = _layoutFill.FillRect;
-                    _numericUpDown.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                    _numericUpDown?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
                 }
             }
         }
@@ -1786,7 +1769,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _numericUpDown.Focus();
+            _numericUpDown?.Focus();
         }
 
         /// <summary>
@@ -1848,13 +1831,13 @@ namespace Krypton.Toolkit
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _numericUpDown.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _numericUpDown.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _numericUpDown.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the numeric up down has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_numericUpDown.Handle != IntPtr.Zero) && !_numericUpDown.Font.Equals(font))
                 {
-                    _numericUpDown.Font = font;
+                    _numericUpDown.Font = font!;
                 }
             }
 
@@ -1999,13 +1982,13 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDockerOuter.ElementState = state;
         }
@@ -2024,11 +2007,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNumericUpDownTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnNumericUpDownTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnNumericUpDownValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnNumericUpDownValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnNumericUpDownGotFocus(object sender, EventArgs e)
+        private void OnNumericUpDownGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -2038,7 +2021,7 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnNumericUpDownLostFocus(object sender, EventArgs e)
+        private void OnNumericUpDownLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -2048,19 +2031,19 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnNumericUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnNumericUpDownKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnNumericUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnNumericUpDownKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnNumericUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnNumericUpDownKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnNumericUpDownValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnNumericUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnNumericUpDownValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -2080,7 +2063,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2127,21 +2110,21 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
-            // Not showing a popup page any more
+            // Not showing a popup page anymore
             _visualPopupToolTip = null;
         }
 
-        private void OnNumericUpDownMouseChange(object sender, EventArgs e)
+        private void OnNumericUpDownMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _numericUpDown.MouseOver ||
@@ -2167,14 +2150,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

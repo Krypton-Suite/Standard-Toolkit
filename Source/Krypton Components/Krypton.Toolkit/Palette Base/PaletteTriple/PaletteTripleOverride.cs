@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -51,8 +51,8 @@ namespace Krypton.Toolkit
 
             // Create the triple override instances
             _overrideBack = new PaletteBackInheritOverride(normalTriple.PaletteBack, overrideTriple.PaletteBack);
-            _overrideBorder = new PaletteBorderInheritOverride(normalTriple.PaletteBorder, overrideTriple.PaletteBorder);
-            _overrideContent = new PaletteContentInheritOverride(normalTriple.PaletteContent, overrideTriple.PaletteContent);
+            _overrideBorder = new PaletteBorderInheritOverride(normalTriple.PaletteBorder!, overrideTriple.PaletteBorder!);
+            _overrideContent = new PaletteContentInheritOverride(normalTriple.PaletteContent!, overrideTriple.PaletteContent!);
 
             // Do not apply an override by default
             Apply = false;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
 
         #region SetPalettes
         /// <summary>
-        /// Update the the normal and override palettes.
+        /// Update the normal and override palettes.
         /// </summary>
         /// <param name="normalTriple">New normal palette.</param>
         /// <param name="overrideTriple">New override palette.</param>
@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
                                 IPaletteTriple overrideTriple)
         {
             _overrideBack.SetPalettes(normalTriple.PaletteBack, overrideTriple.PaletteBack);
-            _overrideBorder.SetPalettes(normalTriple.PaletteBorder, overrideTriple.PaletteBorder);
-            _overrideContent.SetPalettes(normalTriple.PaletteContent, overrideTriple.PaletteContent);
+            _overrideBorder.SetPalettes(normalTriple.PaletteBorder!, overrideTriple.PaletteBorder!);
+            _overrideContent.SetPalettes(normalTriple.PaletteContent!, overrideTriple.PaletteContent!);
         }
         #endregion
 
@@ -138,12 +138,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border palette.
         /// </summary>
-        public IPaletteBorder? PaletteBorder => _overrideBorder;
+        public IPaletteBorder PaletteBorder => _overrideBorder;
 
         /// <summary>
         /// Gets the border palette.
         /// </summary>
-        public IPaletteContent? PaletteContent => _overrideContent;
+        public IPaletteContent PaletteContent => _overrideContent;
 
         #endregion
     }

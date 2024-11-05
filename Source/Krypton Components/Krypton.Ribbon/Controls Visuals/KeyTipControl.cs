@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         public void SetKeyTips(KeyTipInfoList keyTips)
         {
             // Create a new list of key tip views
-            _viewList = new List<ViewDrawRibbonKeyTip>();
+            _viewList = [];
 
             var enclosingRect = Rectangle.Empty;
 
@@ -278,9 +278,9 @@ namespace Krypton.Ribbon
             _redrawTimer.Start();
         }
 
-        private void OnRedrawTick(object sender, EventArgs e)
+        private void OnRedrawTick(object? sender, EventArgs e)
         {
-            _redrawTimer = (Timer)sender;
+            _redrawTimer = sender as Timer ?? throw new ArgumentNullException(nameof(sender));
             _redrawTimer.Stop();
             _redrawTimer.Dispose();
 

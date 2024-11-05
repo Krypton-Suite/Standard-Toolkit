@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -65,7 +65,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the target workspace cell.
         /// </summary>
-        public KryptonWorkspaceCell Cell { get; private set; }
+        public KryptonWorkspaceCell? Cell { get; private set; }
 
         /// <summary>
         /// Is this target a match for the provided screen position.
@@ -83,18 +83,24 @@ namespace Krypton.Workspace
                 {
                     // Create list of all the visible pages in the cell
                     var visiblePages = new KryptonPageCollection();
-                    foreach (KryptonPage page in Cell.Pages)
+                    if (Cell is not null)
                     {
-                        if (page.LastVisibleSet)
+                        foreach (KryptonPage page in Cell.Pages)
                         {
-                            visiblePages.Add(page);
+                            if (page.LastVisibleSet)
+                            {
+                                visiblePages.Add(page);
+                            }
                         }
                     }
 
                     // Remove all those that are being dragged
-                    foreach (KryptonPage page in dragEndData.Pages)
+                    if (dragEndData is not null)
                     {
-                        visiblePages.Remove(page);
+                        foreach (KryptonPage page in dragEndData.Pages)
+                        {
+                            visiblePages.Remove(page);
+                        }
                     }
 
                     // Cache number of visible pages in target that are not part of the dragging set
@@ -127,11 +133,11 @@ namespace Krypton.Workspace
         public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // We need a parent sequence in order to perform drop
-            if (Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
+            if ( Cell is not null && Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
             {
                 // Transfer the dragged pages into a new cell
                 var cell = new KryptonWorkspaceCell();
-                KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
+                KryptonPage? page = ProcessDragEndData(Workspace!, cell, data);
 
                 // If no pages are transferred then we do nothing and no longer need cell instance
                 if (page == null)
@@ -152,9 +158,9 @@ namespace Krypton.Workspace
 
                         // Create a new sequence and transfer the target cell into it
                         var sequence = new KryptonWorkspaceSequence(sequenceOrientation);
-                        var index = parent.Children.IndexOf(Cell);
+                        var index = parent.Children!.IndexOf(Cell);
                         parent.Children.RemoveAt(index);
-                        sequence.Children.Add(Cell);
+                        sequence.Children!.Add(Cell);
 
                         // Put the sequence into the place where the target cell used to be
                         parent.Children.Insert(index, sequence);
@@ -172,7 +178,7 @@ namespace Krypton.Workspace
                     else
                     {
                         // Find position of the target cell
-                        var index = parent.Children.IndexOf(Cell);
+                        var index = parent.Children!.IndexOf(Cell);
 
                         // Add new cell before or after the target cell?
                         if (Edge is VisualOrientation.Left or VisualOrientation.Top)
@@ -196,7 +202,7 @@ namespace Krypton.Workspace
 
                         // Need to layout so the new cell has been added as a child control and 
                         // therefore can receive the focus we want to give it immediately afterwards
-                        Workspace.PerformLayout();
+                        Workspace?.PerformLayout();
 
                         if (!cell.IsDisposed)
                         {

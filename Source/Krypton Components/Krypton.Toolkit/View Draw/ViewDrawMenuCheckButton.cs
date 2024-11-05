@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             //_innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckButton.ToolTipManager, this, mcbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckButton.ToolTipManager!, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the short text value of the check box item.
         /// </summary>
-        public string ItemText => _contentValues.GetShortText();
+        public string? ItemText => _contentValues?.GetShortText();
 
         #endregion
 
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckButton.Image;
+        public Image? ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckButton.Image;
 
         #endregion
 
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Update text and image values
-            _contentValues.ShortText = ResolveText;
+            _contentValues!.ShortText = ResolveText;
             _contentValues.LongText = ResolveExtraText;
             _contentValues.Image = ResolveImage;
             _contentValues.ImageTransparentColor = ResolveImageTransparentColor;
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
             // Update the checked state
             ViewDrawButton.Checked = ResolveChecked;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuCheckButton.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuCheckButton.PerformClick();
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -18,8 +18,8 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
-        private ViewDrawRibbonGroup _activeGroup;
+        private readonly ViewDrawRibbonGroupsBorderSynch? _viewGroups;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly NeedPaintHandler? _needPaintDelegate;
         private readonly bool _minimizedMode;
         private bool _active;
@@ -36,20 +36,20 @@ namespace Krypton.Ribbon
         /// <param name="root">Root of the view hierarchy.</param>
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
-        public ViewRibbonMinimizedManager(KryptonRibbon control,
-            [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
-            [DisallowNull] ViewBase root,
+        public ViewRibbonMinimizedManager([DisallowNull] KryptonRibbon control,
+                                          [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
+                                          [DisallowNull] ViewBase root,
                                           bool minimizedMode,
                                           [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
-            Debug.Assert(viewGroups != null);
-            Debug.Assert(root != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(viewGroups is not null);
+            Debug.Assert(root is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = control;
-            _viewGroups = viewGroups;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = control ?? throw new ArgumentNullException(nameof(_ribbon));
+            _viewGroups = viewGroups ?? throw new ArgumentNullException(nameof(_viewGroups));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _active = true;
             _minimizedMode = minimizedMode;
         }
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
             {
                 _layingOut = true;
                 
-                Form ownerForm = _ribbon.FindForm();
+                Form? ownerForm = _ribbon.FindForm();
 
                 // We do not need to layout if inside a control that is minimized
                 if (ownerForm is { WindowState: FormWindowState.Minimized })
@@ -161,7 +161,7 @@ namespace Krypton.Ribbon
                 if (_minimizedMode == _ribbon.RealMinimizedMode)
                 {
                     // Get the view group instance that matches this point
-                    ViewDrawRibbonGroup viewGroup = _viewGroups.ViewGroupFromPoint(new Point(e.X, e.Y));
+                    ViewDrawRibbonGroup? viewGroup = _viewGroups!.ViewGroupFromPoint(new Point(e.X, e.Y));
 
                     // Is there a change in active group?
                     if (viewGroup != _activeGroup)
@@ -274,7 +274,7 @@ namespace Krypton.Ribbon
                 if (!MouseCaptured)
                 {
                     // Then get the view under the mouse
-                    ViewBase mouseView = Root.ViewFromPoint(pt);
+                    ViewBase? mouseView = Root.ViewFromPoint(pt);
 
                     // We only allow application button views to be interacted with
                     ActiveView = mouseView is ViewDrawRibbonAppButton ? mouseView : null;
@@ -301,12 +301,12 @@ namespace Krypton.Ribbon
                 if (_focusView != value)
                 {
                     // Remove focus from existing view
-                    _focusView?.LostFocus(Root.OwningControl);
+                    _focusView?.LostFocus(Root.OwningControl!);
 
                     _focusView = value;
 
                     // Add focus to the new view
-                    _focusView?.GotFocus(Root.OwningControl);
+                    _focusView?.GotFocus(Root.OwningControl!);
                 }
             }
         }

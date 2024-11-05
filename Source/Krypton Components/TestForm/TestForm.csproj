@@ -2,17 +2,21 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<!--<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>-->
-		<TargetFrameworks>net48</TargetFrameworks>
+		<TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
+		<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
 		<UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +32,20 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="invoices.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+			<!-- Designers for the `TFMs != net4` are "Pulled in" via Visual studios ".nuget\packages\microsoft.windowsdesktop.app.ref" -->
+		</Reference>
 	</ItemGroup>
 
 </Project>

@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -39,7 +37,7 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect);
+            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect!);
 
             // Set default values
             _textFont = null;
@@ -52,7 +50,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _inherit.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => _inherit.SetRedirector(redirect);
         #endregion
 
         #region IsDefault
@@ -60,6 +58,7 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (TextFont == null) && (TextHint == PaletteTextHint.Inherit);
 
         #endregion
@@ -191,6 +190,45 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonMinimizeBarLight(PaletteState state) => _inherit.GetRibbonMinimizeBarLight(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundGradientRaftingDark
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundGradientRaftingLight
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        #endregion
+
+        #region RibbonTabRowBackgroundSolidColor
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) =>
+            _inherit.GetRibbonTabRowBackgroundSolidColor(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientRaftingAngle
+
+        /// <inheritdoc />
+        public float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _inherit.GetRibbonTabRowGradientRaftingAngle(state);
+
+        #endregion
+
+        #region RibbonTabRowGradientColor1
+
+        /// <inheritdoc />
+        public Color GetRibbonTabRowGradientColor1(PaletteState state) => _inherit.GetRibbonTabRowGradientColor1(state);
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -61,10 +61,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           Visible &&
-                                           (Enabled == ButtonEnabled.Container) &&
-                                           (Checked == ButtonCheckState.NotCheckButton);
+                                            Visible &&
+                                            (Enabled == ButtonEnabled.Container) &&
+                                            (Checked == ButtonCheckState.NotCheckButton);
 
         #endregion
 
@@ -167,7 +168,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Category(@"Behavior")]
-        [Description(@"Defines if the button is checked or capable of being checked.")]
+        [Description(@"Displays a drop down arrow on the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool ShowDrop
@@ -279,14 +280,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette) => Visible;
+        public override bool GetVisible(PaletteBase palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => Enabled;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => Enabled;
 
         /// <summary>
         /// Gets the button checked state.
@@ -330,7 +331,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected override void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             base.OnCommandPropertyChanged(sender, e);
 

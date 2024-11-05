@@ -1,14 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -18,10 +14,10 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private KryptonRibbon? _ribbon;
-        private IDesignerHost _designerHost;
-        private ISelectionService _selectionService;
-        private IComponentChangeService _changeService;
-        private DesignerVerbCollection _verbs;
+        private IDesignerHost? _designerHost;
+        private ISelectionService? _selectionService;
+        private IComponentChangeService? _changeService;
+        private DesignerVerbCollection _verbs = [];
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _addTabVerb;
         private DesignerVerb _clearTabsVerb;
@@ -50,23 +46,24 @@ namespace Krypton.Ribbon
             // Let base class do standard stuff
             base.Initialize(component);
 
-            Debug.Assert(component != null);
+            Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbon = component as KryptonRibbon;
-            if (_ribbon?.GetViewManager() != null)
+            _ribbon = component as KryptonRibbon ?? throw new ArgumentNullException(nameof(_ribbon));
+
+            if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
             {
                 // Hook into ribbon events
-                _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
-                _ribbon.GetViewManager().DoubleClickProcessed += OnRibbonDoubleClick;
+                viewManager.MouseUpProcessed += OnRibbonMouseUp;
+                viewManager.DoubleClickProcessed += OnRibbonDoubleClick;
                 _ribbon.SelectedTabChanged += OnSelectedTabChanged;
                 _ribbon.DesignTimeAddTab += OnAddTab;
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+            _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
 
             // We need to know when we are being removed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -92,12 +89,12 @@ namespace Krypton.Ribbon
                 // Create a new collection for both values
                 var compound = new ArrayList(base.AssociatedComponents);
 
-                compound.AddRange(_ribbon.ButtonSpecs);
+                compound.AddRange(_ribbon!.ButtonSpecs);
                 compound.AddRange(_ribbon.QATButtons);
                 compound.AddRange(_ribbon.RibbonContexts);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonMenuItems);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonRecentDocs);
-                compound.AddRange(_ribbon.RibbonAppButton.AppButtonSpecs);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonMenuItems);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonRecentDocs);
+                compound.AddRange(_ribbon.RibbonFileAppButton.AppButtonSpecs);
 
                 // Add all the objects for each tab
                 foreach (KryptonRibbonTab ribbonTab in _ribbon.RibbonTabs)
@@ -135,9 +132,8 @@ namespace Krypton.Ribbon
             get
             {
                 // Create verbs first time around
-                if (_verbs == null)
+                if (_verbs.Count == 0)
                 {
-                    _verbs = new DesignerVerbCollection();
                     _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                     _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                     _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
@@ -161,15 +157,24 @@ namespace Krypton.Ribbon
             {
                 if (disposing)
                 {
-                    // Unhook from navigator events
-                    _ribbon.GetViewManager().MouseUpProcessed -= OnRibbonMouseUp;
-                    _ribbon.GetViewManager().DoubleClickProcessed -= OnRibbonDoubleClick;
-                    _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
-                    _ribbon.DesignTimeAddTab -= OnAddTab;
+                    if (_ribbon is not null)
+                    {
+                        if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
+                        {
+                            // Unhook from navigator events
+                            viewManager.MouseUpProcessed -= OnRibbonMouseUp;
+                            viewManager.DoubleClickProcessed -= OnRibbonDoubleClick;
+                            _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
+                            _ribbon.DesignTimeAddTab -= OnAddTab;
+                        }
+                    }
 
-                    // Unhook from events
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
-                    _changeService.ComponentChanged -= OnComponentChanged;
+                    if (_changeService is not null)
+                    {
+                        // Unhook from events
+                        _changeService.ComponentRemoving -= OnComponentRemoving;
+                        _changeService.ComponentChanged -= OnComponentChanged;
+                    }
                 }
             }
             finally
@@ -187,7 +192,7 @@ namespace Krypton.Ribbon
         protected override bool GetHitTest(Point point)
         {
             // Ask the control if it wants to process the point
-            var ret = _ribbon.DesignerGetHitTest(_ribbon.PointToClient(point));
+            var ret = _ribbon!.DesignerGetHitTest(_ribbon.PointToClient(point));
 
             // If the ribbon does not want the mouse point then make sure the 
             // tracking element is informed that the mouse has left the control
@@ -207,7 +212,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected override void OnMouseLeave()
         {
-            _ribbon.DesignerMouseLeave();
+            _ribbon!.DesignerMouseLeave();
             base.OnMouseLeave();
         }
 
@@ -231,35 +236,45 @@ namespace Krypton.Ribbon
         #endregion    
 
         #region Implementation
-        private void OnSelectedTabChanged(object sender, EventArgs e)
+        private void OnSelectedTabChanged(object? sender, EventArgs e)
         {
             // Notify a change in the selected tab value, marks the form as dirty
-            MemberDescriptor propertyTab = TypeDescriptor.GetProperties(_ribbon)[@"SelectedTab"];
+            MemberDescriptor? propertyTab = TypeDescriptor.GetProperties(_ribbon!)[@"SelectedTab"];
             RaiseComponentChanging(propertyTab);
             RaiseComponentChanged(propertyTab, null, null);
         }
 
         private void UpdateVerbStatus()
         {
-            if (_verbs != null)
+            if (_verbs.Count != 0 && _ribbon is not null)
             {
                 _clearTabsVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
             }
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e) =>
+        private void OnToggleHelpers(object? sender, EventArgs e) =>
             // Invert the current toggle helper mode
-            _ribbon.InDesignHelperMode = !_ribbon.InDesignHelperMode;
+            _ribbon!.InDesignHelperMode = !_ribbon.InDesignHelperMode;
 
-        private void OnAddTab(object sender, EventArgs e)
+        private void OnAddTab(object? sender, EventArgs e)
         {
+            if (_designerHost is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            }
+
+            if (_ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            }
+
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon AddTab");
 
             try
             {
                 // Get access to the tabs property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
+                MemberDescriptor? propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
 
                 RaiseComponentChanging(propertyPages);
 
@@ -278,20 +293,30 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearTabs(object sender, EventArgs e)
+        private void OnClearTabs(object? sender, EventArgs e)
         {
+            if (_designerHost is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            }
+
+            if (_ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
+            }
+
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon ClearTabs");
 
             try
             {
                 // Get access to the tabs property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
+                MemberDescriptor? propertyPages = TypeDescriptor.GetProperties(_ribbon)[@"RibbonTabs"];
 
                 RaiseComponentChanging(propertyPages);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all the tabs from the ribbon
                 for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -312,21 +337,19 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonMouseUp(object sender, MouseEventArgs e)
+        private void OnRibbonMouseUp(object? sender, MouseEventArgs e)
         {
             // Get any component associated with the current mouse position
-            Component component = _ribbon.DesignerComponentFromPoint(new Point(e.X, e.Y));
-
-            if (component != null)
-            {
+            if (_ribbon is not null
+                && _ribbon.DesignerComponentFromPoint(new Point(e.X, e.Y)) is Component component
+                && component is not null)
+            { 
                 // Select the component
-                var selectionList = new ArrayList
-                {
-                    component
-                };
-                _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                ArrayList selectionList = [component];
 
-                // Force the layout to be update for any change in selection
+                _selectionService!.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+
+                // Force the layout to be updated for any change in selection
                 _ribbon.PerformLayout();
             }
         }
@@ -334,31 +357,33 @@ namespace Krypton.Ribbon
         private void OnRibbonDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _ribbon.DesignerComponentFromPoint(pt);
 
             // We are only interested in the contained components and not the ribbon control
-            if ((component != null) && component is not System.Windows.Forms.Control)
+            if ( _ribbon is not null
+                && _ribbon.DesignerComponentFromPoint(pt) is Component component
+                && component is not null
+                && component is not System.Windows.Forms.Control)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                IDesigner? designer = _designerHost!.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == _ribbon)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all the button spec instances
-                for (var i = _ribbon.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _ribbon!.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     ButtonSpec spec = _ribbon.ButtonSpecs[i];
                     _ribbon.ButtonSpecs.Remove(spec);

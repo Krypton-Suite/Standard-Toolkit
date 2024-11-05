@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             _text = string.Empty;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _dialogResult = DialogResult.OK;
         }
 
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command image transparent color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;

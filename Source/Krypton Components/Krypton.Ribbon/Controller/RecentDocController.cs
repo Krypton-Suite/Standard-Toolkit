@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -37,17 +37,17 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RecentDocController([DisallowNull] ViewContextMenuManager viewManager,
-                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec menuItem,
-                                   [DisallowNull] NeedPaintHandler needPaint)
+        public RecentDocController([DisallowNull] ViewContextMenuManager? viewManager,
+                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec? menuItem,
+                                   [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(menuItem != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(menuItem is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _menuItem = menuItem;
-            NeedPaint = needPaint;
+            ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
+            _menuItem = menuItem ?? throw new ArgumentNullException(nameof(menuItem));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -53,158 +53,188 @@ namespace Krypton.Navigator
             this.checkBoxDockingAllowDropDown = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxAllowPageReorder = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxAllowConfigSave = new Krypton.Toolkit.KryptonCheckBox();
+            this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
+            this.kpnlButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
+            this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
-            this.buttonOK.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            this.buttonOK.DialogResult = DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(261, 203);
+            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Location = new System.Drawing.Point(261, 15);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 12;
-            this.buttonOK.Text = "OK";
+            this.buttonOK.Values.Text = "OK";
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            this.buttonCancel.DialogResult = DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(342, 203);
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(342, 15);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 0;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Values.Text = "Cancel";
             // 
             // checkBoxPageInOverflowBarForOutlookMode
             // 
-            this.checkBoxPageInOverflowBarForOutlookMode.AutoSize = true;
-            this.checkBoxPageInOverflowBarForOutlookMode.Location = new System.Drawing.Point(15, 18);
+            this.checkBoxPageInOverflowBarForOutlookMode.Location = new System.Drawing.Point(12, 12);
             this.checkBoxPageInOverflowBarForOutlookMode.Name = "checkBoxPageInOverflowBarForOutlookMode";
-            this.checkBoxPageInOverflowBarForOutlookMode.Size = new System.Drawing.Size(210, 17);
+            this.checkBoxPageInOverflowBarForOutlookMode.Size = new System.Drawing.Size(239, 20);
             this.checkBoxPageInOverflowBarForOutlookMode.TabIndex = 0;
-            this.checkBoxPageInOverflowBarForOutlookMode.Text = "Page in Overflow Bar for Outlook mode";
+            this.checkBoxPageInOverflowBarForOutlookMode.Values.Text = "Page in Overflow Bar for Outlook mode";
             // 
             // checkBoxAllowPageDrag
             // 
-            this.checkBoxAllowPageDrag.AutoSize = true;
-            this.checkBoxAllowPageDrag.Location = new System.Drawing.Point(15, 41);
+            this.checkBoxAllowPageDrag.Location = new System.Drawing.Point(12, 35);
             this.checkBoxAllowPageDrag.Name = "checkBoxAllowPageDrag";
-            this.checkBoxAllowPageDrag.Size = new System.Drawing.Size(105, 17);
+            this.checkBoxAllowPageDrag.Size = new System.Drawing.Size(114, 20);
             this.checkBoxAllowPageDrag.TabIndex = 1;
-            this.checkBoxAllowPageDrag.Text = "Allow Page Drag";
+            this.checkBoxAllowPageDrag.Values.Text = "Allow Page Drag";
             // 
             // checkBoxDockingAllowClose
             // 
-            this.checkBoxDockingAllowClose.AutoSize = true;
-            this.checkBoxDockingAllowClose.Location = new System.Drawing.Point(256, 18);
+            this.checkBoxDockingAllowClose.Location = new System.Drawing.Point(253, 12);
             this.checkBoxDockingAllowClose.Name = "checkBoxDockingAllowClose";
-            this.checkBoxDockingAllowClose.Size = new System.Drawing.Size(123, 17);
+            this.checkBoxDockingAllowClose.Size = new System.Drawing.Size(135, 20);
             this.checkBoxDockingAllowClose.TabIndex = 4;
-            this.checkBoxDockingAllowClose.Text = "Docking Allow Close";
+            this.checkBoxDockingAllowClose.Values.Text = "Docking Allow Close";
             // 
             // checkBoxDockingAllowAutoHidden
             // 
-            this.checkBoxDockingAllowAutoHidden.AutoSize = true;
-            this.checkBoxDockingAllowAutoHidden.Location = new System.Drawing.Point(256, 64);
+            this.checkBoxDockingAllowAutoHidden.Location = new System.Drawing.Point(253, 58);
             this.checkBoxDockingAllowAutoHidden.Name = "checkBoxDockingAllowAutoHidden";
-            this.checkBoxDockingAllowAutoHidden.Size = new System.Drawing.Size(153, 17);
+            this.checkBoxDockingAllowAutoHidden.Size = new System.Drawing.Size(172, 20);
             this.checkBoxDockingAllowAutoHidden.TabIndex = 6;
-            this.checkBoxDockingAllowAutoHidden.Text = "Docking Allow AutoHidden";
+            this.checkBoxDockingAllowAutoHidden.Values.Text = "Docking Allow AutoHidden";
             // 
             // checkBoxDockingAllowDocked
             // 
-            this.checkBoxDockingAllowDocked.AutoSize = true;
-            this.checkBoxDockingAllowDocked.Location = new System.Drawing.Point(256, 87);
+            this.checkBoxDockingAllowDocked.Location = new System.Drawing.Point(253, 81);
             this.checkBoxDockingAllowDocked.Name = "checkBoxDockingAllowDocked";
-            this.checkBoxDockingAllowDocked.Size = new System.Drawing.Size(135, 17);
+            this.checkBoxDockingAllowDocked.Size = new System.Drawing.Size(147, 20);
             this.checkBoxDockingAllowDocked.TabIndex = 7;
-            this.checkBoxDockingAllowDocked.Text = "Docking Allow Docked";
+            this.checkBoxDockingAllowDocked.Values.Text = "Docking Allow Docked";
             // 
             // checkBoxDockingAllowFloating
             // 
-            this.checkBoxDockingAllowFloating.AutoSize = true;
-            this.checkBoxDockingAllowFloating.Location = new System.Drawing.Point(256, 110);
+            this.checkBoxDockingAllowFloating.Location = new System.Drawing.Point(253, 104);
             this.checkBoxDockingAllowFloating.Name = "checkBoxDockingAllowFloating";
-            this.checkBoxDockingAllowFloating.Size = new System.Drawing.Size(134, 17);
+            this.checkBoxDockingAllowFloating.Size = new System.Drawing.Size(149, 20);
             this.checkBoxDockingAllowFloating.TabIndex = 8;
-            this.checkBoxDockingAllowFloating.Text = "Docking Allow Floating";
+            this.checkBoxDockingAllowFloating.Values.Text = "Docking Allow Floating";
             // 
             // checkBoxDockingAllowWorkspace
             // 
-            this.checkBoxDockingAllowWorkspace.AutoSize = true;
-            this.checkBoxDockingAllowWorkspace.Location = new System.Drawing.Point(256, 133);
+            this.checkBoxDockingAllowWorkspace.Location = new System.Drawing.Point(253, 127);
             this.checkBoxDockingAllowWorkspace.Name = "checkBoxDockingAllowWorkspace";
-            this.checkBoxDockingAllowWorkspace.Size = new System.Drawing.Size(152, 17);
+            this.checkBoxDockingAllowWorkspace.Size = new System.Drawing.Size(166, 20);
             this.checkBoxDockingAllowWorkspace.TabIndex = 9;
-            this.checkBoxDockingAllowWorkspace.Text = "Docking Allow Workspace";
+            this.checkBoxDockingAllowWorkspace.Values.Text = "Docking Allow Workspace";
             // 
             // checkBoxDockingAllowNavigator
             // 
-            this.checkBoxDockingAllowNavigator.AutoSize = true;
-            this.checkBoxDockingAllowNavigator.Location = new System.Drawing.Point(256, 156);
+            this.checkBoxDockingAllowNavigator.Location = new System.Drawing.Point(253, 150);
             this.checkBoxDockingAllowNavigator.Name = "checkBoxDockingAllowNavigator";
-            this.checkBoxDockingAllowNavigator.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxDockingAllowNavigator.Size = new System.Drawing.Size(159, 20);
             this.checkBoxDockingAllowNavigator.TabIndex = 10;
-            this.checkBoxDockingAllowNavigator.Text = "Docking Allow Navigator";
+            this.checkBoxDockingAllowNavigator.Values.Text = "Docking Allow Navigator";
             // 
             // checkBoxDockingAllowDropDown
             // 
-            this.checkBoxDockingAllowDropDown.AutoSize = true;
-            this.checkBoxDockingAllowDropDown.Location = new System.Drawing.Point(256, 41);
+            this.checkBoxDockingAllowDropDown.Location = new System.Drawing.Point(253, 35);
             this.checkBoxDockingAllowDropDown.Name = "checkBoxDockingAllowDropDown";
-            this.checkBoxDockingAllowDropDown.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxDockingAllowDropDown.Size = new System.Drawing.Size(165, 20);
             this.checkBoxDockingAllowDropDown.TabIndex = 5;
-            this.checkBoxDockingAllowDropDown.Text = "Docking Allow DropDown";
+            this.checkBoxDockingAllowDropDown.Values.Text = "Docking Allow DropDown";
             // 
             // checkBoxAllowPageReorder
             // 
-            this.checkBoxAllowPageReorder.AutoSize = true;
-            this.checkBoxAllowPageReorder.Location = new System.Drawing.Point(15, 64);
+            this.checkBoxAllowPageReorder.Location = new System.Drawing.Point(12, 58);
             this.checkBoxAllowPageReorder.Name = "checkBoxAllowPageReorder";
-            this.checkBoxAllowPageReorder.Size = new System.Drawing.Size(120, 17);
+            this.checkBoxAllowPageReorder.Size = new System.Drawing.Size(131, 20);
             this.checkBoxAllowPageReorder.TabIndex = 2;
-            this.checkBoxAllowPageReorder.Text = "Allow Page Reorder";
+            this.checkBoxAllowPageReorder.Values.Text = "Allow Page Reorder";
             // 
             // checkBoxAllowConfigSave
             // 
-            this.checkBoxAllowConfigSave.AutoSize = true;
-            this.checkBoxAllowConfigSave.Location = new System.Drawing.Point(15, 87);
+            this.checkBoxAllowConfigSave.Location = new System.Drawing.Point(12, 81);
             this.checkBoxAllowConfigSave.Name = "checkBoxAllowConfigSave";
-            this.checkBoxAllowConfigSave.Size = new System.Drawing.Size(112, 17);
+            this.checkBoxAllowConfigSave.Size = new System.Drawing.Size(122, 20);
             this.checkBoxAllowConfigSave.TabIndex = 3;
-            this.checkBoxAllowConfigSave.Text = "Allow Config Save";
+            this.checkBoxAllowConfigSave.Values.Text = "Allow Config Save";
+            // 
+            // kpnlButtons
+            // 
+            this.kpnlButtons.Controls.Add(this.kryptonBorderEdge1);
+            this.kpnlButtons.Controls.Add(this.buttonOK);
+            this.kpnlButtons.Controls.Add(this.buttonCancel);
+            this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.kpnlButtons.Location = new System.Drawing.Point(0, 188);
+            this.kpnlButtons.Name = "kpnlButtons";
+            this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
+            this.kpnlButtons.Size = new System.Drawing.Size(429, 50);
+            this.kpnlButtons.TabIndex = 13;
+            // 
+            // kryptonBorderEdge1
+            // 
+            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
+            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(429, 1);
+            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
+            // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.checkBoxPageInOverflowBarForOutlookMode);
+            this.kryptonPanel1.Controls.Add(this.checkBoxAllowPageDrag);
+            this.kryptonPanel1.Controls.Add(this.checkBoxAllowConfigSave);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowClose);
+            this.kryptonPanel1.Controls.Add(this.checkBoxAllowPageReorder);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowAutoHidden);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowDropDown);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowDocked);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowNavigator);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowFloating);
+            this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowWorkspace);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(429, 188);
+            this.kryptonPanel1.TabIndex = 14;
             // 
             // KryptonPageFormEditFlags
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(429, 238);
             this.ControlBox = false;
-            this.Controls.Add(this.checkBoxAllowConfigSave);
-            this.Controls.Add(this.checkBoxAllowPageReorder);
-            this.Controls.Add(this.checkBoxDockingAllowDropDown);
-            this.Controls.Add(this.checkBoxDockingAllowNavigator);
-            this.Controls.Add(this.checkBoxDockingAllowWorkspace);
-            this.Controls.Add(this.checkBoxDockingAllowFloating);
-            this.Controls.Add(this.checkBoxDockingAllowDocked);
-            this.Controls.Add(this.checkBoxDockingAllowAutoHidden);
-            this.Controls.Add(this.checkBoxDockingAllowClose);
-            this.Controls.Add(this.checkBoxAllowPageDrag);
-            this.Controls.Add(this.checkBoxPageInOverflowBarForOutlookMode);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOK);
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.Controls.Add(this.kryptonPanel1);
+            this.Controls.Add(this.kpnlButtons);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "KryptonPageFormEditFlags";
-            this.StartPosition = FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Krypton Page - Edit Flags";
             this.Load += new System.EventHandler(this.OnLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
+            this.kpnlButtons.ResumeLayout(false);
+            this.kpnlButtons.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
+            this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -223,5 +253,8 @@ namespace Krypton.Navigator
         private Krypton.Toolkit.KryptonCheckBox checkBoxDockingAllowDropDown;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAllowPageReorder;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAllowConfigSave;
+        private KryptonPanel kpnlButtons;
+        private KryptonBorderEdge kryptonBorderEdge1;
+        private KryptonPanel kryptonPanel1;
     }
 }

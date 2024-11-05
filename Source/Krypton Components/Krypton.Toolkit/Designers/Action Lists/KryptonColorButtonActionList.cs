@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonColorButtonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonColorButton? _colorButton;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonColorButton _colorButton;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the button instance
-            _colorButton = owner.Component as KryptonColorButton;
+            _colorButton = (owner.Component as KryptonColorButton)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.ButtonStyle != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.ButtonStyle, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.ButtonStyle, value);
                     _colorButton.ButtonStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.ButtonOrientation != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.ButtonOrientation, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.ButtonOrientation, value);
                     _colorButton.ButtonOrientation = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.SelectedColor != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.SelectedColor, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.SelectedColor, value);
 
                     _colorButton.SelectedColor = value;
                 }
@@ -92,13 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation DropDownPosition
         {
-            get => _colorButton.DropDownPosition;
-
-            set
+            get => _colorButton.DropDownPosition; set
             {
                 if (_colorButton.DropDownPosition != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.DropDownPosition, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.DropDownPosition, value);
                     _colorButton.DropDownPosition = value;
                 }
             }
@@ -109,13 +107,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation DropDownOrientation
         {
-            get => _colorButton.DropDownOrientation;
-
-            set
+            get => _colorButton.DropDownOrientation; set
             {
                 if (_colorButton.DropDownOrientation != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.DropDownOrientation, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.DropDownOrientation, value);
                     _colorButton.DropDownOrientation = value;
                 }
             }
@@ -126,13 +122,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Splitter
         {
-            get => _colorButton.Splitter;
-
-            set
+            get => _colorButton.Splitter; set
             {
                 if (_colorButton.Splitter != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.Splitter, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.Splitter, value);
                     _colorButton.Splitter = value;
                 }
             }
@@ -149,7 +143,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.Values.Text, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.Values.Text, value);
                     _colorButton.Values.Text = value;
                 }
             }
@@ -166,7 +160,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.Values.ExtraText, value);
                     _colorButton.Values.ExtraText = value;
                 }
             }
@@ -183,7 +177,7 @@ namespace Krypton.Toolkit
             {
                 if (_colorButton.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.Values.Image, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.Values.Image, value);
                     _colorButton.Values.Image = value;
                 }
             }
@@ -194,13 +188,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _colorButton.PaletteMode;
-
-            set
+            get => _colorButton.PaletteMode; set
             {
                 if (_colorButton.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.PaletteMode, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.PaletteMode, value);
                     _colorButton.PaletteMode = value;
                 }
             }
@@ -210,13 +202,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _colorButton.StateCommon.Content.ShortText.Font;
+            get => _colorButton.StateCommon.Content.ShortText.Font!;
 
             set
             {
-                if (_colorButton.StateCommon.Content.ShortText.Font != value)
+                if (!Equals(_colorButton.StateCommon.Content.ShortText.Font, value))
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.ShortText.Font, value);
 
                     _colorButton.StateCommon.Content.ShortText.Font = value;
                 }
@@ -227,47 +219,26 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _colorButton.StateCommon.Content.LongText.Font;
+            get => _colorButton.StateCommon.Content.LongText.Font!;
 
             set
             {
-                if (_colorButton.StateCommon.Content.LongText.Font != value)
+                if (!Equals(_colorButton.StateCommon.Content.LongText.Font, value))
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.LongText.Font, value);
 
                     _colorButton.StateCommon.Content.LongText.Font = value;
                 }
             }
         }
 
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _colorButton.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_colorButton.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Border.Rounding, value);
-
-                    _colorButton.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
-
         public bool AllowFullOpen
         {
-            get => _colorButton.AllowFullOpen;
-
-            set
+            get => _colorButton.AllowFullOpen; set
             {
                 if (_colorButton.AllowFullOpen != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.AllowFullOpen, value);
-
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.AllowFullOpen, value);
                     _colorButton.AllowFullOpen = value;
                 }
             }
@@ -275,14 +246,11 @@ namespace Krypton.Toolkit
 
         public Rectangle SelectedRect
         {
-            get => _colorButton.SelectedRect;
-
-            set
+            get => _colorButton.SelectedRect; set
             {
                 if (_colorButton.SelectedRect != value)
                 {
-                    _service.OnComponentChanged(_colorButton, null, _colorButton.SelectedRect, value);
-
+                    _service?.OnComponentChanged(_colorButton, null, _colorButton.SelectedRect, value);
                     _colorButton.SelectedRect = value;
                 }
             }
@@ -311,7 +279,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(DropDownOrientation), nameof(DropDownOrientation), nameof(Appearance), @"DropDown orientation"));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
                 actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
                 actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));

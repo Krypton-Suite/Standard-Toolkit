@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -108,8 +108,8 @@ namespace Krypton.Toolkit
             // One time creation of the blend for the status strip gradient brush
             _statusStripBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
         }
 
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
                 // Create a path that is used to fill the arrow
                 if (e != null)
                 {
-                    using GraphicsPath arrowPath = CreateArrowPath(e.Item,
+                    using GraphicsPath arrowPath = CreateArrowPath(e.Item!,
                         e.ArrowRectangle,
                         e.Direction);
                     // Get the rectangle that encloses the arrow and expand slightly
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                     Color color2 = _disabled;
 
                     // If not disabled then need to decide on actual colors
-                    if (e.Item.Enabled)
+                    if (e.Item!.Enabled)
                     {
                         // If the arrow is on a context menu
                         if ((e.Item.Owner is ContextMenuStrip or ToolStripDropDownMenu) || (e.Item.OwnerItem is ToolStripOverflowButton))
@@ -211,7 +211,9 @@ namespace Krypton.Toolkit
             // Cast to correct type
             var button = (ToolStripButton)e.Item;
 
-            if (button.Selected || button.Pressed || button.Checked)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (button.Selected || button.Pressed || button.Checked))
             {
                 RenderToolButtonBackground(e.Graphics, button, e.ToolStrip);
             }
@@ -225,7 +227,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 RenderToolDropButtonBackground(e.Graphics, e.Item, e.ToolStrip);
             }
@@ -495,7 +499,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 // Cast to correct type
                 var splitButton = (ToolStripSplitButton)e.Item;
@@ -515,7 +521,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                base.OnRenderSplitButtonBackground(e);
+                base.OnRenderSplitButtonBackground(e!);
             }
         }
         #endregion
@@ -662,16 +668,11 @@ namespace Krypton.Toolkit
                         )
                     {
                         // Get the window borders
-
-                        // Finally check that the actual form is using custom chrome
-                        if (kryptonForm.ApplyCustomChrome)
-                        {
-                            // Extend down into the bottom border
-                            Padding borders = kryptonForm.RealWindowBorders;
-                            backRect.Height += borders.Bottom;
-                            backRect.Width += borders.Horizontal;
-                            backRect.X -= borders.Left;
-                        }
+                        // Extend down into the bottom border
+                        Padding borders = kryptonForm.RealWindowBorders;
+                        backRect.Height += borders.Bottom;
+                        backRect.Width += borders.Horizontal;
+                        backRect.X -= borders.Left;
                     }
 
                     // Cannot paint a zero sized area

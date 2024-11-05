@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Draw todays date as a button.
+    /// Draw today's date as a button.
     /// </summary>
     public class ViewDrawToday : ViewDrawButton,
                                  IContentValues
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
                              IPaletteTriple palettePressed,
                              NeedPaintHandler needPaintHandler)
             : base(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
-                   paletteNormal, paletteTracking, palettePressed, null,
+                   paletteNormal, paletteTracking, palettePressed, null!,
                    null, VisualOrientation.Top, false)
         {
             _calendar = calendar;
@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
         public string GetShortText() =>
-            $"{KryptonLanguageManager.GeneralToolkitStrings.Today} {_calendar.TodayDate.ToString(_calendar.TodayFormat)}";
+            $"{KryptonManager.Strings.GeneralStrings.Today} {_calendar.TodayDate.ToString(_calendar.TodayFormat)}";
 
         /// <summary>
         /// Gets the content long text.
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnClick(object sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
+        private void OnClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
 
         #endregion
 
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            base.Layout(context);
+            base.Layout(context!);
         }
     }
 }

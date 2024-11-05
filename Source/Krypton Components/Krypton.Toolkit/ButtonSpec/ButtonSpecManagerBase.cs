@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -18,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class ButtonSpecManagerBase : GlobalId
     {
         #region Type Definitions
-        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView> { }
-        internal class ListSpacers : List<ViewLayoutMetricSpacer> { }
+        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView>;
+        internal class ListSpacers : List<ViewLayoutMetricSpacer>;
         #endregion
 
         #region Instance Fields
@@ -33,7 +34,7 @@ namespace Krypton.Toolkit
         private readonly PaletteMetricPadding[] _viewMetricPaddings;
         private readonly ListSpacers[] _viewSpacers;
         private readonly ButtonSpecLookup _specLookup;
-        private readonly GetToolStripRenderer _getRenderer;
+        private readonly GetToolStripRenderer? _getRenderer;
 
         #endregion
 
@@ -51,34 +52,33 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected ButtonSpecManagerBase([DisallowNull] Control control,
-                                     [DisallowNull] PaletteRedirect? redirector,
-                                     ButtonSpecCollectionBase? variableSpecs,
-                                     ButtonSpecCollectionBase? fixedSpecs,
-                                     IPaletteMetric[] viewMetrics,
-                                     PaletteMetricInt[] viewMetricIntOutside,
-                                     PaletteMetricInt[] viewMetricIntInside,
-                                     PaletteMetricPadding[] viewMetricPaddings,
-                                     [DisallowNull] GetToolStripRenderer getRenderer,
-                                     NeedPaintHandler needPaint)
+        protected ButtonSpecManagerBase(Control control,
+                                        PaletteRedirect redirector,
+                                        ButtonSpecCollectionBase? variableSpecs,
+                                        ButtonSpecCollectionBase? fixedSpecs,
+                                        IPaletteMetric[] viewMetrics,
+                                        PaletteMetricInt[] viewMetricIntOutside,
+                                        PaletteMetricInt[] viewMetricIntInside,
+                                        PaletteMetricPadding[] viewMetricPaddings,
+                                        GetToolStripRenderer? getRenderer,
+                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(control != null);
-            Debug.Assert(redirector != null);
-            Debug.Assert(getRenderer != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(control is not null);
+            // Disabled to remove the warning
+            //Debug.Assert(redirector is not null);
+            Debug.Assert(getRenderer is not null);
 
             // Remember references
             Control = control;
-            _redirector = redirector!;
+            _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
             _viewMetrics = viewMetrics;
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
+            NeedPaint = needPaint;
 
             if (_viewMetrics != null)
             {
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
                     PaletteMetricInt viewMetricIntOutside = _viewMetricIntOutside[i];
 
                     // Create storage for the spacers
-                    _viewSpacers[i] = new ListSpacers();
+                    _viewSpacers[i] = [];
 
                     // Always create the outside edge spacers
                     var spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
@@ -220,14 +220,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons() => RefreshButtons(false);
-
-        /// <summary>
-        /// Requests that all the buttons have state refreshed.
-        /// </summary>
-        /// <param name="composition">Composition value for the spec view.</param>
-        /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons(bool composition)
+        public bool RefreshButtons()
         {
             var changed = false;
 
@@ -239,7 +232,6 @@ namespace Krypton.Toolkit
                 changed |= buttonView.UpdateEnabled();
                 changed |= buttonView.UpdateChecked();
                 buttonView.UpdateShowDrop();
-                buttonView.DrawButtonSpecOnComposition = composition;
             }
 
             return changed;
@@ -413,7 +405,7 @@ namespace Krypton.Toolkit
         /// Get a tool strip renderer appropriate for the hosting control.
         /// </summary>
         /// <returns></returns>
-        public ToolStripRenderer RenderToolStrip() => _getRenderer();
+        public ToolStripRenderer? RenderToolStrip() => _getRenderer?.Invoke();
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
@@ -446,11 +438,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (from specView in _specLookup.Values
-                                                                                                     where specView.ViewCenter.Visible && specView.ViewButton.Enabled
-                                                                                                     where specView.ButtonSpec.Edge == align
-                                                                                                     select specView.ViewButton
-                    )
+        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
+                .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
+                .Where(specView => specView.ButtonSpec.Edge == align)
+                .Select(specView => specView.ViewButton))
                 .FirstOrDefault();
 
         /// <summary>
@@ -561,7 +552,7 @@ namespace Krypton.Toolkit
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
             [DisallowNull] ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 
@@ -652,7 +643,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
         protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
-                                                              IPaletteMetric? viewPaletteMetric,
+                                                              IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecView(redirector, viewPaletteMetric, viewMetricPadding, this, buttonSpec);
@@ -766,7 +757,7 @@ namespace Krypton.Toolkit
                 (_viewMetrics.Length > viewDockerIndex) &&
                 (_viewMetricPaddings.Length > viewDockerIndex))
             {
-                IPaletteMetric? viewPaletteMetric = _viewMetrics[viewDockerIndex];
+                IPaletteMetric viewPaletteMetric = _viewMetrics[viewDockerIndex];
                 PaletteMetricPadding viewMetricPadding = _viewMetricPaddings[viewDockerIndex];
 
                 // Create an instance to manage the individual button spec
@@ -818,19 +809,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnButtonSpecInserted(object sender, ButtonSpecEventArgs e)
+        private void OnButtonSpecInserted(object? sender, ButtonSpecEventArgs e)
         {
             RecreateAll();
             PerformNeedPaint(true);
         }
 
-        private void OnButtonSpecRemoved(object sender, ButtonSpecEventArgs e)
+        private void OnButtonSpecRemoved(object? sender, ButtonSpecEventArgs e)
         {
             RecreateAll();
             PerformNeedPaint(true);
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -853,8 +844,9 @@ namespace Krypton.Toolkit
                 case HeaderLocation.SecondaryHeader:
                     return 1;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(location.ToString());
                     break;
             }
 

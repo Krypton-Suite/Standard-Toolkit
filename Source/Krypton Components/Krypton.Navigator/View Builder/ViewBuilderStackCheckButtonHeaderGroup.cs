@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderStackCheckButtonHeaderGroup : ViewBuilderStackCheckButtonBase
     {
         #region Instance Fields
-        private ViewletHeaderGroup _headerGroup;
+        private ViewletHeaderGroup? _headerGroup;
         #endregion
 
         #region Public Overrides
@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check base class for page specific button specs
-            ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
+            ButtonSpec? bs = base.ButtonSpecFromView(element) ?? _headerGroup?.ButtonSpecFromView(element);
 
             // Delegate lookup to the viewlet that has the button spec manager
 
@@ -43,7 +43,7 @@ namespace Krypton.Navigator
         public override void SelectedPageChanged()
         {
             // Ask the header group to update the 
-            _headerGroup.UpdateButtons();
+            _headerGroup?.UpdateButtons();
 
             // Let base class perform common actions
             base.SelectedPageChanged();
@@ -55,7 +55,7 @@ namespace Krypton.Navigator
         public override void PageCollectionChanged()
         {
             UpdateStatePalettes();
-            _headerGroup.UpdateButtons();
+            _headerGroup?.UpdateButtons();
 
             // Let base class do standard work
             base.PageCollectionChanged();
@@ -69,13 +69,13 @@ namespace Krypton.Navigator
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
-            _headerGroup.UpdateButtons();
+            _headerGroup?.UpdateButtons();
 
             // Let base class do standard work
             base.PageVisibleStateChanged(page);
         }
 
-       /// <summary>
+        /// <summary>
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
                 {
                     // Update to use the correct enabled/disabled palette
                     UpdateStatePalettes();
-                    _headerGroup.UpdateButtons();
+                    _headerGroup?.UpdateButtons();
 
                     // Need to repaint to show the change
                     Navigator.PerformNeedPaint(true);
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Update palettes for the header group
-            _headerGroup.UpdateStatePalettes();
+            _headerGroup?.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -117,7 +117,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            _headerGroup.GetContextShowPoint();
+            _headerGroup!.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
@@ -126,7 +126,7 @@ namespace Krypton.Navigator
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
         public override bool DesignerGetHitTest(Point pt) =>
             // Check if any of the button specs want the point
-            _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
+            _headerGroup!.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
 
         // Let base class search individual stack items
         /// <summary>
@@ -137,7 +137,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.NextActionEnabled(action);
@@ -151,7 +151,7 @@ namespace Krypton.Navigator
         public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformNextAction(action, page);
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.PreviousActionEnabled(action);
@@ -179,7 +179,7 @@ namespace Krypton.Navigator
         public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformPreviousAction(action, page);
@@ -192,10 +192,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
-            _headerGroup.ViewBuilderPropertyChanged(e);
+            _headerGroup?.ViewBuilderPropertyChanged(e);
 
             // Let the base process it as well
             base.OnViewBuilderPropertyChanged(sender, e);
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected override ViewBase? CreateStackCheckButtonView()
+        protected override ViewBase CreateStackCheckButtonView()
         {
             // Let base class do common stuff first
             base.CreateStackCheckButtonView();
@@ -221,12 +221,12 @@ namespace Krypton.Navigator
             _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null,
                                                                PaletteMetricPadding.None, PaletteMetricInt.None,
                                                                VisualOrientation.Top, RelativePositionAlign.Near,
-                                                               Navigator.Stack.StackAnimation, 
+                                                               Navigator.Stack.StackAnimation,
                                                                (Navigator.Stack.StackOrientation == Orientation.Vertical),
                                                                NeedPaintDelegate);
 
             // Reparent the child panel that contains the actual pages, into the child control
-            _viewScrollViewport.MakeParent(Navigator.ChildPanel);
+            _viewScrollViewport.MakeParent(Navigator.ChildPanel!);
 
             // Create the header group and fill with the view layout
             _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
@@ -244,7 +244,7 @@ namespace Krypton.Navigator
         protected override void PostConstruct()
         {
             // Ask the header group to finish the create phase
-            _headerGroup.PostCreate();
+            _headerGroup?.PostCreate();
 
             // Let base class perform standard actions
             base.PostConstruct();
@@ -256,10 +256,10 @@ namespace Krypton.Navigator
         protected override void DestructStackCheckButtonView()
         {
             // Put the child panel back into the navigator
-            _viewScrollViewport.RevertParent(Navigator, Navigator.ChildPanel);
+            _viewScrollViewport.RevertParent(Navigator, Navigator.ChildPanel!);
 
             // Destruct the header group viewlet
-            _headerGroup.Destruct();
+            _headerGroup?.Destruct();
 
             // Let base class do common stuff
             base.DestructStackCheckButtonView();

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,29 +29,29 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the button style specific and common palettes
-            ButtonCommon = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
-            ButtonStandalone = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
-            ButtonAlternate = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonAlternate, PaletteBorderStyle.ButtonAlternate, PaletteContentStyle.ButtonAlternate, needPaint);
-            ButtonLowProfile = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonLowProfile, PaletteBorderStyle.ButtonLowProfile, PaletteContentStyle.ButtonLowProfile, needPaint);
-            ButtonButtonSpec = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
-            ButtonBreadCrumb = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonBreadCrumb, PaletteBorderStyle.ButtonBreadCrumb, PaletteContentStyle.ButtonBreadCrumb, needPaint);
-            ButtonCalendarDay = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
-            ButtonCluster = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCluster, PaletteBorderStyle.ButtonCluster, PaletteContentStyle.ButtonCluster, needPaint);
-            ButtonGallery = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonGallery, PaletteBorderStyle.ButtonGallery, PaletteContentStyle.ButtonGallery, needPaint);
-            ButtonNavigatorStack = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.ButtonNavigatorStack, PaletteContentStyle.ButtonNavigatorStack, needPaint);
-            ButtonNavigatorOverflow = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonNavigatorOverflow, PaletteBorderStyle.ButtonNavigatorOverflow, PaletteContentStyle.ButtonNavigatorOverflow, needPaint);
-            ButtonNavigatorMini = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonNavigatorMini, PaletteBorderStyle.ButtonNavigatorMini, PaletteContentStyle.ButtonNavigatorMini, needPaint);
-            ButtonInputControl = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl, needPaint);
-            ButtonListItem = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, needPaint);
-            ButtonForm = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonForm, PaletteBorderStyle.ButtonForm, PaletteContentStyle.ButtonForm, needPaint);
-            ButtonFormClose = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonFormClose, PaletteBorderStyle.ButtonFormClose, PaletteContentStyle.ButtonFormClose, needPaint);
-            ButtonCommand = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, needPaint);
-            ButtonCustom1 = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCustom1, PaletteBorderStyle.ButtonCustom1, PaletteContentStyle.ButtonCustom1, needPaint);
-            ButtonCustom2 = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCustom2, PaletteBorderStyle.ButtonCustom2, PaletteContentStyle.ButtonCustom2, needPaint);
-            ButtonCustom3 = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCustom3, PaletteBorderStyle.ButtonCustom3, PaletteContentStyle.ButtonCustom3, needPaint);
+            ButtonCommon = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
+            ButtonStandalone = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
+            ButtonAlternate = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonAlternate, PaletteBorderStyle.ButtonAlternate, PaletteContentStyle.ButtonAlternate, needPaint);
+            ButtonLowProfile = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonLowProfile, PaletteBorderStyle.ButtonLowProfile, PaletteContentStyle.ButtonLowProfile, needPaint);
+            ButtonButtonSpec = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonButtonSpec, PaletteBorderStyle.ButtonButtonSpec, PaletteContentStyle.ButtonButtonSpec, needPaint);
+            ButtonBreadCrumb = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonBreadCrumb, PaletteBorderStyle.ButtonBreadCrumb, PaletteContentStyle.ButtonBreadCrumb, needPaint);
+            ButtonCalendarDay = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
+            ButtonCluster = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCluster, PaletteBorderStyle.ButtonCluster, PaletteContentStyle.ButtonCluster, needPaint);
+            ButtonGallery = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonGallery, PaletteBorderStyle.ButtonGallery, PaletteContentStyle.ButtonGallery, needPaint);
+            ButtonNavigatorStack = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.ButtonNavigatorStack, PaletteContentStyle.ButtonNavigatorStack, needPaint);
+            ButtonNavigatorOverflow = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonNavigatorOverflow, PaletteBorderStyle.ButtonNavigatorOverflow, PaletteContentStyle.ButtonNavigatorOverflow, needPaint);
+            ButtonNavigatorMini = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonNavigatorMini, PaletteBorderStyle.ButtonNavigatorMini, PaletteContentStyle.ButtonNavigatorMini, needPaint);
+            ButtonInputControl = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl, needPaint);
+            ButtonListItem = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, needPaint);
+            ButtonForm = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonForm, PaletteBorderStyle.ButtonForm, PaletteContentStyle.ButtonForm, needPaint);
+            ButtonFormClose = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonFormClose, PaletteBorderStyle.ButtonFormClose, PaletteContentStyle.ButtonFormClose, needPaint);
+            ButtonCommand = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, needPaint);
+            ButtonCustom1 = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCustom1, PaletteBorderStyle.ButtonCustom1, PaletteContentStyle.ButtonCustom1, needPaint);
+            ButtonCustom2 = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCustom2, PaletteBorderStyle.ButtonCustom2, PaletteContentStyle.ButtonCustom2, needPaint);
+            ButtonCustom3 = new KryptonPaletteCheckButton(redirector!, PaletteBackStyle.ButtonCustom3, PaletteBorderStyle.ButtonCustom3, PaletteContentStyle.ButtonCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectTriple(redirector, ButtonCommon.StateDisabled,
+            var redirectCommon = new PaletteRedirectTriple(redirector!, ButtonCommon.StateDisabled,
                 ButtonCommon.StateNormal, ButtonCommon.StatePressed, ButtonCommon.StateTracking,
                 ButtonCommon.StateCheckedNormal, ButtonCommon.StateCheckedPressed, ButtonCommon.StateCheckedTracking,
                 ButtonCommon.OverrideFocus, ButtonCommon.OverrideDefault);
@@ -82,26 +82,28 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ButtonCommon.IsDefault &&
-                                          ButtonStandalone.IsDefault &&
-                                          ButtonAlternate.IsDefault &&
-                                          ButtonLowProfile.IsDefault &&
-                                          ButtonButtonSpec.IsDefault &&
-                                          ButtonBreadCrumb.IsDefault &&
-                                          ButtonCalendarDay.IsDefault &&
-                                          ButtonCluster.IsDefault &&
-                                          ButtonGallery.IsDefault &&
-                                          ButtonNavigatorStack.IsDefault &&
-                                          ButtonNavigatorOverflow.IsDefault &&
-                                          ButtonNavigatorMini.IsDefault &&
-                                          ButtonInputControl.IsDefault &&
-                                          ButtonListItem.IsDefault &&
-                                          ButtonForm.IsDefault &&
-                                          ButtonFormClose.IsDefault &&
-                                          ButtonCommand.IsDefault &&
-                                          ButtonCustom1.IsDefault &&
-                                          ButtonCustom2.IsDefault &&
-                                          ButtonCustom3.IsDefault;
+                                            ButtonStandalone.IsDefault &&
+                                            ButtonAlternate.IsDefault &&
+                                            ButtonLowProfile.IsDefault &&
+                                            ButtonButtonSpec.IsDefault &&
+                                            ButtonBreadCrumb.IsDefault &&
+                                            ButtonCalendarDay.IsDefault &&
+                                            ButtonCluster.IsDefault &&
+                                            ButtonGallery.IsDefault &&
+                                            ButtonNavigatorStack.IsDefault &&
+                                            ButtonNavigatorOverflow.IsDefault &&
+                                            ButtonNavigatorMini.IsDefault &&
+                                            ButtonInputControl.IsDefault &&
+                                            ButtonListItem.IsDefault &&
+                                            ButtonForm.IsDefault &&
+                                            ButtonFormClose.IsDefault &&
+                                            ButtonCommand.IsDefault &&
+                                            ButtonCustom1.IsDefault &&
+                                            ButtonCustom2.IsDefault &&
+                                            ButtonCustom3.IsDefault;
 
         #endregion
 

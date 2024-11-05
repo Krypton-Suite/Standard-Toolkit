@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -116,9 +116,9 @@ namespace Krypton.Toolkit
             _maxDate = DateTimePicker.MaximumDateTime;
             _maxSelectionCount = 7;
             AnnuallyBoldedDatesMask = new int[12];
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            BoldedDatesList = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            BoldedDatesList = [];
             _today = DEFAULT_TODAY;
             _todayFormat = "d";
 
@@ -307,18 +307,14 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Behavior")]
         [Description(@"Today's date.")]
+        [AllowNull]
         public DateTime TodayDate
         {
             get => _todayDate;
 
             set
             {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
-                _todayDate = value;
+                _todayDate = value == null ? DateTime.Now.Date : value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayDate)));
             }
         }
@@ -334,7 +330,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
         [AllowNull]
-        public DateTime[] AnnuallyBoldedDates
+        public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -371,7 +367,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [AllowNull]
-        public DateTime[] MonthlyBoldedDates
+        public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -404,7 +400,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
         [AllowNull]
-        public DateTime[] BoldedDates
+        public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
@@ -676,6 +672,7 @@ namespace Krypton.Toolkit
         [Description(@"Text used as label for todays date.")]
         [DefaultValue(@"Today:")]
         [Localizable(true)]
+        [AllowNull]
         public string TodayText
         {
             get => _today;
@@ -930,7 +927,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect? StateCommon { get; }
+        public PaletteMonthCalendarRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1295,7 +1292,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             StateCommon.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);

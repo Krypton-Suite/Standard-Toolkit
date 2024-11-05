@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
             E_POINTER = 0x80004003,
             E_ABORT = 0x80004004,
             E_FAIL = 0x80004005,
-                
+
             // These are CLR PI.HRESULT
             InvalidArgFailure = 0x80008081,
             CoreHostLibLoadFailure = 0x80008082,
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
                 ? $"HRESULT {hr} [0x{(int)hr:X} ({(int)hr:D})]"
                 : $"HRESULT [0x{(int)hr:X} ({(int)hr:D})]";
 
-        public static Exception GetExceptionForHR(this PI.HRESULT errorCode) => Marshal.GetExceptionForHR((int)errorCode);
+        public static Exception GetExceptionForHR(this PI.HRESULT errorCode) => Marshal.GetExceptionForHR((int)errorCode)!;
 
         public static void ThrowExceptionIfFailed(this PI.HRESULT hr)
         {

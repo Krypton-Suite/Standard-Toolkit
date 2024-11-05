@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                                IPaletteMetric
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
         #endregion
 
         #region Identity
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Style for the background.</param>
         /// <param name="borderStyle">Style for the border.</param>
-        public PaletteDoubleMetricRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleMetricRedirect(PaletteRedirect redirect,
                                            PaletteBackStyle backStyle,
                                            PaletteBorderStyle borderStyle)
             : this(redirect, backStyle, borderStyle, null)
@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Style for the background.</param>
         /// <param name="borderStyle">Style for the border.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleMetricRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleMetricRedirect(PaletteRedirect redirect,
                                            PaletteBackStyle backStyle,
                                            PaletteBorderStyle borderStyle,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
             : base(redirect,
                    backStyle,
                    borderStyle,
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect? redirect)
+        public override void SetRedirector(PaletteRedirect redirect)
         {
             base.SetRedirector(redirect);
             _redirect = redirect;

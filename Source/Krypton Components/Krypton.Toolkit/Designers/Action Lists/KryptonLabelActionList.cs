@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonLabel? _label;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonLabel _label;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the label instance
-            _label = owner.Component as KryptonLabel;
+            _label = (owner.Component as KryptonLabel)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.LabelStyle, value);
+                    _service?.OnComponentChanged(_label, null, _label.LabelStyle, value);
                     _label.LabelStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.Orientation != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.Orientation, value);
+                    _service?.OnComponentChanged(_label, null, _label.Orientation, value);
                     _label.Orientation = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.Values.Text, value);
+                    _service?.OnComponentChanged(_label, null, _label.Values.Text, value);
                     _label.Values.Text = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_label, null, _label.Values.ExtraText, value);
                     _label.Values.ExtraText = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.Values.Image, value);
+                    _service?.OnComponentChanged(_label, null, _label.Values.Image, value);
                     _label.Values.Image = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_label.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.PaletteMode, value);
+                    _service?.OnComponentChanged(_label, null, _label.PaletteMode, value);
                     _label.PaletteMode = value;
                 }
             }
@@ -142,13 +142,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _label.StateCommon.ShortText.Font;
+            get => _label.StateCommon.ShortText.Font!;
 
             set
             {
                 if (_label.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.StateCommon.ShortText.Font, value);
+                    _service?.OnComponentChanged(_label, null, _label.StateCommon.ShortText.Font, value);
 
                     _label.StateCommon.ShortText.Font = value;
                 }
@@ -159,13 +159,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _label.StateCommon.LongText.Font;
+            get => _label.StateCommon.LongText.Font!;
 
             set
             {
                 if (_label.StateCommon.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_label, null, _label.StateCommon.LongText.Font, value);
+                    _service?.OnComponentChanged(_label, null, _label.StateCommon.LongText.Font, value);
 
                     _label.StateCommon.LongText.Font = value;
                 }

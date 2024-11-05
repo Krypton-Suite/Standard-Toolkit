@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
                                  ScrollHere.Equals(DEFAULT_SCROLL_BAR_SCROLL_HERE) &&
                                  ScrollUp.Equals(DEFAULT_SCROLL_BAR_SCROLL_UP) &&
                                  ScrollLeft.Equals(DEFAULT_SCROLL_BAR_SCROLL_LEFT) &&
-                                 ScrollRight.Equals(DEFAULT_SCROLL_BAR_SCROLL_LEFT);
+                                 ScrollRight.Equals(DEFAULT_SCROLL_BAR_SCROLL_RIGHT);
 
         /// <summary>Resets this instance.</summary>
         public void Reset()

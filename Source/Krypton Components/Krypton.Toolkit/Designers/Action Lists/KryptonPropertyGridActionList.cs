@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,9 +16,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonPropertyGrid? _propertyGrid;
-
-        private readonly IComponentChangeService _service;
+        private readonly KryptonPropertyGrid _propertyGrid;
+        private readonly IComponentChangeService? _service;
 
         #endregion
 
@@ -26,9 +25,9 @@ namespace Krypton.Toolkit
 
         public KryptonPropertyGridActionList(KryptonPropertyGridDesigner owner) : base(owner.Component)
         {
-            _propertyGrid = owner.Component as KryptonPropertyGrid;
+            _propertyGrid = (owner.Component as KryptonPropertyGrid)!;
 
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion
@@ -37,13 +36,13 @@ namespace Krypton.Toolkit
 
         public object SelectedObject
         {
-            get => _propertyGrid.SelectedObject;
+            get => _propertyGrid.SelectedObject!;
 
             set
             {
                 if (_propertyGrid.SelectedObject != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObject, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObject, value);
 
                     _propertyGrid.SelectedObject = value;
                 }
@@ -58,7 +57,7 @@ namespace Krypton.Toolkit
             {
                 if (_propertyGrid.SelectedObjects != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObjects, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.SelectedObjects, value);
 
                     _propertyGrid.SelectedObjects = value;
                 }
@@ -73,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (_propertyGrid.PropertySort != value)
                 {
-                    _service.OnComponentChanged(_propertyGrid, null, _propertyGrid.PropertySort, value);
+                    _service?.OnComponentChanged(_propertyGrid, null, _propertyGrid.PropertySort, value);
 
                     _propertyGrid.PropertySort = value;
                 }

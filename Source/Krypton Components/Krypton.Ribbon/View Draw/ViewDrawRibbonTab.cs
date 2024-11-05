@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -57,14 +57,14 @@ namespace Krypton.Ribbon
         {
             _contextBlend2007 = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.41f, 0.7f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.41f, 0.7f, 1.0f]
             };
 
             _contextBlend2010 = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.6f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.6f, 1.0f]
             };
         }
 
@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
             Component = _ribbonTab;
 
             // Create and add the draw content for display inside the tab
-            Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top, true, false));
+            Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Create the state specific memento array
             _mementos = new IDisposable[Enum.GetValues(typeof(PaletteState)).Length];
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
                 _cacheState = State;
             }
 
-            // Do we need to actually perform the relayout?
+            // Do we need to actually perform the re-layout?
             if ((_displayRect != ClientRectangle) ||
                 (Ribbon.DirtyPaletteCounter != _dirtyPaletteLayout))
             {
@@ -397,11 +397,16 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Ensure that child elements have correct palette state
             CheckPaletteState(context);
 
             // Grab the context tab set that relates to this tab
-            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab?.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab!.ContextName];
 
             switch (Ribbon.RibbonShape)
             {
@@ -423,15 +428,14 @@ namespace Krypton.Ribbon
                         RenderBefore2010ContextTab(context, cts);
                     }
 
-                    //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
-                    _paletteContextCurrent.LightBackground = Ribbon.CaptionArea.DrawCaptionOnComposition
-                                                             && (KryptonManager.CurrentGlobalPalette != KryptonManager.PaletteOffice2010Black);
+                    _paletteContextCurrent.LightBackground = KryptonManager.CurrentGlobalPaletteMode.ToString()
+                                                                 .StartsWith(PaletteMode.Office2010Black.ToString());
                     break;
             }
 
             // Use renderer to draw the tab background
             var mementoIndex = StateIndex(State);
-            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, false, _mementos[mementoIndex]);
+            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, _mementos[mementoIndex]);
         }
 
         /// <summary>
@@ -441,7 +445,7 @@ namespace Krypton.Ribbon
         public override void RenderAfter(RenderContext context)
         {
             // Grab the context tab set that relates to this tab
-            ContextTabSet cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab!.ContextName];
 
             // Is this tab part of a context?
             if (cts != null)
@@ -505,7 +509,7 @@ namespace Krypton.Ribbon
                 // Grab the color we draw the context separator in
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
-                Rectangle parentRect = Parent.ClientRectangle;
+                Rectangle parentRect = Parent!.ClientRectangle;
                 var contextRect = parentRect with { X = ClientRectangle.X - 1, Width = ClientRectangle.Width + 2 };
                 var gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1,
                     ClientRectangle.Width + 2, parentRect.Height + 2);
@@ -592,7 +596,7 @@ namespace Krypton.Ribbon
 
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                if ((PaletteState?)stateValues.GetValue(i) == state)
                 {
                     return i;
                 }
@@ -604,7 +608,7 @@ namespace Krypton.Ribbon
         private void CheckPaletteState(ViewContext context)
         {
             // Should control be enabled or disabled
-            var enabled = IsFixed || context.Control.Enabled;
+            var enabled = IsFixed || context.Control!.Enabled;
 
             // Ensure we and child and in correct enabled state
             Enabled = enabled;
@@ -612,7 +616,7 @@ namespace Krypton.Ribbon
             // Better check we have a child!
             if (Count > 0)
             {
-                this[0].Enabled = enabled;
+                this[0]!.Enabled = enabled;
             }
 
             // If disabled...
@@ -630,7 +634,7 @@ namespace Krypton.Ribbon
                 Checked = Ribbon.SelectedTab == RibbonTab;
 
                 // Is this tab a context tab?
-                var contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);
+                var contextTab = !string.IsNullOrEmpty(RibbonTab!.ContextName);
 
                 // Apply the checked state if not fixed
                 if (!IsFixed)
@@ -675,27 +679,35 @@ namespace Krypton.Ribbon
                     case PaletteState.Normal:
                         _overrideCurrent = _overrideStateNormal;
                         break;
+
                     case PaletteState.Tracking:
                         _overrideCurrent = _overrideStateTracking;
                         break;
+
                     case PaletteState.CheckedNormal:
                         _overrideCurrent = _overrideStateCheckedNormal;
                         break;
+
                     case PaletteState.CheckedTracking:
                         _overrideCurrent = _overrideStateCheckedTracking;
                         break;
+
                     case PaletteState.ContextTracking:
                         _overrideCurrent = _overrideStateContextTracking;
                         break;
+
                     case PaletteState.ContextCheckedNormal:
                         _overrideCurrent = _overrideStateContextCheckedNormal;
                         break;
+
                     case PaletteState.ContextCheckedTracking:
                         _overrideCurrent = _overrideStateContextCheckedTracking;
                         break;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(buttonState.ToString());
                         break;
                 }
 
@@ -705,7 +717,7 @@ namespace Krypton.Ribbon
                 // Better check we have a child!
                 if (Count > 0)
                 {
-                    this[0].ElementState = buttonState;
+                    this[0]!.ElementState = buttonState;
                 }
 
                 // Update the actual source palette
@@ -713,9 +725,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e) => MakeDirty();
+        private void OnTabPropertyChanged(object? sender, PropertyChangedEventArgs e) => MakeDirty();
 
-        private void OnTabClicked(object sender, MouseEventArgs e)
+        private void OnTabClicked(object? sender, MouseEventArgs e)
         {
             // We never click to become unchecked
             if (!Checked)
@@ -729,16 +741,16 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabContextClicked(object sender, MouseEventArgs e)
+        private void OnTabContextClicked(object? sender, MouseEventArgs e)
         {
             if (Ribbon.InDesignMode)
             {
-                _ribbonTab.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
+                _ribbonTab?.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
             }
             else
             {
                 // Convert the mouse point to screen coords from the containing control
-                Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl.PointToScreen(new Point(e.X, e.Y));
+                Point screenPt = Ribbon.TabsArea!.TabsContainerControl.ChildControl!.PointToScreen(new Point(e.X, e.Y));
 
                 // Convert back to ribbon client coords, needed for the show context menu call
                 Point clientPt = Ribbon.PointToClient(screenPt);

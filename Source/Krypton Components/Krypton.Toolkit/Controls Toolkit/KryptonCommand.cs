@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             _textLine2 = string.Empty;
             _imageSmall = null;
             _imageLarge = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _commandType = KryptonCommandType.General;
             _assignedButtonSpec = null;
         }
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command image transparent color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -407,49 +407,49 @@ namespace Krypton.Toolkit
                 case KryptonCommandType.General:
                     break;
                 case KryptonCommandType.HelpCommand:
-                    SwitchToHelpCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToHelpCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarCopyCommand:
-                    SwitchToCopyCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToCopyCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarCutCommand:
-                    SwitchToCutCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToCutCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarNewCommand:
-                    SwitchToNewCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToNewCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarOpenCommand:
-                    SwitchToOpenCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToOpenCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPageSetupCommand:
-                    SwitchToPageSetupCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPageSetupCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPasteCommand:
-                    SwitchToPasteCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPasteCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPrintCommand:
-                    SwitchToPrintCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPrintCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPrintPreviewCommand:
-                    SwitchToPrintPreviewCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPrintPreviewCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarQuickPrintCommand:
-                    SwitchToQuickPrintCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToQuickPrintCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarRedoCommand:
-                    SwitchToRedoCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToRedoCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveAllCommand:
-                    SwitchToSaveAllCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveAllCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveAsCommand:
-                    SwitchToSaveAsCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveAsCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveCommand:
-                    SwitchToSaveCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarUndoCommand:
-                    SwitchToUndoCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToUndoCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(commandType), commandType, null);
@@ -468,7 +468,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarUndoNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -480,7 +481,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarUndoNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -502,12 +504,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarUndoNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarUndoNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -536,7 +540,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarSaveNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -548,7 +553,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarSaveNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -570,12 +576,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarSaveNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarSaveNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -604,7 +612,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -616,7 +625,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAsNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -638,12 +648,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAsNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -672,7 +684,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarSaveAllNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -684,7 +697,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarSaveAllNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -706,12 +720,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -740,7 +756,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarRedoNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -752,7 +769,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarRedoNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -774,12 +792,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarRedoNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarRedoNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -806,7 +826,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(GenericToolbarImageResources.GenericQuickPrint);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -818,7 +839,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarQuickPrintNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -840,12 +862,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarQuickPrintNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -874,7 +898,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -886,7 +911,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -908,12 +934,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -942,7 +970,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPrintNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -954,7 +983,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPrintNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -976,12 +1006,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPrintNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1010,7 +1042,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPasteNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1022,7 +1055,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPasteNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1044,12 +1078,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPasteNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPasteNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1078,7 +1114,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarPageSetupNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1090,7 +1127,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarPageSetupNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1112,12 +1150,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPageSetupNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1146,7 +1186,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarOpenNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1158,7 +1199,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarOpenNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1180,12 +1222,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarOpenNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarOpenNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1214,7 +1258,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarNewNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1226,7 +1271,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarNewNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1248,12 +1294,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarNewNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarNewNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1282,7 +1330,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarCutNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1294,7 +1343,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarCutNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1316,12 +1366,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarCutNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarCutNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1350,7 +1402,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ToolbarImageResources.Office2003ToolbarCopyNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1362,7 +1415,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarCopyNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1384,12 +1438,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1418,7 +1474,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.ProfessionalOffice2003:
                     UpdateImage(Office2003ControlBoxResources.Office2003HelpIconNormal);
                     break;
-                case PaletteMode.Office2007DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
                 case PaletteMode.Office2007Blue:
                 case PaletteMode.Office2007BlueDarkMode:
                 case PaletteMode.Office2007BlueLightMode:
@@ -1430,7 +1487,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007BlackDarkMode:
                     UpdateImage(Office2007ToolbarImageResources.Office2007ToolbarHelpNormal);
                     break;
-                case PaletteMode.Office2010DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
                 case PaletteMode.Office2010Blue:
                 case PaletteMode.Office2010BlueDarkMode:
                 case PaletteMode.Office2010BlueLightMode:
@@ -1452,12 +1510,14 @@ namespace Krypton.Toolkit
                 case PaletteMode.Custom:
                     UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
-                case PaletteMode.Office2013DarkGray:
-                case PaletteMode.Office2013LightGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                     break;
-                case PaletteMode.Microsoft365DarkGray:
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
                 case PaletteMode.Microsoft365Black:
                 case PaletteMode.Microsoft365BlackDarkMode:
                 case PaletteMode.Microsoft365Blue:
@@ -1476,7 +1536,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Updates the image.</summary>
         /// <param name="helpImage">The help image.</param>
-        private void UpdateImage(Image helpImage) => ImageSmall = helpImage;
+        private void UpdateImage(Image? helpImage) => ImageSmall = helpImage;
 
         /// <summary>Sets the text.</summary>
         /// <param name="value">The value.</param>

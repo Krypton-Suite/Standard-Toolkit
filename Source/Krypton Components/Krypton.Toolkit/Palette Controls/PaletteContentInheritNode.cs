@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -96,14 +96,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextFont(state);
+        public override Font? GetContentShortTextFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextNewFont(state);
+        public override Font? GetContentShortTextNewFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -159,14 +159,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor1(state);
+        public override Color GetContentShortTextColor1(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor2(state);
+        public override Color GetContentShortTextColor2(PaletteState state) => (TreeNode != null) && (TreeNode.ForeColor != GlobalStaticValues.EMPTY_COLOR) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the short text.
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) =>
+        public override Font? GetContentLongTextFont(PaletteState state) =>
             (TreeNode is KryptonTreeNode { LongNodeFont: not null } kryptonNode)
                 ? kryptonNode.LongNodeFont
                 : _inherit.GetContentLongTextFont(state);
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor1(PaletteState state) =>
-            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != GlobalStaticValues.EMPTY_COLOR)
                 ? kryptonNode.LongForeColor
                 : _inherit.GetContentLongTextColor1(state);
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor2(PaletteState state) =>
-            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != GlobalStaticValues.EMPTY_COLOR)
                 ? kryptonNode.LongForeColor
                 : _inherit.GetContentLongTextColor2(state);
 

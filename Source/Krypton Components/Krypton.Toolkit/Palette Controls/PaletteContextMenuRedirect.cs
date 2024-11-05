@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,20 +29,20 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Create the palette storage
-            ControlInner = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuInner, PaletteBorderStyle.ContextMenuInner, needPaint);
-            ControlOuter = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuOuter, PaletteBorderStyle.ContextMenuOuter, needPaint);
-            Heading = new PaletteTripleRedirect(redirect, PaletteBackStyle.ContextMenuHeading, PaletteBorderStyle.ContextMenuHeading, PaletteContentStyle.ContextMenuHeading, needPaint);
-            ItemHighlight = new PaletteDoubleMetricRedirect(redirect, PaletteBackStyle.ContextMenuItemHighlight, PaletteBorderStyle.ContextMenuItemHighlight, needPaint);
-            ItemImage = new PaletteTripleJustImageRedirect(redirect, PaletteBackStyle.ContextMenuItemImage, PaletteBorderStyle.ContextMenuItemImage, PaletteContentStyle.ContextMenuItemImage, needPaint);
-            ItemImageColumn = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuItemImageColumn, PaletteBorderStyle.ContextMenuItemImageColumn, needPaint);
-            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemShortcutText);
+            ControlInner = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuInner, PaletteBorderStyle.ContextMenuInner, needPaint);
+            ControlOuter = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuOuter, PaletteBorderStyle.ContextMenuOuter, needPaint);
+            Heading = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ContextMenuHeading, PaletteBorderStyle.ContextMenuHeading, PaletteContentStyle.ContextMenuHeading, needPaint);
+            ItemHighlight = new PaletteDoubleMetricRedirect(redirect!, PaletteBackStyle.ContextMenuItemHighlight, PaletteBorderStyle.ContextMenuItemHighlight, needPaint);
+            ItemImage = new PaletteTripleJustImageRedirect(redirect!, PaletteBackStyle.ContextMenuItemImage, PaletteBorderStyle.ContextMenuItemImage, PaletteContentStyle.ContextMenuItemImage, needPaint);
+            ItemImageColumn = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuItemImageColumn, PaletteBorderStyle.ContextMenuItemImageColumn, needPaint);
+            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemShortcutText);
             ItemShortcutText = new PaletteContentJustShortText(ItemShortcutTextRedirect, needPaint);
-            ItemSplit = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuItemSplit, PaletteBorderStyle.ContextMenuItemSplit, needPaint);
-            ItemTextAlternateRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemTextAlternate);
+            ItemSplit = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuItemSplit, PaletteBorderStyle.ContextMenuItemSplit, needPaint);
+            ItemTextAlternateRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemTextAlternate);
             ItemTextAlternate = new PaletteContentJustText(ItemTextAlternateRedirect, needPaint);
-            ItemTextStandardRedirect = new PaletteContentInheritRedirect(redirect, PaletteContentStyle.ContextMenuItemTextStandard);
+            ItemTextStandardRedirect = new PaletteContentInheritRedirect(redirect!, PaletteContentStyle.ContextMenuItemTextStandard);
             ItemTextStandard = new PaletteContentJustText(ItemTextStandardRedirect, needPaint);
-            Separator = new PaletteDoubleRedirect(redirect, PaletteBackStyle.ContextMenuSeparator, PaletteBorderStyle.ContextMenuSeparator, needPaint);
+            Separator = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.ContextMenuSeparator, PaletteBorderStyle.ContextMenuSeparator, needPaint);
         }
         #endregion
 
@@ -51,18 +51,19 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ControlInner.IsDefault &&
-                                           ControlOuter.IsDefault &&
-                                           Heading.IsDefault &&
-                                           ItemHighlight.IsDefault &&
-                                           ItemImage.IsDefault &&
-                                           ItemImageColumn.IsDefault &&
-                                           ItemShortcutText.IsDefault &&
-                                           ItemSplit.IsDefault &&
-                                           ItemTextAlternate.IsDefault &&
-                                           ItemTextStandard.IsDefault &&
-                                           Separator.IsDefault &&
-                                           HasShadow;
+                                            ControlOuter.IsDefault &&
+                                            Heading.IsDefault &&
+                                            ItemHighlight!.IsDefault &&
+                                            ItemImage.IsDefault &&
+                                            ItemImageColumn.IsDefault &&
+                                            ItemShortcutText.IsDefault &&
+                                            ItemSplit.IsDefault &&
+                                            ItemTextAlternate.IsDefault &&
+                                            ItemTextStandard.IsDefault &&
+                                            Separator.IsDefault &&
+                                            HasShadow;
 
         #endregion
 
@@ -99,12 +100,12 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
+        public void SetRedirector(PaletteRedirect redirect)
         {
             ControlInner.SetRedirector(redirect);
             ControlOuter.SetRedirector(redirect);
             Heading.SetRedirector(redirect);
-            ItemHighlight.SetRedirector(redirect);
+            ItemHighlight?.SetRedirector(redirect);
             ItemImage.SetRedirector(redirect);
             ItemImageColumn.SetRedirector(redirect);
             ItemShortcutTextRedirect.SetRedirector(redirect);
@@ -180,7 +181,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight!.IsDefault;
 
         #endregion
 
@@ -205,7 +206,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item image column appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? ItemImageColumn { get; }
+        public PaletteDoubleRedirect ItemImageColumn { get; }
 
         private bool ShouldSerializeItemImageColumn() => !ItemImageColumn.IsDefault;
 
@@ -231,7 +232,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? ItemSplit { get; }
+        public PaletteDoubleRedirect ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
@@ -271,7 +272,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator items appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? Separator { get; }
+        public PaletteDoubleRedirect Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

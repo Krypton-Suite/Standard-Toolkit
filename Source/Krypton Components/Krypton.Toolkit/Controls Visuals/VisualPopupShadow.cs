@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,9 +24,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private GraphicsPath _path1;
-        private GraphicsPath _path2;
-        private GraphicsPath _path3;
+        private GraphicsPath? _path1;
+        private GraphicsPath? _path2;
+        private GraphicsPath? _path3;
         #endregion
 
         #region Identity
@@ -177,9 +177,9 @@ namespace Krypton.Toolkit
 
         private void DrawPaths(Graphics g)
         {
-            g.FillPath(_brushes[2], _path1);
-            g.FillPath(_brushes[1],_path2);
-            g.FillPath(_brushes[0], _path3);
+            g.FillPath(_brushes[2], _path1!);
+            g.FillPath(_brushes[1], _path2!);
+            g.FillPath(_brushes[0], _path3!);
         }
 
         private void DrawShadow(Graphics g, Rectangle area)

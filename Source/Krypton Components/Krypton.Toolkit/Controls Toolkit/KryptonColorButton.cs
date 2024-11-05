@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private readonly List<Color> _recentColors;
-        private Image _wasImage;
+        private Image? _wasImage;
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
 
         // Context menu items
-        private readonly KryptonContextMenu _kryptonContextMenu;
+        private readonly KryptonContextMenu? _kryptonContextMenu;
         private readonly KryptonContextMenuSeparator _separatorTheme;
         private readonly KryptonContextMenuSeparator _separatorStandard;
         private readonly KryptonContextMenuSeparator _separatorRecent;
@@ -129,33 +129,35 @@ namespace Krypton.Toolkit
             DialogResult = DialogResult.None;
             _useMnemonic = true;
             MaxRecentColors = 10;
-            _recentColors = new List<Color>();
+            _recentColors = [];
             _allowFullOpen = true;
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
             _separatorTheme = new KryptonContextMenuSeparator();
-            _headingTheme = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.ThemeColors); //@"Theme Colors");
+            _headingTheme = new KryptonContextMenuHeading(KryptonManager.Strings.ColorStrings.ThemeColors); //@"Theme Colors");
             _colorsTheme = new KryptonContextMenuColorColumns(ColorScheme.OfficeThemes);
             _separatorStandard = new KryptonContextMenuSeparator();
-            _headingStandard = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.StandardColors); //@"Standard Colors");
+            _headingStandard = new KryptonContextMenuHeading(KryptonManager.Strings.ColorStrings.StandardColors); //@"Standard Colors");
             _colorsStandard = new KryptonContextMenuColorColumns(ColorScheme.OfficeStandard);
             _separatorRecent = new KryptonContextMenuSeparator();
-            _headingRecent = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.RecentColors); //@"Recent Colors");
+            _headingRecent = new KryptonContextMenuHeading(KryptonManager.Strings.ColorStrings.RecentColors); //@"Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonLanguageManager.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonManager.Strings.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
-            _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonLanguageManager.ColorStrings.MoreColors, OnClickMoreColors);
+            _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonManager.Strings.ColorStrings.MoreColors, OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
-                                                                                  _separatorStandard, _headingStandard, _colorsStandard,
-                                                                                  _separatorRecent, _headingRecent, _colorsRecent,
-                                                                                  _separatorNoColor, _itemsNoColor,
-                                                                                  _separatorMoreColors, _itemsMoreColors});
+            _kryptonContextMenu.Items.AddRange([
+                _separatorTheme, _headingTheme, _colorsTheme,
+                _separatorStandard, _headingStandard, _colorsStandard,
+                _separatorRecent, _headingRecent, _colorsRecent,
+                _separatorNoColor, _itemsNoColor,
+                _separatorMoreColors, _itemsMoreColors
+            ]);
 
             // Create content storage
             Values = CreateButtonValues(NeedPaintDelegate);
@@ -955,7 +957,7 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this color button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
             if (owner != null)
@@ -1094,15 +1096,15 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case @"ImageSmall":
-                    Values.Image = KryptonCommand.ImageSmall;
+                    Values.Image = KryptonCommand!.ImageSmall;
                     PerformNeedPaint(true);
                     break;
                 case nameof(Text):
@@ -1139,9 +1141,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             var showingContextMenu = false;
 
@@ -1184,7 +1186,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    _kryptonContextMenu.Palette = Palette;
+                    _kryptonContextMenu.LocalCustomPalette = LocalCustomPalette;
                 }
             }
 
@@ -1233,7 +1235,7 @@ namespace Krypton.Toolkit
                     DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
 
                     // Monitor relevant events inside the context menu
-                    HookContextMenuEvents(_kryptonContextMenu.Items, true);
+                    HookContextMenuEvents(_kryptonContextMenu!.Items, true);
 
                     // Show relative to the screen rectangle
                     cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
@@ -1264,17 +1266,17 @@ namespace Krypton.Toolkit
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
 
             // Unhook from item events
-            HookContextMenuEvents(_kryptonContextMenu.Items, false);
+            HookContextMenuEvents(_kryptonContextMenu!.Items, false);
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)
@@ -1317,7 +1319,7 @@ namespace Krypton.Toolkit
         public void AddUpdateRecentColors(IList<Color> colors)
         {
             foreach (Color color in colors
-                         .Where(static color => (color != null) && !color.Equals(Color.Empty))
+                         .Where(static color => (color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
                          .Where(color => !Enumerable.Contains(_recentColors, color)))
             {
                 // Add to start of the list
@@ -1337,9 +1339,9 @@ namespace Krypton.Toolkit
             if (AutoRecentColors)
             {
                 // We do not add to recent colors if it is inside another color columns 
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu!.Items)
                 {
-                    // Only interested in the non-recent colors color columns
+                    // Only interested in the non-recent colors, color columns
                     if ((item != _colorsRecent) && (item is KryptonContextMenuColorColumns colors))
                     {
                         // Cast to correct type
@@ -1360,7 +1362,7 @@ namespace Krypton.Toolkit
                 }
 
                 // If this color valid and so possible to become a recent color
-                if ((color != null) && !color.Equals(Color.Empty))
+                if ((color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
                 {
                     var found = false;
                     foreach (Color recentColor in _recentColors)
@@ -1421,14 +1423,14 @@ namespace Krypton.Toolkit
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new[] { _recentColors[i] };
+                    colors[i] = [_recentColors[i]];
                 }
 
                 _colorsRecent.SetCustomColors(colors);
             }
 
             // Should the no color entry be checked?
-            _itemNoColor.Checked = _selectedColor.Equals(Color.Empty);
+            _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticValues.EMPTY_COLOR);
         }
 
         private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1439,7 +1441,7 @@ namespace Krypton.Toolkit
             if (target.Visible)
             {
                 // Check all items before the target
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu!.Items)
                 {
                     // Finish when we reach the target
                     if (item == target)
@@ -1463,13 +1465,13 @@ namespace Krypton.Toolkit
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+        private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
+        private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
+        private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
 
-        private void OnClickMoreColors(object sender, EventArgs e)
+        private void OnClickMoreColors(object? sender, EventArgs e)
         {
             // Give user a chance to cancel showing the Krypton more colors dialog
             var cea = new CancelEventArgs();

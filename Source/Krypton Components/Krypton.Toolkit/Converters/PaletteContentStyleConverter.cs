@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteContentStyle, string> _pairs = new Dictionary<PaletteContentStyle, string>
+        private static readonly BiDictionary<PaletteContentStyle, string> _pairs = new BiDictionary<PaletteContentStyle, string>(
+            new Dictionary<PaletteContentStyle, string>
         {
             {PaletteContentStyle.ButtonStandalone, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE},
             {PaletteContentStyle.ButtonLowProfile, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE},
@@ -99,7 +100,7 @@ namespace Krypton.Toolkit
             {PaletteContentStyle.InputControlCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1},
             {PaletteContentStyle.InputControlCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2},
             {PaletteContentStyle.InputControlCustom3,DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3}
-        };
+        });
 
         #endregion
 
@@ -107,7 +108,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteContentStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteContentStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteContentStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

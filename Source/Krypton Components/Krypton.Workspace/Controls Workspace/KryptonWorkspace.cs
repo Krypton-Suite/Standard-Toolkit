@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -424,8 +424,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the active page.
         /// </summary>
-        [Browsable(true), 
-         Description(@"Gets and sets the active page."), 
+        [Browsable(true),
+         Description(@"Gets and sets the active page."),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonPage? ActivePage { get; set; }
 
@@ -1246,7 +1246,7 @@ namespace Krypton.Workspace
                         StarSize itemSize = item.WorkspaceStarSize;
 
                         // Should the new width be applied?
-                        if ((itemSize.StarWidth.UsingStar && applyStar) 
+                        if ((itemSize.StarWidth.UsingStar && applyStar)
                             || (!itemSize.StarWidth.UsingStar && applyFixed)
                             )
                         {
@@ -1258,7 +1258,7 @@ namespace Krypton.Workspace
                         }
 
                         // Should the new height be applied?
-                        if ((itemSize.StarHeight.UsingStar && applyStar) 
+                        if ((itemSize.StarHeight.UsingStar && applyStar)
                             || (!itemSize.StarHeight.UsingStar && applyFixed)
                             )
                         {
@@ -1323,7 +1323,7 @@ namespace Krypton.Workspace
                 // Create a new cell with entire list of pages as the only workspace item
                 var cell = new KryptonWorkspaceCell();
                 cell.Pages.AddRange(pages.ToArray());
-                Root.Children.Add(cell);
+                Root.Children!.Add(cell);
 
                 // Make sure the same page is active as it was before the change
                 // but only if the target cell is allowed to have selected tabs
@@ -1423,7 +1423,7 @@ namespace Krypton.Workspace
                     // If no cells then do we need to create a new empty cell?
                     if (createCellIfEmpty)
                     {
-                        Root.Children.Add(new KryptonWorkspaceCell());
+                        Root.Children!.Add(new KryptonWorkspaceCell());
                     }
                 }
                 else
@@ -1444,18 +1444,18 @@ namespace Krypton.Workspace
                                 // If there are no more cells then create one now
                                 if (cells.Count == 0)
                                 {
-                                    sequence.Children.Add(new KryptonWorkspaceCell());
+                                    sequence.Children!.Add(new KryptonWorkspaceCell());
                                 }
                                 else
                                 {
                                     KryptonWorkspaceCell cell = cells[0];
                                     cells.RemoveAt(0);
-                                    sequence.Children.Add(cell);
+                                    sequence.Children!.Add(cell);
                                 }
                             }
                         }
 
-                        Root.Children.Add(sequence);
+                        Root.Children!.Add(sequence);
                     }
                 }
             }
@@ -1555,7 +1555,7 @@ namespace Krypton.Workspace
                     // If no pages then do we need to create a cell?
                     if (createCellIfNoPages)
                     {
-                        Root.Children.Add(new KryptonWorkspaceCell());
+                        Root.Children!.Add(new KryptonWorkspaceCell());
                     }
                 }
                 else
@@ -1588,11 +1588,11 @@ namespace Krypton.Workspace
                                     }
                                 }
 
-                                sequence.Children.Add(cell);
+                                sequence.Children!.Add(cell);
                             }
                         }
 
-                        Root.Children.Add(sequence);
+                        Root.Children!.Add(sequence);
                     }
                 }
             }
@@ -1661,7 +1661,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if (MaximizedCell is { AllowDroppingPages: true } )
+            if (MaximizedCell is { AllowDroppingPages: true })
             {
                 // Generate targets for maximized cell only
                 visibleCells = CellVisibleCount;
@@ -1925,7 +1925,7 @@ namespace Krypton.Workspace
                     UniqueNameToPage existingPages = BuildUniqueNameDictionary(availablePages);
 
                     // Remove all existing contents
-                    Root.Children.Clear();
+                    Root.Children!.Clear();
 
                     // Read to custom data element
                     if (!xmlReader.Read())
@@ -2067,10 +2067,10 @@ namespace Krypton.Workspace
         public virtual string ReadCellElement(XmlReader xmlReader, KryptonWorkspaceCell cell)
         {
             // Grab the mandatory attributes
-            cell.UniqueName = xmlReader.GetAttribute(@"UN");
-            cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
+            cell.UniqueName = xmlReader.GetAttribute(@"UN")!;
+            cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S")!;
             var selectedPageUniqueName = xmlReader.GetAttribute(@"SP");
-            cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM"));
+            cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM")!);
             cell.UseMnemonic = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"UM", @"True"));
             cell.AllowTabFocus = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"ATF", @"False"));
             cell.AllowPageDrag = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"APD", @"True"));
@@ -2080,7 +2080,7 @@ namespace Krypton.Workspace
             cell.DisposeOnRemove = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"DOR", @"True"));
             cell.MinimumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MINS", @"0, 0"));
             cell.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
-            return selectedPageUniqueName;
+            return selectedPageUniqueName!;
         }
 
 
@@ -2103,9 +2103,9 @@ namespace Krypton.Workspace
         /// <param name="sequence">Reference to sequence.</param>
         public virtual void ReadSequenceElement(XmlReader xmlReader, KryptonWorkspaceSequence sequence)
         {
-            sequence.UniqueName = xmlReader.GetAttribute(@"UN");
-            sequence.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
-            sequence.Orientation = (Orientation)Enum.Parse(typeof(Orientation), xmlReader.GetAttribute(@"D"));
+            sequence.UniqueName = xmlReader.GetAttribute(@"UN")!;
+            sequence.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S")!;
+            sequence.Orientation = (Orientation)Enum.Parse(typeof(Orientation), xmlReader.GetAttribute(@"D")!);
         }
 
         /// <summary>
@@ -2133,7 +2133,7 @@ namespace Krypton.Workspace
 
             //Seb
             //TODO store object instead of strings
-            XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString());
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString()!);
             //End Seb
 
             // Write out images as child elements
@@ -2197,7 +2197,7 @@ namespace Krypton.Workspace
                 page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
 
                 //Seb
-                page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG", null);
+                page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG");
                 //End Seb
             }
 
@@ -2296,14 +2296,14 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
-        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e) => PerformNeedPaint(true);
+        protected void OnChildrenPropertyChanged(object? sender, PropertyChangedEventArgs e) => PerformNeedPaint(true);
 
         /// <summary>
         /// Request to toggle the maximized state.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
-        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e)
+        protected void OnChildrenMaximizeRestoreClicked(object? sender, EventArgs e)
         {
             if (sender is KryptonWorkspaceCell cell)
             {
@@ -2510,7 +2510,7 @@ namespace Krypton.Workspace
                 // Remove all view separators no longer needed
                 for (var i = _drawPanel.Count - 1; i >= 0; i--)
                 {
-                    if ( _drawPanel[i] is ViewDrawWorkspaceSeparator separator)
+                    if (_drawPanel[i] is ViewDrawWorkspaceSeparator separator)
                     {
                         if (!separators.Contains(separator))
                         {
@@ -2530,7 +2530,7 @@ namespace Krypton.Workspace
 
                         // If the control has the expected interface
                         if (c is IWorkspaceItem { DisposeOnRemove: true })
-                            // Does the item want to be disposed on removal?
+                        // Does the item want to be disposed on removal?
                         {
                             c.Dispose();
                         }
@@ -2580,8 +2580,8 @@ namespace Krypton.Workspace
                 }
 
                 // If we have a maximized cell then ensure it has focus and not some other cell
-                if (MaximizedCell is { ContainsFocus: false } 
-                    && ContainsFocus )
+                if (MaximizedCell is { ContainsFocus: false }
+                    && ContainsFocus)
                 {
                     MaximizedCell.Select();
                 }
@@ -2804,7 +2804,7 @@ namespace Krypton.Workspace
                                      Point splitter)
         {
             // Get the sequence that contains the items moved
-            var parentSequence = (KryptonWorkspaceSequence)separator.WorkspaceItem.WorkspaceParent;
+            var parentSequence = (KryptonWorkspaceSequence)separator.WorkspaceItem.WorkspaceParent!;
             SeparatorToItems(separator, out IWorkspaceItem after, out IWorkspaceItem? before);
 
             // At design time we can get null references
@@ -2825,7 +2825,7 @@ namespace Krypton.Workspace
                 if (offset != 0)
                 {
                     // Update the sizing value for each item in the sequence
-                    foreach (Component child in parentSequence.Children)
+                    foreach (Component child in parentSequence.Children!)
                     {
                         // Can only process IWorkspaceItem items
                         if (child is IWorkspaceItem item)
@@ -2894,12 +2894,16 @@ namespace Krypton.Workspace
                     // Create drag manager the first time it is needed
                     if (_dragManager == null)
                     {
-                        _dragManager = new DragManager();
+                        _dragManager = new DragManager(Redirector);
                         _dragManager.DragTargetProviders.Add(this);
                     }
 
                     // Calling DragStart will cause the drag targets to be created from the target providers
-                    e.Cancel = !_dragManager.DragStart(e.ScreenPoint, new PageDragEndData(sender as KryptonNavigator, e.Pages));
+                    PageDragEndData? dragEndData = sender is KryptonNavigator kn
+                        ? new PageDragEndData(kn, e.Pages)
+                        : null;
+
+                    e.Cancel = !_dragManager.DragStart(e.ScreenPoint, dragEndData);
                 }
             }
         }
@@ -3009,7 +3013,7 @@ namespace Krypton.Workspace
             var availableSpace = (seq.Orientation == Orientation.Vertical) ? client.Height : client.Width;
 
             // Temporary structures used to cache info during calculations
-            var info = new LayoutInfo[seq.Children.Count];
+            var info = new LayoutInfo[seq.Children!.Count];
 
             var visibleChildren = 0;
             var visibleStarChildren = 0;
@@ -3088,8 +3092,8 @@ namespace Krypton.Workspace
                         {
                             // Otherwise we get the preferred size of the item in sequence orientation
                             displaySpace = seq.Orientation == Orientation.Vertical
-                                ? info[i].WorkspaceItem.WorkspacePreferredSize.Height
-                                : info[i].WorkspaceItem.WorkspacePreferredSize.Width;
+                                ? info[i].WorkspaceItem!.WorkspacePreferredSize.Height
+                                : info[i].WorkspaceItem!.WorkspacePreferredSize.Width;
                         }
 
                         info[i].DisplaySpace = displaySpace;
@@ -3203,7 +3207,7 @@ namespace Krypton.Workspace
                 if (workspaceItem != null)
                 {
                     // If no separator is associated with workspace, then create one now
-                    if ( !_workspaceToSeparator.TryGetValue(workspaceItem, out ViewDrawWorkspaceSeparator viewSeparator))
+                    if (!_workspaceToSeparator.TryGetValue(workspaceItem, out var viewSeparator))
                     {
                         // Create a view for the separator area
                         viewSeparator = new ViewDrawWorkspaceSeparator(this, workspaceItem, seq.Orientation)
@@ -3318,7 +3322,7 @@ namespace Krypton.Workspace
                             // If the item is a sequence, then position its contents inside the allocated area
                             if (seq.Children[i] is KryptonWorkspaceSequence)
                             {
-                                LayoutSequenceNonMaximized(seq.Children[i] as KryptonWorkspaceSequence,
+                                LayoutSequenceNonMaximized((seq.Children[i] as KryptonWorkspaceSequence)!,
                                     info[i].DisplayRect,
                                     controls,
                                     separators,
@@ -3328,7 +3332,7 @@ namespace Krypton.Workspace
                         else
                         {
                             // Ensure we mark all the controls contained in the sequence as still needed
-                            LayoutSequenceIsHidden(seq.Children[i] as KryptonWorkspaceSequence, controls);
+                            LayoutSequenceIsHidden((seq.Children[i] as KryptonWorkspaceSequence)!, controls);
                         }
                     }
                 }
@@ -3339,7 +3343,7 @@ namespace Krypton.Workspace
         private void LayoutSequenceIsHidden(KryptonWorkspaceSequence sequence, ControlList controls)
         {
             // Process all children of the sequence
-            foreach (Component child in sequence.Children)
+            foreach (Component child in sequence.Children!)
             {
                 // Is the child an actual control
                 switch (child)
@@ -3360,7 +3364,7 @@ namespace Krypton.Workspace
                                                    KryptonWorkspaceCell target)
         {
             // Scan all sequence children looking for a matching cell
-            for (var i = 0; i < sequence.Children.Count; i++)
+            for (var i = 0; i < sequence.Children!.Count; i++)
             {
                 // If we find the target, then done
                 if (sequence.Children[i] == target)
@@ -3383,7 +3387,7 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            var count = sequence.Children.Count;
+            var count = sequence.Children!.Count;
             var index = sequence.Children.IndexOf(target);
 
             // Are we look for entries after the provided one?
@@ -3401,14 +3405,14 @@ namespace Krypton.Workspace
                             }
                             break;
                         case KryptonWorkspaceSequence child:
-                        {
-                            // Search inside the sequence for the first leaf in the specified direction
-                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                            if (ret != null)
                             {
-                                return ret;
+                                // Search inside the sequence for the first leaf in the specified direction
+                                KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                                if (ret != null)
+                                {
+                                    return ret;
+                                }
                             }
-                        }
                             break;
                     }
                 }
@@ -3430,7 +3434,8 @@ namespace Krypton.Workspace
                         case KryptonWorkspaceSequence child:
                             // Search inside the sequence for the first leaf in the specified direction
                             KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                            if (ret != null)
+                            
+                            if (ret is not null)
                             {
                                 return ret;
                             }
@@ -3440,9 +3445,9 @@ namespace Krypton.Workspace
             }
 
             // Still no luck, try our own parent
-            if (sequence.WorkspaceParent != null)
+            if (sequence.WorkspaceParent is not null)
             {
-                return RecursiveFindCellInSequence(sequence.WorkspaceParent as KryptonWorkspaceSequence, sequence, forwards, onlyVisible);
+                return RecursiveFindCellInSequence((sequence.WorkspaceParent as KryptonWorkspaceSequence)!, sequence, forwards, onlyVisible);
             }
             else
             {
@@ -3454,7 +3459,7 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            var count = sequence.Children.Count;
+            var count = sequence.Children!.Count;
 
             for (var i = 0; i < count; i++)
             {
@@ -3471,14 +3476,14 @@ namespace Krypton.Workspace
                         }
                         break;
                     case KryptonWorkspaceSequence child:
-                    {
-                        // Search inside the sequence 
-                        KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                        if (ret != null)
                         {
-                            return ret;
+                            // Search inside the sequence 
+                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                            if (ret != null)
+                            {
+                                return ret;
+                            }
                         }
-                    }
                         break;
                 }
             }
@@ -3495,11 +3500,11 @@ namespace Krypton.Workspace
             after = separator.WorkspaceItem;
 
             // Workspace item before the separator (to the left or above)
-            var beforeSequence = (KryptonWorkspaceSequence)after.WorkspaceParent;
+            var beforeSequence = (KryptonWorkspaceSequence)after.WorkspaceParent!;
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;
-            for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
+            for (var i = beforeSequence.Children!.IndexOf(after) - 1; i >= 0; i--)
             {
                 if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                 {
@@ -3560,7 +3565,7 @@ namespace Krypton.Workspace
             CellList cells = CopyToCellList();
 
             // Remove existing workspace hierarchy
-            Root.Children.Clear();
+            Root.Children?.Clear();
 
             return cells;
         }
@@ -3610,7 +3615,7 @@ namespace Krypton.Workspace
             }
 
             // Remove existing workspace hierarchy
-            Root.Children.Clear();
+            Root.Children?.Clear();
 
             return pages;
         }
@@ -3627,7 +3632,7 @@ namespace Krypton.Workspace
                 }
                 else
                 {
-                    cell.HideAllPages(excludeType);
+                    cell.HideAllPages(excludeType!);
                 }
 
                 cell.Visible = cell.Pages.VisibleCount > 0;
@@ -3676,7 +3681,7 @@ namespace Krypton.Workspace
         private void CompactAtLeastOneVisibleCell()
         {
             // If there are no visible cells found in entire hierarchy
-            if (!Root.Children.ContainsVisibleCell)
+            if (Root.Children != null && !Root.Children.ContainsVisibleCell)
             {
                 Root.Children.Add(new KryptonWorkspaceCell());
             }
@@ -3697,7 +3702,7 @@ namespace Krypton.Workspace
             {
                 // If there is a maximized cell and it is no longer the active cell then we need 
                 // to remove the maximized cell setting to the newly active cell can be seen
-                if ((MaximizedCell != null) && (MaximizedCell != newCell))
+                if ((MaximizedCell is not null) && (MaximizedCell != newCell))
                 {
                     MaximizedCell = null;
                 }
@@ -3717,24 +3722,25 @@ namespace Krypton.Workspace
                 {
                     KryptonPage? oldPage = ActivePage;
                     ActivePage = page;
+
                     OnActivePageChanged(new ActivePageChangedEventArgs(oldPage, ActivePage));
                 }
             }
         }
 
-        private void OnCellEnter(object sender, EventArgs e)
+        private void OnCellEnter(object? sender, EventArgs e)
         {
-            var cell = (KryptonWorkspaceCell)sender;
-            ActiveCell = cell;
+            ActiveCell = sender as KryptonWorkspaceCell;
         }
 
-        private void OnCellSelectedPageChanged(object sender, EventArgs e)
+        private void OnCellSelectedPageChanged(object? sender, EventArgs e)
         {
             if (!IsActivePageChangedEventSuspended)
             {
                 // If change occurred on the active cell
-                var cell = (KryptonWorkspaceCell)sender;
-                if (cell == ActiveCell)
+                var cell = sender as KryptonWorkspaceCell;
+
+                if (cell is not null && cell == ActiveCell)
                 {
                     if (cell.SelectedPage != ActivePage)
                     {
@@ -3746,7 +3752,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellShowContextMenu(object sender, ShowContextMenuArgs e)
+        private void OnCellShowContextMenu(object? sender, ShowContextMenuArgs e)
         {
             // Do we customize the context menu of the page header?
             if (ContextMenus.ShowContextMenu && !e.Cancel)
@@ -3789,6 +3795,16 @@ namespace Krypton.Workspace
                 // Ensure we have a krypton context menu if not already present
                 e.KryptonContextMenu ??= new KryptonContextMenu();
 
+                if (_menuPage is null)
+                {
+                    throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuPage)));
+                }
+
+                if (_menuCell is null)
+                {
+                    throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuCell)));
+                }
+
                 // Update the individual menu options
                 _menuClose.Visible = CanClosePage(_menuPage);
                 _menuCloseAllButThis.Visible = (PageVisibleCount > 1);
@@ -3823,15 +3839,15 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellClosedContextMenu(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnCellClosedContextMenu(object? sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook from context menu
-            var contextMenu = (KryptonContextMenu)sender;
-            contextMenu.Closed -= OnCellClosedContextMenu;
+            var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
 
             // Remove our menu items as we only want them to be inside the currently showing context menu
+            contextMenu.Closed -= OnCellClosedContextMenu;
             contextMenu.Items.Remove(_menuSeparator1);
-            contextMenu.Items.Remove(_menuItems);
+            contextMenu.Items.Remove(_menuItems!);
 
             // Must unreference the page/cell so they can be garbage collected
             if (e.CloseReason != ToolStripDropDownCloseReason.ItemClicked)
@@ -3840,7 +3856,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnCellCtrlTabWrap(object sender, CtrlTabCancelEventArgs e)
+        private void OnCellCtrlTabWrap(object? sender, CtrlTabCancelEventArgs e)
         {
             // Prevent the cell from wrapping around when ctrl+tabbing
             e.Cancel = true;
@@ -3890,37 +3906,37 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnPageClose(object sender, EventArgs e)
+        private void OnPageClose(object? sender, EventArgs e)
         {
-            ClosePage(_menuPage);
+            ClosePage(_menuPage!);
             ClearContextMenuCache();
         }
 
-        private void OnPageCloseAllButThis(object sender, EventArgs e)
+        private void OnPageCloseAllButThis(object? sender, EventArgs e)
         {
-            CloseAllButThisPage(_menuPage);
+            CloseAllButThisPage(_menuPage!);
             ClearContextMenuCache();
         }
 
-        private void OnPageMoveNext(object sender, EventArgs e)
+        private void OnPageMoveNext(object? sender, EventArgs e)
         {
-            MovePageNext(_menuPage, true);
+            MovePageNext(_menuPage!, true);
             ClearContextMenuCache();
         }
 
-        private void OnPageMovePrevious(object sender, EventArgs e)
+        private void OnPageMovePrevious(object? sender, EventArgs e)
         {
-            MovePagePrevious(_menuPage, true);
+            MovePagePrevious(_menuPage!, true);
             ClearContextMenuCache();
         }
 
-        private void OnPageSplitVert(object sender, EventArgs e) => PageSplitDirection(_menuCell, _menuPage, Orientation.Vertical);
+        private void OnPageSplitVert(object? sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Vertical);
 
-        private void OnPageSplitHorz(object sender, EventArgs e) => PageSplitDirection(_menuCell, _menuPage, Orientation.Horizontal);
+        private void OnPageSplitHorz(object? sender, EventArgs e) => PageSplitDirection(_menuCell!, _menuPage!, Orientation.Horizontal);
 
-        private void OnPageMaximizeRestore(object sender, EventArgs e) => MaximizedCell = MaximizedCell != null ? null : _menuCell;
+        private void OnPageMaximizeRestore(object? sender, EventArgs e) => MaximizedCell = MaximizedCell != null ? null : _menuCell;
 
-        private void OnPageRebalance(object sender, EventArgs e) => ApplyRebalance();
+        private void OnPageRebalance(object? sender, EventArgs e) => ApplyRebalance();
 
         private void PageSplitDirection(KryptonWorkspaceCell cell,
                                         KryptonPage page,
@@ -3935,7 +3951,7 @@ namespace Krypton.Workspace
             if (cell.WorkspaceParent is KryptonWorkspaceSequence parentSequence)
             {
                 // Find position of cell inside its parent sequence
-                var index = parentSequence.Children.IndexOf(cell);
+                var index = parentSequence.Children!.IndexOf(cell);
 
                 // Create a new cell and move the context page into it
                 var newCell = new KryptonWorkspaceCell();
@@ -3962,7 +3978,7 @@ namespace Krypton.Workspace
 
                     // Move the existing cell and the new cell into the new sequence
                     parentSequence.Children.Remove(cell);
-                    newSequence.Children.Add(cell);
+                    newSequence.Children!.Add(cell);
                     newSequence.Children.Add(newCell);
 
                     // Put new sequence in place of where the cell was
@@ -3974,7 +3990,7 @@ namespace Krypton.Workspace
             if (hadFocus)
             {
                 PerformLayout();
-                CellForPage(page).Select();
+                CellForPage(page)?.Select();
             }
 
             ResumeActivePageChangedEvent();

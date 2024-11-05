@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -44,33 +44,6 @@ namespace Krypton.Toolkit
             Orientation = orientation;
 
             // Default other state
-            DrawContentOnComposition = false;
-            Glowing = false;
-            TestForFocusCues = false;
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawContent class.
-        /// </summary>
-        /// <param name="paletteContent">Palette source for the content.</param>
-        /// <param name="values">Reference to actual content values.</param>
-        /// <param name="orientation">Visual orientation of the content.</param>
-        /// <param name="composition">Draw on composition.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
-        public ViewDrawContent(IPaletteContent? paletteContent,
-                               IContentValues values,
-                               VisualOrientation orientation,
-                               bool composition,
-                               bool glowing)
-        {
-            // Cache the starting values
-            _paletteContent = paletteContent;
-            Values = values;
-            Orientation = orientation;
-
-            // Default other state
-            DrawContentOnComposition = composition;
-            Glowing = glowing;
             TestForFocusCues = false;
         }
 
@@ -100,22 +73,6 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-        #endregion
-
-        #region DrawContentOnComposition
-        /// <summary>
-        /// Gets and sets the composition value.
-        /// </summary>
-        public bool DrawContentOnComposition { get; set; }
-
-        #endregion
-
-        #region Glowing
-        /// <summary>
-        /// Gets ans sets the glowing value.
-        /// </summary>
-        public bool Glowing { get; set; }
-
         #endregion
 
         #region TestForFocusCues
@@ -192,12 +149,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public bool IsImageDisplayed([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var isDisplayed = false;
@@ -205,7 +167,7 @@ namespace Krypton.Toolkit
             // If we have some content to investigate
             if (_paletteContent?.GetContentDraw(State) == InheritBool.True)
             {
-                isDisplayed = context.Renderer.RenderStandardContent.GetContentImageDisplayed(_memento);
+                isDisplayed = context.Renderer.RenderStandardContent.GetContentImageDisplayed(_memento!);
             }
 
             return isDisplayed;
@@ -221,20 +183,25 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public Rectangle ImageRectangle([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var imageRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                imageRect = context.Renderer.RenderStandardContent.GetContentImageRectangle(_memento);
+                imageRect = context.Renderer.RenderStandardContent.GetContentImageRectangle(_memento!);
             }
 
             return imageRect;
@@ -253,17 +220,22 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                textRect = context.Renderer.RenderStandardContent.GetContentShortTextRectangle(_memento);
+                textRect = context.Renderer.RenderStandardContent.GetContentShortTextRectangle(_memento!);
             }
 
             return textRect;
@@ -279,20 +251,25 @@ namespace Krypton.Toolkit
         /// <returns>Rectangle of short text drawing.</returns>
         public Rectangle LongTextRect([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             var textRect = Rectangle.Empty;
 
             // If we have some content to investigate
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
-                textRect = context.Renderer.RenderStandardContent.GetContentLongTextRectangle(_memento);
+                textRect = context.Renderer.RenderStandardContent.GetContentLongTextRectangle(_memento!);
             }
 
             return textRect;
@@ -308,28 +285,31 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // By default we take up no space at all
             var preferredSize = Size.Empty;
 
             // If we have some content to encompass
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent?.GetContentDraw(State) == InheritBool.True)
             {
                 // Ask the renderer for the contents preferred size
                 preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context,
                                                                                                _paletteContent,
-                                                                                               Values,
+                                                                                               Values!,
                                                                                                Orientation,
-                                                                                               State,
-                                                                                               DrawContentOnComposition,
-                                                                                               Glowing);
+                                                                                               State);
             }
 
             return preferredSize;
@@ -342,19 +322,24 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
             // Do we need to draw the content?
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
             {
                 // Dispose of old memento first
                 if (_memento != null)
@@ -368,11 +353,9 @@ namespace Krypton.Toolkit
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context,
                                                                                 ClientRectangle,
                                                                                 _paletteContent,
-                                                                                Values,
+                                                                                Values!,
                                                                                 Orientation,
-                                                                                State,
-                                                                                DrawContentOnComposition,
-                                                                                Glowing);
+                                                                                State);
             }
         }
         #endregion
@@ -384,28 +367,31 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // Do we need to draw the content?
-            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            if (context.Renderer is null)
             {
-                var allowFocusRect = !TestForFocusCues || ShowFocusCues(context.Control);
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            // Do we need to draw the content?
+            if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
+            {
+                var allowFocusRect = !TestForFocusCues || ShowFocusCues(context.Control!);
 
                 // Draw using memento returned from render layout
                 context.Renderer.RenderStandardContent.DrawContent(context,
                                                                    ClientRectangle,
                                                                    _paletteContent,
-                                                                   _memento,
+                                                                   _memento!,
                                                                    Orientation,
                                                                    State,
-                                                                   DrawContentOnComposition,
-                                                                   Glowing,
                                                                    allowFocusRect);
             }
         }
@@ -421,7 +407,7 @@ namespace Krypton.Toolkit
                                                                          BindingFlags.NonPublic);
             }
 
-            return (bool)_pi.GetValue(c, null);
+            return (bool)_pi!.GetValue(c, null)!;
         }
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,8 +25,8 @@ namespace Krypton.Toolkit
         public KryptonProfessionalRenderer([DisallowNull] KryptonColorTable kct)
             : base(kct)
         {
-            Debug.Assert(kct != null);
-            KCT = kct;
+            Debug.Assert(kct is not null);
+            KCT = kct ?? throw new ArgumentNullException(nameof(kct));
         }
         #endregion
 
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             if (e.Item.GetType().ToString() == "System.Windows.Forms.MdiControlStrip+ControlBoxMenuItem")
             {
                 // Get access to the owning form of the mdi control strip
-                if (e.ToolStrip.Parent.TopLevelControl is Form f)
+                if (e.ToolStrip!.Parent!.TopLevelControl is Form f)
                 {
                     // Get the mdi control strip instance
                     PropertyInfo? piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
@@ -104,11 +104,11 @@ namespace Krypton.Toolkit
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent
                                             };
-                                            attribs.SetRemapTable(new[] { remap });
+                                            attribs.SetRemapTable([remap]);
 
                                             // Phew, actually draw the darn thing
                                             e.Graphics.DrawImage(paletteImage, e.ImageRectangle,
-                                                0, 0, e.Image.Width, e.Image.Height,
+                                                0, 0, e.Image!.Width, e.Image.Height,
                                                 GraphicsUnit.Pixel, attribs);
 
                                             // Do not let base class draw system defined image

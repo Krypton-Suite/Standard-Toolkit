@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonRichTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRichTextBox? _richTextBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonRichTextBox _richTextBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the text box instance
-            _richTextBox = owner.Component as KryptonRichTextBox;
+            _richTextBox = (owner.Component as KryptonRichTextBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.KryptonContextMenu, value);
 
                     _richTextBox.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
                     _richTextBox.PaletteMode = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
                     _richTextBox.InputControlStyle = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox.Multiline != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
                     _richTextBox.Multiline = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_richTextBox.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
                     _richTextBox.WordWrap = value;
                 }
             }
@@ -125,33 +125,15 @@ namespace Krypton.Toolkit
         /// <value>The rich text box font.</value>
         public Font Font
         {
-            get => _richTextBox.StateCommon.Content.Font;
+            get => _richTextBox.StateCommon.Content.Font!;
 
             set
             {
                 if (_richTextBox.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
+                    _service?.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
 
                     _richTextBox.StateCommon.Content.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _richTextBox.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_richTextBox.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Border.Rounding, value);
-
-                    _richTextBox.StateCommon.Border.Rounding = value;
                 }
             }
         }
@@ -175,7 +157,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"TextBox display style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(nameof(TextBox)));
                 actions.Add(new DesignerActionPropertyItem(nameof(Multiline), nameof(Multiline), nameof(TextBox), @"Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem(nameof(WordWrap), nameof(WordWrap), nameof(TextBox), @"Should words be wrapped over multiple lines."));

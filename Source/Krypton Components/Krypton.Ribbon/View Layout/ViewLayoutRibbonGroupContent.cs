@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                   IRibbonViewGroupSize
     {
         #region Type Definitions
-        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase> { }
+        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase>;
         #endregion
 
         #region Static Fields
@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needPaint;
         private ContainerToView _containerToView;
         private List<ItemSizeWidth[]> _listWidths;
-        private int[] _containerWidths;
+        private int[]? _containerWidths;
         #endregion
 
         #region Identity
@@ -47,18 +47,18 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonGroup">The ribbon group this layout is used to display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupContent([DisallowNull] KryptonRibbon ribbon,
-                                            [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                            [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupContent([DisallowNull] KryptonRibbon? ribbon,
+                                            [DisallowNull] KryptonRibbonGroup? ribbonGroup,
+                                            [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGroup != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGroup is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Use hashtable to store relationships
             _containerToView = new ContainerToView();
@@ -125,7 +125,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the group content.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             ViewBase? view = null;
 
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
                 view = DialogView.GetFocusView();
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             ViewBase? view = null;
 
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             ViewBase? view = null;
 
@@ -276,7 +276,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -287,7 +287,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             ViewBase? view = null;
 
@@ -339,7 +339,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -355,14 +355,14 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroupItems();
 
             // Get the permutations available for each child container
-            _listWidths = new List<ItemSizeWidth[]>();
+            _listWidths = [];
 
             // Scan all child containers
             var pixelGaps = 0;
             var maxEntries = 0;
             for (var i = 0; i < Count; i++)
             {
-                if (this[i].Visible 
+                if (this[i]!.Visible 
                     && (this[i] is IRibbonViewGroupContainerView container)
                     )
                 {
@@ -526,7 +526,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Solution size.</param>
-        public void SetSolutionSize(ItemSizeWidth[] size)
+        public void SetSolutionSize(ItemSizeWidth[]? size)
         {
             // Do we need to restore each container to its default size?
             if ((size == null) || (size.Length == 0))
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (var i = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i]!.Visible 
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i]!.Visible 
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -580,10 +580,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (int i = 0, j = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     Size childSize;
 
@@ -628,7 +628,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area and then remove our constant padding
-            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, _padding);
+            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
 
             var x = ClientLocation.X;
 
@@ -641,10 +641,10 @@ namespace Krypton.Ribbon
                 // Position each item from left to right taking up entire height
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         Size childSize;
 
@@ -664,7 +664,7 @@ namespace Krypton.Ribbon
                             context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]!.Layout(context);
 
                             // Move across to next position (add 1 extra as the spacing gap)
                             x += childSize.Width + 1;
@@ -690,8 +690,8 @@ namespace Krypton.Ribbon
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
             {
                 // Do we already have a view for this container definition
-                ViewBase containerView = _containerToView.ContainsKey(container)
-                    ? _containerToView[container]
+                ViewBase containerView = _containerToView.TryGetValue(container, out ViewBase? value)
+                    ? value
                     : container.CreateView(_ribbon, _needPaint);
 
                 // Update the visible state of the item

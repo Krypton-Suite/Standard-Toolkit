@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -60,15 +60,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (KryptonForm is { ApplyComposition: true, ApplyCustomChrome: true })
-            {
-                return false;
-            }
-
             // Have all buttons been turned off?
             return KryptonForm is { ControlBox: true, CloseBox: true };
         }
@@ -78,7 +71,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => KryptonForm.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
@@ -106,7 +99,7 @@ namespace Krypton.Toolkit
                 {
                     // Only if the mouse is still within the button bounds do we perform action
                     var mea = (MouseEventArgs)e;
-                    if (GetView()!.ClientRectangle.Contains(mea.Location))
+                    if (GetView().ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo pi = typeof(Form).GetProperty(nameof(CloseReason),
                                                                     BindingFlags.Instance |

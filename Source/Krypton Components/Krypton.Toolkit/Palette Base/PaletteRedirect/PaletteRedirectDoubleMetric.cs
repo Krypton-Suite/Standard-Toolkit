@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectDoubleMetric class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectDoubleMetric(PaletteBase? target)
+        public PaletteRedirectDoubleMetric(PaletteBase target)
             : this(target, null, null, null, null)
         {
         }
@@ -42,9 +42,11 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public PaletteRedirectDoubleMetric(PaletteBase? target,
-                                           IPaletteDouble? disabled, IPaletteMetric? disableMetric,
-                                           IPaletteDouble? normal, IPaletteMetric? normalMetric)
+        public PaletteRedirectDoubleMetric(PaletteBase target,
+                                           IPaletteDouble? disabled, 
+                                           IPaletteMetric? disableMetric,
+                                           IPaletteDouble? normal, 
+                                           IPaletteMetric? normalMetric)
             : base(target, disabled, normal)
         {
             // Remember state specific inheritance
@@ -61,10 +63,10 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric)
         {
             base.SetRedirectStates(disabled, normal);
 
@@ -85,14 +87,14 @@ namespace Krypton.Toolkit
         /// <param name="pressedMetric">Redirection for pressed metric requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         /// <param name="trackingMetric">Redirection for tracking metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric,
-                                      IPaletteDouble? pressed,
-                                      IPaletteMetric? pressedMetric,
-                                      IPaletteDouble? tracking,
-                                      IPaletteMetric? trackingMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric,
+                                      IPaletteDouble pressed,
+                                      IPaletteMetric pressedMetric,
+                                      IPaletteDouble tracking,
+                                      IPaletteMetric trackingMetric)
         {
             base.SetRedirectStates(disabled, normal, pressed, tracking);
 
@@ -127,9 +129,9 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricInt(state, metric) ?? Target.GetMetricInt(state, metric);
+            return inherit?.GetMetricInt(state, metric) ?? Target!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -140,9 +142,9 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricBool(state, metric) ?? Target.GetMetricBool(state, metric);
+            return inherit?.GetMetricBool(state, metric) ?? Target!.GetMetricBool(state, metric);
         }
 
         /// <summary>
@@ -153,9 +155,9 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricPadding(state, metric) ?? Target.GetMetricPadding(state, metric);
+            return inherit?.GetMetricPadding(state, metric) ?? Target!.GetMetricPadding(state, metric);
         }
         #endregion
 
@@ -175,7 +177,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

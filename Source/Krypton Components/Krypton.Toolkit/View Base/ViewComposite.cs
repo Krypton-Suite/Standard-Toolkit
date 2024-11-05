@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected ViewComposite() =>
             // Default state
-            _views = new List<ViewBase>();
+            _views = [];
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Any child that returns 'true' completes the process
-                    if (child.EvalTransparentPaint(context))
+                    if (child.EvalTransparentPaint(context!))
                     {
                         return true;
                     }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Ask child for it's own preferred size
-                    Size childPreferred = child.GetPreferredSize(context);
+                    Size childPreferred = child.GetPreferredSize(context!);
 
                     // As a composite we need to be big enough to encompass the largest child
                     if (childPreferred.Width > preferredSize.Width)
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             // Ask each child to layout in turn
             foreach (ViewBase child in this.Where(static child => child.Visible))
             {
-                child.Layout(context);
+                child.Layout(context!);
             }
         }
         #endregion
@@ -341,9 +341,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase? this[int index] 
-        { 
-            get => _views?[index];
+        public override ViewBase this[int index]
+        {
+            get => _views![index];
 
             set
             {

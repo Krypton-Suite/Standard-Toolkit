@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private readonly Padding _borderPaddingVisualStudio2010;
         private readonly Padding _borderPaddingVisualStudio;
         private IPaletteRibbonBack _inherit;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _borderOutside;
         #endregion
 
@@ -39,16 +39,16 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="borderOutside">Should border be placed outside the contents.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon? ribbon,
                                           bool borderOutside,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
             // Remember incoming references
-            Ribbon = ribbon;
-            NeedPaintDelegate = needPaintDelegate;
+            Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            NeedPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
             _borderOutside = borderOutside;
             _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Do we need to add on our own border size
             if (!_borderOutside)
@@ -169,6 +169,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // If there is a selected tab and it is a context tab use the context specific palette
             if (!string.IsNullOrEmpty(Ribbon.SelectedTab?.ContextName))
             {
@@ -192,8 +197,7 @@ namespace Krypton.Ribbon
                 drawRect.Width += borderPadding.Horizontal;
                 drawRect.Height += borderPadding.Vertical;
             }
-            else if (Ribbon.CaptionArea.DrawCaptionOnComposition &&
-                     (Ribbon.RibbonShape == PaletteRibbonShape.Office2010))
+            else if (Ribbon.RibbonShape == PaletteRibbonShape.Office2010)
             {
                 // Prevent the left and right edges from being drawn
                 drawRect.X -= 1;
@@ -201,7 +205,7 @@ namespace Krypton.Ribbon
             }
 
             // Use renderer to draw the tab background
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, false, _memento);
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
         }
         #endregion
 

@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             set => _internalOpenFileDialog.CheckPathExists = value;
         }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

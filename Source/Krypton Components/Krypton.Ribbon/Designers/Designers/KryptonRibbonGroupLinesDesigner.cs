@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -41,6 +41,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addDomainUpDownVerb;
         private DesignerVerb _addDateTimePickerVerb;
         private DesignerVerb _addTrackBarVerb;
+        private DesignerVerb _addThemeComboBoxVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteLinesVerb;
         private ContextMenuStrip? _cms;
@@ -74,6 +75,7 @@ namespace Krypton.Ribbon
         private ToolStripMenuItem _addDomainUpDownMenu;
         private ToolStripMenuItem _addDateTimePickerMenu;
         private ToolStripMenuItem _addTrackBarMenu;
+        private ToolStripMenuItem _addThemeComboBoxMenu;
         private ToolStripMenuItem _clearItemsMenu;
         private ToolStripMenuItem _deleteLinesMenu;
         #endregion
@@ -97,10 +99,10 @@ namespace Krypton.Ribbon
             // Let base class do standard stuff
             base.Initialize(component);
 
-            Debug.Assert(component != null);
+            Debug.Assert(component is not null);
 
             // Cast to correct type
-            _ribbonLines = component as KryptonRibbonGroupLines;
+            _ribbonLines = component as KryptonRibbonGroupLines ?? throw new ArgumentNullException(nameof(component));
             if (_ribbonLines != null)
             {
                 _ribbonLines.DesignTimeAddButton += OnAddButton;
@@ -118,12 +120,13 @@ namespace Krypton.Ribbon
                 _ribbonLines.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
                 _ribbonLines.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
                 _ribbonLines.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonLines.DesignTimeAddThemeComboBox += OnAddThemeComboBox;
                 _ribbonLines.DesignTimeContextMenu += OnContextMenu;
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -138,7 +141,12 @@ namespace Krypton.Ribbon
             get
             {
                 var compound = new ArrayList(base.AssociatedComponents);
-                compound.AddRange(_ribbonLines.Items);
+                
+                if ( _ribbonLines.Items is not null && _ribbonLines.Items.Count > 0)
+                {
+                    compound.AddRange(_ribbonLines.Items);
+                }
+                
                 return compound;
             }
         }
@@ -184,6 +192,7 @@ namespace Krypton.Ribbon
                     _ribbonLines.DesignTimeAddDateTimePicker -= OnAddDateTimePicker;
                     _ribbonLines.DesignTimeContextMenu -= OnContextMenu;
                     _ribbonLines.DesignTimeAddTrackBar -= OnAddTrackBar;
+                    _ribbonLines.DesignTimeAddThemeComboBox -= OnAddThemeComboBox;
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
@@ -202,7 +211,7 @@ namespace Krypton.Ribbon
             // Create verbs first time around
             if (_verbs == null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Lines First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Lines Previous", OnMovePrevious);
@@ -223,25 +232,35 @@ namespace Krypton.Ribbon
                 _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
                 _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
                 _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _addThemeComboBoxVerb = new DesignerVerb("Add Theme ComboBox", OnAddThemeComboBox);
                 _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
                 _deleteLinesVerb = new DesignerVerb(@"Delete Lines", OnDeleteLines);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb, 
-                                                     _addCheckBoxVerb, 
-                                                     _addClusterVerb, 
-                                                     _addColorButtonVerb, 
-                                                     _addComboBoxVerb, 
-                                                     _addCustomControlVerb, 
-                                                     _addDateTimePickerVerb, 
-                                                     _addDomainUpDownVerb, 
-                                                     _addLabelVerb, 
-                                                     _addNumericUpDownVerb, 
-                                                     _addMaskedTextBoxVerb,
-                                                     _addRadioButtonVerb, 
-                                                     _addRichTextBoxVerb, 
-                                                     _addTextBoxVerb, 
-                                                     _addTrackBarVerb, 
-                                                     _clearItemsVerb, _deleteLinesVerb });
+                _verbs.AddRange(new[]
+                {
+                    _toggleHelpersVerb,
+                    _moveFirstVerb, 
+                    _movePrevVerb, 
+                    _moveNextVerb, 
+                    _moveLastVerb,
+                    _addButtonVerb,
+                    _addCheckBoxVerb,
+                    _addClusterVerb,
+                    _addColorButtonVerb,
+                    _addComboBoxVerb,
+                    _addCustomControlVerb,
+                    _addDateTimePickerVerb,
+                    _addDomainUpDownVerb,
+                    _addLabelVerb,
+                    _addNumericUpDownVerb,
+                    _addMaskedTextBoxVerb,
+                    _addRadioButtonVerb,
+                    _addRichTextBoxVerb,
+                    _addTextBoxVerb,
+                    _addTrackBarVerb,
+                    _addThemeComboBoxVerb,
+                    _clearItemsVerb,
+                    _deleteLinesVerb
+                });
             }
 
             var moveFirst = false;
@@ -250,7 +269,10 @@ namespace Krypton.Ribbon
             var moveLast = false;
             var clearItems = false;
 
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 moveFirst = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0;
                 movePrev = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0;
@@ -266,7 +288,7 @@ namespace Krypton.Ribbon
             _clearItemsVerb.Enabled = clearItems;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonLines.Ribbon != null)
@@ -275,9 +297,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
-            if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines?.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveFirst");
@@ -285,7 +309,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -305,9 +329,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon != null) 
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MovePrevious");
@@ -315,7 +341,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -337,9 +363,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveNext");
@@ -347,7 +375,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -369,9 +397,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveLast");
@@ -379,7 +409,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -399,9 +429,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddButton(object sender, EventArgs e)
+        private void OnAddButton(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null 
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddButton");
@@ -409,7 +442,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -427,9 +460,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddColorButton(object sender, EventArgs e)
+        private void OnAddColorButton(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddColorButton");
@@ -437,7 +473,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -455,9 +491,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCheckBox(object sender, EventArgs e)
+        private void OnAddCheckBox(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCheckBox");
@@ -465,7 +504,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -483,9 +522,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRadioButton(object sender, EventArgs e)
+        private void OnAddRadioButton(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddRadioButton");
@@ -493,7 +535,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -511,9 +553,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddLabel(object sender, EventArgs e)
+        private void OnAddLabel(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddLabel");
@@ -521,7 +566,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -539,9 +584,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCustomControl(object sender, EventArgs e)
+        private void OnAddCustomControl(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCustomControl");
@@ -549,7 +597,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -567,9 +615,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTextBox(object sender, EventArgs e)
+        private void OnAddTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddTextBox");
@@ -577,7 +628,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -595,9 +646,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e)
+        private void OnAddMaskedTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddMaskedTextBox");
@@ -605,7 +659,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -623,9 +677,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRichTextBox(object sender, EventArgs e)
+        private void OnAddRichTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                &&_ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddRichTextBox");
@@ -633,7 +690,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -651,9 +708,13 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddComboBox(object sender, EventArgs e)
+        private void OnAddComboBox(object? sender, EventArgs e)
         {
-            if (_ribbonLines != null && _ribbonLines.Ribbon != null && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if (_ribbonLines is not null 
+                && _ribbonLines.Ribbon is not null
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddComboBox");
@@ -661,7 +722,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -679,9 +740,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddNumericUpDown(object sender, EventArgs e)
+        private void OnAddNumericUpDown(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddNumericUpDown");
@@ -689,7 +753,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -707,9 +771,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDomainUpDown(object sender, EventArgs e)
+        private void OnAddDomainUpDown(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddDomainUpDown");
@@ -717,7 +784,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -735,9 +802,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDateTimePicker(object sender, EventArgs e)
+        private void OnAddDateTimePicker(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddDateTimePicker");
@@ -745,7 +815,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -763,9 +833,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTrackBar(object sender, EventArgs e)
+        private void OnAddTrackBar(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddTrackBar");
@@ -773,7 +846,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -791,9 +864,41 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCluster(object sender, EventArgs e)
+        private void OnAddThemeComboBox(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            {
+                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddThemeComboBox");
+
+                try
+                {
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+
+                    RaiseComponentChanging(propertyItems);
+
+                    var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(
+                        typeof(KryptonRibbonGroupThemeComboBox));
+
+                    _ribbonLines.Items.Add(tcb);
+
+                    RaiseComponentChanged(propertyItems, null, null);
+                }
+                finally
+                {
+                    transaction?.Commit();
+                }
+            }
+        }
+
+        private void OnAddCluster(object? sender, EventArgs e)
+        {
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCluster");
@@ -801,7 +906,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -810,7 +915,7 @@ namespace Krypton.Ribbon
                     _ribbonLines.Items.Add(cluster);
 
                     // Get access to the Cluster.Items property
-                    MemberDescriptor propertyClusterItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
+                    MemberDescriptor? propertyClusterItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyClusterItems);
 
@@ -831,9 +936,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearItems(object sender, EventArgs e)
+        private void OnClearItems(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.Items is not null
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines ClearItems");
@@ -841,12 +949,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                     // We need to remove all the items from the lines group
                     for (var i = _ribbonLines.Items.Count - 1; i >= 0; i--)
@@ -866,9 +974,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteLines(object sender, EventArgs e)
+        private void OnDeleteLines(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines DeleteLines");
@@ -876,7 +986,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -899,92 +1009,111 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.Visible, !_ribbonLines.Visible);
                 _ribbonLines.Visible = !_ribbonLines.Visible;
             }
         }
 
-        private void OnMaxLarge(object sender, EventArgs e)
+        private void OnMaxLarge(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MaximumSize, GroupItemSize.Large);
                 _ribbonLines.MaximumSize = GroupItemSize.Large;
             }
         }
 
-        private void OnMaxMedium(object sender, EventArgs e)
+        private void OnMaxMedium(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MaximumSize, GroupItemSize.Medium);
                 _ribbonLines.MaximumSize = GroupItemSize.Medium;
             }
         }
 
-        private void OnMaxSmall(object sender, EventArgs e)
+        private void OnMaxSmall(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MaximumSize, GroupItemSize.Small);
                 _ribbonLines.MaximumSize = GroupItemSize.Small;
             }
         }
 
-        private void OnMinLarge(object sender, EventArgs e)
+        private void OnMinLarge(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MinimumSize, GroupItemSize.Large);
                 _ribbonLines.MinimumSize = GroupItemSize.Large;
             }
         }
 
-        private void OnMinMedium(object sender, EventArgs e)
+        private void OnMinMedium(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MinimumSize, GroupItemSize.Medium);
                 _ribbonLines.MinimumSize = GroupItemSize.Medium;
             }
         }
 
-        private void OnMinSmall(object sender, EventArgs e)
+        private void OnMinSmall(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 _changeService.OnComponentChanged(_ribbonLines, null, _ribbonLines.MinimumSize, GroupItemSize.Small);
                 _ribbonLines.MinimumSize = GroupItemSize.Small;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our component is being removed
             if (e.Component == _ribbonLines)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all items from the lines groups
-                for (var j = _ribbonLines.Items.Count - 1; j >= 0; j--)
+                if (_ribbonLines.Items is not null)
                 {
-                    var item = _ribbonLines.Items[j] as KryptonRibbonGroupItem;
-                    _ribbonLines.Items.Remove(item);
-                    host.DestroyComponent(item);
+                    for (var j = _ribbonLines.Items.Count - 1 ; j >= 0 ; j--)
+                    {
+                        var item = _ribbonLines.Items[j] as KryptonRibbonGroupItem;
+                        _ribbonLines.Items.Remove(item);
+                        host.DestroyComponent(item);
+                    }
                 }
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -1022,30 +1151,40 @@ namespace Krypton.Ribbon
                     _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", GenericImageResources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
                     _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", GenericImageResources.KryptonRibbonGroupTextBox, OnAddTextBox);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", GenericImageResources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
+                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add ThemeComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteLinesMenu = new ToolStripMenuItem("Delete Lines", GenericImageResources.Delete, OnDeleteLines);
-                    _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
-                                                              _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
-                                                              _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
-                                                              _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu, 
-                                                              _addCheckBoxMenu, 
-                                                              _addClusterMenu, 
-                                                              _addColorButtonMenu, 
-                                                              _addComboBoxMenu, 
-                                                              _addCustomControlMenu, 
-                                                              _addDateTimePickerMenu, 
-                                                              _addDomainUpDownMenu, 
-                                                              _addLabelMenu, 
-                                                              _addMaskedTextBoxMenu, 
-                                                              _addNumericUpDownMenu, 
-                                                              _addRadioButtonMenu, 
-                                                              _addRichTextBoxMenu, 
-                                                              _addTextBoxMenu, 
-                                                              _addTrackBarMenu, 
-                                                              new ToolStripSeparator(),
-                                                              _clearItemsMenu, new ToolStripSeparator(),
-                                                              _deleteLinesMenu });
+                    _cms.Items.AddRange(new ToolStripItem[]
+                    {
+                        _toggleHelpersMenu, new ToolStripSeparator(),
+                        _visibleMenu, 
+                        _maximumSizeMenu,
+                        _minimumSizeMenu, new ToolStripSeparator(),
+                        _moveFirstMenu, 
+                        _movePreviousMenu,
+                        _moveNextMenu, 
+                        _moveLastMenu, new ToolStripSeparator(),
+                        _moveToGroupMenu, new ToolStripSeparator(),
+                        _addButtonMenu,
+                        _addCheckBoxMenu,
+                        _addClusterMenu,
+                        _addColorButtonMenu,
+                        _addComboBoxMenu,
+                        _addCustomControlMenu,
+                        _addDateTimePickerMenu,
+                        _addDomainUpDownMenu,
+                        _addLabelMenu,
+                        _addMaskedTextBoxMenu,
+                        _addNumericUpDownMenu,
+                        _addRadioButtonMenu,
+                        _addRichTextBoxMenu,
+                        _addTextBoxMenu,
+                        _addTrackBarMenu,
+                        _addThemeComboBoxMenu,
+                        new ToolStripSeparator(),
+                        _clearItemsMenu, new ToolStripSeparator(),
+                        _deleteLinesMenu
+                    });
 
                     // Ensure add images have correct transparent background
                     _addButtonMenu.ImageTransparentColor = Color.Magenta;
@@ -1063,6 +1202,7 @@ namespace Krypton.Ribbon
                     _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
                     _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
                     _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
+                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
                 }
 
                 // Update verbs to work out correct enable states
@@ -1101,7 +1241,7 @@ namespace Krypton.Ribbon
             // Remove any existing child items
             _moveToGroupMenu.DropDownItems.Clear();
 
-            if (_ribbonLines.Ribbon != null)
+            if (_ribbonLines.Ribbon is not null && _ribbonLines.RibbonTab is not null)
             {
                 // Create a new item per group in the same ribbon tab
                 foreach (KryptonRibbonGroup group in _ribbonLines.RibbonTab.Groups)
@@ -1126,15 +1266,17 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveToGroup(object sender, EventArgs e)
+        private void OnMoveToGroup(object? sender, EventArgs e)
         {
-            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
+            if ((_ribbonLines.Ribbon is not null)
+                && _ribbonLines.RibbonGroup is not null
+                && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Cast to correct type
-                var groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
-                var destination = (KryptonRibbonGroup)groupMenuItem.Tag;
+                var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("destination"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveLinesToGroup");
@@ -1142,8 +1284,8 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
-                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
+                    MemberDescriptor? oldItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor? newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);

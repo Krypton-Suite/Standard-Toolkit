@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonSplitterPanel? _panel;
-        private ISelectionService _selectionService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public
@@ -36,11 +36,10 @@ namespace Krypton.Toolkit
             _panel = component as KryptonSplitterPanel;
 
             // Acquire service interfaces
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // Hook into changes in selected component
-            var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            if (service != null)
+            if (GetService(typeof(IComponentChangeService)) is IComponentChangeService service)
             {
                 service.ComponentChanged += OnComponentChanged;
             }
@@ -48,7 +47,7 @@ namespace Krypton.Toolkit
             // If inside a Krypton split container then always lock the component from user size/location change
             if (_panel != null)
             {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+                PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
                 if ((descriptor != null) && (_panel.Parent is KryptonSplitContainer))
                 {
                     descriptor.SetValue(component, true);
@@ -85,7 +84,7 @@ namespace Krypton.Toolkit
         {
             if (_panel?.Parent != null)
             {
-                _selectionService.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
+                _selectionService?.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
             }
         }
         #endregion
@@ -102,10 +101,8 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Get access to the component change service
-                    var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-
                     // Must unhook our event from the service so we can be garbage collected
-                    if (service != null)
+                    if (GetService(typeof(IComponentChangeService)) is IComponentChangeService service)
                     {
                         service.ComponentChanged -= OnComponentChanged;
                     }
@@ -152,10 +149,10 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                var descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = entry.Value as PropertyDescriptor;
 
                 // Is this the 'Name' we are searching for?
-                if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
+                if (descriptor is not null && descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
                     var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
@@ -175,21 +172,23 @@ namespace Krypton.Toolkit
             get
             {
                 // If we have a valid Krypton splitter panel instance
-                if (_panel?.Parent != null)
+                if (_panel?.Parent is not null)
                 {
                     // Then get the attribute associated with the parent of the panel
-                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)];
+                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)]!;
                 }
                 else
                 {
-                    return base.InheritanceAttribute;
+                    // Null forgiving operator added to remove the null reference return warning.
+                    // base.InheritanceAttribute will always return a reference.
+                    return base.InheritanceAttribute!;
                 }
             }
         }
         #endregion
 
         #region Implementation
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e)
         {
             // Assuming the panel has a parent
             if (_panel?.Parent != null)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -637,10 +637,10 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
-            if (owner != null)
+            if (owner is not null)
             {
                 // Update owner with our dialog result setting
                 owner.DialogResult = DialogResult;
@@ -732,12 +732,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case nameof(Text):
                 case @"ExtraText":
@@ -773,9 +773,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnButtonClick(object sender, MouseEventArgs e)
+        private void OnButtonClick(object? sender, MouseEventArgs e)
         {
             var showingContextMenu = false;
 
@@ -813,7 +813,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    KryptonContextMenu.Palette = Palette;
+                    KryptonContextMenu.LocalCustomPalette = LocalCustomPalette;
                 }
             }
 
@@ -895,16 +895,16 @@ namespace Krypton.Toolkit
             _ => KryptonContextMenuPositionV.Below
         };
 
-        private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, EventArgs e) => ContextMenuClosed();
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
         }
 
-        private void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object? sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)

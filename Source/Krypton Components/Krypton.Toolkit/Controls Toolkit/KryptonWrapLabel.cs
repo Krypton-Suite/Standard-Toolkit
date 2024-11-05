@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Update the font property.
@@ -461,10 +461,10 @@ namespace Krypton.Toolkit
             font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
-            if (textColor == Color.Empty)
+            if (textColor == GlobalStaticValues.EMPTY_COLOR)
             {
                 textColor = StateCommon.TextColor;
-                if (textColor == Color.Empty)
+                if (textColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
                 }
@@ -562,10 +562,10 @@ namespace Krypton.Toolkit
             font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
-            if (textColor == Color.Empty)
+            if (textColor == GlobalStaticValues.EMPTY_COLOR)
             {
                 textColor = StateCommon.TextColor;
-                if (textColor == Color.Empty)
+                if (textColor == GlobalStaticValues.EMPTY_COLOR)
                 {
                     textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
                 }
@@ -609,13 +609,13 @@ namespace Krypton.Toolkit
                     _miPtb = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null);
                 }
 
                 if (pEvent != null)
                 {
-                    _miPtb?.Invoke(this, new object[] { pEvent, ClientRectangle, null });
+                    _miPtb?.Invoke(this, [pEvent, ClientRectangle, null]);
                 }
             }
             else
@@ -789,7 +789,7 @@ namespace Krypton.Toolkit
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint -= OnPaletteNeedPaint;
                     _palette.BasePaletteChanged -= OnBaseChanged;
@@ -797,13 +797,13 @@ namespace Krypton.Toolkit
                 }
 
                 // Remember the new palette
-                _palette = palette;
+                _palette = palette!;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette?.GetRenderer();
+                Renderer = _palette?.GetRenderer()!;
 
                 // Hook to new palette events
-                if (_palette != null)
+                if (_palette is not null)
                 {
                     _palette.PalettePaint += OnPaletteNeedPaint;
                     _palette.BasePaletteChanged += OnBaseChanged;
@@ -812,15 +812,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) => NeedPaint(e);
+        private void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e) => NeedPaint(e);
 
         // Change in base renderer or base palette require we fetch the latest renderer
-        private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette?.GetRenderer();
+        private void OnBaseChanged(object? sender, EventArgs e) => Renderer = _palette?.GetRenderer()!;
 
         /// <summary>Called when [global palette changed].</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -854,13 +854,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         private void NeedPaint(bool layout) => NeedPaint(new NeedLayoutEventArgs(layout));
 

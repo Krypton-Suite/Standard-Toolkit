@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,10 +35,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalMenuStripText == Color.Empty) &&
-                                          (InternalKCT.InternalMenuStripFont == null) &&
-                                          (InternalKCT.InternalMenuStripGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuStripGradientEnd == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalMenuStripText == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuStripFont == null) &&
+                                            (InternalKCT.InternalMenuStripGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuStripGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -62,7 +63,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to draw text on the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripText
         {
             get => InternalKCT.InternalMenuStripText;
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripText property to its default value.
         /// </summary>
-        public void ResetMenuStripText() => MenuStripText = Color.Empty;
+        public void ResetMenuStripText() => MenuStripText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuStripFont
@@ -112,7 +113,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used in the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripGradientBegin
         {
             get => InternalKCT.InternalMenuStripGradientBegin;
@@ -127,7 +128,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = Color.Empty;
+        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuStripGradientEnd
@@ -137,7 +138,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used in the MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuStripGradientEnd
         {
             get => InternalKCT.InternalMenuStripGradientEnd;
@@ -152,7 +153,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = Color.Empty;
+        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

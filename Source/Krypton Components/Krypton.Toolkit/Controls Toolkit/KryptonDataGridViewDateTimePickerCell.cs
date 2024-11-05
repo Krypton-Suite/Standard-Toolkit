@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             _maxDate = DateTime.MaxValue;
             _minDate = DateTime.MinValue;
             _format = DateTimePickerFormat.Long;
-            _calendarDimensions = new Size(1,1);
+            _calendarDimensions = new Size(1, 1);
             _calendarTodayText = "Today:";
             _calendarFirstDayOfWeek = Day.Default;
             _calendarShowToday = true;
@@ -106,27 +106,26 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
-            if (dateTimeCell != null)
-            {
-                dateTimeCell.AutoShift = AutoShift;
-                dateTimeCell.Checked = Checked;
-                dateTimeCell.ShowCheckBox = ShowCheckBox;
-                dateTimeCell.ShowUpDown = ShowUpDown;
-                dateTimeCell.CustomFormat = CustomFormat;
-                dateTimeCell.CustomNullText = CustomNullText;
-                dateTimeCell.MaxDate = MaxDate;
-                dateTimeCell.MinDate = MinDate;
-                dateTimeCell.Format = Format;
-                dateTimeCell.CalendarDimensions = CalendarDimensions;
-                dateTimeCell.CalendarTodayText = CalendarTodayText;
-                dateTimeCell.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
-                dateTimeCell.CalendarShowToday = CalendarShowToday;
-                dateTimeCell.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
-                dateTimeCell.CalendarShowTodayCircle = CalendarShowTodayCircle;
-                dateTimeCell.CalendarShowWeekNumbers = CalendarShowWeekNumbers;
-                dateTimeCell.CalendarTodayDate = CalendarTodayDate;
-            }
+            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dateTimeCell"));
+
+            dateTimeCell.AutoShift = AutoShift;
+            dateTimeCell.Checked = Checked;
+            dateTimeCell.ShowCheckBox = ShowCheckBox;
+            dateTimeCell.ShowUpDown = ShowUpDown;
+            dateTimeCell.CustomFormat = CustomFormat;
+            dateTimeCell.CustomNullText = CustomNullText;
+            dateTimeCell.MaxDate = MaxDate;
+            dateTimeCell.MinDate = MinDate;
+            dateTimeCell.Format = Format;
+            dateTimeCell.CalendarDimensions = CalendarDimensions;
+            dateTimeCell.CalendarTodayText = CalendarTodayText;
+            dateTimeCell.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
+            dateTimeCell.CalendarShowToday = CalendarShowToday;
+            dateTimeCell.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
+            dateTimeCell.CalendarShowTodayCircle = CalendarShowTodayCircle;
+            dateTimeCell.CalendarShowWeekNumbers = CalendarShowWeekNumbers;
+            dateTimeCell.CalendarTodayDate = CalendarTodayDate;
+
             return dateTimeCell;
         }
 
@@ -396,7 +395,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        
+
         /// <summary>
         /// The CalendarShowTodayCircle property replicates the one from the KryptonDateTimePicker control
         /// </summary>
@@ -462,7 +461,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
+            DataGridView? dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
@@ -477,12 +476,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
-            DataGridViewCellStyle dataGridViewCellStyle)
+                                                      object? initialFormattedValue,
+                                                      DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonDateTimePicker dateTime)
+            if (DataGridView!.EditingControl is KryptonDateTimePicker dateTime)
             {
                 if (OwningColumn is KryptonDataGridViewDateTimePickerColumn dateTimeColumn)
                 {
@@ -514,7 +513,8 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    var dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr);
+                    var dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr)!;
+
                     if (dt != null)
                     {
                         dateTime.Value = dt;
@@ -537,11 +537,12 @@ namespace Krypton.Toolkit
         /// <param name="formattedValueTypeConverter">A TypeConverter associated with the formatted value type that provides custom conversion from the value type, or null if no such custom conversion is needed.</param>
         /// <param name="context">A bitwise combination of DataGridViewDataErrorContexts values describing the context in which the formatted value is needed.</param>
         /// <returns></returns>
-        protected override object GetFormattedValue(object value, int rowIndex, 
-            ref DataGridViewCellStyle cellStyle,
-            TypeConverter valueTypeConverter, 
-            TypeConverter formattedValueTypeConverter, 
-            DataGridViewDataErrorContexts context)
+        protected override object? GetFormattedValue(object? value, 
+                                                    int rowIndex,
+                                                    ref DataGridViewCellStyle cellStyle,
+                                                    TypeConverter? valueTypeConverter,
+                                                    TypeConverter? formattedValueTypeConverter,
+                                                    DataGridViewDataErrorContexts context)
         {
             if ((value == null) || (value == DBNull.Value))
             {
@@ -567,10 +568,10 @@ namespace Krypton.Toolkit
         /// <param name="formattedValueTypeConverter">A TypeConverter for the display value type, or null to use the default converter.</param>
         /// <param name="valueTypeConverter">A TypeConverter for the cell value type, or null to use the default converter.</param>
         /// <returns></returns>
-        public override object ParseFormattedValue(object formattedValue, 
-            DataGridViewCellStyle cellStyle, 
-            TypeConverter formattedValueTypeConverter, 
-            TypeConverter valueTypeConverter)
+        public override object ParseFormattedValue(object? formattedValue,
+                                                   DataGridViewCellStyle cellStyle,
+                                                   TypeConverter? formattedValueTypeConverter,
+                                                   TypeConverter? valueTypeConverter)
         {
             if (formattedValue == null)
             {
@@ -578,8 +579,8 @@ namespace Krypton.Toolkit
             }
             else
             {
-                var stringValue = (string)formattedValue;
-                return string.IsNullOrEmpty(stringValue) ? DBNull.Value : _dtc.ConvertFromInvariantString(stringValue);
+                string stringValue = (string)formattedValue;
+                return string.IsNullOrEmpty(stringValue) ? DBNull.Value : _dtc.ConvertFromInvariantString(stringValue)!;
             }
         }
 
@@ -602,7 +603,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -617,7 +618,7 @@ namespace Krypton.Toolkit
             const int ButtonsWidth = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView.RightToLeft == RightToLeft.Yes)
+            if (DataGridView!.RightToLeft == RightToLeft.Yes)
             {
                 errorIconBounds.X = errorIconBounds.Left + ButtonsWidth;
             }
@@ -658,17 +659,17 @@ namespace Krypton.Toolkit
         /// the KryptonDateTimePicker control piece by piece (text and up/down buttons).
         /// </summary>
         protected override void Paint(Graphics graphics,
-            Rectangle clipBounds,
-            Rectangle cellBounds,
-            int rowIndex,
-            DataGridViewElementStates cellState,
-            object value,
-            object formattedValue,
-            string errorText,
-            DataGridViewCellStyle cellStyle,
-            DataGridViewAdvancedBorderStyle advancedBorderStyle,
-            DataGridViewPaintParts paintParts)
-        {
+                                      Rectangle clipBounds,
+                                      Rectangle cellBounds,
+                                      int rowIndex,
+                                      DataGridViewElementStates cellState,
+                                      object? value,
+                                      object? formattedValue,
+                                      string? errorText,
+                                      DataGridViewCellStyle cellStyle,
+                                      DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                                      DataGridViewPaintParts paintParts)
+          {
             if (DataGridView == null)
             {
                 return;
@@ -702,8 +703,8 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
-            DataGridView.EditingControl as KryptonDataGridViewDateTimePickerEditingControl;
+        private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker => 
+            DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
@@ -746,7 +747,7 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingDateTimePicker(int rowIndex) =>
-            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control } 
+            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control }
                            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

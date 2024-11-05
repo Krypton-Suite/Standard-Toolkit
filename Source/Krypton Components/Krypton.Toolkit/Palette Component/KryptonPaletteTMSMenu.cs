@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,21 +35,22 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalImageMarginRevealedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalMenuBorder == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemText == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemBorder == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientEnd == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemPressedGradientMiddle == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelected == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalMenuItemSelectedGradientEnd == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalImageMarginRevealedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemText == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelected == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalMenuItemSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -84,12 +85,12 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Staring color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginGradientBegin
         {
             get => InternalKCT.InternalImageMarginGradientBegin;
 
-            set 
+            set
             {
                 InternalKCT.InternalImageMarginGradientBegin = value;
                 PerformNeedPaint(false);
@@ -97,9 +98,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// esets the ImageMarginGradientBegin property to its default value.
+        /// Resets the ImageMarginGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = Color.Empty;
+        public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginGradientEnd
@@ -109,13 +110,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginGradientEnd
         {
             get => InternalKCT.InternalImageMarginGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -124,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = Color.Empty;
+        public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginGradientMiddle
@@ -134,13 +135,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Middle color color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginGradientMiddle
         {
             get => InternalKCT.InternalImageMarginGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -149,7 +150,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = Color.Empty;
+        public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientBegin
@@ -159,13 +160,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginRevealedGradientBegin
         {
             get => InternalKCT.InternalImageMarginRevealedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -174,7 +175,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = Color.Empty;
+        public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientEnd
@@ -184,13 +185,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginRevealedGradientEnd
         {
             get => InternalKCT.InternalImageMarginRevealedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -199,7 +200,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = Color.Empty;
+        public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region ImageMarginRevealedGradientMiddle
@@ -209,13 +210,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageMarginRevealedGradientMiddle
         {
             get => InternalKCT.InternalImageMarginRevealedGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalImageMarginRevealedGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -224,7 +225,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = Color.Empty;
+        public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuBorder
@@ -234,13 +235,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color that is the border color to use on a MenuStrip.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuBorder
         {
             get => InternalKCT.InternalMenuBorder;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuBorder = value;
                 PerformNeedPaint(false);
             }
@@ -249,7 +250,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuBorder property to its default value.
         /// </summary>
-        public void ResetMenuBorder() => MenuBorder = Color.Empty;
+        public void ResetMenuBorder() => MenuBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemText
@@ -259,7 +260,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to draw text for individual a ToolStripMenuItem.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemText
         {
             get => InternalKCT.InternalMenuItemText;
@@ -274,7 +275,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemText property to its default value.
         /// </summary>
-        public void ResetMenuItemText() => MenuItemText = Color.Empty;
+        public void ResetMenuItemText() => MenuItemText = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemBorder
@@ -284,13 +285,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Border color to use with a ToolStripMenuItem.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemBorder
         {
             get => InternalKCT.InternalMenuItemBorder;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemBorder = value;
                 PerformNeedPaint(false);
             }
@@ -299,7 +300,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemBorder property to its default value.
         /// </summary>
-        public void ResetMenuItemBorder() => MenuItemBorder = Color.Empty;
+        public void ResetMenuItemBorder() => MenuItemBorder = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientBegin
@@ -309,13 +310,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemPressedGradientBegin
         {
             get => InternalKCT.InternalMenuItemPressedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -324,7 +325,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = Color.Empty;
+        public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientEnd
@@ -334,13 +335,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemPressedGradientEnd
         {
             get => InternalKCT.InternalMenuItemPressedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -349,7 +350,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = Color.Empty;
+        public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemPressedGradientMiddle
@@ -359,13 +360,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Middle color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemPressedGradientMiddle
         {
             get => InternalKCT.InternalMenuItemPressedGradientMiddle;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemPressedGradientMiddle = value;
                 PerformNeedPaint(false);
             }
@@ -374,7 +375,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = Color.Empty;
+        public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelected
@@ -384,13 +385,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemSelected
         {
             get => InternalKCT.InternalMenuItemSelected;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelected = value;
                 PerformNeedPaint(false);
             }
@@ -399,7 +400,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelected property to its default value.
         /// </summary>
-        public void ResetMenuItemSelected() => MenuItemSelected = Color.Empty;
+        public void ResetMenuItemSelected() => MenuItemSelected = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelectedGradientBegin
@@ -409,13 +410,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used when the ToolStripMenuItem is selected.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemSelectedGradientBegin
         {
             get => InternalKCT.InternalMenuItemSelectedGradientBegin;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelectedGradientBegin = value;
                 PerformNeedPaint(false);
             }
@@ -424,7 +425,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = Color.Empty;
+        public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region MenuItemSelectedGradientEnd
@@ -434,13 +435,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used when the ToolStripMenuItem is selected.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color MenuItemSelectedGradientEnd
         {
             get => InternalKCT.InternalMenuItemSelectedGradientEnd;
 
-            set 
-            { 
+            set
+            {
                 InternalKCT.InternalMenuItemSelectedGradientEnd = value;
                 PerformNeedPaint(false);
             }
@@ -449,7 +450,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = Color.Empty;
+        public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

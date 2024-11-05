@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -44,19 +44,21 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="checkBox">Drawing element that owns check box display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuCheckBoxController([DisallowNull] ViewContextMenuManager viewManager,
-                                      [DisallowNull] ViewBase target,
-                                      [DisallowNull] ViewDrawMenuCheckBox checkBox,
-                                      [DisallowNull] NeedPaintHandler needPaint)
+        public MenuCheckBoxController(ViewContextMenuManager viewManager,
+                                      ViewBase target,
+                                      ViewDrawMenuCheckBox checkBox,
+                                      NeedPaintHandler? needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(checkBox != null);
-            Debug.Assert(needPaint != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(checkBox is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuCheckBox = checkBox;
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuCheckBox = checkBox!;
             NeedPaint = needPaint;
         }
         #endregion
@@ -131,7 +133,7 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
 
         #endregion
-        
+
         #region Mouse Notifications
         /// <summary>
         /// Mouse has entered the view.

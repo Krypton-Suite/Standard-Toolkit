@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -55,20 +55,19 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Outlook.Full.OverflowMapImage);
+        public override Image? GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Outlook.Full.OverflowMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText() => Page.GetTextMapping(Navigator.Outlook.Full.OverflowMapText);
+        public override string GetShortText() => Page?.GetTextMapping(Navigator.Outlook.Full.OverflowMapText)!;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText() => Page.GetTextMapping(Navigator.Outlook.Full.OverflowMapExtraText);
-
+        public override string GetLongText() => Page?.GetTextMapping(Navigator.Outlook.Full.OverflowMapExtraText)!;
         #endregion
     }
 }

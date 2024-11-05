@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -115,7 +115,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Layout depends on orientation
             switch (Orientation)
@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
             return rect;
         }
 
-        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
+        private void OnButtonClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
         #endregion
     }
 }

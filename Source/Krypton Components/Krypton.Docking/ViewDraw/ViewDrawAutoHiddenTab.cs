@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -31,9 +32,9 @@ namespace Krypton.Docking
         /// <param name="orientation">Visual orientation used for drawing the tab.</param>
         public ViewDrawAutoHiddenTab([DisallowNull] KryptonPage page,
                                      VisualOrientation orientation)
-            : base(page.StateDisabled.CheckButton, 
+            : base(page.StateDisabled.CheckButton,
                    page.StateNormal.CheckButton,
-                   page.StateTracking.CheckButton, 
+                   page.StateTracking.CheckButton,
                    page.StatePressed.CheckButton,
                    null, null, orientation, false)
         {

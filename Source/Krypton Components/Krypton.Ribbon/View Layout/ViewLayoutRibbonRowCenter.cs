@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonRowCenter : ViewComposite
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -78,15 +78,19 @@ namespace Krypton.Ribbon
                 case GroupItemSize.Small:
                     _viewToSmall.Clear();
                     break;
+
                 case GroupItemSize.Medium:
                     _viewToMedium.Clear();
                     break;
+
                 case GroupItemSize.Large:
                     _viewToLarge.Clear();
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(CurrentSize.ToString());
                     break;
             }
 
@@ -98,7 +102,7 @@ namespace Krypton.Ribbon
                 if (child.Visible)
                 {
                     // Ask child for it's own preferred size
-                    Size childPreferred = child.GetPreferredSize(context);
+                    Size childPreferred = child.GetPreferredSize(context!);
 
                     // Cache the child preferred size for use in layout
                     switch (CurrentSize)
@@ -187,18 +191,18 @@ namespace Krypton.Ribbon
                     switch (CurrentSize)
                     {
                         case GroupItemSize.Small:
-                            childPreferred = _viewToSmall.ContainsKey(child)
-                                ? _viewToSmall[child]
+                            childPreferred = _viewToSmall.TryGetValue(child, out Size value)
+                                ? value
                                 : child.GetPreferredSize(context);
                             break;
                         case GroupItemSize.Medium:
-                            childPreferred = _viewToMedium.ContainsKey(child)
-                                ? _viewToMedium[child]
+                            childPreferred = _viewToMedium.TryGetValue(child, out Size value1)
+                                ? value1
                                 : child.GetPreferredSize(context);
                             break;
                         case GroupItemSize.Large:
-                            childPreferred = _viewToLarge.ContainsKey(child)
-                                ? _viewToLarge[child]
+                            childPreferred = _viewToLarge.TryGetValue(child, out Size value2)
+                                ? value2
                                 : child.GetPreferredSize(context);
                             break;
                     }

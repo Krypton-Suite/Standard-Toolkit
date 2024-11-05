@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
-        public VisualPopup(IRenderer? renderer,
+        public VisualPopup(IRenderer renderer,
                            bool shadow)
             : this(new ViewManager(), renderer, shadow)
         {
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.Selectable, false);
 
             // Cache incoming references
-            Renderer = renderer;
+            Renderer = renderer!;
             ViewManager = viewManager;
 
             // Setup the need paint delegate
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // Cannot process a message for a disposed control
             if (!IsDisposed)

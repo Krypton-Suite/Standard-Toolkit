@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -62,12 +62,12 @@ namespace Krypton.Navigator
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage.StateNormal.HeaderGroup.Back;
+                    back = Navigator.SelectedPage!.StateNormal.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage.StateDisabled.HeaderGroup.Back;
+                    back = Navigator.SelectedPage!.StateDisabled.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateDisabled.HeaderGroup.Border;
 
                     // If page is disabled then all of view should look disabled
@@ -102,15 +102,15 @@ namespace Krypton.Navigator
                                                                        Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
-            _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null, 
+            _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null,
                                                                PaletteMetricPadding.None, PaletteMetricInt.None,
                                                                VisualOrientation.Top, RelativePositionAlign.Near,
-                                                               Navigator.Stack.StackAnimation, 
+                                                               Navigator.Stack.StackAnimation,
                                                                (Navigator.Stack.StackOrientation == Orientation.Vertical),
                                                                NeedPaintDelegate);
 
             // Reparent the child panel that contains the actual pages, into the child control
-            _viewScrollViewport.MakeParent(Navigator.ChildPanel);
+            _viewScrollViewport.MakeParent(Navigator.ChildPanel!);
 
             // Create the top level group view
             _viewGroup = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.Back,
@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         protected override void DestructStackCheckButtonView()
         {
             // Put the child panel back into the navigator
-            _viewScrollViewport.RevertParent(Navigator, Navigator.ChildPanel);
+            _viewScrollViewport.RevertParent(Navigator, Navigator.ChildPanel!);
 
             // Dispose of resources
             _viewGroup.Dispose();

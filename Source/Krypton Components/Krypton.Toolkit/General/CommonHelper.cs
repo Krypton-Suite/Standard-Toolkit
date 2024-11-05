@@ -5,12 +5,13 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
 // ReSharper disable UnusedMember.Global
+
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -24,7 +25,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object? Operation(object? parameter);
+    public delegate object Operation(object? parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
@@ -42,7 +43,8 @@ namespace Krypton.Toolkit
         private const int VK_CONTROL = 0x11;
         private const int VK_MENU = 0x12;
 
-        private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
+        private static readonly char[] _singleDateFormat = ['d', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z'
+        ];
         //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
@@ -84,11 +86,10 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new[] { 0, 0, 0, 0.5f, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        } = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 0.5f, 0], [0, 0, 0, 0, 1]
+        ]);
 
         /// <summary>
         /// Gets the next global identifier in sequence.
@@ -97,6 +98,42 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get => _nextId++;
+        }
+
+        /// <summary>
+        /// Converts line breaks in the string to the system default line break, Environment.NewLine.
+        /// </summary>
+        /// <param name="text">String to process.</param>
+        /// <returns>
+        /// Normalized resultant string.<br/>
+        /// If the input string is an empty string, the input string is returned.
+        /// </returns>
+        public static string NormalizeLineBreaks(string text)
+        {
+            string result = text;
+
+            if (result.Length > 0)
+            {
+                // Convert line breaks to the system provided line break
+                if (!Environment.NewLine.Equals("\r\n"))
+                {
+                    result = Regex.Replace(result, @"\r\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\n"))
+                {
+                    // Replaces \n but not \r\n
+                    result = Regex.Replace(result, "(?<!\r)\n", Environment.NewLine);
+                }
+
+                if (!Environment.NewLine.Equals("\r"))
+                {
+                    // Replaces \r but not \r\n
+                    result = Regex.Replace(result, "\r(?!\n)", Environment.NewLine);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -123,7 +160,7 @@ namespace Krypton.Toolkit
         } = new Padding(-1);
 
         /// <summary>
-        /// Check a short cut menu for a matching short and invoke that item if found.
+        /// Check a short-cut menu for a matching short and invoke that item if found.
         /// </summary>
         /// <param name="cms">ContextMenuStrip instance to check.</param>
         /// <param name="msg">Windows message that generated check.</param>
@@ -149,11 +186,27 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                var shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
-                var menuItem = (ToolStripMenuItem)shortcuts[keyData];
+                var hashTableShortCuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
+                ToolStripMenuItem? menuItem = null;
+
+                if (hashTableShortCuts is null)
+                {
+                    if (_cachedShortcutPI.GetValue(cms, null) is Dictionary<Keys, ToolStripMenuItem> dictionaryShortcuts)
+                    {
+                        dictionaryShortcuts.TryGetValue(keyData, out menuItem);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    menuItem = hashTableShortCuts[keyData] as ToolStripMenuItem;
+                }
 
                 // If we found a match...
-                if (menuItem != null)
+                if (menuItem is not null)
                 {
                     // Get the menu item to process the shortcut
                     var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
@@ -201,6 +254,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -239,6 +293,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -279,6 +334,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -323,6 +379,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -352,6 +409,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return padding;
             }
         }
@@ -411,7 +469,7 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object? PerformOperation(Operation op, object? parameter)
+        public static object PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
             using var wait = new ModalWaitDialog();
@@ -444,7 +502,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(opThread.State.ToString());
             }
         }
 
@@ -544,13 +602,13 @@ namespace Krypton.Toolkit
         public static PaletteDrawBorders OrientateDrawBorders(PaletteDrawBorders borders,
                                                               VisualOrientation orientation)
         {
-            // No need to perform an change for top orientation
+            // No need to perform a change for top orientation
             if (orientation == VisualOrientation.Top)
             {
                 return borders;
             }
 
-            // No need to change the All or None values
+            // No need to change All or None values
             if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
@@ -582,8 +640,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -605,8 +663,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -628,11 +686,12 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -648,13 +707,13 @@ namespace Krypton.Toolkit
         public static PaletteDrawBorders ReverseOrientateDrawBorders(PaletteDrawBorders borders,
                                                                      VisualOrientation orientation)
         {
-            // No need to perform an change for top orientation
+            // No need to perform a change for top orientation
             if (orientation == VisualOrientation.Top)
             {
                 return borders;
             }
 
-            // No need to change the All or None values
+            // No need to change the "All" or "None" values
             if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
@@ -686,8 +745,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -709,8 +768,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -732,11 +791,12 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -761,6 +821,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return Orientation.Vertical;
             }
         }
@@ -811,6 +872,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.Standalone;
             }
         }
@@ -985,7 +1047,7 @@ namespace Krypton.Toolkit
         public static Color MergeColors(Color color1, float percent1,
                                         Color color2, float percent2) =>
             // Use existing three color merge
-            MergeColors(color1, percent1, color2, percent2, Color.Empty, 0f);
+            MergeColors(color1, percent1, color2, percent2, GlobalStaticValues.EMPTY_COLOR, 0f);
 
         /// <summary>
         /// Merge three colors together using relative percentages.
@@ -1116,27 +1178,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control? c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c!.Parent != null)
+            if (c?.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent!.Controls is KryptonControlCollection cc)
+            if (parent?.Controls is KryptonControlCollection cc)
             {
-                cc.AddInternal(c);
+                cc.AddInternal(c!);
             }
             else
             {
                 // Inside a standard collection, add it the usual way
-                parent.Controls.Add(c);
+                parent?.Controls?.Add(c!);
             }
         }
 
@@ -1144,7 +1206,7 @@ namespace Krypton.Toolkit
         /// Remove the provided control from its parent collection.
         /// </summary>
         /// <param name="c">Control to be removed.</param>
-        public static void RemoveControlFromParent([DisallowNull] Control c)
+        public static void RemoveControlFromParent([DisallowNull] Control? c)
         {
             Debug.Assert(c != null);
 
@@ -1169,21 +1231,37 @@ namespace Krypton.Toolkit
         /// Gets the size of the borders requested by the real window.
         /// </summary>
         /// <param name="cp">Window style parameters.</param>
+        /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
         /// <returns>Border sizing.</returns>
-        public static Padding GetWindowBorders(CreateParams cp)
+        public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
         {
+            int xOffset = 0;
+            int yOffset = 0;
+            uint dwStyle = (uint)cp.Style;
+            if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
+            {
+                if (!CommonHelper.IsFormMaximized(kryptonForm))
+                {
+                    var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                    xOffset = Math.Max(0, xOffset1);
+                    yOffset = Math.Max(0, yOffset1);
+                }
+                else //if (kryptonForm.FormBorderStyle == FormBorderStyle.None )
+                {
+                    dwStyle |= PI.WS_.CAPTION;
+                }
+            }
+
             var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
-                left = 0,
-                right = 0,
-                top = 0,
-                bottom = 0
+                left = -xOffset,
+                right = xOffset,
+                top = -yOffset,
+                bottom = yOffset
             };
-
             // Adjust rectangle to add on the borders required
-            PI.AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle);
-
+            PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
             // Return the per side border values
             return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
@@ -1197,7 +1275,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return (style & PI.WS_.MINIMIZE) != 0;
         }
@@ -1211,11 +1289,10 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = f.IsDisposed ? 0 : PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return (style & PI.WS_.MAXIMIZE) != 0;
         }
-
 
         /// <summary>
         /// Gets the real client rectangle of the list.
@@ -1233,7 +1310,6 @@ namespace Krypton.Toolkit
                                  windowRect.right - windowRect.left,
                                  windowRect.bottom - windowRect.top);
         }
-
 
         /// <summary>
         /// Find the appropriate content style to match the incoming label style.
@@ -1281,6 +1357,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteContentStyle.LabelNormalPanel;
             }
         }
@@ -1304,11 +1381,10 @@ namespace Krypton.Toolkit
                     return TextRenderingHint.SingleBitPerPixel;
                 case PaletteTextHint.SingleBitPerPixelGridFit:
                     return TextRenderingHint.SingleBitPerPixelGridFit;
-                case PaletteTextHint.SystemDefault:
-                    return TextRenderingHint.SystemDefault;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(hint.ToString());
                     return TextRenderingHint.SystemDefault;
             }
         }
@@ -1337,6 +1413,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(separatorStyle.ToString());
                     return PaletteMetricPadding.SeparatorPaddingLowProfile;
             }
         }
@@ -1346,10 +1423,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="format">Incoming format.</param>
         /// <returns>Corrected format.</returns>
-        public static string MakeCustomDateFormat(string format)
+        public static string MakeCustomDateFormat(string? format)
         {
             // Is this a single character format?
-            if (format.Length == 1)
+            if (format!.Length == 1)
             {
                 // If the character is one of the predefined entries...
                 if (format.IndexOfAny(_singleDateFormat) == 0)
@@ -1370,7 +1447,7 @@ namespace Krypton.Toolkit
         /// <returns>Reference to new instance.</returns>
         public static object CreateInstance(Type itemType, IDesignerHost? host)
         {
-            object retObj;
+            object? retObj;
 
             // Cannot use the designer host to create component unless the type implements IComponent
             if (typeof(IComponent).IsAssignableFrom(itemType) && (host != null))
@@ -1390,7 +1467,7 @@ namespace Krypton.Toolkit
                 retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
-            return retObj;
+            return retObj ?? false;
         }
 
         /// <summary>
@@ -1448,7 +1525,7 @@ namespace Krypton.Toolkit
                                                                     BindingFlags.NonPublic);
             }
 
-            return (bool)_cachedDesignModePI!.GetValue(c, null);
+            return (bool)_cachedDesignModePI!.GetValue(c, null)!;
         }
 
         /// <summary>
@@ -1463,63 +1540,69 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Double value.</returns>
-        public static double StringToDouble(string s) => (double)_dc.ConvertFromInvariantString(s);
+        public static double StringToDouble(string s) => (double)_dc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a Size to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
-        /// <returns>Culture invariant string representation.</returns>
-        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s);
+        /// <returns>Culture invariant string representation. String.Empty if the conversion failed.</returns>
+        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s) is string str
+            ? str
+            : string.Empty;
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
         /// </summary>
         /// <param name="s">String to convert.</param>
-        /// <returns>Size value.</returns>
-        public static Size StringToSize(string s) => (Size)_sc.ConvertFromInvariantString(s);
+        /// <returns>Size value. If s is null, Size(0, 0) is returned.</returns>
+        public static Size StringToSize(string? s) => s is not null && _sc.ConvertFromInvariantString(s) is Size size
+            ? size
+            : new Size(0, 0);
 
         /// <summary>
         /// Convert a Point to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string? PointToString(Point s) => _pc.ConvertToInvariantString(s);
+        public static string PointToString(Point s) => _pc.ConvertToInvariantString(s) ?? string.Empty;
 
         /// <summary>
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
-        /// <returns>Point value.</returns>
-        public static Point StringToPoint(string? s) => (Point)_pc.ConvertFromInvariantString(s);
+        /// <returns>Point value if s was not null. If s is null a new Point(0) will be returned.</returns>
+        public static Point StringToPoint(string? s) => s is not null
+            ? (Point)_pc.ConvertFromInvariantString(s)!
+            : new Point(0);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
         /// </summary>
         /// <param name="b">Boolean to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string BoolToString(bool b) => _bc.ConvertToInvariantString(b);
+        public static string? BoolToString(bool b) => _bc.ConvertToInvariantString(b);
 
         /// <summary>
         /// Convert a culture invariant string value to a Boolean.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Boolean value.</returns>
-        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s);
+        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a Color to a culture invariant string value.
         /// </summary>
         /// <param name="c">Color to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string ColorToString(Color c) => _cc.ConvertToInvariantString(c);
+        public static string? ColorToString(Color c) => _cc.ConvertToInvariantString(c);
 
         /// <summary>
         /// Convert a culture invariant string value to a Color.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Color value.</returns>
-        public static Color StringToColor(string s) => (Color)_cc.ConvertFromInvariantString(s);
+        public static Color StringToColor(string s) => (Color)_cc.ConvertFromInvariantString(s)!;
 
         /// <summary>
         /// Convert a client mouse position inside a windows message into a screen position.
@@ -1600,8 +1683,18 @@ namespace Krypton.Toolkit
         /// <param name="trgtWidth"></param>
         /// <param name="trgtHeight"></param>
         /// <returns></returns>
-        public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
+        /// <exception >thrown if targets are negative</exception>
+        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight)
         {
+            if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
+            {
+                // For some reason, in the designer it can send a rect that has a negative size element,
+                // therefore the targets will also be negative
+                // Also When collapsing / expanding ribbons the `trgtHeight` will > 0 BUT < 1.0
+                //return new Bitmap(0, 0);    // This will throw an exception
+                return null;
+            }
+
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
             using Graphics gr = Graphics.FromImage(newImage);
             gr.Clear(Color.Transparent);
@@ -1614,7 +1707,7 @@ namespace Krypton.Toolkit
             //// Handle rounding down of the target `newImage` dimensions
             //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
             //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
-            gr.DrawImage(src, 0, 0, (int)trgtWidth, (int)trgtHeight);
+            gr.DrawImage(src!, 0, 0, (int)trgtWidth, (int)trgtHeight);
 
             return newImage;
         }

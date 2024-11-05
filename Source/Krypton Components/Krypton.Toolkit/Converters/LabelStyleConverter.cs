@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
+        private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
+            new Dictionary<LabelStyle, string>
         {
             {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
@@ -39,7 +40,7 @@ namespace Krypton.Toolkit
             {LabelStyle.Custom1, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_ONE},
             {LabelStyle.Custom2, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_TWO},
             {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
-        };
+        });
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

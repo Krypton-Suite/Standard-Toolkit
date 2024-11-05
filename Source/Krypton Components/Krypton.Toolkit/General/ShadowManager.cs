@@ -2,14 +2,12 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2024. All rights reserved. 
  *  
  */
 #endregion
 
-// To get around bug in .NET 8, Preview 7
-// TODO: Remove when .NET 8 is GA
-#if NET8_0
+#if NET8_0_OR_GREATER
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 #endif 
 
@@ -48,16 +46,17 @@ namespace Krypton.Toolkit
             switch (m.Msg)
             {
                 case PI.WM_.WINDOWPOSCHANGED:
+                {
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                    var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
+                    PositionShadowForms(move);
+                    
+                    if (!move)
                     {
-                        PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                        var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-                        PositionShadowForms(move);
-                        if (!move)
-                        {
-                            ReCalcBrushes();
-                        }
+                        ReCalcBrushes();
                     }
-                    break;
+                }
+                break;
             }
         }
 
@@ -86,7 +85,7 @@ namespace Krypton.Toolkit
             && _shadowValues.EnableShadows
             && _parentForm.Visible;
 
-        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e)
+        private void KryptonFormOnClosing(object? sender, /*Cancel*/EventArgs e)
         {
             _allowDrawing = false;
             FlashWindowExListener.FlashEvent -= OnFlashWindowExListenerOnFlashEvent;
@@ -101,7 +100,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void FormLoaded(object sender, EventArgs e)
+        private void FormLoaded(object? sender, EventArgs e)
         {
             _allowDrawing = (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
                             && (Process.GetCurrentProcess().ProcessName != @"devenv");
@@ -127,15 +126,15 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e) => ReCalcBrushes();
+        private void ShadowValues_ColourChanged(object? sender, ColorEventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e) => ReCalcBrushes();
+        private void ShadowValues_BlurDistanceChanged(object? sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_OpacityChanged(object sender, EventArgs e) => ReCalcBrushes();
+        private void ShadowValues_OpacityChanged(object? sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_MarginsChanged(object sender, EventArgs e) => SetShadowFormsSizes();
+        private void ShadowValues_MarginsChanged(object? sender, EventArgs e) => SetShadowFormsSizes();
 
-        private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
+        private void ShadowValues_EnableShadowsChanged(object? sender, EventArgs e)
         {
             if (!_allowDrawing
                 || _shadowForms == null)
@@ -232,7 +231,7 @@ namespace Krypton.Toolkit
                     using (var pgb = new PathGradientBrush(gp)
                     {
                         CenterColor = _shadowValues.Colour,
-                        SurroundColors = new[] { Color.Transparent },
+                        SurroundColors = [Color.Transparent],
                         CenterPoint = new PointF(blurOffset, blurOffset)
                     })
                     {
@@ -420,7 +419,7 @@ namespace Krypton.Toolkit
             {
                 try
                 {
-                    if (_forms.TryGetValue(wParam, out Form f))
+                    if (_forms.TryGetValue(wParam, out var f))
                     {
                         FlashEvent(f, (int)lParam == 1);
                     }

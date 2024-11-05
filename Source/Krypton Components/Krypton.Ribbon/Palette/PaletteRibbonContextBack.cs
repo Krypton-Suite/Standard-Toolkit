@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -31,7 +31,13 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to ribbon control.</param>
         public PaletteRibbonContextBack([DisallowNull] KryptonRibbon ribbon)
         {
-            Debug.Assert(ribbon != null);
+            Debug.Assert(ribbon is not null);
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
             _ribbon = ribbon;
         }
         #endregion
@@ -161,13 +167,12 @@ namespace Krypton.Ribbon
             return retColor;
         }
         #endregion
-
         #region Implementation
         private Color CheckForContextColor()
         {
             // We need an associated ribbon tab
             // Does the ribbon tab have a context setting?
-            if (_ribbon.SelectedTab != null)
+            if (_ribbon is not null && _ribbon.SelectedTab is not null)
             {
                 KryptonRibbonTab selectedTab = _ribbon.SelectedTab;
                 if (!string.IsNullOrEmpty(selectedTab?.ContextName))

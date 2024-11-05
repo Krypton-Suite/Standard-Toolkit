@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<InputControlStyle, string> _pairs = new Dictionary<InputControlStyle, string>
+        private static readonly BiDictionary<InputControlStyle, string> _pairs = new BiDictionary<InputControlStyle, string>(
+            new Dictionary<InputControlStyle, string>
         {
             {InputControlStyle.Standalone, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_STANDALONE},
             {InputControlStyle.Ribbon, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_RIBBON},
@@ -28,9 +29,9 @@ namespace Krypton.Toolkit
             {InputControlStyle.Custom2, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_TWO},
             {InputControlStyle.Custom3, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_THREE},
             {InputControlStyle.PanelClient, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT},
-            {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE},
+            {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE}
             // new(InputControlStyle.Disabled, "Disabled")
-        };
+        });
 
         #endregion
 
@@ -38,7 +39,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, InputControlStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteMonthCalendarDoubleState class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
-        public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect? redirect)
+        public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect redirect)
             : this(redirect, null)
         {
         }
@@ -32,9 +32,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect? redirect,
-                                               NeedPaintHandler needPaint) 
-            : base(redirect, needPaint)
+        public PaletteMonthCalendarDoubleState(PaletteMonthCalendarRedirect redirect,
+                                               NeedPaintHandler? needPaint) 
+            : base(redirect, needPaint!)
         {
             Header = new PaletteTriple(redirect.Header, needPaint);
             Day = new PaletteTriple(redirect.Day, needPaint);
@@ -47,10 +47,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault && 
-                                           Header.IsDefault &&
-                                           Day.IsDefault &&
-                                           DayOfWeek.IsDefault;
+                                            Header.IsDefault &&
+                                            Day.IsDefault &&
+                                            DayOfWeek.IsDefault;
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteImageEffect, string> _pairs = new Dictionary<PaletteImageEffect, string>
+        private static readonly BiDictionary<PaletteImageEffect, string> _pairs = new BiDictionary<PaletteImageEffect, string>(
+            new Dictionary<PaletteImageEffect, string>
         {
             {PaletteImageEffect.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_INHERIT},
             {PaletteImageEffect.Light, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT},
@@ -33,7 +34,7 @@ namespace Krypton.Toolkit
             {PaletteImageEffect.GrayScaleRed, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_RED},
             {PaletteImageEffect.GrayScaleGreen, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_GREEN},
             {PaletteImageEffect.GrayScaleBlue, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_BLUE}
-        };
+        });
 
         #endregion
 
@@ -41,7 +42,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteImageEffect /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteImageEffect /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteImageEffect /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

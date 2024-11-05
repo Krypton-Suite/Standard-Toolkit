@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewDomainUpDownColumn()
             : base(new KryptonDataGridViewDomainUpDownCell()) =>
-            Items = new StringCollection();
+            Items = [];
 
         /// <summary>
         /// Returns a standard compact string representation of the column.
@@ -49,13 +49,13 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             // Convert collection of strings to an array
             var strings = new string[Items.Count];
             for (var i = 0; i < strings.Length; i++)
             {
-                strings[i] = Items[i];
+                strings[i] = Items[i]!;
             }
 
             cloned.Items.AddRange(strings);
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDomainUpDownCell
         /// </summary>
-        private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => (KryptonDataGridViewDomainUpDownCell)CellTemplate;
+        private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(CellTemplate)));
 
         #endregion
 

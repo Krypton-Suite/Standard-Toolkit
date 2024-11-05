@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -40,15 +40,15 @@ namespace Krypton.Ribbon
 
             : base(ribbonGeneral)
         {
-            Debug.Assert(ribbonGroupTextNormal != null);
-            Debug.Assert(ribbonGroupTextDisabled != null);
-            Debug.Assert(ribbonLabelTextNormal != null);
-            Debug.Assert(ribbonLabelTextDisabled != null);
+            Debug.Assert(ribbonGroupTextNormal is not null);
+            Debug.Assert(ribbonGroupTextDisabled is not null);
+            Debug.Assert(ribbonLabelTextNormal is not null);
+            Debug.Assert(ribbonLabelTextDisabled is not null);
 
-            _ribbonGroupTextNormal = ribbonGroupTextNormal;
-            _ribbonGroupTextDisabled = ribbonGroupTextDisabled;
-            _ribbonLabelTextNormal = ribbonLabelTextNormal;
-            _ribbonLabelTextDisabled = ribbonLabelTextDisabled;
+            _ribbonGroupTextNormal = ribbonGroupTextNormal ?? throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
+            _ribbonGroupTextDisabled = ribbonGroupTextDisabled ?? throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
+            _ribbonLabelTextNormal = ribbonLabelTextNormal ?? throw new ArgumentNullException(nameof(ribbonLabelTextNormal));
+            _ribbonLabelTextDisabled = ribbonLabelTextDisabled ?? throw new ArgumentNullException(nameof(ribbonLabelTextDisabled));
         }
         #endregion
 

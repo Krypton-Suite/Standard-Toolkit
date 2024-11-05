@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Object index.</param>
         /// <returns>Object at specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => _specs[index];
 
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         /// <returns>T at specified index.</returns>
         public T? this[string uniqueName]
         {
-            get 
+            get
             {
                 // First priority is the UniqueName
                 foreach (T bs in this.Where(bs => bs.UniqueName == uniqueName))
@@ -391,16 +391,16 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null, nameof(item) + " != null");
 
             // Cache the index of the button spec
-            var index = IndexOf(item);
+            var index = IndexOf(item!);
 
             // Generate before event
-            OnRemoving(new ButtonSpecEventArgs(item, index));
+            OnRemoving(new ButtonSpecEventArgs(item!, index));
 
             // Remove from the internal list
-            var ret = _specs.Remove(item);
+            var ret = _specs.Remove(item!);
 
             // Generate after event
-            OnRemoved(new ButtonSpecEventArgs(item, index));
+            OnRemoved(new ButtonSpecEventArgs(item!, index));
 
             return ret;
         }

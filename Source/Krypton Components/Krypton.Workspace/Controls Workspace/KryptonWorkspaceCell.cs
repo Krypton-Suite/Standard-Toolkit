@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -89,7 +89,7 @@ namespace Krypton.Workspace
                 Type = PaletteButtonSpecStyle.WorkspaceMaximize
             };
             MaximizeRestoreButton.Click += OnMaximizeRestoreButtonClicked;
-            Button.ButtonSpecs.Add(MaximizeRestoreButton);
+            Button.ButtonSpecs!.Add(MaximizeRestoreButton);
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace Krypton.Workspace
         #endregion
 
         #region Implementation
-        private void OnPagesChanged(object sender, EventArgs e)
+        private void OnPagesChanged(object? sender, EventArgs e)
         {
             // Need to raise property changed so that the owning workspace will layout as 
             // a change in pages might cause compacting to perform extra actions.
@@ -643,7 +643,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void OnMaximizeRestoreButtonClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(this, EventArgs.Empty);
+        private void OnMaximizeRestoreButtonClicked(object? sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(this, EventArgs.Empty);
         #endregion
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace Krypton.Workspace
         public Size GetMinSize()
         {
             var sizeBefore = Size;
-            var childSizeBefore = ChildPanel.Size;
+            var childSizeBefore = ChildPanel!.Size;
             var minSize = GetMinSize(Controls);
             ChildPanel.MinimumSize = minSize;
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -127,14 +127,14 @@ namespace Krypton.Navigator
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         /// <param name="remapTarget">Target for remapping the color onto.</param>
-        public ButtonSpecNavRemap(PaletteBase? target,
-            [DisallowNull] ButtonSpec buttonSpec,
+        public ButtonSpecNavRemap(PaletteBase target,
+                                  [DisallowNull] ButtonSpec buttonSpec,
                                   ButtonSpecRemapTarget remapTarget)
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
 
-            _buttonSpec = buttonSpec;
+            _buttonSpec = buttonSpec!;
             _remapTarget = remapTarget;
         }
         #endregion
@@ -319,8 +319,9 @@ namespace Krypton.Navigator
                 case ButtonSpecRemapTarget.TabCustom3:
                     return base.GetContentShortTextColor1(PaletteContentStyle.TabCustom3, state);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_remapTarget.ToString());
                     return Color.Black;
             }
         }

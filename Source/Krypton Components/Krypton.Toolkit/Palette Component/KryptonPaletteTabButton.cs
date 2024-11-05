@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -26,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Border style.</param>
         /// <param name="contentStyle">Content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteTabButton(PaletteRedirect? redirect,
+        public KryptonPaletteTabButton(PaletteRedirect redirect,
                                        PaletteBackStyle backStyle,
                                        PaletteBorderStyle borderStyle,
                                        PaletteContentStyle contentStyle,
@@ -48,7 +46,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
+        public void SetRedirector(PaletteRedirect redirect)
         {
             OverrideFocus.SetRedirector(redirect);
             StateCommon.SetRedirector(redirect);
@@ -60,13 +58,14 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => StateCommon.IsDefault &&
-                                          OverrideFocus.IsDefault &&
-                                          StateDisabled.IsDefault &&
-                                          StateNormal.IsDefault &&
-                                          StateTracking.IsDefault &&
-                                          StatePressed.IsDefault &&
-                                          StateSelected.IsDefault;
+                                            OverrideFocus.IsDefault &&
+                                            StateDisabled.IsDefault &&
+                                            StateNormal.IsDefault &&
+                                            StateTracking.IsDefault &&
+                                            StatePressed.IsDefault &&
+                                            StateSelected.IsDefault;
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteBorderStyle, string> _pairs = new Dictionary<PaletteBorderStyle, string>
+        private static readonly BiDictionary<PaletteBorderStyle, string> _pairs = new BiDictionary<PaletteBorderStyle, string>(
+            new Dictionary<PaletteBorderStyle, string>
         {
             {PaletteBorderStyle.ButtonStandalone, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_BUTTON_STANDALONE},
             {PaletteBorderStyle.ButtonAlternate, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_BUTTON_ALTERNATE},
@@ -102,8 +103,8 @@ namespace Krypton.Toolkit
             {PaletteBorderStyle.TabDockAutoHidden, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_DOCK_AUTO_HIDDEN},
             {PaletteBorderStyle.TabCustom1, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM1},
             {PaletteBorderStyle.TabCustom2, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM2},
-            {PaletteBorderStyle.TabCustom3, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM3},
-        };
+            {PaletteBorderStyle.TabCustom3, DesignTimeUtilities.DEFAULT_PALETTE_BORDER_TAB_CUSTOM3}
+        });
 
         #endregion
 
@@ -112,7 +113,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteBorderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteBorderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteBorderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

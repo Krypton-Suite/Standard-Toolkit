@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonListBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListBox? _listBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonListBox _listBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listBox = owner.Component as KryptonListBox;
+            _listBox = (owner.Component as KryptonListBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.ItemStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.ItemStyle, value);
                     _listBox.ItemStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BackStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.BackStyle, value);
                     _listBox.BackStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BorderStyle, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.BorderStyle, value);
                     _listBox.BorderStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.KryptonContextMenu, value);
 
                     _listBox.KryptonContextMenu = value;
                 }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.SelectionMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.SelectionMode, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.SelectionMode, value);
                     _listBox.SelectionMode = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.Sorted != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.Sorted, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.Sorted, value);
                     _listBox.Sorted = value;
                 }
             }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             {
                 if (_listBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.PaletteMode, value);
                     _listBox.PaletteMode = value;
                 }
             }
@@ -159,13 +159,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _listBox.StateCommon.Item.Content.ShortText.Font;
+            get => _listBox.StateCommon.Item.Content.ShortText.Font!;
 
             set
             {
                 if (_listBox.StateCommon.Item.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.ShortText.Font, value);
 
                     _listBox.StateCommon.Item.Content.ShortText.Font = value;
                 }
@@ -176,54 +176,19 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _listBox.StateCommon.Item.Content.LongText.Font;
+            get => _listBox.StateCommon.Item.Content.LongText.Font!;
 
             set
             {
                 if (_listBox.StateCommon.Item.Content.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Content.LongText.Font, value);
 
                     _listBox.StateCommon.Item.Content.LongText.Font = value;
                 }
             }
         }
 
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _listBox.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_listBox.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Border.Rounding, value);
-
-                    _listBox.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the item corner radius.</summary>
-        /// <value>The item corner radius.</value>
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonItemCornerRoundingRadius
-        {
-            get => _listBox.StateCommon.Item.Border.Rounding;
-
-            set
-            {
-                if (_listBox.StateCommon.Item.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Border.Rounding, value);
-
-                    _listBox.StateCommon.Item.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -234,27 +199,24 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            var actions = new DesignerActionItemCollection();
-
-            // This can be null when deleting a control instance at design time
-            if (_listBox != null)
+            var actions = new DesignerActionItemCollection
             {
+                // This can be null when deleting a control instance at design time
                 // Add the list of list box specific actions
-                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
-                actions.Add(new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance), @"Style used to draw background."));
-                actions.Add(new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonItemCornerRoundingRadius), @"State Common Item Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the item."));
-                actions.Add(new DesignerActionHeaderItem(nameof(Behavior)));
-                actions.Add(new DesignerActionPropertyItem(nameof(SelectionMode), @"Selection Mode", nameof(Behavior), @"Determines the selection mode."));
-                actions.Add(new DesignerActionPropertyItem(nameof(Sorted), nameof(Sorted), nameof(Behavior), @"Should items be sorted according to string."));
-                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
-            }
+                new DesignerActionHeaderItem(nameof(Appearance)),
+                new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance),
+                    @"Style used to draw background."),
+                new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."),
+                new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."),
+                new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."),
+                new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."),
+                new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."),
+                new DesignerActionHeaderItem(nameof(Behavior)),
+                new DesignerActionPropertyItem(nameof(SelectionMode), @"Selection Mode", nameof(Behavior), @"Determines the selection mode."),
+                new DesignerActionPropertyItem(nameof(Sorted), nameof(Sorted), nameof(Behavior), @"Should items be sorted according to string."),
+                new DesignerActionHeaderItem(@"Visuals"),
+                new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing")
+            };
 
             return actions;
         }

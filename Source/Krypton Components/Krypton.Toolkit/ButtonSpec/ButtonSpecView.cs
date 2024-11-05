@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
         public ButtonSpecView([DisallowNull] PaletteRedirect redirector,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricPadding metricPadding,
                               [DisallowNull] ButtonSpecManagerBase manager,
                               [DisallowNull] ButtonSpec buttonSpec)
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
             // Intercept calls from the button for color remapping and instead use
             // the button spec defined map and the container foreground color
-            RemapPalette = Manager.CreateButtonSpecRemap(redirector, ButtonSpec);
+            RemapPalette = Manager.CreateButtonSpecRemap(redirector!, ButtonSpec);
 
             // Use a redirector to get button values directly from palette
             _palette = new PaletteTripleRedirect(RemapPalette,
@@ -126,21 +126,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view centering that contains the button.
         /// </summary>
-        public ViewDrawButton? ViewButton { get; }
+        public ViewDrawButton ViewButton { get; }
 
         /// <summary>
         /// Gets access to the remapping palette.
         /// </summary>
-        public PaletteRedirect? RemapPalette { get; }
-
-        /// <summary>
-        /// Gets and sets the composition setting for the button.
-        /// </summary>
-        public bool DrawButtonSpecOnComposition
-        {
-            get => ViewButton?.DrawButtonComposition ?? false;
-            set => ViewButton!.DrawButtonComposition = value;
-        }
+        public PaletteRedirect RemapPalette { get; }
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
@@ -197,23 +188,21 @@ namespace Krypton.Toolkit
                     Debug.Assert(false);
                     newDependent = null;
                     newEnabled = false;
+                    DebugTools.NotImplemented(ButtonSpec.GetEnabled(_redirector).ToString());
                     break;
             }
 
             // Only make change if the values have changed
-            if (ViewButton != null)
+            if (newEnabled != ViewButton.Enabled)
             {
-                if (newEnabled != ViewButton.Enabled)
-                {
-                    ViewButton.Enabled = newEnabled;
-                    changed = true;
-                }
+                ViewButton.Enabled = newEnabled;
+                changed = true;
+            }
 
-                if (newDependent != ViewButton.DependantEnabledState)
-                {
-                    ViewButton.DependantEnabledState = newDependent;
-                    changed = true;
-                }
+            if (newDependent != ViewButton.DependantEnabledState)
+            {
+                ViewButton.DependantEnabledState = newDependent;
+                changed = true;
             }
 
             return changed;
@@ -241,11 +230,12 @@ namespace Krypton.Toolkit
                     // Should never happen!
                     Debug.Assert(false);
                     newChecked = false;
+                    DebugTools.NotImplemented(ButtonSpec.GetChecked(_redirector).ToString());
                     break;
             }
 
             // Only make change if the value has changed
-            if (ViewButton != null && newChecked != ViewButton.Checked)
+            if (newChecked != ViewButton.Checked)
             {
                 ViewButton.Checked = newChecked;
                 return true;
@@ -261,8 +251,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void UpdateShowDrop()
         {
-            if (ButtonSpec is ButtonSpecAny buttonSpecAny
-                && ViewButton != null)
+            if (ButtonSpec is ButtonSpecAny buttonSpecAny)
             {
                 ViewButton.DropDown = buttonSpecAny.ShowDrop;
                 ViewButton.Splitter = buttonSpecAny.ShowDrop;
@@ -278,7 +267,7 @@ namespace Krypton.Toolkit
             ButtonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
             // Remove ButtonSpec/view association
-            ButtonSpec.SetView(null);
+            ButtonSpec.SetView(null!);
 
             // Remove all view element resources
             ViewCenter.Dispose();
@@ -320,7 +309,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnFinishDelegate(object sender, EventArgs? e) =>
+        protected virtual void OnFinishDelegate(object? sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller?.RemoveFixed();
 
@@ -373,19 +362,16 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             var performFinishDelegate = true;
             // Never show a context menu in design mode
             if (!CommonHelper.DesignMode(Manager.Control))
             {
-                var showMenu = false;
-                var performDefaultClick = true;
-                if (ButtonSpec is ButtonSpecAny { ShowDrop: true })
-                {
-                    showMenu = ViewButton?.SplitRectangle.Contains(e.Location) ?? false;
-                    performDefaultClick = !showMenu;
-                }
+                // ButtonSpec's used to drop menu's if they had a context menu;
+                // BUT; Disable default action, if this is a drop button and it is clicked
+                bool performDefaultClick = !(ButtonSpec is ButtonSpecAny { ShowDrop: true }
+                                             && ViewButton.SplitRectangle.Contains(e.Location));
 
                 if (performDefaultClick)
                 {
@@ -393,45 +379,42 @@ namespace Krypton.Toolkit
                     ButtonSpec.PerformClick(e);
                 }
 
-                if (showMenu)
+                // Does the button spec define a krypton context menu?
+                if (ButtonSpec.KryptonContextMenu != null)
                 {
-                    // Does the button spec define a krypton context menu?
-                    if ((ButtonSpec.KryptonContextMenu != null) && (ViewButton != null))
+                    performFinishDelegate = false;
+                    // Convert from control coordinates to screen coordinates
+                    Rectangle rect = ViewButton.ClientRectangle;
+
+                    // If the button spec is on the chrome titlebar then find position manually
+                    Point pt = Manager.Control is Form form
+                        ? new Point(form.Left + rect.Left, form.Top + rect.Bottom + 3)
+                        : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+
+                    // Show the context menu just below the view itself
+                    ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                    if (!ButtonSpec.KryptonContextMenu.Show(ButtonSpec, pt))
                     {
-                        performFinishDelegate = false;
-                        // Convert from control coordinates to screen coordinates
-                        Rectangle rect = ViewButton.ClientRectangle;
+                        // Menu not being shown, so clean up
+                        ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed;
 
-                        // If the button spec is on the chrome titlebar then find position manually
-                        Point pt = Manager.Control is Form
-                            ? new Point(Manager.Control.Left + rect.Left, Manager.Control.Top + rect.Bottom + 3)
-                            : Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
-
-                        // Show the context menu just below the view itself
-                        ButtonSpec.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        if (!ButtonSpec.KryptonContextMenu.Show(ButtonSpec, pt))
-                        {
-                            // Menu not being shown, so clean up
-                            ButtonSpec.KryptonContextMenu.Closed -= OnKryptonContextMenuClosed;
-
-                            // Not showing a context menu, so remove the fixed view immediately
-                            _finishDelegate?.Invoke(this, EventArgs.Empty);
-                        }
+                        // Not showing a context menu, so remove the fixed view immediately
+                        _finishDelegate?.Invoke(this, EventArgs.Empty);
                     }
-                    else if ((ButtonSpec.ContextMenuStrip != null) && (ViewButton != null))
-                    {
-                        performFinishDelegate = false;
-                        // Set the correct renderer for the menu strip
-                        ButtonSpec.ContextMenuStrip.Renderer = Manager.RenderToolStrip();
+                }
+                else if (ButtonSpec.ContextMenuStrip != null)
+                {
+                    performFinishDelegate = false;
+                    // Set the correct renderer for the menu strip
+                    ButtonSpec.ContextMenuStrip.Renderer = Manager.RenderToolStrip();
 
-                        // Convert from control coordinates to screen coordinates
-                        Rectangle rect = ViewButton.ClientRectangle;
-                        Point pt = Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
+                    // Convert from control coordinates to screen coordinates
+                    Rectangle rect = ViewButton.ClientRectangle;
+                    Point pt = Manager.Control!.PointToScreen(new Point(rect.Left, rect.Bottom + 3));
 
-                        // Show the context menu just below the view itself
-                        VisualPopupManager.Singleton.ShowContextMenuStrip(ButtonSpec.ContextMenuStrip, pt,
-                            _finishDelegate);
-                    }
+                    // Show the context menu just below the view itself
+                    VisualPopupManager.Singleton.ShowContextMenuStrip(ButtonSpec.ContextMenuStrip, pt,
+                        _finishDelegate);
                 }
             }
 
@@ -442,10 +425,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
         {
-            // Unhook from context menu event so it could garbage collected in the future
-            var kcm = (KryptonContextMenu)sender;
+            // Unhook from context menu event, so that it can garbage collected in the future
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Remove the fixed button appearance
@@ -454,7 +437,7 @@ namespace Krypton.Toolkit
 
         private void OnNeedPaint(object? sender, NeedLayoutEventArgs e) => PerformNeedPaint(e.NeedLayout);
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

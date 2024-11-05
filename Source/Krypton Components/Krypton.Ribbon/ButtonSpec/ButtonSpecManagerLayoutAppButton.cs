@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager viewManager,
                                                 Control control,
-                                                [DisallowNull] PaletteRedirect? redirector,
+                                                [DisallowNull] PaletteRedirect redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
                                                 ButtonSpecCollectionBase? fixedSpecs,
                                                 ViewLayoutDocker[] viewDockers,
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
         protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector, 
-                                                               IPaletteMetric? viewPaletteMetric, 
+                                                               IPaletteMetric viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
                                                                ButtonSpec buttonSpec) =>
             new ButtonSpecViewAppButton(redirector, viewPaletteMetric,

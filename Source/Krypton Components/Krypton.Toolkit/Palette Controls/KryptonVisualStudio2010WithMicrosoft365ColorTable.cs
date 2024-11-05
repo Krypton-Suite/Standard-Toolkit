@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            _colors = colors;
+            _colors = colors!;
             _roundedEdges = roundedEdges;
         }
         #endregion
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
 
         #region RoundedEdges
         /// <summary>
-        /// Gets a value indicating if rounded egdes are required.
+        /// Gets a value indicating if rounded edges are required.
         /// </summary>
         public override InheritBool UseRoundedEdges => _roundedEdges;
 
@@ -619,15 +619,10 @@ namespace Krypton.Toolkit
         #region Implementation
         private static void DefineFonts()
         {
-            // Release existing resources
-            _menuToolFont?.Dispose();
-
-            _statusFont?.Dispose();
-
             // Create new font using system information
             // TODO: Should be using base font
-            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
-            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
         }
 
         private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>

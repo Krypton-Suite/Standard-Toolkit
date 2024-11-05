@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
             protected override void OnInserting(TypedCollectionEventArgs<KryptonBreadCrumbItem> e)
             {
                 // Setup parent relationship
-                e.Item.Parent = _owner;
+                e.Item!.Parent = _owner;
 
                 base.OnInserting(e);
             }
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
                 base.OnInserted(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -108,10 +108,10 @@ namespace Krypton.Toolkit
                 base.OnRemoved(e);
 
                 // Clear down parent relationship
-                e.Item.Parent = null;
+                e.Item!.Parent = null;
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                 base.OnCleared(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
             #endregion
         }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonBreadCrumbItem class.
         /// </summary>
         public KryptonBreadCrumbItem()
-            : this("ListItem", null, null, Color.Empty)
+            : this("ListItem", null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="shortText">Initial short text value.</param>
         public KryptonBreadCrumbItem(string shortText)
-            : this(shortText, null, null, Color.Empty)
+            : this(shortText, null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// <param name="shortText">Initial short text value.</param>
         /// <param name="longText">Initial long text value.</param>
         public KryptonBreadCrumbItem(string shortText, string longText)
-            : this(shortText, longText, null, Color.Empty)
+            : this(shortText, longText, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -180,8 +180,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonBreadCrumbItem(string shortText,
                                      string longText,
-                                     Image image)
-            : this(shortText, longText, image, Color.Empty)
+                                     Image? image)
+            : this(shortText, longText, image, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonBreadCrumbItem(string shortText,
-                                     string longText,
-                                     Image image,
+                                     string? longText,
+                                     Image? image,
                                      Color imageTransparentColor)
             : base(shortText, longText, image, imageTransparentColor) =>
             // Create child collection

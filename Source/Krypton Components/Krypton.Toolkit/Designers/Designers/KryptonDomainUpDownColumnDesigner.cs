@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonDomainUpDownColumnDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonDataGridViewDomainUpDownColumn _domainUpDown;
-        private IComponentChangeService _changeService;
+        private KryptonDataGridViewDomainUpDownColumn? _domainUpDown;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _domainUpDown = component as KryptonDataGridViewDomainUpDownColumn;
 
             // Get access to the design services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 

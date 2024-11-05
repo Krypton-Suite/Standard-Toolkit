@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             //MouseController = mcbc;
             KeyController = mcbc;
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager, this, mcbc);
+            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager!, this, mcbc);
         }
 
         /// <summary>
@@ -213,11 +213,11 @@ namespace Krypton.Toolkit
             }
 
             // If not in normal state, then need to adorn display
-            var outside = Color.Empty;
-            var inside = Color.Empty;
+            var outside = GlobalStaticValues.EMPTY_COLOR;
+            var inside = GlobalStaticValues.EMPTY_COLOR;
 
             // Is this element selected?
-            var selected = (KryptonContextMenuColorColumns.SelectedColor != Color.Empty) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+            var selected = (KryptonContextMenuColorColumns.SelectedColor != GlobalStaticValues.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
             switch (ElementState)
             {
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonHeaderGroupActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonHeaderGroup? _headerGroup;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonHeaderGroup _headerGroup;
+        private readonly IComponentChangeService? _service;
         private DesignerVerb _visible1;
         private DesignerVerb _visible2;
         private string _text1;
@@ -32,10 +32,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _headerGroup = owner.Component as KryptonHeaderGroup;
+            _headerGroup = (owner.Component as KryptonHeaderGroup)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.GroupBackStyle != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBackStyle, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBackStyle, value);
                     _headerGroup.GroupBackStyle = value;
                 }
             }
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.GroupBorderStyle != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBorderStyle, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBorderStyle, value);
                     _headerGroup.GroupBorderStyle = value;
                 }
             }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             { 
                 if (_headerGroup.HeaderStylePrimary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStylePrimary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStylePrimary, value);
                     _headerGroup.HeaderStylePrimary = value;
                 }
             }
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.HeaderStyleSecondary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStyleSecondary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStyleSecondary, value);
                     _headerGroup.HeaderStyleSecondary = value;
                 }
             }
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.HeaderPositionPrimary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionPrimary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionPrimary, value);
                     _headerGroup.HeaderPositionPrimary = value;
                 }
             }
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.HeaderPositionSecondary != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionSecondary, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionSecondary, value);
                     _headerGroup.HeaderPositionSecondary = value;
                 }
             }
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             {
                 if (_headerGroup.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_headerGroup, null, _headerGroup.PaletteMode, value);
+                    _service?.OnComponentChanged(_headerGroup, null, _headerGroup.PaletteMode, value);
                     _headerGroup.PaletteMode = value;
                 }
             }
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnVisibleClick(object sender, EventArgs e)
+        private void OnVisibleClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
             var verb = sender as DesignerVerb;

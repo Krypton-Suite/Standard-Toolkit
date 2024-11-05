@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]?.Dispose();
                     _dayMementos[i] = null;
                 }
             }
@@ -94,10 +94,19 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
-           
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Content palette depends on enabled state of the control
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
@@ -107,12 +116,12 @@ namespace Krypton.Toolkit
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
-                _drawText = _months.DayNames[day % 7];
+                _drawText = _months.DayNames![day % 7];
 
                 _dayMementos[i]?.Dispose();
 
                 _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
-                                                                                       VisualOrientation.Top, state, false,false);
+                                                                                       VisualOrientation.Top, state);
 
                 // Move across to next day
                 layoutRect.X += _months.SizeDays.Width;
@@ -130,7 +139,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Content palette depends on enabled state of the control
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
@@ -142,9 +161,9 @@ namespace Krypton.Toolkit
                 // Draw using memento cached from the layout call
                 if (_dayMementos[day % 7] != null)
                 {
-                    context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                        _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7],
-                        VisualOrientation.Top, state, false, false, true);
+                    context?.Renderer.RenderStandardContent.DrawContent(context, drawRect,
+                        _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7]!,
+                        VisualOrientation.Top, state, true);
                 }
 
                 // Move across to next day
@@ -166,7 +185,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.

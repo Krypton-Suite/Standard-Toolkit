@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
                 _cbt.Install();
                 _cwp.Install();
                 _commonDialogHandler = new CommonDialogHandler(true);
-                if ( !string.IsNullOrWhiteSpace(Title))
+                if (!string.IsNullOrWhiteSpace(Title))
                 {
                     _commonDialogHandler.Title = Title;
                 }
@@ -88,13 +88,13 @@ namespace Krypton.Toolkit
             if (e.message == PI.WM_.INITDIALOG)
             {
 #if NET462
-                using var g  = _commonDialogHandler._wrapperForm.CreateGraphics();
+                using var g  = _commonDialogHandler._wrapperForm!.CreateGraphics();
                 _scaleFactor = g.DpiX / 96.0f;
 #else
-                _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
+                _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
 #endif
                 _commonDialogHandler._wrapperForm.Resize += FormResize;
-                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 *_scaleFactor, 345 * _scaleFactor).ToSize();
+                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
             }
         }
 
@@ -104,8 +104,13 @@ namespace Krypton.Toolkit
         private bool _alreadySetup;
         private protected float _scaleFactor;
 
-        private protected virtual void FormResize(object sender, EventArgs e)
+        private protected virtual void FormResize(object? sender, EventArgs e)
         {
+            if (_commonDialogHandler._wrapperForm == null)
+            {
+                return;
+            }
+            _commonDialogHandler._wrapperForm.SuspendLayout();
             // Align the button underneath the drop down
             var clientSize = _commonDialogHandler._wrapperForm.ClientSize;
             foreach (var button in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null))
@@ -116,19 +121,22 @@ namespace Krypton.Toolkit
                     {
                         // Do not use strings as they will be localised
                         case 1: // @"&Save"
-                        // case @"&Open":
-                        // case @"Select Folder":
-                            panel.Location = new Point((int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
+                                // case @"&Open":
+                                // case @"Select Folder":
+                            panel.Location = new Point(
+                                (int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
                         case 2:
-                        //case @"Cancel":
-                            panel.Location = new Point((int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
+                            //case @"Cancel":
+                            panel.Location = new Point(
+                                (int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
                     }
                 }
             }
+            _commonDialogHandler._wrapperForm.ResumeLayout(false);
         }
 
         private void WndCreated(object sender, CbtEventArgs e)
@@ -192,7 +200,7 @@ namespace Krypton.Toolkit
         [Description("Gets or sets the file dialog box Icon")]
         public Icon? Icon { get; set; }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <summary>
         /// <para>
         /// Gets or sets the GUID to associate with this dialog state. Typically, state such

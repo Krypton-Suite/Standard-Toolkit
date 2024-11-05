@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,30 +29,29 @@ namespace Krypton.Toolkit
         /// <param name="provider">An IServiceProvider that this editor can use to obtain services.</param>
         /// <param name="value">The object to edit.</param>
         /// <returns></returns>
-        public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
+        public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
         {
-            if ((context?.Instance != null) && (provider != null))
+            if (context is not null && provider is not null && value is not null)
             {
                 // Must use the editor service for showing dialogs
-                var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-
-                if (editorService != null)
+                //var editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService)
                 {
                     // Cast the value to the correct type
-                    var checkSet = (KryptonCheckSet)context.Instance;
-
-                    // Create the dialog used to edit the set of KryptonCheckButtons
-                    var dialog = new KryptonCheckButtonCollectionForm(checkSet);
-
-                    if (editorService.ShowDialog(dialog) == DialogResult.OK)
+                    if (context.Instance is KryptonCheckSet checkSet)
                     {
-                        // Notify container that value has been changed
-                        context.OnComponentChanged();
+                        // Create the dialog used to edit the set of KryptonCheckButtons
+                        KryptonCheckButtonCollectionForm dialog = new(checkSet);
+
+                        if (editorService.ShowDialog(dialog) == DialogResult.OK)
+                        {
+                            // Notify container that value has been changed
+                            context.OnComponentChanged();
+                        }
                     }
                 }
             }
 
-            // Return the original value
             return value;
         }
     }

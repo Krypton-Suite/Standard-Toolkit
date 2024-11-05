@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -207,9 +207,9 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Use newly provided palettes
-            PaletteBack = paletteBack;
-            _paletteBackDraw.SetInherit(paletteBack);
-            _paletteBackLight.Inherit = paletteBack;
+            PaletteBack = paletteBack!;
+            _paletteBackDraw.SetInherit(paletteBack!);
+            _paletteBackLight.Inherit = paletteBack!;
 
             // If not using a forced override decorator, then just store the new border palette
             // otherwise we update the decorator with the palette as the new inheritance to use
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _borderForced.SetInherit(paletteBorder);
+                _borderForced.SetInherit(paletteBorder!);
             }
 
             PaletteMetric = paletteMetric;
@@ -321,25 +321,27 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region DrawOnComposition
-        /// <summary>
-        /// Gets and sets a value indicating if the canvas is drawing on composition.
-        /// </summary>
-        public bool DrawCanvasOnComposition { get; set; }
-
-        #endregion
-
         #region GetOuterBorderPath
         /// <summary>
         /// Gets a path that describes the outside of the border.
         /// </summary>
         /// <param name="context">Context used by the renderer.</param>
         /// <returns>Path instance.</returns>
-        public GraphicsPath? GetOuterBorderPath(RenderContext context)
+        public GraphicsPath? GetOuterBorderPath([DisallowNull] RenderContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             if (PaletteBorder != null)
             {
-                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   PaletteBorder, Orientation,
                                                                                   State);
             }
@@ -357,10 +359,20 @@ namespace Krypton.Toolkit
         /// <returns>True if transparent areas exist; otherwise false.</returns>
         public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+            
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer to evaluate the given palette
-            return context.Renderer.EvalTransparentPaint(PaletteBack, PaletteBorder, State);
+            return context!.Renderer.EvalTransparentPaint(PaletteBack, PaletteBorder, State);
         }
 
         #endregion
@@ -374,22 +386,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
+            if (context.Renderer is null)
             {
-                if (child is ViewDrawContent viewContent)
-                {
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // Let base class find preferred size of the children
@@ -398,12 +405,12 @@ namespace Krypton.Toolkit
             // Apply space the border takes up
             preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize,
                 DrawTabBorder
-                    ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder, State, Orientation,
+                    ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State, Orientation,
                         TabBorderStyle)
-                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation));
+                    : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation));
 
             // Do we have a metric source for additional padding?
-            if ((PaletteMetric != null) && (_metricPadding != PaletteMetricPadding.None))
+            if (PaletteMetric != null && _metricPadding != PaletteMetricPadding.None)
             {
                 // Apply padding needed outside the border of the canvas
                 preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, PaletteMetric.GetMetricPadding(State, _metricPadding));
@@ -419,19 +426,24 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
             // Do we have a metric source for additional padding?
-            if ((PaletteMetric != null) && (_metricPadding != PaletteMetricPadding.None))
+            if (PaletteMetric != null && _metricPadding != PaletteMetricPadding.None)
             {
                 // Get the padding to be applied before the canvas drawing
                 Padding outerPadding = PaletteMetric.GetMetricPadding(State, _metricPadding);
@@ -441,27 +453,13 @@ namespace Krypton.Toolkit
             }
 
             // Calculate how much space the border takes up
-            Padding padding = DrawTabBorder
-                ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder, State,
+            var padding = DrawTabBorder
+                ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State,
                     Orientation, TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder, State, Orientation);
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation);
 
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
-
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    // Do we need to draw the background?
-                    var drawBackground = DrawCanvas && (PaletteBack.GetBackDraw(State) == InheritBool.True);
-
-                    // Update the content accordingly
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
-            }
 
             // Let child elements layout
             base.Layout(context);
@@ -480,17 +478,22 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             RenderBackground(context, ClientRectangle);
 
-            if (DrawCanvas && (PaletteBorder != null))
+            if (DrawCanvas && PaletteBorder != null)
             {
                 // Do we draw the border before the children?
                 if (!DrawBorderLast)
@@ -540,14 +543,14 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (DrawCanvas && (PaletteBorder != null))
+            if (DrawCanvas && PaletteBorder != null)
             {
                 // Do we draw the border after the children?
                 if (DrawBorderLast)
                 {
                     // Set the clipping region back to original setting
-                    Region oldRegion = context.Graphics.Clip;
-                    context.Graphics.Clip = _clipRegion;
+                    var oldRegion = context.Graphics.Clip;
+                    context.Graphics.Clip = _clipRegion!;
                     _clipRegion = null;
 
                     // Remember to dispose of the temporary region, no longer needed
@@ -563,7 +566,7 @@ namespace Krypton.Toolkit
         private void RenderBackground(RenderContext context, Rectangle rect)
         {
             // Do we need to draw the background?
-            if (DrawCanvas && (PaletteBack.GetBackDraw(State) == InheritBool.True))
+            if (DrawCanvas && PaletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 if (Splitter)
                 {
@@ -577,12 +580,12 @@ namespace Krypton.Toolkit
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
-                                        PaletteBorder, PaletteState.Tracking);
+                                        PaletteBorder!, PaletteState.Tracking);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
                                 }
                             }
 
@@ -591,12 +594,12 @@ namespace Krypton.Toolkit
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
-                                        PaletteBorder, PaletteState.Tracking);
+                                        PaletteBorder!, PaletteState.Tracking);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
                                 }
                             }
                         }
@@ -608,12 +611,12 @@ namespace Krypton.Toolkit
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
                                 }
                             }
 
@@ -622,24 +625,24 @@ namespace Krypton.Toolkit
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
-                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
+                                        PaletteBorder!, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
                                 }
                             }
                         }
                             break;
                         default:
-                            DrawBackground(context, rect, PaletteBack, PaletteBorder, State);
+                            DrawBackground(context, rect, PaletteBack, PaletteBorder!, State);
                             break;
                     }
                 }
                 else
                 {
-                    DrawBackground(context, rect, PaletteBack, PaletteBorder, State);
+                    DrawBackground(context, rect, PaletteBack, PaletteBorder!, State);
                 }
             }
         }
@@ -649,7 +652,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Do we need to draw the border?
-            if (PaletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (PaletteBorder!.GetBorderDraw(State) == InheritBool.True)
             {
                 if (Splitter)
                 {
@@ -657,37 +660,40 @@ namespace Krypton.Toolkit
                     switch (State)
                     {
                         case PaletteState.Tracking:
-                            DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
+                            DrawBorder(context!, rect, PaletteBorder, PaletteState.Tracking);
                             break;
                         case PaletteState.Pressed:
                         {
-                            DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
+                            DrawBorder(context!, rect, PaletteBorder, PaletteState.Tracking);
 
-                            using (var clipToSplitter = new Clipping(context.Graphics,
-                                       mouseInSplit ? _splitRectangle : NonSplitRectangle))
-                            {
-                                DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
-                            }
+                            using var clipToSplitter = new Clipping(context!.Graphics,
+                                mouseInSplit ? _splitRectangle : NonSplitRectangle);
+                            DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
                         }
                             break;
                         default:
-                            DrawBorder(context, rect, PaletteBorder, State);
+                            DrawBorder(context!, rect, PaletteBorder, State);
                             break;
                     }
                 }
                 else
                 {
-                    DrawBorder(context, rect, PaletteBorder, State);
+                    DrawBorder(context!, rect, PaletteBorder, State);
                 }
             }
         }
 
-        private void DrawBackground(RenderContext context, 
+        private void DrawBackground([DisallowNull] RenderContext context, 
                                     Rectangle rect, 
                                     IPaletteBack paletteBack, 
                                     IPaletteBorder paletteBorder,
                                     PaletteState state)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             GraphicsPath borderPath;
             Padding borderPadding;
 
@@ -707,24 +713,30 @@ namespace Krypton.Toolkit
             Rectangle enclosingRect = CommonHelper.ApplyPadding(Orientation, rect, borderPadding);
 
             // Render the background inside the border path
+            using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
             _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, paletteBack, Orientation, state, _mementoBack);
 
             borderPath.Dispose();
         }
 
-        private void DrawBorder(RenderContext context, 
+        private void DrawBorder([DisallowNull] RenderContext context, 
                                 Rectangle rect, 
                                 IPaletteBorder paletteBorder, 
                                 PaletteState state)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Render the border over the background and children
             if (DrawTabBorder)
             {
-                context.Renderer.RenderTabBorder.DrawTabBorder(context, rect, PaletteBorder, Orientation, state, TabBorderStyle);
+                context.Renderer.RenderTabBorder.DrawTabBorder(context, rect, PaletteBorder!, Orientation, state, TabBorderStyle);
             }
             else
             {
-                context.Renderer.RenderStandardBorder.DrawBorder(context, rect, PaletteBorder, Orientation, state);
+                context.Renderer.RenderStandardBorder.DrawBorder(context, rect, PaletteBorder!, Orientation, state);
             }
         }
 
@@ -744,9 +756,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool SplitWithFading => (PaletteMetric == null) ||
-                                        (PaletteMetric.GetMetricBool(State, PaletteMetricBool.SplitWithFading) ==
-                                         InheritBool.True);
+        private bool SplitWithFading => PaletteMetric == null ||
+                                        PaletteMetric.GetMetricBool(State, PaletteMetricBool.SplitWithFading) ==
+                                        InheritBool.True;
 
         #endregion
     }

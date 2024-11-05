@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private string _shortText;
-        private string _longText;
-        private Image _image;
+        private string? _longText;
+        private Image? _image;
         private Color _imageTransparentColor;
 
         #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonListItem class.
         /// </summary>
         public KryptonListItem()
-            : this("ListItem", null, null, Color.Empty)
+            : this("ListItem", null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="shortText">Initial short text value.</param>
         public KryptonListItem(string shortText)
-            : this(shortText, null, null, Color.Empty)
+            : this(shortText, null, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <param name="shortText">Initial short text value.</param>
         /// <param name="longText">Initial long text value.</param>
         public KryptonListItem(string shortText, string longText)
-            : this(shortText, longText, null, Color.Empty)
+            : this(shortText, longText, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonListItem(string shortText,
                                string longText,
-                               Image image)
-            : this(shortText, longText, image, Color.Empty)
+                               Image? image)
+            : this(shortText, longText, image, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonListItem(string shortText,
-                               string longText,
-                               Image image,
+                               string? longText,
+                               Image? image,
                                Color imageTransparentColor)
         {
             _shortText = shortText;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public string LongText
         {
-            get => _longText;
+            get => _longText!;
 
             set 
             {
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText() => _longText;
+        public string GetLongText() => _longText!;
 
         #endregion
 

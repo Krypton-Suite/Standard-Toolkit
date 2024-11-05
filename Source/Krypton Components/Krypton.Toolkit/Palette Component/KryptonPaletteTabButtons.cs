@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,7 +26,12 @@ namespace Krypton.Toolkit
         public KryptonPaletteTabButtons([DisallowNull] PaletteRedirect redirector,
                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(redirector != null);
+            Debug.Assert(redirector is not null);
+
+            if (redirector is null)
+            {
+                throw new ArgumentNullException(nameof(redirector));
+            }
 
             // Create the button style specific and common palettes
             TabCommon = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabHighProfile, PaletteBorderStyle.TabHighProfile, PaletteContentStyle.TabHighProfile, needPaint);
@@ -41,7 +46,7 @@ namespace Krypton.Toolkit
             TabCustom3 = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabCustom3, PaletteBorderStyle.TabCustom3, PaletteContentStyle.TabCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectTriple(redirector, TabCommon.StateDisabled,
+            var redirectCommon = new PaletteRedirectTriple(redirector!, TabCommon.StateDisabled,
                 TabCommon.StateNormal, TabCommon.StatePressed, TabCommon.StateTracking, TabCommon.StateSelected,
                 TabCommon.OverrideFocus);
             // Inform the button style to use the new redirector
@@ -61,16 +66,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => TabCommon.IsDefault &&
-                                          TabHighProfile.IsDefault &&
-                                          TabStandardProfile.IsDefault &&
-                                          TabLowProfile.IsDefault &&
-                                          TabDock.IsDefault &&
-                                          TabDockAutoHidden.IsDefault &&
-                                          TabOneNote.IsDefault &&
-                                          TabCustom1.IsDefault &&
-                                          TabCustom2.IsDefault &&
-                                          TabCustom3.IsDefault;
+                                            TabHighProfile.IsDefault &&
+                                            TabStandardProfile.IsDefault &&
+                                            TabLowProfile.IsDefault &&
+                                            TabDock.IsDefault &&
+                                            TabDockAutoHidden.IsDefault &&
+                                            TabOneNote.IsDefault &&
+                                            TabCustom1.IsDefault &&
+                                            TabCustom2.IsDefault &&
+                                            TabCustom3.IsDefault;
 
         #endregion
 

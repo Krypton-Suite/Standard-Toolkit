@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,6 @@ namespace Krypton.Toolkit
         private bool _autoClose;
         private bool _checked;
         private bool _enabled;
-        private string _text;
         private string _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
@@ -73,7 +72,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _checked = false;
             _autoCheck = false;
             _style = ButtonStyle.Standalone;
@@ -179,18 +178,10 @@ namespace Krypton.Toolkit
         [Description(@"Main check box text.")]
         [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set 
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
@@ -258,7 +249,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets and sets the check button style.
@@ -511,7 +502,7 @@ namespace Krypton.Toolkit
 
         internal PaletteTripleOverride OverridePressed { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             StateCommon.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);

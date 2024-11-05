@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonGalleryDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonGallery _gallery;
+        private KryptonGallery? _gallery;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _gallery = component as KryptonGallery;
 
             // We need to know when we are being removed
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
             _changeService.ComponentRemoving += OnComponentRemoving;
         }
 
@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
                 var compound = new ArrayList(base.AssociatedComponents);
 
                 // Add all the display ranges
-                foreach (KryptonGalleryRange dropRange in _gallery.DropButtonRanges)
+                foreach (KryptonGalleryRange dropRange in _gallery?.DropButtonRanges!)
                 {
                     compound.Add(dropRange);
                 }
@@ -124,16 +124,16 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == _gallery)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all the range instances
-                for (var i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)
+                for (var i = _gallery!.DropButtonRanges.Count - 1; i >= 0; i--)
                 {
                     KryptonGalleryRange dropRange = _gallery.DropButtonRanges[i];
                     _gallery.DropButtonRanges.Remove(dropRange);

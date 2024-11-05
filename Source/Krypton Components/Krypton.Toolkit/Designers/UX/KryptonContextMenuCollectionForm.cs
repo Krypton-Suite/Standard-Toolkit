@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Simple class to reduce the length of declarations!
             /// </summary>
-            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase> { }
+            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase>;
 
             /// <summary>
             /// Tree node that is attached to a context menu item.
@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
                 public MenuTreeNode([DisallowNull] KryptonContextMenuItemBase item)
                 {
                     Debug.Assert(item != null);
-                    Item = item;
-                    PropertyObject = item;
+                    Item = item!;
+                    PropertyObject = item!;
 
                     // Setup the initial starting image and description strings
                     ImageIndex = ImageIndexFromItem();
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                     return -1;
                 }
 
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+                private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
                 #endregion
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent? Component { get; }
+                public IComponent Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
                 // imageList
                 // 
                 _imageList.TransparentColor = Color.Magenta;
-                _imageList.Images.AddRange(new Image[]{
+                _imageList.Images.AddRange([
                     GenericKryptonImageResources.KryptonContextMenuColorColumns,
                     GenericKryptonImageResources.KryptonContextMenuHeading,
                     GenericKryptonImageResources.KryptonContextMenuItem,
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
                     GenericKryptonImageResources.KryptonContextMenuImageSelect,
                     GenericKryptonImageResources.KryptonMonthCalendar,
                     GenericKryptonImageResources.KryptonComboBox
-                });
+                ]);
 
                 // TODO: Do these need updating?
                 _imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
@@ -517,12 +517,12 @@ namespace Krypton.Toolkit
                 // propertyGrid1
                 // 
                 _propertyGrid1.Dock = DockStyle.Fill;
-                _propertyGrid1.HelpVisible = false;
+                _propertyGrid1.HelpVisible = true;
                 _propertyGrid1.Location = new Point(524, 24);
                 _propertyGrid1.Name = "_propertyGrid1";
                 _propertyGrid1.Size = new Size(289, 658);
                 _propertyGrid1.TabIndex = 15;
-                _propertyGrid1.ToolbarVisible = false;
+                _propertyGrid1.ToolbarVisible = true;
                 // 
                 // label2
                 // 
@@ -637,7 +637,6 @@ namespace Krypton.Toolkit
                 Name = nameof(KryptonContextMenuCollectionForm);
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = @"KryptonContextMenu Items Editor";
-                Load += KryptonContextMenuEditorForm_Load;
                 _tableLayoutPanel1.ResumeLayout(false);
                 _tableLayoutPanel1.PerformLayout();
                 _panel1.ResumeLayout(false);
@@ -660,7 +659,7 @@ namespace Krypton.Toolkit
 
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    _propertyGrid1.Site = new PropertyGridSite(Context, _propertyGrid1);
+                    _propertyGrid1.Site = new PropertyGridSite(Context!, _propertyGrid1);
 
                     // Add all the top level clones
                     _treeView.Nodes.Clear();
@@ -685,11 +684,8 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
-            private void KryptonContextMenuEditorForm_Load(object sender, EventArgs e) =>
-                // Set allowed categories into the property grid filter
-                _propertyGrid1.BrowsableAttributes = new AttributeCollection(new KryptonPersistAttribute());
 
-            private void buttonOK_Click(object sender, EventArgs e)
+            private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
                 var rootItems = new object[_treeView.Nodes.Count];
@@ -708,23 +704,21 @@ namespace Krypton.Toolkit
                 _treeView.Nodes.Clear();
 
                 // Inform designer of changes in component items
-                SynchronizeCollections(_beforeItems, afterItems, Context);
+                SynchronizeCollections(_beforeItems, afterItems, Context!);
 
                 // Notify container that the value has been changed
-                Context.OnComponentChanged();
+                Context!.OnComponentChanged();
             }
 
-            private void buttonMoveUp_Click(object sender, EventArgs e)
+            private void buttonMoveUp_Click(object? sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at the root level then move up in the root items collection
-                    if (node.Parent == null)
+                    if (node.Parent is null)
                     {
                         var index = _treeView.Nodes.IndexOf(node);
                         _treeView.Nodes.Remove(node);
@@ -734,7 +728,7 @@ namespace Krypton.Toolkit
                     {
                         var index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
-                        var treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = (MenuTreeNode)parentNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -742,6 +736,7 @@ namespace Krypton.Toolkit
                                 items1.Items.Remove(treeNode.Item);
                                 items1.Items.Insert(index - 1, treeNode.Item);
                                 break;
+
                             case KryptonContextMenuItem items:
                                 items.Items.Remove(treeNode.Item);
                                 items.Items.Insert(index - 1, treeNode.Item);
@@ -760,14 +755,12 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonMoveDown_Click(object sender, EventArgs e)
+            private void buttonMoveDown_Click(object? sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at the root level then move down in the root items collection
                     if (node.Parent == null)
@@ -788,6 +781,7 @@ namespace Krypton.Toolkit
                                 items1.Items.Remove(treeNode.Item);
                                 items1.Items.Insert(index + 1, treeNode.Item);
                                 break;
+
                             case KryptonContextMenuItem items:
                                 items.Items.Remove(treeNode.Item);
                                 items.Items.Insert(index + 1, treeNode.Item);
@@ -806,38 +800,36 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddItem_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
+            private void buttonAddItem_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
 
-            private void buttonAddItems_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
+            private void buttonAddItems_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
 
-            private void buttonAddHeading_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
+            private void buttonAddHeading_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
 
-            private void buttonAddMonthCalendar_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
+            private void buttonAddMonthCalendar_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
 
-            private void buttonAddSeparator_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
+            private void buttonAddSeparator_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
 
-            private void buttonAddCheckBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
+            private void buttonAddCheckBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
 
-            private void buttonAddCheckButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
+            private void buttonAddCheckButton_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
 
-            private void buttonAddRadioButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
+            private void buttonAddRadioButton_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
 
-            private void buttonAddLinkLabel_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
+            private void buttonAddLinkLabel_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
 
-            private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
+            private void buttonAddColorColumns_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
-            private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
+            private void buttonAddImageSelect_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
-            private void buttonAddComboBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
+            private void buttonAddComboBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
-            private void buttonDelete_Click(object sender, EventArgs e)
+            private void buttonDelete_Click(object? sender, EventArgs e)
             {
-                TreeNode node = _treeView.SelectedNode;
-
                 // We should have a selected node!
-                if (node != null)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    var treeNode = (MenuTreeNode)node;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -854,6 +846,7 @@ namespace Krypton.Toolkit
                             case KryptonContextMenuItems items1:
                                 items1.Items.Remove(treeNode.Item);
                                 break;
+
                             case KryptonContextMenuItem items:
                                 items.Items.Remove(treeNode.Item);
                                 break;
@@ -869,7 +862,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void SelectionChanged(object sender, TreeViewEventArgs e)
+            private void SelectionChanged(object? sender, TreeViewEventArgs e)
             {
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -877,8 +870,11 @@ namespace Krypton.Toolkit
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = _treeView.SelectedNode;
-                _propertyGrid1.SelectedObject = ((MenuTreeNode)node)?.PropertyObject;
+                if (_treeView.SelectedNode is MenuTreeNode node)
+                {
+                    var propertyObject = ((MenuTreeNode)node)?.PropertyObject!;
+                    _propertyGrid1.SelectedObject = propertyObject;
+                }
             }
 
             private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode? parent)
@@ -905,6 +901,7 @@ namespace Krypton.Toolkit
                             AddMenuTreeNode(child, node);
                         }
                         break;
+
                     case KryptonContextMenuItem itemsCollection:
                         foreach (KryptonContextMenuItemBase child in itemsCollection.Items)
                         {
@@ -916,7 +913,7 @@ namespace Krypton.Toolkit
 
             private void AddNewItem(KryptonContextMenuItemBase item)
             {
-                TreeNode selectedNode = _treeView.SelectedNode;
+                TreeNode? selectedNode = _treeView.SelectedNode;
                 TreeNode newNode = new MenuTreeNode(item);
 
                 // If there is no selection then append to root
@@ -959,13 +956,14 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    var treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
-                                    var items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    var treeSelectedNode = (MenuTreeNode)selectedNode;
+                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItem);
+                                    var items = (KryptonContextMenuItem)treeSelectedNode.Item;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
                                 break;
+
                             case KryptonContextMenuItem items2:
                                 if (ValidInCollection(item))
                                 {
@@ -974,8 +972,8 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    var treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
+                                    var treeSelectedNode = (MenuTreeNode)selectedNode;
+                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItems);
                                     var items = treeSelectedNode.Item as KryptonContextMenuItems;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
@@ -999,7 +997,9 @@ namespace Krypton.Toolkit
                 var parentNodeCount = _treeView.Nodes.Count;
                 var nodeIndex = -1;
 
-                if (_treeView.SelectedNode is MenuTreeNode node)
+                // ReSharper disable once UsePatternMatching
+                MenuTreeNode? node = _treeView.SelectedNode as MenuTreeNode;
+                if (node != null)
                 {
                     item = node.Item;
                     nodeIndex = _treeView.Nodes.IndexOf(node);
@@ -1007,7 +1007,7 @@ namespace Krypton.Toolkit
                     {
                         parentNodeCount = node.Parent.Nodes.Count;
                         nodeIndex = node.Parent.Nodes.IndexOf(node);
-                        node = node.Parent! as MenuTreeNode;
+                        node = node.Parent as MenuTreeNode;
                         if (node != null)
                         {
                             parent = node.Item;
@@ -1031,11 +1031,11 @@ namespace Krypton.Toolkit
                 _buttonDelete.Enabled = item != null;
             }
 
-            private bool AllowAddItem(KryptonContextMenuItemBase item,
-                                      KryptonContextMenuItemBase parent,
+            private bool AllowAddItem(KryptonContextMenuItemBase? item,
+                                      KryptonContextMenuItemBase? parent,
                                       Type addType)
             {
-                // Special case the you can use add button on an Items collection so it adds an item inside it
+                // Special case: you can use add button on an Items collection so it adds an item inside it
                 if ((item is KryptonContextMenuItems) && addType.Equals(typeof(KryptonContextMenuItem)))
                 {
                     return true;
@@ -1076,9 +1076,9 @@ namespace Krypton.Toolkit
                 return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
-            private bool ItemInsideCollection(KryptonContextMenuItemBase item,
-                                              KryptonContextMenuItemBase parent) =>
-                // If it has no parent the it must be inside a collection
+            private bool ItemInsideCollection(KryptonContextMenuItemBase? item,
+                                              KryptonContextMenuItemBase? parent) =>
+                // If it has no parent then it must be inside a collection
                 // If inside an items then not inside a collection
                 parent is not KryptonContextMenuItems;
 
@@ -1137,11 +1137,10 @@ namespace Krypton.Toolkit
                     context.Container?.Remove(item);
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
+                if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
                 {
                     // Mark components as changed when not added or removed
-                    foreach (KryptonContextMenuItemBase item in after.Values.Where(item => before.ContainsKey(item)))
+                    foreach (KryptonContextMenuItemBase item in after.Values.Where(before.ContainsKey))
                     {
                         changeService.OnComponentChanging(item, null);
                         changeService.OnComponentChanged(item, null, null, null);

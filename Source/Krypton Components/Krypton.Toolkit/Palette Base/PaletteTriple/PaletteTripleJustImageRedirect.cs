@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             : this(null, backStyle, borderStyle, contentStyle, null)
         {
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the PaletteTripleJustImageRedirect class.
         /// </summary>
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
-        public PaletteTripleJustImageRedirect(PaletteRedirect? redirect,
+        public PaletteTripleJustImageRedirect(PaletteRedirect redirect,
                                               PaletteBackStyle backStyle,
                                               PaletteBorderStyle borderStyle,
                                               PaletteContentStyle contentStyle)
@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
                                               PaletteBackStyle backStyle,
                                               PaletteBorderStyle borderStyle,
                                               PaletteContentStyle contentStyle,
-                                              NeedPaintHandler needPaint)
+                                              NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
             _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
@@ -88,9 +88,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Back.IsDefault &&
-                                           Border.IsDefault &&
-                                           Content.IsDefault;
+                                            Border.IsDefault &&
+                                            Content.IsDefault;
 
         #endregion
 
@@ -99,7 +100,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect? GetRedirector() => _backInherit.GetRedirector();
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
 
         #endregion
 
@@ -108,7 +109,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             _borderInherit.SetRedirector(redirect);
@@ -236,8 +237,9 @@ namespace Krypton.Toolkit
                               PaletteContentStyle.ButtonCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonStyle.ToString());
                     break;
             }
         }
@@ -296,8 +298,9 @@ namespace Krypton.Toolkit
                         PaletteContentStyle.HeaderCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(headerStyle.ToString());
                     break;
             }
         }

@@ -1,17 +1,53 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Provide KryptonColorTable2010 values using an array of Color values as the source.
+    /// </summary>
+    public class KryptonColorTable2010White : KryptonColorTable2010
+    {
+        #region Identity
+        static KryptonColorTable2010White()
+        {
+            // Get the font settings from the system
+            DefineFonts();
+
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the KryptonColorTable2010White class.
+        /// </summary>
+        /// <param name="colors">Source of </param>
+        /// <param name="roundedEdges">Should have rounded edges.</param>
+        /// <param name="palette">Associated palette instance.</param>
+        public KryptonColorTable2010White([DisallowNull] Color[] colors,
+                                     InheritBool roundedEdges,
+        PaletteBase palette)
+            : base(colors, roundedEdges, palette)
+        {
+            Debug.Assert(colors != null);
+        }
+        #endregion
+
+        /// <summary>
+        /// MenuStripText
+        /// </summary>
+        public override Color MenuStripText => Color.FromArgb(255, 30, 30, 30);// Colors[(int)SchemeOfficeColors.StatusStripText];
+    }
+
     /// <summary>
     /// Provide KryptonColorTable2010 values using an array of Color values as the source.
     /// </summary>
@@ -55,7 +91,7 @@ namespace Krypton.Toolkit
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
+            Colors = colors!;
             UseRoundedEdges = roundedEdges;
         }
         #endregion
@@ -70,7 +106,7 @@ namespace Krypton.Toolkit
 
         #region RoundedEdges
         /// <summary>
-        /// Gets a value indicating if rounded egdes are required.
+        /// Gets a value indicating if rounded edges are required.
         /// </summary>
         public override InheritBool UseRoundedEdges { get; }
 
@@ -611,20 +647,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private static void DefineFonts()
+
+        /// <summary>DefineFonts</summary>
+        protected static void DefineFonts()
         {
-            // Release existing resources
-            _menuToolFont?.Dispose();
-
-            _statusFont?.Dispose();
-
             // Create new font using system information
             // TODO: Should be using base font
-            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
-            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
+            _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
+            _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
         }
 
-        private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
+        /// <summary>OnUserPreferenceChanged</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
             // Update fonts to reflect any change in system settings
             DefineFonts();
 

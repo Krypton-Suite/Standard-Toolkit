@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -43,19 +43,21 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="colorBlock">Drawing element that owns color block display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuColorBlockController([DisallowNull] ViewContextMenuManager viewManager,
-                                        [DisallowNull] ViewBase target,
-                                        [DisallowNull] ViewDrawMenuColorBlock colorBlock,
-                                        [DisallowNull] NeedPaintHandler needPaint)
+        public MenuColorBlockController(ViewContextMenuManager viewManager,
+                                        ViewBase target,
+                                        ViewDrawMenuColorBlock colorBlock,
+                                        NeedPaintHandler needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(colorBlock != null);
-            Debug.Assert(needPaint != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(colorBlock is not null);
+            Debug.Assert(needPaint is not null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuColorBlock = colorBlock;
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuColorBlock = colorBlock!;
             NeedPaint = needPaint;
 
             // Set initial display state
@@ -126,7 +128,7 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
 
         #endregion
-        
+
         #region Mouse Notifications
         /// <summary>
         /// Mouse has entered the view.
@@ -411,7 +413,7 @@ namespace Krypton.Toolkit
         private void NormalState()
         {
             _highlight = false;
-            _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(Color.Empty));
+            _menuColorBlock.KryptonContextMenuColorColumns.OnTrackingColor(new ColorEventArgs(GlobalStaticValues.EMPTY_COLOR));
             UpdateTarget();
         }
 

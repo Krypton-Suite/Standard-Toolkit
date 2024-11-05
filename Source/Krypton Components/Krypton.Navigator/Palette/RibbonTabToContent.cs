@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -34,9 +34,9 @@ namespace Krypton.Navigator
             Debug.Assert(ribbonTabText != null);
             Debug.Assert(content != null);
 
-            _ribbonGeneral = ribbonGeneral;
-            PaletteRibbonText = ribbonTabText;
-            PaletteContent = content;
+            _ribbonGeneral = ribbonGeneral ?? throw new ArgumentNullException(nameof(ribbonGeneral));
+            PaletteRibbonText = ribbonTabText ?? throw new ArgumentNullException(nameof(ribbonTabText));
+            PaletteContent = content ?? throw new ArgumentNullException(nameof(content));
         }
         #endregion
 
@@ -62,49 +62,49 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentDraw(PaletteState state) => PaletteContent.GetContentDraw(state);
+        public InheritBool GetContentDraw(PaletteState state) => PaletteContent!.GetContentDraw(state);
 
         /// <summary>
         /// Gets a value indicating if content should be drawn with focus indication.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentDrawFocus(PaletteState state) => PaletteContent.GetContentDrawFocus(state);
+        public InheritBool GetContentDrawFocus(PaletteState state) => PaletteContent!.GetContentDrawFocus(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageH(PaletteState state) => PaletteContent.GetContentImageH(state);
+        public PaletteRelativeAlign GetContentImageH(PaletteState state) => PaletteContent!.GetContentImageH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageV(PaletteState state) => PaletteContent.GetContentImageV(state);
+        public PaletteRelativeAlign GetContentImageV(PaletteState state) => PaletteContent!.GetContentImageV(state);
 
         /// <summary>
         /// Gets the effect applied to drawing of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteImageEffect value.</returns>
-        public PaletteImageEffect GetContentImageEffect(PaletteState state) => PaletteContent.GetContentImageEffect(state);
+        public PaletteImageEffect GetContentImageEffect(PaletteState state) => PaletteContent!.GetContentImageEffect(state);
 
         /// <summary>
         /// Gets the image color to remap into another color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorMap(PaletteState state) => PaletteContent.GetContentImageColorMap(state);
+        public Color GetContentImageColorMap(PaletteState state) => PaletteContent!.GetContentImageColorMap(state);
 
         /// <summary>
         /// Gets the color to use in place of the image map color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorTo(PaletteState state) => PaletteContent.GetContentImageColorTo(state);
+        public Color GetContentImageColorTo(PaletteState state) => PaletteContent!.GetContentImageColorTo(state);
 
         /// <summary>
         /// Gets the font for the short text.
@@ -132,42 +132,42 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) => PaletteContent.GetContentShortTextPrefix(state);
+        public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) => PaletteContent!.GetContentShortTextPrefix(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentShortTextMultiLine(PaletteState state) => PaletteContent.GetContentShortTextMultiLine(state);
+        public InheritBool GetContentShortTextMultiLine(PaletteState state) => PaletteContent!.GetContentShortTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public virtual PaletteTextTrim GetContentShortTextTrim(PaletteState state) => PaletteContent.GetContentShortTextTrim(state);
+        public virtual PaletteTextTrim GetContentShortTextTrim(PaletteState state) => PaletteContent!.GetContentShortTextTrim(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => PaletteContent.GetContentShortTextH(state);
+        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => PaletteContent!.GetContentShortTextH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentShortTextV(PaletteState state) => PaletteContent.GetContentShortTextV(state);
+        public PaletteRelativeAlign GetContentShortTextV(PaletteState state) => PaletteContent!.GetContentShortTextV(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of multiline short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state) => PaletteContent.GetContentShortTextMultiLineH(state);
+        public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state) => PaletteContent!.GetContentShortTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the short text.
@@ -251,42 +251,42 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentLongTextMultiLine(PaletteState state) => PaletteContent.GetContentLongTextMultiLine(state);
+        public InheritBool GetContentLongTextMultiLine(PaletteState state) => PaletteContent!.GetContentLongTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public virtual PaletteTextTrim GetContentLongTextTrim(PaletteState state) => PaletteContent.GetContentLongTextTrim(state);
+        public virtual PaletteTextTrim GetContentLongTextTrim(PaletteState state) => PaletteContent!.GetContentLongTextTrim(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state) => PaletteContent.GetContentLongTextPrefix(state);
+        public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state) => PaletteContent!.GetContentLongTextPrefix(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextH(PaletteState state) => PaletteContent.GetContentLongTextH(state);
+        public PaletteRelativeAlign GetContentLongTextH(PaletteState state) => PaletteContent!.GetContentLongTextH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextV(PaletteState state) => PaletteContent.GetContentLongTextV(state);
+        public PaletteRelativeAlign GetContentLongTextV(PaletteState state) => PaletteContent!.GetContentLongTextV(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of multiline long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state) => PaletteContent.GetContentLongTextMultiLineH(state);
+        public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state) => PaletteContent!.GetContentLongTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the long text.
@@ -349,14 +349,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetContentPadding(PaletteState state) => PaletteContent.GetContentPadding(state);
+        public Padding GetContentPadding(PaletteState state) => PaletteContent!.GetContentPadding(state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer value.</returns>
-        public int GetContentAdjacentGap(PaletteState state) => PaletteContent.GetContentAdjacentGap(state);
+        public int GetContentAdjacentGap(PaletteState state) => PaletteContent!.GetContentAdjacentGap(state);
 
         /// <summary>
         /// Gets the style appropriate for this content.

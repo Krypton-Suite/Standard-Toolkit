@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -40,16 +40,16 @@ namespace Krypton.Toolkit
                                                   [DisallowNull] IPaletteRibbonText backupText,
                                                   PaletteState state) 
         {
-            Debug.Assert(primaryBack != null);
-            Debug.Assert(primaryText != null);
-            Debug.Assert(backupBack != null);
-            Debug.Assert(backupText != null);
+            Debug.Assert(primaryBack is not null);
+            Debug.Assert(primaryText is not null);
+            Debug.Assert(backupBack is not null);
+            Debug.Assert(backupText is not null);
 
             // Remember values
-            _primaryBack = primaryBack;
-            _primaryText = primaryText;
-            _backupBack = backupBack;
-            _backupText = backupText;
+            _primaryBack = primaryBack ?? throw new ArgumentNullException(nameof(primaryBack));
+            _primaryText = primaryText ?? throw new ArgumentNullException(nameof(primaryText));
+            _backupBack = backupBack ?? throw new ArgumentNullException(nameof(backupBack));
+            _backupText = backupText ?? throw new ArgumentNullException(nameof(backupText));
 
             // Default state
             Apply = false;
@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor1(state);
                 }
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor2(state);
                 }
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor3(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor3(state);
                 }
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor4(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor4(state);
                 }
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryBack.GetRibbonBackColor5(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupBack.GetRibbonBackColor5(state);
                 }
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primaryText.GetRibbonTextColor(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backupText.GetRibbonTextColor(state);
                 }

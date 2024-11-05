@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -39,15 +39,15 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create and add the draw content for display inside the tab
-            _contentProvider = new DesignTextToContent(ribbon);
+            _contentProvider = new DesignTextToContent(ribbon!);
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Use a controller to change state because of mouse movement
-            var controller = new ViewHightlightController(this, needPaint);
+            var controller = new ViewHightlightController(this, needPaint!);
             controller.Click += OnClick;
             MouseController = controller;
         }
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Reduce our size by a padding around the element
             ClientRectangle = new Rectangle(ClientLocation.X + OuterPadding.Left,
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // Ensure the child text view has same state as us
-            this[0].ElementState = ElementState;
+            this[0]!.ElementState = ElementState;
 
             // Draw background using the design time colors
             DesignTimeDraw.DrawArea(Ribbon, context, ClientRectangle, State);
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(object sender, EventArgs e)
+        protected virtual void OnClick(object? sender, EventArgs e)
         {
         }
         #endregion

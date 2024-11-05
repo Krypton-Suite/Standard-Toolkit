@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -31,7 +31,6 @@ namespace Krypton.Toolkit
         private bool _showShortcutKeys;
         private bool _autoClose;
         private bool _largeKryptonCommandImage;
-        private string _text;
         private string _extraText;
         private string _shortcutKeyDisplayString;
         private Image? _image;
@@ -150,11 +149,11 @@ namespace Krypton.Toolkit
             _showShortcutKeys = true;
             _largeKryptonCommandImage = false;
             _extraText = string.Empty;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _shortcutKeys = shortcut;
             _shortcutKeyDisplayString = string.Empty;
             _checkState = CheckState.Unchecked;
-            Items = new KryptonContextMenuCollection();
+            Items = [];
 
             // Create the common storage for palette override values
             _stateRedirect = new PaletteContextMenuItemStateRedirect();
@@ -231,18 +230,10 @@ namespace Krypton.Toolkit
         [DefaultValue(@"MenuItem")]
         [Localizable(true)]
         [Bindable(true)]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
@@ -314,8 +305,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
-        private void ResetImageTransparentColor() => _imageTransparentColor = Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
+        private void ResetImageTransparentColor() => _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets and sets the shortcut key combination associated with the menu item.

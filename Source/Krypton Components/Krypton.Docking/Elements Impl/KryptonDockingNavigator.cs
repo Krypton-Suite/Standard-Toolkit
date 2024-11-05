@@ -5,13 +5,14 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
 // ReSharper disable MemberCanBeInternal
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -79,7 +80,7 @@ namespace Krypton.Docking
                 if (dockingManager != null)
                 {
                     var args = new DockableNavigatorEventArgs(DockableNavigatorControl, this);
-                    dockingManager?.RaiseDockableNavigatorAdded(args);
+                    dockingManager.RaiseDockableNavigatorAdded(args);
                 }
             }
         }
@@ -446,7 +447,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
         /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
-        public override void PropogateAction(DockingPropogateAction action, string[] uniqueNames)
+        public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
             KryptonPageCollection pageCollection = DockableNavigatorControl.Pages;
             switch (action)
@@ -926,7 +927,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void OnDockableNavigatorDisposed(object sender, EventArgs e)
+        private void OnDockableNavigatorDisposed(object? sender, EventArgs e)
         {
             // Unhook from events to prevent memory leaking
             DockableNavigatorControl.Disposed -= OnDockableNavigatorDisposed;
@@ -943,7 +944,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockableNavigatorPageInserting(object sender, KryptonPageEventArgs e)
+        private void OnDockableNavigatorPageInserting(object? sender, KryptonPageEventArgs e)
         {
             // Remove any store page for the unique name of this page being added. In either case of adding a store
             // page or a regular page we want to ensure there does not exist a store page for that same unique name.
@@ -955,7 +956,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockableNavigatorBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnDockableNavigatorBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the navigator
             var pages = e.Pages.Where(page => page is not KryptonStorePage && DockableNavigatorControl.Pages.Contains(page)).ToList();
@@ -972,7 +973,7 @@ namespace Krypton.Docking
             e.Cancel = true;
         }
 
-        private void OnDockableNavigatorPageDrop(object sender, PageDropEventArgs e)
+        private void OnDockableNavigatorPageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a navigator and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;

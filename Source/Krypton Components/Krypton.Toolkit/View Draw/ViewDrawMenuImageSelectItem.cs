@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutMenuItemSelect _layout;
         private readonly MenuImageSelectController _controller;
         private readonly NeedPaintHandler _needPaint;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private int _imageIndex;
         #endregion
 
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             SourceController = _controller;
             KeyController = _controller;
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(imageSelect.ToolTipManager, this, _controller);
+            MouseController = new ToolTipController(imageSelect.ToolTipManager!, this, _controller);
 
         }
 
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             }
 
             // Let base class draw using the temp state, then put back to original
-            base.Render(context);
+            base.Render(context!);
             ElementState = tempState;
         }
         #endregion
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnItemClick(object sender, MouseEventArgs e)
+        private void OnItemClick(object? sender, MouseEventArgs e)
         {
             // Set new selection index
             _imageSelect.SelectedIndex = _imageIndex;

@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -18,15 +16,15 @@ namespace Krypton.Toolkit
     public class PaletteRedirectBack : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteBack _disabled;
-        private IPaletteBack _normal;
-        private IPaletteBack _pressed;
-        private IPaletteBack _tracking;
-        private IPaletteBack _checkedNormal;
-        private IPaletteBack _checkedPressed;
-        private IPaletteBack _checkedTracking;
-        private IPaletteBack _focusOverride;
-        private IPaletteBack _normalDefaultOverride;
+        private IPaletteBack? _disabled;
+        private IPaletteBack? _normal;
+        private IPaletteBack? _pressed;
+        private IPaletteBack? _tracking;
+        private IPaletteBack? _checkedNormal;
+        private IPaletteBack? _checkedPressed;
+        private IPaletteBack? _checkedTracking;
+        private IPaletteBack? _focusOverride;
+        private IPaletteBack? _normalDefaultOverride;
         #endregion
 
         #region Identity
@@ -34,7 +32,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBack class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBack(PaletteBase? target)
+        public PaletteRedirectBack(PaletteBase target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -45,7 +43,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectBack(PaletteBase? target,
+        public PaletteRedirectBack(PaletteBase target,
                                    IPaletteBack disabled,
                                    IPaletteBack normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -65,16 +63,16 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectBack(PaletteBase? target,
-                                   IPaletteBack disabled,
-                                   IPaletteBack normal,
-                                   IPaletteBack pressed,
-                                   IPaletteBack tracking,
-                                   IPaletteBack checkedNormal,
-                                   IPaletteBack checkedPressed,
-                                   IPaletteBack checkedTracking,
-                                   IPaletteBack focusOverride,
-                                   IPaletteBack normalDefaultOverride)
+        public PaletteRedirectBack(PaletteBase target,
+                                   IPaletteBack? disabled,
+                                   IPaletteBack? normal,
+                                   IPaletteBack? pressed,
+                                   IPaletteBack? tracking,
+                                   IPaletteBack? checkedNormal,
+                                   IPaletteBack? checkedPressed,
+                                   IPaletteBack? checkedTracking,
+                                   IPaletteBack? focusOverride,
+                                   IPaletteBack? normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -131,9 +129,9 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackDraw(state) ?? Target.GetBackDraw(style, state);
+            return inherit?.GetBackDraw(state) ?? Target!.GetBackDraw(style, state);
         }
 
         /// <summary>
@@ -144,9 +142,9 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackGraphicsHint(state) ?? Target.GetBackGraphicsHint(style, state);
+            return inherit?.GetBackGraphicsHint(state) ?? Target!.GetBackGraphicsHint(style, state);
         }
 
         /// <summary>
@@ -157,9 +155,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackColor1(state) ?? Target.GetBackColor1(style, state);
+            return inherit?.GetBackColor1(state) ?? Target!.GetBackColor1(style, state);
         }
 
         /// <summary>
@@ -170,9 +168,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackColor2(state) ?? Target.GetBackColor2(style, state);
+            return inherit?.GetBackColor2(state) ?? Target!.GetBackColor2(style, state);
         }
 
         /// <summary>
@@ -183,9 +181,9 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackColorStyle(state) ?? Target.GetBackColorStyle(style, state);
+            return inherit?.GetBackColorStyle(state) ?? Target!.GetBackColorStyle(style, state);
         }
 
         /// <summary>
@@ -196,9 +194,9 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBackColorAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackColorAlign(state) ?? Target.GetBackColorAlign(style, state);
+            return inherit?.GetBackColorAlign(state) ?? Target!.GetBackColorAlign(style, state);
         }
 
         /// <summary>
@@ -209,9 +207,9 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBackColorAngle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackColorAngle(state) ?? Target.GetBackColorAngle(style, state);
+            return inherit?.GetBackColorAngle(state) ?? Target!.GetBackColorAngle(style, state);
         }
 
         /// <summary>
@@ -222,9 +220,9 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackImage(state) ?? Target.GetBackImage(style, state);
+            return inherit?.GetBackImage(state) ?? Target!.GetBackImage(style, state);
         }
 
         /// <summary>
@@ -235,9 +233,9 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBackImageStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackImageStyle(state) ?? Target.GetBackImageStyle(style, state);
+            return inherit?.GetBackImageStyle(state) ?? Target!.GetBackImageStyle(style, state);
         }
 
         /// <summary>
@@ -250,7 +248,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBack? inherit = GetInherit(state);
 
-            return inherit?.GetBackImageAlign(state) ?? Target.GetBackImageAlign(style, state);
+            return inherit?.GetBackImageAlign(state) ?? Target!.GetBackImageAlign(style, state);
         }
         #endregion
 
@@ -280,7 +278,8 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
+
             }
         }
         #endregion

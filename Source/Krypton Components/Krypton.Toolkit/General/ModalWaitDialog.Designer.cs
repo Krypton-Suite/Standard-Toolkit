@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -44,6 +44,7 @@ namespace Krypton.Toolkit
         {
             this.labelMessage = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kpbModalProgress = new Krypton.Toolkit.KryptonProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -65,12 +66,25 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Size = new System.Drawing.Size(296, 66);
             this.kryptonPanel1.TabIndex = 1;
             // 
+            // kpbModalProgress
+            // 
+            this.kpbModalProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.kpbModalProgress.Location = new System.Drawing.Point(0, 56);
+            this.kpbModalProgress.Name = "kpbModalProgress";
+            this.kpbModalProgress.Size = new System.Drawing.Size(296, 10);
+            this.kpbModalProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
+            this.kpbModalProgress.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbModalProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbModalProgress.TabIndex = 12;
+            this.kpbModalProgress.Values.Text = "";
+            // 
             // ModalWaitDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(296, 66);
             this.ControlBox = false;
+            this.Controls.Add(this.kpbModalProgress);
             this.Controls.Add(this.kryptonPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -93,5 +107,6 @@ namespace Krypton.Toolkit
 
         private KryptonLabel labelMessage;
         private KryptonPanel kryptonPanel1;
+        private KryptonProgressBar kpbModalProgress;
     }
 }

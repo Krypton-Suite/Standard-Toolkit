@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -98,7 +98,7 @@ namespace Krypton.Ribbon
             Debug.Assert(component != null);
 
             // Cast to correct type
-            _ribbonTriple = component as KryptonRibbonGroupTriple;
+            _ribbonTriple = component as KryptonRibbonGroupTriple ?? throw new ArgumentNullException(nameof(component));
             if (_ribbonTriple != null)
             {
                 _ribbonTriple.DesignTimeAddButton += OnAddButton;
@@ -120,8 +120,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -136,7 +136,12 @@ namespace Krypton.Ribbon
             get
             {
                 var compound = new ArrayList(base.AssociatedComponents);
-                compound.AddRange(_ribbonTriple.Items);
+
+                if (_ribbonTriple.Items is not null)
+                {
+                    compound.AddRange(_ribbonTriple.Items);
+                }
+
                 return compound;
             }
         }
@@ -149,7 +154,7 @@ namespace Krypton.Ribbon
             get
             {
                 UpdateVerbStatus();
-                return _verbs;
+                return _verbs!;
             }
         }
         #endregion
@@ -198,9 +203,9 @@ namespace Krypton.Ribbon
         private void UpdateVerbStatus()
         {
             // Create verbs first time around
-            if (_verbs == null)
+            if (_verbs is null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Triple First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Triple Previous", OnMovePrevious);
@@ -252,7 +257,9 @@ namespace Krypton.Ribbon
             var add = false;
             var clearItems = false;
 
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) 
+                && _ribbonTriple.Items is not null
+                && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 moveFirst = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
                 movePrev = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
@@ -284,18 +291,18 @@ namespace Krypton.Ribbon
             _clearItemsVerb.Enabled = clearItems;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonTriple.Ribbon != null)
+            if (_ribbonTriple.Ribbon is not null)
             {
                 _ribbonTriple.Ribbon.InDesignHelperMode = !_ribbonTriple.Ribbon.InDesignHelperMode;
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveFirst");
@@ -303,7 +310,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -323,9 +330,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MovePrevious");
@@ -333,7 +340,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -355,9 +362,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveNext");
@@ -365,7 +372,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -387,9 +394,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveLast");
@@ -397,7 +404,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -417,9 +424,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddButton(object sender, EventArgs e)
+        private void OnAddButton(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddButton");
@@ -427,13 +434,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
                     var button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    _ribbonTriple.Items.Add(button);
+                    _ribbonTriple.Items!.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -445,9 +452,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddColorButton(object sender, EventArgs e)
+        private void OnAddColorButton(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddColorButton");
@@ -455,13 +462,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
                     var button = (KryptonRibbonGroupColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupColorButton));
-                    _ribbonTriple.Items.Add(button);
+                    _ribbonTriple.Items!.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -473,9 +480,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCheckBox(object sender, EventArgs e)
+        private void OnAddCheckBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddCheckBox");
@@ -483,13 +490,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a check box item.
                     var checkBox = (KryptonRibbonGroupCheckBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCheckBox));
-                    _ribbonTriple.Items.Add(checkBox);
+                    _ribbonTriple.Items!.Add(checkBox);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -501,9 +508,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRadioButton(object sender, EventArgs e)
+        private void OnAddRadioButton(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRadioButton");
@@ -511,13 +518,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a radio button item.
                     var radioButton = (KryptonRibbonGroupRadioButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRadioButton));
-                    _ribbonTriple.Items.Add(radioButton);
+                    _ribbonTriple.Items!.Add(radioButton);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -529,9 +536,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddLabel(object sender, EventArgs e)
+        private void OnAddLabel(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddLabel");
@@ -539,13 +546,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a label item
                     var label = (KryptonRibbonGroupLabel)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLabel));
-                    _ribbonTriple.Items.Add(label);
+                    _ribbonTriple.Items!.Add(label);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -557,7 +564,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddCustomControl(object sender, EventArgs e)
+        private void OnAddCustomControl(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -567,13 +574,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a custom control item
                     var cc = (KryptonRibbonGroupCustomControl)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCustomControl));
-                    _ribbonTriple.Items.Add(cc);
+                    _ribbonTriple.Items!.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -585,9 +592,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTextBox(object sender, EventArgs e)
+        private void OnAddTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTextBox");
@@ -595,13 +602,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
                     var tb = (KryptonRibbonGroupTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTextBox));
-                    _ribbonTriple.Items.Add(tb);
+                    _ribbonTriple.Items!.Add(tb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -613,9 +620,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddTrackBar(object sender, EventArgs e)
+        private void OnAddTrackBar(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTrackBar");
@@ -623,13 +630,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a trackbar item
                     var tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
-                    _ribbonTriple.Items.Add(tb);
+                    _ribbonTriple.Items!.Add(tb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -641,9 +648,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddThemeComboBox(object sender, EventArgs e)
+        private void OnAddThemeComboBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddThemeComboBox");
@@ -651,13 +658,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a themecombobox item
                     var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupThemeComboBox));
-                    _ribbonTriple.Items.Add(tcb);
+                    _ribbonTriple.Items!.Add(tcb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -669,9 +676,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e)
+        private void OnAddMaskedTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddMaskedTextBox");
@@ -679,13 +686,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
                     var mtb = (KryptonRibbonGroupMaskedTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupMaskedTextBox));
-                    _ribbonTriple.Items.Add(mtb);
+                    _ribbonTriple.Items!.Add(mtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -697,9 +704,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddRichTextBox(object sender, EventArgs e)
+        private void OnAddRichTextBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRichTextBox");
@@ -707,13 +714,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a richtextbox item
                     var rtb = (KryptonRibbonGroupRichTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRichTextBox));
-                    _ribbonTriple.Items.Add(rtb);
+                    _ribbonTriple.Items!.Add(rtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -725,9 +732,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddComboBox(object sender, EventArgs e)
+        private void OnAddComboBox(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddComboBox");
@@ -735,13 +742,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a combobox item
                     var cc = (KryptonRibbonGroupComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupComboBox));
-                    _ribbonTriple.Items.Add(cc);
+                    _ribbonTriple.Items!.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -753,9 +760,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddNumericUpDown(object sender, EventArgs e)
+        private void OnAddNumericUpDown(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddNumericUpDown");
@@ -763,13 +770,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a numeric up-down item
                     var cc = (KryptonRibbonGroupNumericUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupNumericUpDown));
-                    _ribbonTriple.Items.Add(cc);
+                    _ribbonTriple.Items!.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -781,9 +788,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDomainUpDown(object sender, EventArgs e)
+        private void OnAddDomainUpDown(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDomainUpDown");
@@ -791,13 +798,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
                     var cc = (KryptonRibbonGroupDomainUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDomainUpDown));
-                    _ribbonTriple.Items.Add(cc);
+                    _ribbonTriple.Items!.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -809,9 +816,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddDateTimePicker(object sender, EventArgs e)
+        private void OnAddDateTimePicker(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDateTimePicker");
@@ -819,13 +826,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
                     var cc = (KryptonRibbonGroupDateTimePicker)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDateTimePicker));
-                    _ribbonTriple.Items.Add(cc);
+                    _ribbonTriple.Items!.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -837,32 +844,35 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearItems(object sender, EventArgs e)
+        private void OnClearItems(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple ClearItems");
 
                 try
                 {
-                    // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
-
-                    RaiseComponentChanging(propertyItems);
-
-                    // Need access to host in order to delete a component
-                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
-
-                    // We need to remove all the items from the triple group
-                    for (var i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
+                    if (_ribbonTriple.Items is not null)
                     {
-                        KryptonRibbonGroupItem item = _ribbonTriple.Items[i];
-                        _ribbonTriple.Items.Remove(item);
-                        host.DestroyComponent(item);
-                    }
+                        // Get access to the Items property
+                        MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
 
-                    RaiseComponentChanged(propertyItems, null, null);
+                        RaiseComponentChanging(propertyItems);
+
+                        // Need access to host in order to delete a component
+                        var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+
+                        // We need to remove all the items from the triple group
+                        for (var i = _ribbonTriple.Items.Count - 1 ; i >= 0 ; i--)
+                        {
+                            KryptonRibbonGroupItem item = _ribbonTriple.Items[i];
+                            _ribbonTriple.Items.Remove(item);
+                            host.DestroyComponent(item);
+                        }
+
+                        RaiseComponentChanged(propertyItems, null, null);
+                    }
                 }
                 finally
                 {
@@ -872,9 +882,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteTriple(object sender, EventArgs e)
+        private void OnDeleteTriple(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple DeleteTriple");
@@ -882,7 +892,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -905,61 +915,61 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.Visible, !_ribbonTriple.Visible);
                 _ribbonTriple.Visible = !_ribbonTriple.Visible;
             }
         }
 
-        private void OnMaxLarge(object sender, EventArgs e)
+        private void OnMaxLarge(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MaximumSize, GroupItemSize.Large);
                 _ribbonTriple.MaximumSize = GroupItemSize.Large;
             }
         }
 
-        private void OnMaxMedium(object sender, EventArgs e)
+        private void OnMaxMedium(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MaximumSize, GroupItemSize.Medium);
                 _ribbonTriple.MaximumSize = GroupItemSize.Medium;
             }
         }
 
-        private void OnMaxSmall(object sender, EventArgs e)
+        private void OnMaxSmall(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MaximumSize, GroupItemSize.Small);
                 _ribbonTriple.MaximumSize = GroupItemSize.Small;
             }
         }
 
-        private void OnMinLarge(object sender, EventArgs e)
+        private void OnMinLarge(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MinimumSize, GroupItemSize.Large);
                 _ribbonTriple.MinimumSize = GroupItemSize.Large;
             }
         }
 
-        private void OnMinMedium(object sender, EventArgs e)
+        private void OnMinMedium(object? sender, EventArgs e)
         {
-            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup is not null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MinimumSize, GroupItemSize.Medium);
                 _ribbonTriple.MinimumSize = GroupItemSize.Medium;
             }
         }
 
-        private void OnMinSmall(object sender, EventArgs e)
+        private void OnMinSmall(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -968,15 +978,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our triple is being removed
-            if (e.Component == _ribbonTriple)
+            if (e.Component == _ribbonTriple && _ribbonTriple.Items is not null)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all items from the triple group
                 for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
@@ -988,7 +998,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -1081,7 +1091,7 @@ namespace Krypton.Ribbon
                 UpdateMoveToGroup();
 
                 // Update menu items state from verb
-                _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon.InDesignHelperMode;
+                _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon!.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTriple.Visible;
                 _maximumLMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Large;
                 _maximumMMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Medium;
@@ -1125,7 +1135,7 @@ namespace Krypton.Ribbon
             // Remove any existing child items
             _moveToGroupMenu.DropDownItems.Clear();
 
-            if (_ribbonTriple.Ribbon != null)
+            if (_ribbonTriple.Ribbon is not null && _ribbonTriple.RibbonTab is not null)
             {
                 // Create a new item per group in the same ribbon tab
                 foreach (KryptonRibbonGroup group in _ribbonTriple.RibbonTab.Groups)
@@ -1150,15 +1160,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveToGroup(object sender, EventArgs e)
+        private void OnMoveToGroup(object? sender, EventArgs e)
         {
             if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Cast to correct type
-                var groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
                 // Get access to the destination tab
-                var destination = (KryptonRibbonGroup)groupMenuItem.Tag;
+                var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("destination"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");
@@ -1166,8 +1176,8 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
-                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
+                    MemberDescriptor? oldItems = TypeDescriptor.GetProperties(_ribbonTriple.RibbonGroup)[@"Items"];
+                    MemberDescriptor? newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         #region Instance Fields
-        private readonly PaletteBase? _palette;
+        private readonly PaletteBase _palette;
         private readonly GalleryImages _images;
         private readonly GalleryButtonController _controller;
         private readonly PaletteRibbonGalleryButton _button;
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
         private IDisposable? _mementoBack;
-        private IDisposable _mementoContent;
+        private IDisposable? _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion
 
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="button">Button content to display.</param>
         /// <param name="images">Button images.</param>
         /// <param name="needPaint">Paint event delegate.</param>
-        public ViewDrawRibbonGalleryButton(PaletteBase? palette,
+        public ViewDrawRibbonGalleryButton(PaletteBase palette,
                                            PaletteRelativeAlign alignment,
                                            PaletteRibbonGalleryButton button,
                                            GalleryImages images,
@@ -106,11 +106,18 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) =>
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Grab the required size for the content images
-            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent,
                 this, VisualOrientation.Top,
-                State, false, false);
+                State);
+        }
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -118,13 +125,24 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Dispose of any current memento
-            if (_mementoContent != null)
+            if (_mementoContent is not null)
             {
                 _mementoContent.Dispose();
                 _mementoContent = null;
@@ -134,7 +152,7 @@ namespace Krypton.Ribbon
             _mementoContent = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
                                                                                    _paletteContent, this, 
                                                                                    VisualOrientation.Top,
-                                                                                   State, false, false);
+                                                                                   State);
         }
         #endregion
 
@@ -143,8 +161,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Reduce background to fit inside the border
             Rectangle backRect = ClientRectangle;
             backRect.Inflate(-1, -1);
@@ -172,8 +195,8 @@ namespace Krypton.Ribbon
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                    _mementoContent, VisualOrientation.Top, 
-                    State, false, false,  false);
+                    _mementoContent!, VisualOrientation.Top, 
+                    State,  false);
             }
 
             // Are we allowed to draw border?
@@ -302,7 +325,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
+        private void OnButtonClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
     }
 }

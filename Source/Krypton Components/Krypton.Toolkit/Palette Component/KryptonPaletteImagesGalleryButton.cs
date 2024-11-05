@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -56,11 +56,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_common == null) &&
-                                          (_disabled == null) &&
-                                          (_normal == null) &&
-                                          (_tracking == null) &&
-                                          (_pressed == null);
+                                            (_disabled == null) &&
+                                            (_normal == null) &&
+                                            (_tracking == null) &&
+                                            (_pressed == null);
 
         #endregion
 
@@ -70,10 +71,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _disabled = _redirect.GetGalleryButtonImage(_button, PaletteState.Disabled);
-            _normal = _redirect.GetGalleryButtonImage(_button, PaletteState.Normal);
-            _tracking = _redirect.GetGalleryButtonImage(_button, PaletteState.Tracking);
-            _pressed = _redirect.GetGalleryButtonImage(_button, PaletteState.Pressed);
+            _disabled = _redirect?.GetGalleryButtonImage(_button, PaletteState.Disabled);
+            _normal = _redirect?.GetGalleryButtonImage(_button, PaletteState.Normal);
+            _tracking = _redirect?.GetGalleryButtonImage(_button, PaletteState.Tracking);
+            _pressed = _redirect?.GetGalleryButtonImage(_button, PaletteState.Pressed);
         }
         #endregion
 

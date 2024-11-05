@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -31,11 +31,11 @@ namespace Krypton.Navigator
         public ViewLayoutPopupPage([DisallowNull] KryptonNavigator navigator,
                                    [DisallowNull] KryptonPage page)
         {
-            Debug.Assert(navigator != null);
-            Debug.Assert(page != null);
+            Debug.Assert(navigator is not null);
+            Debug.Assert(page is not null);
 
-            _navigator = navigator;
-            _page = page;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            _page = page ?? throw new ArgumentNullException(nameof(page));
         }
 
         /// <summary>
@@ -55,7 +55,13 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             return _page.GetPreferredSize(context.DisplayRectangle.Size);
         }
 
@@ -65,13 +71,18 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to layout child controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
                 if (_navigator.InternalCanLayout)
@@ -85,7 +96,7 @@ namespace Krypton.Navigator
                     }
 
                     // Update position of child panel if not already in correct position
-                    if ((_navigator.ChildPanel.Location != ClientLocation) ||
+                    if ((_navigator.ChildPanel!.Location != ClientLocation) ||
                         (_navigator.ChildPanel.Width != ClientWidth) ||
                         (_navigator.ChildPanel.Height != ClientHeight))
                     {

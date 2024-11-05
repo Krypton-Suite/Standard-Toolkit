@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -77,20 +77,20 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="pageDragEndData">Drag data associated with drag operation.</param>
         /// <param name="dragTargets">List of all drag targets.</param>
-        public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
-            [DisallowNull] IRenderer renderer,
-            [DisallowNull] PageDragEndData pageDragEndData, 
-            [DisallowNull] DragTargetList dragTargets)
+        public virtual void Start([DisallowNull] IPaletteDragDrop? paletteDragDrop,
+                                  [DisallowNull] IRenderer? renderer,
+                                  [DisallowNull] PageDragEndData? pageDragEndData,
+                                  [DisallowNull] DragTargetList? dragTargets)
         {
-            Debug.Assert(paletteDragDrop != null);
-            Debug.Assert(renderer != null);
-            Debug.Assert(pageDragEndData != null);
-            Debug.Assert(dragTargets != null);
+            Debug.Assert(paletteDragDrop is not null);
+            Debug.Assert(renderer is not null);
+            Debug.Assert(pageDragEndData is not null);
+            Debug.Assert(dragTargets is not null);
 
-            PaletteDragDrop = paletteDragDrop;
-            Renderer = renderer;
-            PageDragEndData = pageDragEndData;
-            DragTargets = dragTargets;
+            PaletteDragDrop = paletteDragDrop ?? throw new ArgumentNullException(nameof(paletteDragDrop));
+            Renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
+            PageDragEndData = pageDragEndData ?? throw new ArgumentNullException(nameof(pageDragEndData));
+            DragTargets = dragTargets ?? throw new ArgumentNullException(nameof(dragTargets));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the cached drawing renderer.
         /// </summary>
-        protected IRenderer? Renderer { get; private set; }
+        protected IRenderer Renderer { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag data.

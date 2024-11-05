@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -59,17 +59,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController([DisallowNull] KryptonRibbon ribbon,
-                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder target,
-                                     [DisallowNull] NeedPaintHandler needPaint)
+        public GroupButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder? target,
+                                     [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(needPaint is not null);
 
-            _ribbon = ribbon;
-            _target = target;
-            NeedPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Default other fields
             ButtonType = GroupButtonType.Push;
@@ -177,50 +177,50 @@ namespace Krypton.Ribbon
                 // Only interested in left mouse pressing down
                 // Can only click if enabled
                 case MouseButtons.Left when ClickOnDown(pt) && _target.Enabled:
-                {
-                    Captured = true;
-
-                    // If already in fixed mode, then ignore mouse down
-                    if (!_fixedPressed)
                     {
-                        // Mouse is being pressed
-                        UpdateTargetState(pt);
+                        Captured = true;
 
-                        // Show the button as pressed, until told otherwise
-                        _fixedPressed = true;
-
-                        // Raise the appropriate event
-                        switch (ButtonType)
+                        // If already in fixed mode, then ignore mouse down
+                        if (!_fixedPressed)
                         {
-                            case GroupButtonType.Split:
-                                // Track if the mouse is inside the split area
-                                if (ButtonType == GroupButtonType.Split)
-                                {
-                                    MouseInSplit = _splitRectangle.Contains(pt);
-                                }
+                            // Mouse is being pressed
+                            UpdateTargetState(pt);
 
-                                if (_splitRectangle.Contains(pt))
-                                {
+                            // Show the button as pressed, until told otherwise
+                            _fixedPressed = true;
+
+                            // Raise the appropriate event
+                            switch (ButtonType)
+                            {
+                                case GroupButtonType.Split:
+                                    // Track if the mouse is inside the split area
+                                    if (ButtonType == GroupButtonType.Split)
+                                    {
+                                        MouseInSplit = _splitRectangle.Contains(pt);
+                                    }
+
+                                    if (_splitRectangle.Contains(pt))
+                                    {
+                                        OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                                    }
+                                    else
+                                    {
+                                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                                    }
+                                    break;
+                                case GroupButtonType.DropDown:
                                     OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                }
-                                else
-                                {
+                                    break;
+                                case GroupButtonType.Push:
+                                case GroupButtonType.Check:
+                                default:
                                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                }
-                                break;
-                            case GroupButtonType.DropDown:
-                                OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                break;
-                            case GroupButtonType.Push:
-                            case GroupButtonType.Check:
-                            default:
-                                OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                break;
+                                    break;
+                            }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
                 case MouseButtons.Left:
                     // Capturing mouse input
                     Captured = true;
@@ -390,7 +390,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -507,7 +507,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Owning control.</param>
         protected void UpdateTargetState(Control c)
         {
-            if ((c == null) || c.IsDisposed)
+            if (c == null || c.IsDisposed)
             {
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
             }
@@ -523,7 +523,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // When disabled the button itself is shown as normal, the 
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
                     if (_mouseOver || _hasFocus)
                     {
                         newState = PaletteState.Tracking;
-                        
+
                         // We always show the button as being in the split when it has focus
                         if (_hasFocus)
                         {
@@ -604,9 +604,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new ArgumentNullException(nameof(ribbon));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
@@ -620,8 +630,8 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -638,7 +648,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Space:
                 case Keys.Enter:

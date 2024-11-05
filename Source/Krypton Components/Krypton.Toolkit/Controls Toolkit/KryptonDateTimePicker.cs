@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDateTimeButton _buttonDown;
         private readonly ViewDrawDateTimeText _drawText;
         private readonly ViewLayoutCenter _layoutCheckBox;
-        private readonly ButtonSpecManagerDraw _buttonManager;
+        private readonly ButtonSpecManagerDraw? _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
         private KryptonContextMenuMonthCalendar? _kmc;
         private InputControlStyle _inputControlStyle;
@@ -88,7 +88,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _userSetDateTime;
         private bool _dropDownMonthChanged;
-        private float _cornerRoundingRadius;
         private object? _rawDateTime;
         private int _cachedHeight;
         #endregion
@@ -208,9 +207,9 @@ namespace Krypton.Toolkit
             CalendarDimensions = new Size(1, 1);
             _today = DEFAULT_TODAY;
             CalendarFirstDayOfWeek = Day.Default;
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            _dates = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            _dates = [];
 
             // Create storage objects
             ButtonSpecs = new DateTimePickerButtonSpecCollection(this);
@@ -291,10 +290,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new[] { _drawDockerOuter },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
+                [_drawDockerOuter],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.HeaderButtonPaddingPrimary],
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -306,9 +305,6 @@ namespace Krypton.Toolkit
 
             // Update alignment to match current RightToLeft settings
             UpdateForRightToLeft();
-
-            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -323,7 +319,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -331,18 +327,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets or sets the background color for the control.
         /// </summary>
@@ -364,7 +348,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -423,6 +407,7 @@ namespace Krypton.Toolkit
         [Description(@"Text used as label for todays date.")]
         [DefaultValue("Today:")]
         [Localizable(true)]
+        [AllowNull]
         public string CalendarTodayText
         {
             get => _today;
@@ -486,19 +471,12 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Today's date.")]
+        [AllowNull]
         public DateTime CalendarTodayDate
         {
             get => _todayDate;
 
-            set
-            {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
-                _todayDate = value;
-            }
+            set => _todayDate = value == null ? DateTime.Now.Date : value;
         }
 
         private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
@@ -511,7 +489,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -538,7 +517,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -565,7 +545,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
 
@@ -673,7 +654,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the date/time value assigned to the control..
+        ///  Sets date as the current selected date.
+        /// </summary>
+        public void SetDate(DateTime date) => Value = date;
+
+        /// <summary>
+        /// Gets or sets the date/time value assigned to the control.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Property for the date/time.")]
@@ -704,17 +690,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Should the Value property be serialized.
-        /// </summary>
-        /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeValue() => false;
-
-        /// <summary>
-        /// Reset value of the Value property.
-        /// </summary>
-        public void ResetValue()
+        internal bool ShouldSerializeValue() => false;
+        internal void ResetValue()
         {
             // Setting an explicit value means the check box should be set
             InternalViewDrawCheckBox.CheckState = CheckState.Checked;
@@ -834,11 +811,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -989,7 +966,7 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string CustomFormat
+        public string? CustomFormat
         {
             get => _customFormat;
 
@@ -1086,10 +1063,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public new PaletteBase? Palette
+        public new KryptonCustomPaletteBase? LocalCustomPalette
         {
-            get => base.Palette;
-            set => base.Palette = value;
+            get => base.LocalCustomPalette;
+            set => base.LocalCustomPalette = value;
         }
 
         /// <summary>
@@ -1367,7 +1344,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the short text used as the main ribbon title.
@@ -1489,9 +1466,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1621,7 +1598,7 @@ namespace Krypton.Toolkit
             if (UseMnemonic && CanProcessMnemonic())
             {
                 // Pass request onto the button spec manager
-                if (_buttonManager.ProcessMnemonic(charCode))
+                if (_buttonManager!.ProcessMnemonic(charCode))
                 {
                     return true;
                 }
@@ -1718,7 +1695,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -1929,22 +1906,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
         }
-
-        /// <summary>
-        /// Raises the Paint event.
-        /// </summary>
-        /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        /// <returns></returns>
-        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
-
         #endregion
 
         #region Internal
@@ -1986,13 +1955,13 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDockerOuter.ElementState = state;
         }
@@ -2024,7 +1993,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed)
             {
@@ -2044,7 +2013,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2091,11 +2060,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckBoxClick(object sender, EventArgs e) =>
+        private void OnCheckBoxClick(object? sender, EventArgs e) =>
             // Invert the current checked state
             Checked = !Checked;
 
-        private void OnDropDownClick(object sender, EventArgs e)
+        private void OnDropDownClick(object? sender, EventArgs e)
         {
             // Never shown the calendar at design time
             if (!InRibbonDesignMode)
@@ -2103,7 +2072,7 @@ namespace Krypton.Toolkit
                 // Just in case the user is inputting characters, end it
                 _drawText.EndInputDigits();
 
-                // Reset the cacheed value indicating if a date is selected in the month calendar
+                // Reset the cached value indicating if a date is selected in the month calendar
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
@@ -2142,7 +2111,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    kcm.Palette = Palette;
+                    kcm.LocalCustomPalette = LocalCustomPalette;
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
@@ -2199,7 +2168,7 @@ namespace Krypton.Toolkit
             _buttonDropDown.RemoveFixed();
         }
 
-        private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
+        private void OnMonthCalendarDateChanged(object? sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the existing time
             var newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day, _dateTime.Hour, _dateTime.Minute,
@@ -2223,10 +2192,10 @@ namespace Krypton.Toolkit
             _dropDownMonthChanged = true;
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
             // Must unhook from menu so it can be garbage collected
-            var kcm = (KryptonContextMenu)sender;
+            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Unhook from month calendar events
@@ -2251,7 +2220,7 @@ namespace Krypton.Toolkit
             kcm.Dispose();
         }
 
-        private void OnUpClick(object sender, EventArgs e)
+        private void OnUpClick(object? sender, EventArgs e)
         {
             // Never operate the control at design time
             if (!InRibbonDesignMode)
@@ -2263,7 +2232,7 @@ namespace Krypton.Toolkit
             _buttonUp.RemoveFixed();
         }
 
-        private void OnDownClick(object sender, EventArgs e)
+        private void OnDownClick(object? sender, EventArgs e)
         {
             // Never operate the control at design time
             if (!InRibbonDesignMode)
@@ -2275,27 +2244,19 @@ namespace Krypton.Toolkit
             _buttonDown.RemoveFixed();
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 
@@ -2335,7 +2296,7 @@ namespace Krypton.Toolkit
         protected override VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
                                                                PaletteBase? palette,
                                                                PaletteMode paletteMode,
-                                                               PaletteRedirect? redirector,
+                                                               PaletteRedirect redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
                                                                bool enabled,

@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  */
 #endregion
 
@@ -111,14 +111,14 @@ namespace System
         /// </summary>
         /// <param name="obj">The object to compare with this instance.</param>
         /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="ValueTuple"/>.</returns>
-        public override bool Equals(object obj) => obj is ValueTuple;
+        public override bool Equals(object? obj) => obj is ValueTuple;
 
         /// <summary>Returns a value indicating whether this instance is equal to a specified value.</summary>
         /// <param name="other">An instance to compare to this instance.</param>
         /// <returns>true if <paramref name="other"/> has the same value as this instance; otherwise, false.</returns>
         public bool Equals(ValueTuple other) => true;
 
-        int IComparable.CompareTo(object other)
+        int IComparable.CompareTo(object? other)
         {
             return other switch
             {
@@ -142,11 +142,11 @@ namespace System
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode() => 0;
 
-        bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer) => other is ValueTuple;
+        bool IStructuralEquatable.Equals(object? other, IEqualityComparer comparer) => other is ValueTuple;
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer) => 0;
 
-        int IStructuralComparable.CompareTo(object other, IComparer comparer)
+        int IStructuralComparable.CompareTo(object? other, IComparer comparer)
         {
             return other switch
             {
@@ -267,7 +267,7 @@ namespace System
         ///     <item><description>Its components are equal to those of the current instance. Equality is determined by the default object equality comparer for each component.</description></item>
         /// </list>
         /// </remarks>
-        public override bool Equals(object obj) => obj is ValueTuple<T1, T2> tuple && Equals(tuple);
+        public override bool Equals(object? obj) => obj is ValueTuple<T1, T2> tuple && Equals(tuple);
 
         /// <summary>
         /// Returns a value that indicates whether the current <see cref="ValueTuple{T1,T2}"/> instance is equal to a specified <see cref="ValueTuple{T1,T2}"/>.
@@ -282,7 +282,7 @@ namespace System
             EqualityComparer<T1>.Default.Equals(Item1, other.Item1)
             && EqualityComparer<T2>.Default.Equals(Item2, other.Item2);
 
-        int IComparable.CompareTo(object other)
+        int IComparable.CompareTo(object? other)
         {
             return other switch
             {
@@ -306,7 +306,7 @@ namespace System
             return c != 0 ? c : Comparer<T2>.Default.Compare(Item2, other.Item2);
         }
 
-        bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
+        bool IStructuralEquatable.Equals(object? other, IEqualityComparer comparer)
         {
             return other switch
             {
@@ -315,7 +315,7 @@ namespace System
             };
         }
 
-        int IStructuralComparable.CompareTo(object other, IComparer comparer)
+        int IStructuralComparable.CompareTo(object? other, IComparer comparer)
         {
             switch (other)
             {
@@ -343,8 +343,8 @@ namespace System
                 Item2?.GetHashCode() ?? 0);
 
         private int GetHashCodeCore(IEqualityComparer comparer) =>
-            ValueTuple.CombineHashCodes(comparer.GetHashCode(Item1),
-                comparer.GetHashCode(Item2));
+            ValueTuple.CombineHashCodes(comparer.GetHashCode(Item1!),
+                comparer.GetHashCode(Item2!));
 
         int IValueTupleInternal.GetHashCode(IEqualityComparer comparer) => GetHashCodeCore(comparer);
 
@@ -376,8 +376,8 @@ namespace System
             {
                 return index switch
                 {
-                    0 => Item1,
-                    1 => Item2,
+                    0 => Item1!,
+                    1 => Item2!,
                     _ => throw new IndexOutOfRangeException()
                 };
             }
@@ -442,7 +442,7 @@ namespace System
 		///     <item><description>Its components are equal to those of the current instance. Equality is determined by the default object equality comparer for each component.</description></item>
 		/// </list>
 		/// </remarks>
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			return obj is ValueTuple<T1,T2,T3,T4> && Equals((ValueTuple<T1,T2,T3,T4>)obj);
 		}
@@ -466,7 +466,7 @@ namespace System
 				EqualityComparer<T4>.Default.Equals(Item4, other.Item4);
 		}
 
-		int IComparable.CompareTo(object other)
+		int IComparable.CompareTo(object? other)
 		{
 			if (other == null) return 1;
 
@@ -495,7 +495,7 @@ namespace System
 			return Comparer<T4>.Default.Compare(Item4, other.Item4);
 		}
 
-		bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
+		bool IStructuralEquatable.Equals(object? other, IEqualityComparer comparer)
 		{
 			if (!(other is ValueTuple<T1, T2, T3, T4>)) return false;
 
@@ -508,7 +508,7 @@ namespace System
 				comparer.Equals(Item4, objTuple.Item4);
 		}
 
-		int IStructuralComparable.CompareTo(object other, IComparer comparer)
+		int IStructuralComparable.CompareTo(object? other, IComparer comparer)
 		{
 			if (other == null) return 1;
 
@@ -547,10 +547,10 @@ namespace System
 		int GetHashCodeCore(IEqualityComparer comparer)
 		{
 			return ValueTuple.CombineHashCodes(
-				comparer.GetHashCode(Item1),
-				comparer.GetHashCode(Item2),
-				comparer.GetHashCode(Item3),
-				comparer.GetHashCode(Item4));
+				comparer.GetHashCode(Item1!),
+				comparer.GetHashCode(Item2!),
+				comparer.GetHashCode(Item3!),
+				comparer.GetHashCode(Item4!));
 		}
 
 		int IValueTupleInternal.GetHashCode(IEqualityComparer comparer)
@@ -590,10 +590,10 @@ namespace System
 			{
 				switch (index)
 				{
-					case 0 : return Item1;
-					case 1 : return Item2;
-					case 2 : return Item3;
-					case 3 : return Item4;
+					case 0 : return Item1!;
+					case 1 : return Item2!;
+					case 2 : return Item3!;
+					case 3 : return Item4!;
 					default: throw new IndexOutOfRangeException();
 				}
 			}

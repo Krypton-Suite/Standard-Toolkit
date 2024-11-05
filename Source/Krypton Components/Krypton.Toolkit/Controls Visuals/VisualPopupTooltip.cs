@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="contentValues">Source of content values.</param>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect? redirector,
+        public VisualPopupToolTip(PaletteRedirect redirector,
             IContentValues contentValues,
             IRenderer renderer,
             bool shadow)
@@ -55,18 +55,18 @@ namespace Krypton.Toolkit
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
         public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
-            [DisallowNull] IContentValues contentValues,
-                                    IRenderer? renderer,
-                                    PaletteBackStyle backStyle,
-                                    PaletteBorderStyle borderStyle,
-                                    PaletteContentStyle contentStyle,
-                                    bool shadow)
+                                  [DisallowNull] IContentValues contentValues,
+                                  IRenderer renderer,
+                                  PaletteBackStyle backStyle,
+                                  PaletteBorderStyle borderStyle,
+                                  PaletteContentStyle contentStyle,
+                                  bool shadow)
             : base(renderer, shadow)
         {
-            Debug.Assert(contentValues != null);
+            Debug.Assert(contentValues is not null);
 
             // Remember references needed later
-            _contentValues = contentValues;
+            _contentValues = contentValues ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(contentValues)));
 
             // Create the triple redirector needed by view elements
             _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, new Size(100, 10));
+            Size popupSize = ViewManager!.GetPreferredSize(Renderer, new Size(100, 10));
             Point popupLocation;
 
             switch (position.PlacementMode)
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         public void ShowCalculatingSize(Point controlMousePosition)
         {
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
+            Size popupSize = ViewManager!.GetPreferredSize(Renderer, Size.Empty);
 
             // Find the screen position the popup will be relative to
             Point currentCursorHotSpot = CommonHelper.CaptureCursor();
@@ -236,6 +236,7 @@ namespace Krypton.Toolkit
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics, _palette.Border.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);

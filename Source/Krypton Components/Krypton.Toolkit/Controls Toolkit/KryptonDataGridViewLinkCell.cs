@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -80,7 +81,7 @@ namespace Krypton.Toolkit
                 {
                     _labelStyle = value;
                     _labelStyleDefined = true;
-                    DataGridView.InvalidateCell(this);
+                    DataGridView!.InvalidateCell(this);
                 }
             }
         }
@@ -115,7 +116,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Ensure the view classes are created and hooked up
                 CreateViewAndPalettes(kDGV);
@@ -126,16 +127,16 @@ namespace Krypton.Toolkit
                 // Update the display text
                 if ((rowIndex >= 0) && !string.IsNullOrEmpty(FormattedValue?.ToString()))
                 {
-                    _shortTextValue.ShortText = FormattedValue.ToString();
+                    _shortTextValue.ShortText = FormattedValue!.ToString();
                 }
                 else
                 {
-                    if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
+                    if ((kDGV?.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
                         {
                             UseColumnTextForButtonValue: true
                         } col) && !kDGV.Rows[rowIndex].IsNewRow)
                     {
-                        _shortTextValue.ShortText = col.Text;
+                        _shortTextValue.ShortText = col.Text!;
                     }
                     else
                     {
@@ -144,7 +145,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV!, kDGV?.Renderer!);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -179,23 +180,23 @@ namespace Krypton.Toolkit
         /// <param name="advancedBorderStyle">A DataGridViewAdvancedBorderStyle that contains border styles for the cell that is being painted.</param>
         /// <param name="paintParts">A bitwise combination of the DataGridViewPaintParts values that specifies which parts of the cell need to be painted.</param>
         protected override void Paint(Graphics graphics,
-            Rectangle clipBounds,
-            Rectangle cellBounds,
-            int rowIndex,
-            DataGridViewElementStates cellState,
-            object value,
-            object? formattedValue,
-            string errorText,
-            DataGridViewCellStyle cellStyle,
-            DataGridViewAdvancedBorderStyle advancedBorderStyle,
-            DataGridViewPaintParts paintParts)
+                                      Rectangle clipBounds,
+                                      Rectangle cellBounds,
+                                      int rowIndex,
+                                      DataGridViewElementStates cellState,
+                                      object? value,
+                                      object? formattedValue,
+                                      string? errorText,
+                                      DataGridViewCellStyle cellStyle,
+                                      DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                                      DataGridViewPaintParts paintParts)
         {
             if (DataGridView is KryptonDataGridView kDgv)
             {
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer!);
                     // Cache the starting cell bounds
                     Rectangle startBounds = cellBounds;
 
@@ -206,9 +207,9 @@ namespace Krypton.Toolkit
                     SetElementStateAndPalette();
 
                     // Update the display text
-                    if (!string.IsNullOrEmpty(formattedValue?.ToString()))
+                    if (!string.IsNullOrEmpty(formattedValue?.ToString())!)
                     {
-                        _shortTextValue.ShortText = formattedValue.ToString();
+                        _shortTextValue.ShortText = formattedValue!.ToString();
                     }
                     else
                     {
@@ -217,7 +218,7 @@ namespace Krypton.Toolkit
                                 UseColumnTextForButtonValue: true
                             } col) && !kDgv.Rows[rowIndex].IsNewRow)
                         {
-                            _shortTextValue.ShortText = col.Text;
+                            _shortTextValue.ShortText = col.Text!;
                         }
                         else
                         {
@@ -243,7 +244,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height -= cellStyle.Padding.Vertical;
 
                     // Position the button element inside the available cell area
-                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer!))
                     {
                         // Define the available area for calculating layout
                         layoutContext.DisplayRectangle = cellBounds;
@@ -333,13 +334,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void CreateViewAndPalettes(KryptonDataGridView kDGV)
+        private void CreateViewAndPalettes(KryptonDataGridView? kDGV)
         {
             // Create the view element when first needed
-            if (_viewLabel == null)
+            if (_viewLabel is null)
             {
                 // Create helper object to get all values from the DGV redirector
-                _palette = new PaletteContentToPalette(kDGV.Redirector, PaletteContentStyle.LabelNormalPanel);
+                _palette = new PaletteContentToPalette(kDGV!.Redirector, PaletteContentStyle.LabelNormalPanel);
                 _inheritBehavior = new LinkLabelBehaviorInherit(_palette, KryptonLinkBehavior.AlwaysUnderline);
                 _overrideVisited = new PaletteContentInheritOverride(_palette, _inheritBehavior, PaletteState.LinkNotVisitedOverride, true);
                 _overridePressed = new PaletteContentInheritOverride(_palette, _overrideVisited, PaletteState.LinkPressedOverride, false);
@@ -354,7 +355,7 @@ namespace Krypton.Toolkit
 
         private void SetElementStateAndPalette()
         {
-            LinkState linkState = LinkStateInternal;
+            LinkState? linkState = LinkStateInternal;
 
             // Has the item been visited
             _overrideVisited.OverrideState = LinkVisited ? PaletteState.LinkVisitedOverride : PaletteState.LinkNotVisitedOverride;
@@ -378,22 +379,21 @@ namespace Krypton.Toolkit
             _palette.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_labelStyle);
         }
 
-        private LinkState LinkStateInternal
+        private LinkState? LinkStateInternal
         {
             get
             {
                 // Only need to cache reflection info the first time around
-                if (_piLinkState == null)
+                if (_piLinkState is null)
                 {
                     // Cache access to the internal get property 'LinkState'
                     _piLinkState = typeof(DataGridViewLinkCell).GetProperty(nameof(LinkState), BindingFlags.Instance |
-                                                                                         BindingFlags.NonPublic |
-                                                                                         BindingFlags.GetField);
-
+                                                                                               BindingFlags.NonPublic |
+                                                                                               BindingFlags.GetField)!;
                 }
 
                 // Grab the internal property implemented by base class
-                return (LinkState)_piLinkState.GetValue(this, null);
+                return (LinkState?)_piLinkState!.GetValue(this, null);
             }
         }
         #endregion

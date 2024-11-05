@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -47,11 +47,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => MoreColors.Equals(DEFAULT_MORE_COLORS) &&
-                                          NoColor.Equals(DEFAULT_NO_COLOR) &&
-                                          RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
-                                          StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
-                                          ThemeColors.Equals(DEFAULT_THEME_COLORS);
+                                            NoColor.Equals(DEFAULT_NO_COLOR) &&
+                                            RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
+                                            StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
+                                            ThemeColors.Equals(DEFAULT_THEME_COLORS);
 
         #endregion
 

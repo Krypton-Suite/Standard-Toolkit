@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -18,12 +16,12 @@ namespace Krypton.Toolkit
     public class PaletteRedirectRibbonBack : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteRibbonBack _disabledBack;
-        private IPaletteRibbonBack _normalBack;
-        private IPaletteRibbonBack _pressedBack;
-        private IPaletteRibbonBack _trackingBack;
-        private IPaletteRibbonBack _selectedBack;
-        private IPaletteRibbonBack _focusOverrideBack;
+        private IPaletteRibbonBack? _disabledBack;
+        private IPaletteRibbonBack? _normalBack;
+        private IPaletteRibbonBack? _pressedBack;
+        private IPaletteRibbonBack? _trackingBack;
+        private IPaletteRibbonBack? _selectedBack;
+        private IPaletteRibbonBack? _focusOverrideBack;
         #endregion
 
         #region Identity
@@ -60,12 +58,12 @@ namespace Krypton.Toolkit
         /// <param name="selectedBack">Redirection for selected states requests.</param>
         /// <param name="focusOverrideBack">Redirection for back focus override state requests.</param>
         public PaletteRedirectRibbonBack(PaletteBase target,
-                                         IPaletteRibbonBack disabledBack,
-                                         IPaletteRibbonBack normalBack,
-                                         IPaletteRibbonBack pressedBack,
-                                         IPaletteRibbonBack trackingBack,
-                                         IPaletteRibbonBack selectedBack,
-                                         IPaletteRibbonBack focusOverrideBack)
+                                         IPaletteRibbonBack? disabledBack,
+                                         IPaletteRibbonBack? normalBack,
+                                         IPaletteRibbonBack? pressedBack,
+                                         IPaletteRibbonBack? trackingBack,
+                                         IPaletteRibbonBack? selectedBack,
+                                         IPaletteRibbonBack? focusOverrideBack)
             : base(target)
         {
             // Remember state specific inheritance
@@ -144,9 +142,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColorStyle(state) ?? Target.GetRibbonBackColorStyle(style, state);
+            return inherit?.GetRibbonBackColorStyle(state) ?? Target!.GetRibbonBackColorStyle(style, state);
         }
         #endregion
 
@@ -159,9 +157,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor1(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor1(state) ?? Target.GetRibbonBackColor1(style, state);
+            return inherit?.GetRibbonBackColor1(state) ?? Target!.GetRibbonBackColor1(style, state);
         }
         #endregion
 
@@ -174,9 +172,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor2(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor2(state) ?? Target.GetRibbonBackColor2(style, state);
+            return inherit?.GetRibbonBackColor2(state) ?? Target!.GetRibbonBackColor2(style, state);
         }
         #endregion
 
@@ -189,9 +187,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor3(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor3(state) ?? Target.GetRibbonBackColor3(style, state);
+            return inherit?.GetRibbonBackColor3(state) ?? Target!.GetRibbonBackColor3(style, state);
         }
         #endregion
 
@@ -204,9 +202,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor4(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor4(state) ?? Target.GetRibbonBackColor4(style, state);
+            return inherit?.GetRibbonBackColor4(state) ?? Target!.GetRibbonBackColor4(style, state);
         }
         #endregion
 
@@ -219,9 +217,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetRibbonBackColor5(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor5(state) ?? Target.GetRibbonBackColor5(style, state);
+            return inherit?.GetRibbonBackColor5(state) ?? Target!.GetRibbonBackColor5(style, state);
         }
         #endregion
 
@@ -247,7 +245,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

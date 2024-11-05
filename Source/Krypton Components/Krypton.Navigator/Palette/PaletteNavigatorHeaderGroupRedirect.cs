@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirect,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
                                                    NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, redirect, redirect, needPaint)
         {
@@ -38,17 +38,27 @@ namespace Krypton.Navigator
         /// <param name="redirectHeaderBar">inheritance redirection for bar header.</param>
         /// <param name="redirectHeaderOverflow">inheritance redirection for overflow header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirectHeaderGroup,
-                                                   PaletteRedirect? redirectHeaderPrimary,
-                                                   PaletteRedirect? redirectHeaderSecondary,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
+                                                   PaletteRedirect redirectHeaderPrimary,
+                                                   PaletteRedirect redirectHeaderSecondary,
                                                    [DisallowNull] PaletteRedirect redirectHeaderBar,
                                                    [DisallowNull] PaletteRedirect redirectHeaderOverflow,
                                                    NeedPaintHandler needPaint)
             : base(redirectHeaderGroup, redirectHeaderPrimary,
                    redirectHeaderSecondary, needPaint)
         {
-            Debug.Assert(redirectHeaderBar != null);
-            Debug.Assert(redirectHeaderOverflow != null);
+            Debug.Assert(redirectHeaderBar is not null);
+            Debug.Assert(redirectHeaderOverflow is not null);
+
+            if (redirectHeaderBar is null)
+            {
+                 throw new ArgumentNullException(nameof(redirectHeaderBar));
+            }
+
+            if (redirectHeaderOverflow is null)
+            {
+                throw new ArgumentNullException(nameof(redirectHeaderOverflow));
+            }
 
             // Create the palette storage
             HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
@@ -61,9 +71,10 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (base.IsDefault &&
-                                           HeaderBar.IsDefault &&
-                                           HeaderOverflow.IsDefault);
+                                             HeaderBar.IsDefault &&
+                                             HeaderOverflow.IsDefault);
 
         #endregion
 

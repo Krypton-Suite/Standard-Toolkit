@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,15 +18,15 @@ namespace Krypton.Toolkit
     public class PaletteRedirectBorder : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteBorder _disabled;
-        private IPaletteBorder _normal;
-        private IPaletteBorder _pressed;
-        private IPaletteBorder _tracking;
-        private IPaletteBorder _checkedNormal;
-        private IPaletteBorder _checkedPressed;
-        private IPaletteBorder _checkedTracking;
-        private IPaletteBorder _focusOverride;
-        private IPaletteBorder _normalDefaultOverride;
+        private IPaletteBorder? _disabled;
+        private IPaletteBorder? _normal;
+        private IPaletteBorder? _pressed;
+        private IPaletteBorder? _tracking;
+        private IPaletteBorder? _checkedNormal;
+        private IPaletteBorder? _checkedPressed;
+        private IPaletteBorder? _checkedTracking;
+        private IPaletteBorder? _focusOverride;
+        private IPaletteBorder? _normalDefaultOverride;
         #endregion
 
         #region Identity
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBorder class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBorder(PaletteBase? target)
+        public PaletteRedirectBorder(PaletteBase target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectBorder(PaletteBase? target,
+        public PaletteRedirectBorder(PaletteBase target,
                                      IPaletteBorder disabled,
                                      IPaletteBorder normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectBorder(PaletteBase? target,
+        public PaletteRedirectBorder(PaletteBase target,
                                      IPaletteBorder disabled,
                                      IPaletteBorder normal,
                                      IPaletteBorder pressed,
@@ -83,15 +83,15 @@ namespace Krypton.Toolkit
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
         public PaletteRedirectBorder(PaletteBase? target,
-                                     IPaletteBorder disabled,
-                                     IPaletteBorder normal,
-                                     IPaletteBorder pressed,
-                                     IPaletteBorder tracking,
-                                     IPaletteBorder checkedNormal,
-                                     IPaletteBorder checkedPressed,
-                                     IPaletteBorder checkedTracking,
-                                     IPaletteBorder focusOverride,
-                                     IPaletteBorder normalDefaultOverride)
+                                     IPaletteBorder? disabled,
+                                     IPaletteBorder? normal,
+                                     IPaletteBorder? pressed,
+                                     IPaletteBorder? tracking,
+                                     IPaletteBorder? checkedNormal,
+                                     IPaletteBorder? checkedPressed,
+                                     IPaletteBorder? checkedTracking,
+                                     IPaletteBorder? focusOverride,
+                                     IPaletteBorder? normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderDraw(state) ?? Target.GetBorderDraw(style, state);
+            return inherit?.GetBorderDraw(state) ?? Target!.GetBorderDraw(style, state);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderDrawBorders(state) ?? Target.GetBorderDrawBorders(style, state);
+            return inherit?.GetBorderDrawBorders(state) ?? Target!.GetBorderDrawBorders(style, state);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderGraphicsHint(state) ?? Target.GetBorderGraphicsHint(style, state);
+            return inherit?.GetBorderGraphicsHint(state) ?? Target!.GetBorderGraphicsHint(style, state);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderColor1(state) ?? Target.GetBorderColor1(style, state);
+            return inherit?.GetBorderColor1(state) ?? Target!.GetBorderColor1(style, state);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderColor2(state) ?? Target.GetBorderColor2(style, state);
+            return inherit?.GetBorderColor2(state) ?? Target!.GetBorderColor2(style, state);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderColorStyle(state) ?? Target.GetBorderColorStyle(style, state);
+            return inherit?.GetBorderColorStyle(state) ?? Target!.GetBorderColorStyle(style, state);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderColorAlign(state) ?? Target.GetBorderColorAlign(style, state);
+            return inherit?.GetBorderColorAlign(state) ?? Target!.GetBorderColorAlign(style, state);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderColorAngle(state) ?? Target.GetBorderColorAngle(style, state);
+            return inherit?.GetBorderColorAngle(state) ?? Target!.GetBorderColorAngle(style, state);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderWidth(state) ?? Target.GetBorderWidth(style, state);
+            return inherit?.GetBorderWidth(state) ?? Target!.GetBorderWidth(style, state);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderRounding(state) ?? Target.GetBorderRounding(style, state);
+            return inherit?.GetBorderRounding(state) ?? Target!.GetBorderRounding(style, state);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderImage(state) ?? Target.GetBorderImage(style, state);
+            return inherit?.GetBorderImage(state) ?? Target!.GetBorderImage(style, state);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderImageStyle(state) ?? Target.GetBorderImageStyle(style, state);
+            return inherit?.GetBorderImageStyle(state) ?? Target!.GetBorderImageStyle(style, state);
         }
 
         /// <summary>
@@ -306,12 +306,12 @@ namespace Krypton.Toolkit
         {
             IPaletteBorder? inherit = GetInherit(state);
 
-            return inherit?.GetBorderImageAlign(state) ?? Target.GetBorderImageAlign(style, state);
+            return inherit?.GetBorderImageAlign(state) ?? Target!.GetBorderImageAlign(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteBorder GetInherit(PaletteState state)
+        private IPaletteBorder? GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

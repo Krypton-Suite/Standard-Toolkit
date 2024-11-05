@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly KryptonPage _page;
-        private readonly IComponentChangeService _serviceComponentChange;
+        private readonly IComponentChangeService? _serviceComponentChange;
         private DesignerActionItemCollection _actions;
         #endregion
 
@@ -29,10 +29,10 @@ namespace Krypton.Navigator
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _page = (KryptonPage)owner.Component;
+            _page = (owner.Component as KryptonPage)!;
 
             // Cache service used to notify when a property has changed
-            _serviceComponentChange = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _serviceComponentChange = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -48,7 +48,7 @@ namespace Krypton.Navigator
             {
                 if (!_page.Text.Equals(value))
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.Text, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.Text, value);
                     _page.Text = value;
                 }
             }
@@ -65,7 +65,7 @@ namespace Krypton.Navigator
             {
                 if (!_page.TextTitle.Equals(value))
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.TextTitle, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.TextTitle, value);
                     _page.TextTitle = value;
                 }
             }
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
             {
                 if (!_page.TextDescription.Equals(value))
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.TextDescription, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.TextDescription, value);
                     _page.TextDescription = value;
                 }
             }
@@ -99,7 +99,7 @@ namespace Krypton.Navigator
             {
                 if (!_page.ToolTipTitle.Equals(value))
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ToolTipTitle, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipTitle, value);
                     _page.ToolTipTitle = value;
                 }
             }
@@ -116,7 +116,7 @@ namespace Krypton.Navigator
             {
                 if (!_page.ToolTipBody.Equals(value))
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ToolTipBody, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipBody, value);
                     _page.ToolTipBody = value;
                 }
             }
@@ -133,7 +133,7 @@ namespace Krypton.Navigator
             {
                 if (_page.ToolTipImage != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ToolTipImage, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ToolTipImage, value);
                     _page.ToolTipImage = value;
                 }
             }
@@ -150,7 +150,7 @@ namespace Krypton.Navigator
             {
                 if (_page.ImageSmall != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ImageSmall, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageSmall, value);
                     _page.ImageSmall = value;
                 }
             }
@@ -167,7 +167,7 @@ namespace Krypton.Navigator
             {
                 if (_page.ImageMedium != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ImageMedium, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageMedium, value);
                     _page.ImageMedium = value;
                 }
             }
@@ -184,7 +184,7 @@ namespace Krypton.Navigator
             {
                 if (_page.ImageLarge != value)
                 {
-                    _serviceComponentChange.OnComponentChanged(_page, null, _page.ImageLarge, value);
+                    _serviceComponentChange?.OnComponentChanged(_page, null, _page.ImageLarge, value);
                     _page.ImageLarge = value;
                 }
             }
@@ -199,7 +199,7 @@ namespace Krypton.Navigator
 
             set
             {
-                _serviceComponentChange.OnComponentChanged(_page, null, _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode), value);
+                _serviceComponentChange?.OnComponentChanged(_page, null, _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode), value);
 
                 if (value)
                 {

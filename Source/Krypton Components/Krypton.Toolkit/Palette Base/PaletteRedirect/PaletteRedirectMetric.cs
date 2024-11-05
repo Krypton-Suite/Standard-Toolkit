@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class PaletteRedirectMetric : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteMetric _disabled;
-        private IPaletteMetric _normal;
+        private IPaletteMetric?_disabled;
+        private IPaletteMetric? _normal;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectMetric class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectMetric(PaletteBase? target)
+        public PaletteRedirectMetric(PaletteBase target)
             : this(target, null, null)
         {
         }
@@ -38,9 +38,9 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public PaletteRedirectMetric(PaletteBase? target,
-                                     IPaletteMetric disableMetric,
-                                     IPaletteMetric normalMetric)
+        public PaletteRedirectMetric(PaletteBase target,
+                                     IPaletteMetric? disableMetric,
+                                     IPaletteMetric? normalMetric)
             : base(target)
         {
             // Remember state specific inheritance
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricInt(state, metric) ?? Target.GetMetricInt(state, metric);
+            return inherit?.GetMetricInt(state, metric) ?? Target!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricBool(state, metric) ?? Target.GetMetricBool(state, metric);
+            return inherit?.GetMetricBool(state, metric) ?? Target!.GetMetricBool(state, metric);
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
         {
-            IPaletteMetric inherit = GetInherit(state);
+            IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricPadding(state, metric) ?? Target.GetMetricPadding(state, metric);
+            return inherit?.GetMetricPadding(state, metric) ?? Target!.GetMetricPadding(state, metric);
         }
         #endregion
 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -70,8 +70,10 @@ namespace Krypton.Navigator
             {
                 case VisualOrientation.Top:
                     return VisualOrientation.Top;
+
                 case VisualOrientation.Bottom:
                     return VisualOrientation.Bottom;
+
                 case VisualOrientation.Left:
                     if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                         (Navigator.RightToLeft == RightToLeft.Yes))
@@ -82,6 +84,7 @@ namespace Krypton.Navigator
                     {
                         return VisualOrientation.Left;
                     }
+
                 case VisualOrientation.Right:
                     if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                         (Navigator.RightToLeft == RightToLeft.Yes))
@@ -92,9 +95,11 @@ namespace Krypton.Navigator
                     {
                         return VisualOrientation.Right;
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Bar.BarOrientation.ToString());
                     return VisualOrientation.Top;
             }
         }
@@ -110,7 +115,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -134,7 +139,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected void UpdateTabStyle()
         {
-            Navigator.StateCommon.Tab.SetStyles(Navigator.Bar.TabStyle);
+            Navigator.StateCommon!.Tab.SetStyles(Navigator.Bar.TabStyle);
             Navigator.OverrideFocus.Tab.SetStyles(Navigator.Bar.TabStyle);
 
             // Update each individual tab with the new style for remapping page level button specs
@@ -142,8 +147,8 @@ namespace Krypton.Navigator
             {
                 foreach (var pair in PageLookup)
                 {
-                    var tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
-                    tabHeader.ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);
+                    var tabHeader = pair.Value as ViewDrawNavCheckButtonTab;
+                    tabHeader!.ButtonSpecManager!.SetRemapTarget(Navigator.Bar.TabStyle);
                 }
             }
         }
@@ -156,7 +161,7 @@ namespace Krypton.Navigator
             TabBorderStyle tabBorderStyle = Navigator.Bar.TabBorderStyle;
 
             // Update the border style of each check button
-            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup.Values)
+            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup!.Values)
             {
                 tab.TabBorderStyle = tabBorderStyle;
             }

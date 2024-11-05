@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -246,11 +246,11 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (ComboBox != null)
+                if (ComboBox != null!)
                 {
                     UnmonitorControl(ComboBox);
                     ComboBox.Dispose();
-                    ComboBox = null;
+                    ComboBox = null!;
                 }
             }
 
@@ -275,7 +275,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the combo box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    ComboBox.Palette = Ribbon!.GetResolvedPalette();
+                    ComboBox.PaletteMode = Ribbon!.PaletteMode;
+                    ComboBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -311,7 +312,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Ribbon group text box key tip.")]
-        [DefaultValue("X")]
+        [DefaultValue(@"X")]
         public string KeyTip
         {
             get => _keyTip;
@@ -320,7 +321,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -412,8 +413,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-        [AllowNull]
-        public string Text
+        public virtual string Text
         {
             get => ComboBox.Text;
             set => ComboBox.Text = value;
@@ -464,7 +464,7 @@ namespace Krypton.Ribbon
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object DataSource
+        public object? DataSource
         {
             get => ComboBox.DataSource;
             set => ComboBox.DataSource = value;
@@ -491,7 +491,7 @@ namespace Krypton.Ribbon
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        public ComboBoxStyle DropDownStyle
+        public virtual ComboBoxStyle DropDownStyle
         {
             get => ComboBox.DropDownStyle;
             set => ComboBox.DropDownStyle = value;
@@ -589,7 +589,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
-        public ComboBox.ObjectCollection Items => ComboBox.Items;
+        public virtual ComboBox.ObjectCollection Items => ComboBox.Items;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -632,7 +632,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
         [Browsable(true)]
-        public AutoCompleteStringCollection AutoCompleteCustomSource
+        public virtual AutoCompleteStringCollection AutoCompleteCustomSource
         {
             get => ComboBox.AutoCompleteCustomSource;
             set => ComboBox.AutoCompleteCustomSource = value;
@@ -645,7 +645,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteMode AutoCompleteMode
+        public virtual AutoCompleteMode AutoCompleteMode
         {
             get => ComboBox.AutoCompleteMode;
             set => ComboBox.AutoCompleteMode = value;
@@ -658,7 +658,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteSource AutoCompleteSource
+        public virtual AutoCompleteSource AutoCompleteSource
         {
             get => ComboBox.AutoCompleteSource;
             set => ComboBox.AutoCompleteSource = value;
@@ -671,7 +671,7 @@ namespace Krypton.Ribbon
         [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
-        public string FormatString
+        public virtual string FormatString
         {
             get => ComboBox.FormatString;
             set => ComboBox.FormatString = value;
@@ -728,7 +728,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => ComboBox.SelectedItem;
             set => ComboBox.SelectedItem = value;
@@ -739,7 +739,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string SelectedText
+        public string? SelectedText
         {
             get => ComboBox.SelectedText;
             set => ComboBox.SelectedText = value;
@@ -822,7 +822,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item) => ComboBox.GetItemText(item);
+        public string? GetItemText(object item) => ComboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
@@ -1041,9 +1041,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
-        internal KryptonComboBox LastComboBox { get; set; }
+        internal KryptonComboBox? LastComboBox { get; set; }
 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
@@ -1093,55 +1093,60 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnComboBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnComboBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnComboBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnComboBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnComboBoxTextUpdate(object sender, EventArgs e) => OnTextUpdate(e);
+        private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 
-        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
+        private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private protected void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
+        private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
-        private void OnComboBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
+        private void OnComboBoxDataSourceChanged(object? sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
+        private void OnComboBoxDisplayMemberChanged(object? sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnComboBoxDropDownClosed(object sender, EventArgs e) => OnDropDownClosed(e);
+        private void OnComboBoxDropDownClosed(object? sender, EventArgs e) => OnDropDownClosed(e);
 
-        private void OnComboBoxDropDown(object sender, EventArgs e) => OnDropDown(e);
+        private void OnComboBoxDropDown(object? sender, EventArgs e) => OnDropDown(e);
 
-        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnComboBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnComboBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnComboBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnComboBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnComboBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
+        private void OnComboBoxFormat(object? sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
+        private void OnComboBoxFormatInfoChanged(object? sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnComboBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
+        private void OnComboBoxFormatStringChanged(object? sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
+        private void OnComboBoxFormattingEnabledChanged(object? sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e) => OnSelectedValueChanged(e);
+        private void OnComboBoxSelectedValueChanged(object? sender, EventArgs e) => OnSelectedValueChanged(e);
 
-        private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
+        private void OnComboBoxValueMemberChanged(object? sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => ComboBox.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
+        {
+            ComboBox.PaletteMode = Ribbon!.PaletteMode;
+            ComboBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

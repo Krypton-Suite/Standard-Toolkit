@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the FixedContentValue class.
         /// </summary>
         public FixedContentValue()
-            : this(string.Empty, string.Empty, null, Color.Empty)
+            : this(string.Empty, string.Empty, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="longText">Initial long text value.</param>
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial image transparent color value.</param>
-        public FixedContentValue(string? shortText, 
+        public FixedContentValue(string? shortText,
                                  string? longText,
                                  Image? image,
                                  Color imageTransparentColor)
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Color ImageTransparentColor { get; set; }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => ShortText;
+        public string GetShortText() => ShortText!;
 
         /// <summary>
         /// Gets the content image.
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText() => LongText;
+        public string GetLongText() => LongText!;
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             };
 
             // Create the check box image drawer and place inside element so it is always centered
-            ViewDrawCheckBox = new ViewDrawCheckBox(KryptonContextMenuCheckBox.StateCheckBoxImages)
+            ViewDrawCheckBox = new ViewDrawCheckBox(KryptonContextMenuCheckBox.StateCheckBoxImages!)
             {
                 CheckState = ResolveCheckState,
                 Enabled = ItemEnabled
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             _innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckBox.ToolTipManager, this, mcbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckBox.ToolTipManager!, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckBox.Image;
+        public Image? ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckBox.Image;
 
         #endregion
 
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
             // Update the checked state
             ViewDrawCheckBox.CheckState = ResolveCheckState;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuCheckBox.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuCheckBox.PerformClick();
 
         #endregion
     }

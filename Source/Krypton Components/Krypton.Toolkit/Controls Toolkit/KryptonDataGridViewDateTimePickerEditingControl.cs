@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -46,20 +46,24 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
-        public virtual DataGridView EditingControlDataGridView
+        public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value;
+            set => _dataGridView = value!;
         }
 
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
+        [AllowNull]
         public virtual object EditingControlFormattedValue
         {
+            // [AllowNull] removes warning CS8767 and allows to write null
+            // although the interface defines the property as non-nullable
+
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
 
-            set 
+            set
             {
                 if ((value == null) || (value == DBNull.Value))
                 {
@@ -68,13 +72,14 @@ namespace Krypton.Toolkit
                 else
                 {
                     var formattedValue = value as string;
+
                     if (string.IsNullOrEmpty(formattedValue))
                     {
                         ValueNullable = (formattedValue == string.Empty) ? null : value;
                     }
                     else
                     {
-                        Value = (DateTime)_dtc.ConvertFromInvariantString(formattedValue);
+                        Value = (DateTime)_dtc.ConvertFromInvariantString(formattedValue!)!;
                     }
                 }
             }
@@ -133,7 +138,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => 
+            (ValueNullable is null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value)!;
 
         #endregion
 

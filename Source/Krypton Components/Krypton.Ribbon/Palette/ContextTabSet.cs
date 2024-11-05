@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -31,15 +31,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Reference to first tab of the set.</param>
         /// <param name="context">Reference to owning context details.</param>
-        public ContextTabSet([DisallowNull] ViewDrawRibbonTab tab,
-                             [DisallowNull] KryptonRibbonContext context)
+        public ContextTabSet([DisallowNull] ViewDrawRibbonTab? tab,
+                             [DisallowNull] KryptonRibbonContext? context)
         {
-            Debug.Assert(tab != null);
-            Debug.Assert(context != null);
+            Debug.Assert(tab is not null);
+            Debug.Assert(context is not null);
 
-            FirstTab = tab;
+            FirstTab = tab ?? throw new ArgumentNullException(nameof(tab));
             _lastTab = tab;
-            Context = context;
+
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }
         #endregion
 
@@ -76,8 +77,8 @@ namespace Krypton.Ribbon
         /// <param name="tab">Reference to new last tab.</param>
         public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
         {
-            Debug.Assert(tab != null);
-            _lastTab = tab;
+            Debug.Assert(tab is not null);
+            _lastTab = tab ?? throw new ArgumentNullException(nameof(tab));
         }
 
         /// <summary>

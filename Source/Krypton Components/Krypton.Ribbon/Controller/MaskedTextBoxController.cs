@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -35,17 +35,17 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="maskedTextBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public MaskedTextBoxController([DisallowNull] KryptonRibbon ribbon,
-                                       [DisallowNull] KryptonRibbonGroupMaskedTextBox maskedTextBox,
-                                       [DisallowNull] ViewDrawRibbonGroupMaskedTextBox target)
+        public MaskedTextBoxController([DisallowNull] KryptonRibbon? ribbon,
+                                       [DisallowNull] KryptonRibbonGroupMaskedTextBox? maskedTextBox,
+                                       [DisallowNull] ViewDrawRibbonGroupMaskedTextBox? target)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(maskedTextBox != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(maskedTextBox is not null);
+            Debug.Assert(target is not null);
 
-            _ribbon = ribbon;
-            _maskedTextBox = maskedTextBox;
-            _target = target;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _maskedTextBox = maskedTextBox ?? throw new ArgumentNullException(nameof(maskedTextBox));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
         #endregion
 
@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if (_maskedTextBox.LastMaskedTextBox.MaskedTextBox is { CanFocus: true })
+            if (_maskedTextBox.LastMaskedTextBox?.MaskedTextBox is { CanFocus: true })
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _maskedTextBox.LastMaskedTextBox.MaskedTextBox.Focus();
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         public void KeyTipSelect(KryptonRibbon ribbon)
         {
             // Can the masked textbox take the focus
-            if (_maskedTextBox.LastMaskedTextBox.CanFocus)
+            if (_maskedTextBox.LastMaskedTextBox!.CanFocus)
             {
                 // Prevent the ribbon from killing keyboard mode when it loses the focus,
                 // as this causes the tracking windows to be killed and we want them kept
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
                 ribbon.KillKeyboardMode();
 
                 // Push focus to the specified target control
-                _maskedTextBox.LastMaskedTextBox.MaskedTextBox.Focus();
+                _maskedTextBox.LastMaskedTextBox.MaskedTextBox?.Focus();
                 // Ensure that the previous ribbon focus is restored when the popup window is dismissed
 
                 // If the masked textbox is inside a popup window
@@ -151,9 +151,19 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
+        private void KeyDownRibbon(KryptonRibbon? ribbon, KeyEventArgs e)
         {
             ViewBase? newView = null;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
@@ -167,8 +177,8 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -185,7 +195,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
             }
 

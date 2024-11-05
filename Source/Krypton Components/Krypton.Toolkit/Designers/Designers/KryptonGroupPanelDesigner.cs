@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonGroupPanel? _panel;
-        private ISelectionService _selectionService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public
@@ -36,12 +36,12 @@ namespace Krypton.Toolkit
             _panel = component as KryptonGroupPanel;
 
             // Acquire service interfaces
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // If inside a Krypton group container then always lock the component from user size/location change
             if (_panel != null)
             {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+                var descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
                 if ((descriptor != null) && (_panel.Parent is KryptonGroup or KryptonHeaderGroup))
                 {
                     descriptor.SetValue(component, true);
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
-        public override DesignerActionListCollection ActionLists => new DesignerActionListCollection();
+        public override DesignerActionListCollection ActionLists => [];
 
         /// <summary>
         /// Should painting be performed for the selection glyph.
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         {
             if (_panel?.Parent != null)
             {
-                _selectionService.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
+                _selectionService?.SetSelectedComponents(new object[] { _panel.Parent }, SelectionTypes.Primary);
             }
         }
         #endregion
@@ -146,10 +146,10 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                var descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = entry.Value as PropertyDescriptor;
 
                 // Is this the 'Name' we are searching for?
-                if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
+                if (descriptor!.Name.Equals(@"Name") && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
                     var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an attribute that indicates the type of inheritance of the associated component.
         /// </summary>
-        protected override InheritanceAttribute InheritanceAttribute
+        protected override InheritanceAttribute? InheritanceAttribute
         {
             get
             {
@@ -172,7 +172,8 @@ namespace Krypton.Toolkit
                 if (_panel?.Parent != null)
                 {
                     // Then get the attribute associated with the parent of the panel
-                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)];
+                    return TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as
+                        InheritanceAttribute;
                 }
                 else
                 {

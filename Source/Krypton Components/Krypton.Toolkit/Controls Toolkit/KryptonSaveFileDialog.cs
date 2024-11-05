@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
 
-#if NET7_0 || NET8_0
+#if NET7_0 || NET8_0_OR_GREATER
         /// <summary>
         ///  Gets or sets a value indicating whether the dialog box verifies if the creation of the specified file will be successful.
         ///  If this flag is not set, the calling application must handle errors, such as denial of access, discovered when the item is created.
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             set => _internalSaveFileDialog.CheckPathExists = value;
         }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid
         { 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
             private int _activeFragment;
             private FormatFragmentList _fragments;
-            private string _inputDigits;
+            private string? _inputDigits;
             private readonly KryptonDateTimePicker _dateTimePicker;
             private readonly NeedPaintHandler _needPaint;
             private readonly ViewDrawDateTimeText _timeText;
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
                 _dateTimePicker = dateTimePicker;
                 _timeText = timeText;
                 _needPaint = needPaint;
-                _fragments = new FormatFragmentList();
+                _fragments = [];
                 _activeFragment = -1;
                 _inputDigits = null;
                 RightToLeftLayout = false;
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
             /// <param name="format">Format string to parse.</param>
             /// <param name="g">Graphics instance used to measure text.</param>
             /// <param name="font">Font used to measure text.</param>
-            public void ParseFormat(string format, Graphics? g, Font font)
+            public void ParseFormat(string format, Graphics? g, Font? font)
             {
                 // Split the format into a set of fragments
                 _fragments = ParseFormatToFragments(format);
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
             /// <param name="textColor">Text color.</param>
             /// <param name="backColor">Back color.</param>
             /// <param name="enabled">If text enabled.</param>
-            public void Render(RenderContext context, Font font, Rectangle rect, 
+            public void Render(RenderContext context, Font? font, Rectangle rect, 
                                Color textColor, Color backColor, bool enabled)
             {
                 if (enabled || string.IsNullOrEmpty(_dateTimePicker.CustomNullText))
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
 
             private bool ImplRightToLeft => RightToLeftLayout && (_dateTimePicker.RightToLeft == RightToLeft.Yes);
 
-            private void MeasureFragments(Graphics? g, Font font, DateTime dt)
+            private void MeasureFragments(Graphics? g, Font? font, DateTime dt)
             {
                 // Create a character range/character region for each of the fragments
                 var charRanges = new CharacterRange[_fragments.Count];
@@ -648,18 +648,18 @@ namespace Krypton.Toolkit
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
-                var charRegion = g.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font, _measureRect, measureFormat);
+                var charRegion = g?.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font!, _measureRect, measureFormat);
 
                 // Push return values into the individual fragment entries
                 for (var i = 0; i < _fragments.Count; i++)
                 {
-                    _fragments[i].TotalWidth = (int)Math.Ceiling(charRegion[i].GetBounds(g).Width);
+                    _fragments[i].TotalWidth = (int)Math.Ceiling(charRegion![i].GetBounds(g!).Width);
                 }
             }
 
             private FormatFragmentList ParseFormatToFragments(string format)
             {
-                FormatFragmentList fragList = new FormatFragmentList();
+                FormatFragmentList fragList = [];
 
                 // Grab the string used for formatting
                 var length = format.Length;
@@ -1599,13 +1599,13 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Grab the font used to draw the text
-            Font font = GetFont();
+            Font? font = GetFont();
 
             // Find the width of the text we are drawing
             Size retSize = TextRenderer.MeasureText(GetFullDisplayText(), font, Size.Empty, MEASURE_FLAGS);
 
             // The line height gives better appearance as it includes space for overhanging glyphs
-            retSize.Height = Math.Max(font.Height, retSize.Height);
+            retSize.Height = Math.Max(font!.Height, retSize.Height);
 
             // Add constant extra sizing to add padding around area
             retSize.Height += 3;
@@ -1665,7 +1665,7 @@ namespace Krypton.Toolkit
 
         private void PerformNeedPaint(bool needLayout) => _needPaint(this, new NeedLayoutEventArgs(needLayout));
 
-        private Font GetFont()
+        private Font? GetFont()
         {
             if (!Enabled || _dateTimePicker.InternalDateTimeNull())
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private class InternalTreeView : TreeView
         {
             #region Static Fields
-            private static MethodInfo _miRI;
+            private static MethodInfo? _miRI;
             #endregion
 
             #region Instance Fields
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             public void ResetIndent()
             {
                 // Only grab the required reference once
-                if (_miRI == null)
+                if (_miRI is null)
                 {
                     // Use reflection so we can call the TreeView private method
                     _miRI = typeof(TreeView).GetMethod(nameof(ResetIndent),
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
                                                         Array.Empty<Type>(), null);
                 }
 
-                _miRI.Invoke(this, Array.Empty<object>());
+                _miRI!.Invoke(this, Array.Empty<object>());
             }
             #endregion
 
@@ -214,13 +214,13 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
+            private void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+            private void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
             #endregion
 
             #region Private
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                 var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
                 // No point drawing when one of the dimensions is zero
                 if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                var beforeDC = m.WParam;
+                                IntPtr beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
@@ -304,10 +304,10 @@ namespace Krypton.Toolkit
 
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
-        private readonly PaletteTripleOverride _overridePressed;
+        private readonly PaletteTripleOverride _overrideMultiSelect;
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
-        private readonly PaletteTripleOverride _overrideCheckedPressed;
+        private readonly PaletteTripleOverride _overrideCheckedMultiSelect;
         private readonly PaletteNodeOverride _overrideNormalNode;
         private readonly PaletteRedirectTreeView? _redirectImages;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -331,9 +331,7 @@ namespace Krypton.Toolkit
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
         private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
-        private float _cornerRoundingRadius;
-        private float _nodeCornerRoundingRadius;
-
+        private bool _multiSelect;
         #endregion
 
         #region Events
@@ -422,7 +420,7 @@ namespace Krypton.Toolkit
         public event TreeNodeMouseClickEventHandler? NodeMouseClick;
 
         /// <summary>
-        /// Occurs when a node is double clicked with the mouse.
+        /// Occurs when a node is double-clicked with the mouse.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is double clicked with the mouse.")]
@@ -537,34 +535,34 @@ namespace Krypton.Toolkit
             StateCommon = new PaletteTreeStateRedirect(Redirector, commonBack, backInherit, commonBorder, borderInherit, NeedPaintDelegate);
 
             var disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateDisabled = new PaletteTreeState(StateCommon, disabledBack, disabledBorder, NeedPaintDelegate);
 
             var normalBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateNormal = new PaletteTreeState(StateCommon, normalBack, normalBorder, NeedPaintDelegate);
 
             var activeBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
-            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
             StateActive = new PaletteDouble(StateCommon, activeBack, activeBorder, NeedPaintDelegate);
 
             OverrideFocus = new PaletteTreeNodeTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
             StateTracking = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
-            StatePressed = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
+            StateMultiSelect = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
             StateCheckedNormal = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
             StateCheckedTracking = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
-            StateCheckedPressed = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
+            StateCheckedMultiSelect = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
 
             // Create the override handling classes
             _overrideNormal = new PaletteTripleOverride(OverrideFocus.Node, StateNormal.Node, PaletteState.FocusOverride);
             _overrideTracking = new PaletteTripleOverride(OverrideFocus.Node, StateTracking.Node, PaletteState.FocusOverride);
-            _overridePressed = new PaletteTripleOverride(OverrideFocus.Node, StatePressed.Node, PaletteState.FocusOverride);
+            _overrideMultiSelect = new PaletteTripleOverride(OverrideFocus.Node, StateMultiSelect.Node, PaletteState.FocusOverride);
             _overrideCheckedNormal = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedNormal.Node, PaletteState.FocusOverride);
             _overrideCheckedTracking = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedTracking.Node, PaletteState.FocusOverride);
-            _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedPressed.Node, PaletteState.FocusOverride);
+            _overrideCheckedMultiSelect = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedMultiSelect.Node, PaletteState.FocusOverride);
             _overrideNormalNode = new PaletteNodeOverride(_overrideNormal);
 
-            // Create the check box image drawer and place inside element so it is always centered
+            // Create the checkbox image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
             var layoutCheckBox = new ViewLayoutCenter
             {
@@ -592,9 +590,9 @@ namespace Krypton.Toolkit
             // Create the draw element for owner drawing individual items
             _contentValues = new FixedContentValue();
             _drawButton = new ViewDrawButton(StateDisabled.Node, _overrideNormalNode,
-                                             _overrideTracking, _overridePressed,
+                                             _overrideTracking, _overrideMultiSelect,
                                              _overrideCheckedNormal, _overrideCheckedTracking,
-                                             _overrideCheckedPressed,
+                                             _overrideCheckedMultiSelect,
                                              new PaletteMetricRedirect(Redirector),
                                              _contentValues, VisualOrientation.Top, false);
 
@@ -665,13 +663,9 @@ namespace Krypton.Toolkit
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _nodeCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
-        private void OnTreeClick(object sender, EventArgs e) => OnClick(e);
+        private void OnTreeClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Releases all resources used by the Control. 
@@ -688,32 +682,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the node corner rounding radius.</summary>
-        /// <value>The node corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE), Description(@"Defines the node corner roundness on the current window (-1 is the default look).")]
-        public float NodeCornerRoundingRadius
-        {
-            get => _nodeCornerRoundingRadius;
-            set => SetNodeCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets access to the contained TreeView instance.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TreeView? TreeView => _treeView;
+        public TreeView TreeView => _treeView;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -762,7 +737,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -812,9 +787,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeItemHeight() => !_itemHeightDefault;
-
         private void ResetItemHeight()
         {
             _itemHeightDefault = true;
@@ -832,6 +805,27 @@ namespace Krypton.Toolkit
             get => _treeView.CheckBoxes;
             set => _treeView.CheckBoxes = value;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+        [DefaultValue(false)]
+        public bool MultiSelect
+        {
+            get => _multiSelect || CheckBoxes;
+            set 
+            { 
+                _multiSelect = value;
+                // Force redraw of current options
+                var checkedNodes = CheckedNodes;
+                CheckedNodes = checkedNodes;
+            }
+        }
+
+        private bool ShouldSerializeMultiSelect() => _multiSelect;
+        private void ResetMultiSelect() => _multiSelect = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -989,13 +983,43 @@ namespace Krypton.Toolkit
         /// Gets or sets the tree node that is currently selected in the tree view control.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Note that is currently selected.")]
+        [Description(@"Node that is currently selected.")]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public TreeNode SelectedNode
+        public TreeNode? SelectedNode
         {
             get => _treeView.SelectedNode;
             set => _treeView.SelectedNode = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tree node that is currently selected in the tree view control.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Node(s) that have check set; Will used in MultiSelect as well.")]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<TreeNode> CheckedNodes
+        {
+            get => TreeView.Nodes.Cast<TreeNode>().Where(node => node.Checked).ToList();
+            set
+            {
+                foreach (TreeNode node in TreeView.Nodes)
+                {
+                    node.Checked = false;
+                }
+
+                foreach (TreeNode node in value)
+                {
+                    node.Checked = true;
+                    if (!MultiSelect)
+                    {
+                        // Only do the first one !
+                        break;
+                    }
+                }
+                PerformNeedPaint(false);
+            }
         }
 
         /// <summary>
@@ -1065,7 +1089,7 @@ namespace Krypton.Toolkit
         [Description(@"First fully-visible node.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
-        public TreeNode TopNode
+        public TreeNode? TopNode
         {
             get => _treeView.TopNode;
             set => _treeView.TopNode = value;
@@ -1078,7 +1102,7 @@ namespace Krypton.Toolkit
         [Description(@"IComparer used to perform custom sorting.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
-        public IComparer TreeViewNodeSorter
+        public IComparer? TreeViewNodeSorter
         {
             get => _treeView.TreeViewNodeSorter;
             set => _treeView.TreeViewNodeSorter = value;
@@ -1214,7 +1238,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializePlusMinusImages() => !PlusMinusImages.IsDefault;
 
         /// <summary>
-        /// Gets access to the check box image value overrides.
+        /// Gets access to the checkbox image value overrides.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"CheckBox image value overrides.")]
@@ -1287,11 +1311,11 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed item appearance entries.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Overrides for defining pressed item appearance.")]
+        [Description(@"Overrides for defining (Multi) Select item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTreeNodeTriple StatePressed { get; }
+        public PaletteTreeNodeTriple StateMultiSelect { get; }
 
-        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+        private bool ShouldSerializeStateMultiSelect() => !StateMultiSelect.IsDefault;
 
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
@@ -1317,11 +1341,11 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed checked item appearance entries.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Overrides for defining pressed checked item appearance.")]
+        [Description(@"Overrides for defining (Multi) Select checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTreeNodeTriple StateCheckedPressed { get; }
+        public PaletteTreeNodeTriple StateCheckedMultiSelect { get; }
 
-        private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
+        private bool ShouldSerializeStateCheckedMultiSelect() => !StateCheckedMultiSelect.IsDefault;
 
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
@@ -1373,7 +1397,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">The Point to evaluate and retrieve the node from. </param>
         /// <returns>The TreeNode at the specified point, in tree view (client) coordinates, or null if there is no node at that location.</returns>
-        public TreeNode GetNodeAt(Point pt) => _treeView.GetNodeAt(pt);
+        public TreeNode? GetNodeAt(Point pt) => _treeView.GetNodeAt(pt);
 
         /// <summary>
         /// Retrieves the tree node at the point with the specified coordinates.
@@ -1381,7 +1405,7 @@ namespace Krypton.Toolkit
         /// <param name="x">The X position to evaluate and retrieve the node from.</param>
         /// <param name="y">The Y position to evaluate and retrieve the node from.</param>
         /// <returns>The TreeNode at the specified location, in tree view (client) coordinates, or null if there is no node at that location.</returns>
-        public TreeNode GetNodeAt(int x, int y) => _treeView.GetNodeAt(x, y);
+        public TreeNode? GetNodeAt(int x, int y) => _treeView.GetNodeAt(x, y);
 
         /// <summary>
         /// Retrieves the number of tree nodes, optionally including those in all subtrees, assigned to the tree view control.
@@ -1422,12 +1446,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TreeView != null && TreeView.Focus();
+        public new bool Focus() => TreeView.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TreeView?.Select();
+        public new void Select() => TreeView.Select();
         #endregion
 
         #region Protected
@@ -1508,6 +1532,11 @@ namespace Krypton.Toolkit
         {
             if (!_isRecreating)
             {
+                if (_multiSelect && e.Node is not null)
+                {
+                    e.Node.Checked = !e.Node.Checked;
+                }
+
                 AfterSelect?.Invoke(this, e);
             }
         }
@@ -1669,7 +1698,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             UpdateItemHeight();
             base.OnPaletteChanged(e);
@@ -1752,9 +1781,12 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
-            Paint?.Invoke(this, e);
+            if ( Paint is not null && e is not null)
+            {
+                Paint.Invoke(this, e);
+            }
 
             base.OnPaint(e);
         }
@@ -1825,7 +1857,7 @@ namespace Krypton.Toolkit
 
             // Only use layout logic if control is fully initialized or if being forced
             // to allow a relayout or if in design mode.
-            if (IsHandleCreated || _forcedLayout || (DesignMode && (_treeView != null)))
+            if (IsHandleCreated || _forcedLayout || (DesignMode))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _treeView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
@@ -1924,27 +1956,30 @@ namespace Krypton.Toolkit
         {
             _overrideNormalNode.TreeNode = node;
 
-            if (node != null)
+            if (_contentValues is not null)
             {
-                // Get information from the node
-                _contentValues.ShortText = node.Text;
-                _contentValues.LongText = string.Empty;
-                _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
-
-                if (node is KryptonTreeNode kryptonNode)
+                if (node is not null)
                 {
-                    // Get long text from the Krypton extension
-                    _contentValues.LongText = kryptonNode.LongText;
+                    // Get information from the node
+                    _contentValues.ShortText = node.Text;
+                    _contentValues.LongText = string.Empty;
+                    _contentValues.Image = null;
+                    _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+
+                    if (node is KryptonTreeNode kryptonNode)
+                    {
+                        // Get long text from the Krypton extension
+                        _contentValues.LongText = kryptonNode.LongText;
+                    }
                 }
-            }
-            else
-            {
-                // Get the text string for the item
-                _contentValues.ShortText = @"A";
-                _contentValues.LongText = string.Empty;
-                _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = Color.Empty;
+                else
+                {
+                    // Get the text string for the item
+                    _contentValues.ShortText = @"A";
+                    _contentValues.LongText = string.Empty;
+                    _contentValues.Image = null;
+                    _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+                }
             }
         }
 
@@ -1955,24 +1990,15 @@ namespace Krypton.Toolkit
                 // Get the correct palette settings to use
                 IPaletteDouble doubleState = GetDoubleState();
                 _treeView.ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
-                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder);
+                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder!);
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
-                PaletteState state;
-                if (IsActive)
-                {
-                    state = PaletteState.Tracking;
-                }
-                else
-                {
-                    state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                }
+                PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
                 _treeView.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;
                 _treeView.Font = StateCommon.Node.Content.ShortText.Font;
-
             }
         }
 
@@ -1983,8 +2009,8 @@ namespace Krypton.Toolkit
             var depth = 0;
 
             // Count depth of our node in tree
-            TreeNode current = node;
-            while (current != null)
+            TreeNode? current = node;
+            while (current is not null)
             {
                 depth++;
                 current = current.Parent;
@@ -1999,7 +2025,7 @@ namespace Krypton.Toolkit
             return depth * _treeView.Indent;
         }
 
-        private void OnTreeViewDrawNode(object sender, DrawTreeNodeEventArgs e)
+        private void OnTreeViewDrawNode(object? sender, DrawTreeNodeEventArgs e)
         {
             // We cannot do anything without a valid node
             if (e.Node == null)
@@ -2058,7 +2084,7 @@ namespace Krypton.Toolkit
 
             _layoutImageCenterState.Visible = drawStateImage != null;
 
-            // Do we need the check box?
+            // Do we need the checkbox?
             _layoutCheckBoxStack.Visible = (StateImageList == null)
                                       && CheckBoxes
                                       && (kryptonNode?.IsCheckBoxVisible != false);
@@ -2067,7 +2093,7 @@ namespace Krypton.Toolkit
                 _drawCheckBox.CheckState = e.Node.Checked ? CheckState.Checked : CheckState.Unchecked;
             }
 
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState buttonState;
 
             // Is this item disabled
@@ -2082,17 +2108,39 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = true;
 
-                    buttonState = (e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot
-                        ? PaletteState.CheckedTracking
-                        : PaletteState.CheckedNormal;
+                    if ((e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot)
+                    {
+                        buttonState = PaletteState.CheckedTracking;
+                    }
+                    else if (e.Node.Checked)
+                    {
+                        buttonState = _layoutCheckBoxStack.Visible
+                            ? PaletteState.CheckedPressed
+                            : PaletteState.Pressed;
+                    }
+                    else
+                    {
+                        buttonState = PaletteState.CheckedNormal;
+                    }
                 }
                 else
                 {
                     _drawButton.Checked = false;
 
-                    buttonState = (e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot
-                        ? PaletteState.Tracking
-                        : PaletteState.Normal;
+                    if ((e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot)
+                    {
+                        buttonState = PaletteState.Tracking;
+                    }
+                    else if (e.Node.Checked)
+                    {
+                        buttonState = _layoutCheckBoxStack.Visible
+                            ? PaletteState.CheckedPressed
+                            : PaletteState.Pressed;
+                    }
+                    else
+                    {
+                        buttonState = PaletteState.Normal;
+                    }
                 }
 
                 // Do we need to show item as having the focus
@@ -2100,10 +2148,10 @@ namespace Krypton.Toolkit
 
                 _overrideNormal.Apply = hasFocus;
                 _overrideTracking.Apply = hasFocus;
-                _overridePressed.Apply = hasFocus;
+                _overrideMultiSelect.Apply = hasFocus;
                 _overrideCheckedTracking.Apply = hasFocus;
                 _overrideCheckedNormal.Apply = hasFocus;
-                _overrideCheckedPressed.Apply = hasFocus;
+                _overrideCheckedMultiSelect.Apply = hasFocus;
             }
 
             // Update the view with the calculated state
@@ -2169,7 +2217,7 @@ namespace Krypton.Toolkit
                             _treeView.ViewDrawPanel.Render(context);
                         }
 
-                        // Do we have a indent area for drawing plus/minus/lines?
+                        // Do we have an indent area for drawing plus/minus/lines?
                         if (indentBounds.X >= 0)
                         {
                             // Do we draw lines between nodes?
@@ -2220,7 +2268,7 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
@@ -2321,7 +2369,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnTreeViewGotFocus(object sender, EventArgs e)
+        private void OnTreeViewGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _treeView.Invalidate();
@@ -2329,7 +2377,7 @@ namespace Krypton.Toolkit
             OnGotFocus(e);
         }
 
-        private void OnTreeViewLostFocus(object sender, EventArgs e)
+        private void OnTreeViewLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             _treeView.Invalidate();
@@ -2337,47 +2385,47 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnTreeViewKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnTreeViewKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTreeViewKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnTreeViewKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTreeViewKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnTreeViewKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTreeViewPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnTreeViewPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnTreeViewValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnTreeViewValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnTreeViewValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnTreeViewValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnTreeViewNodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
+        private void OnTreeViewNodeMouseHover(object? sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
 
-        private void OnTreeViewNodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseDoubleClick(e);
+        private void OnTreeViewNodeMouseDoubleClick(object? sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseDoubleClick(e);
 
-        private void OnTreeViewNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseClick(e);
+        private void OnTreeViewNodeMouseClick(object? sender, TreeNodeMouseClickEventArgs e) => OnNodeMouseClick(e);
 
-        private void OnTreeViewItemDrag(object sender, ItemDragEventArgs e) => OnItemDrag(e);
+        private void OnTreeViewItemDrag(object? sender, ItemDragEventArgs e) => OnItemDrag(e);
 
-        private void OnTreeViewBeforeSelect(object sender, TreeViewCancelEventArgs e) => OnBeforeSelect(e);
+        private void OnTreeViewBeforeSelect(object? sender, TreeViewCancelEventArgs e) => OnBeforeSelect(e);
 
-        private void OnTreeViewBeforeLabelEdit(object sender, NodeLabelEditEventArgs e) => OnBeforeLabelEdit(e);
+        private void OnTreeViewBeforeLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnBeforeLabelEdit(e);
 
-        private void OnTreeViewBeforeExpand(object sender, TreeViewCancelEventArgs e) => OnBeforeExpand(e);
+        private void OnTreeViewBeforeExpand(object? sender, TreeViewCancelEventArgs e) => OnBeforeExpand(e);
 
-        private void OnTreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e) => OnBeforeCollapse(e);
+        private void OnTreeViewBeforeCollapse(object? sender, TreeViewCancelEventArgs e) => OnBeforeCollapse(e);
 
-        private void OnTreeViewBeforeCheck(object sender, TreeViewCancelEventArgs e) => OnBeforeCheck(e);
+        private void OnTreeViewBeforeCheck(object? sender, TreeViewCancelEventArgs e) => OnBeforeCheck(e);
 
-        private void OnTreeViewAfterSelect(object sender, TreeViewEventArgs e) => OnAfterSelect(e);
+        private void OnTreeViewAfterSelect(object? sender, TreeViewEventArgs e) => OnAfterSelect(e);
 
-        private void OnTreeViewAfterLabelEdit(object sender, NodeLabelEditEventArgs e) => OnAfterLabelEdit(e);
+        private void OnTreeViewAfterLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnAfterLabelEdit(e);
 
-        private void OnTreeViewAfterExpand(object sender, TreeViewEventArgs e) => OnAfterExpand(e);
+        private void OnTreeViewAfterExpand(object? sender, TreeViewEventArgs e) => OnAfterExpand(e);
 
-        private void OnTreeViewAfterCollapse(object sender, TreeViewEventArgs e) => OnAfterCollapse(e);
+        private void OnTreeViewAfterCollapse(object? sender, TreeViewEventArgs e) => OnAfterCollapse(e);
 
-        private void OnTreeViewAfterCheck(object sender, TreeViewEventArgs e) => OnAfterCheck(e);
+        private void OnTreeViewAfterCheck(object? sender, TreeViewEventArgs e) => OnAfterCheck(e);
 
-        private void OnTreeViewMouseChange(object sender, EventArgs e)
+        private void OnTreeViewMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_treeView.MouseOver != _trackingMouseEnter)
@@ -2398,23 +2446,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetNodeCornerRoundingRadius(float? radius)
-        {
-            _nodeCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Node.Border.Rounding = _nodeCornerRoundingRadius;
-        }
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
         #endregion
 

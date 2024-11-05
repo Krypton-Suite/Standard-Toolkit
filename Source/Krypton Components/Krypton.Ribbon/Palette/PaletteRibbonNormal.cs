@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -36,6 +36,7 @@ namespace Krypton.Ribbon
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {
+            RibbonFileAppTab = new PaletteRibbonFileAppTab(inherit.RibbonFileAppTab, needPaint);
             // Create storage that maps onto the inherit instances
             _ribbonGroupCheckBoxText = new PaletteRibbonText(inherit.RibbonGroupCheckBoxText, needPaint);
             _ribbonGroupButtonText = new PaletteRibbonText(inherit.RibbonGroupButtonText, needPaint);
@@ -49,11 +50,12 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           RibbonGroupCheckBoxText.IsDefault &&
-                                           RibbonGroupButtonText.IsDefault &&
-                                           RibbonGroupLabelText.IsDefault &&
-                                           RibbonGroupRadioButtonText.IsDefault;
+                                            RibbonGroupCheckBoxText.IsDefault &&
+                                            RibbonGroupButtonText.IsDefault &&
+                                            RibbonGroupLabelText.IsDefault &&
+                                            RibbonGroupRadioButtonText.IsDefault;
 
         #endregion
 
@@ -86,6 +88,17 @@ namespace Krypton.Ribbon
         }
         #endregion
 
+
+        /// <summary>
+        /// Gets the set of ribbon application button display strings.
+        /// </summary>
+        [Category(@"Values")]
+        [Description(@"Collection of ribbon 'File app button' settings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public virtual PaletteRibbonFileAppTab RibbonFileAppTab { get; }
+        private bool ShouldSerializeRibbonFileAppTab() => !RibbonFileAppTab.IsDefault;
+
         #region RibbonGroupCheckBoxText
         /// <summary>
         /// Gets access to the ribbon group check box label palette details.
@@ -94,7 +107,6 @@ namespace Krypton.Ribbon
         [Description(@"Overrides for defining ribbon group check box label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
-
         private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
 
         #endregion

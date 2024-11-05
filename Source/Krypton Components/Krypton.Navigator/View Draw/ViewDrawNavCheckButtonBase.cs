@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -58,16 +58,16 @@ namespace Krypton.Navigator
         /// <param name="orientation">Orientation for the check button.</param>
         /// <param name="overflow">Button is used on the overflow bar.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          [DisallowNull] KryptonPage? page,
+                                          KryptonPage? page,
                                           VisualOrientation orientation,
                                           bool overflow)
             : this(navigator, page, orientation,
-                   page.StateDisabled.OverflowButton,
-                   page.StateNormal.OverflowButton,
-                   page.StateTracking.OverflowButton,
-                   page.StatePressed.OverflowButton,
-                   page.StateSelected.OverflowButton,
-                   page.OverrideFocus.OverflowButton)
+                   page?.StateDisabled?.OverflowButton!,
+                   page?.StateNormal?.OverflowButton!,
+                   page?.StateTracking.OverflowButton!,
+                   page?.StatePressed.OverflowButton!,
+                   page?.StateSelected.OverflowButton!,
+                   page?.OverrideFocus?.OverflowButton!)
         {
         }
 
@@ -78,15 +78,15 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-            [DisallowNull] KryptonPage? page,
+                                          KryptonPage? page,
                                           VisualOrientation orientation)
             : this(navigator, page, orientation,
-                   page.StateDisabled.CheckButton, 
-                   page.StateNormal.CheckButton,
-                   page.StateTracking.CheckButton, 
-                   page.StatePressed.CheckButton,
-                   page.StateSelected.CheckButton,
-                   page.OverrideFocus.CheckButton)
+                   page?.StateDisabled?.CheckButton!,
+                   page?.StateNormal?.CheckButton!,
+                   page?.StateTracking.CheckButton!,
+                   page?.StatePressed.CheckButton!,
+                   page?.StateSelected.CheckButton!,
+                   page?.OverrideFocus.CheckButton!)
         {
         }
 
@@ -111,19 +111,19 @@ namespace Krypton.Navigator
                                           IPaletteTriple statePressed,
                                           IPaletteTriple stateSelected,
                                           IPaletteTriple stateFocused)
-            : base(stateDisabled, stateNormal, stateTracking, 
+            : base(stateDisabled, stateNormal, stateTracking,
                    statePressed, null, null, orientation, true)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
 
-            Navigator = navigator;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
             _page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
             // Associate the page component with this view element
             Component = page;
 
-            // Prevent user from unchecking the selected check button
+            // Prevent user from un-checking the selected check button
             AllowUncheck = false;
 
             // Set the source for values to ourself
@@ -148,9 +148,9 @@ namespace Krypton.Navigator
             if (AllowButtonSpecs)
             {
                 // Create button specification collection manager
-                ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page.ButtonSpecs, null,
+                ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page?.ButtonSpecs, null,
                                                                    new[] { LayoutDocker },
-                                                                   new IPaletteMetric[] { Navigator.StateCommon },
+                                                                   new IPaletteMetric[] { Navigator.StateCommon! },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricPadding.PageButtonPadding },
@@ -400,8 +400,9 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager!, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager!, this, toolTipController);
+
             return hoverController;
         }
         #endregion
@@ -421,21 +422,21 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(object sender, EventArgs e)
+        protected virtual void OnClick(object? sender, EventArgs e)
         {
             // Generate click event for the page header
-            Navigator.OnTabClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page)));
+            Navigator.OnTabClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page!)));
 
             // If this click is within the double click time of the last one, generate the double click event.
             DateTime now = DateTime.Now;
             if ((now - _lastClick).TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
                 // Tell button controller to abort any drag attempt
-                _buttonController.ClearDragRect();
+                _buttonController!.ClearDragRect();
 
                 // Generate click event for the page header
-                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page)));
-                
+                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page!)));
+
                 // Prevent a third click causing another double click by resetting the now time backwards
                 now = now.AddDays(-1);
             }
@@ -446,7 +447,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
             {
                 // This event might have caused the page to be removed or hidden and so check the page is still present before selecting it
-                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page.LastVisibleSet)
+                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page!.LastVisibleSet)
                 {
                     Navigator.SelectedPage = _page;
                 }
@@ -458,7 +459,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightClick(object sender, MouseEventArgs e)
+        protected virtual void OnRightClick(object? sender, MouseEventArgs e)
         {
             // Can only select the page if not already selected and allowed to select a tab
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
@@ -467,7 +468,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
+            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page!));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu
@@ -475,13 +476,13 @@ namespace Krypton.Navigator
             {
                 if (CommonHelper.ValidKryptonContextMenu(scma.KryptonContextMenu))
                 {
-                    scma.KryptonContextMenu.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
+                    scma.KryptonContextMenu!.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
                 }
-                else 
+                else
                 {
                     if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip))
                     {
-                        scma.ContextMenuStrip.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
+                        scma.ContextMenuStrip!.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
                     }
                 }
             }
@@ -489,17 +490,17 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, _page);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, _page);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
+        private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+        private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2024. All rights reserved. 
  */
 #endregion
 
@@ -18,9 +18,14 @@ namespace Krypton.Toolkit
     [DefaultBindingProperty("Value")]
     [DesignerCategory(@"code")]
     [Description(@"Represents a Krypton progress bar control.")]
-    [Designer(typeof(KryptonButtonDesigner))]
+    //[Designer(typeof(KryptonButtonDesigner))]
     public class KryptonProgressBar : Control, IContentValues
     {
+        // Progressbar designer is incorrect.
+        // Disabled for now.
+        // Control works fine without it.
+        // Will discuss later if a specific designer is desired and what it should look like.
+
         #region Instance Fields
 
         private ProgressBarStyle _style;
@@ -33,7 +38,6 @@ namespace Krypton.Toolkit
         private IDisposable? _mementoBackProgressBar;
         private IDisposable? _mementoBackProgressValue;
         private bool _useValueAsText;
-        private float _cornerRoundingRadius;
         private int _marqueeSpeed;
         private int _maximum;
         private int _minimum;
@@ -74,7 +78,7 @@ namespace Krypton.Toolkit
             {
                 Interval = _marqueeSpeed
             };
-            _marqueeTimer.Tick += OnMarqueeTick!;
+            _marqueeTimer.Tick += OnMarqueeTick;
 
             // Cache the current global palette setting
             _palette = KryptonManager.CurrentGlobalPalette;
@@ -82,7 +86,7 @@ namespace Krypton.Toolkit
             // Hook into palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPalettePaint!;
+                _palette.PalettePaint += OnPalettePaint;
             }
 
             // Create content storage
@@ -90,10 +94,10 @@ namespace Krypton.Toolkit
             {
                 Text = string.Empty
             };
-            Values.TextChanged += OnLabelTextChanged!;
+            Values.TextChanged += OnLabelTextChanged;
 
             // We want to be notified whenever the global palette changes
-            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged!;
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             // Create redirection object to the base palette
             _paletteRedirect = new PaletteRedirect(_palette);
@@ -111,7 +115,6 @@ namespace Krypton.Toolkit
                     Color1 = Color.Green
                 }
             };
-            SetCornerRoundingRadius(null);
             StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
             ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
             StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
@@ -152,12 +155,12 @@ namespace Krypton.Toolkit
                 // Unhook from the palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnPalettePaint!;
+                    _palette.PalettePaint -= OnPalettePaint;
                     _palette = null;
                 }
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
-                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
             }
 
             base.Dispose(disposing);
@@ -385,7 +388,6 @@ namespace Krypton.Toolkit
             }
         }
 
-
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
@@ -395,6 +397,9 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
+            // Values.Text can be set to null
+            // The getter will always return a string
+
             get => Values.Text;
 
             set
@@ -446,19 +451,6 @@ namespace Krypton.Toolkit
         /// <returns>A string that represents the current <see cref="T:System.Windows.Forms.ProgressBar" />.</returns>
         public override string ToString() =>
             $"{base.ToString()}, Minimum: {Minimum.ToString(CultureInfo.CurrentCulture)}, Maximum: {Maximum.ToString(CultureInfo.CurrentCulture)}, Value: {Value.ToString(CultureInfo.CurrentCulture)}";
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -564,7 +556,7 @@ namespace Krypton.Toolkit
                 var (barPaletteState, barState) = GetBarPaletteState();
 
                 // Get the renderer associated with this palette
-                IRenderer renderer = _palette.GetRenderer()!;
+                IRenderer renderer = _palette.GetRenderer();
 
                 // Create a layout context used to allow the renderer to layout the content
                 using var viewContext = new ViewLayoutContext(this, renderer);
@@ -574,8 +566,8 @@ namespace Krypton.Toolkit
 
                 // Ask the renderer to work out how the Content values will be laid out and
                 // return a memento object that we cache for use when actually performing painting
-                _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent,
-                    this, Orientation, barState, false, true);
+                _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent!,
+                    this, Orientation, barState);
             }
 
             base.OnLayout(e);
@@ -584,143 +576,147 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (_palette != null)
+            // Get the renderer associated with this palette
+            IRenderer renderer = _palette!.GetRenderer();
+
+            // Create the rendering context that is passed into all renderer calls
+            using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
+            // Set the style we want picked up from the base palette
+            var (barPaletteState, barState) = GetBarPaletteState();
+
+            // Draw the background of the entire control over the entire client area. 
+            using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
             {
-                // Get the renderer associated with this palette
-                IRenderer? renderer = _palette.GetRenderer();
-
-                // Create the rendering context that is passed into all renderer calls
-                using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
-                // Set the style we want picked up from the base palette
-                var (barPaletteState, barState) = GetBarPaletteState();
-
-                // Draw the background of the entire control over the entire client area. 
-                using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
-                {
-                    var panelState = !Parent.Enabled
-                        ? PaletteState.Disabled
-                        : PaletteState.Normal;
-                    // Ask renderer to draw the background
-                    _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
-                        panelState, _mementoBackClientPanel);
-                }
-
-                //////////////////////////////////////////////////////////////////////////////////
-                // In case the border has a rounded effect we need to get the background path   //
-                // to draw from the border part of the renderer. It will return a path that is  //
-                // appropriate for use drawing within the border settings.                      //
-                //////////////////////////////////////////////////////////////////////////////////
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           ClientRectangle,
-                    barPaletteState.PaletteBorder,
-                    Orientation,
-                    barState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, barPaletteState.PaletteBack,
-                        Orientation, barState, _mementoBackProgressBar);
-                }
-
-                // Create a rectangle inset
-                Rectangle innerRect = ClientRectangle;
-                var maximumRange = (Maximum - Minimum);
-                if (_style == ProgressBarStyle.Marquee)
-                {
-                    float ratio = 1.0f / maximumRange;
-                    int half = (int)(3 * ratio);
-                    int lower = Math.Max(_marqueeLocation - Minimum - half, Minimum);
-                    int higher = Math.Min(lower + half, maximumRange);
-                    switch (Orientation)
-                    {
-                        case VisualOrientation.Top:
-                        case VisualOrientation.Bottom:
-                            {
-                                int width = innerRect.Width;
-
-                                innerRect.X += (int)(ratio * width * lower);
-                                innerRect.Width = (int)(ratio * width * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Right > ClientRectangle.Right)
-                                {
-                                    innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
-                                }
-                                if (innerRect.X > ClientRectangle.Right)
-                                {
-                                    innerRect.X = ClientRectangle.Right;
-                                }
-                            }
-                            break;
-
-                        case VisualOrientation.Left:
-                        case VisualOrientation.Right:
-                            {
-                                int height = innerRect.Height;
-
-                                innerRect.Y += (int)(ratio * height * lower);
-                                innerRect.Height = (int)(ratio * height * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Bottom > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
-                                }
-
-                                if (innerRect.Y > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Y = ClientRectangle.Bottom;
-                                }
-                            }
-                            break;
-                    }
-                }
-                else
-                {
-                    // Draw the value offset
-                    float v = (Value - Minimum);
-                    float ratio = v / maximumRange;
-                    switch (Orientation)
-                    {
-                        case VisualOrientation.Top:
-                        case VisualOrientation.Bottom:
-                            innerRect.Width = (int)(ratio * innerRect.Width);
-                            if (RightToLeft == RightToLeft.Yes)
-                            {
-                                innerRect.X = ClientRectangle.Right - innerRect.Width;
-                            }
-
-                            break;
-
-                        case VisualOrientation.Left:
-                        case VisualOrientation.Right:
-                            innerRect.Height = (int)(ratio * innerRect.Height);
-                            if (RightToLeft == RightToLeft.Yes)
-                            {
-                                innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
-                            }
-
-                            break;
-                    }
-                }
-
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           innerRect,
-                           barPaletteState.PaletteBorder,
-                           Orientation,
-                           barState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, path, _stateBackValue,
-                        Orientation, barState, _mementoBackProgressValue);
-                }
-
-                // Now we draw the border of the inner area
-                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
-                    Orientation, barState);
-
-                // Last of all we draw the content over the top of the border and background
-                renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent, _mementoContent,
-                    Orientation, barState, false, true, false);
+                var panelState = !Parent!.Enabled
+                    ? PaletteState.Disabled
+                    : PaletteState.Normal;
+                // Ask renderer to draw the background
+                _mementoBackClientPanel = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, _paletteBackClientPanel, Orientation,
+                    panelState, _mementoBackClientPanel);
             }
+
+            //////////////////////////////////////////////////////////////////////////////////
+            // In case the border has a rounded effect we need to get the background path   //
+            // to draw from the border part of the renderer. It will return a path that is  //
+            // appropriate for use drawing within the border settings.                      //
+            //////////////////////////////////////////////////////////////////////////////////
+            using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                       ClientRectangle,
+                       barPaletteState.PaletteBorder!,
+                       Orientation,
+                       barState))
+            {
+                // Ask renderer to draw the background
+                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
+                _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                    fullLozengePath, barPaletteState.PaletteBack,
+                    Orientation, barState, _mementoBackProgressBar);
+                using var region = new Region(fullLozengePath);
+                // Set the clipping region, So that "Small" rounded values do not escape the draw area
+                e.Graphics.SetClip(region, CombineMode.Replace);
+            }
+
+            // Create a rectangle inset
+            Rectangle innerRect = ClientRectangle;
+            var maximumRange = (Maximum - Minimum);
+            if (_style == ProgressBarStyle.Marquee)
+            {
+                float ratio = 1.0f / maximumRange;
+                int half = (int)(3 * ratio);
+                int lower = Math.Max(_marqueeLocation - Minimum - half, Minimum);
+                int higher = Math.Min(lower + half, maximumRange);
+                switch (Orientation)
+                {
+                    case VisualOrientation.Top:
+                    case VisualOrientation.Bottom:
+                        {
+                            int width = innerRect.Width;
+
+                            innerRect.X += (int)(ratio * width * lower);
+                            innerRect.Width = (int)(ratio * width * higher);
+                            // Now do special clipping handling for curved borders
+                            if (innerRect.Right > ClientRectangle.Right)
+                            {
+                                innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
+                            }
+                            if (innerRect.X > ClientRectangle.Right)
+                            {
+                                innerRect.X = ClientRectangle.Right;
+                            }
+                        }
+                        break;
+
+                    case VisualOrientation.Left:
+                    case VisualOrientation.Right:
+                        {
+                            int height = innerRect.Height;
+
+                            innerRect.Y += (int)(ratio * height * lower);
+                            innerRect.Height = (int)(ratio * height * higher);
+                            // Now do special clipping handling for curved borders
+                            if (innerRect.Bottom > ClientRectangle.Bottom)
+                            {
+                                innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
+                            }
+
+                            if (innerRect.Y > ClientRectangle.Bottom)
+                            {
+                                innerRect.Y = ClientRectangle.Bottom;
+                            }
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                // Draw the value offset
+                float v = (Value - Minimum);
+                float ratio = v / maximumRange;
+                switch (Orientation)
+                {
+                    case VisualOrientation.Top:
+                    case VisualOrientation.Bottom:
+                        innerRect.Width = (int)(ratio * innerRect.Width);
+                        if (RightToLeft == RightToLeft.Yes)
+                        {
+                            innerRect.X = ClientRectangle.Right - innerRect.Width;
+                        }
+
+                        break;
+
+                    case VisualOrientation.Left:
+                    case VisualOrientation.Right:
+                        innerRect.Height = (int)(ratio * innerRect.Height);
+                        if (RightToLeft == RightToLeft.Yes)
+                        {
+                            innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
+                        }
+
+                        break;
+                }
+            }
+
+            using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                       innerRect,
+                       barPaletteState.PaletteBorder!,
+                       Orientation,
+                       barState))
+            {
+                using var gh = new GraphicsHint(renderContext.Graphics,
+                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                // Ask renderer to Fill the Progress lozenge
+                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
+                    Orientation, barState, _mementoBackProgressValue);
+            }
+
+            // Now we draw the border of the inner area
+            renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                Orientation, barState);
+
+            // Last of all we draw the content over the top of the border and background
+            renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
+                    barPaletteState.PaletteContent!, _mementoContent!,
+                    Orientation, barState, false);
 
             base.OnPaint(e);
         }
@@ -742,12 +738,12 @@ namespace Krypton.Toolkit
             return path;
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // Unhook events from old palette
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPalettePaint!;
+                _palette.PalettePaint -= OnPalettePaint;
             }
 
             // Cache the new PaletteBase that is the global palette
@@ -757,7 +753,7 @@ namespace Krypton.Toolkit
             // Hook into events for the new palette
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPalettePaint!;
+                _palette.PalettePaint += OnPalettePaint;
             }
 
             // Change of palette means we should repaint to show any changes
@@ -777,16 +773,8 @@ namespace Krypton.Toolkit
         }
 
         // Palette indicates we might need to repaint, so lets do it
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void OnLabelTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
+        private void OnLabelTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void StartMarquee()
         {
@@ -796,7 +784,7 @@ namespace Krypton.Toolkit
             _marqueeTimer.Start();
         }
 
-        private void OnMarqueeTick(object sender, EventArgs e)
+        private void OnMarqueeTick(object? sender, EventArgs e)
         {
             _marqueeLocation++;
             if (_marqueeLocation > Maximum)
@@ -808,14 +796,9 @@ namespace Krypton.Toolkit
 
         private void UpdateTextWithValue(bool value)
         {
-            if (value)
-            {
-                Text = $@"{Value}%";
-            }
-            else
-            {
-                Text = string.Empty;
-            }
+            Text = value
+                ? $@"{Value}%"
+                : string.Empty;
         }
 
         #endregion
@@ -843,6 +826,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull, MaybeNull]
         public override Image BackgroundImage
         {
             get => base.BackgroundImage;
@@ -899,9 +883,10 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get => base.ContextMenuStrip;
+            get => base.ContextMenuStrip!;
             set => base.ContextMenuStrip = value;
         }
 
@@ -917,8 +902,12 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [AllowNull]
         public override Font Font
         {
+            // base.Font will always return a Font
+            // base can take null as a value
+
             get => base.Font;
             set => base.Font = value;
         }

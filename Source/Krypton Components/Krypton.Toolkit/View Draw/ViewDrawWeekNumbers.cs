@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -21,9 +21,9 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private const int WEEKS = 6;
-        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_6DAYS = new TimeSpan(6, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_1WEEK = new TimeSpan(7, 0, 0, 0);
+        private static readonly TimeSpan _timespan1Day = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan _timespan6Days = new TimeSpan(6, 0, 0, 0);
+        private static readonly TimeSpan _timespan1Week = new TimeSpan(7, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -108,12 +108,12 @@ namespace Krypton.Toolkit
 
                 // Begin with the day before the required month
                 _firstDay = new DateTime(value.Year, value.Month, 1);
-                _firstDay -= TIMESPAN_1DAY;
+                _firstDay -= _timespan1Day;
 
                 // Move backwards until we hit the starting day of the week
                 while (_firstDay.DayOfWeek != _months.DisplayDayOfWeek)
                 {
-                    _firstDay -= TIMESPAN_1DAY;
+                    _firstDay -= _timespan1Day;
                 }
 
                 // Find the first day of the year
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
                 // Move forewards until we hit the starting day of the year
                 while (_weekDay.DayOfWeek != yearDay.DayOfWeek)
                 {
-                    _weekDay += TIMESPAN_1DAY;
+                    _weekDay += _timespan1Day;
                 }
             }
         }
@@ -146,10 +146,20 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
     
             // Do not draw week numbers in bold or focused
             _calendar.SetFocusOverride(false);
@@ -171,20 +181,20 @@ namespace Krypton.Toolkit
 
                     if (_dayMementos[j] != null)
                     {
-                        _dayMementos[j].Dispose();
+                        _dayMementos[j]?.Dispose();
                         _dayMementos[j] = null;
                     }
 
-                    PaletteState paletteState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+                    var paletteState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
                     IPaletteTriple paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
 
-                    _dayMementos[j] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectWeek, paletteTriple.PaletteContent,
-                                                                                           this, VisualOrientation.Top, paletteState, false, false);
+                    _dayMementos[j] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectWeek, paletteTriple.PaletteContent!,
+                                                                                           this, VisualOrientation.Top, paletteState);
                 }
 
                 // Move to next week
-                weekDate += TIMESPAN_1WEEK;
-                displayDate += TIMESPAN_1WEEK;
+                weekDate += _timespan1Week;
+                displayDate += _timespan1Week;
                 layoutRectWeek.Y += _months.SizeDays.Height;
             }
 
@@ -200,7 +210,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Do not draw week numbers in bold or focused
             _calendar.SetFocusOverride(false);
@@ -226,28 +246,29 @@ namespace Krypton.Toolkit
                     // Do we need to draw the background?
                     if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                     {
-                        using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectWeek, paletteTriple.PaletteBorder,
+                        using GraphicsPath path = context!.Renderer.RenderStandardBorder.GetBackPath(context, drawRectWeek, paletteTriple.PaletteBorder!,
                             VisualOrientation.Top, paletteState);
                         context.Renderer.RenderStandardBack.DrawBack(context, drawRectWeek, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                     }
 
                     // Do we need to draw the border?
-                    if (paletteTriple.PaletteBorder.GetBorderDraw(paletteState) == InheritBool.True)
+                    if (paletteTriple.PaletteBorder!.GetBorderDraw(paletteState) == InheritBool.True)
                     {
+                        using var gh = new GraphicsHint(context!.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
                         context.Renderer.RenderStandardBorder.DrawBorder(context, drawRectWeek, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
                     }
 
                     // Do we need to draw the content?
-                    if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
+                    if (paletteTriple.PaletteContent!.GetContentDraw(paletteState) == InheritBool.True)
                     {
-                        context.Renderer.RenderStandardContent.DrawContent(context, drawRectWeek, paletteTriple.PaletteContent, _dayMementos[j],
-                                                                           VisualOrientation.Top, paletteState, false,false, true);
+                        context?.Renderer.RenderStandardContent.DrawContent(context, drawRectWeek, paletteTriple.PaletteContent, _dayMementos[j]!,
+                                                                           VisualOrientation.Top, paletteState, true);
                     }
                 }
 
                 // Move to next week
-                weekDate += TIMESPAN_1WEEK;
-                displayDate += TIMESPAN_1WEEK;
+                weekDate += _timespan1Week;
+                displayDate += _timespan1Week;
                 drawRectWeek.Y += _months.SizeDays.Height;
             }
         }
@@ -266,7 +287,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
@@ -292,7 +313,7 @@ namespace Krypton.Toolkit
         {
             if (displayDate < _month)
             {
-                displayDate += TIMESPAN_6DAYS;
+                displayDate += _timespan6Days;
                 if (displayDate < _month)
                 {
                     return _firstMonth;
@@ -305,7 +326,7 @@ namespace Krypton.Toolkit
             else
             {
                 DateTime nextMonth = _month.AddMonths(1);
-                DateTime displayDate2 = displayDate + TIMESPAN_6DAYS;
+                DateTime displayDate2 = displayDate + _timespan6Days;
                 if (displayDate2 >= nextMonth)
                 {
                     if (displayDate >= nextMonth)

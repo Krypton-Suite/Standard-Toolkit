@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupClusterButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
+        private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
         #endregion
 
         #region Instance Fields
@@ -500,7 +500,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -516,8 +516,6 @@ namespace Krypton.Ribbon
                 case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
-                default:
-                    break;
             }
         }
 
@@ -529,7 +527,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -585,7 +583,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -696,13 +694,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 
@@ -737,16 +738,18 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed;
-
-            // Fire any associated finish delegate
-            if (_kcmFinishDelegate != null)
+            if (sender is KryptonContextMenu kcm)
             {
-                _kcmFinishDelegate(this, e);
-                _kcmFinishDelegate = null;
+                kcm.Closed -= OnKryptonContextMenuClosed;
+
+                // Fire any associated finish delegate
+                if (_kcmFinishDelegate != null)
+                {
+                    _kcmFinishDelegate(this, e);
+                    _kcmFinishDelegate = null;
+                }
             }
         }
         #endregion

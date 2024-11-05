@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                       IPaletteMetric
     {
         #region Instance Fields
-        private IPaletteMetric? _inherit;
+        private IPaletteMetric _inherit;
 
         #endregion
 
@@ -42,11 +42,11 @@ namespace Krypton.Toolkit
             Debug.Assert(inheritHeaderSecondary != null);
 
             // Remember the inheritance
-            _inherit = inheritHeaderGroup;
+            _inherit = inheritHeaderGroup!;
 
             // Create the palette storage
-            HeaderPrimary = new PaletteTripleMetric(inheritHeaderPrimary, needPaint);
-            HeaderSecondary = new PaletteTripleMetric(inheritHeaderSecondary, needPaint);
+            HeaderPrimary = new PaletteTripleMetric(inheritHeaderPrimary!, needPaint);
+            HeaderSecondary = new PaletteTripleMetric(inheritHeaderSecondary!, needPaint);
         }
         #endregion
 
@@ -55,9 +55,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           HeaderPrimary.IsDefault &&
-                                           HeaderSecondary.IsDefault;
+                                            HeaderPrimary.IsDefault &&
+                                            HeaderSecondary.IsDefault;
 
         #endregion
 
@@ -66,7 +67,7 @@ namespace Krypton.Toolkit
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritHeaderGroup">Source for inheriting.</param>
-        public void SetInherit(PaletteHeaderGroup? inheritHeaderGroup)
+        public void SetInherit(PaletteHeaderGroup inheritHeaderGroup)
         {
             base.SetInherit(inheritHeaderGroup);
             _inherit = inheritHeaderGroup;

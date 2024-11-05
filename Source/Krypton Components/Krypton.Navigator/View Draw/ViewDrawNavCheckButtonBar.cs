@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         public ViewDrawNavCheckButtonBar(KryptonNavigator navigator,
                                          KryptonPage? page,
                                          VisualOrientation orientation)
-            : base(navigator, page, orientation)
+            : base(navigator, page!, orientation)
         {
         }
 
@@ -53,8 +53,8 @@ namespace Krypton.Navigator
                                          IPaletteTriple statePressed,
                                          IPaletteTriple stateSelected,
                                          IPaletteTriple stateFocused)
-            : base(navigator, page, orientation, stateDisabled, 
-                   stateNormal, stateTracking, statePressed, 
+            : base(navigator, page, orientation, stateDisabled,
+                   stateNormal, stateTracking, statePressed,
                    stateSelected, stateFocused)
         {
         }
@@ -83,19 +83,19 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
+        public override Image? GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText() => Page.GetTextMapping(Navigator.Bar.BarMapText);
+        public override string GetShortText() => Page?.GetTextMapping(Navigator.Bar.BarMapText)!;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText() => Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
+        public override string GetLongText() => Page?.GetTextMapping(Navigator.Bar.BarMapExtraText)!;
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             base.OnClick(sender, e);
 
@@ -120,7 +120,7 @@ namespace Krypton.Navigator
                     case NavigatorMode.BarTabOnly:
                     case NavigatorMode.HeaderBarCheckButtonOnly:
                         // Show popup for this page
-                        Navigator.ShowPopupPage(Page, this, null);
+                        Navigator.ShowPopupPage(Page!, this, null);
                         break;
                 }
             }

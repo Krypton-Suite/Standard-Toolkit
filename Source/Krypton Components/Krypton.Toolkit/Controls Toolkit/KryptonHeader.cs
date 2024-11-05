@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -49,8 +49,7 @@ namespace Krypton.Toolkit
         private VisualOrientation _orientation;
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewDrawContent _drawContent;
-        private readonly ButtonSpecManagerDraw _buttonManager;
-        private float _cornerRoundingRadius;
+        private readonly ButtonSpecManagerDraw? _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
 
         #endregion
@@ -90,10 +89,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new[] { _drawDocker },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
+                [_drawDocker],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.HeaderButtonPaddingPrimary],
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -106,8 +105,6 @@ namespace Krypton.Toolkit
             // We want to be auto sized by default, but not the property default!
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -122,7 +119,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -130,19 +127,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>
@@ -223,7 +207,7 @@ namespace Krypton.Toolkit
                     // Update the associated visual elements that are effected
                     _drawDocker.Orientation = value;
                     _drawContent.Orientation = value;
-                    _buttonManager.RecreateButtons();
+                    _buttonManager?.RecreateButtons();
 
                     PerformNeedPaint(true);
                 }
@@ -238,11 +222,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -295,53 +279,38 @@ namespace Krypton.Toolkit
                     switch (_style)
                     {
                         case HeaderStyle.Primary:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon,
                                                             PaletteMetricInt.HeaderButtonEdgeInsetPrimary,
                                                             PaletteMetricPadding.HeaderButtonPaddingPrimary);
                             break;
                         case HeaderStyle.Secondary:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetSecondary,
-                                                            PaletteMetricPadding.HeaderButtonPaddingSecondary);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetSecondary, PaletteMetricPadding.HeaderButtonPaddingSecondary);
                             break;
                         case HeaderStyle.DockActive:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetDockActive,
-                                                            PaletteMetricPadding.HeaderButtonPaddingDockActive);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetDockActive, PaletteMetricPadding.HeaderButtonPaddingDockActive);
                             break;
                         case HeaderStyle.DockInactive:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
-                                                            PaletteMetricPadding.HeaderButtonPaddingDockInactive);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetDockInactive, PaletteMetricPadding.HeaderButtonPaddingDockInactive);
                             break;
                         case HeaderStyle.Form:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetForm,
-                                                            PaletteMetricPadding.HeaderButtonPaddingForm);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetForm, PaletteMetricPadding.HeaderButtonPaddingForm);
                             break;
                         case HeaderStyle.Calendar:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetCalendar,
-                                                            PaletteMetricPadding.HeaderButtonPaddingCalendar);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetCalendar, PaletteMetricPadding.HeaderButtonPaddingCalendar);
                             break;
                         case HeaderStyle.Custom1:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetCustom1,
-                                                            PaletteMetricPadding.HeaderButtonPaddingCustom1);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetCustom1, PaletteMetricPadding.HeaderButtonPaddingCustom1);
                             break;
                         case HeaderStyle.Custom2:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                                            PaletteMetricInt.HeaderButtonEdgeInsetCustom2,
-                                                            PaletteMetricPadding.HeaderButtonPaddingCustom2);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetCustom2, PaletteMetricPadding.HeaderButtonPaddingCustom2);
                             break;
                         case HeaderStyle.Custom3:
-                            _buttonManager.SetDockerMetrics(_drawDocker, StateCommon,
-                                PaletteMetricInt.HeaderButtonEdgeInsetCustom3,
-                                PaletteMetricPadding.HeaderButtonPaddingCustom3);
+                            _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetCustom3, PaletteMetricPadding.HeaderButtonPaddingCustom3);
                             break;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(_style.ToString());
                             break;
                     }
 
@@ -433,9 +402,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -463,7 +432,7 @@ namespace Krypton.Toolkit
             if (UseMnemonic && CanProcessMnemonic())
             {
                 // Pass request onto the button spec manager
-                if (_buttonManager.ProcessMnemonic(charCode))
+                if (_buttonManager!.ProcessMnemonic(charCode))
                 {
                     return true;
                 }
@@ -483,19 +452,19 @@ namespace Krypton.Toolkit
             if (Enabled)
             {
                 _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
-                _drawContent.SetPalette(StateNormal.Content);
+                _drawContent?.SetPalette(StateNormal.Content);
             }
             else
             {
                 _drawDocker.SetPalettes(StateDisabled.Back, StateDisabled.Border);
-                _drawContent.SetPalette(StateDisabled.Content);
+                _drawContent?.SetPalette(StateDisabled.Content);
             }
 
             _drawDocker.Enabled = Enabled;
-            _drawContent.Enabled = Enabled;
+            _drawContent!.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -514,10 +483,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
@@ -525,14 +494,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnHeaderTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnHeaderTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -547,7 +516,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -587,34 +556,26 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
-                        _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                        _visualPopupToolTip?.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

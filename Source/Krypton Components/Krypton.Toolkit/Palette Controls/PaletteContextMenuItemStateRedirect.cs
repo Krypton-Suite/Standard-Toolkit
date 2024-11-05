@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,12 +18,12 @@ namespace Krypton.Toolkit
     public class PaletteContextMenuItemStateRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteRedirectDouble? _itemHighlight;
-        private readonly PaletteRedirectTriple? _itemImage;
-        private readonly PaletteRedirectContent? _itemShortcutText;
-        private readonly PaletteRedirectDouble? _itemSplit;
-        private readonly PaletteRedirectContent? _itemStandard;
-        private readonly PaletteRedirectContent? _itemAlternate;
+        private readonly PaletteRedirectDouble _itemHighlight;
+        private readonly PaletteRedirectTriple _itemImage;
+        private readonly PaletteRedirectContent _itemShortcutText;
+        private readonly PaletteRedirectDouble _itemSplit;
+        private readonly PaletteRedirectContent _itemStandard;
+        private readonly PaletteRedirectContent _itemAlternate;
 
         #endregion
 
@@ -53,6 +53,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => true;
 
         #endregion
@@ -64,7 +66,7 @@ namespace Krypton.Toolkit
         /// <param name="provider">Provider for acquiring context menu information.</param>
         public void SetRedirector(IContextMenuProvider provider)
         {
-            _itemHighlight.Target = provider.ProviderStateCommon.ItemHighlight.GetRedirector();
+            _itemHighlight.Target = provider.ProviderStateCommon.ItemHighlight?.GetRedirector();
             _itemImage.Target = provider.ProviderStateCommon.ItemImage.GetRedirector();
             _itemShortcutText.Target = provider.ProviderStateCommon.ItemShortcutTextRedirect.GetRedirector();
             _itemSplit.Target = provider.ProviderStateCommon.ItemSplit.GetRedirector();
@@ -108,7 +110,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item split appearance entries.
         /// </summary>
-        public PaletteDoubleRedirect? ItemSplit { get; }
+        public PaletteDoubleRedirect ItemSplit { get; }
 
         #endregion
 

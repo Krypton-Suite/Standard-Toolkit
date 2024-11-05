@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroups : ViewComposite
     {
         #region Classes
-        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> { }
-        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator> { }
+        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup>;
+        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator>;
         #endregion
 
         #region Statis Fields
@@ -48,24 +48,24 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTab">RibbonTab to organize groups.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] KryptonRibbonTab ribbonTab,
-                                      [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] KryptonRibbonTab? ribbonTab,
+                                      [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonTab != null);
-            Debug.Assert(needPaint != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonTab is not null);
+            Debug.Assert(needPaint is not null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonTab = ribbonTab;
-            _needPaint = needPaint;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonTab = ribbonTab ?? throw new ArgumentNullException(nameof(ribbonTab));
+            _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             // Create initial lookup table
             _groupToView = new GroupToView();
 
             // Create cache of group separator elements
-            _groupSepCache = new ViewDrawRibbonGroupSepList();
+            _groupSepCache = [];
         }
 
         /// <summary>
@@ -123,10 +123,10 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // Parent element should be a view layout
-            var layoutControl = (ViewLayoutControl)Parent;
+            var layoutControl = Parent as ViewLayoutControl;
 
             // Get the location of the child control it contains
-            Point layoutLocation = layoutControl.ChildControl.Location;
+            Point layoutLocation = layoutControl!.ChildControl!.Location;
 
             // Adjust the incoming point for the location of the child control
             pt.X -= layoutLocation.X;
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             ViewBase? view = null;
 
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             ViewBase? view = null;
 
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -232,7 +232,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
             ViewBase? view = null;
             var matched = false;
@@ -250,7 +250,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -260,7 +260,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             ViewBase? view = null;
             var matched = false;
@@ -273,7 +273,9 @@ namespace Krypton.Ribbon
             {
                 // Already matched means we need the next item we come across,
                 // otherwise we continue with the attempt to find previous
-                view = matched ? groups[i].GetLastFocusItem() : groups[i].GetPreviousFocusItem(current, ref matched);
+                view = matched 
+                    ? groups[i].GetLastFocusItem() 
+                    : groups[i].GetPreviousFocusItem(current, ref matched);
 
                 if (view != null)
                 {
@@ -281,7 +283,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            return view;
+            return view!;
         }
         #endregion
 
@@ -296,7 +298,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroups();
 
             // Find best size for groups to fill available space
-            return new Size(AdjustGroupStateToMatchSpace(context), _ribbon.CalculatedValues.GroupHeight);
+            return new Size(AdjustGroupStateToMatchSpace(context), _ribbon!.CalculatedValues.GroupHeight);
         }
 
         /// <summary>
@@ -308,7 +310,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
 
@@ -321,17 +323,17 @@ namespace Krypton.Ribbon
                 // Position each item from left to right taking up entire height
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Cache preferred size of the child
 
                         // If a group then pull in the cached value
                         Size childSize = child is ViewDrawRibbonGroup
-                            ? new Size(_groupWidths[j++], _ribbon.CalculatedValues.GroupHeight)
-                            : this[i].GetPreferredSize(context);
+                            ? new Size(_groupWidths[j++], _ribbon!.CalculatedValues.GroupHeight)
+                            : this[i]!.GetPreferredSize(context);
 
                         // Only interested in items with some width
                         if (childSize.Width > 0)
@@ -340,7 +342,7 @@ namespace Krypton.Ribbon
                             context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]?.Layout(context);
 
                             // Move across to next position
                             x += childSize.Width;
@@ -391,13 +393,13 @@ namespace Krypton.Ribbon
                 ViewDrawRibbonGroup? view = null;
 
                 // Get the currently cached view for the group
-                if (_groupToView.ContainsKey(ribGroup))
+                if (_groupToView.TryGetValue(ribGroup, out ViewDrawRibbonGroup? value))
                 {
-                    view = _groupToView[ribGroup];
+                    view = value;
                 }
 
                 // If a new group, create a view for it now
-                view ??= new ViewDrawRibbonGroup(_ribbon, ribGroup, _needPaint);
+                view ??= new ViewDrawRibbonGroup(_ribbon!, ribGroup, _needPaint);
 
                 // Add to the lookup for future reference
                 regenerate.Add(ribGroup, view);
@@ -427,7 +429,7 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[i];
 
                 // Only make the separator visible if the group is and not the first sep
-                var groupVisible = _ribbon.InDesignHelperMode || ribbonGroup.Visible;
+                var groupVisible = _ribbon!.InDesignHelperMode || ribbonGroup.Visible;
                 _groupSepCache[i].Visible = groupVisible && !ignoreSep;
                 regenerate[ribbonGroup].Visible = groupVisible;
 
@@ -553,7 +555,7 @@ namespace Krypton.Ribbon
                 _groupWidths = new int[listGroups.Count];
                 for (var i = 0; i < listGroups.Count; i++)
                 {
-                    _groupWidths[i] = listWidths[i][bestIndexes[i]].Width;
+                    _groupWidths[i] = listWidths[i][bestIndexes![i]].Width;
                     listGroups[i].SetSolutionSize(listWidths[i][bestIndexes[i]].Sizing);
                 }
             }

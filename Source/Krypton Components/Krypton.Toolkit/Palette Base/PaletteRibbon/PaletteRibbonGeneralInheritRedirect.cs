@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonGeneralInheritRedirect : PaletteRibbonGeneralInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
         #endregion
 
         #region Identity
@@ -26,10 +26,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRibbonGeneralInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteRibbonGeneralInheritRedirect([DisallowNull] PaletteRedirect? redirect)
+        public PaletteRibbonGeneralInheritRedirect([DisallowNull] PaletteRedirect redirect)
         {
             Debug.Assert(redirect != null);
-            _redirect = redirect;
+            _redirect = redirect!;
         }
         #endregion
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region IPaletteRibbon
@@ -139,6 +139,27 @@ namespace Krypton.Toolkit
         public override Color GetRibbonMinimizeBarLight(PaletteState state) => _redirect.GetRibbonMinimizeBarLight(state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingDark(state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) => _redirect.GetRibbonTabRowBackgroundGradientRaftingLight(state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _redirect.GetRibbonTabRowBackgroundSolidColor(state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -179,6 +200,16 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public override Color GetRibbonQATButtonLight(PaletteState state) => _redirect.GetRibbonQATButtonLight(state);
+		
+		/// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
+            _redirect.GetRibbonTabRowGradientColor1(state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) =>
+            _redirect.GetRibbonTabRowGradientRaftingAngle(state);
 
         #endregion
     }

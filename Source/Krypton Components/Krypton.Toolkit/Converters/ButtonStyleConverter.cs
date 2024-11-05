@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<ButtonStyle, string> _pairs = new Dictionary<ButtonStyle, string>
+        private static readonly BiDictionary<ButtonStyle, string> _pairs = new BiDictionary<ButtonStyle, string>(
+            new Dictionary<ButtonStyle, string>
         {
             {ButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_STANDALONE},
             {ButtonStyle.Alternate, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE},
@@ -41,7 +42,7 @@ namespace Krypton.Toolkit
             {ButtonStyle.Custom1, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_ONE},
             {ButtonStyle.Custom2, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_TWO},
             {ButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE}
-        };
+        });
 
         #endregion
 
@@ -50,7 +51,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<ButtonStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<ButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, ButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

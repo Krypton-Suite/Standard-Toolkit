@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             //_innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;
             // Create the manager for handling tooltips
-            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuRadioButton.ToolTipManager, this, mrbc);
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuRadioButton.ToolTipManager!, this, mrbc);
 
             // We need to be notified whenever the checked state changes
             KryptonContextMenuRadioButton.CheckedChanged += OnCheckedChanged;
@@ -221,18 +221,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnCheckedChanged(object sender, EventArgs e)
+        private void OnCheckedChanged(object? sender, EventArgs e)
         {
             ViewDrawRadioButton.CheckState = KryptonContextMenuRadioButton.Checked;
             _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuRadioButton.PerformClick();
 
         #endregion
 
         #region Implementation
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

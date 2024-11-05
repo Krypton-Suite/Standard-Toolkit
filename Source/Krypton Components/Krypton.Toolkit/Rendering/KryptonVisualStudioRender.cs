@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -122,7 +122,9 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                if (g is not null)
+                {
+                    var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
                 var insetB = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
                 var insetC = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
 
@@ -141,21 +143,22 @@ namespace Krypton.Toolkit
 
                 g.FillPath(insideBrush2, borderPath);
 
-                using (var clipping = new Clipping(g, clipPath))
-                {
-                    using (var ellipsePath = new GraphicsPath())
+                    using (var clipping = new Clipping(g, clipPath))
                     {
-                        var ellipseRect = new RectangleF(-(rect.Width / 2), rect.Bottom - 9, rect.Width * 2, 18);
-                        var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
-                            ellipseRect.Top + (ellipseRect.Height / 2));
-                        ellipsePath.AddEllipse(ellipseRect);
-
-                        using (var insideLighten = new PathGradientBrush(ellipsePath))
+                        using (var ellipsePath = new GraphicsPath())
                         {
-                            insideLighten.CenterPoint = ellipseCenter;
-                            insideLighten.CenterColor = Color.White;
-                            insideLighten.SurroundColors = new[] { Color.Transparent };
-                            g.FillPath(insideLighten, ellipsePath);
+                            var ellipseRect = new RectangleF(-(rect.Width / 2), rect.Bottom - 9, rect.Width * 2, 18);
+                            var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
+                                ellipseRect.Top + (ellipseRect.Height / 2));
+                            ellipsePath.AddEllipse(ellipseRect);
+
+                            using (var insideLighten = new PathGradientBrush(ellipsePath))
+                            {
+                                insideLighten.CenterPoint = ellipseCenter;
+                                insideLighten.CenterColor = Color.White;
+                                insideLighten.SurroundColors = [Color.Transparent];
+                                g.FillPath(insideLighten, ellipsePath);
+                            }
                         }
                     }
                 }
@@ -204,19 +207,22 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                var rect2 = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 1);
-                var rect3 = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 3);
+                if (g is not null)
+                {
+                    var rect2 = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 1);
+                    var rect3 = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 3);
 
-                using var aa = new AntiAlias(g);
-                using GraphicsPath path1 = CreateBorderPath(rect, _cutItemMenu),
-                    path2 = CreateBorderPath(rect2, _cutItemMenu),
-                    path3 = CreateBorderPath(rect3, _cutItemMenu);
-                using SolidBrush brush1 = new SolidBrush(CommonHelper.MergeColors(Border1, 0.4f, Back1, 0.6f)),
-                    brush2 = new SolidBrush(CommonHelper.MergeColors(Border1, 0.2f, Back1, 0.8f)),
-                    brush3 = new SolidBrush(Back1);
-                g.FillPath(brush1, path1);
-                g.FillPath(brush2, path2);
-                g.FillPath(brush3, path3);
+                    using var aa = new AntiAlias(g);
+                    using GraphicsPath path1 = CreateBorderPath(rect, _cutItemMenu),
+                        path2 = CreateBorderPath(rect2, _cutItemMenu),
+                        path3 = CreateBorderPath(rect3, _cutItemMenu);
+                    using SolidBrush brush1 = new SolidBrush(CommonHelper.MergeColors(Border1, 0.4f, Back1, 0.6f)),
+                        brush2 = new SolidBrush(CommonHelper.MergeColors(Border1, 0.2f, Back1, 0.8f)),
+                        brush3 = new SolidBrush(Back1);
+                    g.FillPath(brush1, path1);
+                    g.FillPath(brush2, path2);
+                    g.FillPath(brush3, path3);
+                }
             }
         }
 
@@ -241,24 +247,27 @@ namespace Krypton.Toolkit
 
             public override void DrawBack(Graphics? g, Rectangle rect)
             {
-                var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                if (g is not null)
+                {
+                    var inset = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 
-                using var insideBrush = new LinearGradientBrush(rect, Back2, Back1, 90f);
-                insideBrush.SetSigmaBellShape(0.5f);
-                g.FillRectangle(insideBrush, inset);
+                    using var insideBrush = new LinearGradientBrush(rect, Back2, Back1, 90f);
+                    insideBrush.SetSigmaBellShape(0.5f);
+                    g.FillRectangle(insideBrush, inset);
 
-                using GraphicsPath borderPath = CreateBorderPath(inset, _cutInnerItemMenu);
-                using var ellipsePath = new GraphicsPath();
-                var ellipseRect = new RectangleF(rect.Left, rect.Bottom - 8, rect.Width, 8);
-                var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
-                    ellipseRect.Top + (ellipseRect.Height / 2));
-                ellipsePath.AddEllipse(ellipseRect);
+                    using GraphicsPath borderPath = CreateBorderPath(inset, _cutInnerItemMenu);
+                    using var ellipsePath = new GraphicsPath();
+                    var ellipseRect = new RectangleF(rect.Left, rect.Bottom - 8, rect.Width, 8);
+                    var ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2),
+                        ellipseRect.Top + (ellipseRect.Height / 2));
+                    ellipsePath.AddEllipse(ellipseRect);
 
-                using var insideLighten = new PathGradientBrush(ellipsePath);
-                insideLighten.CenterPoint = ellipseCenter;
-                insideLighten.CenterColor = Color.FromArgb(96, Color.White);
-                insideLighten.SurroundColors = new[] { Color.Transparent };
-                g.FillPath(insideLighten, ellipsePath);
+                    using var insideLighten = new PathGradientBrush(ellipsePath);
+                    insideLighten.CenterPoint = ellipseCenter;
+                    insideLighten.CenterColor = Color.FromArgb(96, Color.White);
+                    insideLighten.SurroundColors = [Color.Transparent];
+                    g.FillPath(insideLighten, ellipsePath);
+                }
             }
         }
 
@@ -320,20 +329,20 @@ namespace Krypton.Toolkit
         {
             _stripBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new[] { 0.0f, 0.5f, 0.8f, 1.0f }
+                Positions = [0.0f, 0.33f, 0.66f, 1.0f],
+                Factors = [0.0f, 0.5f, 0.8f, 1.0f]
             };
 
             _separatorDarkBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.2f, 1f, 0.2f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.2f, 1f, 0.2f]
             };
 
             _separatorLightBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.1f, 0.6f, 0.1f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.1f, 0.6f, 0.1f]
             };
         }
 
@@ -358,9 +367,7 @@ namespace Krypton.Toolkit
             if (e.ArrowRectangle is { Width: > 0, Height: > 0 })
             {
                 // Create a path that is used to fill the arrow
-                using GraphicsPath arrowPath = CreateArrowPath(e.Item,
-                    e.ArrowRectangle,
-                    e.Direction);
+                using GraphicsPath arrowPath = CreateArrowPath(e.Item!, e.ArrowRectangle, e.Direction);
                 // Get the rectangle that encloses the arrow and expand slightly
                 // so that the gradient is always within the expanding bounds
                 RectangleF boundsF = arrowPath.GetBounds();
@@ -369,7 +376,7 @@ namespace Krypton.Toolkit
                 // Set correct color of the arrow
                 Color color1;
                 Color color2;
-                if (!e.Item.Enabled)
+                if (!e.Item!.Enabled)
                 {
                     color1 = _disabled;
                     color2 = _disabled;
@@ -417,7 +424,7 @@ namespace Krypton.Toolkit
 
             if (button.Selected || button.Pressed || button.Checked)
             {
-                RenderToolButtonBackground(e.Graphics, button, e.ToolStrip);
+                RenderToolButtonBackground(e.Graphics, button, e.ToolStrip!);
             }
         }
         #endregion
@@ -429,7 +436,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null
+                && e.ToolStrip is not null
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 RenderToolDropButtonBackground(e.Graphics, e.Item, e.ToolStrip);
             }
@@ -722,7 +731,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
         {
-            if (e.Item.Selected || e.Item.Pressed)
+            if (e is not null 
+                && e.ToolStrip is not null 
+                && (e.Item.Selected || e.Item.Pressed))
             {
                 // Cast to correct type
                 var splitButton = (ToolStripSplitButton)e.Item;
@@ -742,7 +753,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                base.OnRenderSplitButtonBackground(e);
+                base.OnRenderSplitButtonBackground(e!);
             }
         }
         #endregion
@@ -1149,82 +1160,88 @@ namespace Krypton.Toolkit
                                                GradientItemColors colorsDrop,
                                                GradientItemColors colorsSplit)
         {
-            // Create entire area and just the drop button area rectangles
-            var backRect = new Rectangle(Point.Empty, splitButton.Bounds.Size);
+            if (g is not null)
+            {
+                // Create entire area and just the drop button area rectangles
+                var backRect = new Rectangle(Point.Empty, splitButton.Bounds.Size);
             Rectangle backRectDrop = splitButton.DropDownButtonBounds;
 
-            // Cannot paint zero sized areas
-            if ((backRect.Width > 0) && (backRectDrop.Width > 0) &&
-                (backRect.Height > 0) && (backRectDrop.Height > 0))
-            {
-                // Area that is the normal button starts as everything
-                Rectangle backRectButton = backRect;
-
-                // The X offset to draw the split line
-                int splitOffset;
-
-                // Is the drop button on the right hand side of entire area?
-                if (backRectDrop.X > 0)
+                // Cannot paint zero sized areas
+                if ((backRect.Width > 0) && (backRectDrop.Width > 0) &&
+                    (backRect.Height > 0) && (backRectDrop.Height > 0))
                 {
-                    backRectButton.Width = backRectDrop.Left;
-                    backRectDrop.X -= 1;
-                    backRectDrop.Width++;
-                    splitOffset = backRectDrop.X;
-                }
-                else
-                {
-                    backRectButton.Width -= backRectDrop.Width - 2;
-                    backRectButton.X = backRectDrop.Right - 1;
-                    backRectDrop.Width++;
-                    splitOffset = backRectDrop.Right - 1;
-                }
+                    // Area that is the normal button starts as everything
+                    Rectangle backRectButton = backRect;
 
-                // Create border path around the item
-                using GraphicsPath borderPath = CreateBorderPath(backRect, _cutItemMenu);
-                // Draw the normal button area background
-                colorsButton.DrawBack(g, backRectButton);
+                    // The X offset to draw the split line
+                    int splitOffset;
 
-                // Draw the drop button area background
-                colorsDrop.DrawBack(g, backRectDrop);
-
-                // Draw the split line between the areas
-                using (var splitBrush = new LinearGradientBrush(
-                           new Rectangle(backRect.X + splitOffset, backRect.Top, 1, backRect.Height + 1),
-                           colorsSplit.Border1, colorsSplit.Border2, 90f))
-                {
-                    // Convert the brush to a pen for DrawPath call
-                    using (var splitPen = new Pen(splitBrush))
+                    // Is the drop button on the right hand side of entire area?
+                    if (backRectDrop.X > 0)
                     {
-                        g.DrawLine(splitPen, backRect.X + splitOffset, backRect.Top + 1, backRect.X + splitOffset, backRect.Bottom - 1);
+                        backRectButton.Width = backRectDrop.Left;
+                        backRectDrop.X -= 1;
+                        backRectDrop.Width++;
+                        splitOffset = backRectDrop.X;
                     }
-                }
+                    else
+                    {
+                        backRectButton.Width -= backRectDrop.Width - 2;
+                        backRectButton.X = backRectDrop.Right - 1;
+                        backRectDrop.Width++;
+                        splitOffset = backRectDrop.Right - 1;
+                    }
 
-                // Draw the border of the entire item
-                colorsButton.DrawBorder(g, backRect);
+                    // Create border path around the item
+                    using GraphicsPath borderPath = CreateBorderPath(backRect, _cutItemMenu);
+                    // Draw the normal button area background
+                    colorsButton.DrawBack(g, backRectButton);
+
+                    // Draw the drop button area background
+                    colorsDrop.DrawBack(g, backRectDrop);
+
+                    // Draw the split line between the areas
+                    using (var splitBrush = new LinearGradientBrush(
+                               new Rectangle(backRect.X + splitOffset, backRect.Top, 1, backRect.Height + 1),
+                               colorsSplit.Border1, colorsSplit.Border2, 90f))
+                    {
+                        // Convert the brush to a pen for DrawPath call
+                        using (var splitPen = new Pen(splitBrush))
+                        {
+                            g.DrawLine(splitPen, backRect.X + splitOffset, backRect.Top + 1, backRect.X + splitOffset, backRect.Bottom - 1);
+                        }
+                    }
+
+                    // Draw the border of the entire item
+                    colorsButton.DrawBorder(g, backRect);
+                }
             }
         }
 
         private void DrawContextMenuHeader(Graphics? g, ToolStripItem item)
         {
-            // Get the rectangle that is the items area
-            var itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
-
-            // Create border and clipping paths
-            using GraphicsPath borderPath = CreateBorderPath(itemRect, _cutHeaderMenu),
-                insidePath = CreateInsideBorderPath(itemRect, _cutHeaderMenu),
-                clipPath = CreateClipBorderPath(itemRect, _cutHeaderMenu);
-            // Clip all drawing to within the border path
-            using var clipping = new Clipping(g, clipPath);
-            // Draw the entire background area first
-            using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+            if (g is not null)
             {
-                g.FillPath(backBrush, borderPath);
-            }
+                // Get the rectangle that is the items area
+                var itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
 
-            // Draw the border
-            using (var borderPen = new Pen(KCT.MenuBorder))
-            {
-                g.DrawPath(borderPen, borderPath);
+                // Create border and clipping paths
+                using GraphicsPath borderPath = CreateBorderPath(itemRect, _cutHeaderMenu),
+                    insidePath = CreateInsideBorderPath(itemRect, _cutHeaderMenu),
+                    clipPath = CreateClipBorderPath(itemRect, _cutHeaderMenu);
+                // Clip all drawing to within the border path
+                using var clipping = new Clipping(g, clipPath);
+                // Draw the entire background area first
+                using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+                {
+                    g.FillPath(backBrush, borderPath);
+                }
+
+                // Draw the border
+                using (var borderPen = new Pen(KCT.MenuBorder))
+                {
+                    g.DrawPath(borderPen, borderPath);
+                }
             }
         }
 
@@ -1306,7 +1323,7 @@ namespace Krypton.Toolkit
                 var b = rect.Bottom;
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, t, l, b);
             }
             else
@@ -1316,7 +1333,7 @@ namespace Krypton.Toolkit
                 var r = rect.Right - (rtl ? horizontalInset : 0);
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, y, r, y);
             }
         }

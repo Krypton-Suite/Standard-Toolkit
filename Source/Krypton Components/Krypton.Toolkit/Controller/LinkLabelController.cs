@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -51,26 +51,27 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette to use in the pressed state.</param>
         /// <param name="pressed">Override to update with the pressed state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LinkLabelController([DisallowNull] ViewDrawContent target,
+        public LinkLabelController(ViewDrawContent target,
                                    IPaletteContent paletteDisabled,
                                    IPaletteContent paletteNormal,
                                    IPaletteContent paletteTracking,
                                    IPaletteContent palettePressed,
                                    PaletteContentInheritOverride pressed,
-                                   NeedPaintHandler needPaint)
+                                   NeedPaintHandler? needPaint)
         {
-            Debug.Assert(target != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(target is not null);
 
             // Remember target for state changes
-            _target = target;
+            _target = target!;
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;
             _palettePressed = palettePressed;
             _pressed = pressed;
+            // Store the provided paint notification delegate
+            NeedPaint = needPaint;
 
             // Default other properties
             _clickTime = new DateTime();
@@ -411,7 +412,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -466,8 +467,9 @@ namespace Krypton.Toolkit
                     _target.SetPalette(_palettePressed);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_target.State.ToString());
                     break;
             }
 
@@ -482,7 +484,7 @@ namespace Krypton.Toolkit
         protected virtual void OnClick(MouseEventArgs e)
         {
             // Find how long since the last click occurred
-            TimeSpan clickInterval =  DateTime.Now - _clickTime;
+            TimeSpan clickInterval = DateTime.Now - _clickTime;
 
             // If less than the double click interval then ignore
             if (SystemInformation.DoubleClickTime < clickInterval.TotalMilliseconds)

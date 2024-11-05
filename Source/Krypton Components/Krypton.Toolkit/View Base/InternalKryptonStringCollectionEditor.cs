@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -110,26 +110,24 @@ namespace Krypton.Toolkit
             // kbtnOk
             // 
             kbtnOk.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            kbtnOk.CornerRoundingRadius = -1F;
             kbtnOk.DialogResult = DialogResult.OK;
             kbtnOk.Location = new Point(382, 13);
             kbtnOk.Name = "kbtnOk";
             kbtnOk.Size = new Size(90, 25);
             kbtnOk.TabIndex = 2;
             kbtnOk.Values.Text = "O&K";
-            kbtnOk.Click += new EventHandler(kbtnOk_Click);
+            kbtnOk.Click += kbtnOk_Click;
             // 
             // kbtnCancel
             // 
             kbtnCancel.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            kbtnCancel.CornerRoundingRadius = -1F;
             kbtnCancel.DialogResult = DialogResult.Cancel;
             kbtnCancel.Location = new Point(478, 13);
             kbtnCancel.Name = "kbtnCancel";
             kbtnCancel.Size = new Size(90, 25);
             kbtnCancel.TabIndex = 1;
             kbtnCancel.Values.Text = "C&ancel";
-            kbtnCancel.Click += new EventHandler(kbtnCancel_Click);
+            kbtnCancel.Click += kbtnCancel_Click;
             // 
             // kbEdge
             // 
@@ -163,19 +161,21 @@ namespace Krypton.Toolkit
             // 
             // kcmRichTextBoxMenu
             // 
-            kcmRichTextBoxMenu.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItems1});
+            kcmRichTextBoxMenu.Items.AddRange([
+                kryptonContextMenuItems1
+            ]);
             // 
             // kryptonContextMenuItems1
             // 
-            kryptonContextMenuItems1.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItem1,
+            kryptonContextMenuItems1.Items.AddRange([
+                kryptonContextMenuItem1,
             kryptonContextMenuSeparator1,
             kryptonContextMenuItem2,
             kryptonContextMenuSeparator2,
             kryptonContextMenuItem3,
             kryptonContextMenuSeparator5,
-            kryptonContextMenuItem7});
+            kryptonContextMenuItem7
+            ]);
             // 
             // kryptonContextMenuItem1
             // 
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxCut
             // 
             kcRichTextBoxCut.Text = "kryptonCommand1";
-            kcRichTextBoxCut.Execute += new EventHandler(kcRichTextBoxCut_Execute);
+            kcRichTextBoxCut.Execute += kcRichTextBoxCut_Execute;
             // 
             // kryptonContextMenuItem2
             // 
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxCopy
             // 
             kcRichTextBoxCopy.Text = "kryptonCommand1";
-            kcRichTextBoxCopy.Execute += new EventHandler(kcRichTextBoxCopy_Execute);
+            kcRichTextBoxCopy.Execute += kcRichTextBoxCopy_Execute;
             // 
             // kryptonContextMenuItem3
             // 
@@ -208,7 +208,7 @@ namespace Krypton.Toolkit
             // kcRichTextBoxPaste
             // 
             kcRichTextBoxPaste.Text = "kryptonCommand1";
-            kcRichTextBoxPaste.Execute += new EventHandler(kcRichTextBoxPaste_Execute);
+            kcRichTextBoxPaste.Execute += kcRichTextBoxPaste_Execute;
             // 
             // kryptonContextMenuItem7
             // 
@@ -219,12 +219,12 @@ namespace Krypton.Toolkit
             // kcRichTextBoxSelectAll
             // 
             kcRichTextBoxSelectAll.Text = "kryptonCommand1";
-            kcRichTextBoxSelectAll.Execute += new EventHandler(kcRichTextBoxSelectAll_Execute);
+            kcRichTextBoxSelectAll.Execute += kcRichTextBoxSelectAll_Execute;
             // 
             // ktxtStringCollection
             // 
-            ktxtStringCollection.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) 
-            | AnchorStyles.Left) 
+            ktxtStringCollection.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom)
+            | AnchorStyles.Left)
             | AnchorStyles.Right)));
             ktxtStringCollection.KryptonContextMenu = kcmTextBoxMenu;
             ktxtStringCollection.Location = new Point(13, 39);
@@ -236,19 +236,21 @@ namespace Krypton.Toolkit
             // 
             // kcmTextBoxMenu
             // 
-            kcmTextBoxMenu.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItems2});
+            kcmTextBoxMenu.Items.AddRange([
+                kryptonContextMenuItems2
+            ]);
             // 
             // kryptonContextMenuItems2
             // 
-            kryptonContextMenuItems2.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItem4,
+            kryptonContextMenuItems2.Items.AddRange([
+                kryptonContextMenuItem4,
             kryptonContextMenuSeparator3,
             kryptonContextMenuItem5,
             kryptonContextMenuSeparator4,
             kryptonContextMenuItem6,
             kryptonContextMenuSeparator6,
-            kryptonContextMenuItem8});
+            kryptonContextMenuItem8
+            ]);
             // 
             // kryptonContextMenuItem4
             // 
@@ -259,7 +261,7 @@ namespace Krypton.Toolkit
             // kcTextBoxCut
             // 
             kcTextBoxCut.Text = "kryptonCommand1";
-            kcTextBoxCut.Execute += new EventHandler(kcTextBoxCut_Execute);
+            kcTextBoxCut.Execute += kcTextBoxCut_Execute;
             // 
             // kryptonContextMenuItem5
             // 
@@ -270,7 +272,7 @@ namespace Krypton.Toolkit
             // kcTextBoxCopy
             // 
             kcTextBoxCopy.Text = "kryptonCommand1";
-            kcTextBoxCopy.Execute += new EventHandler(kcTextBoxCopy_Execute);
+            kcTextBoxCopy.Execute += kcTextBoxCopy_Execute;
             // 
             // kryptonContextMenuItem6
             // 
@@ -281,7 +283,7 @@ namespace Krypton.Toolkit
             // kcTextBoxPaste
             // 
             kcTextBoxPaste.Text = "kryptonCommand1";
-            kcTextBoxPaste.Execute += new EventHandler(kcTextBoxPaste_Execute);
+            kcTextBoxPaste.Execute += kcTextBoxPaste_Execute;
             // 
             // kryptonContextMenuItem8
             // 
@@ -292,7 +294,7 @@ namespace Krypton.Toolkit
             // kcTextBoxSelectAll
             // 
             kcTextBoxSelectAll.Text = "kryptonCommand1";
-            kcTextBoxSelectAll.Execute += new EventHandler(kcTextBoxSelectAll_Execute);
+            kcTextBoxSelectAll.Execute += kcTextBoxSelectAll_Execute;
             // 
             // klblHeader
             // 
@@ -364,13 +366,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), 
-         DefaultValue(null), 
+        [Category(@"Data"),
+         DefaultValue(null),
          Description(@"The contents of the text field.")]
-        public string[]? Contents 
-        { 
-            get => _contents; 
-            private set => _contents = value; 
+        public string[]? Contents
+        {
+            get => _contents;
+            private set => _contents = value;
         }
 
         /// <summary>Gets the ok button.</summary>
@@ -383,8 +385,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the owner.</summary>
         /// <value>The owner.</value>
-        [Category(@"Data"), 
-         DefaultValue(null), 
+        [Category(@"Data"),
+         DefaultValue(null),
          Description(@"")]
         public KryptonForm? Owner { get; set; }
 
@@ -415,17 +417,18 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void kbtnCancel_Click(object sender, EventArgs e) => Owner.DialogResult = DialogResult.Cancel;
+        private void kbtnCancel_Click(object? sender, EventArgs e) => Owner!.DialogResult = DialogResult.Cancel;
 
-        private void kbtnOk_Click(object sender, EventArgs e)
+        private void kbtnOk_Click(object? sender, EventArgs e)
         {
             if (_useTextBox)
             {
                 foreach (var line in ktxtStringCollection.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }
@@ -434,32 +437,33 @@ namespace Krypton.Toolkit
             {
                 foreach (var line in krtbContents.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }
             }
 
-            Owner.DialogResult = DialogResult.OK;
+            Owner!.DialogResult = DialogResult.OK;
         }
 
-        private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
+        private void kcRichTextBoxCut_Execute(object? sender, EventArgs e) => krtbContents.Cut();
 
-        private void kcRichTextBoxCopy_Execute(object sender, EventArgs e) => Clipboard.SetText(krtbContents.Text);
+        private void kcRichTextBoxCopy_Execute(object? sender, EventArgs e) => Clipboard.SetText(krtbContents.Text);
 
-        private void kcRichTextBoxPaste_Execute(object sender, EventArgs e) => krtbContents.Paste();
+        private void kcRichTextBoxPaste_Execute(object? sender, EventArgs e) => krtbContents.Paste();
 
-        private void kcTextBoxCut_Execute(object sender, EventArgs e) => ktxtStringCollection.Cut();
+        private void kcTextBoxCut_Execute(object? sender, EventArgs e) => ktxtStringCollection.Cut();
 
-        private void kcTextBoxCopy_Execute(object sender, EventArgs e) => Clipboard.SetText(ktxtStringCollection.Text);
+        private void kcTextBoxCopy_Execute(object? sender, EventArgs e) => Clipboard.SetText(ktxtStringCollection.Text);
 
-        private void kcTextBoxPaste_Execute(object sender, EventArgs e) => ktxtStringCollection.Paste();
+        private void kcTextBoxPaste_Execute(object? sender, EventArgs e) => ktxtStringCollection.Paste();
 
-        private void kcRichTextBoxSelectAll_Execute(object sender, EventArgs e) => krtbContents.SelectAll();
+        private void kcRichTextBoxSelectAll_Execute(object? sender, EventArgs e) => krtbContents.SelectAll();
 
-        private void kcTextBoxSelectAll_Execute(object sender, EventArgs e) => ktxtStringCollection.SelectAll();
+        private void kcTextBoxSelectAll_Execute(object? sender, EventArgs e) => ktxtStringCollection.SelectAll();
 
         internal void SetContentsArray(string[] contentArray) => _contents = contentArray;
 

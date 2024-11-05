@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the StringLookupConverter class.
         /// </summary>
-        public StringLookupConverter()
+        protected StringLookupConverter()
             : base(typeof(TEnumType))
         {
         }
@@ -31,7 +31,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected abstract IReadOnlyDictionary<TEnumType /*Enum*/, string /*Display*/> Pairs { get; }
+        protected abstract IReadOnlyDictionary<string /*Display*/, TEnumType /*Enum*/ > PairsStringToEnum { get; }
+        protected abstract IReadOnlyDictionary<TEnumType /*Enum*/, string /*Display*/> PairsEnumToString { get; }
         #endregion
 
         #region Public
@@ -44,8 +45,8 @@ namespace Krypton.Toolkit
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
         public override object? ConvertTo(ITypeDescriptorContext? context,
-                                         CultureInfo? culture, 
-                                         object? value, 
+                                         CultureInfo? culture,
+                                         object? value,
                                          Type destinationType)
         {
             // We are only interested in adding functionality for converting to strings
@@ -54,9 +55,9 @@ namespace Krypton.Toolkit
                 )
             {
                 // Search for a matching value
-                if ( Pairs.TryGetValue(val, out var display) )
+                if (PairsEnumToString.TryGetValue(val, out var display))
                 {
-                        return display;
+                    return display;
                 }
             }
 
@@ -72,22 +73,21 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <returns>An Object that represents the converted value.</returns>
         public override object? ConvertFrom(ITypeDescriptorContext? context,
-                                           CultureInfo? culture, 
+                                           CultureInfo? culture,
                                            object? value)
         {
             // We are only interested in adding functionality for converting from strings
             if (value is string val)
             {
                 // Search for a matching string
-                var key = Pairs.FirstOrDefault(x => x.Value == val).Key;
-                if ( key != null)
-                { 
-                    return key; 
+                if (PairsStringToEnum.TryGetValue(val, out TEnumType? key))
+                {
+                    return key;
                 }
             }
 
             // Let base class perform default conversion
-            return base.ConvertFrom(context, culture, value);
+            return base.ConvertFrom(context!, culture!, value!);
         }
         #endregion
     }

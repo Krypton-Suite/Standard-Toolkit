@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _horizontal;
-        private readonly PaletteRedirectDouble? _redirectSeparator;
+        private readonly PaletteRedirectDouble _redirectSeparator;
         #endregion
 
         #region Identity
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
 
                 // Take up same space as the image column, so separator starts close to actual text
                 var imageContent = new ViewDrawContent(provider.ProviderStateCommon.ItemImage.Content,
-                    new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
+                    new FixedContentValue(null, null, null, GlobalStaticValues.EMPTY_COLOR), VisualOrientation.Top);
                 var imageCanvas = new ViewDrawMenuImageCanvas(provider.ProviderStateCommon.ItemImage.Back,
                         provider.ProviderStateCommon.ItemImage.Border, 0, true)
                 {
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         {
             get => _horizontal;
 
-            set 
+            set
             {
                 if (_horizontal != value)
                 {
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectSeparator.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectSeparator?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

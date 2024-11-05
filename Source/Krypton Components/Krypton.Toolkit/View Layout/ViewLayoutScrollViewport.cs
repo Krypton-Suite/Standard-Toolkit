@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
             [DisallowNull] ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
-                                        IPaletteMetric paletteMetrics,
+                                        IPaletteMetric? paletteMetrics,
                                         PaletteMetricPadding metricPadding,
                                         PaletteMetricInt metricOvers,
                                         VisualOrientation orientation,
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             Orientation = orientation;
 
             // Create the child viewport
-            Viewport = new ViewLayoutViewport(paletteMetrics, metricPadding,
+            Viewport = new ViewLayoutViewport(paletteMetrics!, metricPadding,
                                                metricOvers, ViewportOrientation(_viewportVertical),
                                                alignment, animateChange)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             };
 
             // Put the provided element inside the viewport
-            Viewport.Add(viewportFiller);
+            Viewport.Add(viewportFiller!);
 
             // Hook into animation step events
             Viewport.AnimateStep += OnAnimateStep;
@@ -92,9 +92,9 @@ namespace Krypton.Toolkit
             // To prevent the contents of the viewport from being able to draw outside
             // the viewport (such as having child controls) we use a ViewLayoutControl
             // that uses a child control to restrict the drawing region.
-            ViewControl = new ViewLayoutControl(rootControl, Viewport)
+            ViewControl = new ViewLayoutControl(rootControl!, Viewport)
             {
-                InDesignMode = rootControl.InDesignMode
+                InDesignMode = rootControl!.InDesignMode
             };
 
             // Create the scrollbar and matching border edge
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c) =>
+        public void MakeParent(Control? c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
 
@@ -160,13 +160,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="newParent">Control to become parent.</param>
         /// <param name="c">Control to reparent.</param>
-        public void RevertParent(Control newParent, Control c)
+        public void RevertParent(Control newParent, Control? c)
         {
             // Remove control from current collection
-            CommonHelper.RemoveControlFromParent(c);
+            CommonHelper.RemoveControlFromParent(c!);
 
             // Add to our child control
-            CommonHelper.AddControlToParent(newParent, c);
+            CommonHelper.AddControlToParent(newParent, c!);
         }
         #endregion
 
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool VerticalViewport
         {
-            set 
+            set
             {
                 if (_viewportVertical != value)
                 {
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
             BorderEdgeH.Visible = ScrollbarH.Visible = false;
 
             // Do not actually change the layout of any child controls
-            context.ViewManager.DoNotLayoutControls = true;
+            context.ViewManager!.DoNotLayoutControls = true;
 
             do
             {
@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private VisualOrientation ViewportOrientation(bool vertical) => vertical ? VisualOrientation.Left : VisualOrientation.Top;
 
-        private void OnScrollVChanged(object sender, EventArgs e)
+        private void OnScrollVChanged(object? sender, EventArgs e)
         {
             // Update viewport with the new scroll offset
             Viewport.SetOffsetV(ScrollbarV.ScrollPosition);
@@ -434,11 +434,11 @@ namespace Krypton.Toolkit
                 NeedPaint(true);
 
                 // Make sure the child control is redraw to keep in sync with new scroll position
-                ViewControl.ChildControl.Refresh();
+                ViewControl.ChildControl?.Refresh();
             }
         }
 
-        private void OnScrollHChanged(object sender, EventArgs e)
+        private void OnScrollHChanged(object? sender, EventArgs e)
         {
             // Update viewport with the new scroll offset
             Viewport.SetOffsetH(ScrollbarH.ScrollPosition);
@@ -450,11 +450,11 @@ namespace Krypton.Toolkit
                 NeedPaint(true);
 
                 // Make sure the child control is redraw to keep in sync with new scroll position
-                ViewControl.ChildControl.Refresh();
+                ViewControl.ChildControl?.Refresh();
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+        private void OnAnimateStep(object? sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
 
         #endregion
     }

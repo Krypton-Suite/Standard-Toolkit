@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonSeparatorActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonSeparator? _separator;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonSeparator _separator;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the link label instance
-            _separator = owner.Component as KryptonSeparator;
+            _separator = (owner.Component as KryptonSeparator)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator.SeparatorStyle != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.SeparatorStyle, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.SeparatorStyle, value);
                     _separator.SeparatorStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator.Orientation != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.Orientation, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.Orientation, value);
                     _separator.Orientation = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_separator.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_separator, null, _separator.PaletteMode, value);
+                    _service?.OnComponentChanged(_separator, null, _separator.PaletteMode, value);
                     _separator.PaletteMode = value;
                 }
             }

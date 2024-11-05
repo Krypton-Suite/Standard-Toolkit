@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -45,21 +45,23 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuImageSelectController([DisallowNull] ViewContextMenuManager viewManager,
-                                         [DisallowNull] ViewDrawMenuImageSelectItem target,
-                                         [DisallowNull] ViewLayoutMenuItemSelect layout,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public MenuImageSelectController(ViewContextMenuManager viewManager,
+                                         ViewDrawMenuImageSelectItem target,
+                                         ViewLayoutMenuItemSelect layout,
+                                         NeedPaintHandler? needPaint)
         {
-            Debug.Assert(viewManager != null);
-            Debug.Assert(target != null);
-            Debug.Assert(layout != null);
-            Debug.Assert(needPaint != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(viewManager is not null);
+            Debug.Assert(target is not null);
+            Debug.Assert(layout is not null);
+            Debug.Assert(needPaint is not null);
 
             MousePoint = CommonHelper.NullPoint;
-            _viewManager = viewManager;
-            _target = target;
-            _layout = layout;
-            NeedPaint = needPaint;
+            _viewManager = viewManager!;
+            _target = target!;
+            _layout = layout!;
+            NeedPaint = needPaint!;
         }
         #endregion
 
@@ -259,7 +261,7 @@ namespace Krypton.Toolkit
                 _mouseOver = false;
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint; 
+                MousePoint = CommonHelper.NullPoint;
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;
@@ -478,7 +480,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled

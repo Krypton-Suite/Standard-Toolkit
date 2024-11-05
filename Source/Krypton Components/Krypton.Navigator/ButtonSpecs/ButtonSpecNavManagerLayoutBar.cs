@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -32,15 +32,15 @@ namespace Krypton.Navigator
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
-                                             PaletteRedirect? redirector,
-                                             ButtonSpecCollectionBase variableSpecs,
+                                             PaletteRedirect redirector,
+                                             ButtonSpecCollectionBase? variableSpecs,
                                              ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
                                              PaletteMetricInt[] viewMetricIntOutside,
                                              PaletteMetricInt[] viewMetricIntInside,
                                              PaletteMetricPadding[] viewMetricPaddings,
                                              GetToolStripRenderer getRenderer,
-                                             NeedPaintHandler needPaint)
+                                             NeedPaintHandler? needPaint)
             : this(control, redirector, variableSpecs,
                    null, viewDockers, viewMetrics,
                    viewMetricIntOutside, viewMetricIntInside,
@@ -63,8 +63,8 @@ namespace Krypton.Navigator
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
-                                             PaletteRedirect? redirector,
-                                             ButtonSpecCollectionBase variableSpecs,
+                                             PaletteRedirect redirector,
+                                             ButtonSpecCollectionBase? variableSpecs,
                                              ButtonSpecCollectionBase? fixedSpecs,
                                              ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
@@ -72,11 +72,11 @@ namespace Krypton.Navigator
                                              PaletteMetricInt[] viewMetricIntInside,
                                              PaletteMetricPadding[] viewMetricPaddings,
                                              GetToolStripRenderer getRenderer,
-                                             NeedPaintHandler needPaint)
+                                             NeedPaintHandler? needPaint)
             : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricIntOutside,
                    viewMetricIntInside, viewMetricPaddings, getRenderer,
-                   needPaint) =>
+                   needPaint!) =>
             RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.LabelPanel;
 
         #endregion
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
 

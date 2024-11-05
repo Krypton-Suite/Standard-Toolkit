@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,8 +35,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == Color.Empty) &&
-                                          (InternalKCT.InternalRaftingContainerGradientEnd == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalRaftingContainerGradientEnd == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Starting color of the gradient used in the ToolStripContainer.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color RaftingContainerGradientBegin
         {
             get => InternalKCT.InternalRaftingContainerGradientBegin;
@@ -73,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientBegin property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = Color.Empty;
+        public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region RaftingContainerGradientEnd
@@ -83,7 +84,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Ending color of the gradient used in the ToolStripContainer.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color RaftingContainerGradientEnd
         {
             get => InternalKCT.InternalRaftingContainerGradientEnd;
@@ -98,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the RaftingContainerGradientEnd property to its default value.
         /// </summary>
-        public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = Color.Empty;
+        public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

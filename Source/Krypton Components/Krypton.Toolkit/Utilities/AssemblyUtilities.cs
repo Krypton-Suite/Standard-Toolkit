@@ -3,7 +3,7 @@
  * 
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -32,7 +32,9 @@ namespace Krypton.Toolkit
 
             using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                file.Read(byteBuffer, 0, byteBuffer.Length);
+                var read = file.Read(byteBuffer, 0, byteBuffer.Length);
+
+                Console.WriteLine(read);
             }
 
             var headerPosition = BitConverter.ToInt32(byteBuffer, PE_HEADER_OFFSET);

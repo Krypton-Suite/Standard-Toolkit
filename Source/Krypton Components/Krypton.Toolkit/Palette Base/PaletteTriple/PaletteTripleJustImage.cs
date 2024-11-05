@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -33,18 +33,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleJustImage([DisallowNull] IPaletteTriple inherit,
-                                      NeedPaintHandler needPaint)
+        public PaletteTripleJustImage(IPaletteTriple inherit,
+                                      NeedPaintHandler? needPaint)
         {
-            Debug.Assert(inherit != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(inherit is not null);
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Back = new PaletteBack(inherit.PaletteBack, needPaint);
-            Border = new PaletteBorder(inherit.PaletteBorder, needPaint);
-            Content = new PaletteContentJustImage(inherit.PaletteContent, needPaint);
+            Back = new PaletteBack(inherit!.PaletteBack, needPaint);
+            Border = new PaletteBorder(inherit!.PaletteBorder!, needPaint);
+            Content = new PaletteContentJustImage(inherit!.PaletteContent!, needPaint);
         }
         #endregion
 
@@ -53,9 +55,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Back.IsDefault &&
-                                           Border.IsDefault &&
-                                           Content.IsDefault;
+                                            Border.IsDefault &&
+                                            Content.IsDefault;
 
         #endregion
 
@@ -66,8 +69,8 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteTriple inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
-            Border.SetInherit(inherit.PaletteBorder);
-            Content.SetInherit(inherit.PaletteContent);
+            Border.SetInherit(inherit.PaletteBorder!);
+            Content.SetInherit(inherit.PaletteContent!);
         }
         #endregion
 
