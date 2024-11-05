@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpContent = new System.Windows.Forms.TableLayoutPanel();
             this.kbtnClose = new Krypton.Toolkit.KryptonButton();
             this.kbtnMinimize = new Krypton.Toolkit.KryptonButton();
             this.pbxApplicationIcon = new System.Windows.Forms.PictureBox();
@@ -38,46 +38,49 @@
             this.kwlblCopyright = new Krypton.Toolkit.KryptonWrapLabel();
             this.kwlblVersion = new Krypton.Toolkit.KryptonWrapLabel();
             this.tmrCountdown = new System.Windows.Forms.Timer(this.components);
+            this.kwlblApplicationName = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tlpContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxApplicationIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
+            this.kryptonPanel1.Controls.Add(this.tlpContent);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
+            this.kryptonPanel1.Size = new System.Drawing.Size(800, 497);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // tlpContent
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.kbtnClose, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.kbtnMinimize, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pbxApplicationIcon, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.kpbProgress, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblCopyright, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblVersion, 0, 3);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tlpContent.BackColor = System.Drawing.Color.Transparent;
+            this.tlpContent.ColumnCount = 4;
+            this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpContent.Controls.Add(this.kbtnClose, 3, 0);
+            this.tlpContent.Controls.Add(this.kbtnMinimize, 2, 0);
+            this.tlpContent.Controls.Add(this.pbxApplicationIcon, 0, 1);
+            this.tlpContent.Controls.Add(this.kpbProgress, 0, 5);
+            this.tlpContent.Controls.Add(this.kwlblVersion, 0, 4);
+            this.tlpContent.Controls.Add(this.kwlblCopyright, 0, 3);
+            this.tlpContent.Controls.Add(this.kwlblApplicationName, 0, 2);
+            this.tlpContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpContent.Location = new System.Drawing.Point(0, 0);
+            this.tlpContent.Name = "tlpContent";
+            this.tlpContent.RowCount = 6;
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpContent.Size = new System.Drawing.Size(800, 497);
+            this.tlpContent.TabIndex = 0;
             // 
             // kbtnClose
             // 
@@ -112,20 +115,19 @@
             // 
             // pbxApplicationIcon
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.pbxApplicationIcon, 4);
+            this.tlpContent.SetColumnSpan(this.pbxApplicationIcon, 4);
             this.pbxApplicationIcon.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbxApplicationIcon.Location = new System.Drawing.Point(3, 31);
             this.pbxApplicationIcon.Name = "pbxApplicationIcon";
-            this.pbxApplicationIcon.Size = new System.Drawing.Size(794, 334);
+            this.pbxApplicationIcon.Size = new System.Drawing.Size(794, 346);
             this.pbxApplicationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxApplicationIcon.TabIndex = 4;
             this.pbxApplicationIcon.TabStop = false;
             // 
             // kpbProgress
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.kpbProgress, 4);
-            this.kpbProgress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpbProgress.Location = new System.Drawing.Point(3, 421);
+            this.tlpContent.SetColumnSpan(this.kpbProgress, 4);
+            this.kpbProgress.Location = new System.Drawing.Point(3, 468);
             this.kpbProgress.Name = "kpbProgress";
             this.kpbProgress.Size = new System.Drawing.Size(794, 26);
             this.kpbProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
@@ -137,12 +139,12 @@
             // 
             // kwlblCopyright
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.kwlblCopyright, 4);
+            this.tlpContent.SetColumnSpan(this.kwlblCopyright, 4);
             this.kwlblCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblCopyright.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.kwlblCopyright.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.kwlblCopyright.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblCopyright.Location = new System.Drawing.Point(3, 368);
+            this.kwlblCopyright.Location = new System.Drawing.Point(3, 415);
             this.kwlblCopyright.Name = "kwlblCopyright";
             this.kwlblCopyright.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblCopyright.Size = new System.Drawing.Size(794, 25);
@@ -151,12 +153,12 @@
             // 
             // kwlblVersion
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.kwlblVersion, 4);
+            this.tlpContent.SetColumnSpan(this.kwlblVersion, 4);
             this.kwlblVersion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kwlblVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.kwlblVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.kwlblVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblVersion.Location = new System.Drawing.Point(3, 393);
+            this.kwlblVersion.Location = new System.Drawing.Point(3, 440);
             this.kwlblVersion.Name = "kwlblVersion";
             this.kwlblVersion.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblVersion.Size = new System.Drawing.Size(794, 25);
@@ -169,11 +171,25 @@
             this.tmrCountdown.Interval = 1000;
             this.tmrCountdown.Tick += new System.EventHandler(this.tmrCountdown_Tick);
             // 
+            // kwlblApplicationName
+            // 
+            this.tlpContent.SetColumnSpan(this.kwlblApplicationName, 4);
+            this.kwlblApplicationName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblApplicationName.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
+            this.kwlblApplicationName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblApplicationName.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
+            this.kwlblApplicationName.Location = new System.Drawing.Point(3, 380);
+            this.kwlblApplicationName.Name = "kwlblApplicationName";
+            this.kwlblApplicationName.Padding = new System.Windows.Forms.Padding(5);
+            this.kwlblApplicationName.Size = new System.Drawing.Size(794, 35);
+            this.kwlblApplicationName.Text = "<#-APP-TITLE-#>";
+            this.kwlblApplicationName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // VisualSplashScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 497);
             this.ControlBox = false;
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -184,8 +200,8 @@
             this.Load += new System.EventHandler(this.VisualSplashScreenForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tlpContent.ResumeLayout(false);
+            this.tlpContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxApplicationIcon)).EndInit();
             this.ResumeLayout(false);
 
@@ -194,7 +210,7 @@
         #endregion
 
         private KryptonPanel kryptonPanel1;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tlpContent;
         private KryptonButton kbtnClose;
         private KryptonButton kbtnMinimize;
         private PictureBox pbxApplicationIcon;
@@ -202,5 +218,6 @@
         private System.Windows.Forms.Timer tmrCountdown;
         private KryptonWrapLabel kwlblCopyright;
         private KryptonWrapLabel kwlblVersion;
+        private KryptonWrapLabel kwlblApplicationName;
     }
 }

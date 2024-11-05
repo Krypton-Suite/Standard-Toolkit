@@ -69,6 +69,8 @@ namespace Krypton.Toolkit
 
             pbxApplicationIcon.Image = _splashScreenData.ApplicationLogo /*_applicationLogo*/;
 
+            kwlblApplicationName.Text = Application.ProductName;
+
             kwlblCopyright.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {fvi.LegalCopyright}";
 
             kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
