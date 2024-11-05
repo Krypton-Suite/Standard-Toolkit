@@ -75,6 +75,12 @@ namespace Krypton.Toolkit
 
             kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
 
+            kwlblApplicationName.Visible = _splashScreenData.ShowApplicationName;
+
+            kwlblCopyright.Visible = _splashScreenData.ShowCopyright;
+
+            kwlblVersion.Visible = _splashScreenData.ShowVersion;
+
             kpbProgress.Visible = _splashScreenData.ShowProgressBar;
 
             kbtnClose.Visible = _splashScreenData.ShowCloseButton;

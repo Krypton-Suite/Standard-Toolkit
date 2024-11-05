@@ -33,21 +33,22 @@
             this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kcbShowCloseButton = new Krypton.Toolkit.KryptonCheckBox();
+            this.kcbShowMinimizeButton = new Krypton.Toolkit.KryptonCheckBox();
+            this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
+            this.bsaBrowseLogo = new Krypton.Toolkit.ButtonSpecAny();
+            this.kcmdChosenLogo = new Krypton.Toolkit.KryptonCommand();
             this.knudTimeout = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.kchkShowProgressBarPercentage = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowVersion = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowProgressBar = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowCopyright = new Krypton.Toolkit.KryptonCheckBox();
-            this.kcmdChosenLogo = new Krypton.Toolkit.KryptonCommand();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.ktxtAssembly = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kcmdChosenAssembly = new Krypton.Toolkit.KryptonCommand();
-            this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
-            this.bsaBrowseLogo = new Krypton.Toolkit.ButtonSpecAny();
-            this.kcbShowMinimizeButton = new Krypton.Toolkit.KryptonCheckBox();
-            this.kcbShowCloseButton = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkShowApplicationName = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -101,6 +102,7 @@
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kchkShowApplicationName);
             this.kryptonPanel2.Controls.Add(this.kcbShowCloseButton);
             this.kryptonPanel2.Controls.Add(this.kcbShowMinimizeButton);
             this.kryptonPanel2.Controls.Add(this.ktxtLogo);
@@ -118,6 +120,43 @@
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(389, 192);
             this.kryptonPanel2.TabIndex = 1;
+            // 
+            // kcbShowCloseButton
+            // 
+            this.kcbShowCloseButton.Location = new System.Drawing.Point(13, 99);
+            this.kcbShowCloseButton.Name = "kcbShowCloseButton";
+            this.kcbShowCloseButton.Size = new System.Drawing.Size(126, 20);
+            this.kcbShowCloseButton.TabIndex = 13;
+            this.kcbShowCloseButton.Values.Text = "Show Close Button";
+            // 
+            // kcbShowMinimizeButton
+            // 
+            this.kcbShowMinimizeButton.Location = new System.Drawing.Point(145, 99);
+            this.kcbShowMinimizeButton.Name = "kcbShowMinimizeButton";
+            this.kcbShowMinimizeButton.Size = new System.Drawing.Size(146, 20);
+            this.kcbShowMinimizeButton.TabIndex = 12;
+            this.kcbShowMinimizeButton.Values.Text = "Show Minimize Button";
+            // 
+            // ktxtLogo
+            // 
+            this.ktxtLogo.ButtonSpecs.Add(this.bsaBrowseLogo);
+            this.ktxtLogo.Location = new System.Drawing.Point(89, 42);
+            this.ktxtLogo.Name = "ktxtLogo";
+            this.ktxtLogo.Size = new System.Drawing.Size(288, 24);
+            this.ktxtLogo.TabIndex = 11;
+            this.ktxtLogo.Text = "kryptonTextBox1";
+            // 
+            // bsaBrowseLogo
+            // 
+            this.bsaBrowseLogo.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.bsaBrowseLogo.KryptonCommand = this.kcmdChosenLogo;
+            this.bsaBrowseLogo.UniqueName = "86ec36b6055b41198bfca216d71b6799";
+            // 
+            // kcmdChosenLogo
+            // 
+            this.kcmdChosenLogo.AssignedButtonSpec = this.bsaBrowseLogo;
+            this.kcmdChosenLogo.Text = ".&..";
+            this.kcmdChosenLogo.Execute += new System.EventHandler(this.kcmdChosenLogo_Execute);
             // 
             // knudTimeout
             // 
@@ -187,12 +226,6 @@
             this.kchkShowCopyright.TabIndex = 4;
             this.kchkShowCopyright.Values.Text = "Show Copyright";
             // 
-            // kcmdChosenLogo
-            // 
-            this.kcmdChosenLogo.AssignedButtonSpec = this.bsaBrowseLogo;
-            this.kcmdChosenLogo.Text = ".&..";
-            this.kcmdChosenLogo.Execute += new System.EventHandler(this.kcmdChosenLogo_Execute);
-            // 
             // kryptonLabel2
             // 
             this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
@@ -225,36 +258,13 @@
             this.kcmdChosenAssembly.Text = ".&..";
             this.kcmdChosenAssembly.Execute += new System.EventHandler(this.kcmdChosenAssembly_Execute);
             // 
-            // ktxtLogo
+            // kchkShowApplicationName
             // 
-            this.ktxtLogo.ButtonSpecs.Add(this.bsaBrowseLogo);
-            this.ktxtLogo.Location = new System.Drawing.Point(89, 42);
-            this.ktxtLogo.Name = "ktxtLogo";
-            this.ktxtLogo.Size = new System.Drawing.Size(288, 24);
-            this.ktxtLogo.TabIndex = 11;
-            this.ktxtLogo.Text = "kryptonTextBox1";
-            // 
-            // bsaBrowseLogo
-            // 
-            this.bsaBrowseLogo.Enabled = Krypton.Toolkit.ButtonEnabled.True;
-            this.bsaBrowseLogo.KryptonCommand = this.kcmdChosenLogo;
-            this.bsaBrowseLogo.UniqueName = "86ec36b6055b41198bfca216d71b6799";
-            // 
-            // kcbShowMinimizeButton
-            // 
-            this.kcbShowMinimizeButton.Location = new System.Drawing.Point(145, 99);
-            this.kcbShowMinimizeButton.Name = "kcbShowMinimizeButton";
-            this.kcbShowMinimizeButton.Size = new System.Drawing.Size(146, 20);
-            this.kcbShowMinimizeButton.TabIndex = 12;
-            this.kcbShowMinimizeButton.Values.Text = "Show Minimize Button";
-            // 
-            // kcbShowCloseButton
-            // 
-            this.kcbShowCloseButton.Location = new System.Drawing.Point(13, 99);
-            this.kcbShowCloseButton.Name = "kcbShowCloseButton";
-            this.kcbShowCloseButton.Size = new System.Drawing.Size(126, 20);
-            this.kcbShowCloseButton.TabIndex = 13;
-            this.kcbShowCloseButton.Values.Text = "Show Close Button";
+            this.kchkShowApplicationName.Location = new System.Drawing.Point(205, 127);
+            this.kchkShowApplicationName.Name = "kchkShowApplicationName";
+            this.kchkShowApplicationName.Size = new System.Drawing.Size(155, 20);
+            this.kchkShowApplicationName.TabIndex = 14;
+            this.kchkShowApplicationName.Values.Text = "Show Application Name";
             // 
             // SplashScreenExample
             // 
@@ -300,5 +310,6 @@
         private ButtonSpecAny bsaBrowseLogo;
         private KryptonCheckBox kcbShowCloseButton;
         private KryptonCheckBox kcbShowMinimizeButton;
+        private KryptonCheckBox kchkShowApplicationName;
     }
 }

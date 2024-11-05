@@ -16,7 +16,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the assembly.</summary>
         /// <value>The assembly.</value>
-        public Assembly Assembly { set; get; }
+        public Assembly Assembly { set; get; } = Assembly.GetExecutingAssembly();
+
+        /// <summary>Gets or sets a value indicating whether [show application name].</summary>
+        /// <value><c>true</c> if [show application name]; otherwise, <c>false</c>.</value>
+        public bool ShowApplicationName { get; set; }
 
         /// <summary>Gets or sets a value indicating whether [show copyright].</summary>
         /// <value><c>true</c> if [show copyright]; otherwise, <c>false</c>.</value>

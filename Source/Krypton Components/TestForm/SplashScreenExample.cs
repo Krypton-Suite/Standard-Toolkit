@@ -29,6 +29,7 @@ namespace TestForm
                 ShowCopyright = kchkShowCopyright.Checked,
                 ShowCloseButton = kcbShowCloseButton.Checked,
                 ShowMinimizeButton = kcbShowMinimizeButton.Checked,
+                ShowApplicationName = kchkShowApplicationName.Checked,
                 ShowProgressBar = kchkShowProgressBar.Checked,
                 ShowProgressBarPercentage = kchkShowProgressBarPercentage.Checked,
                 ShowVersion = kchkShowVersion.Checked,
