@@ -39,12 +39,13 @@
             this.kchkShowVersion = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowProgressBar = new Krypton.Toolkit.KryptonCheckBox();
             this.kchkShowCopyright = new Krypton.Toolkit.KryptonCheckBox();
-            this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
+            this.kcmdChosenLogo = new Krypton.Toolkit.KryptonCommand();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.ktxtAssembly = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kcmdChosenAssembly = new Krypton.Toolkit.KryptonCommand();
-            this.kcmdChosenLogo = new Krypton.Toolkit.KryptonCommand();
+            this.ktxtLogo = new Krypton.Toolkit.KryptonTextBox();
+            this.bsaBrowseLogo = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -98,13 +99,13 @@
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.ktxtLogo);
             this.kryptonPanel2.Controls.Add(this.knudTimeout);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel3);
             this.kryptonPanel2.Controls.Add(this.kchkShowProgressBarPercentage);
             this.kryptonPanel2.Controls.Add(this.kchkShowVersion);
             this.kryptonPanel2.Controls.Add(this.kchkShowProgressBar);
             this.kryptonPanel2.Controls.Add(this.kchkShowCopyright);
-            this.kryptonPanel2.Controls.Add(this.ktxtLogo);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.ktxtAssembly);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel1);
@@ -128,7 +129,7 @@
             0,
             0});
             this.knudTimeout.Minimum = new decimal(new int[] {
-            0,
+            1000,
             0,
             0,
             0});
@@ -136,7 +137,7 @@
             this.knudTimeout.Size = new System.Drawing.Size(290, 22);
             this.knudTimeout.TabIndex = 10;
             this.knudTimeout.Value = new decimal(new int[] {
-            5000,
+            1000,
             0,
             0,
             0});
@@ -182,14 +183,11 @@
             this.kchkShowCopyright.TabIndex = 4;
             this.kchkShowCopyright.Values.Text = "Show Copyright";
             // 
-            // ktxtLogo
+            // kcmdChosenLogo
             // 
-            this.ktxtLogo.Location = new System.Drawing.Point(89, 43);
-            this.ktxtLogo.Name = "ktxtLogo";
-            this.ktxtLogo.ShowEllipsisButton = true;
-            this.ktxtLogo.Size = new System.Drawing.Size(290, 24);
-            this.ktxtLogo.TabIndex = 3;
-            this.ktxtLogo.Text = "kryptonTextBox2";
+            this.kcmdChosenLogo.AssignedButtonSpec = this.bsaBrowseLogo;
+            this.kcmdChosenLogo.Text = ".&..";
+            this.kcmdChosenLogo.Execute += new System.EventHandler(this.kcmdChosenLogo_Execute);
             // 
             // kryptonLabel2
             // 
@@ -223,10 +221,20 @@
             this.kcmdChosenAssembly.Text = ".&..";
             this.kcmdChosenAssembly.Execute += new System.EventHandler(this.kcmdChosenAssembly_Execute);
             // 
-            // kcmdChosenLogo
+            // ktxtLogo
             // 
-            this.kcmdChosenLogo.Text = ".&..";
-            this.kcmdChosenLogo.Execute += new System.EventHandler(this.kcmdChosenLogo_Execute);
+            this.ktxtLogo.ButtonSpecs.Add(this.bsaBrowseLogo);
+            this.ktxtLogo.Location = new System.Drawing.Point(89, 42);
+            this.ktxtLogo.Name = "ktxtLogo";
+            this.ktxtLogo.Size = new System.Drawing.Size(288, 24);
+            this.ktxtLogo.TabIndex = 11;
+            this.ktxtLogo.Text = "kryptonTextBox1";
+            // 
+            // bsaBrowseLogo
+            // 
+            this.bsaBrowseLogo.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.bsaBrowseLogo.KryptonCommand = this.kcmdChosenLogo;
+            this.bsaBrowseLogo.UniqueName = "86ec36b6055b41198bfca216d71b6799";
             // 
             // SplashScreenExample
             // 
@@ -259,7 +267,6 @@
         private KryptonButton kbtnShow;
         private KryptonLabel kryptonLabel1;
         private KryptonTextBox ktxtAssembly;
-        private KryptonTextBox ktxtLogo;
         private KryptonLabel kryptonLabel2;
         private KryptonCheckBox kchkShowCopyright;
         private KryptonCheckBox kchkShowProgressBar;
@@ -269,5 +276,7 @@
         private KryptonNumericUpDown knudTimeout;
         private KryptonCommand kcmdChosenAssembly;
         private KryptonCommand kcmdChosenLogo;
+        private KryptonTextBox ktxtLogo;
+        private ButtonSpecAny bsaBrowseLogo;
     }
 }

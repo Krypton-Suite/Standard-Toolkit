@@ -35,9 +35,9 @@
             this.kbtnMinimize = new Krypton.Toolkit.KryptonButton();
             this.pbxApplicationIcon = new System.Windows.Forms.PictureBox();
             this.kpbProgress = new Krypton.Toolkit.KryptonProgressBar();
-            this.tmrCountdown = new System.Windows.Forms.Timer(this.components);
             this.kwlblCopyright = new Krypton.Toolkit.KryptonWrapLabel();
             this.kwlblVersion = new Krypton.Toolkit.KryptonWrapLabel();
+            this.tmrCountdown = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -84,10 +84,10 @@
             this.kbtnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnClose.AutoSize = true;
             this.kbtnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.kbtnClose.ButtonStyle = Krypton.Toolkit.ButtonStyle.FormClose;
-            this.kbtnClose.Location = new System.Drawing.Point(783, 3);
+            this.kbtnClose.ButtonStyle = Krypton.Toolkit.ButtonStyle.LowProfile;
+            this.kbtnClose.Location = new System.Drawing.Point(781, 3);
             this.kbtnClose.Name = "kbtnClose";
-            this.kbtnClose.Size = new System.Drawing.Size(14, 20);
+            this.kbtnClose.Size = new System.Drawing.Size(16, 22);
             this.kbtnClose.TabIndex = 0;
             this.kbtnClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnClose.Values.Text = "X";
@@ -102,7 +102,7 @@
             this.kbtnMinimize.AutoSize = true;
             this.kbtnMinimize.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.kbtnMinimize.ButtonStyle = Krypton.Toolkit.ButtonStyle.FormClose;
-            this.kbtnMinimize.Location = new System.Drawing.Point(765, 3);
+            this.kbtnMinimize.Location = new System.Drawing.Point(763, 3);
             this.kbtnMinimize.Name = "kbtnMinimize";
             this.kbtnMinimize.Size = new System.Drawing.Size(11, 20);
             this.kbtnMinimize.TabIndex = 1;
@@ -114,9 +114,9 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.pbxApplicationIcon, 4);
             this.pbxApplicationIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbxApplicationIcon.Location = new System.Drawing.Point(3, 29);
+            this.pbxApplicationIcon.Location = new System.Drawing.Point(3, 31);
             this.pbxApplicationIcon.Name = "pbxApplicationIcon";
-            this.pbxApplicationIcon.Size = new System.Drawing.Size(794, 336);
+            this.pbxApplicationIcon.Size = new System.Drawing.Size(794, 334);
             this.pbxApplicationIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxApplicationIcon.TabIndex = 4;
             this.pbxApplicationIcon.TabStop = false;
@@ -133,12 +133,7 @@
             this.kpbProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kpbProgress.TabIndex = 7;
             this.kpbProgress.Values.Text = "";
-            // 
-            // tmrCountdown
-            // 
-            this.tmrCountdown.Enabled = true;
-            this.tmrCountdown.Interval = 1000;
-            this.tmrCountdown.Tick += new System.EventHandler(this.tmrCountdown_Tick);
+            this.kpbProgress.Visible = false;
             // 
             // kwlblCopyright
             // 
@@ -151,7 +146,7 @@
             this.kwlblCopyright.Name = "kwlblCopyright";
             this.kwlblCopyright.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblCopyright.Size = new System.Drawing.Size(794, 25);
-            this.kwlblCopyright.Text = "kryptonWrapLabel1";
+            this.kwlblCopyright.Text = "Copyright: {0}";
             // 
             // kwlblVersion
             // 
@@ -164,7 +159,13 @@
             this.kwlblVersion.Name = "kwlblVersion";
             this.kwlblVersion.Padding = new System.Windows.Forms.Padding(5);
             this.kwlblVersion.Size = new System.Drawing.Size(794, 25);
-            this.kwlblVersion.Text = "kryptonWrapLabel2";
+            this.kwlblVersion.Text = "Version: {0}";
+            // 
+            // tmrCountdown
+            // 
+            this.tmrCountdown.Enabled = true;
+            this.tmrCountdown.Interval = 1000;
+            this.tmrCountdown.Tick += new System.EventHandler(this.tmrCountdown_Tick);
             // 
             // VisualSplashScreenForm
             // 

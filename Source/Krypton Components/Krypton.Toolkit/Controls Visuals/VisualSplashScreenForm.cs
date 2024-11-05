@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
 
             kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
 
-            kpbProgress.Visible = /*_splashScreenData.ShowProgressBar*/ _showProgressBar;
+            kpbProgress.Visible = _splashScreenData.ShowProgressBar;
         }
 
         private void VisualSplashScreenForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
 
         private void kbtnClose_MouseLeave(object sender, EventArgs e)
         {
-
+            kbtnClose.StateCommon.Content.ShortText.Color1 = GlobalStaticValues.EMPTY_COLOR;
         }
 
         #endregion
