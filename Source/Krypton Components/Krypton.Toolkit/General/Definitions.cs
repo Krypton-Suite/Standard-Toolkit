@@ -10,7 +10,6 @@
 
 // ReSharper disable EventNeverSubscribedTo.Global
 // ReSharper disable UnusedMemberInSuper.Global
-#pragma warning disable 1591
 
 namespace Krypton.Toolkit
 {
@@ -3087,4 +3086,5 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
 }

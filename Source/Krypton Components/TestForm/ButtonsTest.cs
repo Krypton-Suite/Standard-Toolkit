@@ -26,5 +26,10 @@ namespace TestForm
 
             kryptonButton8.Values.DropDownArrowColor = e.Color;
         }
+
+        private void kbtnButtonStyles_Click(object sender, EventArgs e)
+        {
+            new ButtonStyleExamples().Show();
+        }
     }
 }
