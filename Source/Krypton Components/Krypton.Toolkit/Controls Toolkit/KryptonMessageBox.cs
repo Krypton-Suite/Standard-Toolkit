@@ -380,6 +380,8 @@ namespace Krypton.Toolkit
 
                 kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+                (kmbRtl.AcceptButton as KryptonButton)?.Select();
+
                 return kmbRtl.ShowDialog(showOwner);
             }
             else
@@ -388,6 +390,8 @@ namespace Krypton.Toolkit
                     defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton);
 
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                (kmb.AcceptButton as KryptonButton)?.Select();
 
                 return kmb.ShowDialog(showOwner);
             }

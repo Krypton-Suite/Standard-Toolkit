@@ -367,5 +367,11 @@ namespace TestForm
         {
             new CheckBoxStyleExamples().Show();
         }
+
+        private void kryptonButton14_Click(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
+                KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
+        }
     }
 }

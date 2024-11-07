@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
+        private readonly KryptonButton[] _messageBoxButtons;
 
         // If help information provided, or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window? _showOwner;
@@ -83,13 +84,17 @@ namespace Krypton.Toolkit
             UpdateText();
             UpdateIcon();
             UpdateButtons();
-            UpdateDefault();
+            //UpdateDefault();
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
 
             ShowCloseButton(showCloseButton);
+
+            // Fix for #1837: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837#issuecomment-2458870080
+            //(AcceptButton as KryptonButton)?.Focus();
+            SetDefaultButton(defaultButton);
         }
 
         #endregion Identity
@@ -666,6 +671,31 @@ namespace Krypton.Toolkit
         }
 
         private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;
+
+        private void SetDefaultButton(KryptonMessageBoxDefaultButton defaultButton)
+        {
+            switch (defaultButton)
+            {
+                case KryptonMessageBoxDefaultButton.Button1:
+                    AcceptButton = _button1;
+                    _button1.Focus();
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    AcceptButton = _button2;
+                    _button2.Focus();
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    AcceptButton = _button3;
+                    _button3.Focus();
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    AcceptButton = _button4;
+                    _button4.Focus();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(defaultButton), defaultButton, null);
+            }
+        }
 
         #endregion
     }
