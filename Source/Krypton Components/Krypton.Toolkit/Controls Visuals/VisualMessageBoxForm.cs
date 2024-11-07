@@ -668,31 +668,6 @@ namespace Krypton.Toolkit
 
         private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;
 
-        private void SetDefaultButton(KryptonMessageBoxDefaultButton defaultButton)
-        {
-            switch (defaultButton)
-            {
-                case KryptonMessageBoxDefaultButton.Button1:
-                    AcceptButton = _button1;
-                    _button1.Focus();
-                    break;
-                case KryptonMessageBoxDefaultButton.Button2:
-                    AcceptButton = _button2;
-                    _button2.Focus();
-                    break;
-                case KryptonMessageBoxDefaultButton.Button3:
-                    AcceptButton = _button3;
-                    _button3.Focus();
-                    break;
-                case KryptonMessageBoxDefaultButton.Button4:
-                    AcceptButton = _button4;
-                    _button4.Focus();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(defaultButton), defaultButton, null);
-            }
-        }
-
         #endregion
     }
 
