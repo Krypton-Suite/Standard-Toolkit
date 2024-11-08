@@ -495,6 +495,7 @@ namespace Krypton.Toolkit
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
                 default:
+                    _button1.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
             }
