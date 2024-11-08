@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
                                              string? text, string? caption,
                                              KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
                                              KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.None,
-                                             KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
+                                             KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
                                              MessageBoxOptions options = 0,
                                              HelpInfo? helpInfo = null, 
                                              bool? showCtrlCopy = null,
@@ -380,8 +380,6 @@ namespace Krypton.Toolkit
 
                 kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-                (kmbRtl.AcceptButton as KryptonButton)?.Select();
-
                 return kmbRtl.ShowDialog(showOwner);
             }
             else
@@ -390,8 +388,6 @@ namespace Krypton.Toolkit
                     defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton);
 
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
-
-                (kmb.AcceptButton as KryptonButton)?.Select();
 
                 return kmb.ShowDialog(showOwner);
             }

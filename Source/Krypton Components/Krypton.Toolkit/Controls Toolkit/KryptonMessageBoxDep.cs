@@ -376,8 +376,6 @@ namespace Krypton.Toolkit
 
                 kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-                (kmbrtl.AcceptButton as KryptonButton)?.Select();
-
                 return kmbrtl.ShowDialog(showOwner);
             }
             else
@@ -389,8 +387,6 @@ namespace Krypton.Toolkit
                     forceUseOfOperatingSystemIcons, showCloseButton);
 
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
-
-                (kmb.AcceptButton as KryptonButton)?.Select();
 
                 return kmb.ShowDialog(showOwner);
             }
@@ -408,8 +404,6 @@ namespace Krypton.Toolkit
 
                 kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-                (kmbrtl.AcceptButton as KryptonButton)?.Select();
-
                 return kmbrtl.ShowDialog(showOwner);
             }
             else
@@ -417,8 +411,6 @@ namespace Krypton.Toolkit
                 using var kmb = new VisualMessageBoxFormDep(messageBoxData);
 
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
-
-                (kmb.AcceptButton as KryptonButton)?.Select();
 
                 return kmb.ShowDialog(showOwner);
             }
