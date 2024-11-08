@@ -480,23 +480,19 @@ namespace Krypton.Toolkit
             switch (_defaultButton)
             {
                 case KryptonMessageBoxDefaultButton.Button1:
-                    //_button1.Select();
+                    _button1.Select();
                     AcceptButton = _button1;
                     break;
                 case KryptonMessageBoxDefaultButton.Button2:
-                    //_button2.Select();
+                    _button2.Select();
                     AcceptButton = _button2;
                     break;
                 case KryptonMessageBoxDefaultButton.Button3:
-                    //_button3.Select();
+                    _button3.Select();
                     AcceptButton = _button3;
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
                     AcceptButton = _showHelpButton ? _button4 : _button1;
-                    break;
-                case KryptonMessageBoxDefaultButton.Button5:
-                    AcceptButton = _showActionButton ? _button5 : _button1;
-
                     break;
                 default:
                     AcceptButton = _showHelpButton ? _button4 : _button1;
