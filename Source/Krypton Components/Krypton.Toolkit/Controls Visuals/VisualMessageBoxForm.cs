@@ -416,9 +416,11 @@ namespace Krypton.Toolkit
                     AcceptButton = _button3;
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
                 default:
+                    _button1.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
             }
