@@ -802,39 +802,56 @@ namespace Krypton.Toolkit
 
         private void UpdateDefault(KryptonMessageBoxDefaultButton? defaultButton)
         {
-            AcceptButton = defaultButton switch
+            switch (defaultButton)
             {
-                KryptonMessageBoxDefaultButton.Button1 =>
-                    //_button1.Select();
-                    _button1,
-                KryptonMessageBoxDefaultButton.Button2 =>
-                    //_button2.Select();
-                    _button2,
-                KryptonMessageBoxDefaultButton.Button3 =>
-                    //_button3.Select();
-                    _button3,
-                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
-                null => _button1,
-                _ => _showHelpButton ? _button4 : _button1
-            };
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    AcceptButton = _button1;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    _button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    _button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+                default:
+                    _button1.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+            }
         }
 
         private void UpdateDefault()
         {
-            AcceptButton = _defaultButton switch
+            switch (_defaultButton)
             {
-                KryptonMessageBoxDefaultButton.Button1 =>
-                    //_button1.Select();
-                    _button1,
-                KryptonMessageBoxDefaultButton.Button2 =>
-                    //_button2.Select();
-                    _button2,
-                KryptonMessageBoxDefaultButton.Button3 =>
-                    //_button3.Select();
-                    _button3,
-                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
-                _ => _showHelpButton ? _button4 : _button1
-            };
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    AcceptButton = _button1;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    _button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    _button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+                default:
+                    _button1.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+            }
         }
 
         private void UpdateHelp(bool? showHelpButton)
