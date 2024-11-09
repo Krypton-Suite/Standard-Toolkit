@@ -367,6 +367,8 @@ namespace Krypton.Toolkit
 
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+            (kmb.AcceptButton as KryptonButton)?.Select();
+
             return kmb.ShowDialog(showOwner);
         }
 

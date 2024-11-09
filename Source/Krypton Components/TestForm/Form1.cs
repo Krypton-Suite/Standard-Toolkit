@@ -309,5 +309,11 @@ namespace TestForm
         {
             UpdateFormBorderStyle(FormBorderStyle.SizableToolWindow);
         }
+
+        private void kryptonButton9_Click(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
+                KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
+        }
     }
 }

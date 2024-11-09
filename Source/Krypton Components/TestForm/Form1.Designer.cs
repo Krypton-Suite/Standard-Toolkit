@@ -88,6 +88,7 @@
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
+            this.kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -96,6 +97,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton9);
             this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizableToolWindow);
             this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixedToolWindow);
             this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizable);
@@ -517,6 +519,15 @@
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFormBorderStyleSizableToolWindow);
             this.kryptonCheckSet1.CheckedButton = this.kcbtnFormBorderStyleNone;
             // 
+            // kryptonButton9
+            // 
+            this.kryptonButton9.Location = new System.Drawing.Point(14, 415);
+            this.kryptonButton9.Name = "kryptonButton9";
+            this.kryptonButton9.Size = new System.Drawing.Size(183, 25);
+            this.kryptonButton9.TabIndex = 26;
+            this.kryptonButton9.Values.Text = "Test #1837";
+            this.kryptonButton9.Click += new System.EventHandler(this.kryptonButton9_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -608,5 +619,6 @@
         private Krypton.Toolkit.KryptonContextMenuImageSelect kryptonContextMenuImageSelect1;
         private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar1;
         private Krypton.Toolkit.KryptonContextMenuCheckBox kryptonContextMenuCheckBox1;
+        private Krypton.Toolkit.KryptonButton kryptonButton9;
     }
 }
