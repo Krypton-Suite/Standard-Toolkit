@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,15 +29,15 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the input control style specific and common palettes
-            InputControlCommon = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, needPaint);
-            InputControlStandalone = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, needPaint);
-            InputControlRibbon = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlRibbon, PaletteBorderStyle.InputControlRibbon, PaletteContentStyle.InputControlRibbon, needPaint);
-            InputControlCustom1 = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlCustom1, PaletteBorderStyle.InputControlCustom1, PaletteContentStyle.InputControlCustom1, needPaint);
-            InputControlCustom2 = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlCustom2, PaletteBorderStyle.InputControlCustom2, PaletteContentStyle.InputControlCustom2, needPaint);
-            InputControlCustom3 = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlCustom3, PaletteBorderStyle.InputControlCustom3, PaletteContentStyle.InputControlCustom3, needPaint);
+            InputControlCommon = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, needPaint);
+            InputControlStandalone = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, needPaint);
+            InputControlRibbon = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlRibbon, PaletteBorderStyle.InputControlRibbon, PaletteContentStyle.InputControlRibbon, needPaint);
+            InputControlCustom1 = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlCustom1, PaletteBorderStyle.InputControlCustom1, PaletteContentStyle.InputControlCustom1, needPaint);
+            InputControlCustom2 = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlCustom2, PaletteBorderStyle.InputControlCustom2, PaletteContentStyle.InputControlCustom2, needPaint);
+            InputControlCustom3 = new KryptonPaletteInputControl(redirector!, PaletteBackStyle.InputControlCustom3, PaletteBorderStyle.InputControlCustom3, PaletteContentStyle.InputControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectTriple(redirector,
+            var redirectCommon = new PaletteRedirectTriple(redirector!,
                 InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive, InputControlCommon.StatePressed, InputControlCommon.StateContextNormal, InputControlCommon.StateContextPressed, InputControlCommon.StateContextTracking);
 
             // Inform the input control style to use the new redirector
@@ -53,12 +53,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => InputControlCommon.IsDefault &&
-                                          InputControlStandalone.IsDefault &&
-                                          InputControlRibbon.IsDefault
-                                          && InputControlCustom1.IsDefault
-                                          && InputControlCustom2.IsDefault
-                                          && InputControlCustom3.IsDefault
+                                            InputControlStandalone.IsDefault &&
+                                            InputControlRibbon.IsDefault
+                                            && InputControlCustom1.IsDefault
+                                            && InputControlCustom2.IsDefault
+                                            && InputControlCustom3.IsDefault
         ;
 
         #endregion

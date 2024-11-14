@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -50,8 +50,8 @@ namespace Krypton.Navigator
             }
 
             // Acquire service interfaces
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -210,7 +210,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEditFlags(object sender, EventArgs e)
+        private void OnEditFlags(object? sender, EventArgs e)
         {
             var editFlags = new KryptonPageFormEditFlags(_page);
             editFlags.ShowDialog();
@@ -274,16 +274,16 @@ namespace Krypton.Navigator
             graphics.DrawRectangle(borderPen, clientRect);
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if ((_page != null) && (e.Component == _page))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost))!;
 
                 // We need to remove all the button spec instances
-                for (var i = _page.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _page.ButtonSpecs!.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _page.ButtonSpecs[i];

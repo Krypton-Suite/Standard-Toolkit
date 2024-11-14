@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderButtonRedirect : PaletteTripleMetricRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
+        private readonly PaletteRedirect _redirect;
         private Padding _buttonPadding;
         private int _buttonEdgeInset;
         #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Remember the redirect reference
-            _redirect = redirect;
+            _redirect = redirect!;
 
             // Set default value for padding property
             _buttonPadding = CommonHelper.InheritPadding;
@@ -55,9 +55,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           ButtonPadding.Equals(CommonHelper.InheritPadding) &&
-                                           (ButtonEdgeInset == -1);
+                                            ButtonPadding.Equals(CommonHelper.InheritPadding) &&
+                                            (ButtonEdgeInset == -1);
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,9 +29,9 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private PaletteBase? _dragPalette;
-        private PaletteBase? _localPalette;
-        private IRenderer? _dragRenderer;
+        private PaletteBase _dragPalette;
+        private PaletteBase _localPalette;
+        private IRenderer _dragRenderer;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private PageDragEndData? _pageDragEndData;
@@ -62,10 +62,10 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the DragManager class.
         /// </summary>
-        public DragManager()
+        public DragManager(PaletteBase? target = null)
         {
-            _redirector = new PaletteRedirect();
-            StateCommon = new PaletteDragDrop(null, null);
+            _redirector = new PaletteRedirect(target);
+            StateCommon = new PaletteDragDrop(target!, null);
             _paletteMode = PaletteMode.Global;
             DragTargetProviders = new DragTargetProviderCollection();
             _dragTargets = new DragTargetList();
@@ -158,7 +158,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        public PaletteBase? Palette
+        public PaletteBase Palette
         {
             get => _localPalette;
 
@@ -247,7 +247,7 @@ namespace Krypton.Navigator
 
                 // Create correct drag feedback class and start it up
                 ResolveDragFeedback();
-                _dragFeedback?.Start(StateCommon, _dragRenderer!, _pageDragEndData, _dragTargets!);
+                _dragFeedback?.Start(StateCommon, _dragRenderer, _pageDragEndData, _dragTargets!);
             }
             else
             {
@@ -427,7 +427,7 @@ namespace Krypton.Navigator
             StateCommon.SetInherit(_dragPalette);
 
             // Get the renderer associated with the palette
-            _dragRenderer = _dragPalette?.GetRenderer();
+            _dragRenderer = _dragPalette?.GetRenderer()!;
         }
 
         private void ResolveDragFeedback()
@@ -488,8 +488,8 @@ namespace Krypton.Navigator
 
         private void EndDragging()
         {
-            _dragPalette = null;
-            _dragRenderer = null;
+            _dragPalette = null!;
+            _dragRenderer = null!;
             _pageDragEndData = null;
             IsDragging = false;
         }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             //_drawContent.MouseController = mllc;
             _drawContent.KeyController = mllc;
             // Create the manager for handling tooltips
-            _drawContent.MouseController = new ToolTipController(KryptonContextMenuLinkLabel.ToolTipManager, this, mllc);
+            _drawContent.MouseController = new ToolTipController(KryptonContextMenuLinkLabel.ToolTipManager!, this, mllc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuLinkLabel.Image;
+        public Image? ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuLinkLabel.Image;
 
         #endregion
 
@@ -149,7 +149,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText;
+        public string ResolveExtraText =>
+            (_cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText)!;
 
         #endregion
 
@@ -233,7 +234,7 @@ namespace Krypton.Toolkit
             // Update with enabled state
             _drawContent.Enabled = ItemEnabled;
 
-            return base.GetPreferredSize(context);
+            return base.GetPreferredSize(context!);
         }
 
         /// <summary>
@@ -260,7 +261,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -291,7 +292,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -305,7 +306,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnClick(object sender, EventArgs e) => KryptonContextMenuLinkLabel.PerformClick();
+        private void OnClick(object? sender, EventArgs e) => KryptonContextMenuLinkLabel.PerformClick();
 
         #endregion
     }

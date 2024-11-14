@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private string _longText;
         private Color _longForeColor;
-        private Font _longNodeFont;
+        private Font? _longNodeFont;
         private bool _isCheckBoxVisible;
         #endregion
 
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         private void Init()
         {
             _longText = string.Empty;
-            _longForeColor = Color.Empty;
+            _longForeColor = GlobalStaticValues.EMPTY_COLOR;
             _longNodeFont = null;
             _isCheckBoxVisible = true;
         }
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLongForeColor() => _longForeColor != Color.Empty;
+        private bool ShouldSerializeLongForeColor() => _longForeColor != GlobalStaticValues.EMPTY_COLOR;
 
         #endregion    
 
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Font of the long text")]
-        public Font LongNodeFont
+        public Font? LongNodeFont
         {
             get => _longNodeFont;
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
                         // Have to do this as RowBounds is not accessible ! and the check box is on the left, normally !
                         Rectangle nodeWidth = Rectangle.FromLTRB(0, callOnce.Top, callOnce.Right + callOnce.Left,
                             callOnce.Bottom);
-                        TreeView.Invalidate(nodeWidth);
+                        TreeView!.Invalidate(nodeWidth);
                         TreeView.Update();
                     }
                 }

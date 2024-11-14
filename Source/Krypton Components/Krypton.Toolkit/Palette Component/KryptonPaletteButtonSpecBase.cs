@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Remember reference to redirector
-            Redirector = redirector;
+            Redirector = redirector!;
 
             // Default the generic overridable values
             _style = PaletteButtonStyle.Inherit;
@@ -55,9 +55,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Style == PaletteButtonStyle.Inherit) &&
-                                           (Orientation == PaletteButtonOrientation.Inherit) &&
-                                           (Edge == PaletteRelativeEdgeAlign.Inherit);
+                                            (Orientation == PaletteButtonOrientation.Inherit) &&
+                                            (Edge == PaletteRelativeEdgeAlign.Inherit);
 
         #endregion
 
@@ -213,21 +215,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
+        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
+        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecToolTipTitle(style);
+        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,10 +18,22 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(PaletteModeConverter))]
     public enum PaletteMode
     {
+        /*
+         * Adjustements made as per ticket 1328.
+         * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
+         * 
+         * These entries (also those disabled) are now sorted in the order of the SupportedThemes Dictionary.
+         * 
+         * By starting the enum at Global = -1 all following entries will have numbers assigned that are equivalent to 
+         * their respective Theme Dictionary position (PaletteModeStrings.SupportedThemes)
+         * 
+         * IT IS MANDATORY TO KEEP THE PALETTEMODE ENUM AND THE DICTIONARY IN THE SAME ORDER. 
+         */
+
         /// <summary>
         /// Specifies the renderer defined by the KryptonManager be used.
         /// </summary>
-        Global,
+        Global = -1,
 
         /// <summary>
         /// Specifies a professional appearance based on system settings.
@@ -32,17 +44,6 @@ namespace Krypton.Toolkit
         /// Specifies a professional appearance with a preference to use theme colors.
         /// </summary>
         ProfessionalOffice2003,
-
-        // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
-        /// Specifies the dark Gray color variant of the Office 2007 appearance.
-        /// </summary>
-        Office2007DarkGray,
-        /*
-            /// <summary>
-            /// Specifies the light Gray color variant of the Office 2007 appearance.
-            /// </summary>
-            Office2007LightGray,*/
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 2007 appearance.
@@ -89,16 +90,19 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007BlackDarkMode,
 
-        // ToDo: Re-enable when the gray themes are completed
+        /* ToDo: Re-enable when the gray themes are completed
         /// <summary>
-        /// Specifies the dark Gray color variant of the Office 2010 appearance.
+        /// Specifies the dark Gray color variant of the Office 2007 appearance.
         /// </summary>
-        Office2010DarkGray,
-        /*
-            /// <summary>
-            /// Specifies the light Gray color variant of the Office 2010 appearance.
-            /// </summary>
-            Office2010LightGray,*/
+        Office2007DarkGray,
+        */
+
+        /* ToDo: Re-enable when the gray themes are completed
+        /// <summary>
+        /// Specifies the light Gray color variant of the Office 2007 appearance.
+        /// </summary>
+        Office2007LightGray,
+        */
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
@@ -145,76 +149,38 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010BlackDarkMode,
 
-        // ToDo: Re-enable when the gray themes are completed
+        /* ToDo: Re-enable when the gray themes are completed
+        /// <summary>
+        /// Specifies the dark Gray color variant of the Office 2010 appearance.
+        /// </summary>
+        Office2010DarkGray,
+        */
+
+        /* ToDo: Re-enable when the gray themes are completed
+        /// <summary>
+        /// Specifies the light Gray color variant of the Office 2010 appearance.
+        /// </summary>
+        Office2010LightGray,
+        */
+
+        /* ToDo: Re-enable when the gray themes are completed
         /// <summary>
         /// Specifies the dark Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013DarkGray,
+        */
+
+        /* ToDo: Re-enable when the gray themes are completed
         /// <summary>
         /// Specifies the light Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013LightGray,
+        */
 
         /// <summary>
         /// Specifies the White color variant of the Office 2013 appearance.
         /// </summary>
         Office2013White,
-
-        // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
-        /// Specifies the dark Gray color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365DarkGray,
-        /*
-            /// <summary>
-            /// Specifies the light Gray color variant of the Microsoft 365 appearance.
-            /// </summary>
-            Microsoft365LightGray,*/
-
-        /// <summary>
-        /// Specifies the Black color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365Black,
-
-        /// <summary>
-        /// Specifies the dark Black color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365BlackDarkMode,
-
-        /// <summary>
-        /// Specifies the Blue color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365Blue,
-
-        /// <summary>
-        /// Specifies the dark Blue color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365BlueDarkMode,
-
-        /// <summary>
-        /// Specifies the light Blue color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365BlueLightMode,
-
-        /// <summary>
-        /// Specifies the Silver color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365Silver,
-
-        /// <summary>
-        /// Specifies the dark Silver color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365SilverDarkMode,
-
-        /// <summary>
-        /// Specifies the light Silver color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365SilverLightMode,
-
-        /// <summary>
-        /// Specifies the White color variant of the Microsoft 365 appearance.
-        /// </summary>
-        Microsoft365White,
 
         /// <summary>
         /// Specifies the Blue color variant on the Sparkle palette theme.
@@ -260,6 +226,71 @@ namespace Krypton.Toolkit
         /// Specifies the light Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurpleLightMode,
+
+        /// <summary>
+        /// Specifies the Blue color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365Blue,
+
+        /// <summary>
+        /// Specifies the dark Blue color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365BlueDarkMode,
+
+        /// <summary>
+        /// Specifies the light Blue color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365BlueLightMode,
+
+        /// <summary>
+        /// Specifies the Silver color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365Silver,
+
+        /// <summary>
+        /// Specifies the dark Silver color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365SilverDarkMode,
+
+        /// <summary>
+        /// Specifies the light Silver color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365SilverLightMode,
+
+        /// <summary>
+        /// Specifies the White color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365White,
+
+
+        /// <summary>
+        /// Specifies the Black color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365Black,
+
+        /// <summary>
+        /// Specifies the dark Black color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365BlackDarkMode,
+
+        /// <summary>
+        /// Specifies the alternate dark Black color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365BlackDarkModeAlternate,
+
+        /* ToDo: Re-enable when the gray themes are completed
+        /// <summary>
+        /// Specifies the dark Gray color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365DarkGray,
+        */
+
+        /* ToDo: Re-enable when the gray themes are completed
+        /// <summary>
+        /// Specifies the light Gray color variant of the Microsoft 365 appearance.
+        /// </summary>
+        Microsoft365LightGray,
+        */
 
         /// <summary>
         /// Specifies the visual studio 2010 palette theme, with the 2007 render.

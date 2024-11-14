@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -27,8 +27,9 @@ namespace Krypton.Ribbon
         /// <param name="qatButton">Source for button values.</param>
         public QATButtonToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
         {
-            Debug.Assert(qatButton != null);
-            _qatButton = qatButton;
+            Debug.Assert(qatButton is not null);
+
+            _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
         }
         #endregion
 
@@ -89,21 +90,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextFont(PaletteState state) => null;
+        public Font? GetContentShortTextFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextNewFont(PaletteState state) => null;
+        public Font? GetContentShortTextNewFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the rendering hint for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentShortTextHint(PaletteState state) => PaletteTextHint.SystemDefault;
+        public PaletteTextHint GetContentShortTextHint(PaletteState state) => PaletteTextHint.ClearTypeGridFit;
 
         /// <summary>
         /// Gets the prefix drawing setting for short text.
@@ -208,21 +209,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextFont(PaletteState state) => null;
+        public Font? GetContentLongTextFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => null;
+        public Font? GetContentLongTextNewFont(PaletteState state) => null;
 
         /// <summary>
         /// Gets the rendering hint for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public PaletteTextHint GetContentLongTextHint(PaletteState state) => PaletteTextHint.SystemDefault;
+        public PaletteTextHint GetContentLongTextHint(PaletteState state) => PaletteTextHint.ClearTypeGridFit;
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonBorderEdgeActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonBorderEdge? _borderEdge;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonBorderEdge _borderEdge;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -28,24 +28,26 @@ namespace Krypton.Toolkit
         public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner)
             : base(owner.Component)
         {
-            _borderEdge = owner.Component as KryptonBorderEdge;
+            _borderEdge = (owner.Component as KryptonBorderEdge)!;
 
             // Assuming we were correctly passed an actual component...
             if (_borderEdge != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
+                var orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
                 {
                     // Decide on the next action to take given the current setting
-                    _action = (Orientation)orientationProp.GetValue(_borderEdge) == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";
+                    _action = (Orientation)orientationProp?.GetValue(_borderEdge)! == Orientation.Vertical
+                        ? "Horizontal border orientation"
+                        : "Vertical border orientation";
                 }
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -61,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.BorderStyle, value);
                     _borderEdge.BorderStyle = value;
                 }
             }
@@ -78,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge.AutoSize != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.AutoSize, value);
                     _borderEdge.AutoSize = value;
                 }
             }
@@ -95,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge.Dock != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.Dock, value);
                     _borderEdge.Dock = value;
                 }
             }
@@ -112,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_borderEdge.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
+                    _service?.OnComponentChanged(_borderEdge, null, _borderEdge.PaletteMode, value);
                     _borderEdge.PaletteMode = value;
                 }
             }
@@ -148,7 +150,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnOrientationClick(object sender, EventArgs e)
+        private void OnOrientationClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 
@@ -156,13 +158,13 @@ namespace Krypton.Toolkit
             if (sender is DesignerVerb verb)
             {
                 // Decide on the new orientation required
-                Orientation orientation = verb.Text.Equals(@"Horizontal border orientation") ? Orientation.Horizontal : Orientation.Vertical;
+                var orientation = verb.Text.Equals(@"Horizontal border orientation") ? Orientation.Horizontal : Orientation.Vertical;
 
                 // Decide on the next action to take given the new setting
                 _action = orientation == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
+                var orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

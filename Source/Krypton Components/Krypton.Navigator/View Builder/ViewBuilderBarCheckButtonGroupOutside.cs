@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector) =>
+                                       PaletteRedirect redirector) =>
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
@@ -56,7 +56,7 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -113,11 +113,11 @@ namespace Krypton.Navigator
         protected override void DestructCheckItemView()
         {
             // Remove the old root from the canvas
-            _drawPanel.Clear();
+            _drawPanel?.Clear();
 
             // Must call the base class to perform common actions
             base.CreateCheckItemView();
-        }        
+        }
         #endregion
     }
 }

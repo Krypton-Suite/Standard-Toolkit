@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -20,11 +18,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _useKryptonFileDialogs;
-        private BasePaletteType _basePaletteType;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string _themeName;
+        private Image[] _toolBarImages;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -61,9 +57,9 @@ namespace Krypton.Toolkit
         public event EventHandler<PaletteLayoutEventArgs>? PalettePaint;
 
         /// <summary>
-        /// Occurs when the AllowFormChrome setting changes.
+        /// Occurs when the UseThemeFormChromeBorderWidth setting changes.
         /// </summary>
-        public event EventHandler? AllowFormChromeChanged;
+        public event EventHandler? UseThemeFormChromeBorderWidthChanged;
 
         /// <summary>
         /// Occurs when the BasePalette/BasePaletteMode setting changes.
@@ -91,20 +87,36 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = string.Empty;
-
-            _useKryptonFileDialogs = true;
-
-            _baseFont = _defaultFontStyle;
+            BaseFont = _defaultFontStyle;
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
+        private InheritBool _allowFormChrome = InheritBool.True;
+
         /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public abstract InheritBool GetAllowFormChrome();
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Should KryptonForm instances UseThemeFormChromeBorderWidth.")]
+        [DefaultValue(InheritBool.Inherit)]
+        public virtual InheritBool UseThemeFormChromeBorderWidth
+        {
+            get => _allowFormChrome;
+
+            set
+            {
+                if (_allowFormChrome != value)
+                {
+                    _allowFormChrome = value;
+                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+        private void ResetUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth = InheritBool.True;
+        private bool ShouldSerializeUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth != InheritBool.True;
         #endregion
 
         #region Renderer
@@ -112,7 +124,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public abstract IRenderer? GetRenderer();
+        public abstract IRenderer GetRenderer();
         #endregion
 
         #region Back
@@ -374,7 +386,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -382,7 +394,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -510,7 +522,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -518,7 +530,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -799,7 +811,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -821,7 +833,7 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -860,11 +872,12 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return Color.Empty;
+                    DebugTools.NotImplemented(style.ToString());
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -873,7 +886,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -919,7 +932,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -928,7 +941,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -974,7 +987,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -983,7 +996,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -1038,7 +1051,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -1074,7 +1087,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1094,7 +1107,8 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return Color.Empty;
+                    DebugTools.NotImplemented(style.ToString());
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1122,7 +1136,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PrintPreview:
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 case PaletteButtonSpecStyle.Close:
                 case PaletteButtonSpecStyle.Context:
                 case PaletteButtonSpecStyle.Next:
@@ -1149,7 +1163,8 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return Color.Empty;
+                    DebugTools.NotImplemented(style.ToString());
+                    return GlobalStaticValues.EMPTY_COLOR;
             }
         }
 
@@ -1206,6 +1221,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.ButtonSpec;
             }
         }
@@ -1261,6 +1277,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return HeaderLocation.PrimaryHeader;
             }
         }
@@ -1316,6 +1333,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteRelativeEdgeAlign.Far;
             }
         }
@@ -1372,6 +1390,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonOrientation.Auto;
             }
         }
@@ -1477,6 +1496,27 @@ namespace Krypton.Toolkit
         public abstract Color GetRibbonMinimizeBarLight(PaletteState state);
 
         /// <summary>
+        /// Gets the gradient dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state);
+
+        /// <summary>
+        /// Gets the gradient light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        public abstract Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -1517,6 +1557,31 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonQATButtonLight(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient first color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient first color.</returns>
+        public abstract Color GetRibbonTabRowGradientColor1(PaletteState state);
+
+        /// <summary>Gets the ribbon app button dark color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button dark color.</returns>
+        public abstract Color GetRibbonFileAppTabBottomColor(PaletteState state);
+
+        /// <summary>Gets the ribbon app button light color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button light color.</returns>
+        public abstract Color GetRibbonFileAppTabTopColor(PaletteState state);
+
+        /// <summary>Gets the ribbon app button text color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The app button text color.</returns>
+        public abstract Color GetRibbonFileAppTabTextColor(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        public abstract float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
         #endregion
 
         #region RibbonBack
@@ -1570,6 +1635,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RibbonText
+
         /// <summary>
         /// Gets the tab color for the item text.
         /// </summary>
@@ -1577,6 +1643,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public abstract Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state);
+
         #endregion
 
         #region ElementColor
@@ -1695,57 +1762,46 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
-        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
-
-        /// <summary>Gets and sets the base font size used when defining fonts.</summary>
-        [Description(@"Gets and sets the base font size used when defining fonts.")]
-        public float BaseFontSize
-        {
-            get => _baseFont.Size;
-
-            set
-            {
-                if (value <= 0)
-                {
-                    value = _defaultFontStyle.Size;
-                }
-
-                // Is there a change in value?
-                if (_baseFont.Size != value)
-                {
-                    BaseFont = new Font(_baseFont.Name, value, _baseFont.Style);
-                }
-            }
-        }
-
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
-        [DisallowNull, Description(@"Gets or sets the base palette font.")]
+        [Description(@"Gets or sets the base palette font.")]
+        [DisallowNull]
         public Font BaseFont
         {
             get => _baseFont;
 
-            set 
-            { 
+            set
+            {
                 _baseFont = value;
                 DefineFonts();
                 // Call an event to force repaint style things
                 OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
             }
         }
+        internal void ResetBaseFont() => BaseFont = _defaultFontStyle;
+        internal bool ShouldSerializeBaseFont() => !Equals(BaseFont, _defaultFontStyle);
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
-        [DisallowNull, Description(@"Gets or sets the name of the theme.")]
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        [Description(@"Gets or sets the name of the theme.")]
+        [DisallowNull]
+        public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public BasePaletteType BasePaletteType { get; set; }
+
+        #endregion
+
+        #region ToolBar Images
+
+        public virtual Image[] ToolBarImages(Image[] toolBarImages)
+        {
+            _toolBarImages = toolBarImages;
+
+            return _toolBarImages;
+        }
 
         #endregion
 
@@ -1764,7 +1820,7 @@ namespace Krypton.Toolkit
 
             Header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
             Header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont!.SizeInPoints, FontStyle.Regular);
             Header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
             Header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             ButtonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
@@ -1880,7 +1936,7 @@ namespace Krypton.Toolkit
 
             return hsl.Color;
         }
-        #endregion       
+        #endregion
 
         #region InputControlPadding
         /// <summary>
@@ -1970,14 +2026,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region OnAllowFormChromeChanged
+        #region OnUseThemeFormChromeBorderWidthChanged
 
         /// <summary>
-        /// Raises the AllowFormChromeChanged event.
+        /// Raises the UseThemeFormChromeBorderWidthChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e) => UseThemeFormChromeBorderWidthChanged?.Invoke(this, e);
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -58,11 +58,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => PrimaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          SecondaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          DockInactiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          DockActiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
-                                          (OverlayHeaders == InheritBool.Inherit);
+                                            SecondaryHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            DockInactiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            DockActiveHeaderPadding.Equals(CommonHelper.InheritPadding) &&
+                                            (OverlayHeaders == InheritBool.Inherit);
 
         #endregion
 
@@ -72,11 +73,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            PrimaryHeaderPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingPrimary);
-            SecondaryHeaderPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingSecondary);
-            DockInactiveHeaderPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockInactive);
-            DockActiveHeaderPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockActive);
-            OverlayHeaders = _redirect.GetMetricBool(PaletteState.Normal, PaletteMetricBool.HeaderGroupOverlay);
+            PrimaryHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingPrimary);
+            SecondaryHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingSecondary);
+            DockInactiveHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockInactive);
+            DockActiveHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockActive);
+            OverlayHeaders = _redirect!.GetMetricBool(PaletteState.Normal, PaletteMetricBool.HeaderGroupOverlay);
         }
         #endregion
 
@@ -234,7 +235,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricInt(state, metric);
+            _redirect!.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -255,7 +256,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
+            return _redirect!.GetMetricBool(state, metric);
         }
 
         /// <summary>
@@ -299,7 +300,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

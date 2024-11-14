@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -33,18 +33,18 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
         /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control parentControl,
-                                               KryptonRibbon ribbon,
-                                               NeedPaintHandler needPaint,
+        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control? parentControl,
+                                               [DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] NeedPaintHandler? needPaint,
                                                bool showExtraButton,
-                                               [DisallowNull] ViewLayoutRibbonQATContents contents)
+                                               [DisallowNull] ViewLayoutRibbonQATContents? contents)
             : base(ribbon, needPaint, showExtraButton)
         {
-            Debug.Assert(parentControl != null);
-            Debug.Assert(contents != null);
+            Debug.Assert(parentControl is not null);
+            Debug.Assert(contents is not null);
             
-            _contents = contents;
-            ParentControl = parentControl;
+            _contents = contents ?? throw new ArgumentNullException(nameof(contents));
+            ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
         }
         #endregion
 
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
                     // If the button requests to be shown...
                     if (qatButton.GetVisible())
                     {
-                        ViewBase qatView = _contents.ViewForButton(qatButton);
+                        ViewBase? qatView = _contents.ViewForButton(qatButton);
 
                         //...but the view is not displayed, then show on overflow
                         if (qatView is { Visible: false })

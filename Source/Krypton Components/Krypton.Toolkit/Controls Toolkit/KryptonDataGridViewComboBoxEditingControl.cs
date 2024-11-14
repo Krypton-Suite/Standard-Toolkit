@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,14 +20,14 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
 
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initalize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
+        /// Initialize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
         /// </summary>
         public KryptonDataGridViewComboBoxEditingControl()
         {
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
-        public virtual DataGridView EditingControlDataGridView
+        public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
             set => _dataGridView = value;
@@ -50,11 +50,26 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// Property which represents the current formatted value of the editing control
+        /// <para>Allows null as input, but null will saved as an empty string.</para>
         /// </summary>
-        public virtual object? EditingControlFormattedValue
+        [AllowNull]
+        public virtual object EditingControlFormattedValue 
         {
+            // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
+            // The Text property is a non-nullable string and therefore null input
+            // will be converted to String.Empty.
+
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = (string)value;
+
+            set
+            {
+                // #1800 correct to the standard of the Winforms counterpart
+                // Text is only set if the cast is correct. null value will also be rejected.
+                if (value is string str)
+                {
+                    Text = str;
+                }
+            }
         }
 
         /// <summary>
@@ -82,7 +97,7 @@ namespace Krypton.Toolkit
         public virtual bool RepositionEditingControlOnValueChange => false;
 
         /// <summary>
-        /// Method called by the grid before the editing control is shown so it can adapt to the provided cell style.
+        /// Method called by the grid before the editing control is shown, so it can adapt to the provided cell style.
         /// </summary>
         public virtual void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
         {
@@ -103,7 +118,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object? GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text!;
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.
@@ -153,7 +168,7 @@ namespace Krypton.Toolkit
             if (!_valueChanged)
             {
                 _valueChanged = true;
-                _dataGridView.NotifyCurrentCellDirty(true);
+                _dataGridView?.NotifyCurrentCellDirty(true);
             }
         }
         #endregion

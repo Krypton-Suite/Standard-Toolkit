@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _hasFocus;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DialogLauncherButtonController class.
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = Ribbon.GetControllerControl(c);
+            c = Ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -158,6 +158,11 @@ namespace Krypton.Ribbon
         {
             ViewBase? newView = null;
 
+            if (Ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(Ribbon.TabsArea)));
+            }
+
             switch (e.KeyData)
             {
                 case Keys.Tab | Keys.Shift:
@@ -170,12 +175,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = Ribbon.GroupsArea.ViewGroups.GetNextFocusItem(Target) ?? Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = Ribbon.GroupsArea.ViewGroups.GetNextFocusItem(Target) ?? Ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= Ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)
@@ -188,7 +193,7 @@ namespace Krypton.Ribbon
                         {
                             newView = Ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Space:
                 case Keys.Enter:

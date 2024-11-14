@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -27,12 +27,12 @@ namespace Krypton.Ribbon
                                           IQuickAccessToolbarButton
     {
         #region Static Fields
-        private static readonly Image _defaultImage = GenericImageResources.QATButtonDefault;
+        private static readonly Image? _defaultImage = GenericImageResources.QATButtonDefault;
         #endregion
 
         #region Instance Fields
-        private object _tag;
-        private Image _image;
+        private object? _tag;
+        private Image? _image;
         private bool _visible;
         private bool _enabled;
         private string _text;
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "QAT Button";
+                    value = @"QAT Button";
                 }
 
                 if (value != _text)
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetToolTipImage() => ToolTipImage;
+        public Image? GetToolTipImage() => ToolTipImage!;
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
@@ -451,7 +451,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var refresh = false;
 

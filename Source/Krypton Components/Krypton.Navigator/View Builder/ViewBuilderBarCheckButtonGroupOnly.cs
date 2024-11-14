@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector) =>
+                                       PaletteRedirect redirector) =>
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Grab the view for the page
-                INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
+                INavCheckItem? checkItem = _pageLookup![Navigator.SelectedPage];
 
                 // If the item also has the focus
                 if (checkItem.HasFocus)
@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -130,10 +130,10 @@ namespace Krypton.Navigator
             base.CreateButtonSpecManager();
 
             // Modify the way that button specs are remapped
-            var barManager = (ButtonSpecNavManagerLayoutBar)_buttonManager;
+            var barManager = _buttonManager as ButtonSpecNavManagerLayoutBar;
 
             // Remap the normal color onto the button text
-            barManager.RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.ButtonStandalone;
+            barManager!.RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.ButtonStandalone;
         }
         #endregion
     }

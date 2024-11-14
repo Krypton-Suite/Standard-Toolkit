@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Workspace
     internal class KryptonWorkspaceActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonWorkspace? _workspace;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonWorkspace _workspace;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Workspace
             : base(owner.Component)
         {
             // Remember designer and actual component instance being designed
-            _workspace = (KryptonWorkspace)owner.Component;
+            _workspace = (owner.Component as KryptonWorkspace)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -47,7 +47,7 @@ namespace Krypton.Workspace
             {
                 if (_workspace.ContainerBackStyle != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.ContainerBackStyle, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.ContainerBackStyle, value);
                     _workspace.ContainerBackStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Workspace
             {
                 if (_workspace.SeparatorStyle != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.SeparatorStyle, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.SeparatorStyle, value);
                     _workspace.SeparatorStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Workspace
             {
                 if (_workspace.AllowResizing != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.AllowResizing, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.AllowResizing, value);
                     _workspace.AllowResizing = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Workspace
             {
                 if (_workspace.CompactFlags != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.CompactFlags, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.CompactFlags, value);
                     _workspace.CompactFlags = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Workspace
             {
                 if (_workspace.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_workspace, null, _workspace.PaletteMode, value);
+                    _service?.OnComponentChanged(_workspace, null, _workspace.PaletteMode, value);
                     _workspace.PaletteMode = value;
                 }
             }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         {
             _wrapLabel = wrapLabel;
             _font = null;
-            _textColor = Color.Empty;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
             _hint = PaletteTextHint.Inherit;
         }
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         {
             _linkWrapLabel = linkWrapLabel;
             _font = null;
-            _textColor = Color.Empty;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
             _hint = PaletteTextHint.Inherit;
         }
 
@@ -55,9 +55,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_font == null) &&
-                                          (_textColor == Color.Empty) &&
-                                          (_hint == PaletteTextHint.Inherit);
+                                            (_textColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (_hint == PaletteTextHint.Inherit);
 
         #endregion
 
@@ -90,7 +91,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color for the text.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color TextColor
         {

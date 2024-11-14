@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _lastHitTest;
         private KryptonBreadCrumb? _breadCrumb;
-        private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private IComponentChangeService? _changeService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Public Overrides
@@ -45,17 +45,17 @@ namespace Krypton.Toolkit
             if (_breadCrumb != null)
             {
                 // Hook into bread crumb events
-                _breadCrumb.GetViewManager().MouseUpProcessed += OnBreadCrumbMouseUp;
-                _breadCrumb.GetViewManager().DoubleClickProcessed += OnBreadCrumbDoubleClick;
+                _breadCrumb.GetViewManager()!.MouseUpProcessed += OnBreadCrumbMouseUp;
+                _breadCrumb.GetViewManager()!.DoubleClickProcessed += OnBreadCrumbDoubleClick;
             }
 
             // Get access to the design services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -106,11 +106,11 @@ namespace Krypton.Toolkit
             // Unhook from events
             if (_breadCrumb != null)
             {
-                _breadCrumb.GetViewManager().MouseUpProcessed -= OnBreadCrumbMouseUp;
-                _breadCrumb.GetViewManager().DoubleClickProcessed -= OnBreadCrumbDoubleClick;
+                _breadCrumb.GetViewManager()!.MouseUpProcessed -= OnBreadCrumbMouseUp;
+                _breadCrumb.GetViewManager()!.DoubleClickProcessed -= OnBreadCrumbDoubleClick;
             }
 
-            _changeService.ComponentRemoving -= OnComponentRemoving;
+            _changeService!.ComponentRemoving -= OnComponentRemoving;
 
             // Must let base class do standard stuff
             base.Dispose(disposing);
@@ -158,12 +158,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnBreadCrumbMouseUp(object sender, MouseEventArgs e)
+        private void OnBreadCrumbMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_breadCrumb != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component? component = _breadCrumb.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                var component = _breadCrumb.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
                     {
                         component
                     };
-                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -183,25 +183,25 @@ namespace Krypton.Toolkit
         private void OnBreadCrumbDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _breadCrumb?.DesignerComponentFromPoint(pt);
+            var component = _breadCrumb?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                var designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
-            if ((_breadCrumb != null) && (e.Component == _breadCrumb))
+            if ((_breadCrumb != null) && (Equals(e.Component, _breadCrumb)))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
                 for (var i = _breadCrumb.ButtonSpecs.Count - 1; i >= 0; i--)
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
                     ButtonSpec spec = _breadCrumb.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_breadCrumb, null);
+                    _changeService?.OnComponentChanging(_breadCrumb, null);
 
                     // Perform actual removal of button spec from bread crumb
                     _breadCrumb.ButtonSpecs.Remove(spec);
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                     host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_breadCrumb, null, null, null);
+                    _changeService?.OnComponentChanged(_breadCrumb, null, null, null);
                 }
             }
         }

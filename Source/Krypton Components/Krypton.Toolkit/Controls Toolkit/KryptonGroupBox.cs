@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -32,13 +32,12 @@ namespace Krypton.Toolkit
         private readonly ViewDrawGroupBoxDocker _drawDocker;
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutFill _layoutFill;
-        private ScreenObscurer _obscurer;
+        private ScreenObscurer? _obscurer;
         private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _captionVisible;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
-        private float _cornerRoundingRadius;
         #endregion
 
         #region Identity
@@ -67,7 +66,6 @@ namespace Krypton.Toolkit
             // Create the internal panel used for containing content
             Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
-
                 // Make sure the panel back style always mimics our back style
                 PanelBackStyle = PaletteBackStyle.ControlGroupBox
             };
@@ -104,8 +102,6 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -125,7 +121,10 @@ namespace Krypton.Toolkit
                         _obscurer.Dispose();
                         _obscurer = null!;
                     }
-                    catch { }
+                    catch
+                    {
+                        // Ignored
+                    }
                 }
             }
 
@@ -134,19 +133,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -247,7 +233,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupBoxPanel? Panel { get; }
+        public KryptonGroupBoxPanel Panel { get; }
 
         /// <summary>
         /// Gets and the sets the percentage of overlap for the caption and group area.
@@ -262,9 +248,8 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_drawDocker.CaptionOverlap != value)
+                if ( _drawDocker.CaptionOverlap != value)
                 {
-
                     // Enforce limits on the value between 0 and 1 (0% and 100%)
                     value = Math.Max(Math.Min(value, 1.0), 0.0);
                     _drawDocker.CaptionOverlap = value;
@@ -481,7 +466,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteGroupBoxRedirect? StateCommon { get; }
+        public PaletteGroupBoxRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -493,7 +478,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox? StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal header group appearance entries.
@@ -503,7 +488,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox? StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Gets access to the caption content.
@@ -686,13 +671,13 @@ namespace Krypton.Toolkit
             // Push correct palettes into the view
             if (Enabled)
             {
-                _drawContent.SetPalette(StateNormal.Content);
+                _drawContent.SetPalette(StateNormal!.Content);
                 _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
             }
             else
             {
-                _drawContent.SetPalette(StateDisabled.Content);
-                _drawDocker.SetPalettes(StateDisabled.Back, StateNormal.Border);
+                _drawContent.SetPalette(StateDisabled!.Content);
+                _drawDocker.SetPalettes(StateDisabled.Back, StateNormal!.Border);
             }
 
             _drawContent.Enabled = Enabled;
@@ -769,7 +754,7 @@ namespace Krypton.Toolkit
                 }
                 case PI.WM_.WINDOWPOSCHANGED:
                     // Uncover from the covered area
-                    _obscurer.Uncover();
+                    _obscurer?.Uncover();
                     break;
             }
 
@@ -790,9 +775,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer.Uncover();
+        private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
-        private void OnValuesTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+        private void OnValuesTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
         {
@@ -806,14 +791,6 @@ namespace Krypton.Toolkit
         }
 
         private void ReapplyVisible() => _drawContent.Visible = _captionVisible;
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
 
         #region Implementation Static

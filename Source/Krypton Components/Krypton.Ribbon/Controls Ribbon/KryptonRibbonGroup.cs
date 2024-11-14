@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
             _maximumWidth = -1;
 
             // Create collection for holding child items
-            Items = new KryptonRibbonGroupContainerCollection();
+            Items = [];
             Items.Clearing += OnRibbonGroupItemsClearing;
             Items.Cleared += OnRibbonGroupItemsCleared;
             Items.Inserted += OnRibbonGroupItemsInserted;
@@ -432,7 +432,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(CollectionEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
@@ -525,7 +525,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupItemsClearing(object sender, EventArgs e)
+        private void OnRibbonGroupItemsClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (KryptonRibbonGroupContainer container in Items)
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
+        private void OnRibbonGroupItemsCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((_ribbon != null)
@@ -551,7 +551,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
+            e.Item!.Ribbon = _ribbon;
             e.Item.RibbonTab = _ribbonTab;
             e.Item.RibbonGroup = this;
 
@@ -568,7 +568,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
             e.Item.RibbonGroup = null;
 

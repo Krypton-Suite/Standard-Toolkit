@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -38,16 +38,27 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon ribbon,
-                                          [DisallowNull] PaletteRedirect redirect,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon? ribbon,
+                                          [DisallowNull] PaletteRedirect? redirect,
+                                          [DisallowNull] NeedPaintHandler? needPaintDelegate)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(redirect != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(redirect is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
             // Remember the incoming reference
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+
+            if (redirect is null)
+            {
+                throw new ArgumentNullException(nameof(redirect));
+            }
+
+            if (needPaintDelegate is null)
+            {
+                throw new ArgumentNullException(nameof(needPaintDelegate));
+            }
+
 
             // Create access to the redirector and use as our palette source
             _backInherit = new PaletteBackInheritRedirect(redirect, PaletteBackStyle.PanelClient);
@@ -119,7 +130,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find the correct padding to use
             Padding padding = _ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding;

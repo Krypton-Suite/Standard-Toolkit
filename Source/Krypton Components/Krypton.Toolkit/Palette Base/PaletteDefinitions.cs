@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -252,14 +252,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        Font GetContentShortTextFont(PaletteState state);
+        Font? GetContentShortTextFont(PaletteState state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        Font GetContentShortTextNewFont(PaletteState state);
+        Font? GetContentShortTextNewFont(PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -371,14 +371,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        Font GetContentLongTextFont(PaletteState state);
+        Font? GetContentLongTextFont(PaletteState state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        Font GetContentLongTextNewFont(PaletteState state);
+        Font? GetContentLongTextNewFont(PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -626,21 +626,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecShortText(PaletteButtonSpecStyle style);
+        string GetButtonSpecShortText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecLongText(PaletteButtonSpecStyle style);
+        string GetButtonSpecLongText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
+        string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
@@ -783,6 +783,27 @@ namespace Krypton.Toolkit
         Color GetRibbonMinimizeBarLight(PaletteState state);
 
         /// <summary>
+        /// Gets the dark rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state);
+
+        /// <summary>
+        /// Gets the light rafting color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state);
+
+        /// <summary>
+        /// Gets the solid color for the tab background.
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonTabRowBackgroundSolidColor(PaletteState state);
+
+        /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -823,6 +844,45 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         Color GetRibbonQATButtonLight(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient first color.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient first color.</returns>
+        Color GetRibbonTabRowGradientColor1(PaletteState state);
+
+        /// <summary>Gets the ribbon tab row gradient rafting angle.</summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>The gradient rafting angle.</returns>
+        float GetRibbonTabRowGradientRaftingAngle(PaletteState state);
+    }
+    #endregion
+
+    #region IPaletteRibbonFileAppTab
+    /// <summary>
+    /// Exposes a palette source for ribbon background specifications.
+    /// </summary>
+    public interface IPaletteRibbonFileAppTab
+    {
+        /// <summary>
+        /// Gets the Application File Tab Top Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabTopColor(PaletteState state);
+
+        /// <summary>
+        /// Gets the Application File Tab Bottom Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabBottomColor(PaletteState state);
+
+        /// <summary>
+        /// Gets the Application File Tab Text Colour
+        /// </summary>
+        /// <param name="state">Palette value should be applicable to this state.</param>
+        /// <returns>Color value.</returns>
+        Color GetRibbonFileAppTabTextColor(PaletteState state);
     }
     #endregion
 
@@ -2951,7 +3011,7 @@ namespace Krypton.Toolkit
 
     #region Enum PaletteImageStyle
     /// <summary>
-    /// Specifies the an image is aligned.
+    /// Specifies how an image is aligned.
     /// </summary>
     [TypeConverter(typeof(PaletteImageStyleConverter))]
     public enum PaletteImageStyle
@@ -3037,7 +3097,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Specifies the an image is aligned.
     /// </summary>
-    [Flags()]
+    [Flags]
     [TypeConverter(typeof(PaletteDrawBordersConverter))]
     public enum PaletteDrawBorders
     {
@@ -3586,12 +3646,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies single bit for pixel with grid fit for text rendering.
         /// </summary>
-        SingleBitPerPixelGridFit,
-
-        /// <summary>
-        /// Specifies system default setting for text rendering.
-        /// </summary>
-        SystemDefault
+        SingleBitPerPixelGridFit
     }
     #endregion
 
@@ -3662,7 +3717,7 @@ namespace Krypton.Toolkit
     #endregion
 
     #region Enum PaletteColorIndex
-    internal enum PaletteColorIndex : int
+    internal enum PaletteColorIndex
     {
         ButtonCheckedGradientBegin = 0,
         ButtonCheckedGradientEnd,

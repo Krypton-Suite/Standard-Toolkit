@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteCueHintText class.
         /// </summary>
-        public PaletteCueHintText(PaletteRedirect? redirect,
+        public PaletteCueHintText(PaletteRedirect redirect,
             NeedPaintHandler needPaint)
             : base(new PaletteContentInheritRedirect(redirect, PaletteContentStyle.InputControlStandalone), needPaint)
         {
@@ -82,10 +82,12 @@ namespace Krypton.Toolkit
         #endregion
 
         /// <inheritdoc/>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault
-             && string.IsNullOrWhiteSpace(CueHintText)
-             && (_shortTextV == PaletteRelativeAlign.Center)
-             && !ShouldSerializeHint();
+                                            && string.IsNullOrWhiteSpace(CueHintText)
+                                            && (_shortTextV == PaletteRelativeAlign.Center)
+                                            && !ShouldSerializeHint();
 
         /// <summary>
         /// Gets the actual content draw value.
@@ -106,7 +108,7 @@ namespace Krypton.Toolkit
                 return new Font(Font, Font.Style);
             }
             var font = Inherit.GetContentShortTextFont(state);
-            return new Font(font, FontStyle.Italic);
+            return new Font(font!, FontStyle.Italic);
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace Krypton.Toolkit
         internal void PerformPaint(VisualControlBase textBox, Graphics? g, PI.RECT rect, SolidBrush backBrush)
         {
             using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
-            using var old1 = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
+            using var old1 = new GraphicsTextHint(g!, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
             // Define the string formatting requirements
             var stringFormat = new StringFormat
             {
@@ -152,7 +154,7 @@ namespace Krypton.Toolkit
             Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
 
             // Draw entire client area in the background color
-            g.FillRectangle(backBrush, layoutRectangle);
+            g?.FillRectangle(backBrush, layoutRectangle);
 
             var padding = GetContentPadding(PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))
@@ -163,10 +165,10 @@ namespace Krypton.Toolkit
                 layoutRectangle.Height -= padding.Top + padding.Bottom;
             }
 
-            using Font font = GetContentShortTextNewFont(PaletteState.Normal);
+            using var font = GetContentShortTextNewFont(PaletteState.Normal);
             using var foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
-            g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
+            g?.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
         }
 
         #region TextV

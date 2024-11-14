@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -51,8 +51,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming values
-            _primary = primary;
-            _backup = backup;
+            _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
+            _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
             Apply = apply;
             OverrideState = overrideState;
 
@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentImageColorMap(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentImageColorMap(state);
                 }
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentImageColorTo(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentImageColorTo(state);
                 }
@@ -274,11 +274,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentShortTextFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextFont(state);
+                Font? ret = _primary.GetContentShortTextFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextFont(state);
 
                 return ret;
             }
@@ -293,11 +293,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextNewFont(state);
+                Font? ret = _primary.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextNewFont(state);
 
                 return ret;
             }
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentShortTextColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentShortTextColor1(state);
                 }
@@ -510,7 +510,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentShortTextColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentShortTextColor2(state);
                 }
@@ -604,7 +604,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                Image ret = _primary.GetContentShortTextImage(Override ? OverrideState : state) ?? _backup.GetContentShortTextImage(state);
+                Image ret = _primary.GetContentShortTextImage(Override ? OverrideState : state) ?? _backup.GetContentShortTextImage(state)!;
 
                 return ret;
             }
@@ -667,11 +667,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentLongTextFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextFont(state);
+                Font? ret = _primary.GetContentLongTextFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextFont(state);
 
                 return ret;
             }
@@ -686,11 +686,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state)
+        public override Font? GetContentLongTextNewFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextNewFont(state);
+                Font? ret = _primary.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextNewFont(state);
 
                 return ret;
             }
@@ -879,7 +879,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentLongTextColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentLongTextColor1(state);
                 }
@@ -903,7 +903,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetContentLongTextColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetContentLongTextColor2(state);
                 }
@@ -997,7 +997,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                Image ret = _primary.GetContentLongTextImage(Override ? OverrideState : state) ?? _backup.GetContentLongTextImage(state);
+                Image ret = _primary.GetContentLongTextImage(Override ? OverrideState : state) ?? _backup.GetContentLongTextImage(state)!;
 
                 return ret;
             }

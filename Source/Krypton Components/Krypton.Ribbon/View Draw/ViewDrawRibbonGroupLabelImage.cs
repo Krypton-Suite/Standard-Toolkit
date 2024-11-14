@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -34,14 +34,14 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonLabel">Reference to ribbon group label definition.</param>
         /// <param name="large">Show the large image.</param>
-        public ViewDrawRibbonGroupLabelImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
+        public ViewDrawRibbonGroupLabelImage([DisallowNull] KryptonRibbon? ribbon,
+                                             [DisallowNull] KryptonRibbonGroupLabel? ribbonLabel,
                                              bool large)
             : base(ribbon)
         {
-            Debug.Assert(ribbonLabel != null);
+            Debug.Assert(ribbonLabel is not null);
 
-            _ribbonLabel = ribbonLabel;
+            _ribbonLabel = ribbonLabel ?? throw new ArgumentNullException(nameof(ribbonLabel));
             _large = large;
             _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage => _large ? _ribbonLabel.ImageLarge : _ribbonLabel.ImageSmall;
+        protected override Image? DrawImage => _large ? _ribbonLabel.ImageLarge : _ribbonLabel.ImageSmall;
 
         #endregion
     }

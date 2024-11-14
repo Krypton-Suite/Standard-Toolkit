@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             return base.GetPreferredSize(context);
             // ReSharper restore RedundantBaseQualifier
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             base.Layout(context);
             // ReSharper restore RedundantBaseQualifier
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
             }
 
             // ReSharper disable RedundantBaseQualifier
-            base.SetPalette(Enabled ? _paletteContentNormal : _paletteContentDisabled);
+            base.SetPalette((Enabled ? _paletteContentNormal : _paletteContentDisabled)!);
 
             base.RenderBefore(context);
             // ReSharper restore RedundantBaseQualifier
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.

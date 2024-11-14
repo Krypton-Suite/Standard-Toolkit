@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public virtual Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+            public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
             /// <summary>
             /// Gets the content long text.
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
                 _viewButton.ElementState = ButtonElementState(upRect);
                 _viewButton.Layout(layoutContext);
                 _viewButton.Render(renderContext);
-                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                renderContext.Renderer!.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
                 // Down button
                 layoutContext.DisplayRectangle = downRect;
@@ -707,7 +707,6 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
-        private float _cornerRoundingRadius;
         private int _cachedHeight;
         #endregion
 
@@ -849,10 +848,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -864,9 +863,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_domainUpDown);
-
-            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -892,18 +888,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -1557,7 +1541,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             InvalidateChildren();
             base.OnPaletteChanged(e);
@@ -1724,10 +1708,10 @@ namespace Krypton.Toolkit
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _domainUpDown.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _domainUpDown.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _domainUpDown.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the domain up down has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_domainUpDown.Handle != IntPtr.Zero) && !_domainUpDown.Font.Equals(font))
                 {
                     _domainUpDown.Font = font;
@@ -1865,13 +1849,13 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDockerOuter.ElementState = state;
         }
@@ -1890,13 +1874,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDomainUpDownTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnDomainUpDownTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnDomainUpDownScroll(object sender, ScrollEventArgs e) => OnScroll(e);
+        private void OnDomainUpDownScroll(object? sender, ScrollEventArgs e) => OnScroll(e);
 
-        private void OnDomainUpDownSelectedItemChanged(object sender, EventArgs e) => OnSelectedItemChanged(e);
+        private void OnDomainUpDownSelectedItemChanged(object? sender, EventArgs e) => OnSelectedItemChanged(e);
 
-        private void OnDomainUpDownGotFocus(object sender, EventArgs e)
+        private void OnDomainUpDownGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -1904,7 +1888,7 @@ namespace Krypton.Toolkit
             base.OnGotFocus(e);
         }
 
-        private void OnDomainUpDownLostFocus(object sender, EventArgs e)
+        private void OnDomainUpDownLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
@@ -1914,19 +1898,19 @@ namespace Krypton.Toolkit
             // ReSharper restore RedundantBaseQualifier
         }
 
-        private void OnDomainUpDownKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnDomainUpDownKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnDomainUpDownKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnDomainUpDownKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnDomainUpDownKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnDomainUpDownKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnDomainUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnDomainUpDownValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnDomainUpDownValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -1993,21 +1977,21 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnDomainUpDownMouseChange(object sender, EventArgs e)
+        private void OnDomainUpDownMouseChange(object? sender, EventArgs e)
         {
             // Find new tracking mouse change state
             var tracking = _domainUpDown.MouseOver ||
@@ -2033,14 +2017,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

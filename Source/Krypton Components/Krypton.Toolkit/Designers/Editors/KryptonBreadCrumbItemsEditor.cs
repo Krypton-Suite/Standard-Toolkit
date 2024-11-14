@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Simple class to reduce the length of declarations!
             /// </summary>
-            protected class DictItemBase : Dictionary<KryptonBreadCrumbItem, KryptonBreadCrumbItem> { }
+            protected class DictItemBase : Dictionary<KryptonBreadCrumbItem, KryptonBreadCrumbItem>;
 
             /// <summary>
             /// Act as proxy for a crumb item to control the exposed properties to the property grid.
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
                 #endregion
 
                 #region Implementation
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+                private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
                 #endregion
@@ -203,12 +203,14 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent? Component { get; }
+                public IComponent Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
                 /// </summary>
-                public IContainer? Container => null;
+                public IContainer Container 
+                    //nul forgiving added since the interface defines as non-nullable
+                    => null!;
 
                 /// <summary>
                 /// Determines whether the component is in design mode when implemented by a class.
@@ -432,7 +434,7 @@ namespace Krypton.Toolkit
 
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    propertyGrid1.Site = new PropertyGridSite(Context, propertyGrid1);
+                    propertyGrid1.Site = new PropertyGridSite(Context!, propertyGrid1);
 
                     // Add all the top level clones
                     treeView1.Nodes.Clear();
@@ -457,7 +459,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
-            private void buttonOK_Click(object sender, EventArgs e)
+            private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
                 var rootItems = new object[treeView1.Nodes.Count];
@@ -476,10 +478,10 @@ namespace Krypton.Toolkit
                 treeView1.Nodes.Clear();
 
                 // Inform designer of changes in component items
-                SynchronizeCollections(_beforeItems, afterItems, Context);
+                SynchronizeCollections(_beforeItems, afterItems, Context!);
 
                 // Notify container that the value has been changed
-                Context.OnComponentChanged();
+                Context!.OnComponentChanged();
             }
 
             private bool ContainsNode(TreeNode node, TreeNode find)
@@ -580,10 +582,10 @@ namespace Krypton.Toolkit
                 return null;
             }
 
-            private void buttonMoveUp_Click(object sender, EventArgs e)
+            private void buttonMoveUp_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
-                var node = treeView1.SelectedNode as MenuTreeNode;
+                MenuTreeNode node = (MenuTreeNode)treeView1.SelectedNode!;
                 if (node != null)
                 {
                     // Find the previous node using the currently selected node
@@ -593,7 +595,7 @@ namespace Krypton.Toolkit
                         var contained = ContainsNode(previousNode, node);
 
                         // Remove cell from parent collection
-                        var parentNode = (MenuTreeNode)node.Parent;
+                        MenuTreeNode parentNode = (MenuTreeNode)node.Parent!;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
@@ -637,7 +639,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonMoveDown_Click(object sender, EventArgs e)
+            private void buttonMoveDown_Click(object? sender, EventArgs e)
             {
                 // If we have a selected node
                 var node = treeView1.SelectedNode as MenuTreeNode;
@@ -658,7 +660,7 @@ namespace Krypton.Toolkit
                         if (contained)
                         {
                             // Add cell to the parent sequence of target cell
-                            var previousParent = (MenuTreeNode)nextNode.Parent;
+                            MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent!;
                             parentCollection = nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(nextNode);
                             previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
@@ -680,11 +682,11 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddSibling_Click(object sender, EventArgs e)
+            private void buttonAddSibling_Click(object? sender, EventArgs e)
             {
-                var item = CreateInstance(typeof(KryptonBreadCrumbItem)) as KryptonBreadCrumbItem;
+                KryptonBreadCrumbItem item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
-                TreeNode selectedNode = treeView1.SelectedNode;
+                TreeNode selectedNode = treeView1.SelectedNode!;
 
                 // If there is no selection then append to root
                 if (selectedNode == null)
@@ -694,7 +696,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // If current selection is at the root
-                    TreeNode parentNode = selectedNode.Parent;
+                    TreeNode parentNode = selectedNode.Parent!;
                     if (parentNode == null)
                     {
                         treeView1.Nodes.Insert(treeView1.Nodes.IndexOf(selectedNode) + 1, newNode);
@@ -718,11 +720,11 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddChild_Click(object sender, EventArgs e)
+            private void buttonAddChild_Click(object? sender, EventArgs e)
             {
                 var item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
                 TreeNode newNode = new MenuTreeNode(item);
-                TreeNode selectedNode = treeView1.SelectedNode;
+                TreeNode selectedNode = treeView1.SelectedNode!;
 
                 // If there is no selection then append to root
                 if (selectedNode == null)
@@ -747,14 +749,14 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonDelete_Click(object sender, EventArgs e)
+            private void buttonDelete_Click(object? sender, EventArgs e)
             {
-                TreeNode node = treeView1.SelectedNode;
+                TreeNode node = treeView1.SelectedNode!;
 
                 // We should have a selected node!
                 if (node != null)
                 {
-                    var treeNode = node as MenuTreeNode;
+                    MenuTreeNode treeNode = (MenuTreeNode)node;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -764,7 +766,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         TreeNode parentNode = node.Parent;
-                        var treeParentNode = parentNode as MenuTreeNode;
+                        MenuTreeNode treeParentNode = (MenuTreeNode)parentNode;
                         treeParentNode.Item.Items.Remove(treeNode.Item);
                         node.Parent.Nodes.Remove(node);
                     }
@@ -776,7 +778,7 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+            private void treeView1_AfterSelect(object? sender, TreeViewEventArgs e)
             {
                 UpdateButtons();
                 UpdatePropertyGrid();
@@ -792,7 +794,7 @@ namespace Krypton.Toolkit
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = treeView1.SelectedNode;
+                TreeNode node = treeView1.SelectedNode!;
                 propertyGrid1.SelectedObject = node == null ? null : new CrumbProxy((KryptonBreadCrumbItem)((MenuTreeNode)node).PropertyObject);
             }
 
@@ -866,8 +868,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
+                if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
                 {
                     // Mark components as changed when not added or removed
                     foreach (KryptonBreadCrumbItem item in after.Values)

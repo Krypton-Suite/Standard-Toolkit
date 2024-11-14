@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new item was inserted.</returns>
-        public virtual int Add([DisallowNull] object value)
+        public virtual int Add(object? value)
         {
             // Use strongly typed implementation
             Add((value as T)!);
@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(object value) =>
+        public bool Contains(object? value) =>
             // Use strongly typed implementation
             Contains((value as T)!);
 
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(object value) =>
+        public int IndexOf(object? value) =>
             // Use strongly typed implementation
             IndexOf((value as T)!);
 
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public virtual void Insert(int index, object value) =>
+        public virtual void Insert(int index, object? value) =>
             // Use strongly typed implementation
             Insert(index, (value as T)!);
 
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         /// Removes first occurrence of specified item.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value) =>
+        public void Remove(object? value) =>
             // Use strongly typed implementation
             Remove((value as T)!);
 
@@ -152,10 +152,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Object index.</param>
         /// <returns>Object at specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => _list[index];
-
             set => throw new NotImplementedException("Cannot set a collection index with a new value");
         }
         #endregion
@@ -169,7 +168,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _list.IndexOf(item);
+            return _list.IndexOf(item!);
         }
 
         /// <summary>
@@ -293,7 +292,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same item more than once
             if (_list.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), @"Item already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"Item is already in collection");
             }
 
             // Generate before insert event
@@ -354,21 +353,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public virtual bool Remove([DisallowNull] T item)
+        public virtual bool Remove([DisallowNull] T? item)
         {
-            Debug.Assert(item != null);
+            bool ret = false;
 
-            // Cache the index of the item
-            var index = IndexOf(item);
+            if (item is not null)
+            {
+                Debug.Assert(item is not null);
 
-            // Generate before event
-            OnRemoving(new TypedCollectionEventArgs<T>(item, index));
+                // Cache the index of the item
+                var index = IndexOf(item!);
 
-            // Remove from the internal list
-            var ret = _list.Remove(item);
+                // Generate before event
+                OnRemoving(new TypedCollectionEventArgs<T>(item, index));
 
-            // Generate after event
-            OnRemoved(new TypedCollectionEventArgs<T>(item, index));
+                // Remove from the internal list
+                ret = _list.Remove(item!);
+
+                // Generate after event
+                OnRemoved(new TypedCollectionEventArgs<T>(item, index));
+            }
 
             return ret;
         }

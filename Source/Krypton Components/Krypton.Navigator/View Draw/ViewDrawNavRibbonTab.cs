@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -68,11 +68,11 @@ namespace Krypton.Navigator
         public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator navigator,
                                     [DisallowNull] KryptonPage page)
         {
-            Debug.Assert(navigator != null);
-            Debug.Assert(page != null);
+            Debug.Assert(navigator is not null);
+            Debug.Assert(page is not null);
 
-            Navigator = navigator;
-            Page = page;
+            Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+            Page = page ?? throw new ArgumentNullException(nameof(page));
             _lastClick = DateTime.Now.AddDays(-1);
 
             // Associate the page component with this view element
@@ -103,15 +103,15 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create a decorator to interface with the tooltip manager
-            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager!, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager!, this, toolTipController);
 
             // Assign controller for handing mouse input
             MouseController = hoverController;
 
             // Create overrides for handling a focus state
-            _paletteGeneral = Navigator.StateCommon.RibbonGeneral;
-            _overrideStateNormal = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.Content, PaletteState.FocusOverride);
+            _paletteGeneral = Navigator.StateCommon!.RibbonGeneral;
+            _overrideStateNormal = new PaletteRibbonTabContentInheritOverride(Page!.OverrideFocus.RibbonTab.TabDraw, Page!.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStateTracking = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateTracking.RibbonTab.TabDraw, Page.StateTracking.RibbonTab.TabDraw, Page.StateTracking.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStatePressed = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StatePressed.RibbonTab.TabDraw, Page.StatePressed.RibbonTab.TabDraw, Page.StatePressed.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStateSelected = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateSelected.RibbonTab.TabDraw, Page.StateSelected.RibbonTab.TabDraw, Page.StateSelected.RibbonTab.Content, PaletteState.FocusOverride);
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         {
             if (disposing)
             {
-                if (_mementos is not null)
+                if (_mementos != null)
                 {
                     // Dispose of all the mementos in the array
                     foreach (IDisposable? memento in _mementos)
@@ -184,7 +184,7 @@ namespace Krypton.Navigator
                     _mementos = null!;
                 }
 
-                if (ButtonSpecManager is not null)
+                if (ButtonSpecManager != null)
                 {
                     ButtonSpecManager.Destruct();
                     ButtonSpecManager = null!;
@@ -223,7 +223,7 @@ namespace Krypton.Navigator
         {
             get => _overrideStateNormal.Apply;
 
-            set 
+            set
             {
                 if (_overrideStateNormal.Apply != value)
                 {
@@ -304,10 +304,10 @@ namespace Krypton.Navigator
         {
             // Ensure we are using the correct palette
             CheckPaletteState(context);
-            
+
             // Cache the ribbon shape
-            _lastRibbonShape = Navigator.Palette?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
-            
+            _lastRibbonShape = Navigator.GetResolvedPalette()?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
+
             // We take on all the provided size
             ClientRectangle = context.DisplayRectangle;
 
@@ -345,8 +345,13 @@ namespace Krypton.Navigator
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Ensure we are using the correct palette
             CheckPaletteState(context);
 
@@ -358,7 +363,6 @@ namespace Krypton.Navigator
                                                                                    State,
                                                                                    _currentBack,
                                                                                    _borderBackOrient,
-                                                                                   false,
                                                                                    _mementos[mementoIndex]);
 
             // Let base class draw the child items
@@ -371,14 +375,14 @@ namespace Krypton.Navigator
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => Page.GetTextMapping(Navigator.Bar.BarMapText);
+        public string GetShortText() => Page!.GetTextMapping(Navigator.Bar.BarMapText);
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
+        public Image? GetImage(PaletteState state) => Page!.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -391,7 +395,7 @@ namespace Krypton.Navigator
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText() => Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
+        public string GetLongText() => Page!.GetTextMapping(Navigator.Bar.BarMapExtraText);
 
         #endregion
 
@@ -401,7 +405,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightClick(object sender, MouseEventArgs e)
+        protected virtual void OnRightClick(object? sender, MouseEventArgs e)
         {
             // Can only select the page if not already selected and allowed to select a tab
             if ((Navigator.SelectedPage != Page) && Navigator.AllowTabSelect)
@@ -410,7 +414,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            var scma = new ShowContextMenuArgs(Page, Navigator.Pages.IndexOf(Page));
+            var scma = new ShowContextMenuArgs(Page, Navigator.Pages.IndexOf(Page!));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu
@@ -418,11 +422,11 @@ namespace Krypton.Navigator
             {
                 if (CommonHelper.ValidKryptonContextMenu(scma.KryptonContextMenu))
                 {
-                    scma.KryptonContextMenu.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
+                    scma.KryptonContextMenu!.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
                 }
                 else if (scma.ContextMenuStrip != null)
                 {
-                    if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip) )
+                    if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip))
                     {
                         scma.ContextMenuStrip.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
                     }
@@ -443,9 +447,13 @@ namespace Krypton.Navigator
         {
             Array stateValues = Enum.GetValues(typeof(PaletteState));
 
+            PaletteState? ps;
+
             for (var i = 0; i < stateValues.Length; i++)
             {
-                if ((PaletteState)stateValues.GetValue(i) == state)
+                ps = stateValues.GetValue(i) as PaletteState?;
+
+                if (ps is not null && ps == state)
                 {
                     return i;
                 }
@@ -460,7 +468,7 @@ namespace Krypton.Navigator
             PaletteState buttonState = State;
 
             // If the actual control is not enabled, force to disabled state
-            if (!IsFixed && !context.Control.Enabled)
+            if (!IsFixed && !context.Control!.Enabled)
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -496,7 +504,7 @@ namespace Krypton.Navigator
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
                             buttonState = PaletteState.Normal;
-                            break;                      
+                            break;
                         case PaletteState.Tracking:
                         case PaletteState.CheckedTracking:
                             buttonState = PaletteState.Tracking;
@@ -517,21 +525,25 @@ namespace Krypton.Navigator
                     _currentBack = Navigator.StateDisabled.RibbonTab.TabDraw;
                     _currentContent = Navigator.StateDisabled.RibbonTab.Content;
                     break;
+
                 case PaletteState.Normal:
                     _currentText = _overrideStateNormal;
                     _currentBack = _overrideStateNormal;
                     _currentContent = _overrideStateNormal;
                     break;
+
                 case PaletteState.Tracking:
                     _currentText = _overrideStateTracking;
                     _currentBack = _overrideStateTracking;
                     _currentContent = _overrideStateTracking;
                     break;
+
                 case PaletteState.Pressed:
                     _currentText = _overrideStatePressed;
                     _currentBack = _overrideStatePressed;
                     _currentContent = _overrideStatePressed;
                     break;
+
                 case PaletteState.CheckedNormal:
                 case PaletteState.CheckedTracking:
                 case PaletteState.CheckedPressed:
@@ -539,35 +551,37 @@ namespace Krypton.Navigator
                     _currentBack = _overrideStateSelected;
                     _currentContent = _overrideStateSelected;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonState.ToString());
                     break;
             }
 
             // Switch the child elements over to correct state
             ElementState = buttonState;
-            this[0][0].ElementState = buttonState;
+            this[0]![0]!.ElementState = buttonState;
 
             // Update content palette with the current ribbon text palette
             _contentProvider.PaletteRibbonText = _currentText;
             _contentProvider.PaletteContent = _currentContent;
         }
 
-        private void OnClick(object sender, EventArgs e)
+        private void OnClick(object? sender, EventArgs e)
         {
             // Generate click event for the page header
-            Navigator.OnTabClicked(new KryptonPageEventArgs(Page, Navigator.Pages.IndexOf(Page)));
+            Navigator.OnTabClicked(new KryptonPageEventArgs(Page, Navigator.Pages.IndexOf(Page!)));
 
             // If this click is within the double click time of the last one, generate the double click event.
             DateTime now = DateTime.Now;
             if ((now - _lastClick).TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
                 // Tell button controller to abort any drag attempt
-                _buttonController.ClearDragRect();
+                _buttonController!.ClearDragRect();
 
                 // Generate click event for the page header
-                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(Page, Navigator.Pages.IndexOf(Page)));
+                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(Page, Navigator.Pages.IndexOf(Page!)));
 
                 // Prevent a third click causing another double click by resetting the now time backwards
                 now = now.AddDays(-1);
@@ -587,22 +601,22 @@ namespace Krypton.Navigator
                 // If in a tabs only mode then show the popup for the page
                 if (Navigator.NavigatorMode == NavigatorMode.BarRibbonTabOnly)
                 {
-                    Navigator.ShowPopupPage(Page, this, null);
+                    Navigator.ShowPopupPage(Page!, this, null);
                 }
             }
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, Page);
+        private void OnDragStart(object? sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, Page);
 
-        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
+        private void OnDragMove(object? sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
+        private void OnDragEnd(object? sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
+        private void OnDragQuit(object? sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
+        private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+        private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }

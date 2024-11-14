@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming alternatives
-            _primary = primary;
-            _backup = backup;
+            _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
+            _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
 
             // Default other state
             Apply = true;
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBackColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBackColor1(state);
                 }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetBackColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetBackColor2(state);
                 }
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                Image ret = _primary.GetBackImage(Override ? OverrideState : state) ?? _backup.GetBackImage(state);
+                Image ret = _primary.GetBackImage(Override ? OverrideState : state) ?? _backup.GetBackImage(state)!;
 
                 return ret;
             }

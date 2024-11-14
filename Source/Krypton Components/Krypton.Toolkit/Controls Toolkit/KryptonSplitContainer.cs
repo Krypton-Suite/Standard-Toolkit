@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
             StatePressed = new PaletteSeparatorPadding(StateCommon.Separator, StateCommon.Separator, NeedPaintDelegate);
 
             // Our view contains just a simple canvas that covers entire client area and a separator view
-            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
-                                                   StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
+            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
+                                                   StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
                                                     PaletteMetricPadding.SeparatorPaddingLowProfile, Orientation.Vertical);
 
             _drawPanel = new ViewDrawPanel(StateNormal.Back)
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect? StateCommon { get; }
+        public PaletteSplitContainerRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+        private bool ShouldSerializeStateTracking() => !StateTracking!.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+        private bool ShouldSerializeStatePressed() => !StatePressed!.IsDefault;
 
         /// <summary>
         /// Gets access to the first krypton splitter panel.
@@ -1137,7 +1137,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // Do we have a manager to use for painting?
             if (ViewManager != null)
@@ -1404,7 +1404,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private bool Collapsed => Panel1.Collapsed || Panel2.Collapsed;
 
-        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon.Separator.SetStyles(separatorStyle);
+        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon?.Separator.SetStyles(separatorStyle);
 
         #endregion
     }

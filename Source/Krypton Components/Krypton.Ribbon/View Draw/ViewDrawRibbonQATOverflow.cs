@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -17,14 +17,14 @@ namespace Krypton.Ribbon
     /// <summary>
     /// Draws the border around the overflow popup of the quick access toolbar.
     /// </summary>
-    internal class ViewDrawRibbonQATOverflow  : ViewComposite
+    internal class ViewDrawRibbonQATOverflow : ViewComposite
     {
         #region Instance Fields
         private readonly Padding _borderPadding; // = new(3);
-        private readonly int QAT_HEIGHT_FULL; // = 28;
+        private readonly int _qatHeightFull; // = 28;
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity
@@ -40,10 +40,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _needPaintDelegate = needPaintDelegate!;
             _borderPadding = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
-            QAT_HEIGHT_FULL = (int)(28 * FactorDpiY);
+            _qatHeightFull = (int)(28 * FactorDpiY);
         }
 
         /// <summary>
@@ -85,11 +85,11 @@ namespace Krypton.Ribbon
 
             // Add on the border padding
             preferredSize = CommonHelper.ApplyPadding(Orientation.Horizontal, preferredSize, _borderPadding);
-            preferredSize.Height = Math.Max(preferredSize.Height, QAT_HEIGHT_FULL);
+            preferredSize.Height = Math.Max(preferredSize.Height, _qatHeightFull);
 
             return preferredSize;
         }
-            
+
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
@@ -98,7 +98,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            Rectangle clientRect = context.DisplayRectangle;
+            Rectangle clientRect = context!.DisplayRectangle;
 
             ClientRectangle = clientRect;
 
@@ -118,14 +118,21 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) => _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+        public override void RenderBefore(RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
                                                                     context,
                                                                     ClientRectangle,
                                                                     PaletteState.Normal,
                                                                     _ribbon.StateCommon.RibbonQATOverflow,
                                                                     VisualOrientation.Top,
-                                                                    false,
                                                                     _memento);
+        }
         #endregion
     }
 }

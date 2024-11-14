@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -328,14 +328,13 @@ namespace Krypton.Toolkit
             // adjust alpha channel of grip image
             using var attr = new ImageAttributes();
             attr.SetColorMatrix(
-                new ColorMatrix(new[]
-                {
-                    new[] { 1F, 0, 0, 0, 0 },
-                    new[] { 0, 1F, 0, 0, 0 },
-                    new[] { 0, 0, 1F, 0, 0 },
-                    new[] { 0, 0, 0,  .8F, 0 },
-                    new[] { 0, 0, 0, 0, 1F }
-                }),
+                new ColorMatrix([
+                    [1F, 0, 0, 0, 0],
+                    [0, 1F, 0, 0, 0],
+                    [0, 0, 1F, 0, 0],
+                    [0, 0, 0,  .8F, 0],
+                    [0, 0, 0, 0, 1F]
+                ]),
                 ColorMatrixFlag.Default,
                 ColorAdjustType.Bitmap
             );
@@ -593,13 +592,13 @@ namespace Krypton.Toolkit
                     thumbColours[index, 5], LinearGradientMode.Horizontal);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
-                    Colors = new[]
-                    {
+                    Colors =
+                    [
                         thumbColours[index, 4],
                         thumbColours[index, 6],
                         thumbColours[index, 5]
-                    },
-                    Positions = new[] { 0f, .5f, 1f }
+                    ],
+                    Positions = [0f, .5f, 1f]
                 };
 
                 g.FillRectangle(brush, r);
@@ -625,7 +624,7 @@ namespace Krypton.Toolkit
                 g.DrawLine(p, innerRect.Right, innerRect.Y, innerRect.Right, innerRect.Bottom);
             }
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
 
             // draw border
             using (var p = new Pen(thumbColours[index, 0]))
@@ -635,8 +634,6 @@ namespace Krypton.Toolkit
                     g.DrawPath(p, path);
                 }
             }
-
-            g.SmoothingMode = SmoothingMode.None;
         }
 
         /// <summary>
@@ -680,13 +677,13 @@ namespace Krypton.Toolkit
                     thumbColours[index, 5], LinearGradientMode.Vertical);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
-                    Colors = new[]
-                    {
+                    Colors =
+                    [
                         thumbColours[index, 4],
                         thumbColours[index, 6],
                         thumbColours[index, 5]
-                    },
-                    Positions = new[] { 0f, .5f, 1f }
+                    ],
+                    Positions = [0f, .5f, 1f]
                 };
 
                 g.FillRectangle(brush, r);
@@ -712,7 +709,7 @@ namespace Krypton.Toolkit
                 g.DrawLine(p, innerRect.X, innerRect.Bottom, innerRect.Right, innerRect.Bottom);
             }
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
 
             // draw border
             using (var p = new Pen(thumbColours[index, 0]))
@@ -722,8 +719,6 @@ namespace Krypton.Toolkit
                     g.DrawPath(p, path);
                 }
             }
-
-            g.SmoothingMode = SmoothingMode.None;
         }
 
         /// <summary>
@@ -811,11 +806,13 @@ namespace Krypton.Toolkit
                 {
                     var blend = new ColorBlend(3)
                     {
-                        Positions = new[] { 0f, .5f, 1f },
-                        Colors = new[] {
+                        Positions = [0f, .5f, 1f],
+                        Colors =
+                        [
                             arrowBorderColours[2],
                             arrowBorderColours[3],
-                            arrowBorderColours[0] }
+                            arrowBorderColours[0]
+                        ]
                     };
 
                     brush.InterpolationColors = blend;
@@ -931,8 +928,8 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
-        private static void OnGlobalPaletteChanged(object sender, EventArgs e)
+        //Krypton Palette Events
+        private static void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             if (_palette != null)
             {
@@ -953,8 +950,8 @@ namespace Krypton.Toolkit
             //Invalidate();
         }
 
-        //Kripton Palette Events
-        private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
+        //Krypton Palette Events
+        private static void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();
         }

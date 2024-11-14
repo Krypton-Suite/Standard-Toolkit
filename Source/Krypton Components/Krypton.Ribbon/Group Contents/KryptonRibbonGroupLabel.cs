@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -28,12 +28,12 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _visible;
         private bool _enabled;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private string _textLine1;
         private string _textLine2;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private readonly NeedPaintHandler _needPaintDelegate;
         private readonly PaletteRibbonText _stateNormal;
         private readonly PaletteRibbonText _stateDisabled;
@@ -359,7 +359,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase LabelView { get; set; }
+        public ViewBase? LabelView { get; set; }
 
         #endregion
 
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -410,7 +410,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
+        private void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
         #endregion

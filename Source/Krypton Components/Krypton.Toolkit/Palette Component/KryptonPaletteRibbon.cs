@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -18,13 +16,13 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbon : Storage
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonAppMenuDocsTitleInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonAppMenuDocsEntryInherit;
         private readonly PaletteRibbonGeneralInheritRedirect _ribbonGeneralRedirect;
+        private readonly PaletteRibbonFileAppTabInheritRedirect _ribbonFileAppTabRedirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonQATFullRedirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonQATOverRedirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonGalleryBackRedirect;
@@ -45,50 +43,52 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbon([DisallowNull] PaletteRedirect? redirect,
+        public KryptonPaletteRibbon([DisallowNull] PaletteRedirect redirect,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
 
             // Store incoming reference
-            _redirect = redirect;
+            PaletteRedirect redirect1 = redirect!;
 
             // Create redirectors
-            _ribbonGeneralRedirect = new PaletteRibbonGeneralInheritRedirect(redirect);
-            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuInner);
-            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuOuter);
-            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonAppMenuDocs);
-            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
-            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
-            _ribbonQATFullRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATFullbar);
-            _ribbonQATOverRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonQATOverflow);
-            _ribbonGalleryBackRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGalleryBack);
-            _ribbonGalleryBorderRedirect = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGalleryBorder);
+            _ribbonGeneralRedirect = new PaletteRibbonGeneralInheritRedirect(redirect1);
+            _ribbonFileAppTabRedirect = new PaletteRibbonFileAppTabInheritRedirect(redirect1);
+            _ribbonAppMenuInnerInherit = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonAppMenuInner);
+            _ribbonAppMenuOuterInherit = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonAppMenuOuter);
+            _ribbonAppMenuDocsInherit = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonAppMenuDocs);
+            _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect1, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
+            _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect1, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
+            _ribbonQATFullRedirect = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonQATFullbar);
+            _ribbonQATOverRedirect = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonQATOverflow);
+            _ribbonGalleryBackRedirect = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonGalleryBack);
+            _ribbonGalleryBorderRedirect = new PaletteRibbonBackInheritRedirect(redirect1, PaletteRibbonBackStyle.RibbonGalleryBorder);
 
             // Create palettes
             RibbonGeneral = new PaletteRibbonGeneral(_ribbonGeneralRedirect, needPaint);
-            RibbonAppButton = new KryptonPaletteRibbonAppButton(redirect, needPaint);
+            RibbonFileAppTab = new PaletteRibbonFileAppTab(_ribbonFileAppTabRedirect, needPaint);
+            RibbonAppButton = new KryptonPaletteRibbonAppButton(redirect1, needPaint);
             _ribbonAppMenuInner = new PaletteRibbonBack(_ribbonAppMenuInnerInherit, needPaint);
             _ribbonAppMenuOuter = new PaletteRibbonBack(_ribbonAppMenuOuterInherit, needPaint);
             _ribbonAppMenuDocs = new PaletteRibbonBack(_ribbonAppMenuDocsInherit, needPaint);
             _ribbonAppMenuDocsTitle = new PaletteRibbonText(_ribbonAppMenuDocsTitleInherit, needPaint);
             _ribbonAppMenuDocsEntry = new PaletteRibbonText(_ribbonAppMenuDocsEntryInherit, needPaint);
-            RibbonGroupArea = new KryptonPaletteRibbonGroupArea(redirect, needPaint);
-            RibbonGroupButtonText = new KryptonPaletteRibbonGroupButtonText(redirect, needPaint);
-            RibbonGroupCheckBoxText = new KryptonPaletteRibbonGroupCheckBoxText(redirect, needPaint);
-            RibbonGroupNormalBorder = new KryptonPaletteRibbonGroupNormalBorder(redirect, needPaint);
-            RibbonGroupNormalTitle = new KryptonPaletteRibbonGroupNormalTitle(redirect, needPaint);
-            RibbonGroupCollapsedBorder = new KryptonPaletteRibbonGroupCollapsedBorder(redirect, needPaint);
-            RibbonGroupCollapsedBack = new KryptonPaletteRibbonGroupCollapsedBack(redirect, needPaint);
-            RibbonGroupCollapsedFrameBorder = new KryptonPaletteRibbonGroupCollapsedFrameBorder(redirect, needPaint);
-            RibbonGroupCollapsedFrameBack = new KryptonPaletteRibbonGroupCollapsedFrameBack(redirect, needPaint);
-            RibbonGroupCollapsedText = new KryptonPaletteRibbonGroupCollapsedText(redirect, needPaint);
-            RibbonGroupRadioButtonText = new KryptonPaletteRibbonGroupRadioButtonText(redirect, needPaint);
-            RibbonGroupLabelText = new KryptonPaletteRibbonGroupLabelText(redirect, needPaint);
+            RibbonGroupArea = new KryptonPaletteRibbonGroupArea(redirect1, needPaint);
+            RibbonGroupButtonText = new KryptonPaletteRibbonGroupButtonText(redirect1, needPaint);
+            RibbonGroupCheckBoxText = new KryptonPaletteRibbonGroupCheckBoxText(redirect1, needPaint);
+            RibbonGroupNormalBorder = new KryptonPaletteRibbonGroupNormalBorder(redirect1, needPaint);
+            RibbonGroupNormalTitle = new KryptonPaletteRibbonGroupNormalTitle(redirect1, needPaint);
+            RibbonGroupCollapsedBorder = new KryptonPaletteRibbonGroupCollapsedBorder(redirect1, needPaint);
+            RibbonGroupCollapsedBack = new KryptonPaletteRibbonGroupCollapsedBack(redirect1, needPaint);
+            RibbonGroupCollapsedFrameBorder = new KryptonPaletteRibbonGroupCollapsedFrameBorder(redirect1, needPaint);
+            RibbonGroupCollapsedFrameBack = new KryptonPaletteRibbonGroupCollapsedFrameBack(redirect1, needPaint);
+            RibbonGroupCollapsedText = new KryptonPaletteRibbonGroupCollapsedText(redirect1, needPaint);
+            RibbonGroupRadioButtonText = new KryptonPaletteRibbonGroupRadioButtonText(redirect1, needPaint);
+            RibbonGroupLabelText = new KryptonPaletteRibbonGroupLabelText(redirect1, needPaint);
             RibbonQATFullbar = new PaletteRibbonBack(_ribbonQATFullRedirect, needPaint);
-            RibbonQATMinibar = new KryptonPaletteRibbonQATMinibar(redirect, needPaint);
+            RibbonQATMinibar = new KryptonPaletteRibbonQATMinibar(redirect1, needPaint);
             RibbonQATOverflow = new PaletteRibbonBack(_ribbonQATOverRedirect, needPaint);
-            RibbonTab = new KryptonPaletteRibbonTab(redirect, needPaint);
+            RibbonTab = new KryptonPaletteRibbonTab(redirect1, needPaint);
             _ribbonGalleryBack = new PaletteRibbonBack(_ribbonGalleryBackRedirect, needPaint);
             _ribbonGalleryBorder = new PaletteRibbonBack(_ribbonGalleryBorderRedirect, needPaint);
         }
@@ -96,30 +96,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => RibbonAppButton.IsDefault &&
-                                          RibbonAppMenuOuter.IsDefault &&
-                                          RibbonAppMenuInner.IsDefault &&
-                                          RibbonAppMenuDocs.IsDefault &&
-                                          RibbonAppMenuDocsTitle.IsDefault &&
-                                          RibbonAppMenuDocsEntry.IsDefault &&
-                                          RibbonGeneral.IsDefault &&
-                                          RibbonGroupArea.IsDefault &&
-                                          RibbonGroupButtonText.IsDefault &&
-                                          RibbonGroupCheckBoxText.IsDefault &&
-                                          RibbonGroupNormalBorder.IsDefault &&
-                                          RibbonGroupNormalTitle.IsDefault &&
-                                          RibbonGroupCollapsedBorder.IsDefault &&
-                                          RibbonGroupCollapsedBack.IsDefault &&
-                                          RibbonGroupCollapsedFrameBorder.IsDefault &&
-                                          RibbonGroupCollapsedFrameBack.IsDefault &&
-                                          RibbonGroupCollapsedText.IsDefault &&
-                                          RibbonGroupLabelText.IsDefault &&
-                                          RibbonGroupRadioButtonText.IsDefault &&
-                                          RibbonQATFullbar.IsDefault &&
-                                          RibbonQATMinibar.IsDefault &&
-                                          RibbonTab.IsDefault &&
-                                          RibbonGalleryBack.IsDefault &&
-                                          RibbonGalleryBorder.IsDefault;
+                                            RibbonAppMenuOuter.IsDefault &&
+                                            RibbonAppMenuInner.IsDefault &&
+                                            RibbonAppMenuDocs.IsDefault &&
+                                            RibbonAppMenuDocsTitle.IsDefault &&
+                                            RibbonAppMenuDocsEntry.IsDefault &&
+                                            RibbonGeneral.IsDefault &&
+                                            RibbonGroupArea.IsDefault &&
+                                            RibbonGroupButtonText.IsDefault &&
+                                            RibbonGroupCheckBoxText.IsDefault &&
+                                            RibbonGroupNormalBorder.IsDefault &&
+                                            RibbonGroupNormalTitle.IsDefault &&
+                                            RibbonGroupCollapsedBorder.IsDefault &&
+                                            RibbonGroupCollapsedBack.IsDefault &&
+                                            RibbonGroupCollapsedFrameBorder.IsDefault &&
+                                            RibbonGroupCollapsedFrameBack.IsDefault &&
+                                            RibbonGroupCollapsedText.IsDefault &&
+                                            RibbonGroupLabelText.IsDefault &&
+                                            RibbonGroupRadioButtonText.IsDefault &&
+                                            RibbonQATFullbar.IsDefault &&
+                                            RibbonQATMinibar.IsDefault &&
+                                            RibbonTab.IsDefault &&
+                                            RibbonGalleryBack.IsDefault &&
+                                            RibbonGalleryBorder.IsDefault;
 
         #endregion
 
@@ -130,6 +132,7 @@ namespace Krypton.Toolkit
         public void PopulateFromBase()
         {
             RibbonAppButton.PopulateFromBase();
+            RibbonFileAppTab.PopulateFromBase();
             RibbonAppMenuOuter.PopulateFromBase(PaletteState.Normal);
             RibbonAppMenuInner.PopulateFromBase(PaletteState.Normal);
             RibbonAppMenuDocs.PopulateFromBase(PaletteState.Normal);
@@ -252,9 +255,21 @@ namespace Krypton.Toolkit
         public PaletteRibbonGeneral RibbonGeneral { get; }
 
         private bool ShouldSerializeRibbonGeneral() => !RibbonGeneral.IsDefault;
-
         #endregion
 
+        #region RibbonFileAppTab
+        /// <summary>
+        /// Get access to the "File App Tab" ribbon settings.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon File App Tab settings.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteRibbonFileAppTab RibbonFileAppTab { get; }
+
+        private bool ShouldSerializeRibbonFileAppTab() => !RibbonFileAppTab.IsDefault;
+        #endregion
+        
         #region RibbonGroupArea
         /// <summary>
         /// Get access to the ribbon group area settings.

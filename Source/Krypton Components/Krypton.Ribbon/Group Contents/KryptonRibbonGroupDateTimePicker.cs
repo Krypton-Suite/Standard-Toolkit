@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -183,11 +183,11 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (DateTimePicker != null)
+                if (DateTimePicker != null!)
                 {
                     UnmonitorControl(DateTimePicker);
                     DateTimePicker.Dispose();
-                    DateTimePicker = null;
+                    DateTimePicker = null!;
                 }
             }
 
@@ -208,12 +208,13 @@ namespace Krypton.Ribbon
             {
                 base.Ribbon = value;
 
-                if (value != null)
+                if (value is not null)
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
-                    // to know when the ribbon palette changes so we can reflect that change
-                    DateTimePicker.Palette = Ribbon!.GetResolvedPalette();
-                    Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
+                    // to know when the ribbon palette changes, so we can reflect that change
+                    DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+                    DateTimePicker.LocalCustomPalette = Ribbon.LocalCustomPalette;
+                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -258,7 +259,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -491,6 +492,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Today's date.")]
+        [AllowNull]
         public DateTime CalendarTodayDate
         {
             get => DateTimePicker.CalendarTodayDate;
@@ -507,7 +509,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => DateTimePicker.CalendarAnnuallyBoldedDates;
             set => DateTimePicker.CalendarAnnuallyBoldedDates = value;
@@ -523,7 +525,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => DateTimePicker.CalendarMonthlyBoldedDates;
             set => DateTimePicker.CalendarMonthlyBoldedDates = value;
@@ -539,7 +541,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        public DateTime[]? CalendarBoldedDates
         {
             get => DateTimePicker.CalendarBoldedDates;
             set => DateTimePicker.CalendarBoldedDates = value;
@@ -570,18 +572,21 @@ namespace Krypton.Ribbon
         [TypeConverter(typeof(DateTimeNullableConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
-        public object ValueNullable
+        public object? ValueNullable
         {
             get => DateTimePicker.ValueNullable;
             set => DateTimePicker.ValueNullable = value;
         }
-
         private void ResetValueNullable() => DateTimePicker.ResetValueNullable();
-
         private bool ShouldSerializeValueNullable() => DateTimePicker.ShouldSerializeValueNullable();
 
         /// <summary>
-        /// Gets or sets the date/time value assigned to the control..
+        ///  Sets date as the current selected date.
+        /// </summary>
+        public void SetDate(DateTime date) => DateTimePicker.SetDate( date);
+
+        /// <summary>
+        /// Gets or sets the date/time value assigned to the control.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Property for the date/time.")]
@@ -592,9 +597,7 @@ namespace Krypton.Ribbon
             get => DateTimePicker.Value;
             set => DateTimePicker.Value = value;
         }
-
         private void ResetValue() => DateTimePicker.ResetValue();
-
         private bool ShouldSerializeValue() => DateTimePicker.ShouldSerializeValue();
 
         /// <summary>
@@ -698,7 +701,7 @@ namespace Krypton.Ribbon
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string CustomFormat
+        public string? CustomFormat
         {
             get => DateTimePicker.CustomFormat;
             set => DateTimePicker.CustomFormat = value;
@@ -977,39 +980,44 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnDateTimePickerGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnDateTimePickerGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnDateTimePickerLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnDateTimePickerLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnDateTimePickerFormatChanged(object sender, EventArgs e) => OnFormatChanged(e);
+        private void OnDateTimePickerFormatChanged(object? sender, EventArgs e) => OnFormatChanged(e);
 
-        private void OnDateTimePickerCheckedChanged(object sender, EventArgs e) => OnCheckedChanged(e);
+        private void OnDateTimePickerCheckedChanged(object? sender, EventArgs e) => OnCheckedChanged(e);
 
-        private void OnDateTimePickerCloseUp(object sender, DateTimePickerCloseArgs e) => OnCloseUp(e);
+        private void OnDateTimePickerCloseUp(object? sender, DateTimePickerCloseArgs e) => OnCloseUp(e);
 
-        private void OnDateTimePickerDropDown(object sender, DateTimePickerDropArgs e) => OnDropDown(e);
+        private void OnDateTimePickerDropDown(object? sender, DateTimePickerDropArgs e) => OnDropDown(e);
 
-        private void OnDateTimePickerValueNullableChanged(object sender, EventArgs e) => OnValueNullableChanged(e);
+        private void OnDateTimePickerValueNullableChanged(object? sender, EventArgs e) => OnValueNullableChanged(e);
 
-        private void OnDateTimePickerValueChanged(object sender, EventArgs e) => OnValueChanged(e);
+        private void OnDateTimePickerValueChanged(object? sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDateTimePickerKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnDateTimePickerKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnDateTimePickerKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnDateTimePickerKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnDateTimePickerKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnDateTimePickerKeyDown(object?  sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnDateTimePickerKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => DateTimePicker.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
+        {
+            DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+            DateTimePicker.LocalCustomPalette = Ribbon.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

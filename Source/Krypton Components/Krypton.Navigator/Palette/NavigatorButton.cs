@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -49,10 +49,10 @@ namespace Krypton.Navigator
         public NavigatorButton([DisallowNull] KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -109,25 +109,26 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((ButtonSpecs.Count == 0) &&
-                                           PreviousButton.IsDefault &&
-                                           (PreviousButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
-                                           (PreviousButtonDisplay == ButtonDisplay.Logic) &&
-                                           (PreviousButtonShortcut == DEFAULT_SHORTCUT_PREVIOUS) &&
-                                           NextButton.IsDefault &&
-                                           (NextButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
-                                           (NextButtonDisplay == ButtonDisplay.Logic) &&
-                                           (NextButtonShortcut == DEFAULT_SHORTCUT_NEXT) &&
-                                           ContextButton.IsDefault &&
-                                           (ContextButtonDisplay == ButtonDisplay.Logic) &&
-                                           (ContextButtonShortcut == DEFAULT_SHORTCUT_CONTEXT) &&
-                                           (ContextMenuMapText == MapKryptonPageText.TextTitle) &&
-                                           (ContextMenuMapImage == MapKryptonPageImage.Small) &&
-                                           CloseButton.IsDefault &&
-                                           (CloseButtonAction == CloseButtonAction.RemovePageAndDispose) &&
-                                           (CloseButtonDisplay == ButtonDisplay.Logic) &&
-                                           (CloseButtonShortcut == DEFAULT_SHORTCUT_CLOSE) &&
-                                           (ButtonDisplayLogic == ButtonDisplayLogic.Context));
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => ((ButtonSpecs!.Count == 0) &&
+                                             PreviousButton.IsDefault &&
+                                             (PreviousButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
+                                             (PreviousButtonDisplay == ButtonDisplay.Logic) &&
+                                             (PreviousButtonShortcut == DEFAULT_SHORTCUT_PREVIOUS) &&
+                                             NextButton.IsDefault &&
+                                             (NextButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
+                                             (NextButtonDisplay == ButtonDisplay.Logic) &&
+                                             (NextButtonShortcut == DEFAULT_SHORTCUT_NEXT) &&
+                                             ContextButton.IsDefault &&
+                                             (ContextButtonDisplay == ButtonDisplay.Logic) &&
+                                             (ContextButtonShortcut == DEFAULT_SHORTCUT_CONTEXT) &&
+                                             (ContextMenuMapText == MapKryptonPageText.TextTitle) &&
+                                             (ContextMenuMapImage == MapKryptonPageImage.Small) &&
+                                             CloseButton.IsDefault &&
+                                             (CloseButtonAction == CloseButtonAction.RemovePageAndDispose) &&
+                                             (CloseButtonDisplay == ButtonDisplay.Logic) &&
+                                             (CloseButtonShortcut == DEFAULT_SHORTCUT_CLOSE) &&
+                                             (ButtonDisplayLogic == ButtonDisplayLogic.Context));
 
         #endregion
 
@@ -139,7 +140,7 @@ namespace Krypton.Navigator
         [Description(@"Collection of button specifications.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public NavigatorButtonSpecCollection ButtonSpecs { get; }
+        public NavigatorButtonSpecCollection? ButtonSpecs { get; }
 
         #endregion
 
@@ -540,19 +541,19 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnPreviousClick(object sender, EventArgs e) => _navigator.PerformPreviousAction();
+        private void OnPreviousClick(object? sender, EventArgs e) => _navigator.PerformPreviousAction();
 
-        private void OnNextClick(object sender, EventArgs e) => _navigator.PerformNextAction();
+        private void OnNextClick(object? sender, EventArgs e) => _navigator.PerformNextAction();
 
-        private void OnContextClick(object sender, EventArgs e) => _navigator.PerformContextAction();
+        private void OnContextClick(object? sender, EventArgs e) => _navigator.PerformContextAction();
 
-        private void OnCloseClick(object sender, EventArgs e) => _navigator.PerformCloseAction();
+        private void OnCloseClick(object? sender, EventArgs e) => _navigator.PerformCloseAction();
 
-        private void OnMaximizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMaximizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnMinimizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnMinimizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
 
-        private void OnCloseButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+        private void OnCloseButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Size _smallSize;// = new Size(16, 16);
         private readonly KryptonRibbonGroupClusterColorButton _ribbonColorButton;
-        private Image _compositeImage;
+        private Image? _compositeImage;
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRect;
@@ -35,12 +35,12 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonColorButton">Reference to ribbon group color button definition.</param>
-        public ViewDrawRibbonGroupClusterColorButtonImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupClusterColorButton ribbonColorButton)
+        public ViewDrawRibbonGroupClusterColorButtonImage([DisallowNull] KryptonRibbon? ribbon,
+                                                          [DisallowNull] KryptonRibbonGroupClusterColorButton? ribbonColorButton)
             : base(ribbon)
         {
-            Debug.Assert(ribbonColorButton != null);
-            _ribbonColorButton = ribbonColorButton;
+            Debug.Assert(ribbonColorButton is not null);
+            _ribbonColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
             _selectedColor = ribbonColorButton.SelectedColor;
             _emptyBorderColor = ribbonColorButton.EmptyBorderColor;
             _selectedRect = ribbonColorButton.SelectedRect;
@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {

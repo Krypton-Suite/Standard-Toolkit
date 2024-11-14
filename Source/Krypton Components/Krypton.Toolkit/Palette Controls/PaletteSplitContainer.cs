@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,13 +25,13 @@ namespace Krypton.Toolkit
         /// <param name="inheritSeparator">Source for inheriting separator defaulted values.</param>
         /// <param name="inheritMetric">Source for inheriting separator metric values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSplitContainer(IPaletteDouble? inheritSplitContainer,
+        public PaletteSplitContainer(IPaletteDouble inheritSplitContainer,
                                      IPaletteDouble? inheritSeparator,
                                      IPaletteMetric? inheritMetric,
                                      NeedPaintHandler needPaint)
             : base(inheritSplitContainer, needPaint) =>
             // Create the embedded separator palette information
-            Separator = new PaletteSeparatorPadding(inheritSeparator, inheritMetric, needPaint);
+            Separator = new PaletteSeparatorPadding(inheritSeparator!, inheritMetric!, needPaint);
 
         #endregion
 
@@ -40,8 +40,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           Separator.IsDefault;
+                                            Separator!.IsDefault;
 
         #endregion
 
@@ -65,7 +66,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+        private bool ShouldSerializeSeparator() => !Separator!.IsDefault;
 
         #endregion
     }

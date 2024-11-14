@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -41,25 +41,25 @@ namespace Krypton.Toolkit
                 var pnl = new KryptonPanel
                 {
                     Dock = DockStyle.Bottom,
-                    Height = (int)(56*_scaleFactor),
+                    Height = (int)(56 * _scaleFactor),
                     Name = "kryptonPanel2",
                     Margin = new Padding(0),
                     Padding = new Padding(0)
                 };
-                _commonDialogHandler._wrapperForm.Controls.Add(pnl);
+                _commonDialogHandler._wrapperForm?.Controls.Add(pnl);
                 foreach (KryptonPanel? parent in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null)
                              .Select(static ctl => ctl.Button)
-                             .Select(ctl => ctl.Parent as KryptonPanel)
+                             .Select(ctl => ctl?.Parent as KryptonPanel)
                         )
                 {
-                    parent.Top = (int)(16*_scaleFactor);
+                    parent!.Top = (int)(16 * _scaleFactor);
                     parent.Anchor = AnchorStyles.Right;
                     pnl.Controls.Add(parent);
                 }
             }
         }
 
-        private protected override void FormResize(object sender, EventArgs e)
+        private protected override void FormResize(object? sender, EventArgs e)
         {
             // Panel controls button placement now (Due to messed up transparency)
             //return;

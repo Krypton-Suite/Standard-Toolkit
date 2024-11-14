@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -26,6 +26,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
+        private readonly bool _showProgressBar;
+        private readonly int _minimumProgressValue;
+        private readonly int _maximumProgressValue;
         private bool _startTimestamped;
         private DateTime _startTimestamp;
         private DateTime _spinTimestamp;
@@ -47,6 +51,33 @@ namespace Krypton.Toolkit
             // Hook into dispatch of windows messages
             Application.AddMessageFilter(this);
         }
+
+        /// <summary>Initializes a new instance of the <see cref="ModalWaitDialog" /> class.</summary>
+        /// <param name="showProgressBar">The show progress bar.</param>
+        /// <param name="minimumProgressValue">The minimum progress value.</param>
+        /// <param name="maximumProgressValue">The maximum progress value.</param>
+        public ModalWaitDialog(bool? showProgressBar, int? minimumProgressValue, int? maximumProgressValue)
+        {
+            InitializeComponent();
+
+            _showProgressBar = showProgressBar ?? false;
+
+            _minimumProgressValue = minimumProgressValue ?? 0;
+
+            _maximumProgressValue = maximumProgressValue ?? 100;
+
+            ShowProgressBar(_showProgressBar);
+
+            UpdateProgressBarValueBounds(_minimumProgressValue, _maximumProgressValue);
+
+            // Remove redraw flicker by using double buffering
+            SetStyle(ControlStyles.DoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint, true);
+
+            // Hook into dispatch of windows messages
+            Application.AddMessageFilter(this);
+        }
+
         #endregion
 
         #region Protected
@@ -134,27 +165,35 @@ namespace Krypton.Toolkit
             // Prevent mouse messages from activating any application windows
             if (m.Msg is >= 0x0200 and <= 0x0209 or >= 0x00A0 and <= 0x00A9)
             {
-                // Discover target control for message
-                if (FromHandle(m.HWnd) != null)
-                {
-                    // Find the form that the control is inside
-                    Form f = FromHandle(m.HWnd).FindForm();
-
-                    // If the message is for this dialog then let it be dispatched
-                    if ((f != null) && (f == this))
-                    {
-                        return false;
-                    }
-                }
-
-                // Eat message to prevent dispatch
-                return true;
+                // If the message is for this dialog then let it be dispatched
+                return (FromHandle(m.HWnd)?.FindForm() is Form f && f == this)
+                    ? false // Dispatch the message
+                    : true; // Eat message to prevent dispatch
             }
             else
             {
                 return false;
             }
         }
+
+        /// <summary>Shows the progress bar.</summary>
+        /// <param name="showProgressBar">if set to <c>true</c> [show progress bar].</param>
+        private void ShowProgressBar(bool showProgressBar) => kpbModalProgress.Visible = showProgressBar;
+
+        /// <summary>Updates the progress bar value.</summary>
+        /// <param name="value">The value.</param>
+        public void UpdateProgressBarValue(int value) => kpbModalProgress.Value = value;
+
+        /// <summary>Updates the progress bar value bounds.</summary>
+        /// <param name="minimumValue">The minimum value.</param>
+        /// <param name="maximumValue">The maximum value.</param>
+        private void UpdateProgressBarValueBounds(int? minimumValue, int? maximumValue)
+        {
+            kpbModalProgress.Minimum = minimumValue ?? 0;
+
+            kpbModalProgress.Maximum = maximumValue ?? 100;
+        }
+
         #endregion
     }
 }

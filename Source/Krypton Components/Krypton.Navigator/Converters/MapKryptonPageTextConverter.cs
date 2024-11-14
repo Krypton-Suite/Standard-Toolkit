@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,26 +20,33 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<MapKryptonPageText, string> _pairs = new Dictionary<MapKryptonPageText, string>
+        private static readonly BiDictionary<MapKryptonPageText, string> _pairs = new BiDictionary<MapKryptonPageText, string>(
+            new Dictionary<MapKryptonPageText, string>
         {
-            {MapKryptonPageText.None, "None (Empty string)"}, 
-            {MapKryptonPageText.Text, "Text"},
-            {MapKryptonPageText.TextTitle, "Text - Title"},
-            {MapKryptonPageText.TextTitleDescription, "Text - Title - Description"},
-            {MapKryptonPageText.TextDescription, "Text - Description"},
-            {MapKryptonPageText.Title, "Title"}, 
-            {MapKryptonPageText.TitleText, "Title - Text"},
-            {MapKryptonPageText.TitleDescription, "Title - Description"},
-            {MapKryptonPageText.Description, "Description"},
-            {MapKryptonPageText.DescriptionText, "Description - Text"},
-            {MapKryptonPageText.DescriptionTitle, "Description - Title"},
-            {MapKryptonPageText.DescriptionTitleText, "Description - Title - Text"},
-            {MapKryptonPageText.ToolTipTitle, "ToolTipTitle"},
-            {MapKryptonPageText.ToolTipBody, "ToolTipBody"}
-        };
+            {MapKryptonPageText.None, @"None (Empty string)"},
+            {MapKryptonPageText.Text, @"Text"},
+            {MapKryptonPageText.TextTitle, @"Text - Title"},
+            {MapKryptonPageText.TextTitleDescription, @"Text - Title - Description"},
+            {MapKryptonPageText.TextDescription, @"Text - Description"},
+            {MapKryptonPageText.Title, @"Title"},
+            {MapKryptonPageText.TitleText, @"Title - Text"},
+            {MapKryptonPageText.TitleDescription, @"Title - Description"},
+            {MapKryptonPageText.Description, @"Description"},
+            {MapKryptonPageText.DescriptionText, @"Description - Text"},
+            {MapKryptonPageText.DescriptionTitle, @"Description - Title"},
+            {MapKryptonPageText.DescriptionTitleText, @"Description - Title - Text"},
+            {MapKryptonPageText.ToolTipTitle, @"ToolTipTitle"},
+            {MapKryptonPageText.ToolTipBody, @"ToolTipBody"}
+        });
 
         #endregion
 
-        protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> Pairs => _pairs;
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageText /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

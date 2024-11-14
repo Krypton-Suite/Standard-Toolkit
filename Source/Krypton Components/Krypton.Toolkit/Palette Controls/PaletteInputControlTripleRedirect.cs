@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -48,15 +48,15 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
-            _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
-            _contentInherit = new PaletteContentInheritRedirect(redirect, contentStyle);
-            _metricRedirect = new PaletteMetricRedirect(redirect);
+            _backInherit = new PaletteBackInheritRedirect(redirect!, backStyle);
+            _borderInherit = new PaletteBorderInheritRedirect(redirect!, borderStyle);
+            _contentInherit = new PaletteContentInheritRedirect(redirect!, contentStyle);
+            _metricRedirect = new PaletteMetricRedirect(redirect!);
 
             // Create storage that maps onto the inherit instances
             Back = new PaletteInputControlBackStates(_backInherit, needPaint);
             Border = new PaletteBorder(_borderInherit, needPaint);
-            Content = new PaletteInputControlContentStates(_contentInherit, needPaint);
+            Content = new PaletteInputControlContentStates(_contentInherit, needPaint!);
         }
         #endregion
 
@@ -65,9 +65,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Back.IsDefault &&
-                                           Border.IsDefault &&
-                                           Content.IsDefault;
+                                            Border.IsDefault &&
+                                            Content.IsDefault;
 
         #endregion
 
@@ -76,7 +77,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             _borderInherit.SetRedirector(redirect);
@@ -212,7 +213,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder? PaletteBorder => Border;
+        public IPaletteBorder PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -245,7 +246,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent? PaletteContent => Content;
+        public IPaletteContent PaletteContent => Content;
 
         /// <summary>
         /// Gets and sets the content palette style.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         public ViewDrawPanel([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
-            _paletteBack = paletteBack;
+            _paletteBack = paletteBack!;
             VisualOrientation = VisualOrientation.Top;
         }
 
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Use newly provided palettes
-            _paletteBack = paletteBack;
+            _paletteBack = paletteBack!;
         }
 
         /// <summary>
@@ -116,10 +116,20 @@ namespace Krypton.Toolkit
         /// <returns>True if transparent areas exist; otherwise false.</returns>
         public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer to evaluate the given palette
-            return context.Renderer.EvalTransparentPaint(_paletteBack, State);
+            return context!.Renderer.EvalTransparentPaint(_paletteBack, State);
         }
         #endregion
 
@@ -157,12 +167,17 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void RenderBefore([DisallowNull] RenderContext context) 
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // Validate incoming reference
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
             }
 
             if (!IgnoreRender)

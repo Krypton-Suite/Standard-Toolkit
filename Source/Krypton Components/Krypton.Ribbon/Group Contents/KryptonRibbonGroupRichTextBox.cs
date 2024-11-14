@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
             };
 
             // Hook into events to expose via our container
-            RichTextBox.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
+            RichTextBox!.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
             RichTextBox.TextChanged += OnRichTextBoxTextChanged;
             RichTextBox.HideSelectionChanged += OnRichTextBoxHideSelectionChanged;
             RichTextBox.ModifiedChanged += OnRichTextBoxModifiedChanged;
@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
                 if (RichTextBox != null)
                 {
                     UnmonitorControl(RichTextBox);
-                    RichTextBox.Dispose();
+                    RichTextBox!.Dispose();
                     RichTextBox = null;
                 }
             }
@@ -253,7 +253,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    RichTextBox.Palette = Ribbon.GetResolvedPalette();
+                    RichTextBox!.PaletteMode = Ribbon!.PaletteMode;
+                    RichTextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -281,7 +282,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRichTextBox RichTextBox { get; private set; }
+        public KryptonRichTextBox? RichTextBox { get; private set; }
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group rich text box.
@@ -299,7 +300,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -369,8 +370,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
-            get => RichTextBox.MinimumSize;
-            set => RichTextBox.MinimumSize = value;
+            get => RichTextBox!.MinimumSize;
+            set => RichTextBox!.MinimumSize = value;
         }
 
         /// <summary>
@@ -381,8 +382,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
-            get => RichTextBox.MaximumSize;
-            set => RichTextBox.MaximumSize = value;
+            get => RichTextBox!.MaximumSize;
+            set => RichTextBox!.MaximumSize = value;
         }
 
         /// <summary>
@@ -393,8 +394,8 @@ namespace Krypton.Ribbon
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Text
         {
-            get => RichTextBox.Text;
-            set => RichTextBox.Text = value;
+            get => RichTextBox!.Text;
+            set => RichTextBox!.Text = value;
         }
 
         /// <summary>
@@ -402,7 +403,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => RichTextBox.TextLength;
+        public int TextLength => RichTextBox!.TextLength;
 
         /// <summary>
         /// Gets and sets the associated context menu strip.
@@ -412,8 +413,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public ContextMenuStrip? ContextMenuStrip
         {
-            get => RichTextBox.ContextMenuStrip;
-            set => RichTextBox.ContextMenuStrip = value;
+            get => RichTextBox!.ContextMenuStrip;
+            set => RichTextBox!.ContextMenuStrip = value;
         }
 
         /// <summary>
@@ -424,8 +425,8 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => RichTextBox.KryptonContextMenu;
-            set => RichTextBox.KryptonContextMenu = value;
+            get => RichTextBox!.KryptonContextMenu;
+            set => RichTextBox!.KryptonContextMenu = value;
         }
 
         /// <summary>
@@ -439,8 +440,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public string[] Lines
         {
-            get => RichTextBox.Lines;
-            set => RichTextBox.Lines = value;
+            get => RichTextBox!.Lines;
+            set => RichTextBox!.Lines = value;
         }
 
         /// <summary>
@@ -452,8 +453,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {
-            get => RichTextBox.ScrollBars;
-            set => RichTextBox.ScrollBars = value;
+            get => RichTextBox!.ScrollBars;
+            set => RichTextBox!.ScrollBars = value;
         }
 
         /// <summary>
@@ -465,8 +466,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public bool WordWrap
         {
-            get => RichTextBox.WordWrap;
-            set => RichTextBox.WordWrap = value;
+            get => RichTextBox!.WordWrap;
+            set => RichTextBox!.WordWrap = value;
         }
 
         /// <summary>
@@ -478,8 +479,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public int RightMargin
         {
-            get => RichTextBox.RightMargin;
-            set => RichTextBox.RightMargin = value;
+            get => RichTextBox!.RightMargin;
+            set => RichTextBox!.RightMargin = value;
         }
 
         /// <summary>
@@ -490,8 +491,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ShowSelectionMargin
         {
-            get => RichTextBox.ShowSelectionMargin;
-            set => RichTextBox.ShowSelectionMargin = value;
+            get => RichTextBox!.ShowSelectionMargin;
+            set => RichTextBox!.ShowSelectionMargin = value;
         }
 
         /// <summary>
@@ -503,8 +504,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public float ZoomFactor
         {
-            get => RichTextBox.ZoomFactor;
-            set => RichTextBox.ZoomFactor = value;
+            get => RichTextBox!.ZoomFactor;
+            set => RichTextBox!.ZoomFactor = value;
         }
 
         /// <summary>
@@ -517,8 +518,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public bool Multiline
         {
-            get => RichTextBox.Multiline;
-            set => RichTextBox.Multiline = value;
+            get => RichTextBox!.Multiline;
+            set => RichTextBox!.Multiline = value;
         }
 
         /// <summary>
@@ -529,8 +530,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AcceptsTab
         {
-            get => RichTextBox.AcceptsTab;
-            set => RichTextBox.AcceptsTab = value;
+            get => RichTextBox!.AcceptsTab;
+            set => RichTextBox!.AcceptsTab = value;
         }
 
         /// <summary>
@@ -541,8 +542,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => RichTextBox.HideSelection;
-            set => RichTextBox.HideSelection = value;
+            get => RichTextBox!.HideSelection;
+            set => RichTextBox!.HideSelection = value;
         }
 
         /// <summary>
@@ -554,8 +555,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public int MaxLength
         {
-            get => RichTextBox.MaxLength;
-            set => RichTextBox.MaxLength = value;
+            get => RichTextBox!.MaxLength;
+            set => RichTextBox!.MaxLength = value;
         }
 
         /// <summary>
@@ -566,8 +567,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AutoWordSelection
         {
-            get => RichTextBox.AutoWordSelection;
-            set => RichTextBox.AutoWordSelection = value;
+            get => RichTextBox!.AutoWordSelection;
+            set => RichTextBox!.AutoWordSelection = value;
         }
 
         /// <summary>
@@ -579,8 +580,8 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public int BulletIndent
         {
-            get => RichTextBox.BulletIndent;
-            set => RichTextBox.BulletIndent = value;
+            get => RichTextBox!.BulletIndent;
+            set => RichTextBox!.BulletIndent = value;
         }
 
         /// <summary>
@@ -591,8 +592,8 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool DetectUrls
         {
-            get => RichTextBox.DetectUrls;
-            set => RichTextBox.DetectUrls = value;
+            get => RichTextBox!.DetectUrls;
+            set => RichTextBox!.DetectUrls = value;
         }
 
         /// <summary>
@@ -603,8 +604,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool EnableAutoDragDrop
         {
-            get => RichTextBox.EnableAutoDragDrop;
-            set => RichTextBox.EnableAutoDragDrop = value;
+            get => RichTextBox!.EnableAutoDragDrop;
+            set => RichTextBox!.EnableAutoDragDrop = value;
         }
 
         /// <summary>
@@ -616,8 +617,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => RichTextBox.ReadOnly;
-            set => RichTextBox.ReadOnly = value;
+            get => RichTextBox!.ReadOnly;
+            set => RichTextBox!.ReadOnly = value;
         }
 
         /// <summary>
@@ -628,14 +629,14 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
-            get => RichTextBox.ShortcutsEnabled;
-            set => RichTextBox.ShortcutsEnabled = value;
+            get => RichTextBox!.ShortcutsEnabled;
+            set => RichTextBox!.ShortcutsEnabled = value;
         }
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        public override ToolTipValues ToolTipValues => RichTextBox.ToolTipValues;
+        public override ToolTipValues ToolTipValues => RichTextBox!.ToolTipValues;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -645,8 +646,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => RichTextBox.AllowButtonSpecToolTips;
-            set => RichTextBox.AllowButtonSpecToolTips = value;
+            get => RichTextBox!.AllowButtonSpecToolTips;
+            set => RichTextBox!.AllowButtonSpecToolTips = value;
         }
 
         /// <summary>
@@ -657,8 +658,8 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
-            get => RichTextBox.AllowButtonSpecToolTipPriority;
-            set => RichTextBox.AllowButtonSpecToolTipPriority = value;
+            get => RichTextBox!.AllowButtonSpecToolTipPriority;
+            set => RichTextBox!.AllowButtonSpecToolTipPriority = value;
         }
 
         /// <summary>
@@ -667,28 +668,28 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonRichTextBox.RichTextBoxButtonSpecCollection ButtonSpecs => RichTextBox.ButtonSpecs;
+        public KryptonRichTextBox.RichTextBoxButtonSpecCollection ButtonSpecs => RichTextBox!.ButtonSpecs;
 
         /// <summary>
         /// Gets and sets if the control can redo a previously undo operation.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool CanRedo => RichTextBox.CanRedo;
+        public bool CanRedo => RichTextBox!.CanRedo;
 
         /// <summary>
         /// Gets a value indicating whether the user can undo the previous operation in a rich text box control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool CanUndo => RichTextBox.CanUndo;
+        public bool CanUndo => RichTextBox!.CanUndo;
 
         /// <summary>
         /// Gets a value indicating whether the contents have changed since last last.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => RichTextBox.Modified;
+        public bool Modified => RichTextBox!.Modified;
 
         /// <summary>
         /// Gets and sets the language option.
@@ -697,8 +698,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public RichTextBoxLanguageOptions LanguageOption
         {
-            get => RichTextBox.LanguageOption;
-            set => RichTextBox.LanguageOption = value;
+            get => RichTextBox!.LanguageOption;
+            set => RichTextBox!.LanguageOption = value;
         }
 
         /// <summary>
@@ -706,14 +707,14 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string RedoActionName => RichTextBox.RedoActionName;
+        public string? RedoActionName => RichTextBox!.RedoActionName;
 
         /// <summary>
         /// Gets and sets the name of the action to be undone.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string UndoActionName => RichTextBox.UndoActionName;
+        public string UndoActionName => RichTextBox!.UndoActionName!;
 
         /// <summary>
         /// Gets and sets if keyboard shortcuts are enabled.
@@ -723,8 +724,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool RichTextShortcutsEnabled
         {
-            get => RichTextBox.RichTextShortcutsEnabled;
-            set => RichTextBox.RichTextShortcutsEnabled = value;
+            get => RichTextBox!.RichTextShortcutsEnabled;
+            set => RichTextBox!.RichTextShortcutsEnabled = value;
         }
 
         /// <summary>
@@ -735,8 +736,8 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.All)]
         public string Rtf
         {
-            get => RichTextBox.Rtf;
-            set => RichTextBox.Rtf = value;
+            get => RichTextBox!.Rtf;
+            set => RichTextBox!.Rtf = value;
         }
 
         /// <summary>
@@ -747,8 +748,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedRtf
         {
-            get => RichTextBox.SelectedRtf;
-            set => RichTextBox.SelectedRtf = value;
+            get => RichTextBox!.SelectedRtf;
+            set => RichTextBox!.SelectedRtf = value;
         }
 
         /// <summary>
@@ -758,8 +759,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedText
         {
-            get => RichTextBox.SelectedText;
-            set => RichTextBox.SelectedText = value;
+            get => RichTextBox!.SelectedText;
+            set => RichTextBox!.SelectedText = value;
         }
 
         /// <summary>
@@ -770,8 +771,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
-            get => RichTextBox.SelectionAlignment;
-            set => RichTextBox.SelectionAlignment = value;
+            get => RichTextBox!.SelectionAlignment;
+            set => RichTextBox!.SelectionAlignment = value;
         }
 
         /// <summary>
@@ -781,8 +782,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectionBackColor
         {
-            get => RichTextBox.SelectionBackColor;
-            set => RichTextBox.SelectionBackColor = value;
+            get => RichTextBox!.SelectionBackColor;
+            set => RichTextBox!.SelectionBackColor = value;
         }
 
         /// <summary>
@@ -792,8 +793,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool SelectionBullet
         {
-            get => RichTextBox.SelectionBullet;
-            set => RichTextBox.SelectionBullet = value;
+            get => RichTextBox!.SelectionBullet;
+            set => RichTextBox!.SelectionBullet = value;
         }
 
         /// <summary>
@@ -803,8 +804,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionCharOffset
         {
-            get => RichTextBox.SelectionCharOffset;
-            set => RichTextBox.SelectionCharOffset = value;
+            get => RichTextBox!.SelectionCharOffset;
+            set => RichTextBox!.SelectionCharOffset = value;
         }
 
         /// <summary>
@@ -814,8 +815,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectionColor
         {
-            get => RichTextBox.SelectionColor;
-            set => RichTextBox.SelectionColor = value;
+            get => RichTextBox!.SelectionColor;
+            set => RichTextBox!.SelectionColor = value;
         }
 
         /// <summary>
@@ -825,8 +826,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Font SelectionFont
         {
-            get => RichTextBox.SelectionFont;
-            set => RichTextBox.SelectionFont = value;
+            get => RichTextBox!.SelectionFont;
+            set => RichTextBox!.SelectionFont = value;
         }
 
         /// <summary>
@@ -836,8 +837,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionHangingIndent
         {
-            get => RichTextBox.SelectionHangingIndent;
-            set => RichTextBox.SelectionHangingIndent = value;
+            get => RichTextBox!.SelectionHangingIndent;
+            set => RichTextBox!.SelectionHangingIndent = value;
         }
 
         /// <summary>
@@ -847,8 +848,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionIndent
         {
-            get => RichTextBox.SelectionIndent;
-            set => RichTextBox.SelectionIndent = value;
+            get => RichTextBox!.SelectionIndent;
+            set => RichTextBox!.SelectionIndent = value;
         }
 
         /// <summary>
@@ -858,8 +859,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => RichTextBox.SelectionLength;
-            set => RichTextBox.SelectionLength = value;
+            get => RichTextBox!.SelectionLength;
+            set => RichTextBox!.SelectionLength = value;
         }
 
         /// <summary>
@@ -869,8 +870,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionProtected
         {
-            get => RichTextBox.SelectionLength;
-            set => RichTextBox.SelectionLength = value;
+            get => RichTextBox!.SelectionLength;
+            set => RichTextBox!.SelectionLength = value;
         }
 
         /// <summary>
@@ -880,8 +881,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionRightIndent
         {
-            get => RichTextBox.SelectionRightIndent;
-            set => RichTextBox.SelectionRightIndent = value;
+            get => RichTextBox!.SelectionRightIndent;
+            set => RichTextBox!.SelectionRightIndent = value;
         }
 
         /// <summary>
@@ -891,8 +892,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => RichTextBox.SelectionStart;
-            set => RichTextBox.SelectionStart = value;
+            get => RichTextBox!.SelectionStart;
+            set => RichTextBox!.SelectionStart = value;
         }
 
         /// <summary>
@@ -902,8 +903,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int[] SelectionTabs
         {
-            get => RichTextBox.SelectionTabs;
-            set => RichTextBox.SelectionTabs = value;
+            get => RichTextBox!.SelectionTabs;
+            set => RichTextBox!.SelectionTabs = value;
         }
 
         /// <summary>
@@ -911,59 +912,59 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public RichTextBoxSelectionTypes SelectionType => RichTextBox.SelectionType;
+        public RichTextBoxSelectionTypes SelectionType => RichTextBox!.SelectionType;
 
         /// <summary>
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => RichTextBox.AppendText(text);
+        public void AppendText(string text) => RichTextBox!.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => RichTextBox.Clear();
+        public void Clear() => RichTextBox!.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => RichTextBox.ClearUndo();
+        public void ClearUndo() => RichTextBox!.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => RichTextBox.Copy();
+        public void Copy() => RichTextBox!.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => RichTextBox.Cut();
+        public void Cut() => RichTextBox!.Cut();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => RichTextBox.DeselectAll();
+        public void DeselectAll() => RichTextBox!.DeselectAll();
 
         /// <summary>
         /// Determines whether you can paste information from the Clipboard in the specified data format.
         /// </summary>
         /// <param name="clipFormat">One of the System.Windows.Forms.DataFormats.Format values.</param>
         /// <returns>true if you can paste data from the Clipboard in the specified data format; otherwise, false.</returns>
-        public bool CanPaste(DataFormats.Format clipFormat) => RichTextBox.CanPaste(clipFormat);
+        public bool CanPaste(DataFormats.Format clipFormat) => RichTextBox!.CanPaste(clipFormat);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string.
         /// </summary>
         /// <param name="str">The text to locate in the control.</param>
         /// <returns>The location within the control where the search text was found or -1 if the search string is not found or an empty search string is specified in the str parameter.</returns>
-        public int Find(string str) => RichTextBox.Find(str);
+        public int Find(string str) => RichTextBox!.Find(str);
 
         /// <summary>
         /// Searches the text of a RichTextBox control for the first instance of a character from a list of characters.
         /// </summary>
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <returns>The location within the control where the search characters were found or -1 if the search characters are not found or an empty search character set is specified in the char parameter.</returns>
-        public int Find(char[] characterSet) => RichTextBox.Find(characterSet);
+        public int Find(char[] characterSet) => RichTextBox!.Find(characterSet);
 
         /// <summary>
         /// Searches the text of a RichTextBox control, at a specific starting point, for the first instance of a character from a list of characters.
@@ -971,7 +972,7 @@ namespace Krypton.Ribbon
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start) => RichTextBox.Find(characterSet, start);
+        public int Find(char[] characterSet, int start) => RichTextBox!.Find(characterSet, start);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string with specific options applied to the search.
@@ -979,7 +980,7 @@ namespace Krypton.Ribbon
         /// <param name="str">The text to locate in the control.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, RichTextBoxFinds options) => RichTextBox.Find(str, options);
+        public int Find(string str, RichTextBoxFinds options) => RichTextBox!.Find(str, options);
 
         /// <summary>
         /// Searches a range of text in a RichTextBox control for the first instance of a character from a list of characters.
@@ -988,7 +989,7 @@ namespace Krypton.Ribbon
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="end">The location within the control's text at which to end searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start, int end) => RichTextBox.Find(characterSet, start, end);
+        public int Find(char[] characterSet, int start, int end) => RichTextBox!.Find(characterSet, start, end);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string at a specific location within the control and with specific options applied to the search.
@@ -997,7 +998,7 @@ namespace Krypton.Ribbon
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, int start, RichTextBoxFinds options) => RichTextBox.Find(str, start, options);
+        public int Find(string str, int start, RichTextBoxFinds options) => RichTextBox!.Find(str, start, options);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string within a range of text within the control and with specific options applied to the search.
@@ -1007,126 +1008,126 @@ namespace Krypton.Ribbon
         /// <param name="end">The location within the control's text at which to end searching. This value must be equal to negative one (-1) or greater than or equal to the start parameter.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns></returns>
-        public int Find(string str, int start, int end, RichTextBoxFinds options) => RichTextBox.Find(str, start, end, options);
+        public int Find(string str, int start, int end, RichTextBoxFinds options) => RichTextBox!.Find(str, start, end, options);
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt) => RichTextBox.GetCharFromPosition(pt);
+        public int GetCharFromPosition(Point pt) => RichTextBox!.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt) => RichTextBox.GetCharIndexFromPosition(pt);
+        public int GetCharIndexFromPosition(Point pt) => RichTextBox!.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber) => RichTextBox.GetFirstCharIndexFromLine(lineNumber);
+        public int GetFirstCharIndexFromLine(int lineNumber) => RichTextBox!.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine() => RichTextBox.GetFirstCharIndexOfCurrentLine();
+        public int GetFirstCharIndexOfCurrentLine() => RichTextBox!.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index) => RichTextBox.GetLineFromCharIndex(index);
+        public int GetLineFromCharIndex(int index) => RichTextBox!.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index) => RichTextBox.GetPositionFromCharIndex(index);
+        public Point GetPositionFromCharIndex(int index) => RichTextBox!.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Loads a rich text format (RTF) or standard ASCII text file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
-        public void LoadFile(string path) => RichTextBox.LoadFile(path);
+        public void LoadFile(string path) => RichTextBox!.LoadFile(path);
 
         /// <summary>
         /// Loads the contents of an existing data stream into the RichTextBox control.
         /// </summary>
         /// <param name="data">A stream of data to load into the RichTextBox control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox.LoadFile(data, fileType);
+        public void LoadFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox!.LoadFile(data, fileType);
 
         /// <summary>
         /// Loads a specific type of file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(string path, RichTextBoxStreamType fileType) => RichTextBox.LoadFile(path, fileType);
+        public void LoadFile(string path, RichTextBoxStreamType fileType) => RichTextBox!.LoadFile(path, fileType);
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => RichTextBox.Paste();
+        public void Paste() => RichTextBox!.Paste();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => RichTextBox.Undo();
+        public void Undo() => RichTextBox!.Undo();
 
         /// <summary>
         /// Pastes the contents of the Clipboard in the specified Clipboard format.
         /// </summary>
         /// <param name="clipFormat">The Clipboard format in which the data should be obtained from the Clipboard.</param>
-        public void Paste(DataFormats.Format clipFormat) => RichTextBox.Paste(clipFormat);
+        public void Paste(DataFormats.Format clipFormat) => RichTextBox!.Paste(clipFormat);
 
         /// <summary>
         /// Reapplies the last operation that was undone in the control.
         /// </summary>
-        public void Redo() => RichTextBox.Redo();
+        public void Redo() => RichTextBox!.Redo();
 
         /// <summary>
         /// Saves the contents of the RichTextBox to a rich text format (RTF) file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
-        public void SaveFile(string path) => RichTextBox.SaveFile(path);
+        public void SaveFile(string path) => RichTextBox!.SaveFile(path);
 
         /// <summary>
         /// Saves the contents of a RichTextBox control to an open data stream.
         /// </summary>
         /// <param name="data">The data stream that contains the file to save to.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox.SaveFile(data, fileType);
+        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox!.SaveFile(data, fileType);
 
         /// <summary>
         /// Saves the contents of the KryptonRichTextBox to a specific type of file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(string path, RichTextBoxStreamType fileType) => RichTextBox.SaveFile(path, fileType);
+        public void SaveFile(string path, RichTextBoxStreamType fileType) => RichTextBox!.SaveFile(path, fileType);
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => RichTextBox.ScrollToCaret();
+        public void ScrollToCaret() => RichTextBox!.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => RichTextBox.Select(start, length);
+        public void Select(int start, int length) => RichTextBox!.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => RichTextBox.SelectAll();
+        public void SelectAll() => RichTextBox!.SelectAll();
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -1197,7 +1198,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase RichTextBoxView { get; set; }
+        public ViewBase? RichTextBoxView { get; set; }
 
         #endregion
 
@@ -1364,49 +1365,57 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
 
-        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnRichTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnRichTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnRichTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnRichTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnRichTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnRichTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnRichTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnRichTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnRichTextBoxGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnRichTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnRichTextBoxLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnRichTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnRichTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnRichTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnRichTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRichTextBoxVScroll(object sender, EventArgs e) => OnVScroll(e);
+        private void OnRichTextBoxVScroll(object? sender, EventArgs e) => OnVScroll(e);
 
-        private void OnRichTextBoxHScroll(object sender, EventArgs e) => OnHScroll(e);
+        private void OnRichTextBoxHScroll(object? sender, EventArgs e) => OnHScroll(e);
 
-        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e) => OnSelectionChanged(e);
+        private void OnRichTextBoxSelectionChanged(object? sender, EventArgs e) => OnSelectionChanged(e);
 
-        private void OnRichTextBoxProtected(object sender, EventArgs e) => OnProtected(e);
+        private void OnRichTextBoxProtected(object? sender, EventArgs e) => OnProtected(e);
 
-        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
+        private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => RichTextBox.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object? sender, EventArgs e)
+        {
+            if (RichTextBox is not null && Ribbon is not null)
+            {
+                RichTextBox.PaletteMode = Ribbon.PaletteMode;
+                RichTextBox.LocalCustomPalette = Ribbon.LocalCustomPalette;
+            }
+        }
+
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -76,10 +76,10 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
+            var cloned = (KryptonDataGridViewTextBoxCell)base.Clone();
             foreach (IconSpec sp in IconSpecs)
             {
-                cloned.IconSpecs.Add(sp.Clone() as IconSpec);
+                cloned.IconSpecs.Add((IconSpec)sp.Clone());
             }
 
             cloned.Multiline = Multiline;
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
+            DataGridView? dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
@@ -145,19 +145,19 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
+            object? initialFormattedValue,
             DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonTextBox textBox)
+            if (DataGridView!.EditingControl is KryptonTextBox textBox)
             {
-                textBox.Text = initialFormattedValue is not string initialFormattedValueStr ? string.Empty : initialFormattedValueStr;
+                textBox.Text = initialFormattedValue as string ?? string.Empty;
 
                 DataGridViewTriState wrapMode = Style.WrapMode;
                 if (wrapMode == DataGridViewTriState.NotSet)
                 {
-                    wrapMode = OwningColumn.DefaultCellStyle.WrapMode;
+                    wrapMode = OwningColumn!.DefaultCellStyle.WrapMode;
                 }
 
                 textBox.WordWrap = textBox.Multiline = wrapMode == DataGridViewTriState.True;
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
         #endregion
@@ -211,17 +211,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView.RightToLeft == RightToLeft.Yes)
-            {
-                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
-            }
-            else
-            {
-                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
-            }
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -231,33 +222,22 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
 
         #endregion
 
         #region Private
 
-        private KryptonDataGridViewTextBoxEditingControl EditingTextBox => DataGridView.EditingControl as KryptonDataGridViewTextBoxEditingControl;
+        private KryptonDataGridViewTextBoxEditingControl? EditingTextBox => DataGridView!.EditingControl as KryptonDataGridViewTextBoxEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = DataGridView.EditingControl.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+            var preferredHeight = DataGridView!.EditingControl!.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)
@@ -308,7 +288,7 @@ namespace Krypton.Toolkit
             _multiline = value;
             if (OwnsEditingTextBox(rowIndex))
             {
-                EditingTextBox.Multiline = value;
+                EditingTextBox!.Multiline = value;
             }
         }
 
@@ -317,7 +297,7 @@ namespace Krypton.Toolkit
             _multilineStringEditor = value;
             if (OwnsEditingTextBox(rowIndex))
             {
-                EditingTextBox.MultilineStringEditor = value;
+                EditingTextBox!.MultilineStringEditor = value;
             }
         }
         #endregion
@@ -328,6 +308,6 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
+        public List<IconSpec> IconSpecs { get; } = [];
     }
 }

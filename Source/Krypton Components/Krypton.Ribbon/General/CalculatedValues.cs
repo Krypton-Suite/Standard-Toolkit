@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -49,10 +49,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the CalculatedValues class.
         /// </summary>
         /// <param name="ribbon">Source control instance.</param>
-        public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
+        public CalculatedValues([DisallowNull] KryptonRibbon? ribbon)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             _lastShape = PaletteRibbonShape.Inherit;
         }
@@ -221,21 +221,27 @@ namespace Krypton.Ribbon
                 case 1:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top);
                     break;
+
                 case 2:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top + (viewRect.Height / 2) + KEYTIP_VOFFSET_LINE2);
                     break;
+
                 case 3:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Bottom);
                     break;
+
                 case 4:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top - KEYTIP_VOFFSET_LINE4);
                     break;
+
                 case 5:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Bottom + KEYTIP_VOFFSET_LINE5);
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(groupLine.ToString());
                     screenPt = new Point(viewRect.X, viewRect.Y);
                     break;
             }

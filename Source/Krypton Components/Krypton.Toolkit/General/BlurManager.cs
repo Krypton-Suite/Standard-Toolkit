@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly VisualForm _parentForm;
         private readonly BlurValues _blurValues;
-        private VisualBlur _visualBlur;
+        private VisualBlur? _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         private Bitmap? _currentFormDisplay;
         private double? _parentBeforeOpacity;
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         #endregion Identity
 
-        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e) => RemoveBlur();
+        private void KryptonFormOnClosing(object? sender, /*Cancel*/EventArgs e) => RemoveBlur();
 
         private void RemoveBlur()
         {
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                     visited.Add(activeForm.Handle);
                 }
 
-                visited.Add(_visualBlur.Handle);
+                visited.Add(_visualBlur!.Handle);
 
 
                 var thisRect = new PI.RECT();
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void BlurValuesOnOpacityChanged(object sender, EventArgs e)
+        private void BlurValuesOnOpacityChanged(object? sender, EventArgs e)
         {
             if (_visualBlur != null)
             {
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void BlurValues_EnableBlurChanged(object sender, EventArgs e)
+        private void BlurValues_EnableBlurChanged(object? sender, EventArgs e)
         {
             if (!_blurValues.BlurWhenFocusLost)
             {
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DetectIsTopMost(object sender, EventArgs e)
+        private void DetectIsTopMost(object? sender, EventArgs e)
         {
             if ((_visualBlur != null)
                 && IsOverlapped()
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
             _visualBlur.SetTargetRect(_parentForm.DesktopLocation, clientRectangle);
 
             Rectangle targetRect = _visualBlur.TargetRect;
-            _visualBlur.UpdateBlur(_currentFormDisplay);
+            _visualBlur.UpdateBlur(_currentFormDisplay!);
             // As UpdateBlur can take a few moments, then it is possible for the app to be closed before getting to the next line
             if ((_visualBlur == null)
                 || _parentForm.IsDisposed

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -23,8 +23,8 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="oldPage">Previous active page value.</param>
         /// <param name="newPage">New active page value.</param>
-        public ActivePageChangedEventArgs(KryptonPage oldPage,
-                                          KryptonPage newPage)
+        public ActivePageChangedEventArgs(KryptonPage? oldPage,
+                                          KryptonPage? newPage)
         {
             OldPage = oldPage;
             NewPage = newPage;
@@ -35,12 +35,12 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the old page reference.
         /// </summary>
-        public KryptonPage OldPage { get; }
+        public KryptonPage? OldPage { get; }
 
         /// <summary>
         /// Gets the new page reference.
         /// </summary>
-        public KryptonPage NewPage { get; }
+        public KryptonPage? NewPage { get; }
 
         #endregion
     }

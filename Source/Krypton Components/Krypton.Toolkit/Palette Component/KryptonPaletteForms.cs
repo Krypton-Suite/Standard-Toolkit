@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,15 +29,15 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create the form style specific and common palettes
-            FormCommon = new KryptonPaletteForm(redirector, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
-            FormMain = new KryptonPaletteForm(redirector, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
-            FormCustom1 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom1, PaletteBorderStyle.FormCustom1, needPaint);
-            FormCustom2 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom2, PaletteBorderStyle.FormCustom2, needPaint);
-            FormCustom3 = new KryptonPaletteForm(redirector, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
+            FormCommon = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
+            FormMain = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormMain, PaletteBorderStyle.FormMain, needPaint);
+            FormCustom1 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom1, PaletteBorderStyle.FormCustom1, needPaint);
+            FormCustom2 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom2, PaletteBorderStyle.FormCustom2, needPaint);
+            FormCustom3 = new KryptonPaletteForm(redirector!, PaletteBackStyle.FormCustom3, PaletteBorderStyle.FormCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon =
-                new PaletteRedirectDouble(redirector, FormCommon.StateInactive, FormCommon.StateActive);
+                new PaletteRedirectDouble(redirector!, FormCommon.StateInactive, FormCommon.StateActive);
 
             // Inform the form style to use the new redirector
             FormMain.SetRedirector(redirectCommon);
@@ -51,9 +51,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => FormCommon.IsDefault &&
-                                          FormMain.IsDefault &&
-                                          FormCustom1.IsDefault;
+                                            FormMain.IsDefault &&
+                                            FormCustom1.IsDefault;
 
         #endregion
 

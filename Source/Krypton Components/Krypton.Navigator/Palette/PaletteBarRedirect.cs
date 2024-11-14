@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -66,16 +66,17 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (base.IsDefault &&
-                                           BarPaddingTabs.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
-                                           BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
-                                           ButtonPadding.Equals(CommonHelper.InheritPadding) &&
-                                           (ButtonEdgeOutside == -1) &&
-                                           (ButtonEdgeInside == -1) &&
-                                           (CheckButtonGap == -1) &&
-                                           (RibbonTabGap == -1));
+                                             BarPaddingTabs.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
+                                             BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
+                                             ButtonPadding.Equals(CommonHelper.InheritPadding) &&
+                                             (ButtonEdgeOutside == -1) &&
+                                             (ButtonEdgeInside == -1) &&
+                                             (CheckButtonGap == -1) &&
+                                             (RibbonTabGap == -1));
 
         #endregion
 
@@ -370,7 +371,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -381,7 +382,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricBool(state, metric);
+            _redirect!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -426,7 +427,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

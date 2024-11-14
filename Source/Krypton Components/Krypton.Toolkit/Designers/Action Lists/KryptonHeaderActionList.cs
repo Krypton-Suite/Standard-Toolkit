@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonHeaderActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonHeader? _header;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonHeader _header;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the header instance
-            _header = owner.Component as KryptonHeader;
+            _header = (owner.Component as KryptonHeader)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
         
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.HeaderStyle != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.HeaderStyle, value);
+                    _service?.OnComponentChanged(_header, null, _header.HeaderStyle, value);
                     _header.HeaderStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.Orientation != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Orientation, value);
+                    _service?.OnComponentChanged(_header, null, _header.Orientation, value);
                     _header.Orientation = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.Values.Heading != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Heading, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Heading, value);
                     _header.Values.Heading = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.Values.Description != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Description, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Description, value);
                     _header.Values.Description = value;
                 }
             }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.Values.Image, value);
+                    _service?.OnComponentChanged(_header, null, _header.Values.Image, value);
                     _header.Values.Image = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_header.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_header, null, _header.PaletteMode, value);
+                    _service?.OnComponentChanged(_header, null, _header.PaletteMode, value);
                     _header.PaletteMode = value;
                 }
             }

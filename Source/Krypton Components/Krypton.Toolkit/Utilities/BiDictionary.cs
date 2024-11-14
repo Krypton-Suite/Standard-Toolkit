@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <typeparam name="TFirst"></typeparam>
     /// <typeparam name="TSecond"></typeparam>
-    internal class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
+    public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
     {
         private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
         private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();

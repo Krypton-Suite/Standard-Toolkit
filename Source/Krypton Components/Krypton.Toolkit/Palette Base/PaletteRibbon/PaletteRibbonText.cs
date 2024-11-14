@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -38,7 +36,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritText">Source for inheriting text values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteRibbonText(IPaletteRibbonText inheritText,
+        public PaletteRibbonText(IPaletteRibbonText? inheritText,
                                  NeedPaintHandler needPaint) 
         {
             // Remember inheritance
@@ -48,7 +46,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Define default values
-            _textColor = Color.Empty;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
@@ -57,7 +55,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => TextColor == Color.Empty;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => TextColor == GlobalStaticValues.EMPTY_COLOR;
 
         #endregion
 
@@ -106,17 +105,17 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeTextColor() => TextColor != Color.Empty;
-        private void ResetTextColor() => TextColor = Color.Empty;
+        private bool ShouldSerializeTextColor() => TextColor != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTextColor() => TextColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the tab color for the item text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonTextColor(PaletteState state) => TextColor != Color.Empty
+        public Color GetRibbonTextColor(PaletteState state) => TextColor != GlobalStaticValues.EMPTY_COLOR
             ? TextColor
-            : (_inheritText?.GetRibbonTextColor(state) ?? Color.Empty);
+            : (_inheritText?.GetRibbonTextColor(state) ?? GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
     }

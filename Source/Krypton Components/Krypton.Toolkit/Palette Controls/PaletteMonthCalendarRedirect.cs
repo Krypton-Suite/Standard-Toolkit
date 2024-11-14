@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -32,13 +32,13 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection for bread crumb level.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarRedirect(PaletteRedirect? redirect,
-                                            NeedPaintHandler needPaint)
-            : base(redirect, PaletteBackStyle.ControlClient, 
+                                            NeedPaintHandler? needPaint)
+            : base(redirect!, PaletteBackStyle.ControlClient, 
                              PaletteBorderStyle.ControlClient)
         {
-            Header = new PaletteTripleRedirect(redirect, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
-            DayOfWeek = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
-            Day = new PaletteTripleRedirect(redirect, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
+            Header = new PaletteTripleRedirect(redirect!, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
+            DayOfWeek = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
+            Day = new PaletteTripleRedirect(redirect!, PaletteBackStyle.ButtonCalendarDay, PaletteBorderStyle.ButtonCalendarDay, PaletteContentStyle.ButtonCalendarDay, needPaint);
         }
         #endregion
 
@@ -47,10 +47,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault && 
-                                           Header.IsDefault &&
-                                           DayOfWeek.IsDefault &&
-                                           Day.IsDefault;
+                                            Header.IsDefault &&
+                                            DayOfWeek.IsDefault &&
+                                            Day.IsDefault;
 
         #endregion
 
@@ -59,7 +60,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect? redirect)
+        public override void SetRedirector(PaletteRedirect redirect)
         {
             base.SetRedirector(redirect);
             Header.SetRedirector(redirect);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -77,7 +77,7 @@ namespace Krypton.Navigator
             MousePoint = CommonHelper.NullPoint;
             AllowDragging = true;
             _dragging = false;
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             _lastClick = DateTime.Now.AddDays(-1);
         }
         #endregion
@@ -301,7 +301,7 @@ namespace Krypton.Navigator
 
                     // Recalculate if the mouse is over the button area
                     // TODO: What is this doing ? i.e. should the return value be used ?
-                    Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                    return Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
                 }
             }
 
@@ -412,7 +412,7 @@ namespace Krypton.Navigator
         protected virtual void OnDragStart(Point mousePt, Point offset, Control c)
         {
             // Convert point from client to screen coordinates
-            mousePt = Target.OwningControl.PointToScreen(mousePt);
+            mousePt = Target.OwningControl!.PointToScreen(mousePt);
             var ce = new DragStartEventCancelArgs(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
@@ -430,7 +430,7 @@ namespace Krypton.Navigator
             if (DragMove != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                mousePt = Target.OwningControl!.PointToScreen(mousePt);
                 DragMove(this, new PointEventArgs(mousePt));
             }
         }
@@ -445,7 +445,7 @@ namespace Krypton.Navigator
             if (DragEnd != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                mousePt = Target.OwningControl!.PointToScreen(mousePt);
                 DragEnd(this, new PointEventArgs(mousePt));
             }
         }

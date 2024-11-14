@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Workspace
     /// <summary>
     /// Specifies the compacting operations performed during layout.
     /// </summary>
-    [Flags()]
+    [Flags]
     public enum CompactFlags
     {
         /// <summary>
@@ -70,7 +70,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Reference to owning workspace item.
         /// </summary>
-        IWorkspaceItem WorkspaceParent { get; }
+        IWorkspaceItem? WorkspaceParent { get; }
 
         /// <summary>
         /// Should the item be Displayed in the workspace.

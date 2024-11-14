@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
             _imageSmall = _defaultButtonImageSmall;
             _buttonType = GroupButtonType.Split;
             _maxRecentColors = 10;
-            _recentColors = new List<Color>();
+            _recentColors = [];
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
@@ -178,11 +178,13 @@ namespace Krypton.Ribbon
             _itemMoreColors = new KryptonContextMenuItem("&More Colors...", OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
+            _kryptonContextMenu.Items.AddRange([
+                _separatorTheme, _headingTheme, _colorsTheme,
                                                                                   _separatorStandard, _headingStandard, _colorsStandard,
                                                                                   _separatorRecent, _headingRecent, _colorsRecent,
                                                                                   _separatorNoColor, _itemsNoColor,
-                                                                                  _separatorMoreColors, _itemsMoreColors});
+                                                                                  _separatorMoreColors, _itemsMoreColors
+            ]);
         }
         #endregion
 
@@ -809,7 +811,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
-        protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -836,7 +838,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -892,7 +894,7 @@ namespace Krypton.Ribbon
         {
             var fireDelegate = true;
 
-            if (!Ribbon.InDesignMode)
+            if (!Ribbon!.InDesignMode)
             {
                 // Events only occur when enabled
                 if (Enabled)
@@ -1002,13 +1004,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 
@@ -1061,13 +1066,13 @@ namespace Krypton.Ribbon
 
         private void UpdateRecentColors([DisallowNull] Color color)
         {
-            // Do we need to update the recent colors collection?
+            // Do we need to update the recent colors' collection?
             if (AutoRecentColors)
             {
                 // We do not add to recent colors if it is inside another color columns 
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (var item in _kryptonContextMenu!.Items)
                 {
-                    // Only interested in the non-recent colors color columns
+                    // Only interested in the non-recent colors' color columns
                     if ((item != _colorsRecent) && (item is KryptonContextMenuColorColumns colors))
                     {
                         // Cast to correct type
@@ -1126,11 +1131,11 @@ namespace Krypton.Ribbon
             _itemsMoreColors.Visible = _visibleMoreColors;
 
             // Define the display strings
-            _headingTheme.Text = Ribbon.RibbonStrings.ThemeColors;
-            _headingStandard.Text = Ribbon.RibbonStrings.StandardColors;
-            _headingRecent.Text = Ribbon.RibbonStrings.RecentColors;
-            _itemNoColor.Text = Ribbon.RibbonStrings.NoColor;
-            _itemMoreColors.Text = Ribbon.RibbonStrings.MoreColors;
+            _headingTheme.Text = KryptonManager.Strings.RibbonStrings.ThemeColors;
+            _headingStandard.Text = KryptonManager.Strings.RibbonStrings.StandardColors;
+            _headingRecent.Text = KryptonManager.Strings.RibbonStrings.RecentColors;
+            _itemNoColor.Text = KryptonManager.Strings.RibbonStrings.NoColor;
+            _itemMoreColors.Text = KryptonManager.Strings.RibbonStrings.MoreColors;
 
             // Define the colors used in the first two color schemes
             _colorsTheme.ColorScheme = SchemeThemes;
@@ -1149,7 +1154,7 @@ namespace Krypton.Ribbon
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new[] { _recentColors[i] };
+                    colors[i] = [_recentColors[i]];
                 }
 
                 _colorsRecent.SetCustomColors(colors);
@@ -1167,7 +1172,7 @@ namespace Krypton.Ribbon
             if (target.Visible)
             {
                 // Check all items before the target
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (var item in _kryptonContextMenu!.Items)
                 {
                     // Finish when we reach the target
                     if (item == target)
@@ -1191,13 +1196,13 @@ namespace Krypton.Ribbon
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+        private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
+        private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
+        private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = Color.Empty;
 
-        private void OnClickMoreColors(object sender, EventArgs e)
+        private void OnClickMoreColors(object? sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
             var cea = new CancelEventArgs();
@@ -1221,10 +1226,10 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnKryptonContextMenuClosed(object sender, EventArgs e)
+        private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
         {
-            var kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed;
+            var kcm = sender as KryptonContextMenu;
+            kcm!.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate
             if (_kcmFinishDelegate != null)
@@ -1234,7 +1239,7 @@ namespace Krypton.Ribbon
             }
 
             // Unhook from item events
-            HookContextMenuEvents(_kryptonContextMenu.Items, false);
+            HookContextMenuEvents(_kryptonContextMenu?.Items!, false);
         }
         #endregion
     }

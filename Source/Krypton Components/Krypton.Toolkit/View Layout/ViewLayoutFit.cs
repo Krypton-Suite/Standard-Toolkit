@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
             var space = _orientation == Orientation.Vertical ? ClientHeight : ClientWidth;
             for(var i=0; i<Count; i++)
             {
-                ViewBase child = this[i];
+                var child = this[i];
 
                 // Find length of this item
                 int length;
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask child for it's own preferred size
-                Size childPreferred = child.GetPreferredSize(context);
+                Size childPreferred = child!.GetPreferredSize(context);
 
                 // Size child to our relevant dimension
                 if (_orientation == Orientation.Vertical)

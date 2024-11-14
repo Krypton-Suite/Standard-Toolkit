@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _visible = true;
 
             // Create the collection for defining groups
-            Groups = new KryptonRibbonGroupCollection();
+            Groups = [];
             Groups.Clearing += OnRibbonGroupsClearing;
             Groups.Cleared += OnRibbonGroupsCleared;
             Groups.Inserted += OnRibbonGroupsInserted;
@@ -332,7 +332,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnRibbonGroupsClearing(object sender, EventArgs e)
+        private void OnRibbonGroupsClearing(object? sender, EventArgs e)
         {
             // Remove the back references
             foreach (KryptonRibbonGroup group in Groups)
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRibbonGroupsCleared(object sender, EventArgs e)
+        private void OnRibbonGroupsCleared(object? sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
             if ((_ribbon != null) && (_ribbon.SelectedTab == this))
@@ -354,7 +354,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
+            e.Item!.Ribbon = _ribbon;
             e.Item.RibbonTab = this;
 
             // Only need to update display if this tab is selected and the group is visible
@@ -367,7 +367,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
 
             // Only need to update display if this tab is selected and the group was visible

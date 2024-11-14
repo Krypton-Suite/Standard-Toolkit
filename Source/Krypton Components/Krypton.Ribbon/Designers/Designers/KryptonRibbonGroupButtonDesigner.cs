@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonGroupButton _ribbonButton;
+        private KryptonRibbonGroupButton? _ribbonButton;
         private DesignerVerbCollection _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost))!;
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService))!;
 
             // We need to know when we are being removed/changed
             _changeService.ComponentChanged += OnComponentChanged;
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
                 if (disposing)
                 {
                     // Unhook from events
-                    _ribbonButton.DesignTimeContextMenu -= OnContextMenu;
+                    _ribbonButton!.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
             }
@@ -121,9 +121,9 @@ namespace Krypton.Ribbon
         private void UpdateVerbStatus()
         {
             // Create verbs first time around
-            if (_verbs == null)
+            if (_verbs is null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Button First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Button Previous", OnMovePrevious);
@@ -139,9 +139,9 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null && _ribbonButton.Ribbon is not null)
             {
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
                 moveFirst = items.IndexOf(_ribbonButton) > 0;
                 movePrev = items.IndexOf(_ribbonButton) > 0;
                 moveNext = items.IndexOf(_ribbonButton) < (items.Count - 1);
@@ -154,21 +154,23 @@ namespace Krypton.Ribbon
             _moveLastVerb.Enabled = moveLast;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _ribbonButton.Ribbon.InDesignHelperMode = !_ribbonButton.Ribbon.InDesignHelperMode;
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null
+                && _ribbonButton.Ribbon is not null
+                && _ribbonButton.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveFirst");
@@ -176,7 +178,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -190,17 +192,19 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    transaction?.Commit();
+                    transaction.Commit();
                 }
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null
+                && _ribbonButton.Ribbon is not null
+                && _ribbonButton.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MovePrevious");
@@ -208,7 +212,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -224,17 +228,19 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    transaction?.Commit();
+                    transaction.Commit();
                 }
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null
+               && _ribbonButton.Ribbon is not null
+               && _ribbonButton.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveNext");
@@ -242,7 +248,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -258,17 +264,19 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    transaction?.Commit();
+                    transaction.Commit();
                 }
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null
+                && _ribbonButton.RibbonContainer is not null
+                && _ribbonButton.Ribbon is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveLast");
@@ -276,7 +284,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -290,17 +298,19 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    transaction?.Commit();
+                    transaction.Commit();
                 }
             }
         }
 
-        private void OnDeleteButton(object sender, EventArgs e)
+        private void OnDeleteButton(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton is not null
+                && _ribbonButton.Ribbon is not null
+                && _ribbonButton.RibbonContainer is not null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton DeleteButton");
@@ -308,7 +318,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonButton.RibbonContainer)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -326,79 +336,79 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    transaction?.Commit();
+                    transaction.Commit();
                 }
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.Visible, !_ribbonButton.Visible);
                 _ribbonButton.Visible = !_ribbonButton.Visible;
             }
         }
 
-        private void OnEnabled(object sender, EventArgs e)
+        private void OnEnabled(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.Enabled, !_ribbonButton.Enabled);
                 _ribbonButton.Enabled = !_ribbonButton.Enabled;
             }
         }
 
-        private void OnChecked(object sender, EventArgs e)
+        private void OnChecked(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.Checked, !_ribbonButton.Checked);
                 _ribbonButton.Checked = !_ribbonButton.Checked;
             }
         }
 
-        private void OnTypePush(object sender, EventArgs e)
+        private void OnTypePush(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.ButtonType, GroupButtonType.Push);
                 _ribbonButton.ButtonType = GroupButtonType.Push;
             }
         }
 
-        private void OnTypeCheck(object sender, EventArgs e)
+        private void OnTypeCheck(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.ButtonType, GroupButtonType.Check);
                 _ribbonButton.ButtonType = GroupButtonType.Check;
             }
         }
 
-        private void OnTypeDropDown(object sender, EventArgs e)
+        private void OnTypeDropDown(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.ButtonType, GroupButtonType.DropDown);
                 _ribbonButton.ButtonType = GroupButtonType.DropDown;
             }
         }
 
-        private void OnTypeSplit(object sender, EventArgs e)
+        private void OnTypeSplit(object? sender, EventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if (_ribbonButton!.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonButton, null, _ribbonButton.ButtonType, GroupButtonType.Split);
                 _ribbonButton.ButtonType = GroupButtonType.Split;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
-            if (_ribbonButton.Ribbon != null)
+            if ( _ribbonButton is not null && _ribbonButton.Ribbon is not null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -445,7 +455,7 @@ namespace Krypton.Ribbon
                 // Show the context menu
                 if (CommonHelper.ValidContextMenuStrip(_cms))
                 {
-                    Point screenPt = _ribbonButton.Ribbon.ViewRectangleToPoint(_ribbonButton.ButtonView);
+                    Point screenPt = _ribbonButton.Ribbon.ViewRectangleToPoint(_ribbonButton.ButtonView!);
                     VisualPopupManager.Singleton.ShowContextMenuStrip(_cms, screenPt);
                 }
             }
@@ -455,7 +465,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonButton.RibbonContainer)
+                switch (_ribbonButton!.RibbonContainer)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;
@@ -464,6 +474,7 @@ namespace Krypton.Ribbon
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(_ribbonButton.RibbonContainer!.ToString());
                         return null;
                 }
             }

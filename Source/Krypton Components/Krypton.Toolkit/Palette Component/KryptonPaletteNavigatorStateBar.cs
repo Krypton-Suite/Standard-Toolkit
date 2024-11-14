@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -66,15 +66,16 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => BarPaddingTabs.Equals(CommonHelper.InheritPadding) &&
-                                          BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
-                                          BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
-                                          BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
-                                          ButtonPadding.Equals(CommonHelper.InheritPadding) &&
-                                          (ButtonEdgeInside == -1) &&
-                                          (ButtonEdgeOutside == -1) &&
-                                          (CheckButtonGap == -1) &&
-                                          (RibbonTabGap == -1);
+                                            BarPaddingInside.Equals(CommonHelper.InheritPadding) &&
+                                            BarPaddingOutside.Equals(CommonHelper.InheritPadding) &&
+                                            BarPaddingOnly.Equals(CommonHelper.InheritPadding) &&
+                                            ButtonPadding.Equals(CommonHelper.InheritPadding) &&
+                                            (ButtonEdgeInside == -1) &&
+                                            (ButtonEdgeOutside == -1) &&
+                                            (CheckButtonGap == -1) &&
+                                            (RibbonTabGap == -1);
 
         #endregion
 
@@ -84,7 +85,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            BarPaddingInside = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
+            BarPaddingInside = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
             BarPaddingOutside = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOutside);
             BarPaddingOnly = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOnly);
             ButtonPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarButtonPadding);
@@ -398,7 +399,7 @@ namespace Krypton.Toolkit
             }
 
             // Always pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -409,7 +410,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricBool(state, metric);
+            _redirect!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -459,7 +460,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

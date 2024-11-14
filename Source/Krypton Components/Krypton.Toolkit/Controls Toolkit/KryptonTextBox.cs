@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -188,8 +188,7 @@ namespace Krypton.Toolkit
                                     // it from the device context. Resulting in blurred text.
                                     g.TextRenderingHint =
                                         CommonHelper.PaletteTextHintToRenderingHint(
-                                            _kryptonTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(
-                                                PaletteState.Disabled));
+                                            _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
 
                                     // Define the string formatting requirements
                                     var stringFormat = new StringFormat
@@ -238,7 +237,7 @@ namespace Krypton.Toolkit
                                         using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
-                                                .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                                .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
                                             stringFormat);
@@ -338,8 +337,6 @@ namespace Krypton.Toolkit
         private bool _showEllipsisButton;
         //private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -439,7 +436,7 @@ namespace Krypton.Toolkit
             // Contains another control and needs marking as such for validation to work
             SetStyle(ControlStyles.ContainerControl, true);
 
-            // By default we are not multiline and so the height is fixed
+            // By default, we are not multiline and so the height is fixed
             SetStyle(ControlStyles.FixedHeight, true);
 
             // Cannot select this control, only the child TextBox, and does not generate a click event
@@ -457,7 +454,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
@@ -506,10 +503,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -530,8 +527,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             //_isInAlphaNumericMode = false;
 
@@ -566,15 +561,6 @@ namespace Krypton.Toolkit
         [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
         public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
         */
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
@@ -715,7 +701,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -829,11 +815,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -1029,7 +1015,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets a the character to display for password input for single-line edit controls.
+        /// Gets or sets the character to display for password input for single-line edit controls.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates the character to display for password input for single-line edit controls.")]
@@ -1301,13 +1287,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
+        public bool IsActive => (_fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox.Focus() == true;
+        public new bool Focus() => TextBox.Focus();
 
         /// <summary>
         /// Activates the control.
@@ -1399,7 +1385,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1731,13 +1717,13 @@ namespace Krypton.Toolkit
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _textBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _textBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _textBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the text box has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_textBox.Handle != IntPtr.Zero) && !_textBox.Font.Equals(font))
                 {
-                    _textBox.Font = font;
+                    _textBox.Font = font!;
                 }
             }
 
@@ -1760,7 +1746,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
+        protected override void OnPaint(PaintEventArgs? e) => base.OnPaint(e);
 
         /// <summary>
         /// Raises the TabStop event.
@@ -1823,13 +1809,13 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
 
             // Find the new state of the main view element
-            PaletteState state = IsActive ? PaletteState.Tracking : PaletteState.Normal;
+            PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
             _drawDockerOuter.ElementState = state;
         }
@@ -1858,47 +1844,47 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
+        private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
+        private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
+        private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
+        private void OnTextBoxHideSelectionChanged(object? sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
+        private void OnTextBoxModifiedChanged(object? sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
+        private void OnTextBoxMultilineChanged(object? sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
+        private void OnTextBoxReadOnlyChanged(object? sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnTextBoxGotFocus(object sender, EventArgs e)
+        private void OnTextBoxGotFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
 
-        private void OnTextBoxLostFocus(object sender, EventArgs e)
+        private void OnTextBoxLostFocus(object? sender, EventArgs e)
         {
             UpdateStateAndPalettes();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
 
-        private void OnTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
+        private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
+        private void OnTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
+        private void OnTextBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
+        private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
+        private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
 
-        private void OnTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
+        private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed && !Disposing)
             {
@@ -1951,12 +1937,12 @@ namespace Krypton.Toolkit
 
                             if (AllowButtonSpecToolTipPriority)
                             {
-                                visualBasePopupToolTip.Dispose();
+                                visualBasePopupToolTip?.Dispose();
                             }
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -1972,19 +1958,19 @@ namespace Krypton.Toolkit
         }
 
         // Remove any currently showing tooltip
-        private void OnCancelToolTip(object sender, EventArgs e) => _visualPopupToolTip?.Dispose();
+        private void OnCancelToolTip(object? sender, EventArgs e) => _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnTextBoxMouseChange(object sender, EventArgs e)
+        private void OnTextBoxMouseChange(object? sender, EventArgs e)
         {
             // Change in tracking state?
             if (_textBox.MouseOver != _trackingMouseEnter)
@@ -2005,28 +1991,21 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
+        private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+        private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+        private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
-        private void OnTextBoxClick(object sender, EventArgs e) =>
+        private void OnTextBoxClick(object? sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier
 
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetIsInAlphaNumericMode(KryptonTextBox owner)
-        {
-            // TODO: Return to this...
-        }
+        //private void SetIsInAlphaNumericMode(KryptonTextBox owner)
+        //{
+        //    // TODO: Return to this...
+        //}
 
         private void ToggleEllipsisButtonVisibility(bool visible)
         {

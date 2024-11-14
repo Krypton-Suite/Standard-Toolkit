@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
                                      ViewLayoutStack viewColumns,
                                      PaletteBase? palette,
                                      PaletteMode paletteMode,
-                                     PaletteRedirect? redirector,
+                                     PaletteRedirect redirector,
                                      NeedPaintHandler needPaintDelegate)
         {
             // Store incoming state
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
         {
             if (ProviderShowSubMenuFixed(menuItem))
             {
-                Rectangle screenRect = FixedViewBase.OwningControl.RectangleToScreen(FixedViewBase.ClientRectangle);
+                Rectangle screenRect = FixedViewBase.OwningControl!.RectangleToScreen(FixedViewBase.ClientRectangle);
                 screenRect.Y++;
                 screenRect.Width -= 3;
                 screenRect.Height -= 4;
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect? ProviderRedirector { get; }
+        public PaletteRedirect ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,12 +25,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the top level control of the source.
         /// </summary>
-        public override Control SeparatorControl => _viewOutlook.ViewControl.ChildControl;
+        public override Control SeparatorControl => _viewOutlook.ViewControl.ChildControl!;
 
         /// <summary>
         /// Gets the box representing the minimum and maximum allowed splitter movement.
         /// </summary>
-        public override Rectangle SeparatorMoveBox => _viewOutlook.ViewControl.ChildControl.ClientRectangle;
+        public override Rectangle SeparatorMoveBox => _viewOutlook.ViewControl.ChildControl!.ClientRectangle;
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -46,7 +46,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // We should have a view for representing the page
-                if (_pageStackLookup.ContainsKey(Navigator.SelectedPage))
+                if (_pageStackLookup!.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the check button used to represent the selected page
                     ViewDrawNavCheckButtonBase selected = _pageStackLookup[Navigator.SelectedPage];
@@ -113,10 +113,10 @@ namespace Krypton.Navigator
             if (_viewOutlook.ClientRectangle.Contains(pt))
             {
                 // Get the control that owns the view layout
-                Control owningControl = _viewLayout.OwningControl;
+                Control? owningControl = _viewLayout.OwningControl;
 
                 // Convert incoming point from navigator to owning control
-                pt = owningControl.PointToClient(Navigator.PointToScreen(pt));
+                pt = owningControl!.PointToClient(Navigator.PointToScreen(pt));
 
                 // Check if any of the stack check buttons want the point
                 foreach (ViewBase item in _viewLayout)
@@ -155,7 +155,7 @@ namespace Krypton.Navigator
             _viewOutlook.AnimateStep -= OnViewportAnimation;
 
             // Put the child panel back into the navigator
-            _viewOutlook.RevertParent(Navigator, Navigator.ChildPanel);
+            _viewOutlook.RevertParent(Navigator, Navigator.ChildPanel!);
 
             // Let base class perform common operations
             base.Destruct();
@@ -164,7 +164,7 @@ namespace Krypton.Navigator
 
         #region Protected
         /// <summary>
-        /// Creates and returns the view element that laysout the main client area.
+        /// Creates and returns the view element that layout the main client area.
         /// </summary>
         /// <returns></returns>
         protected override ViewBase CreateMainLayout()
@@ -185,7 +185,7 @@ namespace Krypton.Navigator
                                                      (Navigator.Outlook.Orientation == Orientation.Vertical), NeedPaintDelegate);
 
             // Reparent the child panel that contains the actual pages, into the child control
-            _viewOutlook.MakeParent(Navigator.ChildPanel);
+            _viewOutlook.MakeParent(Navigator.ChildPanel!);
 
             return _viewOutlook;
         }
@@ -197,7 +197,7 @@ namespace Krypton.Navigator
         /// <param name="checkButtonOrient">Orientation of the check button.</param>
         /// <param name="dockFar">Docking position of the check button.</param>
         /// <returns></returns>
-        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage? page, 
+        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage? page,
                                                                          VisualOrientation checkButtonOrient,
                                                                          ViewDockStyle dockFar)
         {
@@ -230,7 +230,7 @@ namespace Krypton.Navigator
             ViewDrawNavCheckButtonBase? viewPage = null;
 
             // Make sure only the selected page is checked
-            foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup.Values)
+            foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup!.Values)
             {
                 // Should this check button be selected
                 if (Navigator.SelectedPage == child.Page)
@@ -253,7 +253,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -268,7 +268,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
+        private void OnViewportAnimation(object? sender, EventArgs e) => Navigator.PerformNeedPaint(true);
         #endregion
     }
 }

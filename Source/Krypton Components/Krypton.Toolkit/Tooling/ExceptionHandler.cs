@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -17,40 +17,53 @@ namespace Krypton.Toolkit
     /// </summary>
     internal class ExceptionHandler
     {
-        #region Constructor
+        #region Idendity
+
         /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
         public ExceptionHandler()
         {
 
         }
+
         #endregion
 
-        #region Methods
+        #region Implementation
+
         /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <param name="title">The title.</param>
-        /// <param name="buttons">The buttons.</param>
-        /// <param name="icon">The icon.</param>
-        /// <param name="className">Name of the class.</param>
-        /// <param name="methodSignature">The method signature.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught", KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Warning, string className = "", string methodSignature = "")
+        /// <param name="callerFilePath">The calling file path.</param>
+        /// <param name="lineNumber">The line number.</param>
+        /// <param name="callerMethod">The calling method.</param>
+        /// <param name="showStackTrace">Show the stack trace.</param>
+        public static void CaptureException(
+            Exception exception, 
+            string title = "Exception Caught",
+            [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string callerMethod = "", 
+            bool showStackTrace = false)
         {
-            if (className != "")
+            StringBuilder messageBuilder = new StringBuilder();
+
+            messageBuilder.Append($"An unexpected error has occurred:\r\n\r\n");
+            messageBuilder.Append($"Class: {callerFilePath}\r\n");
+            messageBuilder.Append($"Method: {callerMethod}\r\n");
+            messageBuilder.Append($"Line: {lineNumber}\r\n");
+            messageBuilder.Append($"Message: {exception.Message}\r\n\r\n");
+
+            if (showStackTrace)
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.", title, buttons, icon);
+                messageBuilder.Append($"Stacktrace:\r\n{exception.StackTrace}\r\n");
             }
-            else if (methodSignature != "")
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
-            }
-            else if (className != "" && methodSignature != "")
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
-            }
-            else
-            {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.", title, buttons, icon);
-            }
+
+            string message = messageBuilder.ToString();
+
+            KryptonMessageBoxButtons okButton = KryptonMessageBoxButtons.OK;
+
+            KryptonMessageBoxIcon exceptionIcon = KryptonMessageBoxIcon.Error;
+
+            KryptonMessageBox.Show(message, title, okButton, exceptionIcon, showCtrlCopy: true);
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
@@ -69,13 +82,15 @@ namespace Krypton.Toolkit
 
                 writer.Write(exception.ToString());
 
+                writer.Write(exception.StackTrace);
+
                 writer.Close();
 
                 writer.Dispose();
             }
             catch (Exception e)
             {
-                CaptureException(e);
+                CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -101,7 +116,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                CaptureException(e);
+                CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewCheckBoxCell : DataGridViewCheckBoxCell
     {
         #region Static Fields
-        private static PropertyInfo _piButtonState;
-        private static PropertyInfo _piMouseEnteredCellAddress;
-        private static FieldInfo _fiMouseInContentBounds;
+        private static PropertyInfo? _piButtonState;
+        private static PropertyInfo? _piMouseEnteredCellAddress;
+        private static FieldInfo? _fiMouseInContentBounds;
         #endregion
 
         #region Instance Fields
@@ -75,10 +75,10 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Is this cell the currently active cell
-                var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                var currentCell = (rowIndex == DataGridView!.CurrentCellAddress.Y) &&
                                   (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                 // Is this cell the same as the one with the mouse inside it
@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
                 var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using var viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
-                Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
+                using var viewContent = new ViewLayoutContext(kDGV!, kDGV!.Renderer!);
+                Size checkBoxSize = kDGV.Renderer!.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                     kDGV.Redirector,
                     kDGV.Enabled,
                     CheckState.Unchecked,
@@ -131,9 +131,9 @@ namespace Krypton.Toolkit
             Rectangle cellBounds,
             int rowIndex,
             DataGridViewElementStates cellState,
-            object value,
-            object formattedValue,
-            string errorText,
+            object? value,
+            object? formattedValue,
+            string? errorText,
             DataGridViewCellStyle cellStyle,
             DataGridViewAdvancedBorderStyle advancedBorderStyle,
             DataGridViewPaintParts paintParts)
@@ -171,13 +171,13 @@ namespace Krypton.Toolkit
                     var tracking = mouseCell && MouseInContentBoundsInternal;
                     var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer!);
                     Size checkBoxSize;
 
                     // Find out the requested size of the check box drawing
-                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer!))
                     {
-                        checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
+                        checkBoxSize = renderContext.Renderer!.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,
                             kDgv.Enabled && !base.ReadOnly,
                             checkState,
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState.GetValue(this, null);
+                return _piButtonState != null ? (ButtonState)_piButtonState!.GetValue(this, null)! : ButtonState.Normal;
             }
         }
 
@@ -280,10 +280,18 @@ namespace Krypton.Toolkit
                     _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField(@"mouseInContentBounds", BindingFlags.Static |
                                                                                                                 BindingFlags.NonPublic |
                                                                                                                 BindingFlags.GetField);
+                    if (_fiMouseInContentBounds == null)
+                    {
+                        // https://github.com/dotnet/winforms/commit/7ab46c6e6ae1c39143a7638d694fb6e130ab4edc#diff-2684515ec95bea4ec16a0bf7c9e6ff09dc33d31aafabd2c35f016994c800fc84
+                        // This was changed in netCore8 P1 but when running netcore7 it still wants this new name ??
+                        _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField(@"s_mouseInContentBounds", BindingFlags.Static |
+                            BindingFlags.NonPublic |
+                            BindingFlags.GetField);
+                    }
                 }
 
                 // Grab the internal property implemented by base class
-                return (bool)_fiMouseInContentBounds.GetValue(this);
+                return (bool)_fiMouseInContentBounds!.GetValue(this)!;
             }
         }
 
@@ -303,7 +311,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress.GetValue(base.DataGridView, null);
+                return (Point)_piMouseEnteredCellAddress!.GetValue(base.DataGridView, null)!;
                 // ReSharper restore RedundantBaseQualifier
             }
         }

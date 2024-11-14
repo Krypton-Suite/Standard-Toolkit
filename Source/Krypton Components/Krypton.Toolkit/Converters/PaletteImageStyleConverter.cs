@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteImageStyle, string> _pairs = new Dictionary<PaletteImageStyle, string>
+        private static readonly BiDictionary<PaletteImageStyle, string> _pairs = new BiDictionary<PaletteImageStyle, string>(
+            new Dictionary<PaletteImageStyle, string>
         {
             {PaletteImageStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_INHERIT},
             {PaletteImageStyle.Stretch, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_STRETCH},
@@ -37,7 +38,7 @@ namespace Krypton.Toolkit
             {PaletteImageStyle.BottomLeft, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_LEFT},
             {PaletteImageStyle.BottomMiddle, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_MIDDLE},
             {PaletteImageStyle.BottomRight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_RIGHT}
-        };
+        });
 
         #endregion
 
@@ -45,7 +46,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteImageStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteImageStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteImageStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

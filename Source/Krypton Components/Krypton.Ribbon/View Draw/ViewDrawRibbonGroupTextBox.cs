@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -21,9 +21,9 @@ namespace Krypton.Ribbon
                                                 IRibbonViewGroupItemView
     {
         #region Instance Fields
-        private readonly int NULL_CONTROL_WIDTH; // = 50;
+        private readonly int _nullControlWidth; // = 50;
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly TextBoxController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupTextBox = ribbonTextBox;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            GroupTextBox = ribbonTextBox!;
+            _needPaint = needPaint!;
             _currentSize = GroupTextBox.ItemSizeCurrent;
 
             // Hook into the textbox events
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the textbox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager!.LayoutBefore += OnLayoutAction;
             _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the text box definition
@@ -80,9 +80,13 @@ namespace Krypton.Ribbon
             // Give paint delegate to textbox so its palette changes are redrawn
             GroupTextBox.ViewPaintDelegate = needPaint;
 
+            // Update all views to reflect current state
+            UpdateEnabled(GroupTextBox.TextBox);
+            UpdateVisible(GroupTextBox.TextBox);
+
             // Hook into changes in the ribbon custom definition
             GroupTextBox.PropertyChanged += OnTextBoxPropertyChanged;
-            NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
+            _nullControlWidth = (int)(50 * FactorDpiX);
         }
 
         /// <summary>
@@ -108,7 +112,7 @@ namespace Krypton.Ribbon
                     GroupTextBox.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupTextBox.ViewPaintDelegate = null;
                     GroupTextBox.PropertyChanged -= OnTextBoxPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
@@ -125,7 +129,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group textbox instance.
         /// </summary>
-        public KryptonRibbonGroupTextBox GroupTextBox { get; private set; }
+        public KryptonRibbonGroupTextBox? GroupTextBox { get; private set; }
 
         #endregion
 
@@ -137,7 +141,7 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
-            _ribbon.HideFocus(GroupTextBox.TextBox);
+            _ribbon.HideFocus(GroupTextBox?.TextBox);
             base.LostFocus(c);
         }
         #endregion
@@ -147,7 +151,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             if (GroupTextBox is { Visible: true, LastTextBox.TextBox.CanSelect: true })
             {
@@ -155,7 +159,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -165,7 +169,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             if (GroupTextBox is { Visible: true, LastTextBox.TextBox.CanSelect: true })
             {
@@ -173,7 +177,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -185,11 +189,11 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -200,11 +204,11 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
-            return null;
+            return null!;
         }
         #endregion
 
@@ -217,7 +221,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList, int lineHint)
         {
             // Only provide a key tip if we are visible and the target control can accept focus
-            if (Visible && LastTextBox.CanFocus)
+            if (Visible && LastTextBox!.CanFocus)
             {
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
@@ -237,7 +241,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupTextBox.Enabled, 
+                keyTipList.Add(new KeyTipInfo(GroupTextBox!.Enabled, 
                                               GroupTextBox.KeyTip,
                                               screenPt, 
                                               ClientRectangle,
@@ -256,7 +260,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize() => _currentSize = GroupTextBox.ItemSizeCurrent;
+        public void ResetGroupItemSize() => _currentSize = GroupTextBox!.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -267,7 +271,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
-            UpdateParent(context.Control);
+            UpdateParent(context.Control!);
 
             // If there is a textbox associated then ask for its requested size
             if (LastTextBox != null)
@@ -282,7 +286,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                preferredSize.Width = NULL_CONTROL_WIDTH;
+                preferredSize.Width = _nullControlWidth;
             }
 
             preferredSize.Height = _currentSize == GroupItemSize.Large
@@ -301,10 +305,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastTextBox?.SetBounds(ClientLocation.X + 1,
@@ -325,10 +329,10 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void Render([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
 
             // If we do not have a textbox
-            if (GroupTextBox.TextBox == null)
+            if (GroupTextBox!.TextBox is null)
             {
                 // And we are in design time
                 if (_ribbon.InDesignMode)
@@ -339,7 +343,7 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the textbox will be
-                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
                     context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
@@ -373,9 +377,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupTextBox.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object? sender, MouseEventArgs e) => GroupTextBox!.OnDesignTimeContextMenu(e);
 
-        private void OnTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTextBoxPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             var updateLayout = false;
             const bool UPDATE_PAINT = false;
@@ -397,7 +401,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupTextBox.RibbonTab != null) &&
+                if ((GroupTextBox!.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupTextBox.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -425,14 +429,14 @@ namespace Krypton.Ribbon
 
         private Control LastParentControl
         {
-            get => GroupTextBox.LastParentControl;
-            set => GroupTextBox.LastParentControl = value;
+            get => GroupTextBox!.LastParentControl;
+            set => GroupTextBox!.LastParentControl = value;
         }
 
         private KryptonTextBox? LastTextBox
         {
-            get => GroupTextBox.LastTextBox;
-            set => GroupTextBox.LastTextBox = value;
+            get => GroupTextBox!.LastTextBox;
+            set => GroupTextBox!.LastTextBox = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -440,10 +444,10 @@ namespace Krypton.Ribbon
             // Is there a change in the textbox or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastTextBox != GroupTextBox.TextBox))
+                (LastTextBox != GroupTextBox!.TextBox))
             {
                 // We only modify the parent and visible state if processing for correct container
-                if ((GroupTextBox.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
+                if ((GroupTextBox!.RibbonContainer!.RibbonGroup!.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupTextBox.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custrom control to a parent before
@@ -477,15 +481,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupTextBox.Enabled;
+                var enabled = GroupTextBox!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupTextBox.TextBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupTextBox?.TextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupTextBox.TextBoxDesigner.DesignEnabled;
@@ -495,15 +499,15 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupTextBox.Visible;
+                var visible = GroupTextBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupTextBox.TextBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupTextBox?.TextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupTextBox.TextBoxDesigner.DesignVisible;
@@ -515,24 +519,25 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupTextBox.Visible;
+                var visible = GroupTextBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupTextBox.TextBoxDesigner != null))
+                var textBoxDesigner = GroupTextBox.TextBoxDesigner;
+                if (!_ribbon.InDesignHelperMode && (GroupTextBox?.TextBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
-                    visible = GroupTextBox.TextBoxDesigner.DesignVisible;
+                    visible = textBoxDesigner.DesignVisible;
                 }
 
                 if (visible)
                 {
                     // Only visible if on the currently selected page
-                    if ((GroupTextBox.RibbonTab == null) ||
+                    if ((GroupTextBox!.RibbonTab == null) ||
                         (_ribbon.SelectedTab != GroupTextBox.RibbonTab))
                     {
                         visible = false;
@@ -549,7 +554,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if (GroupTextBox.RibbonContainer.RibbonGroup.IsCollapsed &&
+                            if (GroupTextBox.RibbonContainer!.RibbonGroup!.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupTextBox.TextBox) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupTextBox.TextBox) is VisualPopupMinimized))
                                 )
@@ -559,7 +564,7 @@ namespace Krypton.Ribbon
                             else
                             {
                                 // Check that the hierarchy of containers are all visible
-                                KryptonRibbonGroupContainer container = GroupTextBox.RibbonContainer;
+                                var container = GroupTextBox.RibbonContainer;
 
                                 // Keep going until we have searched the entire parent chain of containers
                                 while (container != null)
@@ -583,23 +588,23 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLayoutAction(object sender, EventArgs e)
+        private void OnLayoutAction(object? sender, EventArgs e)
         {
             // If not disposed then we still have a element reference
             if (GroupTextBox != null)
             {
                 // Change in selected tab requires a retest of the control visibility
-                UpdateVisible(LastTextBox);
+                UpdateVisible(LastTextBox!);
             }
         }
 
-        private void OnMouseEnterControl(object sender, EventArgs e)
+        private void OnMouseEnterControl(object? sender, EventArgs e)
         {
             // Reset the active group setting
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            var parent = Parent;
 
             // Keep going till we get to the top or find a group
             while (parent != null)
@@ -622,7 +627,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMouseLeaveControl(object sender, EventArgs e)
+        private void OnMouseLeaveControl(object? sender, EventArgs e)
         {
             // If we have a cached group we made active
             if (_activeGroup != null)

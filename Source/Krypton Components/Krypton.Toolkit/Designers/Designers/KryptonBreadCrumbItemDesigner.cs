@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonBreadCrumbItem? _crumbItem;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,10 +35,10 @@ namespace Krypton.Toolkit
             _crumbItem = component as KryptonBreadCrumbItem;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Unhook from events
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                    _changeService!.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -84,20 +84,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our item collection is being removed
-            if ((_crumbItem != null) && (e.Component == _crumbItem))
+            if ((_crumbItem != null) && (Equals(e.Component, _crumbItem)))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all items from the child item collection
                 for (var j = _crumbItem.Items.Count - 1; j >= 0; j--)
                 {
                     var item = _crumbItem.Items[j] as Component;
                     _crumbItem.Items.Remove(item);
-                    host.DestroyComponent(item);
+                    host?.DestroyComponent(item);
                 }
             }
         }

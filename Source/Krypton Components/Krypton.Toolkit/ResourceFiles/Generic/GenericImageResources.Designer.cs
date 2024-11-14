@@ -73,6 +73,16 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AppButtonDefault {
+            get {
+                object obj = ResourceManager.GetObject("AppButtonDefault", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlackButtonCollapse {
             get {
                 object obj = ResourceManager.GetObject("BlackButtonCollapse", resourceCulture);
@@ -296,6 +306,26 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         internal static System.Drawing.Bitmap HourGlass {
             get {
                 object obj = ResourceManager.GetObject("HourGlass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InformationMedium {
+            get {
+                object obj = ResourceManager.GetObject("InformationMedium", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InformationSmall {
+            get {
+                object obj = ResourceManager.GetObject("InformationSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

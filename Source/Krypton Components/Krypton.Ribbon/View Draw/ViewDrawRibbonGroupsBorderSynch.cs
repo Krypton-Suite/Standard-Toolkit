@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupsBorderSynch : ViewDrawRibbonGroupsBorder
     {
         #region Classes
-        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort> { }
+        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort>;
         #endregion
 
         #region Static Fields
@@ -64,10 +64,9 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // There can only be groups showing for the currently selected tab
-            if (Ribbon.SelectedTab != null && _tabToView.ContainsKey(Ribbon.SelectedTab))
+            if (Ribbon.SelectedTab != null && _tabToView.TryGetValue(Ribbon.SelectedTab, out ViewLayoutRibbonScrollPort? viewScrollPort))
             {
                 // Get the scroll port for this tab
-                ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
 
                 // The first child of the scroll port is always the view control
                 var viewControl = viewScrollPort[0] as ViewLayoutControl;
@@ -100,7 +99,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -109,7 +108,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -119,7 +118,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -128,7 +127,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -139,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -148,7 +147,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -159,7 +158,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -168,7 +167,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return null;
+                return null!;
             }
         }
         #endregion
@@ -212,9 +211,9 @@ namespace Krypton.Ribbon
                 ViewLayoutRibbonScrollPort? view = null;
 
                 // Get the currently cached view for the tab
-                if (_tabToView.ContainsKey(tab))
+                if (_tabToView.TryGetValue(tab, out ViewLayoutRibbonScrollPort? value))
                 {
-                    view = _tabToView[tab];
+                    view = value;
                 }
 
                 // If a new tab, create a view for it now

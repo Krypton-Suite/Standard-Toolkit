@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -29,7 +29,6 @@ namespace Krypton.Ribbon
         private bool _mouseDown;
         private bool _fixedPressed;
         private bool _hasFocus;
-
         #endregion
 
         #region Events
@@ -70,7 +69,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the second target element.
         /// </summary>
         public ViewBase Target2 { get; set; }
-
+        
         /// <summary>
         /// Gets and sets the third target element.
         /// </summary>
@@ -246,14 +245,25 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             ViewBase? newView = null;
-            var ribbon = (KryptonRibbon)c;
+            
+            var ribbon = c as KryptonRibbon;
+
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            }
 
             switch (e.KeyData)
             {
                 case Keys.Tab:
                 case Keys.Right:
                     // Ask the ribbon to get use the first view for the qat
-                    newView = ribbon.GetFirstQATView() ?? ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
+                    newView = ribbon.GetFirstQATView() ?? ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the first near edge button (the last near button is the leftmost one!)
 
@@ -272,16 +282,16 @@ namespace Krypton.Ribbon
                     }
 
                     // Move across to any far defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     break;
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
                     // Move across to any far defined buttons
-                    newView = ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Far) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Far) ??
+                              ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any inherit defined buttons
 
@@ -290,7 +300,7 @@ namespace Krypton.Ribbon
                         if (e.KeyData != Keys.Left)
                         {
                             // Get the last control on the selected tab
-                            newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ?? 
+                            newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ??
                                       (ribbon.SelectedTab != null // Get the currently selected tab page
                                           ? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab)
                                           : ribbon.TabsArea.LayoutTabs.GetViewForLastRibbonTab());
@@ -303,7 +313,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Get the last near edge button (the first near button is the rightmost one!)
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the last qat button
                     newView ??= ribbon.GetLastQATView();
@@ -324,7 +334,7 @@ namespace Krypton.Ribbon
             }
 
             // If we have a new view to focus and it is not ourself...
-            if ((newView != null) && (newView != Target1) && 
+            if ((newView != null) && (newView != Target1) &&
                 (newView != Target2) && (newView != Target3))
             {
                 // If the new view is a tab then select that tab unless in minimized mode
@@ -362,8 +372,18 @@ namespace Krypton.Ribbon
         /// Perform actual selection of the item.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public void KeyTipSelect(KryptonRibbon ribbon)
+        public void KeyTipSelect(KryptonRibbon? ribbon)
         {
+            if (ribbon is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull("ribbon"));
+            }
+
+            if (ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
+            }
+
             // We leave key tips usage whenever we use the application button
             ribbon.KillKeyboardKeyTips();
 
@@ -374,7 +394,7 @@ namespace Krypton.Ribbon
             UpdateTargetState();
 
             // Switch focus to ourself
-            ribbon.FocusView =  ribbon.TabsArea.LayoutAppButton.AppButton;
+            ribbon.FocusView = ribbon.TabsArea.LayoutAppButton.AppButton;
 
             // Generate a click event
             Keyboard = true;
@@ -388,7 +408,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected void UpdateTargetState()
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled

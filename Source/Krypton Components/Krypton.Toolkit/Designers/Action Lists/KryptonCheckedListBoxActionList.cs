@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonCheckedListBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckedListBox? _checkedListBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonCheckedListBox _checkedListBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the list box instance
-            _checkedListBox = owner.Component as KryptonCheckedListBox;
+            _checkedListBox = (owner.Component as KryptonCheckedListBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.ItemStyle, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.ItemStyle, value);
                     _checkedListBox.ItemStyle = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BackStyle, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.BackStyle, value);
                     _checkedListBox.BackStyle = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
                     _checkedListBox.BorderStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.KryptonContextMenu, value);
 
                     _checkedListBox.KryptonContextMenu = value;
                 }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.SelectionMode != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.SelectionMode, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.SelectionMode, value);
                     _checkedListBox.SelectionMode = value;
                 }
             }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.Sorted != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.Sorted, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.Sorted, value);
                     _checkedListBox.Sorted = value;
                 }
             }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.CheckOnClick != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.CheckOnClick, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.CheckOnClick, value);
                     _checkedListBox.CheckOnClick = value;
                 }
             }
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkedListBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
                     _checkedListBox.PaletteMode = value;
                 }
             }
@@ -174,15 +174,15 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonShortTextFont
+        public Font? StateCommonShortTextFont
         {
             get => _checkedListBox.StateCommon.Item.Content.ShortText.Font;
 
             set
             {
-                if (_checkedListBox.StateCommon.Item.Content.ShortText.Font != value)
+                if (!Equals(_checkedListBox.StateCommon.Item.Content.ShortText.Font, value))
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
 
                     _checkedListBox.StateCommon.Item.Content.ShortText.Font = value;
                 }
@@ -191,35 +191,17 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonLongTextFont
+        public Font? StateCommonLongTextFont
         {
             get => _checkedListBox.StateCommon.Item.Content.LongText.Font;
 
             set
             {
-                if (_checkedListBox.StateCommon.Item.Content.LongText.Font != value)
+                if (!Equals(_checkedListBox.StateCommon.Item.Content.LongText.Font, value))
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.LongText.Font, value);
+                    _service?.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.LongText.Font, value);
 
                     _checkedListBox.StateCommon.Item.Content.LongText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _checkedListBox.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_checkedListBox.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Border.Rounding, value);
-
-                    _checkedListBox.StateCommon.Border.Rounding = value;
                 }
             }
         }
@@ -246,7 +228,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(nameof(Behavior)));
                 actions.Add(new DesignerActionPropertyItem(nameof(SelectionMode), @"Selection Mode", nameof(Behavior), @"Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Sorted), nameof(Sorted), nameof(Behavior), @"Should items be sorted according to string."));

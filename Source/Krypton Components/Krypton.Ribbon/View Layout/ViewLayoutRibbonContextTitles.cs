@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -21,9 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Classes
 
-        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>
-        {
-        };
+        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>;
 
         #endregion
 
@@ -39,16 +37,17 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to source ribbon control.</param>
         /// <param name="captionArea">Reference to view element that tracks the top level form.</param>
-        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon ribbon,
-                                             [DisallowNull] ViewDrawRibbonCaptionArea captionArea)
+        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon? ribbon,
+                                             [DisallowNull] ViewDrawRibbonCaptionArea? captionArea)
         {
-            Debug.Assert(captionArea != null);
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            Debug.Assert(captionArea is not null);
+            Debug.Assert(ribbon is not null);
+            
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _captionArea = captionArea ?? throw new ArgumentNullException(nameof(captionArea));
 
             // Create cache of draw elements
-            _contextTitlesCache = new ViewDrawRibbonContextTitleList();
+            _contextTitlesCache = [];
         }
 
         /// <summary>
@@ -102,10 +101,10 @@ namespace Krypton.Ribbon
             SyncChildrenToContexts();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find any filler child
-            ViewBase filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
+            ViewBase? filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
 
             var xLeftMost = ClientRectangle.Right;
             var xRightMost = ClientRectangle.Left;
@@ -115,14 +114,14 @@ namespace Krypton.Ribbon
             foreach (ViewDrawRibbonContextTitle childContextTitle in this.Where(static child => child.Visible).OfType<ViewDrawRibbonContextTitle>())
             {
                 // Get the context set it is representing
-                ContextTabSet tabContext = childContextTitle.ContextTabSet;
+                ContextTabSet tabContext = childContextTitle.ContextTabSet!;
 
                 // Get the screen position of the left and right hand positions
                 Point leftTab = tabContext.GetLeftScreenPosition();
                 Point rightTab = tabContext.GetRightScreenPosition();
 
                 // If our position is above the ribbon control we must be in the chrome
-                if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
+                if (_captionArea is { UsingCustomChrome: true})
                 {
                     var leftPadding = _captionArea.RealWindowBorders.Left;
                     leftTab.X += leftPadding;
@@ -130,7 +129,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Convert the screen to our own coordinates
-                leftTab = context.TopControl.PointToClient(leftTab);
+                leftTab = context.TopControl!.PointToClient(leftTab);
                 rightTab = context.TopControl.PointToClient(rightTab);
 
                 // Calculate the position of the child and layout
@@ -214,9 +213,9 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                var viewController = (ContextTitleController)viewContext.MouseController;
+                var viewController = viewContext.MouseController as ContextTitleController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
-                viewController.ContextTabSet = viewContext.ContextTabSet;
+                viewController!.ContextTabSet = viewContext.ContextTabSet;
                 Add(viewContext);
             }
 

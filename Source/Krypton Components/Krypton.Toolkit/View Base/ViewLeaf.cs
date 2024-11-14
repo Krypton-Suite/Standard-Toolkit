@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
             if (Visible)
             {
                 // We have no children so perform all rendering now
-                RenderBefore(context);
-                RenderAfter(context);
+                RenderBefore(context!);
+                RenderAfter(context!);
             }
         }
         #endregion
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase this[int index] 
-        { 
+        public override ViewBase this[int index]
+        {
             get => throw new ArgumentOutOfRangeException(nameof(index));
 
             set => throw new ArgumentOutOfRangeException(nameof(index));

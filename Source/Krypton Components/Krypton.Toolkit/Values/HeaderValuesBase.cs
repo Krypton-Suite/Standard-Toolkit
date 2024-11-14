@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,9 @@ namespace Krypton.Toolkit
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Image _defaultImage = GenericImageResources.KryptonLogoGeneric;
+
+        private static readonly Image? _defaultImage = GenericImageResources.KryptonLogoGeneric;
+
         #endregion
 
         #region Instance Fields
@@ -35,7 +37,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public event EventHandler? TextChanged;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the HeaderValuesBase class.
@@ -45,10 +47,10 @@ namespace Krypton.Toolkit
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Set initial values to the default
             _image = GetImageDefault();
-            _transparent = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
             _heading = GetHeadingDefault();
             _description = GetDescriptionDefault();
         }
@@ -59,14 +61,16 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Image == GetImageDefault()) &&
-                                           (ImageTransparentColor == Color.Empty) &&
-                                           (Heading == GetHeadingDefault()) &&
-                                           (Description == GetDescriptionDefault());
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Heading == GetHeadingDefault()) &&
+                                            (Description == GetDescriptionDefault());
 
         #endregion
 
         #region Default Values
+
         /// <summary>
         /// Gets the default image value.
         /// </summary>
@@ -132,7 +136,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -147,12 +151,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -162,7 +166,7 @@ namespace Krypton.Toolkit
         public virtual Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
         #endregion
-        
+
         #region Heading
         /// <summary>
         /// Gets and sets the heading text.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -312,13 +312,13 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A PageDropEventArgs containing the event data.</param>
-        protected override void RaiseSpacePageDrop(object sender, PageDropEventArgs e)
+        protected override void RaiseSpacePageDrop(object? sender, PageDropEventArgs e)
         {
             // Use event to indicate the page is moving to a workspace and allow it to be cancelled
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                var args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                var args = new CancelUniqueNameEventArgs(e.Page?.UniqueName!, false);
                 dockingManager.RaisePageDockedRequest(args);
 
                 // Pass back the result of the event
@@ -419,13 +419,13 @@ namespace Krypton.Docking
             {
                 DockspaceControl.Dispose();
                 // TODO: Is this safe ?. It means that whatever uses this afterwards could be accessing null things !
-                SpaceControl = null;
+                SpaceControl = null!;
             }
         }
         #endregion
 
         #region Implementation
-        private void OnDockspaceCellVisibleCountChanged(object sender, EventArgs e)
+        private void OnDockspaceCellVisibleCountChanged(object? sender, EventArgs e)
         {
             if (DockspaceControl.CellVisibleCount == 0)
             {
@@ -445,7 +445,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspaceCellCountChanged(object sender, EventArgs e)
+        private void OnDockspaceCellCountChanged(object? sender, EventArgs e)
         {
             // When all the cells (and so pages) have been removed we kill ourself
             if (DockspaceControl.CellCount == 0)
@@ -454,38 +454,38 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockspacePageCloseClicked(object sender, UniqueNameEventArgs e)
+        private void OnDockspacePageCloseClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
-        private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
+        private void OnDockspacePageAutoHiddenClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the switch from docked to auto hidden is handled for cell that contains the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedCellToAutoHiddenGroupRequest(e.UniqueName);
         }
 
-        private void OnDockspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
+        private void OnDockspacePagesDoubleClicked(object? sender, UniqueNamesEventArgs e)
         {
             // Generate event so that the switch from docked to floating is handled for the provided list of named pages
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchDockedToFloatingWindowRequest(e.UniqueNames);
         }
 
-        private void OnDockspaceDropDownClicked(object sender, CancelDropDownEventArgs e)
+        private void OnDockspaceDropDownClicked(object? sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
+                e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page!, e.KryptonContextMenu!);
             }
         }
 
-        private void OnDockspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
+        private void OnDockspaceBeforePageDrag(object? sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the dockspace
             var pages = new List<KryptonPage>();

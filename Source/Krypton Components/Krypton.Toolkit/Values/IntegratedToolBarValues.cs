@@ -2,7 +2,7 @@
 /*
  *  
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -55,19 +55,22 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS)]
-        public bool ShowAllToolbarItems { get => _showAllToolbarButtons; set { _showAllToolbarButtons = value; } }
+        public bool ShowAllToolbarItems { get => _showAllToolbarButtons; set => _showAllToolbarButtons = value;
+        }
 
         public ButtonSpecAny[] IntegratedToolBarItems { get => _integratedToolBarItems; private set => _integratedToolBarItems = value; }
 
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(typeof(PaletteButtonOrientation), DEFAULT_BUTTON_ORIENTATION)]
-        public PaletteButtonOrientation ButtonOrientation { get => _buttonOrientation; set { _buttonOrientation = value; } }
+        public PaletteButtonOrientation ButtonOrientation { get => _buttonOrientation; set => _buttonOrientation = value;
+        }
 
         [Category(@"Visuals")]
         [Description(@"")]
         [DefaultValue(typeof(PaletteRelativeEdgeAlign), DEFAULT_BUTTON_ALIGNMENT)]
-        public PaletteRelativeEdgeAlign ButtonAlignment { get => _buttonAlignment; set { _buttonAlignment = value; } }
+        public PaletteRelativeEdgeAlign ButtonAlignment { get => _buttonAlignment; set => _buttonAlignment = value;
+        }
 
         #endregion
 
@@ -80,7 +83,9 @@ namespace Krypton.Toolkit
 
         public override string ToString()
         {
-            return base.ToString();
+            return base.ToString() is string s
+                ? s
+                : string.Empty;
         }
 
         #endregion
@@ -88,7 +93,8 @@ namespace Krypton.Toolkit
         #region Implementation
 
         [Browsable(false)]
-        public bool IsDefault => ShowIntegratedToolBar.Equals(DEFAULT_SHOW_INTEGRATED_TOOLBAR) &&
+        public bool IsDefault => FlipArrayItems.Equals(false) &&
+                                 ShowIntegratedToolBar.Equals(DEFAULT_SHOW_INTEGRATED_TOOLBAR) &&
                                  ShowAllToolbarItems.Equals(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS) &&
                                  IntegratedToolBarItems.Equals(SetupToolbarArray()) &&
                                  ButtonOrientation.Equals(PaletteButtonOrientation.Auto) &&
@@ -190,6 +196,8 @@ namespace Krypton.Toolkit
         private void ShowToolBar(bool showToolBar) => _integratedToolbarManager.ShowToolBar(showToolBar);
 
         internal void SetupToolBar() => _integratedToolBarItems = SetupToolbarArray();
+
+        public bool FlipArrayItems { get => _flipArrayItems; set => _flipArrayItems = value; }
 
         public ButtonSpecAny[] ReturnToolBarButtonArray() => _integratedToolBarItems;
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class ViewDrawMenuItem : ViewDrawCanvas
     {
         #region Static Fields
-        private static readonly Image _empty16x16;
+        private static readonly Image? _empty16x16;
         #endregion
 
         #region Instance Fields
@@ -88,11 +88,11 @@ namespace Krypton.Toolkit
                 {
                     case CheckState.Checked:
                         itemColumnImage = provider.ProviderImages.GetContextMenuCheckedImage();
-                        itemImageTransparent = Color.Empty;
+                        itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                         break;
                     case CheckState.Indeterminate:
                         itemColumnImage = provider.ProviderImages.GetContextMenuIndeterminateImage();
-                        itemImageTransparent = Color.Empty;
+                        itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                         break;
                 }
             }
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
 
             // Text/Extra Text
             PaletteContentJustText menuItemStyle = standardStyle ? menuItemState.ItemTextStandard : menuItemState.ItemTextAlternate;
-            _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, Color.Empty);
+            _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, GlobalStaticValues.EMPTY_COLOR);
             _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
             docker.Add(_textContent, ViewDockStyle.Fill);
             _textContent.Enabled = ItemEnabled;
@@ -118,15 +118,19 @@ namespace Krypton.Toolkit
             // Shortcut
             if (KryptonContextMenuItem.ShowShortcutKeys)
             {
-                var shortcutString = KryptonContextMenuItem.ShortcutKeyDisplayString;
+                string shortcutString = KryptonContextMenuItem.ShortcutKeyDisplayString;
                 if (string.IsNullOrEmpty(shortcutString))
                 {
-                    shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) : string.Empty;
+                    shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) 
+                        ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) is string s
+                            ? s
+                            : string.Empty
+                        : string.Empty;
                 }
 
                 if (shortcutString.Length > 0)
                 {
-                    _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, Color.Empty), 2);
+                    _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, GlobalStaticValues.EMPTY_COLOR), 2);
                     docker.Add(_shortcutContent, ViewDockStyle.Right);
                     _shortcutContent.Enabled = ItemEnabled;
                 }
@@ -140,7 +144,7 @@ namespace Krypton.Toolkit
 
             // SubMenu Indicator
             HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty), 3);
+            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : GlobalStaticValues.EMPTY_COLOR), 3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
 
@@ -162,7 +166,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the manager for handling tooltips
-            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager, this, mic);
+            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager!, this, mic);
         }
 
         /// <summary>
@@ -223,7 +227,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the short text value of the menu item.
         /// </summary>
-        public string ItemText => _textContent.Values.GetShortText();
+        public string ItemText => _textContent.Values!.GetShortText();
 
         #endregion
 
@@ -231,7 +235,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the long text value of the menu item.
         /// </summary>
-        public string ItemExtraText => _textContent.Values.GetLongText();
+        public string ItemExtraText => _textContent.Values!.GetLongText();
 
         #endregion
 
@@ -390,7 +394,7 @@ namespace Krypton.Toolkit
             if ((_contextMenu == null) || _contextMenu.IsDisposed)
             {
                 // No need for the sub menu timer anymore, we are showing
-                _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
+                _provider.ProviderViewManager.SetTargetSubMenu((KeyController as IContextMenuTarget)!);
 
                 // Only show a sub menu if there is one to be shown!
                 if (HasSubMenu)
@@ -467,7 +471,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            PaletteDouble? splitPalette;
+            PaletteDouble splitPalette;
 
             // Make sure we are using the correct palette for state
             switch (State)
@@ -520,11 +524,11 @@ namespace Krypton.Toolkit
                     {
                         case CheckState.Checked:
                             itemColumnImage = _provider.ProviderImages.GetContextMenuCheckedImage();
-                            itemImageTransparent = Color.Empty;
+                            itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                             break;
                         case CheckState.Indeterminate:
                             itemColumnImage = _provider.ProviderImages.GetContextMenuIndeterminateImage();
-                            itemImageTransparent = Color.Empty;
+                            itemImageTransparent = GlobalStaticValues.EMPTY_COLOR;
                             break;
                     }
                 }
@@ -570,13 +574,13 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             base.Layout(context);
         }
         #endregion
 
         #region Implementation
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -613,7 +617,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCommandPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -631,7 +635,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void OnContextMenuDisposed(object sender, EventArgs e)
+        internal void OnContextMenuDisposed(object? sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (_contextMenu != null)
@@ -644,7 +648,7 @@ namespace Krypton.Toolkit
                 _contextMenu = null;
 
                 // Tell our view manager that we no longer show a sub menu
-                _provider.ProviderViewManager.ClearTargetSubMenu((IContextMenuTarget)KeyController);
+                _provider.ProviderViewManager.ClearTargetSubMenu((KeyController as IContextMenuTarget)!);
             }
         }
         #endregion

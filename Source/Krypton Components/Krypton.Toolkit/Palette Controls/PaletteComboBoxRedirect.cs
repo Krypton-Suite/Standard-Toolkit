@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteComboBoxRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteComboBoxRedirect([DisallowNull] PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -37,13 +37,13 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            Item = new PaletteTripleRedirect(redirect, 
+            Item = new PaletteTripleRedirect(redirect!, 
                                                       PaletteBackStyle.ButtonListItem, 
                                                       PaletteBorderStyle.ButtonListItem, 
                                                       PaletteContentStyle.ButtonListItem, 
                                                       NeedPaint);
 
-            ComboBox = new PaletteInputControlTripleRedirect(redirect, 
+            ComboBox = new PaletteInputControlTripleRedirect(redirect!, 
                                                                       PaletteBackStyle.InputControlStandalone,
                                                                       PaletteBorderStyle.InputControlStandalone,
                                                                       PaletteContentStyle.InputControlStandalone, 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
                 }
             };
 
-            _dropBackRedirect = new PaletteDoubleRedirect(redirect, 
+            _dropBackRedirect = new PaletteDoubleRedirect(redirect!, 
                                                           PaletteBackStyle.ControlClient, 
                                                           PaletteBorderStyle.ButtonStandalone,
                                                           NeedPaint);
@@ -68,9 +68,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ComboBox.IsDefault &&
-                                           Item.IsDefault &&
-                                           DropBack.IsDefault;
+                                            Item.IsDefault &&
+                                            DropBack.IsDefault;
 
         #endregion
 
@@ -79,7 +80,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             Item.SetRedirector(redirect);
             ComboBox.SetRedirector(redirect);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _lastHitTest;
         private KryptonHeader? _header;
-        private IDesignerHost _designerHost;
-        private IComponentChangeService _changeService;
-        private ISelectionService _selectionService;
+        private IDesignerHost? _designerHost;
+        private IComponentChangeService? _changeService;
+        private ISelectionService? _selectionService;
         #endregion
 
         #region Protected Overrides
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         protected override void Dispose(bool disposing)
         {
             // Unhook from events
-            ViewManager vm = _header?.GetViewManager();
+            var vm = _header?.GetViewManager();
             if (vm != null)
             {
                 vm.MouseUpProcessed -= OnHeaderMouseUp;
@@ -70,17 +70,17 @@ namespace Krypton.Toolkit
             if (_header != null)
             {
                 // Hook into header event
-                _header.GetViewManager().MouseUpProcessed += OnHeaderMouseUp;
-                _header.GetViewManager().DoubleClickProcessed += OnHeaderDoubleClick;
+                _header.GetViewManager()!.MouseUpProcessed += OnHeaderMouseUp;
+                _header.GetViewManager()!.DoubleClickProcessed += OnHeaderDoubleClick;
             }
 
             // Get access to the design services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -151,12 +151,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnHeaderMouseUp(object sender, MouseEventArgs e)
+        private void OnHeaderMouseUp(object? sender, MouseEventArgs e)
         {
             if ((_header != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component? component = _header.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                var component = _header.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
                     {
                         component
                     };
-                    _selectionService.SetSelectedComponents(selectionList, SelectionTypes.Auto);
+                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
                 }
             }
         }
@@ -176,25 +176,25 @@ namespace Krypton.Toolkit
         private void OnHeaderDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _header?.DesignerComponentFromPoint(pt);
+            var component = _header?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                var designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
-            if ((_header != null) && (e.Component == _header))
+            if ((_header != null) && (Equals(e.Component, _header)))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
                 for (var i = _header.ButtonSpecs.Count - 1; i >= 0; i--)
@@ -203,16 +203,16 @@ namespace Krypton.Toolkit
                     ButtonSpec spec = _header.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanging(_header, null);
+                    _changeService?.OnComponentChanging(_header, null);
 
                     // Perform actual removal of button spec from header
                     _header.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService.OnComponentChanged(_header, null, null, null);
+                    _changeService?.OnComponentChanged(_header, null, null, null);
                 }
             }
         }

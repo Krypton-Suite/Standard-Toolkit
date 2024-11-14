@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,10 @@ namespace Krypton.Ribbon
         private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
         private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();
 
+#pragma warning disable CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
         private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
         private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
+#pragma warning restore CS8714 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'notnull' constraint.
 
 
         public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
@@ -51,13 +53,13 @@ namespace Krypton.Ribbon
         public TSecond GetByFirst(TFirst first)
         {
             _firstToSecond.TryGetValue(first, out var second);
-            return second;
+            return second!;
         }
 
         public TFirst GetBySecond(TSecond second)
         {
             _secondToFirst.TryGetValue(second, out var first);
-            return first;
+            return first!;
         }
 
         public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;

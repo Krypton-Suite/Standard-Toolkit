@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     {
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         private readonly FolderBrowserDialog _internalOpenFileDialog = new();// { AutoUpgradeEnabled = true };
 #else
         private readonly ShellBrowserDialogTFM _internalOpenFileDialog = new ShellBrowserDialogTFM();
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         //    return true;
         //}
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <inheritdoc />
         public override Guid? ClientGuid 
         { 
@@ -67,22 +67,22 @@ namespace Krypton.Toolkit
         public string SelectedPath
         {
             get => _internalOpenFileDialog.SelectedPath;
-            set => _internalOpenFileDialog.SelectedPath = value;
+            set => _internalOpenFileDialog.SelectedPath = value!;
         }
 
-#if NET60_OR_GREATER
+#if NET6_0_OR_GREATER
         /// <summary>
         ///  Gets or sets the initial directory displayed by the folder browser dialog.
         /// </summary>
         [Category(@"FolderBrowsing")]
         [DefaultValue("")]
-        [Editor(typeof(InitialDirectoryEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonInitialDirectoryEditor), typeof(UITypeEditor))]
         [Description(@"Gets or sets the initial directory displayed by the folder browser dialog")]
         [AllowNull]
         public string InitialDirectory
         {
             get => _internalOpenFileDialog.InitialDirectory;
-            set => _internalOpenFileDialog.InitialDirectory = value;
+            set => _internalOpenFileDialog.InitialDirectory = value!;
         }
 #endif
 

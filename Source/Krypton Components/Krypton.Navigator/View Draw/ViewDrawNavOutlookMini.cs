@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -48,7 +48,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            $"ViewDrawNavOutlookMini:{Id} Text:{Page.Text}";
+            $"ViewDrawNavOutlookMini:{Id} Text:{Page!.Text}";
 
         #endregion
 
@@ -64,11 +64,11 @@ namespace Krypton.Navigator
 
                 if (Page != null)
                 {
-                    _overrideDisabled.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateDisabled.MiniButton);
-                    _overrideNormal.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateNormal.MiniButton);
-                    _overrideTracking.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateTracking.MiniButton);
-                    _overridePressed.SetPalettes(Page.OverrideFocus.MiniButton, Page.StatePressed.MiniButton);
-                    _overrideSelected.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateSelected.MiniButton);
+                    _overrideDisabled.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateDisabled.MiniButton);
+                    _overrideNormal.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateNormal.MiniButton);
+                    _overrideTracking.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateTracking.MiniButton);
+                    _overridePressed.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StatePressed.MiniButton);
+                    _overrideSelected.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateSelected.MiniButton);
                 }
                 else
                 {
@@ -126,13 +126,13 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnMiniClick(object sender, EventArgs e) =>
+        private void OnMiniClick(object? sender, EventArgs e) =>
             // Ask the navigator to show the specified page as a popup window 
             // relative to our location as an element and firing the provided
             // delegate when the popup is dismissed.
-            Navigator.ShowPopupPage(Page, this, _finishDelegate);
+            Navigator.ShowPopupPage(Page!, this, _finishDelegate);
 
-        private void OnPopupFinished(object sender, EventArgs e) =>
+        private void OnPopupFinished(object? sender, EventArgs e) =>
             // Remove the fixed display of the button, now the associated popup has been removed
             _controller.RemoveFixed();
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to use.
         /// </summary>
-        public PaletteBase? Palette { get; set; }
+        public PaletteBase Palette { get; set; }
 
         #endregion
 
@@ -56,10 +56,20 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Ask the renderer for the required size of the drop down button
-            return context!.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
+            return context.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
         }
 
         /// <summary>
@@ -87,12 +97,19 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) =>
-            context.Renderer.RenderGlyph.DrawDropDownButton(context, 
-                ClientRectangle, 
-                Palette, 
+        public override void RenderBefore( [DisallowNull] RenderContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            context.Renderer.RenderGlyph.DrawDropDownButton(context,
+                ClientRectangle,
+                Palette,
                 State,
                 Orientation);
+        }
 
         #endregion
     }

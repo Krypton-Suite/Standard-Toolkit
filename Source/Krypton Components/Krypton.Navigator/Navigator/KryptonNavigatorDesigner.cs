@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
                 // Must enable the child panel so that copy and paste of navigator
                 // correctly copies across copies of the child pages. Also allows the
                 // child panel to be viewed in the document outline and modified.
-                EnableDesignMode(Navigator.ChildPanel, "PageContainer");
+                EnableDesignMode(Navigator.ChildPanel!, "PageContainer");
 
                 // Make sure that all the pages in control can be designed
                 foreach (KryptonPage page in Navigator.Pages)
@@ -72,9 +72,9 @@ namespace Krypton.Navigator
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-            _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+            _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
 
             // We need to know when we are being removed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -162,7 +162,7 @@ namespace Krypton.Navigator
                 // Add all the navigator components
                 if (Navigator != null)
                 {
-                    compound.AddRange(Navigator.Button.ButtonSpecs);
+                    compound.AddRange(Navigator.Button.ButtonSpecs!);
                     compound.AddRange(Navigator.Pages);
                 }
 
@@ -312,18 +312,18 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">A ComponentEventArgs containing event data.</param>
-        protected virtual void OnComponentRemoving(object sender, ComponentEventArgs e)
+        protected virtual void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our control is being removed
             if (e.Component == Navigator)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost))!;
 
                 // We need to remove all the button spec instances
                 if (Navigator != null)
                 {
-                    for (var i = Navigator.Button.ButtonSpecs.Count - 1; i >= 0; i--)
+                    for (var i = Navigator.Button.ButtonSpecs!.Count - 1; i >= 0; i--)
                     {
                         ButtonSpec spec = Navigator.Button.ButtonSpecs[i];
                         _changeService.OnComponentChanging(Navigator, null);
@@ -348,7 +348,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnAddPage(object sender, EventArgs e)
+        private void OnAddPage(object? sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator AddPage");
@@ -405,7 +405,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnRemovePage(object sender, EventArgs e)
+        private void OnRemovePage(object? sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator RemovePage");
@@ -439,7 +439,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void OnClearPages(object sender, EventArgs e)
+        private void OnClearPages(object? sender, EventArgs e)
         {
             if (KryptonMessageBox.Show(@"Are you sure that all pages should be removed?",
                                 @"Clear Pages",
@@ -488,15 +488,15 @@ namespace Krypton.Navigator
 
         private void OnPageRemoved(object sender, TypedCollectionEventArgs<KryptonPage> e) => UpdateVerbStatus();
 
-        private void OnPagesCleared(object sender, EventArgs e) => UpdateVerbStatus();
+        private void OnPagesCleared(object? sender, EventArgs e) => UpdateVerbStatus();
 
-        private void OnSelectedPageChanged(object sender, EventArgs e)
+        private void OnSelectedPageChanged(object? sender, EventArgs e)
         {
             MarkSelectionAsChanged();
             UpdateVerbStatus();
         }
 
-        private void OnNavigatorMouseUp(object sender, MouseEventArgs e)
+        private void OnNavigatorMouseUp(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -506,7 +506,7 @@ namespace Krypton.Navigator
                 if (component != null)
                 {
                     // Force the layout to be update for any change in selection
-                    Navigator.PerformLayout();
+                    Navigator?.PerformLayout();
 
                     // Select the component
                     var selectionList = new ArrayList

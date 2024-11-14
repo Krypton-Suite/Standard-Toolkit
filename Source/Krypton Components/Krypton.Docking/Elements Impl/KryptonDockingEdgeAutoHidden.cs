@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -297,10 +297,10 @@ namespace Krypton.Docking
             return groupElement;
         }
 
-        private void OnDockingAutoHiddenGroupDisposed(object sender, EventArgs e)
+        private void OnDockingAutoHiddenGroupDisposed(object? sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            var groupElement = (KryptonDockingAutoHiddenGroup)sender;
+            var groupElement = sender as KryptonDockingAutoHiddenGroup ?? throw new ArgumentNullException(nameof(sender));
             groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked;
             groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart;
             groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd;
@@ -310,7 +310,7 @@ namespace Krypton.Docking
             InternalRemove(groupElement);
         }
 
-        private void OnPanelDisposed(object sender, EventArgs e)
+        private void OnPanelDisposed(object? sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
             _panel.Disposed -= OnPanelDisposed;
@@ -334,7 +334,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSlidePanelDisposed(object sender, EventArgs e)
+        private void OnSlidePanelDisposed(object? sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
             _slidePanel.SplitterMoveRect -= OnSlidePanelSeparatorMoveRect;
@@ -366,36 +366,36 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnDockingAutoHiddenGroupClicked(object sender, KryptonPageEventArgs e)
+        private void OnDockingAutoHiddenGroupClicked(object? sender, KryptonPageEventArgs e)
         {
             // Request the sliding panel slide itself into view with the provided page
-            var dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
+            var dockingGroup = sender as KryptonDockingAutoHiddenGroup ?? throw new ArgumentNullException(nameof(sender));
             _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, true);
         }
 
-        private void OnDockingAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
+        private void OnDockingAutoHiddenGroupHoverStart(object? sender, KryptonPageEventArgs e)
         {
             // Request the sliding panel slide itself into view with the provided page
-            var dockingGroup = (KryptonDockingAutoHiddenGroup)sender;
+            var dockingGroup = sender as KryptonDockingAutoHiddenGroup ?? throw new ArgumentNullException(nameof(sender));
             _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, false);
         }
 
-        private void OnDockingAutoHiddenGroupHoverEnd(object sender, EventArgs e) =>
+        private void OnDockingAutoHiddenGroupHoverEnd(object? sender, EventArgs e) =>
             // Request the sliding panel slide itself out of view when appropriate
             // (will not retract whilst the mouse is over the slide out dockspace)
             // (will not retract whilst slide out dockspace has the focus)
             _slidePanel.SlideIn();
 
-        private void OnSlidePanelSeparatorMoved(object sender, SplitterEventArgs e) => _slidePanel.UpdateSize(e.SplitX, e.SplitY);
+        private void OnSlidePanelSeparatorMoved(object? sender, SplitterEventArgs e) => _slidePanel.UpdateSize(e.SplitX, e.SplitY);
 
-        private void OnSlidePanelSeparatorMoving(object sender, SplitterCancelEventArgs e)
+        private void OnSlidePanelSeparatorMoving(object? sender, SplitterCancelEventArgs e)
         {
         }
 
-        private void OnSlidePanelSeparatorMoveRect(object sender, SplitterMoveRectMenuArgs e)
+        private void OnSlidePanelSeparatorMoveRect(object? sender, SplitterMoveRectMenuArgs e)
         {
             // Cast to correct type and grab associated dockspace control
-            var separatorControl = (KryptonDockspaceSeparator)sender;
+            var separatorControl = sender as KryptonDockspaceSeparator ?? throw new ArgumentNullException(nameof(sender));
             KryptonDockspace dockspaceControl = _slidePanel.DockspaceControl;
             KryptonPage? page = _slidePanel.Page;
 
@@ -411,21 +411,21 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSlidePanelPageCloseClicked(object sender, UniqueNameEventArgs e)
+        private void OnSlidePanelPageCloseClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
-        private void OnSlidePanelPageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
+        private void OnSlidePanelPageAutoHiddenClicked(object? sender, UniqueNameEventArgs e)
         {
             // Generate event so that the auto hidden is switched to docked is handled for the group that contains the named page
             KryptonDockingManager? dockingManager = DockingManager;
             dockingManager?.SwitchAutoHiddenGroupToDockedCellRequest(e.UniqueName);
         }
 
-        private void OnSlidePanelPageDropDownClicked(object sender, CancelDropDownEventArgs e)
+        private void OnSlidePanelPageDropDownClicked(object? sender, CancelDropDownEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;
@@ -437,7 +437,7 @@ namespace Krypton.Docking
             }
         }
 
-        private void OnSlidePanelAutoHiddenShowingStateChanged(object sender, AutoHiddenShowingStateEventArgs e)
+        private void OnSlidePanelAutoHiddenShowingStateChanged(object? sender, AutoHiddenShowingStateEventArgs e)
         {
             // Generate event so that the appropriate context menu options are presented and actioned
             KryptonDockingManager? dockingManager = DockingManager;

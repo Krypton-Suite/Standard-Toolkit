@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -66,9 +66,11 @@ namespace Krypton.Toolkit
 
         public LinkArea DiscordLinkArea { get; set; }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => CaptionText.Equals(DEFAULT_CAPTION) &&
-                                          DescriptionText.Equals(DEFAULT_DESCRIPTION) &&
-                                          DocumentationText.Equals(DEFAULT_DOCUMENTATION) &&
-                                          DiscordText.Equals(DEFAULT_DISCORD);
+                                            DescriptionText.Equals(DEFAULT_DESCRIPTION) &&
+                                            DocumentationText.Equals(DEFAULT_DOCUMENTATION) &&
+                                            DiscordText.Equals(DEFAULT_DISCORD);
     }
 }

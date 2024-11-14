@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,13 +25,13 @@ namespace Krypton.Toolkit
 
         #region Image Array
 
-        private static readonly Image[] _radioButtonArray;
+        private static readonly Image?[] _radioButtonArray;
 
         #endregion
 
         #region Images
 
-        private static readonly Image _silverDropDownButton = GenericImageResources.SilverDropDownButton;
+        private static readonly Image? _silverDropDownButton = GenericImageResources.SilverDropDownButton;
         private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal;
         private static readonly Image _silverCloseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseActive;
         private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled;
@@ -52,24 +52,24 @@ namespace Krypton.Toolkit
         private static readonly Image _silverHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
         private static readonly Image _silverHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _silverHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
+        private static readonly Image? _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
 
         #endregion
 
         #region Colour Arrays
 
         private static readonly Color[] _trackBarColours =
-        {
+        [
             Color.FromArgb(130, 130, 130), // Tick marks
             Color.FromArgb(156, 160, 165), // Top track
             Color.FromArgb(226, 220, 235), // Bottom track
             Color.FromArgb(196, 190, 205), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(80, 81, 82) // Border (normal) position
-        };
+        ];
 
         private static readonly Color[] _schemeOfficeColours =
-        {
+        [
             Color.FromArgb(119, 119, 119), // TextLabelControl
             Color.FromArgb(255, 255, 255), // TextButtonNormal
             Color.Black, // TextButtonChecked
@@ -277,13 +277,13 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 241, 242), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
-            Color.Empty, // RibbonTabTracking3
-            Color.Empty, // RibbonTabTracking4
-            Color.Empty, // RibbonGroupBorder3
-            Color.Empty, // RibbonGroupBorder4
-            Color.Empty, // RibbonDropArrowLight
-            Color.Empty // RibbonDropArrowDark
-        };
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonDropArrowLight
+            GlobalStaticValues.EMPTY_COLOR // RibbonDropArrowDark
+        ];
 
         #endregion
 
@@ -309,8 +309,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2007RadioButtonImageResources.RadioButton2007BlueD,
                 Office2007RadioButtonImageResources.RadioButton2007SilverN,
                 Office2007RadioButtonImageResources.RadioButton2007SilverT,
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
                 Office2007RadioButtonImageResources.RadioButton2007SilverNC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverTC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverPC
-            };
+            ];
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
@@ -407,5 +407,38 @@ namespace Krypton.Toolkit
         };
         #endregion    
 
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        #endregion
     }
 }

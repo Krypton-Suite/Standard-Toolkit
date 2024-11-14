@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<TabBorderStyle, string> _pairs = new Dictionary<TabBorderStyle, string>
+        private static readonly BiDictionary<TabBorderStyle, string> _pairs = new BiDictionary<TabBorderStyle, string>(
+            new Dictionary<TabBorderStyle, string>
         {
             {TabBorderStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ONE_NOTE},
             {TabBorderStyle.SquareEqualSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_SMALL},
@@ -45,7 +46,7 @@ namespace Krypton.Toolkit
             {TabBorderStyle.SmoothOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SMOOTH_OUTSIZE},
             {TabBorderStyle.DockEqual, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_EQUAL},
             {TabBorderStyle.DockOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_OUTSIZE}
-        };
+        });
 
         #endregion  
 
@@ -54,7 +55,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, TabBorderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

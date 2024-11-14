@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -31,37 +31,37 @@ namespace Krypton.Toolkit
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         public KryptonPaletteButtonSpecs([DisallowNull] PaletteRedirect redirector)
         {
-            Debug.Assert(redirector != null);
+            Debug.Assert(redirector! != null);
 
             // Create exposed button specifications
-            Common = new KryptonPaletteButtonSpecTyped(redirector);
-            Generic = new KryptonPaletteButtonSpecTyped(redirector);
-            Close = new KryptonPaletteButtonSpecTyped(redirector);
-            Context = new KryptonPaletteButtonSpecTyped(redirector);
-            Next = new KryptonPaletteButtonSpecTyped(redirector);
-            Previous = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector);
-            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector);
-            DropDown = new KryptonPaletteButtonSpecTyped(redirector);
-            PinVertical = new KryptonPaletteButtonSpecTyped(redirector);
-            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector);
-            FormClose = new KryptonPaletteButtonSpecTyped(redirector);
-            FormMax = new KryptonPaletteButtonSpecTyped(redirector);
-            FormMin = new KryptonPaletteButtonSpecTyped(redirector);
-            FormRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            FormHelp = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantClose = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantMin = new KryptonPaletteButtonSpecTyped(redirector);
-            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector);
-            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector);
-            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector);
-            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
+            Common = new KryptonPaletteButtonSpecTyped(redirector!);
+            Generic = new KryptonPaletteButtonSpecTyped(redirector!);
+            Close = new KryptonPaletteButtonSpecTyped(redirector!);
+            Context = new KryptonPaletteButtonSpecTyped(redirector!);
+            Next = new KryptonPaletteButtonSpecTyped(redirector!);
+            Previous = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector!);
+            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector!);
+            DropDown = new KryptonPaletteButtonSpecTyped(redirector!);
+            PinVertical = new KryptonPaletteButtonSpecTyped(redirector!);
+            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormClose = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormMax = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormMin = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            FormHelp = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantClose = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantMin = new KryptonPaletteButtonSpecTyped(redirector!);
+            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector!);
+            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector!);
+            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector!);
+            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector!);
 
             // Create redirector for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);
+            var redirectCommon = new PaletteRedirectButtonSpec(redirector!, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);
@@ -122,31 +122,33 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Common.IsDefault &&
-                                          Generic.IsDefault &&
-                                          Close.IsDefault &&
-                                          Context.IsDefault &&
-                                          Next.IsDefault &&
-                                          Previous.IsDefault &&
-                                          ArrowLeft.IsDefault &&
-                                          ArrowRight.IsDefault &&
-                                          ArrowUp.IsDefault &&
-                                          ArrowDown.IsDefault &&
-                                          DropDown.IsDefault &&
-                                          PinVertical.IsDefault &&
-                                          PinHorizontal.IsDefault &&
-                                          FormClose.IsDefault &&
-                                          FormMax.IsDefault &&
-                                          FormMin.IsDefault &&
-                                          FormRestore.IsDefault &&
-                                          FormHelp.IsDefault &&
-                                          PendantClose.IsDefault &&
-                                          PendantMin.IsDefault &&
-                                          PendantRestore.IsDefault &&
-                                          WorkspaceMaximize.IsDefault &&
-                                          WorkspaceRestore.IsDefault &&
-                                          RibbonMinimize.IsDefault &&
-                                          RibbonExpand.IsDefault;
+                                            Generic.IsDefault &&
+                                            Close.IsDefault &&
+                                            Context.IsDefault &&
+                                            Next.IsDefault &&
+                                            Previous.IsDefault &&
+                                            ArrowLeft.IsDefault &&
+                                            ArrowRight.IsDefault &&
+                                            ArrowUp.IsDefault &&
+                                            ArrowDown.IsDefault &&
+                                            DropDown.IsDefault &&
+                                            PinVertical.IsDefault &&
+                                            PinHorizontal.IsDefault &&
+                                            FormClose.IsDefault &&
+                                            FormMax.IsDefault &&
+                                            FormMin.IsDefault &&
+                                            FormRestore.IsDefault &&
+                                            FormHelp.IsDefault &&
+                                            PendantClose.IsDefault &&
+                                            PendantMin.IsDefault &&
+                                            PendantRestore.IsDefault &&
+                                            WorkspaceMaximize.IsDefault &&
+                                            WorkspaceRestore.IsDefault &&
+                                            RibbonMinimize.IsDefault &&
+                                            RibbonExpand.IsDefault;
 
         #endregion
 
@@ -541,7 +543,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+        protected virtual void OnButtonSpecChanged(object? sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
 
         #endregion
     }

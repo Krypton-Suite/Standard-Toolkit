@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                    IPaletteDragDrop
     {
         #region Instance Fields
-        private PaletteBase? _inherit;
+        private PaletteBase _inherit;
         private PaletteDragFeedback _feedback;
         private Color _solidBack;
         private Color _solidBorder;
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDragDrop(PaletteBase? inherit,
+        public PaletteDragDrop(PaletteBase inherit,
                                NeedPaintHandler? needPaint)
         {
             // Remember inheritance
@@ -47,13 +47,13 @@ namespace Krypton.Toolkit
 
             // Set default values
             _feedback = PaletteDragFeedback.Inherit;
-            _solidBack = Color.Empty;
-            _solidBorder = Color.Empty;
+            _solidBack = GlobalStaticValues.EMPTY_COLOR;
+            _solidBorder = GlobalStaticValues.EMPTY_COLOR;
             _solidOpacity = -1.0f;
-            _dropDockBack = Color.Empty;
-            _dropDockBorder = Color.Empty;
-            _dropDockActive = Color.Empty;
-            _dropDockInactive = Color.Empty;
+            _dropDockBack = GlobalStaticValues.EMPTY_COLOR;
+            _dropDockBorder = GlobalStaticValues.EMPTY_COLOR;
+            _dropDockActive = GlobalStaticValues.EMPTY_COLOR;
+            _dropDockInactive = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
@@ -62,14 +62,15 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Feedback == PaletteDragFeedback.Inherit) &&
-                                           (SolidBack == Color.Empty) &&
-                                           (SolidBorder == Color.Empty) &&
-                                           (SolidOpacity == -1.0f) &&
-                                           (DropDockBack == Color.Empty) &&
-                                           (DropDockBorder == Color.Empty) &&
-                                           (DropDockActive == Color.Empty) &&
-                                           (DropDockInactive == Color.Empty);
+                                            (SolidBack == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (SolidBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (SolidOpacity == -1.0f) &&
+                                            (DropDockBack == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockActive == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (DropDockInactive == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteBase? inherit) => _inherit = inherit;
+        public void SetInherit(PaletteBase inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -161,13 +162,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SolidBack property to its default value.
         /// </summary>
-        public void ResetSolidBack() => SolidBack = Color.Empty;
+        public void ResetSolidBack() => SolidBack = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the background color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropSolidBack() => SolidBack != Color.Empty
+        public Color GetDragDropSolidBack() => SolidBack != GlobalStaticValues.EMPTY_COLOR
                 ? SolidBack
                 : _inherit?.GetDragDropSolidBack() ?? SystemColors.ActiveCaption;
 
@@ -199,13 +200,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SolidBorder property to its default value.
         /// </summary>
-        public void ResetSolidBorder() => SolidBorder = Color.Empty;
+        public void ResetSolidBorder() => SolidBorder = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the border color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropSolidBorder() => SolidBorder != Color.Empty
+        public Color GetDragDropSolidBorder() => SolidBorder != GlobalStaticValues.EMPTY_COLOR
                 ? SolidBorder
                 : _inherit?.GetDragDropSolidBorder() ?? SystemColors.Control;
 
@@ -275,14 +276,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropDockBack property to its default value.
         /// </summary>
-        public void ResetDropDockBack() => DropDockBack = Color.Empty;
+        public void ResetDropDockBack() => DropDockBack = GlobalStaticValues.EMPTY_COLOR;
 
 
         /// <summary>
         /// Gets the background color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockBack() => DropDockBack != Color.Empty
+        public Color GetDragDropDockBack() => DropDockBack != GlobalStaticValues.EMPTY_COLOR
                 ? DropDockBack
                 : _inherit?.GetDragDropDockBack() ?? Color.FromArgb(228, 228, 228);
 
@@ -314,13 +315,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropDockBorder property to its default value.
         /// </summary>
-        public void ResetDropDockBorder() => DropDockBorder = Color.Empty;
+        public void ResetDropDockBorder() => DropDockBorder = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the border color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockBorder() => DropDockBorder != Color.Empty
+        public Color GetDragDropDockBorder() => DropDockBorder != GlobalStaticValues.EMPTY_COLOR
                 ? DropDockBorder
                 : _inherit?.GetDragDropDockBorder() ?? Color.FromArgb(181, 181, 181);
 
@@ -352,13 +353,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropDockActive property to its default value.
         /// </summary>
-        public void ResetDropDockActive() => DropDockActive = Color.Empty;
+        public void ResetDropDockActive() => DropDockActive = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the active color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockActive() => DropDockActive != Color.Empty
+        public Color GetDragDropDockActive() => DropDockActive != GlobalStaticValues.EMPTY_COLOR
                 ? DropDockActive
                 : _inherit?.GetDragDropDockActive() ?? SystemColors.ActiveCaption;
 
@@ -390,13 +391,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the DropDockInactive property to its default value.
         /// </summary>
-        public void ResetDropDockInactive() => DropDockInactive = Color.Empty;
+        public void ResetDropDockInactive() => DropDockInactive = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the inactive color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public Color GetDragDropDockInactive() => DropDockInactive != Color.Empty
+        public Color GetDragDropDockInactive() => DropDockInactive != GlobalStaticValues.EMPTY_COLOR
                 ? DropDockInactive
                 : _inherit?.GetDragDropDockInactive() ?? SystemColors.InactiveCaption;
 

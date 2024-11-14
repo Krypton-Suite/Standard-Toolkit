@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonTrackBarActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTrackBar? _trackBar;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonTrackBar _trackBar;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -28,26 +28,26 @@ namespace Krypton.Toolkit
         public KryptonTrackBarActionList(KryptonTrackBarDesigner owner) 
             : base(owner.Component)
         {
-            _trackBar = owner.Component as KryptonTrackBar;
+            _trackBar = (owner.Component as KryptonTrackBar)!;
 
             // Assuming we were correctly passed an actual component...
             if (_trackBar != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
+                PropertyDescriptor? orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
                 {
                     // Decide on the next action to take given the current setting
-                    _action = (Orientation) orientationProp.GetValue(_trackBar) == Orientation.Vertical
+                    _action = (Orientation) orientationProp.GetValue(_trackBar)! == Orientation.Vertical
                         ? "Horizontal orientation"
                         : "Vertical orientation";
                 }
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.PaletteMode, value);
                     _trackBar.PaletteMode = value;
                 }
             }
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.TickStyle != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TickStyle, value);
                     _trackBar.TickStyle = value;
                 }
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.TrackBarSize != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.TrackBarSize, value);
                     _trackBar.TrackBarSize = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.Minimum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Minimum, value);
                     _trackBar.Minimum = value;
                 }
             }
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.Maximum != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.Maximum, value);
                     _trackBar.Maximum = value;
                 }
             }
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.SmallChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.SmallChange, value);
                     _trackBar.SmallChange = value;
                 }
             }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
             {
                 if (_trackBar.LargeChange != value)
                 {
-                    _service.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
+                    _service?.OnComponentChanged(_trackBar, null, _trackBar.LargeChange, value);
                     _trackBar.LargeChange = value;
                 }
             }
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnOrientationClick(object sender, EventArgs e)
+        private void OnOrientationClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal orientation" : "Vertical orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
+                PropertyDescriptor? orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

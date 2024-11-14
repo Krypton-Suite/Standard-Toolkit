@@ -1,12 +1,10 @@
 ﻿#region BSD License
 /*
- * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -19,20 +17,29 @@ namespace Krypton.Toolkit
                                          IPaletteDouble
     {
         #region Instance Fields
-        private PaletteBack _back;
-        private PaletteBorder _border;
-        private PaletteBackInheritRedirect _backInherit;
+#pragma warning disable CS3008 // Identifier is not CLS-compliant
+        // Dotnet having troubles with the underscores
+        protected PaletteBack _back;
+        protected PaletteBorder _border;
+        protected PaletteBackInheritRedirect _backInherit;
+#pragma warning restore CS3008 // Identifier is not CLS-compliant
 
         #endregion
 
         #region Identity
+
+        /// <inheritdoc />
+        protected PaletteDoubleRedirect()
+        {
+        }
+
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle)
             : this(redirect, backStyle, borderStyle, null)
@@ -46,10 +53,10 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
-                                     NeedPaintHandler needPaint)
+                                     NeedPaintHandler? needPaint)
         {
             // Store the inherit instances
             var backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
@@ -71,7 +78,7 @@ namespace Krypton.Toolkit
         /// <param name="border">Storage for border values.</param>
         /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBack back,
                                      PaletteBackInheritRedirect backInherit,
                                      PaletteBorder border,
@@ -87,7 +94,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect? GetRedirector() => _backInherit.GetRedirector();
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
 
         #endregion
 
@@ -96,7 +103,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             BorderRedirect.SetRedirector(redirect);
@@ -120,6 +127,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Back.IsDefault && Border.IsDefault;
 
         #endregion
@@ -164,8 +172,9 @@ namespace Krypton.Toolkit
                     SetStyles(PaletteBackStyle.SeparatorCustom3, PaletteBorderStyle.SeparatorCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(separatorStyle.ToString());
                     break;
             }
         }
@@ -185,8 +194,9 @@ namespace Krypton.Toolkit
                     SetStyles(PaletteBackStyle.InputControlRibbon, PaletteBorderStyle.InputControlRibbon);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(inputControlStyle.ToString());
                     break;
             }
         }
@@ -275,13 +285,13 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Private
-        private void Construct(PaletteRedirect? redirect,
+        #region protected
+        protected void Construct(PaletteRedirect redirect,
                                PaletteBack back,
                                PaletteBackInheritRedirect backInherit,
                                PaletteBorder border,
                                PaletteBorderInheritRedirect borderInherit,
-                               NeedPaintHandler needPaint)
+                               NeedPaintHandler? needPaint)
         {
             NeedPaint = needPaint;
             _backInherit = backInherit;

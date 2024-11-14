@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -69,8 +69,8 @@ namespace Krypton.Navigator
                              int barMinimumHeight,
                              TabBorderStyle tabBorderStyle,
                              bool reorderSelectedLine)
-            : this(null, PaletteMetricInt.None, itemSizing, 
-                   itemAlignment, barMultiline, itemMinimumSize, 
+            : this(null, PaletteMetricInt.None, itemSizing,
+                   itemAlignment, barMultiline, itemMinimumSize,
                    itemMaximumSize, barMinimumHeight, tabBorderStyle,
                    reorderSelectedLine)
         {
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
         /// <param name="reorderSelectedLine">Should line with selection be reordered.</param>
-        public ViewLayoutBar(IPaletteMetric paletteMetric,
+        public ViewLayoutBar(IPaletteMetric? paletteMetric,
                              PaletteMetricInt metricGap,
                              BarItemSizing itemSizing,
                              RelativePositionAlign itemAlignment,
@@ -97,9 +97,9 @@ namespace Krypton.Navigator
                              Size itemMaximumSize,
                              int barMinimumHeight,
                              bool reorderSelectedLine)
-            : this(paletteMetric, metricGap, itemSizing, 
-                   itemAlignment, barMultiline, itemMinimumSize, 
-                   itemMaximumSize, barMinimumHeight, 
+            : this(paletteMetric, metricGap, itemSizing,
+                   itemAlignment, barMultiline, itemMinimumSize,
+                   itemMaximumSize, barMinimumHeight,
                    TabBorderStyle.RoundedOutsizeMedium,
                    reorderSelectedLine)
         {
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
         /// <param name="tabBorderStyle">Tab border style.</param>
         /// <param name="reorderSelectedLine">Should line with selection be reordered.</param>
-        public ViewLayoutBar(IPaletteMetric paletteMetric,
+        public ViewLayoutBar(IPaletteMetric? paletteMetric,
                              PaletteMetricInt metricGap,
                              BarItemSizing itemSizing,
                              RelativePositionAlign itemAlignment,
@@ -296,9 +296,19 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Reset the largest child size to empty
             _maximumItem = Size.Empty;
@@ -315,9 +325,9 @@ namespace Krypton.Navigator
 
                 // Line spacing gap can never be less than zero
                 var lineGap = (gap < 0 ? 0 : gap);
-                
+
                 // Do we need to apply right to left by positioning children in reverse order?
-                var reversed = (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes));
+                var reversed = (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes));
 
                 // Allocate caching for size of each child element
                 _childSizes = new Size[Count];
@@ -326,17 +336,17 @@ namespace Krypton.Navigator
                 var selectedChildIndex = -1;
 
                 // Find the size of each child in turn
-                for(var i=0; i<Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     // Get access to the indexed child
-                    ViewBase child = this[reversed ? (Count - i - 1) : i];
-                    var checkItem = (INavCheckItem)child;
+                    ViewBase? child = this[reversed ? (Count - i - 1) : i];
+                    var checkItem = child as INavCheckItem;
 
                     // Only examine visible children
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Cache child index of the selected page
-                        if (checkItem.Navigator.SelectedPage == checkItem.Page)
+                        if (checkItem!.Navigator.SelectedPage == checkItem.Page)
                         {
                             selectedChildIndex = i;
                         }
@@ -390,6 +400,7 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     case BarItemSizing.SameWidth:
                         if (!BarVertical)
                         {
@@ -412,6 +423,7 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     case BarItemSizing.SameWidthAndHeight:
                         for (var i = 0; i < _childSizes.Length; i++)
                         {
@@ -421,9 +433,11 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(BarItemSizing.ToString());
                         break;
                 }
 
@@ -449,7 +463,7 @@ namespace Krypton.Navigator
                             // If not the first visible item on line, then need a spacing gap
                             var yAdd = (visibleItems > 0) ? gap : 0;
 
-                            // Add on the heght of the child
+                            // Add on the height of the child
                             yAdd += _childSizes[i].Height;
 
                             // Does this item extend beyond visible line? 
@@ -771,10 +785,10 @@ namespace Krypton.Navigator
                     if (selectedChildIndex >= 0)
                     {
                         // Find the line details that contains this child index
-                        for(var i=0; i<_lineDetails.Count; i++)
+                        for (var i = 0; i < _lineDetails.Count; i++)
                         {
                             // Is the selected item in the range of items for this line?
-                            if ((selectedChildIndex >= _lineDetails[i].StartIndex) && 
+                            if ((selectedChildIndex >= _lineDetails[i].StartIndex) &&
                                 (selectedChildIndex < (_lineDetails[i].StartIndex + _lineDetails[i].ItemCount)))
                             {
                                 // Remove the line details
@@ -816,7 +830,17 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
@@ -837,7 +861,7 @@ namespace Krypton.Navigator
                 var reversePosition = false;
 
                 // Do we need to apply right to left by positioning children in reverse order?
-                if (!BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+                if (!BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
                 {
                     if (IsOneLine)
                     {
@@ -879,7 +903,7 @@ namespace Krypton.Navigator
                             if (!_childSizes[itemIndex].IsEmpty)
                             {
                                 // Get access to the indexed child
-                                ViewBase child = this[(reverseAccess ? (lineDetails.StartIndex + lineDetails.ItemCount) - 1 - i :
+                                ViewBase? child = this[(reverseAccess ? (lineDetails.StartIndex + lineDetails.ItemCount) - 1 - i :
                                                                        lineDetails.StartIndex + i)];
 
                                 // Add on the height of the child
@@ -898,7 +922,7 @@ namespace Krypton.Navigator
                                 context.DisplayRectangle = new Rectangle(new Point(xPosition, yPosition), _childSizes[itemIndex]);
 
                                 // Ask the child to layout
-                                child.Layout(context);
+                                child?.Layout(context);
 
                                 // Move to next child position
                                 if (reversePosition)
@@ -946,7 +970,7 @@ namespace Krypton.Navigator
                             if (!_childSizes[itemIndex].IsEmpty)
                             {
                                 // Get access to the indexed child
-                                ViewBase child = this[(reverseAccess ? (lineDetails.StartIndex + lineDetails.ItemCount) - 1 - i :
+                                ViewBase? child = this[(reverseAccess ? (lineDetails.StartIndex + lineDetails.ItemCount) - 1 - i :
                                                                        lineDetails.StartIndex + i)];
 
                                 // Add on the width of the child
@@ -965,7 +989,7 @@ namespace Krypton.Navigator
                                 context.DisplayRectangle = new Rectangle(new Point(xPosition, yPosition), _childSizes[itemIndex]);
 
                                 // Ask the child to layout
-                                child.Layout(context);
+                                child?.Layout(context);
 
                                 // Move to next child position
                                 if (reversePosition)
@@ -997,14 +1021,14 @@ namespace Krypton.Navigator
 
         private bool IsOneLine => BarMultiline is BarMultiline.Singleline or BarMultiline.Shrinkline or BarMultiline.Expandline or BarMultiline.Exactline;
 
-        private int FindStartingXPosition(ViewLayoutContext context, 
+        private int FindStartingXPosition(ViewLayoutContext context,
                                           LineDetails lineDetails,
                                           bool reversePosition)
         {
             RelativePositionAlign align = ItemAlignment;
 
             // Do we need to apply right to left by aligning in opposite direction?
-            if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+            if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
             {
                 switch (align)
                 {
@@ -1021,17 +1045,21 @@ namespace Krypton.Navigator
             {
                 case RelativePositionAlign.Near:
                     return reversePosition ? ClientRectangle.Right : ClientLocation.X;
+
                 case RelativePositionAlign.Center:
                     return reversePosition
                         ? ClientRectangle.Right - ((ClientRectangle.Width - lineDetails.InlineLength) / 2)
                         : ClientLocation.X + ((ClientRectangle.Width - lineDetails.InlineLength) / 2);
+
                 case RelativePositionAlign.Far:
                     return reversePosition
                         ? ClientRectangle.Right - (ClientRectangle.Width - lineDetails.InlineLength)
                         : ClientLocation.X + (ClientRectangle.Width - lineDetails.InlineLength);
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     return ClientLocation.X;
             }
         }
@@ -1043,7 +1071,7 @@ namespace Krypton.Navigator
             RelativePositionAlign align = ItemAlignment;
 
             // Do we need to apply right to left by aligning in opposite direction?
-            if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
+            if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
             {
                 switch (align)
                 {
@@ -1060,6 +1088,7 @@ namespace Krypton.Navigator
             {
                 case RelativePositionAlign.Near:
                     return reversePosition ? ClientRectangle.Bottom : ClientLocation.Y;
+
                 case RelativePositionAlign.Center:
                     if (reversePosition)
                     {
@@ -1069,6 +1098,7 @@ namespace Krypton.Navigator
                     {
                         return ClientLocation.Y + ((ClientRectangle.Height - lineDetails.InlineLength) / 2);
                     }
+
                 case RelativePositionAlign.Far:
                     if (reversePosition)
                     {
@@ -1078,9 +1108,11 @@ namespace Krypton.Navigator
                     {
                         return ClientLocation.Y + (ClientRectangle.Height - lineDetails.InlineLength);
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     return ClientLocation.Y;
             }
         }

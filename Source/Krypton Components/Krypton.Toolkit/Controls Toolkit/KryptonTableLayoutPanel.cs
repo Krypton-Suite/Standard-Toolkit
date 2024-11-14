@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             base.BackgroundImageLayout = ImageLayout.None;
         }
 
-        private void State_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
+        private void State_PropertyChanged(object? sender, PropertyChangedEventArgs e) =>
             // Handle explicit settings to the controls
             BackGroundPanel_Refreshed();
 
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -166,10 +166,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough]
-            get => _backGroundPanel.Palette;
+            get => _backGroundPanel.Palette!;
             set
             {
                 _backGroundPanel.Palette = value;
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
                 {
                     // Do the move thing first
                     base.WndProc(ref m);
-                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
                     if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                     {
                         if (_backGroundPanel.Parent != null

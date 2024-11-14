@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly RibbonRecentDocsTitleToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         #endregion
 
         #region Identity
@@ -34,10 +34,10 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonRecentDocs([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Use a class to convert from ribbon recent docs to content interface
-            _contentProvider = new RibbonRecentDocsTitleToContent(ribbon.StateCommon.RibbonGeneral,
+            _contentProvider = new RibbonRecentDocsTitleToContent(ribbon!.StateCommon.RibbonGeneral,
                                                                   ribbon.StateCommon.RibbonAppMenuDocsTitle);
         }        
 
@@ -75,10 +75,17 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) =>
-            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, this,
+        public override Size GetPreferredSize(ViewLayoutContext context)
+        {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
+            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, this,
                 VisualOrientation.Top,
-                PaletteState.Normal, false, false);
+                PaletteState.Normal);
+        }
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -86,10 +93,20 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Remember to dispose of old memento
             if (_memento != null)
@@ -102,7 +119,7 @@ namespace Krypton.Ribbon
             _memento = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
                                                                             _contentProvider, this,
                                                                             VisualOrientation.Top, 
-                                                                            PaletteState.Normal, false, false);
+                                                                            PaletteState.Normal);
         }
         #endregion
 
@@ -113,13 +130,18 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Use renderer to draw the text content
             if (_memento != null)
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle,
                     _contentProvider, _memento,
                     VisualOrientation.Top,
-                    PaletteState.Normal, false, false, true);
+                    PaletteState.Normal, true);
             }
         }
         #endregion
@@ -143,8 +165,8 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText() => !string.IsNullOrEmpty(_ribbon.RibbonStrings.RecentDocuments)
-            ? _ribbon.RibbonStrings.RecentDocuments
+        public string GetShortText() => !string.IsNullOrEmpty(KryptonManager.Strings.RibbonStrings.RecentDocuments)
+            ? KryptonManager.Strings.RibbonStrings.RecentDocuments
             : string.Empty;
 
         /// <summary>

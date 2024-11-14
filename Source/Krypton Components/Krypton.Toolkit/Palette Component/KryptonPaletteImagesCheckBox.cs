@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -71,19 +71,20 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_common == null) &&
-                                          (_uncheckedDisabled == null) &&
-                                          (_uncheckedNormal == null) &&
-                                          (_uncheckedTracking == null) &&
-                                          (_uncheckedPressed == null) &&
-                                          (_checkedDisabled == null) &&
-                                          (_checkedNormal == null) &&
-                                          (_checkedTracking == null) &&
-                                          (_checkedPressed == null) &&
-                                          (_indeterminateDisabled == null) &&
-                                          (_indeterminateNormal == null) &&
-                                          (_indeterminateTracking == null) &&
-                                          (_indeterminatePressed == null);
+                                            (_uncheckedDisabled == null) &&
+                                            (_uncheckedNormal == null) &&
+                                            (_uncheckedTracking == null) &&
+                                            (_uncheckedPressed == null) &&
+                                            (_checkedDisabled == null) &&
+                                            (_checkedNormal == null) &&
+                                            (_checkedTracking == null) &&
+                                            (_checkedPressed == null) &&
+                                            (_indeterminateDisabled == null) &&
+                                            (_indeterminateNormal == null) &&
+                                            (_indeterminateTracking == null) &&
+                                            (_indeterminatePressed == null);
 
         #endregion
 
@@ -93,18 +94,18 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            _checkedDisabled = _redirect.GetCheckBoxImage(false, CheckState.Checked, false, false);
-            _checkedNormal = _redirect.GetCheckBoxImage(true, CheckState.Checked, false, false);
-            _checkedTracking = _redirect.GetCheckBoxImage(true, CheckState.Checked, true, false);
-            _checkedPressed = _redirect.GetCheckBoxImage(true, CheckState.Checked, false, true);
-            _uncheckedDisabled = _redirect.GetCheckBoxImage(false, CheckState.Unchecked, false, false);
-            _uncheckedNormal = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, false, false);
-            _uncheckedTracking = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, true, false);
-            _uncheckedPressed = _redirect.GetCheckBoxImage(true, CheckState.Unchecked, false, true);
-            _indeterminateDisabled = _redirect.GetCheckBoxImage(false, CheckState.Indeterminate, false, false);
-            _indeterminateNormal = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, false, false);
-            _indeterminateTracking = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, true, false);
-            _indeterminatePressed = _redirect.GetCheckBoxImage(true, CheckState.Indeterminate, false, true);
+            _checkedDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Checked, false, false);
+            _checkedNormal = _redirect?.GetCheckBoxImage(true, CheckState.Checked, false, false);
+            _checkedTracking = _redirect?.GetCheckBoxImage(true, CheckState.Checked, true, false);
+            _checkedPressed = _redirect?.GetCheckBoxImage(true, CheckState.Checked, false, true);
+            _uncheckedDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Unchecked, false, false);
+            _uncheckedNormal = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, false, false);
+            _uncheckedTracking = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, true, false);
+            _uncheckedPressed = _redirect?.GetCheckBoxImage(true, CheckState.Unchecked, false, true);
+            _indeterminateDisabled = _redirect?.GetCheckBoxImage(false, CheckState.Indeterminate, false, false);
+            _indeterminateNormal = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, false, false);
+            _indeterminateTracking = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, true, false);
+            _indeterminatePressed = _redirect?.GetCheckBoxImage(true, CheckState.Indeterminate, false, true);
         }
         #endregion
 

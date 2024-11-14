@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -15,6 +15,22 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        #region Color
+
+        private readonly Color _tabRowBackgroundColor = Color.FromArgb(188, 199, 216);
+
+        #endregion
+
+        #region Ribbon Specific Colors
+
+        private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(16, 22, 33);
+
+        private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(53, 73, 109);
+
+        private static readonly Color _ribbonAppButtonTextColor = Color.White;
+
+        #endregion
+
         #region Image Lists
 
         private static readonly ImageList _checkBoxList;
@@ -24,9 +40,9 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+        private static readonly Image?[] _radioButtonArray;
+        private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
+        private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled;
         private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlueCloseActive;
@@ -53,17 +69,17 @@ namespace Krypton.Toolkit
         #region Colour Arrays
 
         private static readonly Color[] _trackBarColors =
-        {
+        [
             Color.FromArgb(116, 150, 194), // Tick marks
             Color.FromArgb(116, 150, 194), // Top track
             Color.FromArgb(152, 190, 241), // Bottom track
             Color.FromArgb(142, 180, 231), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(63, 101, 152) // Border (normal) position
-        };
+        ];
 
         private static readonly Color[] _schemeVisualStudioColors =
-        {
+        [
             Color.FromArgb(0, 0, 0), // TextLabelControl
             Color.FromArgb(0, 0, 0), // TextButtonNormal
             Color.FromArgb(0, 0, 0), // TextButtonChecked
@@ -156,40 +172,40 @@ namespace Krypton.Toolkit
             Color.FromArgb(216, 228, 242), // RibbonGroupsArea5
             Color.FromArgb(235, 240, 246), // RibbonGroupBorder1
             Color.FromArgb(240, 246, 252), // RibbonGroupBorder2
-            Color.Empty, // RibbonGroupTitle1
-            Color.Empty, // RibbonGroupTitle2
-            Color.Empty, // RibbonGroupBorderContext1
-            Color.Empty, // RibbonGroupBorderContext2
-            Color.Empty, // RibbonGroupTitleContext1
-            Color.Empty, // RibbonGroupTitleContext2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitle2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorderContext2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleContext2
             Color.FromArgb(135, 142, 152), // RibbonGroupDialogDark
             Color.FromArgb(165, 174, 183), // RibbonGroupDialogLight
-            Color.Empty, // RibbonGroupTitleTracking1
-            Color.Empty, // RibbonGroupTitleTracking2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupTitleTracking2
             Color.FromArgb(139, 160, 188), // RibbonMinimizeBarDark
             Color.FromArgb(198, 218, 240), // RibbonMinimizeBarLight
-            Color.Empty, // RibbonGroupCollapsedBorder1
-            Color.Empty, // RibbonGroupCollapsedBorder2
-            Color.Empty, // RibbonGroupCollapsedBorder3
-            Color.Empty, // RibbonGroupCollapsedBorder4
-            Color.Empty, // RibbonGroupCollapsedBack1
-            Color.Empty, // RibbonGroupCollapsedBack2
-            Color.Empty, // RibbonGroupCollapsedBack3
-            Color.Empty, // RibbonGroupCollapsedBack4
-            Color.Empty, // RibbonGroupCollapsedBorderT1
-            Color.Empty, // RibbonGroupCollapsedBorderT2
-            Color.Empty, // RibbonGroupCollapsedBorderT3
-            Color.Empty, // RibbonGroupCollapsedBorderT4
-            Color.Empty, // RibbonGroupCollapsedBackT1
-            Color.Empty, // RibbonGroupCollapsedBackT2
-            Color.Empty, // RibbonGroupCollapsedBackT3
-            Color.Empty, // RibbonGroupCollapsedBackT4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBack4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBorderT4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT1
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT2
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT4
             Color.FromArgb(189, 203, 218), // RibbonGroupFrameBorder1
             Color.FromArgb(184, 199, 216), // RibbonGroupFrameBorder2
             Color.FromArgb(233, 241, 250), // RibbonGroupFrameInside1
             Color.FromArgb(222, 233, 246), // RibbonGroupFrameInside2
-            Color.Empty, // RibbonGroupFrameInside3
-            Color.Empty, // RibbonGroupFrameInside4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
             Color.FromArgb(30, 57, 91), // RibbonGroupCollapsedText
             Color.FromArgb(118, 153, 200), // AlternatePressedBack1
             Color.FromArgb(184, 215, 253), // AlternatePressedBack2
@@ -260,7 +276,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(195, 212, 235), // AppButtonOuter1
             Color.FromArgb(195, 212, 235), // AppButtonOuter2
             Color.FromArgb(195, 212, 235), // AppButtonOuter3
-            Color.Empty, // AppButtonInner1
+            GlobalStaticValues.EMPTY_COLOR, // AppButtonInner1
             Color.FromArgb(114, 142, 173), // AppButtonInner2
             Color.White, // AppButtonMenuDocs
             Color.FromArgb(0, 0, 0), // AppButtonMenuDocsText
@@ -290,7 +306,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
             Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
             Color.FromArgb(201, 217, 239) // ToolTipBottom                                                                      
-        };
+        ];
 
         #endregion
 
@@ -313,8 +329,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2010RadioButtonImageResources.RadioButton2010BlueD,
                 Office2010RadioButtonImageResources.RadioButton2010BlueN,
                 Office2010RadioButtonImageResources.RadioButton2010BlueT,
@@ -323,11 +339,15 @@ namespace Krypton.Toolkit
                 Office2010RadioButtonImageResources.RadioButton2010BlueNC,
                 Office2010RadioButtonImageResources.RadioButton2010BlueTC,
                 Office2010RadioButtonImageResources.RadioButton2010BluePC
-            };
+            ];
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Office2013Variation" /> class.</summary>
-        public PaletteVisualStudio2010Office2013Variation() : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors) { }
+        public PaletteVisualStudio2010Office2013Variation()
+            : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        {
+            ThemeName = nameof(PaletteVisualStudio2010Office2013Variation);
+        }
 
         #endregion
 
@@ -393,6 +413,40 @@ namespace Krypton.Toolkit
                                                      },
                                                      _ => base.GetButtonSpecImage(style, state)
                                                  };
+        #endregion
+
+        #region Tab Row Background
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
+            GlobalStaticValues.EMPTY_COLOR;
+
+        /// <inheritdoc />
+        public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
+
+        /// <inheritdoc />
+        public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+        #endregion
+
+        #region AppButton Colors
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _ribbonAppButtonDarkColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
+
+        /// <inheritdoc />
+        public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
+
         #endregion
     }
 }

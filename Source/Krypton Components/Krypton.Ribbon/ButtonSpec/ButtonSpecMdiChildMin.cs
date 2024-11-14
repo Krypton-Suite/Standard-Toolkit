@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
         public ButtonSpecMdiChildMin([DisallowNull] KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantMin)
         {
-            Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            Debug.Assert(ribbon is not null);
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
         }
         #endregion
 
@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
             // Cannot be seen if not attached to an mdi child window and cannot be seen
             // if the window is not maximized and so needing the pendant buttons
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette)
+        public override ButtonEnabled GetEnabled(PaletteBase palette)
         {
             // Cannot be enabled if not attached to an mdi child window
             if (MdiChild == null || MdiChild.IsDisposed || !MdiChild.IsHandleCreated || MdiChild.Disposing)
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
             {
                 if (!_ribbon.InDesignMode)
                 {
-                    MdiChild.WindowState = FormWindowState.Minimized;
+                    MdiChild!.WindowState = FormWindowState.Minimized;
 
                     // Let base class fire any other attached events
                     base.OnClick(e);

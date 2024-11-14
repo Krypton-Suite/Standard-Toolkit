@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,19 +28,19 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(redirector != null);
             // Create the button style specific and common palettes
-            HeaderCommon = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
-            HeaderPrimary = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
-            HeaderSecondary = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
-            HeaderDockInactive = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderDockInactive, PaletteBorderStyle.HeaderDockInactive, PaletteContentStyle.HeaderDockInactive, needPaint);
-            HeaderDockActive = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderDockActive, PaletteBorderStyle.HeaderDockActive, PaletteContentStyle.HeaderDockActive, needPaint);
-            HeaderCalendar = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
-            HeaderForm = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
-            HeaderCustom1 = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCustom1, PaletteBorderStyle.HeaderCustom1, PaletteContentStyle.HeaderCustom1, needPaint);
-            HeaderCustom2 = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCustom2, PaletteBorderStyle.HeaderCustom2, PaletteContentStyle.HeaderCustom2, needPaint);
-            HeaderCustom3 = new KryptonPaletteHeader(redirector, PaletteBackStyle.HeaderCustom3, PaletteBorderStyle.HeaderCustom3, PaletteContentStyle.HeaderCustom3, needPaint);
+            HeaderCommon = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
+            HeaderPrimary = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
+            HeaderSecondary = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderDockInactive = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderDockInactive, PaletteBorderStyle.HeaderDockInactive, PaletteContentStyle.HeaderDockInactive, needPaint);
+            HeaderDockActive = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderDockActive, PaletteBorderStyle.HeaderDockActive, PaletteContentStyle.HeaderDockActive, needPaint);
+            HeaderCalendar = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderCalendar, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.HeaderCalendar, needPaint);
+            HeaderForm = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
+            HeaderCustom1 = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderCustom1, PaletteBorderStyle.HeaderCustom1, PaletteContentStyle.HeaderCustom1, needPaint);
+            HeaderCustom2 = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderCustom2, PaletteBorderStyle.HeaderCustom2, PaletteContentStyle.HeaderCustom2, needPaint);
+            HeaderCustom3 = new KryptonPaletteHeader(redirector!, PaletteBackStyle.HeaderCustom3, PaletteBorderStyle.HeaderCustom3, PaletteContentStyle.HeaderCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            var redirectCommon = new PaletteRedirectTripleMetric(redirector,
+            var redirectCommon = new PaletteRedirectTripleMetric(redirector!,
                 HeaderCommon.StateDisabled, HeaderCommon.StateDisabled, HeaderCommon.StateNormal,
                 HeaderCommon.StateNormal);
 
@@ -61,16 +61,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => HeaderCommon.IsDefault &&
-                                          HeaderPrimary.IsDefault &&
-                                          HeaderSecondary.IsDefault &&
-                                          HeaderDockInactive.IsDefault &&
-                                          HeaderDockActive.IsDefault &&
-                                          HeaderCalendar.IsDefault &&
-                                          HeaderForm.IsDefault &&
-                                          HeaderCustom1.IsDefault 
-                                          && HeaderCustom2.IsDefault
-                                          && HeaderCustom3.IsDefault;
+                                            HeaderPrimary.IsDefault &&
+                                            HeaderSecondary.IsDefault &&
+                                            HeaderDockInactive.IsDefault &&
+                                            HeaderDockActive.IsDefault &&
+                                            HeaderCalendar.IsDefault &&
+                                            HeaderForm.IsDefault &&
+                                            HeaderCustom1.IsDefault 
+                                            && HeaderCustom2.IsDefault
+                                            && HeaderCustom3.IsDefault;
 
         #endregion
 

@@ -2,14 +2,12 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  *  
  */
 #endregion
 
-// To get around bug in .NET 8, Preview 7
-// TODO: Remove when .NET 8 is GA
-#if NET8_0
+#if NET8_0_OR_GREATER
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 #endif 
 
@@ -20,7 +18,6 @@ namespace Krypton.Toolkit
     internal class CommonDialogHandler
     {
         private readonly bool _embed;
-        private readonly KryptonManager _kryptonManager;
 
         internal class Attributes
         {
@@ -34,7 +31,7 @@ namespace Krypton.Toolkit
             public VisualControlBase? Button { get; set; }
         }
 
-        private readonly List<Attributes> _controls = new List<Attributes>();
+        private readonly List<Attributes> _controls = [];
         internal readonly Color _backColour;
         private readonly Color _defaultFontColour;
         private readonly Color _inputFontColour;
@@ -49,11 +46,11 @@ namespace Krypton.Toolkit
         {
             _embed = embed;
             // Gain access to the global palette
-            _kryptonManager = new KryptonManager();
-            _backColour = _kryptonManager.GlobalPalette!.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
-            _defaultFontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
-            _inputFontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-            _labelFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+            var igp = KryptonManager.CurrentGlobalPalette;
+            _backColour = igp.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+            _defaultFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+            _inputFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+            _labelFont = igp.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal)!;
         }
 
         internal string Title { get; set; }
@@ -113,8 +110,8 @@ namespace Krypton.Toolkit
                         var labelLogFont = _labelFont.ToHfont();
                         //var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         //var buttonLogFont = buttonFont.ToHfont();
-                        var editFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                        var editLogFont = editFont.ToHfont();
+                        var editFont = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                        var editLogFont = editFont!.ToHfont();
                         foreach (Attributes control in _controls)
                         {
                             switch (control.ClassName)
@@ -202,7 +199,7 @@ namespace Krypton.Toolkit
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
-                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -235,7 +232,7 @@ namespace Krypton.Toolkit
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
-                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -320,11 +317,11 @@ namespace Krypton.Toolkit
 
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
-                                g.SmoothingMode = SmoothingMode.AntiAlias;
-                                var lineColor = _kryptonManager.GlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
+                                using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
+                                var lineColor = KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
                                 DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
                                     control.Size - new Size(1, 11), 5);
-                                var font = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+                                var font = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
                                 TextRenderer.DrawText(g, control.Text, font, new Point(4, 0), _defaultFontColour,
                                     _backColour,
                                     TextFormatFlags.HidePrefix | TextFormatFlags.NoClipping);
@@ -366,8 +363,8 @@ namespace Krypton.Toolkit
                         // Buttons with these styles are always drawn with the default system colors.
                         // Drawing push buttons requires several different brushes-face, highlight, and shadow
                         // but the WM_CTLCOLORBTN message allows only one brush to be returned.
-                        var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-                        var backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
+                        var fontColour = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        var backColour = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
                         PI.SetTextColor(wParam, ColorTranslator.ToWin32(fontColour));
                         PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(backColour));
                         PI.SetBkMode(wParam, ColorTranslator.ToWin32(Color.Transparent));
@@ -427,6 +424,7 @@ namespace Krypton.Toolkit
                 Padding = new Padding(0),
                 TopMost = true
             };
+
             if (ShowIcon)
             {
                 _wrapperForm.FormBorderStyle = _isResizable ? FormBorderStyle.Sizable : FormBorderStyle.Fixed3D;
@@ -455,7 +453,7 @@ namespace Krypton.Toolkit
             else
             {
                 _resizeHandle = hWnd;
-                _wrapperForm.Resize += FormResize!;
+                _wrapperForm.Resize += FormResize;
             }
 
             var wrapperParent = PI.GetParent(hWnd);
@@ -477,7 +475,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnResizeTimedEvent(object sender, ElapsedEventArgs e)
+        private void OnResizeTimedEvent(object? sender, ElapsedEventArgs e)
         {
             _resizeTimer.Dispose();
             if (_wrapperForm != null)
@@ -493,14 +491,16 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void FormResize(object sender, EventArgs e)
+        private void FormResize(object? sender, EventArgs e)
         {
             if (_resizeHandle != IntPtr.Zero)
             {
                 if (_wrapperForm != null)
                 {
                     var clientSize = _wrapperForm.ClientSize;
-                    PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, false);
+                    _wrapperForm.SuspendLayout();
+                    PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, true);
+                    _wrapperForm.ResumeLayout(false);
                 }
             }
         }
@@ -521,7 +521,7 @@ namespace Krypton.Toolkit
 
         private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
         }

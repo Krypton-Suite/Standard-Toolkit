@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
                                    ViewLayoutStack viewColumns,
                                    PaletteBase? palette,
                                    PaletteMode paletteMode,
-                                   PaletteRedirect? redirector,
+                                   PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
                                    PaletteContextMenuItemState stateNormal,
                                    PaletteContextMenuItemStateHighlight stateHighlight,
                                    PaletteContextMenuItemStateChecked stateChecked,
-                                   PaletteRedirect? redirector,
+                                   PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect? ProviderRedirector { get; }
+        public PaletteRedirect ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

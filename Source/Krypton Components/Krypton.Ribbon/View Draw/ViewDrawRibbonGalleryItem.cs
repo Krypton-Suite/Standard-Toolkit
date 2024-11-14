@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -23,8 +23,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonGallery _gallery;
         private readonly GalleryItemController _controller;
-        private ImageList _imageList;
-        private Image _image;
+        private ImageList? _imageList;
+        private Image? _image;
         private int _imageIndex;
         #endregion
 
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
             {
                 if (_imageList != value)
                 {
-                    if (_image != null)
+                    if (_image is not null)
                     {
                         _image.Dispose();
                         _image = null;
@@ -158,9 +158,14 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render([DisallowNull] RenderContext? context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if ( context is null)
+            {
+                 throw new ArgumentNullException(nameof(context));
+            }
 
             // If this item is being tracked, then show as tracking
             PaletteState tempState = ElementState;
@@ -220,7 +225,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnItemClick(object sender, MouseEventArgs e) => _gallery.SelectedIndex = _imageIndex;
+        private void OnItemClick(object? sender, MouseEventArgs e) => _gallery.SelectedIndex = _imageIndex;
         #endregion
     }
 }

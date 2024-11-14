@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -46,10 +46,10 @@ namespace Krypton.Navigator
         public NavigatorOutlook([DisallowNull] KryptonNavigator navigator,
                                 NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
-            
+            Debug.Assert(navigator is not null);
+
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -77,18 +77,19 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (Full.IsDefault &&
-                                           Mini.IsDefault &&
-                                           (CheckButtonStyle == ButtonStyle.NavigatorStack) &&
-                                           (OverflowButtonStyle == ButtonStyle.NavigatorOverflow) &&
-                                           (BorderEdgeStyle == PaletteBorderStyle.ControlClient) &&
-                                           (Orientation == Orientation.Vertical) &&
-                                           (ItemOrientation == ButtonOrientation.Auto) &&
-                                           (HeaderSecondaryVisible == InheritBool.False) &&
-                                           (TextMoreButtons.Equals(DEFAULT_MORE_BUTTONS)) &&
-                                           (TextFewerButtons.Equals(DEFAULT_FEWER_BUTTONS)) &&
-                                           (TextAddRemoveButtons.Equals(DEFAULT_ADD_REMOVE_BUTTONS)) &&
-                                           ShowDropDownButton);
+                                             Mini.IsDefault &&
+                                             (CheckButtonStyle == ButtonStyle.NavigatorStack) &&
+                                             (OverflowButtonStyle == ButtonStyle.NavigatorOverflow) &&
+                                             (BorderEdgeStyle == PaletteBorderStyle.ControlClient) &&
+                                             (Orientation == Orientation.Vertical) &&
+                                             (ItemOrientation == ButtonOrientation.Auto) &&
+                                             (HeaderSecondaryVisible == InheritBool.False) &&
+                                             (TextMoreButtons.Equals(DEFAULT_MORE_BUTTONS)) &&
+                                             (TextFewerButtons.Equals(DEFAULT_FEWER_BUTTONS)) &&
+                                             (TextAddRemoveButtons.Equals(DEFAULT_ADD_REMOVE_BUTTONS)) &&
+                                             ShowDropDownButton);
 
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -149,11 +149,13 @@ namespace Krypton.Docking
         /// </param>
         public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
-            // Propagate the action request to all the child elements
+            // Propagate the action request to all the child elements (Even the null ones !!)
             // (use reverse order so if element removes itself we still have a valid loop)
             for (var i = Count - 1; i >= 0; i--)
             {
-                this[i]?.PropogateAction(action, uniqueNames);
+                {
+                    this[i]!.PropogateAction(action, uniqueNames);
+                }
             }
         }
 
@@ -539,11 +541,8 @@ namespace Krypton.Docking
                     // Find a child docking element with the matching name
                     IDockingElement? child = this[xmlReader.GetAttribute(@"N")!];
 
-                    if (child != null)
-                    {
-                        // Let derived class perform child element specific processing
-                        LoadChildDockingElement(xmlReader, pages, child);
-                    }
+                    // Let derived class perform child element specific processing
+                    LoadChildDockingElement(xmlReader, pages, child);
                 }
             }
 

@@ -5,10 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  */
 #endregion
 
@@ -31,7 +28,6 @@ namespace Krypton.Ribbon
         private readonly Padding _fullbarBorderPadding_2010; // = new(2);
         private readonly Padding _noBorderPadding; // = new(1, 0, 1, 0);
         private readonly KryptonRibbon _ribbon;
-        private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable? _memento;
         private readonly bool _minibar;
         #endregion
@@ -60,8 +56,7 @@ namespace Krypton.Ribbon
             _fullbarBorderPadding_2010 = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
             _noBorderPadding = new Padding((int)(1 * FactorDpiX), 0, (int)(1 * FactorDpiX), 0);
             // Remember incoming references
-            _ribbon = ribbon;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
             _minibar = minibar;
             OverlapAppButton = true;
         }
@@ -158,7 +153,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            Rectangle clientRect = context.DisplayRectangle;
+            Rectangle clientRect = context!.DisplayRectangle;
 
             // For the minibar we have to position ourself at bottom of available area
             if (_minibar)
@@ -187,6 +182,11 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // We never draw the background/border for Office 2010 shape QAT
             if (_minibar && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010))
             {
@@ -232,11 +232,8 @@ namespace Krypton.Ribbon
                 palette = _ribbon.StateCommon.RibbonQATFullbar;
             }
 
-            // Decide if we need to draw onto a composition area
-            var composition = OwnerForm is { ApplyComposition: true, ApplyCustomChrome: true };
-
             // Perform actual drawing
-            _memento = context.Renderer?.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, composition, _memento);
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, _memento);
         }
         #endregion
 

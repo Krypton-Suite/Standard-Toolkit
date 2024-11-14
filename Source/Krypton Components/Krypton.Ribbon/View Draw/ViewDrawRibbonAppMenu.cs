@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -57,8 +57,18 @@ namespace Krypton.Ribbon
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="renderContext">Rendering context.</param>
-        public override void RenderAfter(RenderContext renderContext)
+        public override void RenderAfter([DisallowNull] RenderContext renderContext)
         {
+            if (renderContext.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(renderContext.Renderer));
+            }
+
+            if (renderContext.TopControl is null)
+            {
+                throw new ArgumentNullException(nameof(renderContext.TopControl));
+            }
+
             base.RenderAfter(renderContext);
 
             // Convert our rectangle to the screen
@@ -69,7 +79,7 @@ namespace Krypton.Ribbon
             {
                 // Position the element appropriately
                 using (var layoutContext =
-                       new ViewLayoutContext(renderContext.Control, renderContext.Renderer))
+                       new ViewLayoutContext(renderContext.Control!, renderContext.Renderer))
                 {
                     layoutContext.DisplayRectangle = renderContext.TopControl.RectangleToClient(_fixedScreenRect);
                     _fixedElement.Layout(layoutContext);

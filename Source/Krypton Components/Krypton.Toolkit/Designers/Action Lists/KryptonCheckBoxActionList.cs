@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonCheckBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckBox? _checkBox;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonCheckBox _checkBox;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,10 +28,10 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the checkbox instance
-            _checkBox = owner.Component as KryptonCheckBox;
+            _checkBox = (owner.Component as KryptonCheckBox)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.Checked != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Checked, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Checked, value);
                     _checkBox.Checked = value;
                 }
             }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.CheckState != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.CheckState, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.CheckState, value);
                     _checkBox.CheckState = value;
                 }
             }
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.ThreeState != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.ThreeState, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.ThreeState, value);
                     _checkBox.ThreeState = value;
                 }
             }
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.AutoCheck != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.AutoCheck, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.AutoCheck, value);
                     _checkBox.AutoCheck = value;
                 }
             }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.KryptonContextMenu, value);
 
                     _checkBox.KryptonContextMenu = value;
                 }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.LabelStyle, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.LabelStyle, value);
                     _checkBox.LabelStyle = value;
                 }
             }
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.Orientation != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Orientation, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Orientation, value);
                     _checkBox.Orientation = value;
                 }
             }
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.Text, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Text, value);
                     _checkBox.Values.Text = value;
                 }
             }
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.ExtraText, value);
                     _checkBox.Values.ExtraText = value;
                 }
             }
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.Values.Image, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.Values.Image, value);
                     _checkBox.Values.Image = value;
                 }
             }
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
                     _checkBox.PaletteMode = value;
                 }
             }
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonShortTextFont
+        public Font? StateCommonShortTextFont
         {
             get => _checkBox.StateCommon.ShortText.Font;
 
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
 
                     _checkBox.StateCommon.ShortText.Font = value;
                 }
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonLongTextFont
+        public Font? StateCommonLongTextFont
         {
             get => _checkBox.StateCommon.LongText.Font;
 
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.StateCommon.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
 
                     _checkBox.StateCommon.LongText.Font = value;
                 }
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.StateCommon.LongText.Trim != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
 
                     _checkBox.StateCommon.LongText.Trim = value;
                 }
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkBox.StateCommon.ShortText.Trim != value)
                 {
-                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
+                    _service?.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
 
                     _checkBox.StateCommon.ShortText.Trim = value;
                 }

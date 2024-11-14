@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Navigator
                                        NeedPaintHandler needPaint)
             : base(redirect, needPaint) =>
             // Create the palette storage
-            Separator = new PaletteSeparatorPadding(redirect.Separator, redirect.Separator, needPaint);
+            Separator = new PaletteSeparatorPadding(redirect!.Separator!, redirect.Separator!, needPaint);
 
         #endregion
 
@@ -36,8 +36,9 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => base.IsDefault && 
-                                          Separator.IsDefault;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => base.IsDefault &&
+                                            Separator.IsDefault;
 
         #endregion
 
@@ -48,7 +49,7 @@ namespace Krypton.Navigator
         /// <param name="inheritNavigator">Source for inheriting.</param>
         public override void SetInherit(PaletteNavigator inheritNavigator)
         {
-            Separator.SetInherit(inheritNavigator.Separator);
+            Separator?.SetInherit(inheritNavigator.Separator);
             base.SetInherit(inheritNavigator);
         }
         #endregion
@@ -60,7 +61,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? Separator { get; }
+        public PaletteSeparatorPadding Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

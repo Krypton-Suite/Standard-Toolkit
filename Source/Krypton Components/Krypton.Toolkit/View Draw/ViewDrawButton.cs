@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -117,12 +117,12 @@ namespace Krypton.Toolkit
             _drawOuterSeparator = new ViewLayoutSeparator(1);
 
             // Create the view used to draw the split edge
-            _edgeRedirect = new PaletteBorderEdgeRedirect(_paletteNormal.PaletteBorder, null);
+            _edgeRedirect = new PaletteBorderEdgeRedirect(_paletteNormal.PaletteBorder!, null);
             _drawSplitBorder = new ViewDrawBorderEdge(new PaletteBorderEdge(_edgeRedirect, null), CommonHelper.VisualToOrientation(orientation));
 
             // Our view contains background and border with content inside
             _drawContent = new ViewDrawContent(_paletteNormal.PaletteContent, buttonValues, orientation);
-            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder, paletteMetric, PaletteMetricPadding.None, orientation);
+            _drawCanvas = new ViewDrawSplitCanvas(_paletteNormal.PaletteBack, _paletteNormal.PaletteBorder!, paletteMetric!, PaletteMetricPadding.None, orientation);
 
             // Use a docker layout to organize the contents of the canvas
             LayoutDocker = new ViewLayoutDocker
@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the drop down capability of the button.
         /// </summary>
-        public PaletteBase? DropDownPalette
+        public PaletteBase DropDownPalette
         {
             get => _drawDropDownButton.Palette;
             set => _drawDropDownButton.Palette = value;
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public IContentValues ButtonValues
         {
-            get => _drawContent.Values;
+            get => _drawContent.Values!;
             set => _drawContent.Values = value;
         }
         #endregion
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         {
             get => base.Enabled;
 
-            set 
-            { 
+            set
+            {
                 base.Enabled = value;
 
                 if (Enabled && (ElementState == PaletteState.Disabled))
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="borderBackOrient">Orientation of the button border and background..</param>
         /// <param name="contentOrient">Orientation of the button contents.</param>
-        public void SetOrientation(VisualOrientation borderBackOrient, 
+        public void SetOrientation(VisualOrientation borderBackOrient,
                                    VisualOrientation contentOrient)
         {
             _drawCanvas.Orientation = borderBackOrient;
@@ -386,17 +386,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region DrawButtonComposition
-        /// <summary>
-        /// Gets and sets the composition usage of the button.
-        /// </summary>
-        public bool DrawButtonComposition
-        {
-            get => _drawCanvas.DrawCanvasOnComposition;
-            set => _drawCanvas.DrawCanvasOnComposition = value;
-        }
-        #endregion
-
         #region TestForFocusCues
         /// <summary>
         /// Gets and sets the use of focus cues for deciding if focus rects are allowed.
@@ -427,7 +416,7 @@ namespace Krypton.Toolkit
             Debug.Assert(palettePressed != null);
 
             // Remember the new palette settings
-            _paletteDisabled = paletteDisabled!; 
+            _paletteDisabled = paletteDisabled!;
             _paletteNormal = paletteNormal!;
             _paletteTracking = paletteTracking!;
             _palettePressed = palettePressed!;
@@ -599,7 +588,7 @@ namespace Krypton.Toolkit
             PaletteState buttonState = State;
 
             // If the actual control is not enabled, force to disabled state
-            if (!IsFixed && !context.Control.Enabled)
+            if (!IsFixed && !context.Control!.Enabled)
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -665,13 +654,14 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(buttonState.ToString());
                         break;
                 }
 
                 // Update with the correct palettes
-                _drawCanvas.SetPalettes(CurrentPalette.PaletteBack, CurrentPalette.PaletteBorder);
-                _drawContent.SetPalette(CurrentPalette.PaletteContent);
-                _edgeRedirect.SetPalette(CurrentPalette.PaletteBorder);
+                _drawCanvas.SetPalettes(CurrentPalette.PaletteBack, CurrentPalette.PaletteBorder!);
+                _drawContent.SetPalette(CurrentPalette.PaletteContent!);
+                _edgeRedirect.SetPalette(CurrentPalette.PaletteBorder!);
             }
         }
         #endregion

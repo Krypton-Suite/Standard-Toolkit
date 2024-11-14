@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonLinkLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonLinkLabel? _linkLabel;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonLinkLabel _linkLabel;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the link label instance
-            _linkLabel = owner.Component as KryptonLinkLabel;
+            _linkLabel = (owner.Component as KryptonLinkLabel)!;
 
             // Assuming we were correctly passed an actual component...
             if (_linkLabel != null)
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.LabelStyle, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.LabelStyle, value);
                     _linkLabel.LabelStyle = value;
                 }
             }
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.Orientation != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.Orientation, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.Orientation, value);
                     _linkLabel.Orientation = value;
                 }
             }
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.LinkBehavior != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.LinkBehavior, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.LinkBehavior, value);
                     _linkLabel.LinkBehavior = value;
                 }
             }
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.LinkVisited != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.LinkVisited, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.LinkVisited, value);
                     _linkLabel.LinkVisited = value;
                 }
             }
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Text, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Text, value);
                     _linkLabel.Values.Text = value;
                 }
             }
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.ExtraText, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.Values.ExtraText, value);
                     _linkLabel.Values.ExtraText = value;
                 }
             }
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Image, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.Values.Image, value);
                     _linkLabel.Values.Image = value;
                 }
             }
@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
             {
                 if (_linkLabel.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.PaletteMode, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.PaletteMode, value);
                     _linkLabel.PaletteMode = value;
                 }
             }
@@ -184,13 +184,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonShortTextFont
         {
-            get => _linkLabel.StateCommon.ShortText.Font;
+            get => _linkLabel.StateCommon.ShortText.Font!;
 
             set
             {
                 if (_linkLabel.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.ShortText.Font, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.ShortText.Font, value);
 
                     _linkLabel.StateCommon.ShortText.Font = value;
                 }
@@ -201,13 +201,13 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font StateCommonLongTextFont
         {
-            get => _linkLabel.StateCommon.LongText.Font;
+            get => _linkLabel.StateCommon.LongText.Font!;
 
             set
             {
                 if (_linkLabel.StateCommon.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.LongText.Font, value);
+                    _service?.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.LongText.Font, value);
 
                     _linkLabel.StateCommon.LongText.Font = value;
                 }
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnLinkVisitedClick(object sender, EventArgs e)
+        private void OnLinkVisitedClick(object? sender, EventArgs e)
         {
             // Cast to the correct type
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -69,8 +69,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
+            _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
@@ -85,7 +85,12 @@ namespace Krypton.Ribbon
             get
             {
                 var compound = new ArrayList(base.AssociatedComponents);
-                compound.AddRange(_ribbonTab.Groups);
+                
+                if (_ribbonTab is not null)
+                {
+                    compound.AddRange(_ribbonTab.Groups);
+                }
+
                 return compound;
             }
         }
@@ -98,7 +103,7 @@ namespace Krypton.Ribbon
             get
             {
                 UpdateVerbStatus();
-                return _verbs;
+                return _verbs!;
             }
         }
         #endregion
@@ -122,8 +127,12 @@ namespace Krypton.Ribbon
                     }
 
                     // Unhook from events
-                    _ribbonTab.DesignTimeAddGroup -= OnAddGroup;
-                    _ribbonTab.DesignTimeContextMenu -= OnContextMenu;
+                    if (_ribbonTab is not null)
+                    {
+                        _ribbonTab.DesignTimeAddGroup -= OnAddGroup;
+                        _ribbonTab.DesignTimeContextMenu -= OnContextMenu;
+                    }
+
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
@@ -140,9 +149,9 @@ namespace Krypton.Ribbon
         private void UpdateVerbStatus()
         {
             // Create verbs first time around
-            if (_verbs == null)
+            if (_verbs is null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Previous", OnMovePrevious);
@@ -160,7 +169,7 @@ namespace Krypton.Ribbon
             var moveLast = false;
             var clearGroups = false;
 
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab?.Ribbon is not null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 moveFirst = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0;
                 movePrev = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0;
@@ -176,7 +185,7 @@ namespace Krypton.Ribbon
             _clearGroupsVerb.Enabled = clearGroups;
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
+        private void OnToggleHelpers(object? sender, EventArgs e)
         {
             // Invert the current toggle helper mode
             if (_ribbonTab?.Ribbon != null)
@@ -185,7 +194,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveFirst(object sender, EventArgs e)
+        private void OnMoveFirst(object? sender, EventArgs e)
         {
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
@@ -195,7 +204,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
+                    MemberDescriptor? propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -216,9 +225,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMovePrevious(object sender, EventArgs e)
+        private void OnMovePrevious(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MoveNext");
@@ -226,7 +237,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
+                    MemberDescriptor? propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -249,9 +260,12 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveNext(object sender, EventArgs e)
+        private void OnMoveNext(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MovePrevious");
@@ -259,7 +273,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
+                    MemberDescriptor? propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -282,9 +296,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnMoveLast(object sender, EventArgs e)
+        private void OnMoveLast(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MoveLast");
@@ -292,7 +308,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
+                    MemberDescriptor? propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -313,9 +329,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnAddGroup(object sender, EventArgs e)
+        private void OnAddGroup(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab AddGroup");
@@ -323,7 +341,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
+                    MemberDescriptor? propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
 
                     RaiseComponentChanging(propertyGroups);
 
@@ -341,9 +359,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnClearGroups(object sender, EventArgs e)
+        private void OnClearGroups(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab ClearGroups");
@@ -351,12 +371,12 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
+                    MemberDescriptor? propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
 
                     RaiseComponentChanging(propertyGroups);
 
                     // Need access to host in order to delete a component
-                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                     // We need to remove all the groups from the tab
                     for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
@@ -376,9 +396,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnDeleteTab(object sender, EventArgs e)
+        private void OnDeleteTab(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab DeleteTab");
@@ -386,7 +408,7 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
+                    MemberDescriptor? propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);
@@ -409,24 +431,26 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnVisible(object sender, EventArgs e)
+        private void OnVisible(object? sender, EventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 _changeService.OnComponentChanged(_ribbonTab, null, _ribbonTab.Visible, !_ribbonTab.Visible);
                 _ribbonTab.Visible = !_ribbonTab.Visible;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
+        private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our tab is being removed
-            if (e.Component == _ribbonTab)
+            if ( _ribbonTab is not null && e.Component == _ribbonTab)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
 
                 // We need to remove all the groups from the tab
                 for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
@@ -438,12 +462,14 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextMenu(object sender, MouseEventArgs e)
+        private void OnContextMenu(object? sender, MouseEventArgs e)
         {
-            if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
+            if ((_ribbonTab is not null)
+                && _ribbonTab.Ribbon != null
+                && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Create the menu strip the first time around
-                if (_cms == null)
+                if (_cms is null)
                 {
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);

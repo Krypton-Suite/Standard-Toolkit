@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -36,19 +36,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon ribbon,
-                                               [DisallowNull] KryptonRibbonGroup ribbonGroup,
-                                               NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon? ribbon,
+                                               [DisallowNull] KryptonRibbonGroup? ribbonGroup,
+                                               NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(ribbonGroup != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(ribbonGroup is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
 
             // Attach a controller to this element for the pressing of the button
-            var controller = new DialogLauncherButtonController(ribbon, this, needPaint);
+            var controller = new DialogLauncherButtonController(ribbon, this, needPaint!);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -119,10 +119,15 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;
-            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
+            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder!;
             IPaletteRibbonGeneral paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
 
             // Do we need to draw the background?
@@ -136,6 +141,7 @@ namespace Krypton.Ribbon
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
+                using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                     paletteBack, VisualOrientation.Top,
                     State, _mementoBack);
@@ -158,7 +164,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnClick(object sender, MouseEventArgs e)
+        private void OnClick(object? sender, MouseEventArgs e)
         {
             // We do not operate the dialog launcher at design time
             if (!_ribbon.InDesignMode)

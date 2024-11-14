@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -46,8 +46,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _dropDownNavigaton;
-        private float _cornerRoundingRadius;
+        private bool _dropDownNavigation;
         private readonly ViewDrawDocker _drawDocker;
         private readonly ButtonSpecManagerDraw? _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
@@ -97,7 +96,7 @@ namespace Krypton.Toolkit
 
             // Set default values
             _selectedItem = null;
-            _dropDownNavigaton = true;
+            _dropDownNavigation = true;
             _buttonStyle = ButtonStyle.BreadCrumb;
             RootItem = new KryptonBreadCrumbItem("Root");
             RootItem.PropertyChanged += OnCrumbItemChanged;
@@ -116,7 +115,7 @@ namespace Krypton.Toolkit
 
             // Our view contains background and border with crumbs inside
             _layoutCrumbs = new ViewLayoutCrumbs(this, NeedPaintDelegate);
-            _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border, null)
+            _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border, null!)
             {
                 { _layoutCrumbs, ViewDockStyle.Fill }
             };
@@ -126,10 +125,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new[] { _drawDocker },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.None },
+                [_drawDocker],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.None],
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -138,8 +137,6 @@ namespace Krypton.Toolkit
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -154,7 +151,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -186,18 +183,6 @@ namespace Krypton.Toolkit
 
             // Raise event to show control is now initialized
             OnInitialized(EventArgs.Empty);
-        }
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -262,13 +247,13 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager?.UseMnemonic?? true;
+            get => _buttonManager?.UseMnemonic ?? true;
 
             set
             {
                 if (_buttonManager?.UseMnemonic != value)
                 {
-                    _buttonManager.UseMnemonic = value;
+                    _buttonManager!.UseMnemonic = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -290,13 +275,13 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool DropDownNavigation
         {
-            get => _dropDownNavigaton;
+            get => _dropDownNavigation;
 
             set
             {
-                if (_dropDownNavigaton != value)
+                if (_dropDownNavigation != value)
                 {
-                    _dropDownNavigaton = value;
+                    _dropDownNavigation = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -437,7 +422,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common bread crumb appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBreadCrumbRedirect? StateCommon { get; }
+        public PaletteBreadCrumbRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -556,7 +541,7 @@ namespace Krypton.Toolkit
             if (UseMnemonic && CanProcessMnemonic())
             {
                 // Pass request onto the button spec manager
-                if (_buttonManager.ProcessMnemonic(charCode))
+                if (_buttonManager!.ProcessMnemonic(charCode))
                 {
                     return true;
                 }
@@ -604,7 +589,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
             _buttonManager?.RecreateButtons();
@@ -642,14 +627,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect? GetStateCommon() => StateCommon;
+        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect? GetRedirector() => Redirector;
+        internal PaletteRedirect GetRedirector() => Redirector;
 
         #endregion
 
         #region Implementation
-        private void OnCrumbItemChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCrumbItemChanged(object? sender, PropertyChangedEventArgs e)
         {
             // A change in the selected item hierarchy...
             if (e.PropertyName == "Items")
@@ -676,7 +661,7 @@ namespace Krypton.Toolkit
             PerformNeedPaint(true);
         }
 
-        private void OnShowToolTip(object sender, ToolTipEventArgs e)
+        private void OnShowToolTip(object? sender, ToolTipEventArgs e)
         {
             if (!IsDisposed)
             {
@@ -743,27 +728,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e) =>
+        private void OnCancelToolTip(object? sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteBackStyle, string> _pairs = new Dictionary<PaletteBackStyle, string>
+        private static readonly BiDictionary<PaletteBackStyle, string> _pairs = new BiDictionary<PaletteBackStyle, string>(
+            new Dictionary<PaletteBackStyle, string>
         {
             {PaletteBackStyle.ButtonStandalone, DesignTimeUtilities.DEFAULT_BUTTON_STANDALONE},
             {PaletteBackStyle.ButtonAlternate, DesignTimeUtilities.DEFAULT_BUTTON_ALTERNATE},
@@ -115,7 +116,7 @@ namespace Krypton.Toolkit
             {PaletteBackStyle.TabCustom2, DesignTimeUtilities.DEFAULT_TAB_CUSTOM2},
             {PaletteBackStyle.TabCustom3, DesignTimeUtilities.DEFAULT_TAB_CUSTOM3},
             {PaletteBackStyle.Control, DesignTimeUtilities.DEFAULT_CONTROL}
-        };
+        });
 
         #endregion
 
@@ -124,7 +125,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteBackStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteBackStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteBackStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

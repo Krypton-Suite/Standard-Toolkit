@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,15 +29,15 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
+        public override void Construct(KryptonNavigator navigator,
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect redirector)
+                                       PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = ViewManager.Root;
+            _oldRoot = ViewManager!.Root;
 
             // Create a canvas for the border and background using current enabled state
             _drawCanvas = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
@@ -45,7 +45,7 @@ namespace Krypton.Navigator
                                              VisualOrientation.Top)
             {
 
-                // Put the exising root into the canvas
+                // Put the existing root into the canvas
                 _oldRoot
             };
 
@@ -145,12 +145,12 @@ namespace Krypton.Navigator
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage.StateNormal.HeaderGroup.Back;
+                    back = Navigator.SelectedPage!.StateNormal.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage.StateDisabled.HeaderGroup.Back;
+                    back = Navigator.SelectedPage!.StateDisabled.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateDisabled.HeaderGroup.Border;
 
                     // If page is disabled then all of view should look disabled
@@ -188,7 +188,7 @@ namespace Krypton.Navigator
             _drawCanvas.Dispose();
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class perform common operations
             base.Destruct();
@@ -196,7 +196,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
+        private void OnEnabledChanged(object? sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

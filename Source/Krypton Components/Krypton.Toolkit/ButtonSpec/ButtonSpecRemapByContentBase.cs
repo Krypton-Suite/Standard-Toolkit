@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -27,12 +27,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
-        protected ButtonSpecRemapByContentBase(PaletteBase? target,
+        protected ButtonSpecRemapByContentBase(PaletteBase target,
                                             [DisallowNull] ButtonSpec buttonSpec)
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
-            _buttonSpec = buttonSpec;
+            _buttonSpec = buttonSpec!;
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If a map color provided then return is
-            return (mapColor != Color.Empty) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
+            return (mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If mapping occurring then return the target remap color
-            if ((mapColor != Color.Empty)  && (PaletteContent != null))
+            if ((mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null))
             {
                 PaletteState getState = PaletteState;
 
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                     // ReSharper restore RedundantBaseQualifier
 
                     // If we are supposed to remap a color
-                    if (mapColor != Color.Empty)
+                    if (mapColor != GlobalStaticValues.EMPTY_COLOR)
                     {
                         // ReSharper disable RedundantBaseQualifier
                         // Get the button style requested
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            return Color.Empty;
+            return GlobalStaticValues.EMPTY_COLOR;
         }
 
         private bool OverrideTextColor(PaletteState state)

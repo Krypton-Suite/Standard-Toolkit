@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -23,13 +23,13 @@ namespace Krypton.Toolkit
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
     {
         #region Instance Fields
-        private VisualTaskDialog? _taskDialog;
+        private VisualTaskDialogForm? _taskDialog;
         private string _windowTitle;
         private string _mainInstruction;
         private string _content;
         private Image? _customIcon;
         private KryptonMessageBoxIcon _icon;
-        private KryptonTaskDialogCommand _defaultRadioButton;
+        private KryptonTaskDialogCommand? _defaultRadioButton;
         private TaskDialogButtons _commonButtons;
         private TaskDialogButtons _defaultButton;
         private KryptonMessageBoxIcon _footerIcon;
@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         private string _checkboxText;
         private bool _checkboxState;
         private bool _allowDialogClose;
+        private bool _useNativeOSIcons;
         private string _textExtra;
 
         #endregion
@@ -65,8 +66,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonTaskDialog()
         {
-            RadioButtons = new KryptonTaskDialogCommandCollection();
-            CommandButtons = new KryptonTaskDialogCommandCollection();
+            RadioButtons = [];
+            CommandButtons = [];
             _commonButtons = TaskDialogButtons.OK;
             _textExtra = @"Ctrl+C to copy";
         }
@@ -245,7 +246,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Default radio button.")]
         [DefaultValue(TaskDialogButtons.None)]
-        public KryptonTaskDialogCommand DefaultRadioButton
+        public KryptonTaskDialogCommand? DefaultRadioButton
         {
             get => _defaultRadioButton;
 
@@ -427,6 +428,26 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether [use native os icons].</summary>
+        /// <value><c>true</c> if [use native os icons]; otherwise, <c>false</c>.</value>
+        [Category(@"Appearance")]
+        [Description(@"Use the native OS icons.")]
+        [DefaultValue(true)]
+        public bool UseNativeOSIcons
+        {
+            get => _useNativeOSIcons;
+
+            set
+            {
+                if (_useNativeOSIcons != value)
+                {
+                    _useNativeOSIcons = value;
+
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(UseNativeOSIcons)));
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
@@ -434,7 +455,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Allows user to override the default "Ctrl+c to copy" in window caption
@@ -465,7 +486,7 @@ namespace Krypton.Toolkit
         /// Shows the task dialog as a modal dialog box with the currently active window set as its owner.
         /// </summary>
         /// <returns>One of the DialogResult values.</returns>
-        public DialogResult ShowDialog() => ShowDialog(Control.FromHandle(PI.GetActiveWindow()));
+        public DialogResult ShowDialog() => ShowDialog(Control.FromHandle(PI.GetActiveWindow())!);
 
         /// <summary>
         /// Shows the form as a modal dialog box with the specified owner.
@@ -478,7 +499,7 @@ namespace Krypton.Toolkit
             _taskDialog?.Dispose();
 
             // Create visual form to show our defined task properties
-            _taskDialog = new VisualTaskDialog(this)
+            _taskDialog = new VisualTaskDialogForm(this)
             {
                 StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent
             };
@@ -496,12 +517,14 @@ namespace Krypton.Toolkit
         /// <param name="content">Extra text.</param>
         /// <param name="icon">Predefined icon.</param>
         /// <param name="commonButtons">Common buttons.</param>
+        /// <param name="useNativeOSIcons">Use the OS set of icons.</param>
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string windowTitle,
                                         string mainInstruction,
                                         string content,
                                         KryptonMessageBoxIcon icon,
-                                        TaskDialogButtons commonButtons)
+                                        TaskDialogButtons commonButtons,
+                                        bool? useNativeOSIcons)
         {
             // Create a temporary task dialog for storing definition whilst showing
             using var taskDialog = new KryptonTaskDialog();
@@ -511,6 +534,7 @@ namespace Krypton.Toolkit
             taskDialog.Content = content;
             taskDialog.Icon = icon;
             taskDialog.CommonButtons = commonButtons;
+            taskDialog.UseNativeOSIcons = useNativeOSIcons ?? true;
 
             // Show as a modal dialog
             return taskDialog.ShowDialog();

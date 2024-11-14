@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette);
+        ToolStripRenderer RenderToolStrip(PaletteBase colorPalette);
     }
     #endregion
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <returns>Padding structure detailing all four edges.</returns>
-        Padding GetBorderDisplayPadding(IPaletteBorder palette,
+        Padding GetBorderDisplayPadding(IPaletteBorder? palette,
                                         PaletteState state,
                                         VisualOrientation orientation);
 
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         GraphicsPath GetOutsideBorderPath(RenderContext context,
                                           Rectangle rect,
-                                          IPaletteBorder palette,
+                                          IPaletteBorder? palette,
                                           VisualOrientation orientation,
                                           PaletteState state);
 
@@ -205,16 +205,12 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Preferred size.</returns>
         Size GetContentPreferredSize(ViewLayoutContext context,
                                      IPaletteContent palette,
                                      IContentValues values,
                                      VisualOrientation orientation,
-                                     PaletteState state,
-                                     bool composition,
-                                     bool glowing);
+                                     PaletteState state);
 
         /// <summary>
         /// Perform layout calculations on the provided content.
@@ -225,17 +221,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
         IDisposable LayoutContent(ViewLayoutContext context,
                                   Rectangle availableRect,
                                   IPaletteContent palette,
                                   IContentValues values,
                                   VisualOrientation orientation,
-                                  PaletteState state,
-                                  bool composition,
-                                  bool glowing);
+                                  PaletteState state);
 
         /// <summary>
         /// Perform draw of content using provided memento.
@@ -246,8 +238,6 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         void DrawContent(RenderContext context,
                          Rectangle displayRect,
@@ -255,8 +245,6 @@ namespace Krypton.Toolkit
                          IDisposable memento,
                          VisualOrientation orientation,
                          PaletteState state,
-                         bool composition,
-                         bool glowing,
                          bool allowFocusRect);
 
         /// <summary>
@@ -264,42 +252,42 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the image is being Displayed; otherwise false.</returns>
-        bool GetContentImageDisplayed(IDisposable memento);
+        bool GetContentImageDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        Rectangle GetContentImageRectangle(IDisposable memento);
+        Rectangle GetContentImageRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the short text is being Displayed; otherwise false.</returns>
-        bool GetContentShortTextDisplayed(IDisposable memento);
+        bool GetContentShortTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        Rectangle GetContentShortTextRectangle(IDisposable memento);
+        Rectangle GetContentShortTextRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the long text is being Displayed; otherwise false.</returns>
-        bool GetContentLongTextDisplayed(IDisposable memento);
+        bool GetContentLongTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        Rectangle GetContentLongTextRectangle(IDisposable memento);
+        Rectangle GetContentLongTextRectangle(IDisposable? memento);
     }
     #endregion
 
@@ -405,7 +393,6 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                    RenderContext context,
@@ -413,7 +400,6 @@ namespace Krypton.Toolkit
                                    PaletteState state,
                                    IPaletteRibbonBack palette,
                                    VisualOrientation orientation,
-                                   bool composition,
                                    IDisposable? memento);
 
         /// <summary>
@@ -425,12 +411,12 @@ namespace Krypton.Toolkit
         /// <param name="paletteGeneral">Palette used for general ribbon settings.</param>
         /// <param name="paletteBack">Palette used for background ribbon settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        IDisposable DrawRibbonTabContextTitle(PaletteRibbonShape shape,
+        IDisposable? DrawRibbonTabContextTitle(PaletteRibbonShape shape,
                                               RenderContext context,
                                               Rectangle rect,
                                               IPaletteRibbonGeneral paletteGeneral,
                                               IPaletteRibbonBack paletteBack,
-                                              IDisposable memento);
+                                              IDisposable? memento);
         /// <summary>
         /// Draw the application button.
         /// </summary>
@@ -440,12 +426,12 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        IDisposable DrawRibbonApplicationButton(PaletteRibbonShape shape,
+        IDisposable? DrawRibbonApplicationButton(PaletteRibbonShape shape,
                                                 RenderContext context,
                                                 Rectangle rect,
                                                 PaletteState state,
                                                 IPaletteRibbonBack palette,
-                                                IDisposable memento);
+                                                IDisposable? memento);
 
         /// <summary>
         /// Draw the application tab.
@@ -454,16 +440,14 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         /// <param name="rect">Target rectangle.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="baseColor1">Base color1 used for drawing the ribbon tab.</param>
-        /// <param name="baseColor2">Base color2 used for drawing the ribbon tab.</param>
+        /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape,
+        IDisposable? DrawRibbonFileApplicationTab(PaletteRibbonShape shape,
                                              RenderContext context,
                                              Rectangle rect,
                                              PaletteState state,
-                                             Color baseColor1,
-                                             Color baseColor2,
-                                             IDisposable memento);
+                                             IPaletteRibbonFileAppTab palette,
+                                             IDisposable? memento);
 
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
@@ -515,7 +499,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                      PaletteBase? palette,
+                                      PaletteBase palette,
                                       bool enabled,
                                       CheckState checkState,
                                       bool tracking,
@@ -533,7 +517,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         void DrawCheckBox(RenderContext context,
                           Rectangle displayRect,
-                          PaletteBase? palette,
+                          PaletteBase palette,
                           bool enabled,
                           CheckState checkState,
                           bool tracking,
@@ -581,7 +565,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                            PaletteBase? palette,
+                                            PaletteBase palette,
                                             PaletteState state,
                                             VisualOrientation orientation);
 
@@ -595,7 +579,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         void DrawDropDownButton(RenderContext context,
                                 Rectangle displayRect,
-                                PaletteBase? palette,
+                                PaletteBase palette,
                                 PaletteState state,
                                 VisualOrientation orientation);
 
@@ -718,7 +702,7 @@ namespace Krypton.Toolkit
         Rectangle DrawGridSortGlyph(RenderContext context,
                                     SortOrder sortOrder,
                                     Rectangle cellRect,
-                                    IPaletteContent? paletteContent,
+                                    IPaletteContent paletteContent,
                                     PaletteState state,
                                     bool rtl);
 

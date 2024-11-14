@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -43,19 +43,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="target">Target for state changes.</param>
-        public RepeatButtonController([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] ViewBase target,
-                                      NeedPaintHandler needPaint)
+        public RepeatButtonController([DisallowNull] KryptonRibbon? ribbon,
+                                      [DisallowNull] ViewBase? target,
+                                      [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
 
             // Remember incoming references
-            _target = target;
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
 
             _repeatTimer = new Timer
             {
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -323,9 +323,9 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        Form topForm = _ribbon.FindForm();
+                        Form? topForm = _ribbon.FindForm();
                         return (CommonHelper.ActiveFloatingWindow != null) ||
-                               ((topForm != null) && 
+                               ((topForm != null) &&
                                 (topForm.ContainsFocus ||
                                 ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }
@@ -333,7 +333,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnRepeatTick(object sender, EventArgs e) =>
+        private void OnRepeatTick(object? sender, EventArgs e) =>
             // Keep generating clicks
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -50,19 +50,19 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RibbonTabController([DisallowNull] KryptonRibbon ribbon,
-                                   [DisallowNull] ViewDrawRibbonTab target,
-                                   NeedPaintHandler needPaint)
+        public RibbonTabController([DisallowNull] KryptonRibbon? ribbon,
+                                   [DisallowNull] ViewDrawRibbonTab? target,
+                                   [DisallowNull] NeedPaintHandler? needPaint)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(target != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(target is not null);
 
             // Remember incoming references
-            _target = target;
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _target = target ?? throw new ArgumentNullException(nameof(target));
 
             // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         }
         #endregion
 
@@ -107,18 +107,18 @@ namespace Krypton.Ribbon
                 {
                     // Only interested in left mouse pressing down
                     case MouseButtons.Left:
-                    {
-                        // Can only click if enabled
-                        if (_target.Enabled)
                         {
-                            // Generate a click event
-                            OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                        }
+                            // Can only click if enabled
+                            if (_target.Enabled)
+                            {
+                                // Generate a click event
+                                OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                            }
 
-                        // Update the visual state
-                        UpdateTargetState(c);
-                        break;
-                    }
+                            // Update the visual state
+                            UpdateTargetState(c);
+                            break;
+                        }
                     case MouseButtons.Right:
                         // Remember the user has pressed the right mouse button down
                         _rightButtonDown = true;
@@ -227,6 +227,11 @@ namespace Krypton.Ribbon
             ViewBase? newView = null;
             Keys keyData = e.KeyData;
 
+            if (_ribbon.TabsArea is null)
+            {
+                throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
+            }
+
             // When there is no selected tab then tab and shift+tab become right and left
             if (_ribbon.SelectedTab == null)
             {
@@ -245,9 +250,9 @@ namespace Krypton.Ribbon
             {
                 case Keys.Right:
                     // Get the next visible tab page
-                    newView = (_target.ViewLayoutRibbonTabs.GetViewForNextRibbonTab(_target.RibbonTab) 
-                               ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) 
-                              ?? _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (_target.ViewLayoutRibbonTabs.GetViewForNextRibbonTab(_target.RibbonTab!)
+                               ?? (ViewBase)_ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)!)
+                              ?? _ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -264,12 +269,12 @@ namespace Krypton.Ribbon
                         {
                             newView = _ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Left:
                     // Get the previous visible tab page
-                    newView = (_target.ViewLayoutRibbonTabs.GetViewForPreviousRibbonTab(_target.RibbonTab) 
-                               ?? (ViewBase) _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) 
+                    newView = (_target.ViewLayoutRibbonTabs.GetViewForPreviousRibbonTab(_target.RibbonTab!)
+                               ?? (ViewBase)_ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)!)
                               ?? _ribbon.GetLastQATView();
 
                     // Move across to any near defined buttons
@@ -287,11 +292,11 @@ namespace Krypton.Ribbon
                         {
                             newView = _ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Tab | Keys.Shift:
                     // Move across to any near defined buttons
-                    newView = _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near) 
+                    newView = _ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)
                               ?? _ribbon.GetLastQATView();
 
                     // Get the last qat button
@@ -307,7 +312,7 @@ namespace Krypton.Ribbon
                         {
                             newView = _ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Down:
                     // Get the first focus item for the currently selected page
@@ -315,8 +320,8 @@ namespace Krypton.Ribbon
                     break;
                 case Keys.Tab:
                     // Get the first focus item for the currently selected page
-                    newView = (_ribbon.GroupsArea.ViewGroups.GetFirstFocusItem() 
-                               ?? _ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near)) 
+                    newView = (_ribbon.GroupsArea.ViewGroups.GetFirstFocusItem()
+                               ?? _ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near))
                               ?? _ribbon.GetLastQATView();
 
                     // Move across to any near defined buttons
@@ -334,12 +339,12 @@ namespace Krypton.Ribbon
                         {
                             newView = _ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Enter:
                 case Keys.Space:
                     // When minimize, pressing enter will select the tab and pop it up
-                    if (_ribbon.RealMinimizedMode 
+                    if (_ribbon.RealMinimizedMode
                         && (_ribbon.SelectedTab != _target.RibbonTab)
                         )
                     {
@@ -417,12 +422,12 @@ namespace Krypton.Ribbon
         /// </summary>
         public NeedPaintHandler NeedPaint
         {
-            get => _needPaint;
+            get => _needPaint!;
 
             set
             {
                 // Warn if multiple sources want to hook their single delegate
-                Debug.Assert(((_needPaint == null) && (value != null)) 
+                Debug.Assert(((_needPaint == null) && (value != null))
                              || ((_needPaint != null) && (value == null))
                              );
 
@@ -438,7 +443,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Owning control.</param>
         protected void UpdateTargetState(Control c)
         {
-            if ((c == null) || c.IsDisposed)
+            if (c == null || c.IsDisposed)
             {
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
             }
@@ -454,7 +459,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -502,7 +507,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Rectangle to invalidate.</param>
-        protected virtual void OnNeedPaint(bool needLayout, 
+        protected virtual void OnNeedPaint(bool needLayout,
                                            Rectangle invalidRect)
         {
             if (_needPaint != null)
@@ -531,9 +536,9 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        Form topForm = _ribbon.FindForm();
+                        Form? topForm = _ribbon.FindForm();
                         return (CommonHelper.ActiveFloatingWindow != null) ||
-                               ((topForm != null) && 
+                               ((topForm != null) &&
                                 (topForm.ContainsFocus ||
                                 ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }

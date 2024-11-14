@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -39,8 +39,6 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _flipButtonArray;
-
-        private bool _allowFormIntegration;
 
         private ButtonSpecAny[] _integratedToolBarButtons;
 
@@ -89,36 +87,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets a value indicating whether [allow form integration].</summary>
-        /// <value><c>true</c> if [allow form integration]; otherwise, <c>false</c>.</value>
-        /// <exception cref="ArgumentNullException">@"The 'ParentForm' property cannot be null.</exception>
-        [Category(@"Visuals"), DefaultValue(false), Description(@"Add/remove the integrated tool bar buttons to the parent form. (Note: Existing buttonspecs will not be affected.)")]
-        public bool AllowFormIntegration
-        {
-            get => _allowFormIntegration;
-
-            set
-            {
-                _allowFormIntegration = value;
-
-                if (_parentForm != null)
-                {
-                    if (value)
-                    {
-                        AttachIntegratedToolBarToParent(_parentForm);
-                    }
-                    else
-                    {
-                        DetachIntegratedToolBarFromParent(_parentForm);
-                    }
-                }
-                else
-                {
-                    throw new ArgumentNullException($@"The 'ParentForm' property cannot be null.");
-                }
-            }
-        }
 
         /// <summary>Gets the integrated tool bar buttons.</summary>
         /// <value>The integrated tool bar buttons.</value>
@@ -266,8 +234,6 @@ namespace Krypton.Toolkit
         {
             _flipButtonArray = false;
 
-            _allowFormIntegration = false;
-
             SetupToolBar();
 
             _integratedToolBarButtonOrientation = PaletteButtonOrientation.FixedTop;
@@ -412,7 +378,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"IntegrateToolBarIntoParentForm(bool showIntegratedToolBar, KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -438,7 +404,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -465,7 +431,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, className: @"KryptonIntegratedToolBarManager.cs", methodSignature: @"AttachIntegratedToolBarToParent(KryptonForm parentForm)");
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -523,7 +489,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -563,7 +529,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 

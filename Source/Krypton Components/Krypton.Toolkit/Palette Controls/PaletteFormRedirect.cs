@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -15,11 +15,11 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Redirect storage for PaletteForm states.
     /// </summary>
-    public class PaletteFormRedirect : PaletteDoubleRedirect,
+    public class PaletteFormRedirect : PaletteFormDoubleRedirect,
                                        IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
+        private readonly PaletteRedirect _redirect;
         private InheritBool _overlayHeaders;
 
         #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteFormRedirect(PaletteRedirect? redirect,
+        public PaletteFormRedirect(PaletteRedirect redirect,
                                    NeedPaintHandler needPaint)
             : this(redirect, redirect, needPaint)
         {
@@ -54,10 +54,10 @@ namespace Krypton.Toolkit
             Debug.Assert(redirectHeader != null);
             
             // Remember the redirect reference
-            _redirect = redirectForm;
+            _redirect = redirectForm!;
 
             // Create the palette storage
-            Header = new PaletteHeaderButtonRedirect(redirectHeader, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
+            Header = new PaletteHeaderButtonRedirect(redirectHeader!, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
 
             // Default other values
             _overlayHeaders = InheritBool.Inherit;
@@ -69,9 +69,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           Header.IsDefault &&
-                                           (OverlayHeaders == InheritBool.Inherit);
+                                            Header.IsDefault &&
+                                            (OverlayHeaders == InheritBool.Inherit);
 
         #endregion
 

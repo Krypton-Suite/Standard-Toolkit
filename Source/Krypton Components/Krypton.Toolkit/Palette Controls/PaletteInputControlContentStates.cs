@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            Inherit = inherit;
+            Inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Default the initial values
             _font = null;
-            _color1 = Color.Empty;
+            _color1 = GlobalStaticValues.EMPTY_COLOR;
             _padding = CommonHelper.InheritPadding;
             _shortTextH = PaletteRelativeAlign.Inherit;
         }
@@ -57,11 +57,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (Font == null) &&
-                                           (Color1.IsEmpty) &&
-                                           Padding.Equals(CommonHelper.InheritPadding)
-                                           && (TextH == PaletteRelativeAlign.Inherit)
-                                            ;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault =>    Font == null &&
+                                             (Color1.IsEmpty) &&
+                                             Padding.Equals(CommonHelper.InheritPadding)
+                                             && !ShouldSerializeTextH();
 
         #endregion
 
@@ -172,14 +172,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextFont(PaletteState state) => _font ?? Inherit.GetContentShortTextFont(state);
+        public virtual Font? GetContentShortTextFont(PaletteState state) => _font ?? Inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextNewFont(PaletteState state) => _font ?? Inherit.GetContentShortTextNewFont(state);
+        public virtual Font? GetContentShortTextNewFont(PaletteState state) => _font ?? Inherit.GetContentShortTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for short text.
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _shortTextH != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextH(state);
+        public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => ShouldSerializeTextH() ? _shortTextH : Inherit.GetContentShortTextH(state);
 
         /// <summary>
         /// Gets the actual content short text vertical alignment value.
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Main color for the text.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
@@ -342,14 +342,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state) => Inherit.GetContentLongTextFont(state);
+        public Font? GetContentLongTextFont(PaletteState state) => Inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => Inherit.GetContentLongTextNewFont(state);
+        public Font? GetContentLongTextNewFont(PaletteState state) => Inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.

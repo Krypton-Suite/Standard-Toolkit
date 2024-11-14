@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// <param name="repeat">Should button repeat.</param>
         public ViewDrawDateTimeButton(KryptonDateTimePicker dateTimePicker,
                                       IPaletteTriple paletteState,
-                                      IPaletteMetric? paletteMetric,
+                                      IPaletteMetric paletteMetric,
                                       IContentValues? buttonValues,
                                       DrawDateTimeGlyph glyph,
                                       NeedPaintHandler needPaintHandler,
@@ -159,8 +159,13 @@ namespace Krypton.Toolkit
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             switch (_glyph)
             {
                 case DrawDateTimeGlyph.DropDownButton:
@@ -219,14 +224,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
+        protected void OnButtonClick(object? sender, MouseEventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseSelect event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonMouseSelect(object sender, MouseEventArgs e) => MouseSelect?.Invoke(this, e);
+        protected void OnButtonMouseSelect(object? sender, MouseEventArgs e) => MouseSelect?.Invoke(this, e);
 
         #endregion
     }

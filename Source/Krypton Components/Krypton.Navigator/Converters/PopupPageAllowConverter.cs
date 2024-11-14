@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,16 +20,22 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PopupPageAllow, string> _pairs = new Dictionary<PopupPageAllow, string>
+        private static readonly BiDictionary<PopupPageAllow, string> _pairs = new BiDictionary<PopupPageAllow, string>(
+            new Dictionary<PopupPageAllow, string>
         {
-            {PopupPageAllow.Never, "Never"},
-            {PopupPageAllow.OnlyCompatibleModes, "Only Compatible Modes"},
-            {PopupPageAllow.OnlyOutlookMiniMode, "Only Outlook Mini Mode"}
-        };
+            {PopupPageAllow.Never, @"Never"},
+            {PopupPageAllow.OnlyCompatibleModes, @"Only Compatible Modes"},
+            {PopupPageAllow.OnlyOutlookMiniMode, @"Only Outlook Mini Mode"}
+        });
 
         #endregion
-        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> Pairs => _pairs;
 
-
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, PopupPageAllow /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

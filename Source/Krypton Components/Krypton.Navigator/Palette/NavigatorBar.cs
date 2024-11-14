@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -56,7 +56,12 @@ namespace Krypton.Navigator
         public NavigatorBar([DisallowNull] KryptonNavigator navigator,
                             NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator is not null);
+
+            if (navigator is null)
+            {
+                throw new ArgumentNullException(nameof(navigator));
+            }
 
             // Remember back reference
             _navigator = navigator;
@@ -90,23 +95,24 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((CheckButtonStyle == ButtonStyle.Standalone) &&
-                                           (TabStyle == TabStyle.HighProfile) &&
-                                           (TabBorderStyle == TabBorderStyle.RoundedOutsizeMedium) &&
-                                           (BarFirstItemInset == DEFAULT_BAR_FIRST_ITEM_INSET) &&
-                                           (BarLastItemInset == DEFAULT_BAR_LAST_ITEM_INSET) &&
-                                           (BarMapImage == MapKryptonPageImage.Small) &&
-                                           (BarMapText == MapKryptonPageText.TextTitle) &&
-                                           (BarMapExtraText == MapKryptonPageText.None) &&
-                                           (BarOrientation == VisualOrientation.Top) &&
-                                           (ItemSizing == BarItemSizing.SameHeight) &&
-                                           (ItemMinimumSize == _defaultItemMinimumSize) &&
-                                           (ItemMaximumSize == _defaultItemMaximumSize) &&
-                                           (ItemOrientation == ButtonOrientation.Auto) &&
-                                           (ItemAlignment == RelativePositionAlign.Near) &&
-                                           (BarMinimumHeight == DEFAULT_BAR_MINIMUM_HEIGHT) &&
-                                           BarAnimation &&
-                                           (BarMultiline == BarMultiline.Singleline));
+                                             (TabStyle == TabStyle.HighProfile) &&
+                                             (TabBorderStyle == TabBorderStyle.RoundedOutsizeMedium) &&
+                                             (BarFirstItemInset == DEFAULT_BAR_FIRST_ITEM_INSET) &&
+                                             (BarLastItemInset == DEFAULT_BAR_LAST_ITEM_INSET) &&
+                                             (BarMapImage == MapKryptonPageImage.Small) &&
+                                             (BarMapText == MapKryptonPageText.TextTitle) &&
+                                             (BarMapExtraText == MapKryptonPageText.None) &&
+                                             (BarOrientation == VisualOrientation.Top) &&
+                                             (ItemSizing == BarItemSizing.SameHeight) &&
+                                             (ItemMinimumSize == _defaultItemMinimumSize) &&
+                                             (ItemMaximumSize == _defaultItemMaximumSize) &&
+                                             (ItemOrientation == ButtonOrientation.Auto) &&
+                                             (ItemAlignment == RelativePositionAlign.Near) &&
+                                             (BarMinimumHeight == DEFAULT_BAR_MINIMUM_HEIGHT) &&
+                                             BarAnimation &&
+                                             (BarMultiline == BarMultiline.Singleline));
 
         #endregion
 

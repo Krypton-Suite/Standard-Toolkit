@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for handling repainting requests.</param>
         public MonthCalendarController(KryptonContextMenuMonthCalendar monthCalendar,
                                        ViewContextMenuManager viewManager,
-                                       ViewLayoutMonths months, 
+                                       ViewLayoutMonths months,
                                        NeedPaintHandler needPaint)
         {
             _monthCalendar = monthCalendar;
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual void ShowTarget()
         {
-            _months.FocusDay = _monthCalendar.SelectionStart;
+            _months.FocusDay = _monthCalendar?.SelectionStart;
             _needPaint(this, new NeedLayoutEventArgs(false));
         }
 
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
                         {
                             ProviderCanCloseMenu: true
                         })
-                        // Is the menu capable of being closed?
+                    // Is the menu capable of being closed?
                     {
                         // Ask the original context menu definition, if we can close
                         var cea = new CancelEventArgs();

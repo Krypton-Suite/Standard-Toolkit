@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -42,12 +42,12 @@ namespace Krypton.Ribbon
                                     IRenderer renderer)
             : base(viewManager, renderer, true)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(captionArea != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(captionArea is not null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _captionArea = captionArea ?? throw new ArgumentNullException(nameof(captionArea));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewRibbonManager.MouseLeave(EventArgs.Empty);
+                ViewRibbonManager?.MouseLeave(EventArgs.Empty);
 
                 // If this group is being dismissed with key tips showing
                 if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupMinimized })
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view for the popup group.
         /// </summary>
-        public ViewRibbonMinimizedManager ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
+        public ViewRibbonMinimizedManager? ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
 
         /// <summary>
         /// Sets focus to the first focus item inside the selected tab.
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
             // Make the item the new focus for the popup
             if (newView != null)
             {
-                ViewRibbonManager.FocusView = newView;
+                ViewRibbonManager!.FocusView = newView;
                 PerformNeedPaint(false);
             }
         }
@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
             // Make the item the new focus for the popup
             if (newView != null)
             {
-                ViewRibbonManager.FocusView = newView;
+                ViewRibbonManager!.FocusView = newView;
                 PerformNeedPaint(false);
             }
         }
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager.FocusView);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager.FocusView);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the last item
             if (newView == null)
@@ -180,7 +180,7 @@ namespace Krypton.Ribbon
 
             // If the base class wants to end tracking and not inside the ribbon control
             return base.DoesCurrentMouseDownEndAllTracking(m, pt) &&
-                   !_ribbon.ClientRectangleWithoutComposition.Contains(ribbonPt) &&
+                   !_ribbon.ClientRectangle.Contains(ribbonPt) &&
                    _captionArea.DoesCurrentMouseDownEndAllTracking(screenPt);
         }
 
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea, 
+        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea,
                                    ViewDrawPanel drawMinimizedPanel)
         {
             // Move to the newly calculated position
@@ -240,7 +240,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }
@@ -285,7 +285,7 @@ namespace Krypton.Ribbon
                 popupSize.Height);
 
             // Get the view element for the currently selected tab
-            ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+            ViewDrawRibbonTab viewTab = (ViewDrawRibbonTab)tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab)!;
 
             // Convert the view tab client area to screen coordinates
             Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab.ClientRectangle);

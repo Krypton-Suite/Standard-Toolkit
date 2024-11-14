@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteDataGridViewRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteDoubleRedirect? _background;
+        private readonly PaletteDoubleRedirect _background;
         private readonly PaletteDataGridViewTripleRedirect _dataCell;
         private readonly PaletteDataGridViewTripleRedirect _headerColumn;
         private readonly PaletteDataGridViewTripleRedirect _headerRow;
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDataGridViewRedirect([DisallowNull] PaletteRedirect redirect,
-                                           NeedPaintHandler needPaint)
+                                           NeedPaintHandler? needPaint)
         {
             Debug.Assert(redirect != null);
 
@@ -39,10 +39,10 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _background = new PaletteDoubleRedirect(redirect, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint);
-            _dataCell = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint);
-            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint);
-            _headerRow = new PaletteDataGridViewTripleRedirect(redirect, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint);
+            _background = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.GridDataCellList, needPaint!);
+            _dataCell = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridDataCellList, PaletteBorderStyle.GridDataCellList, PaletteContentStyle.GridDataCellList, needPaint!);
+            _headerColumn = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderColumnList, PaletteBorderStyle.GridHeaderColumnList, PaletteContentStyle.GridHeaderColumnList, needPaint!);
+            _headerRow = new PaletteDataGridViewTripleRedirect(redirect!, PaletteBackStyle.GridHeaderRowList, PaletteBorderStyle.GridHeaderRowList, PaletteContentStyle.GridHeaderRowList, needPaint!);
         }
         #endregion
 
@@ -51,10 +51,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => Background.IsDefault &&
-                                           DataCell.IsDefault &&
-                                           HeaderColumn.IsDefault &&
-                                           HeaderRow.IsDefault;
+                                            DataCell.IsDefault &&
+                                            HeaderColumn.IsDefault &&
+                                            HeaderRow.IsDefault;
 
         #endregion
 
@@ -63,7 +64,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
+        public void SetRedirector(PaletteRedirect redirect)
         {
             _background.SetRedirector(redirect);
             _dataCell.SetRedirector(redirect);
@@ -167,7 +168,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackground() => !_background.IsDefault;
 
-        internal IPaletteDouble? BackgroundDouble => _background;
+        internal IPaletteDouble BackgroundDouble => _background;
 
         #endregion
 

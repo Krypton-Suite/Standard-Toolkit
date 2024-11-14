@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,8 +35,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalSeparatorDark == Color.Empty) &&
-                                          (InternalKCT.InternalSeparatorLight == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalSeparatorLight == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for shadow effects on the ToolStripSeparator.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color SeparatorDark
         {
             get => InternalKCT.InternalSeparatorDark;
@@ -73,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorDark property to its default value.
         /// </summary>
-        public void ResetSeparatorDark() => SeparatorDark = Color.Empty;
+        public void ResetSeparatorDark() => SeparatorDark = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region SeparatorLight
@@ -83,7 +84,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for highlight effects on the ToolStripSeparator.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color SeparatorLight
         {
             get => InternalKCT.InternalSeparatorLight;
@@ -98,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SeparatorLight property to its default value.
         /// </summary>
-        public void ResetSeparatorLight() => SeparatorLight = Color.Empty;
+        public void ResetSeparatorLight() => SeparatorLight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

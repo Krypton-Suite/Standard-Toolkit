@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonDoubleInheritRedirect : PaletteRibbonDoubleInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
 
         #endregion
 
@@ -29,13 +29,15 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleBack">Ribbon item background style.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonDoubleInheritRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteRibbonDoubleInheritRedirect(PaletteRedirect redirect,
                                                   PaletteRibbonBackStyle styleBack,
                                                   PaletteRibbonTextStyle styleText)
         {
-            Debug.Assert(redirect != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(redirect is not null);
 
-            _redirect = redirect;
+            _redirect = redirect!;
             StyleBack = styleBack;
             StyleText = styleText;
         }
@@ -46,7 +48,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
 
         #endregion
 

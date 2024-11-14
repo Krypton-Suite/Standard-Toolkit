@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonTextInheritRedirect : PaletteRibbonTextInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
 
         #endregion
 
@@ -28,12 +28,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonTextInheritRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteRibbonTextInheritRedirect(PaletteRedirect redirect,
                                                 PaletteRibbonTextStyle styleText)
         {
-            Debug.Assert(redirect != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(redirect is not null);
 
-            _redirect = redirect;
+            _redirect = redirect!;
             StyleText = styleText;
         }
         #endregion
@@ -43,7 +45,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region StyleText

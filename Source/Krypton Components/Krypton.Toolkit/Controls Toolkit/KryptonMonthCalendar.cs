@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly ViewDrawDocker _drawDocker;
-        private readonly ViewLayoutMonths _drawMonths;
+        private readonly ViewLayoutMonths? _drawMonths;
         private readonly PaletteTripleOverride _boldedDisabled;
         private readonly PaletteTripleOverride _boldedNormal;
         private readonly PaletteTripleOverride _boldedTracking;
@@ -60,11 +60,6 @@ namespace Krypton.Toolkit
         private int _maxSelectionCount;
         private int _scrollChange;
         private bool _hasFocus;
-        private float _cornerRoundingRadius;
-        private float _dayCornerRoundingRadius;
-        private float _dayOfWeekCornerRoundingRadius;
-        private float _headerCornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -74,6 +69,11 @@ namespace Krypton.Toolkit
         [Category(@"Action")]
         [Description(@"Occurs when the selected date changes.")]
         public event DateRangeEventHandler? DateChanged;
+
+        /// <summary>Occurs when the date is selected.</summary>
+        [Category(@"Action")]
+        [Description(@"Occurs when the date is selected.")]
+        public event DateRangeEventHandler? DateSelected;
 
         /// <summary>
         /// Occurs when the selected start date changes.
@@ -235,70 +235,32 @@ namespace Krypton.Toolkit
             _maxDate = DateTimePicker.MaximumDateTime;
             _maxSelectionCount = 7;
             AnnuallyBoldedDatesMask = new int[12];
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            BoldedDatesList = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            BoldedDatesList = [];
             _scrollChange = 0;
             _todayFormat = "d";
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _dayCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            _dayOfWeekCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            _headerCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
+        /// <summary>
+        ///  Sets date as the current selected date. The start and begin of
+        ///  the selection range will both be equal to date.
+        /// </summary>
+        public void SetDate(DateTime date)
         {
-            get => _cornerRoundingRadius;
+            if (date.Ticks < _minDate.Ticks)
+            {
+                throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
+            }
 
-            set => SetCornerRoundingRadius(value);
-        }
+            if (date.Ticks > _maxDate.Ticks)
+            {
+                throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
+            }
 
-        /// <summary>Gets or sets the day corner rounding radius.</summary>
-        /// <value>The day corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the day corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float DayCornerRoundingRadius
-        {
-            get => _dayCornerRoundingRadius;
-
-            set => SetDayCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the day of week corner rounding radius.</summary>
-        /// <value>The day of week corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the day of week corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float DayOfWeekCornerRoundingRadius
-        {
-            get => _dayOfWeekCornerRoundingRadius;
-
-            set => SetDayOfWeekCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the header corner rounding radius.</summary>
-        /// <value>The header corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the header corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float HeaderCornerRoundingRadius
-        {
-            get => _headerCornerRoundingRadius;
-
-            set => SetHeaderCornerRoundingRadius(value);
+            SetSelectionRange(date, date);
         }
 
         /// <summary>
@@ -396,13 +358,14 @@ namespace Krypton.Toolkit
         [DefaultValue("d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
+        [DisallowNull]
         public string TodayFormat
         {
             get => _todayFormat;
 
             set
             {
-                if ((_todayFormat != value) && (value != null))
+                if (_todayFormat != value)
                 {
                     _todayFormat = value;
                     PerformNeedPaint(true);
@@ -437,17 +400,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Today's date.")]
+        [DisallowNull]
         public DateTime TodayDate
         {
             get => _todayDate;
 
             set
             {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
                 _todayDate = value;
                 PerformNeedPaint(true);
             }
@@ -462,7 +421,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
-        public DateTime[] AnnuallyBoldedDates
+        [AllowNull]
+        public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -497,7 +457,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
-        public DateTime[] MonthlyBoldedDates
+        [AllowNull]
+        public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -528,7 +489,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
-        public DateTime[] BoldedDates
+        [AllowNull]
+        public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
@@ -903,10 +865,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeDayOfWeekStyle() => _dayOfWeekStyle != ButtonStyle.CalendarDay;
-
-
         private void ResetDayOfWeekStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
@@ -917,11 +876,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShowToday
         {
-            get => _drawMonths.ShowToday;
+            get => _drawMonths!.ShowToday;
 
             set
             {
-                if (_drawMonths.ShowToday != value)
+                if (_drawMonths!.ShowToday != value)
                 {
                     _drawMonths.ShowToday = value;
                     PerformNeedPaint(true);
@@ -937,11 +896,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShowTodayCircle
         {
-            get => _drawMonths.ShowTodayCircle;
+            get => _drawMonths!.ShowTodayCircle;
 
             set
             {
-                if (_drawMonths.ShowTodayCircle != value)
+                if (_drawMonths!.ShowTodayCircle != value)
                 {
                     _drawMonths.ShowTodayCircle = value;
                     PerformNeedPaint(true);
@@ -957,11 +916,11 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ShowWeekNumbers
         {
-            get => _drawMonths.ShowWeekNumbers;
+            get => _drawMonths!.ShowWeekNumbers;
 
             set
             {
-                if (_drawMonths.ShowWeekNumbers != value)
+                if (_drawMonths!.ShowWeekNumbers != value)
                 {
                     _drawMonths.ShowWeekNumbers = value;
                     PerformNeedPaint(true);
@@ -976,7 +935,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideFocus { get; }
-
         private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
@@ -986,7 +944,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it is bolded.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideBolded { get; }
-
         private bool ShouldSerializeOverrideBolded() => !OverrideBolded.IsDefault;
 
         /// <summary>
@@ -996,7 +953,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar appearance when it is today.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideToday { get; }
-
         private bool ShouldSerializeOverrideToday() => !OverrideToday.IsDefault;
 
         /// <summary>
@@ -1005,8 +961,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect? StateCommon { get; }
-
+        public PaletteMonthCalendarRedirect StateCommon { get; }
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
@@ -1016,7 +971,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateDisabled { get; }
-
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
@@ -1026,7 +980,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining month calendar normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateNormal { get; }
-
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
@@ -1036,7 +989,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateTracking { get; }
-
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
@@ -1046,7 +998,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StatePressed { get; }
-
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
@@ -1056,7 +1007,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked normal month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedNormal { get; }
-
         private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
@@ -1066,7 +1016,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedTracking { get; }
-
         private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
@@ -1076,7 +1025,6 @@ namespace Krypton.Toolkit
         [Description(@"Overrides for defining checked pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedPressed { get; }
-
         private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
@@ -1085,7 +1033,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public MonthCalendarButtonSpecCollection ButtonSpecs => _drawMonths.ButtonSpecs;
+        public MonthCalendarButtonSpecCollection ButtonSpecs => _drawMonths!.ButtonSpecs;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1095,8 +1043,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => _drawMonths.AllowButtonSpecToolTips;
-            set => _drawMonths.AllowButtonSpecToolTips = value;
+            get => _drawMonths!.AllowButtonSpecToolTips;
+            set => _drawMonths!.AllowButtonSpecToolTips = value;
         }
 
         /// <summary>
@@ -1172,7 +1120,6 @@ namespace Krypton.Toolkit
             MonthlyBoldedDatesMask = 0;
             PerformNeedPaint(true);
         }
-
 
         /// <summary>
         /// Gets access to the owning control
@@ -1297,15 +1244,19 @@ namespace Krypton.Toolkit
                 end = start;
             }
 
+            // If the range exceeds maxSelectionCount, compare with the previous range and adjust whichever
+            // limit hasn't changed.
             TimeSpan span = end - start;
             if (span.Days >= _maxSelectionCount)
             {
                 if (start.Ticks == _selectionStart.Ticks)
                 {
+                    // Bring start date forward
                     start = end.AddDays(1 - _maxSelectionCount);
                 }
                 else
                 {
+                    // Bring end date back
                     end = start.AddDays(_maxSelectionCount - 1);
                 }
             }
@@ -1403,9 +1354,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1426,10 +1377,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object? sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _drawMonths.RecreateButtons();
+            _drawMonths?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
@@ -1464,7 +1415,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                if (_drawMonths.ProcessKeyDown(this, e))
+                if (_drawMonths!.ProcessKeyDown(this, e))
                 {
                     return;
                 }
@@ -1479,6 +1430,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged?.Invoke(this, e);
+
+        protected virtual void OnDateSelected(DateRangeEventArgs e) => DateSelected?.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionStartChanged event.
@@ -1529,9 +1482,9 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
-            Paint?.Invoke(this, e);
+            Paint?.Invoke(this, e!);
 
             base.OnPaint(e);
         }
@@ -1643,7 +1596,7 @@ namespace Krypton.Toolkit
         {
             // Update view elements
             _drawDocker.Enabled = Enabled;
-            _drawMonths.Enabled = Enabled;
+            _drawMonths!.Enabled = Enabled;
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -1693,6 +1646,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
+        /// <summary>
+        ///  Return a localized string representation of the given DateTime value.
+        ///  Used for throwing exceptions, etc.
+        /// </summary>
+        private static string FormatDate(DateTime value)
+            => value.ToString("d", CultureInfo.CurrentCulture);
+
         private DateTime EffectiveMaxDate(DateTime maxDate)
         {
             DateTime maximumDateTime = DateTimePicker.MaximumDateTime;
@@ -1712,7 +1672,7 @@ namespace Krypton.Toolkit
             Size backBorderSize = _drawDocker.GetNonChildSize(context);
 
             // Ask for the size needed to draw a single month
-            Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
+            Size singleMonthSize = _drawMonths!.GetSingleMonthSize(context);
 
             // How many full months can be fit in each dimension (with a minimum of 1 month showing)
             var gap = ViewLayoutMonths.GAP;
@@ -1781,6 +1741,8 @@ namespace Krypton.Toolkit
                 OnDateChanged(new DateRangeEventArgs(_selectionStart, _selectionEnd));
             }
 
+            OnDateSelected(new DateRangeEventArgs(minDate, maxDate));
+
             SetFocusDay();
         }
 
@@ -1841,38 +1803,6 @@ namespace Krypton.Toolkit
         }
 
         private void UpdateFocusOverride(bool focus) => _hasFocus = focus;
-        #endregion
-
-        #region Implementation
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetDayCornerRoundingRadius(float? radius)
-        {
-            _dayCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Day.Border.Rounding = _dayCornerRoundingRadius;
-        }
-
-        private void SetDayOfWeekCornerRoundingRadius(float? radius)
-        {
-            _dayOfWeekCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
-        }
-
-        private void SetHeaderCornerRoundingRadius(float? radius)
-        {
-            _headerCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Header.Border.Rounding = _headerCornerRoundingRadius;
-        }
-
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user invokes the drop down menu.")]
-        public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
+        public event EventHandler<GalleryDropMenuEventArgs>? GalleryDropMenu;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
@@ -648,7 +648,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase GalleryView { get; set; }
+        public ViewBase? GalleryView { get; set; }
 
         #endregion
 
@@ -657,7 +657,7 @@ namespace Krypton.Ribbon
 
         internal KryptonGallery? LastGallery { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
@@ -690,7 +690,7 @@ namespace Krypton.Ribbon
         /// Raises the GalleryDropMenu event.
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
-        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu.Invoke(this, e);
+        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
@@ -724,21 +724,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
+        private void OnControlEnter(object? sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
+        private void OnControlLeave(object? sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnGalleryImageListChanged(object sender, EventArgs e) => OnImageListChanged(e);
+        private void OnGalleryImageListChanged(object? sender, EventArgs e) => OnImageListChanged(e);
 
-        private void OnGallerySelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
+        private void OnGallerySelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnGalleryTrackingImage(object sender, ImageSelectEventArgs e) => OnTrackingImage(e);
+        private void OnGalleryTrackingImage(object? sender, ImageSelectEventArgs e) => OnTrackingImage(e);
 
-        private void OnGalleryGalleryDropMenu(object sender, GalleryDropMenuEventArgs e) => OnGalleryDropMenu(e);
+        private void OnGalleryGalleryDropMenu(object? sender, GalleryDropMenuEventArgs e) => OnGalleryDropMenu(e);
 
-        private void OnGalleryGotFocus(object sender, EventArgs e) => OnGotFocus(e);
+        private void OnGalleryGotFocus(object? sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnGalleryLostFocus(object sender, EventArgs e) => OnLostFocus(e);
+        private void OnGalleryLostFocus(object? sender, EventArgs e) => OnLostFocus(e);
         #endregion
     }
 }

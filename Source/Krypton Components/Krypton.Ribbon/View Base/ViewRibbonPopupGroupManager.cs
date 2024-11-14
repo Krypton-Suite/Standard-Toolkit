@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -34,19 +34,19 @@ namespace Krypton.Ribbon
         /// <param name="viewGroup">Group to track.</param>
         /// <param name="needPaintDelegate">Delegate for performing painting.</param>
         public ViewRibbonPopupGroupManager(Control control,
-            [DisallowNull] KryptonRibbon ribbon,
+                                           [DisallowNull] KryptonRibbon ribbon,
                                            ViewBase root,
                                            [DisallowNull] ViewDrawRibbonGroup viewGroup,
                                            [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
-            Debug.Assert(ribbon != null);
-            Debug.Assert(viewGroup != null);
-            Debug.Assert(needPaintDelegate != null);
+            Debug.Assert(ribbon is not null);
+            Debug.Assert(viewGroup is not null);
+            Debug.Assert(needPaintDelegate is not null);
 
-            _ribbon = ribbon;
-            _viewGroup = viewGroup;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
+            _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
             }
 
             // Should the group be active
-            var tracking = _viewGroup.ClientRectangle.Contains(new Point(e.X, e.Y));
+            var tracking = _viewGroup!.ClientRectangle.Contains(new Point(e.X, e.Y));
 
             // Is there a change in active group?
             if (tracking != _viewGroup.Tracking)
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
             }
 
             // Do we need to remove tracking
-            if (_viewGroup.Tracking)
+            if (_viewGroup!.Tracking)
             {
                 _viewGroup.Tracking = false;
                 _viewGroup.PerformNeedPaint(false, _viewGroup.ClientRectangle);
@@ -202,12 +202,12 @@ namespace Krypton.Ribbon
                 if (_focusView != value)
                 {
                     // Remove focus from existing view
-                    _focusView?.LostFocus(Root?.OwningControl);
+                    _focusView?.LostFocus(Root?.OwningControl!);
 
                     _focusView = value;
 
                     // Add focus to the new view
-                    _focusView?.GotFocus(Root.OwningControl);
+                    _focusView?.GotFocus(Root?.OwningControl!);
                 }
             }
         }

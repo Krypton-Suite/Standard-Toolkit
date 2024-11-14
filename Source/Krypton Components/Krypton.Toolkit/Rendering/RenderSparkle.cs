@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,25 +28,26 @@ namespace Krypton.Toolkit
         {
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 1.0f]
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.75f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.45f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.75f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.45f, 1.0f]
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.15f, 0.85f, 1.0f]
             };
         }
         #endregion
 
         #region RenderRibbon Overrides
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -56,16 +57,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento)
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -79,7 +78,7 @@ namespace Krypton.Toolkit
                 PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking => DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder2 => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento),
-                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento)
+                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, memento)
             };
         }
 
@@ -92,12 +91,12 @@ namespace Krypton.Toolkit
         /// <param name="paletteGeneral">Palette used for general ribbon settings.</param>
         /// <param name="paletteBack">Palette used for background ribbon settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public override IDisposable DrawRibbonTabContextTitle(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonTabContextTitle(PaletteRibbonShape shape,
                                                               RenderContext context,
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento) =>
+                                                              IDisposable? memento) =>
             DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
 
         /// <summary>
@@ -109,12 +108,12 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public override IDisposable DrawRibbonApplicationButton(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonApplicationButton(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento) =>
+                                                                IDisposable? memento) =>
             DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
 
         /// <summary>
@@ -175,19 +174,19 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent paletteContent,
+                                                           IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (paletteContent == null)
+            if (paletteContent is null)
             {
                 throw new ArgumentNullException(nameof(paletteContent));
             }
@@ -214,11 +213,11 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent paletteContent,
+                                                            IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
             if (context == null)
@@ -253,19 +252,19 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
                                                               Rectangle cellRect,
-                                                              [DisallowNull] IPaletteContent paletteContent,
+                                                              IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
+            Debug.Assert(context is not null);
+            Debug.Assert(paletteContent is not null);
 
             // Validate parameter references
-            if (context == null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (paletteContent == null)
+            if (paletteContent is null)
             {
                 throw new ArgumentNullException(nameof(paletteContent));
             }
@@ -316,11 +315,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabContext(RenderContext context,
+        protected override IDisposable? DrawRibbonTabContext(RenderContext context,
                                                             Rectangle rect,
                                                             IPaletteRibbonGeneral paletteGeneral,
                                                             IPaletteRibbonBack paletteBack,
-                                                            IDisposable memento)
+                                                            IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -373,14 +372,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right border lines
-                context.Graphics.DrawLine(cache.BorderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen!, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 
                 // Fill the inner area with a gradient context specific color
-                context.Graphics.FillRectangle(cache.FillBrush, cache.FillRect);
+                context.Graphics.FillRectangle(cache.FillBrush!, cache.FillRect);
 
                 // Overdraw the brighter line at bottom
-                context.Graphics.DrawLine(cache.UnderlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.UnderlinePen!, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
             }
 
             return memento;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IPaletteMetric
     {
         #region Instance Fields
-        private PaletteDoubleMetricRedirect? _inherit;
+        private PaletteDoubleMetricRedirect _inherit;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteDoubleMetric class.
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
-        public PaletteDoubleMetric(PaletteDoubleMetricRedirect? inherit)
+        public PaletteDoubleMetric(PaletteDoubleMetricRedirect inherit)
             : this(inherit, null)
         {
         }
@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDoubleMetric([DisallowNull] PaletteDoubleMetricRedirect inherit,
-                                   NeedPaintHandler needPaint)
+                                   NeedPaintHandler? needPaint)
             : base(inherit, needPaint)
         {
             Debug.Assert(inherit != null);
             
             // Remember inheritance for metric values
-            _inherit = inherit;
+            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
         }
         #endregion
 
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteDoubleMetricRedirect? inherit)
+        public void SetInherit(PaletteDoubleMetricRedirect inherit)
         {
             base.SetInherit(inherit);
             _inherit = inherit;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected KryptonDataGridViewIconColumn(DataGridViewCell cellTemplate)
             : base(cellTemplate) =>
-            IconSpecs = new List<IconSpec>();
+            IconSpecs = [];
 
         #endregion
 
@@ -106,11 +106,11 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            var cloned = base.Clone() as KryptonDataGridViewIconColumn;
+            var cloned = base.Clone() as KryptonDataGridViewIconColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
 
             foreach (IconSpec sp in IconSpecs)
             {
-                cloned.IconSpecs.Add(sp.Clone() as IconSpec);
+                cloned.IconSpecs.Add((sp.Clone() as IconSpec)!);
             }
 
             return cloned;

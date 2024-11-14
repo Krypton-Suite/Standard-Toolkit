@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -26,9 +26,8 @@ namespace Krypton.Ribbon
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
         private readonly Size _size;
-        private readonly Size SIZE_FULL; // = new(39, 39);
-        private readonly Size SIZE_TOP; // = new(39, 22);
-        private readonly Size SIZE_BOTTOM; // = new(39, 17);
+        private readonly Size _sizeFull; // = new(39, 39);
+        private readonly Size _sizeBottom; // = new(39, 17);
         #endregion
 
         #region Identity
@@ -41,13 +40,13 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbon != null);
 
-            SIZE_FULL = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
-            SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
-            SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
+            _sizeFull = new Size((int)(39 * FactorDpiX), (int)(39 * FactorDpiY));
+            var sizeTop = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
+            _sizeBottom = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
             _ribbon = ribbon!;
             _bottomHalf = bottomHalf;
-            _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
+            _size = _bottomHalf ? _sizeBottom : sizeTop;
             _mementos = new IDisposable[3];
         }
 
@@ -109,18 +108,18 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             _clipRect = ClientRectangle;
 
             // Update to reflect full size of actual button
             if (_bottomHalf)
             {
                 Rectangle client = ClientRectangle;
-                client.Y -= SIZE_FULL.Height - SIZE_BOTTOM.Height;
+                client.Y -= _sizeFull.Height - _sizeBottom.Height;
                 ClientRectangle = client;
             }
 
-            ClientHeight = SIZE_FULL.Height;
+            ClientHeight = _sizeFull.Height;
         }
         #endregion
 
@@ -129,8 +128,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // New clipping region is at most our own client size
             using var combineRegion = new Region(_clipRect);
             // Remember the current clipping region
@@ -166,32 +170,35 @@ namespace Krypton.Ribbon
             // Draw the background
             _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
 
-            // If there is an application button to be drawn
-            if (_ribbon.RibbonAppButton.AppButtonImage != null)
+            // If there is an application button image to be drawn
+            Image? localImage = _ribbon.RibbonFileAppButton.AppButtonImage;
+            if (localImage != null)
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
-                var localImage = _ribbon.RibbonAppButton.AppButtonImage;
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 
-                var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
-                    ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
-
-                if (_ribbon.Enabled)
+                if (localImage != null)
                 {
-                    context.Graphics.DrawImage(localImage, imageRect);
-                }
-                else
-                {
-                    // Use a color matrix to convert to black and white
-                    using var attribs = new ImageAttributes();
-                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+                    var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
+                        ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
-                    context.Graphics.DrawImage(localImage,
-                        imageRect, 0, 0,
-                        localImage.Width,
-                        localImage.Height,
-                        GraphicsUnit.Pixel, attribs);
+                    if (_ribbon.Enabled)
+                    {
+                        context.Graphics.DrawImage(localImage, imageRect);
+                    }
+                    else
+                    {
+                        // Use a color matrix to convert to black and white
+                        using var attribs = new ImageAttributes();
+                        attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+
+                        context.Graphics.DrawImage(localImage,
+                            imageRect, 0, 0,
+                            localImage.Width,
+                            localImage.Height,
+                            GraphicsUnit.Pixel, attribs);
+                    }
                 }
             }
 

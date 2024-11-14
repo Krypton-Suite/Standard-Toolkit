@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -37,13 +37,12 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]
-            {
+            _imageList.Images.AddRange([
                 GenericImageResources.KryptonRibbonGroupTriple,
                 GenericImageResources.KryptonRibbonGroupLines,
                 GenericImageResources.KryptonRibbonGroupSeparator,
                 GenericImageResources.KryptonGallery
-            });
+            ]);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace Krypton.Ribbon
             : base(ribbon, needPaint)
         {
             Debug.Assert(ribbonGroup != null);
-            _ribbonGroup = ribbonGroup;
+            _ribbonGroup = ribbonGroup!;
             _padding = new Padding((int)(1 * FactorDpiX), 0, 0, 0);
         }
 
@@ -99,7 +98,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnClick(object sender, EventArgs e)
+        protected override void OnClick(object? sender, EventArgs e)
         {
             // Create the context strip the first time around
             if (_cms == null)
@@ -137,13 +136,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddTriple(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
+        private void OnAddTriple(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
 
-        private void OnAddLines(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
+        private void OnAddLines(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
 
-        private void OnAddSeparator(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
+        private void OnAddSeparator(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
 
-        private void OnAddGallery(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddGallery();
+        private void OnAddGallery(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddGallery();
         #endregion
     }
 }

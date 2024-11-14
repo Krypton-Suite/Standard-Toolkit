@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderPanel : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase? _oldRoot;
+        private ViewBase _oldRoot;
         private ViewDrawPanel _drawPanel;
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct([DisallowNull] KryptonNavigator navigator,
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect? redirector)
+                                       PaletteRedirect redirector)
         {
             // Let base class perform common operations
             if (redirector != null)
@@ -40,14 +40,14 @@ namespace Krypton.Navigator
             }
 
             // Get the current root element
-            _oldRoot = ViewManager.Root;
+            _oldRoot = ViewManager!.Root;
 
             // Create a canvas for the background
             if (_oldRoot != null)
             {
                 _drawPanel = new ViewDrawPanel(Navigator.StateNormal?.Back!)
                 {
-                    // Put the exisint root into the canvas
+                    // Put the existing root into the canvas
                     _oldRoot
                 };
             }
@@ -119,18 +119,18 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage == null)
             {
                 // Then use the state defined in the navigator itself
-                back = (Navigator.Enabled ? Navigator.StateNormal?.Back : Navigator.StateDisabled!.Back)!;
+                back = (Navigator.Enabled ? Navigator.StateNormal?.Back : Navigator.StateDisabled.Back)!;
             }
             else
             {
                 // Use state defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage.StateNormal!.Back;
+                    back = Navigator.SelectedPage.StateNormal.Back;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage.StateDisabled!.Back;
+                    back = Navigator.SelectedPage.StateDisabled.Back;
 
                     // If page is disabled then all of view should look disabled
                     enabled = false;
@@ -169,7 +169,7 @@ namespace Krypton.Navigator
             _drawPanel.Clear();
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class perform common operations
             base.Destruct();
@@ -182,7 +182,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -194,7 +194,7 @@ namespace Krypton.Navigator
                 case @"GroupBackStyle":
                     if (Navigator.StateCommon != null)
                     {
-                        Navigator.StateCommon.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
+                        Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     }
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -207,7 +207,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
+        private void OnEnabledChanged(object? sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

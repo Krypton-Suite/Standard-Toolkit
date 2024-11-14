@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -31,7 +31,6 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private bool _forcedLayout;
         private bool _layingOut;
-        private float _cornerRoundingRadius;
 
         #endregion
 
@@ -73,25 +72,10 @@ namespace Krypton.Toolkit
 
             // Add panel to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -226,7 +210,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? StateCommon { get; }
+        public PaletteDoubleRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -238,7 +222,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal group appearance entries.
@@ -248,7 +232,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -317,7 +301,7 @@ namespace Krypton.Toolkit
         {
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-            Panel.SetFixedState(state);
+            Panel?.SetFixedState(state);
         }
         #endregion
 
@@ -384,11 +368,11 @@ namespace Krypton.Toolkit
             // Push correct palettes into the view
             if (Enabled)
             {
-                _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
+                _drawDocker.SetPalettes(StateNormal!.Back, StateNormal.Border);
             }
             else
             {
-                _drawDocker.SetPalettes(StateDisabled.Back, StateDisabled.Border);
+                _drawDocker.SetPalettes(StateDisabled!.Back, StateDisabled.Border);
             }
 
             _drawDocker.Enabled = Enabled;
@@ -430,7 +414,7 @@ namespace Krypton.Toolkit
             if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
-                Panel.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                Panel?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
 
             _layingOut = false;
@@ -447,7 +431,7 @@ namespace Krypton.Toolkit
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel.PerformNeedPaint(e.NeedLayout);
+                Panel?.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -459,7 +443,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
+        private void OnGroupPanelPaint(object? sender, NeedLayoutEventArgs e)
         {
             // If the child panel is layout out but not because we are, then it must be
             // laying out because a child has changed visibility/size/etc. If we are an
@@ -469,14 +453,6 @@ namespace Krypton.Toolkit
                 PerformNeedPaint(true);
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

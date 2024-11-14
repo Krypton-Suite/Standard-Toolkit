@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -20,9 +20,9 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private string _defaultText = KryptonLanguageManager.ColorStrings.Color;
+        private readonly string _defaultText = KryptonManager.Strings.ColorStrings.Color;
         private static readonly string _defaultExtraText = string.Empty;
-        private static readonly Image _defaultImage = GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
 
             // Set initial values
             _image = _defaultImage;
-            _transparent = Color.Empty;
+            _transparent = GlobalStaticValues.EMPTY_COLOR;
             _text = _defaultText;
             _extraText = _defaultExtraText;
             ImageStates = CreateImageStates();
@@ -74,12 +74,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ImageStates.IsDefault &&
-                                           (Image == _defaultImage) &&
-                                           (ImageTransparentColor == Color.Empty) &&
-                                           (Text == _defaultText) &&
-                                           (ExtraText == _defaultExtraText)
-                                           && (_roundedCorners == 0)
+                                            (Image == _defaultImage) &&
+                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (Text == _defaultText) &&
+                                            (ExtraText == _defaultExtraText)
+                                            && (_roundedCorners == 0)
                                            ;
 
         #endregion
@@ -122,7 +123,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -137,12 +138,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -357,7 +358,7 @@ namespace Krypton.Toolkit
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                         // If the color is not defined, i.e. it is empty then...
-                        if (_selectedColor.Equals(Color.Empty))
+                        if (_selectedColor.Equals(GlobalStaticValues.EMPTY_COLOR))
                         {
                             // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the

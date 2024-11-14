@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             NeedPaintHandler needPaintDelegate = OnNeedPaint;
 
             // Set default settings
-            Palette = null;
+            LocalCustomPalette = null;
             PaletteMode = PaletteMode.Global;
             Images = new ContextMenuImages(needPaintDelegate);
             _redirector = new PaletteRedirect(null);
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             StateChecked = new PaletteContextMenuItemStateChecked(StateCommon);
 
             // Create the top level collection for menu items
-            Items = new KryptonContextMenuCollection();
+            Items = [];
         }
 
         /// <summary> 
@@ -205,17 +205,11 @@ namespace Krypton.Toolkit
         [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
-            [DebuggerStepThrough]
-            get;
+            [DebuggerStepThrough] get;
             set;
         }
-
         private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
-
-        /// <summary>
-        /// Resets the PaletteMode property to its default value.
-        /// </summary>
-        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
+        private void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -223,17 +217,16 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette
+        public KryptonCustomPaletteBase? LocalCustomPalette
         {
             [DebuggerStepThrough]
             get;
             set;
         }
-
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette() => PaletteMode = PaletteMode.Global;
+        private void ResetLocalCustomPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets a reference to the caller that caused the context menu to be shown.
@@ -354,7 +347,7 @@ namespace Krypton.Toolkit
                     CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
 
                     // Create the actual control used to show the context menu
-                    VisualContextMenu = CreateContextMenu(this, Palette, PaletteMode,
+                    VisualContextMenu = CreateContextMenu(this, LocalCustomPalette, PaletteMode,
                                                      _redirector, _redirectorImages,
                                                      Items, Enabled, keyboardActivated);
 
@@ -424,7 +417,7 @@ namespace Krypton.Toolkit
         protected virtual VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
                                                               PaletteBase? palette,
                                                               PaletteMode paletteMode,
-                                                              PaletteRedirect? redirector,
+                                                              PaletteRedirect redirector,
                                                               PaletteRedirectContextMenu redirectorImages,
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,
@@ -482,7 +475,7 @@ namespace Krypton.Toolkit
             VisualContextMenu?.PerformNeedPaint(e.NeedLayout);
         }
 
-        private void OnContextMenuDisposed(object sender, EventArgs e)
+        private void OnContextMenuDisposed(object? sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (VisualContextMenu != null)

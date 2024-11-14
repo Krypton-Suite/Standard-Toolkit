@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -70,7 +70,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class SeparatorController : ButtonController,
                                        IDisposable
-
     {
         #region Types
         /// <summary>
@@ -179,9 +178,9 @@ namespace Krypton.Toolkit
         private int _separatorIncrements;
         private Rectangle _separatorBox;
         private Orientation _separatorOrientation;
-        private SeparatorMessageFilter _filter;
+        private SeparatorMessageFilter? _filter;
         private readonly ISeparatorSource _source;
-        private SeparatorIndicator _indicator;
+        private SeparatorIndicator? _indicator;
 
         #endregion
 
@@ -201,9 +200,9 @@ namespace Krypton.Toolkit
                                    NeedPaintHandler needPaint)
             : base(target, needPaint)
         {
-            Debug.Assert(source != null);
+            Debug.Assert(source is not null);
 
-            _source = source;
+            _source = source ?? throw new ArgumentNullException(nameof(source));
             _splitCursors = splitCursors;
             _drawIndicator = drawIndicator;
         }
@@ -213,7 +212,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            UnregisterFilter();
+            UnRegisterFilter();
             GC.SuppressFinalize(this);
         }
         #endregion
@@ -315,7 +314,7 @@ namespace Krypton.Toolkit
 
                     // Remove the message filter, as long as it is registered 
                     // it will prevent the class from being garbage collected.
-                    UnregisterFilter();
+                    UnRegisterFilter();
 
                     // Callback to the source to show movement has finished
                     Point splitPt = RecalcClient(pt);
@@ -345,7 +344,7 @@ namespace Krypton.Toolkit
 
                 // Remove the message filter, as long as it is registered 
                 // it will prevent the class from being garbage collected.
-                UnregisterFilter();
+                UnRegisterFilter();
 
                 // Remove any showing separator indicator
                 DrawSeparatorRemoved();
@@ -459,7 +458,7 @@ namespace Krypton.Toolkit
 
                 // Remove the message filter, as long as it is registered 
                 // it will prevent the class from being garbage collected.
-                UnregisterFilter();
+                UnRegisterFilter();
 
                 // Remove any showing separator indicator
                 DrawSeparatorRemoved();
@@ -649,7 +648,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UnregisterFilter()
+        private void UnRegisterFilter()
         {
             if (_filter != null)
             {
@@ -680,9 +679,9 @@ namespace Krypton.Toolkit
         /// <param name="controller">Owning class instance.</param>
         public SeparatorMessageFilter([DisallowNull] SeparatorController controller)
         {
-            Debug.Assert(controller != null);
+            Debug.Assert(controller is not null);
 
-            _controller = controller;
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }
         #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
                                         KryptonLinkBehavior linkBehavior)
         {
             Debug.Assert(inherit != null);
-            _inherit = inherit;
+            _inherit = inherit!;
             LinkBehavior = linkBehavior;
         }
         #endregion
@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteState state)
         {
             // Get the actual base font from inheritance chain
-            Font ret = _inherit.GetContentShortTextFont(state);
+            Font? ret = _inherit.GetContentShortTextFont(state);
 
             // We never try and modify an empty font
             if (ret != null)
@@ -116,10 +116,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteState state)
         {
             // Get the actual base font from inheritance chain
-            Font ret = _inherit.GetContentShortTextNewFont(state);
+            Font? ret = _inherit.GetContentShortTextNewFont(state);
 
             // We never try and modify an empty font
             if (ret != null)
@@ -240,14 +240,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) => _inherit.GetContentLongTextFont(state);
+        public override Font? GetContentLongTextFont(PaletteState state) => _inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private Font GetContentFont(PaletteState state, Font font)
+        private Font? GetContentFont(PaletteState state, Font? font)
         {
             // We never do anything for the override states
             if (!CommonHelper.IsOverrideState(state))
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
                 // Do we need to add an underline to the font?
                 if (underline)
                 {
-                    font = new Font(font, FontStyle.Underline | font.Style);
+                    font = new Font(font!, FontStyle.Underline | font!.Style);
                 }
             }
 

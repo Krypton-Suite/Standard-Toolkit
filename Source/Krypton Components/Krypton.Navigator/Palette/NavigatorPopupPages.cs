@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -38,13 +38,13 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public NavigatorPopupPages([DisallowNull] KryptonNavigator navigator,
-            [DisallowNull] NeedPaintHandler needPaint)
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
-            Debug.Assert(navigator != null);
-            Debug.Assert(needPaint != null);
-            
+            Debug.Assert(navigator is not null);
+            Debug.Assert(needPaint is not null);
+
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -63,11 +63,12 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((AllowPopupPages == PopupPageAllow.OnlyOutlookMiniMode) &&
-                                           (Border == DEFAULT_BORDER) &&
-                                           (Element == DEFAULT_ELEMENT) &&
-                                           (Gap == DEFAULT_GAP) &&
-                                           (Position == DEFAULT_POSITION));
+                                             (Border == DEFAULT_BORDER) &&
+                                             (Element == DEFAULT_ELEMENT) &&
+                                             (Gap == DEFAULT_GAP) &&
+                                             (Position == DEFAULT_POSITION));
 
         #endregion
 

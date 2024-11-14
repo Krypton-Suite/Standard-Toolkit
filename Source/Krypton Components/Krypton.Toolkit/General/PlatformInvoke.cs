@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,9 +18,6 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
-
-using Microsoft.Win32.SafeHandles;
-
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Local
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -30,6 +27,9 @@ using Microsoft.Win32.SafeHandles;
 #pragma warning disable IDE0090
 
 #pragma warning disable 649
+
+// Note: DO NOT REMOVE!!!
+using Microsoft.Win32.SafeHandles;
 
 
 namespace Krypton.Toolkit
@@ -286,7 +286,7 @@ namespace Krypton.Toolkit
         internal enum BOOL : int
         {
             FALSE = 0,
-            TRUE = 1,
+            TRUE = 1
         }
 
         internal enum CBN_
@@ -2279,7 +2279,7 @@ namespace Krypton.Toolkit
             // </summary>
             CPL_LAUNCHED = USER + 0x1001,
 
-            OCM_CTLCOLOR  = 0x2019,
+            OCM_CTLCOLOR = 0x2019,
             // if ( msg.Msg == PI.WM_.OCM_NOTIFY )
             //{
             //    PI.NMHEADER h2 = (PI.NMHEADER)m.GetLParam(typeof(PI.NMHEADER));
@@ -3251,7 +3251,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
+        internal static extern void AdjustWindowRectEx(ref RECT rect, uint dwStyle, bool hasMenu, int dwExSytle);
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3667,9 +3667,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             // Values designating how Flip3D treats a given window.
             private enum DWMFLIP3DWINDOWPOLICY : uint
             {
-                Default, // Hide or include the window in Flip3D based on window style and visibility.
-                ExcludeBelow, // Display the window under Flip3D and disabled.
-                ExcludeAbove, // Display the window above Flip3D and enabled.
+                Default,        // Hide or include the window in Flip3D based on window style and visibility.
+                ExcludeBelow,   // Display the window under Flip3D and disabled.
+                ExcludeAbove    // Display the window above Flip3D and enabled.
             }
 
             [StructLayout(LayoutKind.Sequential)]
@@ -4093,7 +4093,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             SHAREVIOLATION = (FIRST - 0x0003), // -604
             HELP = (FIRST - 0x0004),
             FILEOK = (FIRST - 0x0005), // -606
-            TYPECHANGE = (FIRST - 0x0006),
+            TYPECHANGE = (FIRST - 0x0006)
         }
         #endregion
 
@@ -4556,8 +4556,53 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public RECT rcHelpButton;
             public RECT rcCloseButton;
         }
+
+        #region For Acrylic
+
+        /*
+        // The following code comes from https://stackoverflow.com/questions/56481230/how-to-create-windows-10-acrylic-transparency-effect-in-winform-c-sharp
+        // Discovered via:
+        // https://withinrafael.com/2015/07/08/adding-the-aero-glass-blur-to-your-windows-10-apps/
+        // https://github.com/riverar/sample-win32-acrylicblur/blob/917adc277c7258307799327d12262ebd47fd0308/MainWindow.xaml.cs
+
+        [DllImport(Libraries.User32)]
+        public static extern int SetWindowCompositionAttribute(HandleRef hWnd, IntPtr WindowCompositionAttributeData data);
+
+        public IntPtr struct WindowCompositionAttributeData
+        {
+            public WCA Attribute;
+            public void* Data;
+            public int DataLength;
+        }
+
+        public enum WCA
+        {
+            ACCENT_POLICY = 19
+        }
+
+        public enum ACCENT
+        {
+            DISABLED = 0,
+            ENABLE_GRADIENT = 1,
+            ENABLE_TRANSPARENTGRADIENT = 2,
+            ENABLE_BLURBEHIND = 3,
+            ENABLE_ACRYLICBLURBEHIND = 4,
+            INVALID_STATE = 5
+        }
+
+        public struct AccentPolicy
+        {
+            public ACCENT AccentState;
+            public uint AccentFlags;
+            public uint GradientColor;
+            public uint AnimationId;
+        }*/
+
+        #endregion
+
         #endregion
     }
+
     internal static class BoolExtensions
     {
         public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;

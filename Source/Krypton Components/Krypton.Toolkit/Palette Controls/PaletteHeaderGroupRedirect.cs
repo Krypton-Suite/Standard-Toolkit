@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect? redirect,
+        public PaletteHeaderGroupRedirect(PaletteRedirect redirect,
                                           NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, needPaint)
         {
@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
             _redirect = redirectHeaderGroup;
 
             // Create the palette storage
-            HeaderPrimary = new PaletteHeaderPaddingRedirect(redirectHeaderPrimary, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
-            HeaderSecondary = new PaletteHeaderPaddingRedirect(redirectHeaderSecondary, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderPrimary = new PaletteHeaderPaddingRedirect(redirectHeaderPrimary!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, needPaint);
+            HeaderSecondary = new PaletteHeaderPaddingRedirect(redirectHeaderSecondary!, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
 
             // Default other values
             _overlayHeaders = InheritBool.Inherit;
@@ -71,10 +71,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => base.IsDefault &&
-                                           HeaderPrimary.IsDefault &&
-                                           HeaderSecondary.IsDefault &&
-                                           (OverlayHeaders == InheritBool.Inherit);
+                                            HeaderPrimary.IsDefault &&
+                                            HeaderSecondary.IsDefault &&
+                                            (OverlayHeaders == InheritBool.Inherit);
 
         #endregion
 
@@ -136,7 +137,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricInt(state, metric);
+            _redirect!.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -150,14 +151,11 @@ namespace Krypton.Toolkit
             if (metric == PaletteMetricBool.HeaderGroupOverlay)
             {
                 // If the user has defined an actual value to use
-                if (OverlayHeaders != InheritBool.Inherit)
-                {
-                    return OverlayHeaders;
-                }
+                return OverlayHeaders != InheritBool.Inherit ? OverlayHeaders : _redirect!.GetMetricBool(state, metric);
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
+            return _redirect!.GetMetricBool(state, metric);
         }
 
         /// <summary>
@@ -168,7 +166,7 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricPadding(state, metric);
+            _redirect!.GetMetricPadding(state, metric);
 
         #endregion
     }

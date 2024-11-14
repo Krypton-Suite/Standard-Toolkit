@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                          IKeyController
     {
         #region Instance Fields
-        private readonly ViewContextMenuManager _viewManager;
+        private readonly ViewContextMenuManager? _viewManager;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ContextMenuController class.
         /// </summary>
         /// <param name="viewManager">Owning view manager instance.</param>
-        public ContextMenuController(ViewContextMenuManager viewManager) => _viewManager = viewManager;
+        public ContextMenuController(ViewContextMenuManager? viewManager) => _viewManager = viewManager;
 
         #endregion
 
@@ -58,25 +58,25 @@ namespace Krypton.Toolkit
             switch (e.KeyCode)
             {
                 case Keys.Tab:
-                    _viewManager.KeyTab(e.Shift);
+                    _viewManager?.KeyTab(e.Shift);
                     break;
                 case Keys.Home:
-                    _viewManager.KeyHome();
+                    _viewManager?.KeyHome();
                     break;
                 case Keys.End:
-                    _viewManager.KeyEnd();
+                    _viewManager?.KeyEnd();
                     break;
                 case Keys.Up:
-                    _viewManager.KeyUp();
+                    _viewManager?.KeyUp();
                     break;
                 case Keys.Down:
-                    _viewManager.KeyDown();
+                    _viewManager?.KeyDown();
                     break;
                 case Keys.Left:
-                    _viewManager.KeyLeft(false);
+                    _viewManager?.KeyLeft(false);
                     break;
                 case Keys.Right:
-                    _viewManager.KeyRight();
+                    _viewManager?.KeyRight();
                     break;
             }
         }
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            _viewManager.KeyMnemonic(e.KeyChar);
+            _viewManager?.KeyMnemonic(e.KeyChar);
         }
 
         /// <summary>

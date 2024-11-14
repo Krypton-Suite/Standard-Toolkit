@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             base.Layout(context);
         }
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             get 
             {
                 var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
-                return contextMenu.CreateToolStripRenderer;
+                return contextMenu.CreateToolStripRenderer!;
             }
         }
 
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        public PaletteMonthCalendarRedirect? StateCommon => _monthCalendar.StateCommon;
+        public PaletteMonthCalendarRedirect StateCommon => _monthCalendar.StateCommon;
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.

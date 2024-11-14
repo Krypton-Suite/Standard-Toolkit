@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutMenuItemsPile : ViewLayoutPile
     {
         #region Type Definitions
-        private class ColumnToWidth : Dictionary<int, int> { }
+        private class ColumnToWidth : Dictionary<int, int>;
         #endregion
 
         #region Instance Fields
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             };
 
             // Grab the padding for around the item stack
-            Padding itemsPadding = _paletteItemHighlight.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
+            Padding itemsPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Left), ViewDockStyle.Left);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Right), ViewDockStyle.Right);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Top), ViewDockStyle.Top);
@@ -104,7 +104,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Reset the column size information
             _columnToWidth = new ColumnToWidth();
@@ -133,7 +143,7 @@ namespace Krypton.Toolkit
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            base.Layout(context);
+            base.Layout(context!);
         }
         #endregion  
   
@@ -207,7 +217,7 @@ namespace Krypton.Toolkit
             if (_columnToWidth.TryGetValue(0, out var imageColumnWidth))
             {
                 // Find the border padding that is applied to the content of the menu item
-                Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight.Border,
+                Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight?.Border!,
                                                                                               PaletteState.Normal,
                                                                                               VisualOrientation.Top);
 
@@ -215,7 +225,7 @@ namespace Krypton.Toolkit
                 imageColumnWidth += borderPadding.Left * 3;
 
                 // Add double the metric padding that occurs outside the item highlight
-                Padding itemMetricPadding = _paletteItemHighlight.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
+                Padding itemMetricPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
                 imageColumnWidth += itemMetricPadding.Left * 2;
 
                 _imageColumn.ColumnWidth = imageColumnWidth;

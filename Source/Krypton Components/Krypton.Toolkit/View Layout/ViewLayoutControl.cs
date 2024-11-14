@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -50,13 +50,13 @@ namespace Krypton.Toolkit
             ChildView = viewChild;
 
             // Ensure the child is hooked into the hierarchy of elements
-            ChildView.Parent = this;
+            ChildView!.Parent = this;
 
             // Create the view control instance
             ChildControl = viewControl;
 
             // Back reference hookup
-            ChildControl.ViewLayoutControl = this;
+            ChildControl!.ViewLayoutControl = this;
 
             // Start off invisible until first laid out
             ChildControl.Visible = false;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             OwningControl = ChildControl;
 
             // Add our new control to the provided parent collection
-            CommonHelper.AddControlToParent(rootControl, ChildControl);
+            CommonHelper.AddControlToParent(rootControl!, ChildControl);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                 {
                     try
                     {
-                        ViewControl vc = ChildControl;
+                        ViewControl? vc = ChildControl;
                         ChildControl = null;
                         CommonHelper.RemoveControlFromParent(vc);
                     }
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child controls paint delegate.
         /// </summary>
-        public NeedPaintHandler ChildPaintDelegate => ChildControl.NeedPaintDelegate;
+        public NeedPaintHandler? ChildPaintDelegate => ChildControl?.NeedPaintDelegate;
 
         #endregion
 
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool ChildTransparentBackground
         {
-            get => ChildControl.TransparentBackground;
-            set => ChildControl.TransparentBackground = value;
+            get => ChildControl!.TransparentBackground;
+            set => ChildControl!.TransparentBackground = value;
         }
         #endregion
 
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool InDesignMode
         {
-            get => ChildControl.InDesignMode;
-            set => ChildControl.InDesignMode = value;
+            get => ChildControl!.InDesignMode;
+            set => ChildControl!.InDesignMode = value;
         }
         #endregion
 
@@ -192,13 +192,13 @@ namespace Krypton.Toolkit
         /// Reparent the provided control as a child of ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c)
+        public void MakeParent(Control? c)
         {
             // Remove control from current collection
-            CommonHelper.RemoveControlFromParent(c);
+            CommonHelper.RemoveControlFromParent(c!);
 
             // Add to our child control
-            CommonHelper.AddControlToParent(ChildControl, c);
+            CommonHelper.AddControlToParent(ChildControl!, c!);
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure the control has the correct parent
-                UpdateParent(context.Control);
+                UpdateParent(context.Control!);
 
                 // Ensure context has the correct control
                 using var ccc = new CorrectContextControl(context, ChildControl);
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
                 ClientRectangle = context.DisplayRectangle;
 
                 // Are we allowed to layout child controls?
-                if (!context.ViewManager.DoNotLayoutControls)
+                if (!context.ViewManager!.DoNotLayoutControls)
                 {
                     // Do we have a control to position?
                     if (ChildControl != null)

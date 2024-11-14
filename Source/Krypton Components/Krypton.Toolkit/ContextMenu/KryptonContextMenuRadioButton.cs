@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,6 @@ namespace Krypton.Toolkit
         private bool _autoClose;
         private bool _checked;
         private bool _enabled;
-        private string _text;
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
@@ -74,7 +73,7 @@ namespace Krypton.Toolkit
             _text = initialText;
             _extraText = string.Empty;
             _image = null;
-            _imageTransparentColor = Color.Empty;
+            _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
             _checked = false;
             _autoCheck = true;
             _style = LabelStyle.NormalPanel;
@@ -173,18 +172,10 @@ namespace Krypton.Toolkit
         [Description(@"Main radio button text.")]
         [DefaultValue(nameof(RadioButton))]
         [Localizable(true)]
-        public string Text
+        public override string Text
         {
-            get => _text;
-
-            set 
-            {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
-                }
-            }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
@@ -238,7 +229,6 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Radio button image color to make transparent.")]
         [Localizable(true)]
-        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -253,7 +243,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets and sets the radio button label style.
@@ -456,7 +446,7 @@ namespace Krypton.Toolkit
 
         internal PaletteRedirectRadioButton StateRadioButtonImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
             StateRadioButtonImages.Target = redirector;

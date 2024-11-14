@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -17,8 +17,8 @@ namespace Krypton.Ribbon
     internal class KryptonGalleryActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonGallery? _gallery;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonGallery _gallery;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -26,17 +26,17 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the KryptonGalleryActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonGalleryActionList(KryptonGalleryDesigner owner) 
+        public KryptonGalleryActionList(KryptonGalleryDesigner owner)
             : base(owner.Component)
         {
             // Remember the gallery instance
-            _gallery = (KryptonGallery)owner.Component;
+            _gallery = (owner.Component as KryptonGallery)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
             {
                 if (_gallery.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_gallery, null, _gallery.PaletteMode, value);
+                    _service?.OnComponentChanged(_gallery, null, _gallery.PaletteMode, value);
                     _gallery.PaletteMode = value;
                 }
             }
@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

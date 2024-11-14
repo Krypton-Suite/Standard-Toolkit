@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly PaletteDoubleRedirect? _stateCommon;
+        private readonly PaletteDoubleRedirect _stateCommon;
         private readonly PaletteDouble? _stateDisabled;
         private readonly PaletteDouble? _stateNormal;
         #endregion
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            _stateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             _stateDisabled = new PaletteDouble(_stateCommon, NeedPaintDelegate);
             _stateNormal = new PaletteDouble(_stateCommon, NeedPaintDelegate);
 
@@ -54,18 +54,20 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel([DisallowNull] PaletteDoubleRedirect stateCommon,
-                            [DisallowNull] PaletteDouble stateDisabled,
-                            [DisallowNull] PaletteDouble stateNormal)
+        public KryptonPanel(PaletteDoubleRedirect stateCommon,
+                            PaletteDouble stateDisabled,
+                            PaletteDouble stateNormal)
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
-            Debug.Assert(stateCommon != null);
-            Debug.Assert(stateDisabled != null);
-            Debug.Assert(stateNormal != null);
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            Debug.Assert(stateCommon is not null);
+            Debug.Assert(stateDisabled is not null);
+            Debug.Assert(stateNormal is not null);
 
             // Remember the palette storage
-            _stateCommon = stateCommon;
+            _stateCommon = stateCommon!;
             _stateDisabled = stateDisabled;
             _stateNormal = stateNormal;
 
@@ -113,9 +115,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateDisabled => _stateDisabled.Back;
+        public PaletteBack StateDisabled => _stateDisabled!.Back;
 
-        private bool ShouldSerializeStateDisabled() => !_stateDisabled.Back.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled!.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the normal panel appearance.
@@ -123,9 +125,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateNormal => _stateNormal.Back;
+        public PaletteBack StateNormal => _stateNormal!.Back;
 
-        private bool ShouldSerializeStateNormal() => !_stateNormal.Back.IsDefault;
+        private bool ShouldSerializeStateNormal() => !_stateNormal!.Back.IsDefault;
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -149,7 +151,7 @@ namespace Krypton.Toolkit
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Push correct palettes into the view
-            ViewDrawPanel.SetPalettes(Enabled ? _stateNormal.Back : _stateDisabled.Back);
+            ViewDrawPanel.SetPalettes(Enabled ? _stateNormal!.Back : _stateDisabled!.Back);
 
             // Update with latest enabled state
             ViewDrawPanel.Enabled = Enabled;
@@ -166,7 +168,7 @@ namespace Krypton.Toolkit
         private void Construct()
         {
             // Our view contains just a simple canvas that covers entire client area
-            ViewDrawPanel = new ViewDrawPanel(_stateNormal.Back);
+            ViewDrawPanel = new ViewDrawPanel(_stateNormal!.Back);
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, ViewDrawPanel);

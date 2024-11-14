@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -34,14 +34,14 @@ namespace Krypton.Navigator
                                        [DisallowNull] ViewLayoutInsetOverlap layoutOverlap,
                                        [DisallowNull] ViewLayoutBarForTabs layoutTabs)
         {
-            Debug.Assert(drawCanvas != null);
-            Debug.Assert(layoutOverlap != null);
-            Debug.Assert(layoutTabs != null);
+            Debug.Assert(drawCanvas is not null);
+            Debug.Assert(layoutOverlap is not null);
+            Debug.Assert(layoutTabs is not null);
 
             // Remember provided references
-            _drawCanvas = drawCanvas;
-            _layoutOverlap = layoutOverlap;
-            _layoutTabs = layoutTabs;
+            _drawCanvas = drawCanvas ?? throw new ArgumentNullException(nameof(_drawCanvas));
+            _layoutOverlap = layoutOverlap ?? throw new ArgumentNullException(nameof(_layoutOverlap));
+            _layoutTabs = layoutTabs ?? throw new ArgumentNullException(nameof(_layoutTabs));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int BorderWidth => _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
+        public int BorderWidth => _drawCanvas.PaletteBorder!.GetBorderWidth(_drawCanvas.State);
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace Krypton.Navigator
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderAfter(RenderContext context) 
+        public override void RenderAfter(RenderContext context)
         {
             // Ask for another draw of the child but this time only drawing the selected tab
             _layoutTabs.DrawChecked = true;
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         /// <param name="fillerRect">Original filler rectangle.</param>
         /// <param name="control">Owning control instance.</param>
         /// <returns>Modified rectangle.</returns>
-        protected override Rectangle UpdateFillerRect(Rectangle fillerRect, 
+        protected override Rectangle UpdateFillerRect(Rectangle fillerRect,
                                                       Control control)
         {
             var borderWidth = BorderWidth;

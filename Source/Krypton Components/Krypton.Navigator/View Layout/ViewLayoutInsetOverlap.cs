@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
+// ReSharper disable PossibleLossOfFraction
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -28,7 +29,12 @@ namespace Krypton.Navigator
         /// </summary>
         public ViewLayoutInsetOverlap([DisallowNull] ViewDrawCanvas drawCanvas)
         {
-            Debug.Assert(drawCanvas != null);
+            Debug.Assert(drawCanvas is not null);
+
+            if (drawCanvas is null)
+            {
+                throw new ArgumentNullException(nameof(drawCanvas));
+            }
 
             // Remember source of the rounding values
             _drawCanvas = drawCanvas;
@@ -69,11 +75,11 @@ namespace Krypton.Navigator
             get
             {
                 // Get the rounding and width values for the border
-                var rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                var rounding = _drawCanvas.PaletteBorder!.GetBorderRounding(_drawCanvas.State);
                 var width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
-                return rounding + (width / 2);
+                return rounding + width / 2;
             }
         }
         #endregion
@@ -82,7 +88,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int BorderWidth => _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
+        public int BorderWidth => _drawCanvas.PaletteBorder!.GetBorderWidth(_drawCanvas.State);
 
         #endregion
 
@@ -93,7 +99,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // Get the preferred size requested by the children
             Size size = base.GetPreferredSize(context);
@@ -101,12 +112,12 @@ namespace Krypton.Navigator
             // Apply the rounding in the appropriate orientation
             if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
-                size.Width += Convert.ToInt32(Rounding) * 2;
+                size.Width += Convert.ToInt32(Rounding * 2);
                 size.Height += BorderWidth;
             }
             else
             {
-                size.Height += Convert.ToInt32(Rounding) * 2;
+                size.Height += Convert.ToInt32(Rounding * 2);
                 size.Width += BorderWidth;
             }
 
@@ -119,7 +130,12 @@ namespace Krypton.Navigator
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;

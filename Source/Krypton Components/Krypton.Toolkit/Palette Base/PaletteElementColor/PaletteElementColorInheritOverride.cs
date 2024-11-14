@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
             Debug.Assert(backup != null);
 
             // Store incoming alternatives
-            _primary = primary;
-            _backup = backup;
+            _primary = primary ?? throw new ArgumentNullException(nameof(primary));
+            _backup = backup ?? throw new ArgumentNullException(nameof(backup));
 
             // Default other state
             Apply = true;
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor1(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor1(state);
                 }
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor2(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor2(state);
                 }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor3(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor3(state);
                 }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor4(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor4(state);
                 }
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
             {
                 Color ret = _primary.GetElementColor5(Override ? OverrideState : state);
 
-                if (ret == Color.Empty)
+                if (ret == GlobalStaticValues.EMPTY_COLOR)
                 {
                     ret = _backup.GetElementColor5(state);
                 }

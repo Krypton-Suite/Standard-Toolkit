@@ -1,8 +1,7 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  */
 #endregion
 
@@ -14,8 +13,8 @@ namespace Krypton.Toolkit
     public class RenderVisualStudio2010With2013 : RenderOffice2010
     {
         #region Static Fields
-        private static readonly float BORDER_PERCENT = 0.6f;
-        private static readonly float WHITE_PERCENT = 0.4f;
+        private const float BORDER_PERCENT = 0.6f;
+        private const float WHITE_PERCENT = 0.4f;
         //private static readonly Blend _ribbonGroup5Blend;
         //private static readonly Blend _ribbonGroup6Blend;
         //private static readonly Blend _ribbonGroup7Blend;
@@ -57,7 +56,7 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteBack != null);
 
             // Get the first border color
-            Color borderColor = paletteBack.GetBackColor1(state);
+            Color borderColor = paletteBack!.GetBackColor1(state);
 
             // We want to lighten it by merging with white
             Color lightColor = CommonHelper.MergeColors(borderColor, BORDER_PERCENT,
@@ -65,7 +64,7 @@ namespace Krypton.Toolkit
 
             // Draw inside of the border edge in a lighter version of the border
             using var drawBrush = new SolidBrush(lightColor);
-            context.Graphics.FillRectangle(drawBrush, displayRect);
+            context!.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
         #endregion
@@ -104,11 +103,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabContext(RenderContext context,
+        protected override IDisposable? DrawRibbonTabContext(RenderContext context,
                                                             Rectangle rect,
                                                             IPaletteRibbonGeneral paletteGeneral,
                                                             IPaletteRibbonBack paletteBack,
-                                                            IDisposable memento)
+                                                            IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -147,16 +146,16 @@ namespace Krypton.Toolkit
                 }
 
                 // Draw the left and right borders
-                context.Graphics.DrawLine(cache.BorderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
-                context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen!, rect.X, rect.Y, rect.X, rect.Bottom);
+                context.Graphics.DrawLine(cache.BorderInnerPen!, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen!, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderInnerPen!, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
 
                 // Draw the solid block of colour at the top
-                context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
+                context.Graphics.FillRectangle(cache.TopBrush!, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
                 // Draw the gradient to the bottom
-                context.Graphics.FillRectangle(cache.BottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
+                context.Graphics.FillRectangle(cache.BottomBrush!, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
             }
 
             return memento;
@@ -168,19 +167,19 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         /// <param name="rect">Target rectangle.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="baseColor1">Base color1 used for drawing the ribbon tab.</param>
-        /// <param name="baseColor2">Base color2 used for drawing the ribbon tab.</param>
+        /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public override IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape,
+        public override IDisposable? DrawRibbonFileApplicationTab(PaletteRibbonShape shape,
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             Color baseColor1,
-                                                             Color baseColor2,
-                                                             IDisposable memento)
+                                                             IPaletteRibbonFileAppTab palette,
+                                                             IDisposable? memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
+                Color topColor = palette.GetRibbonFileAppTabTopColor(state);
+                Color bottomColor = palette.GetRibbonFileAppTabBottomColor(state);
                 var generate = true;
                 MementoRibbonAppTab2013 cache;
 
@@ -188,13 +187,13 @@ namespace Krypton.Toolkit
                 if (memento is MementoRibbonAppTab2013 tab2013)
                 {
                     cache = tab2013;
-                    generate = !cache.UseCachedValues(rect, baseColor1);
+                    generate = !cache.UseCachedValues(rect, topColor);
                 }
                 else
                 {
                     memento?.Dispose();
 
-                    cache = new MementoRibbonAppTab2013(rect, baseColor1);
+                    cache = new MementoRibbonAppTab2013(rect, topColor);
                     memento = cache;
                 }
 
@@ -206,18 +205,15 @@ namespace Krypton.Toolkit
 
                     // Create common paths to all the app tab states
                     cache.GeneratePaths(rect, state);
-                    //cache.borderPen = new Pen(baseColor1);
 
                     // Create state specific colors/brushes/pens
                     cache.InsideFillBrush = state switch
                     {
-                        PaletteState.Normal =>
-                            //cache.borderBrush = new SolidBrush(baseColor1);
-                            new SolidBrush(baseColor1),
-                        PaletteState.Tracking => new SolidBrush(baseColor2),
-                        PaletteState.Tracking | PaletteState.FocusOverride => new SolidBrush(
-                            ControlPaint.LightLight(baseColor2)),
-                        PaletteState.Pressed => new SolidBrush(baseColor2),
+                        PaletteState.Normal => new SolidBrush(topColor),
+                        PaletteState.Disabled => new SolidBrush(ControlPaint.DarkDark(topColor)),
+                        PaletteState.Tracking => new SolidBrush(bottomColor),
+                        PaletteState.Tracking | PaletteState.FocusOverride => new SolidBrush(ControlPaint.LightLight(bottomColor)),
+                        PaletteState.Pressed => new SolidBrush(bottomColor),
                         _ => cache.InsideFillBrush
                     };
                 }
@@ -231,7 +227,7 @@ namespace Krypton.Toolkit
 
                 // Fill inside area
                 //context.Graphics.FillPath(cache.insideFillBrush, cache.insideFillPath);
-                context.Graphics.FillRectangle(cache.InsideFillBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.InsideFillBrush!, cache.Rect);
 
                 // Draw highlight over bottom half
                 //using (Clipping clip = new Clipping(context.Graphics, cache.insideFillPath))
@@ -244,12 +240,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabSelected2010(RenderContext context,
+        protected override IDisposable? DrawRibbonTabSelected2010(RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -284,7 +280,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If we have a context color to use then modify the drawing colors
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {
@@ -314,15 +310,15 @@ namespace Krypton.Toolkit
                     cache.CenterPen = new Pen(c4);
                 }
 
-                context.Graphics.FillRectangle(cache.CenterBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.CenterBrush!, cache.Rect);
                 //context.Graphics.FillPath(cache.centerBrush, cache.outsidePath);
 
-                //if (c5 != Color.Empty)
+                //if (c5 != GlobalStaticValues.EMPTY_COLOR)
                 //    context.Graphics.FillPath(cache.insideBrush, cache.insidePath);
 
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.outsidePath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 //switch (orientation)
                 //{
@@ -347,13 +343,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape,
+        protected override IDisposable? DrawRibbonTabTracking2010(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
                                                                 VisualOrientation orientation,
-                                                                IDisposable memento,
+                                                                IDisposable? memento,
                                                                 bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -388,7 +384,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // If c5 has a colour then use that to highlight the tab
-                    if (c5 != Color.Empty)
+                    if (c5 != GlobalStaticValues.EMPTY_COLOR)
                     {
                         if (!standard)
                         {
@@ -422,12 +418,12 @@ namespace Krypton.Toolkit
 
                 // Fill the full background
                 //context.Graphics.FillPath(cache.outsideBrush, cache.outsidePath);
-                context.Graphics.FillRectangle(cache.OutsideBrush, cache.Rect);
+                context.Graphics.FillRectangle(cache.OutsideBrush!, cache.Rect);
 
                 // Draw the border
                 //using (AntiAlias aa = new AntiAlias(context.Graphics))
                 //    context.Graphics.DrawPath(cache.outsidePen, cache.borderPath);
-                context.Graphics.DrawRectangle(cache.OutsidePen, cache.Rect);
+                context.Graphics.DrawRectangle(cache.OutsidePen!, cache.Rect);
 
                 // Fill the inside area
                 //context.Graphics.FillPath(cache.insideBrush, cache.insidePath);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         [ThreadStatic]
-        private static KryptonComboBox _paintingComboBox;
+        private static KryptonComboBox? _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
         private static readonly Size _sizeLarge = new Size(10000, 10000);
@@ -86,27 +86,26 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the items in the combobox.</summary>
         /// <value>The items.</value>
-        public ComboBox.ObjectCollection Items => _paintingComboBox.ComboBox.Items;
+        public ComboBox.ObjectCollection Items => _paintingComboBox!.ComboBox.Items;
 
         /// <summary>
         /// Clones a DataGridViewComboBoxCell cell, copies all the custom properties.
         /// </summary>
         public override object Clone()
         {
-            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell;
-            if (dataGridViewCell != null)
-            {
-                dataGridViewCell.DropDownStyle = DropDownStyle;
-                dataGridViewCell.DropDownHeight = DropDownHeight;
-                dataGridViewCell.DropDownWidth = DropDownWidth;
-                dataGridViewCell.MaxDropDownItems = MaxDropDownItems;
-                dataGridViewCell.AutoCompleteMode = AutoCompleteMode;
-                dataGridViewCell.AutoCompleteSource = AutoCompleteSource;
-                dataGridViewCell.DisplayMember = DisplayMember;
-                dataGridViewCell.ValueMember = ValueMember;
-                dataGridViewCell.DataSource = DataSource;
-            }
-            return dataGridViewCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("dataGridViewCell"));
+
+            dataGridViewCell.DropDownStyle = DropDownStyle;
+            dataGridViewCell.DropDownHeight = DropDownHeight;
+            dataGridViewCell.DropDownWidth = DropDownWidth;
+            dataGridViewCell.MaxDropDownItems = MaxDropDownItems;
+            dataGridViewCell.AutoCompleteMode = AutoCompleteMode;
+            dataGridViewCell.AutoCompleteSource = AutoCompleteSource;
+            dataGridViewCell.DisplayMember = DisplayMember;
+            dataGridViewCell.ValueMember = ValueMember;
+            dataGridViewCell.DataSource = DataSource;
+
+            return dataGridViewCell!;
         }
         /// <summary>
         /// The DropDownStyle property replicates the one from the KryptonComboBox control
@@ -188,7 +187,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The AutoCompleteMode property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue(121)]
+        [DefaultValue(AutoCompleteMode.None)]
         public AutoCompleteMode AutoCompleteMode
         {
             get => _autoCompleteMode;
@@ -206,7 +205,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The AutoCompleteSource property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue(121)]
+        [DefaultValue(AutoCompleteSource.None)]
         public AutoCompleteSource AutoCompleteSource
         {
             get => _autoCompleteSource;
@@ -284,10 +283,11 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
-            if (dataGridView?.EditingControl == null)
+            DataGridView? dataGridView = DataGridView;
+            switch (dataGridView?.EditingControl)
             {
-                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
+                case null:
+                    throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
             }
 
             if (dataGridView.EditingControl is KryptonComboBox comboBox)
@@ -304,12 +304,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
-            DataGridViewCellStyle dataGridViewCellStyle)
+                                                      object? initialFormattedValue,
+                                                      DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonComboBox comboBox)
+            if (DataGridView!.EditingControl is KryptonComboBox comboBox)
             {
                 if (OwningColumn is KryptonDataGridViewComboBoxColumn { DataSource: null } comboColumn)
                 {
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
                     {
                         strings[i] = comboColumn.Items[i];
                     }
-
+                    comboBox.Items.Clear();
                     comboBox.Items.AddRange(strings);
 
                     var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
@@ -342,14 +342,7 @@ namespace Krypton.Toolkit
                 comboBox.ValueMember = ValueMember;
                 comboBox.DataSource = DataSource;
 
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    comboBox.Text = string.Empty;
-                }
-                else
-                {
-                    comboBox.Text = initialFormattedValueStr;
-                }
+                comboBox.Text = initialFormattedValue as string ?? string.Empty;
             }
         }
 
@@ -372,7 +365,7 @@ namespace Krypton.Toolkit
                 isFirstDisplayedColumn, isFirstDisplayedRow);
 
             editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
+            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
             DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
         }
 
@@ -385,17 +378,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView.RightToLeft == RightToLeft.Yes)
-            {
-                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
-            }
-            else
-            {
-                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
-            }
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -405,32 +389,21 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
         #endregion
 
         #region Private
 
-        private KryptonDataGridViewComboBoxEditingControl EditingComboBox => DataGridView.EditingControl as KryptonDataGridViewComboBoxEditingControl;
+        private KryptonDataGridViewComboBoxEditingControl? EditingComboBox => DataGridView!.EditingControl as KryptonDataGridViewComboBoxEditingControl;
 
         private static Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingComboBox.GetPreferredSize(_sizeLarge).Height + 2;
+            var preferredHeight = _paintingComboBox!.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)
@@ -467,8 +440,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingComboBox(int rowIndex) =>
-            rowIndex != -1 
-            && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control } 
+            rowIndex != -1
+            && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control }
             && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
@@ -481,7 +454,7 @@ namespace Krypton.Toolkit
             _dropDownStyle = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownStyle = value;
+                EditingComboBox!.DropDownStyle = value;
             }
         }
 
@@ -490,7 +463,7 @@ namespace Krypton.Toolkit
             _maxDropDownItems = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.MaxDropDownItems = value;
+                EditingComboBox!.MaxDropDownItems = value;
             }
         }
 
@@ -499,7 +472,7 @@ namespace Krypton.Toolkit
             _dropDownHeight = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownHeight = value;
+                EditingComboBox!.DropDownHeight = value;
             }
         }
 
@@ -508,7 +481,7 @@ namespace Krypton.Toolkit
             _dropDownWidth = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownWidth = value;
+                EditingComboBox!.DropDownWidth = value;
             }
         }
 
@@ -517,7 +490,7 @@ namespace Krypton.Toolkit
             _autoCompleteMode = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.AutoCompleteMode = value;
+                EditingComboBox!.AutoCompleteMode = value;
             }
         }
 
@@ -526,7 +499,7 @@ namespace Krypton.Toolkit
             _autoCompleteSource = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.AutoCompleteSource = value;
+                EditingComboBox!.AutoCompleteSource = value;
             }
         }
 
@@ -535,7 +508,7 @@ namespace Krypton.Toolkit
             _displayMember = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DisplayMember = value;
+                EditingComboBox!.DisplayMember = value;
             }
         }
 
@@ -544,16 +517,16 @@ namespace Krypton.Toolkit
             _valueMember = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.ValueMember = value;
+                EditingComboBox!.ValueMember = value;
             }
         }
 
-        internal void SetDataSource(int rowIndex, object value)
+        internal void SetDataSource(int rowIndex, object? value)
         {
             _dataSource = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DataSource = value;
+                EditingComboBox!.DataSource = value;
             }
         }
         #endregion

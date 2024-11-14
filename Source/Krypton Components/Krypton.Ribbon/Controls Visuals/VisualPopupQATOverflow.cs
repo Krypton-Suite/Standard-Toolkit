@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -30,22 +30,22 @@ namespace Krypton.Ribbon
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
-                                      ViewLayoutRibbonQATContents contents,
-                                      IRenderer? renderer)
+                                      [DisallowNull] ViewLayoutRibbonQATContents? contents,
+                                      IRenderer renderer)
             : base(renderer, true)
         {
-            Debug.Assert(ribbon != null);
+            Debug.Assert(ribbon is not null);
 
             // Remember references needed later
-            _ribbon = ribbon;
+            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
             // Create a view element for drawing the group
             _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);
 
             // Create and add the element used to synch and draw the actual contents
-            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon, 
-                                                                   NeedPaintDelegate, 
-                                                                   true, contents);
+            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon,
+                                                                  NeedPaintDelegate,
+                                                                  true, contents);
             _viewQAT.Add(ViewQATContents);
 
             // Attach the root to the view manager instance
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the qat overflow manager.
         /// </summary>
-        public ViewRibbonQATOverflowManager ViewOverflowManager => ViewManager as ViewRibbonQATOverflowManager;
+        public ViewRibbonQATOverflowManager? ViewOverflowManager => ViewManager as ViewRibbonQATOverflowManager;
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetFirstFocusItem()
         {
-            ViewOverflowManager.FocusView = ViewQATContents.GetFirstQATView();
+            ViewOverflowManager!.FocusView = ViewQATContents.GetFirstQATView();
             PerformNeedPaint(false);
         }
         #endregion
@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewOverflowManager.FocusView = ViewQATContents.GetLastQATView();
+            ViewOverflowManager!.FocusView = ViewQATContents.GetLastQATView();
             PerformNeedPaint(false);
         }
         #endregion
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
+            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the first item
             if (view == null)
@@ -150,10 +150,10 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager.FocusView);
+            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the last item
-            if (view == null)
+            if (view is null)
             {
                 SetLastFocusItem();
             }
@@ -198,7 +198,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }

@@ -63,6 +63,26 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GenericCopy {
+            get {
+                object obj = ResourceManager.GetObject("GenericCopy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GenericCut {
+            get {
+                object obj = ResourceManager.GetObject("GenericCut", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GenericNewDocument {
             get {
                 object obj = ResourceManager.GetObject("GenericNewDocument", resourceCulture);
@@ -76,6 +96,16 @@ namespace Krypton.Toolkit.ResourceFiles.Toolbars {
         internal static System.Drawing.Bitmap GenericOpenFolder {
             get {
                 object obj = ResourceManager.GetObject("GenericOpenFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GenericPaste {
+            get {
+                object obj = ResourceManager.GetObject("GenericPaste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

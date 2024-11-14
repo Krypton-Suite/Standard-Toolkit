@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -12,8 +12,8 @@ namespace Krypton.Toolkit
     internal class KryptonCommandActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCommand? _command;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonCommand _command;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -26,9 +26,9 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _command = owner.Component as KryptonCommand;
+            _command = (owner.Component as KryptonCommand)!;
 
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             {
                 if (_command.Text != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.Text, value);
+                    _service?.OnComponentChanged(_command, null, _command.Text, value);
 
                     _command.Text = value;
                 }
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             {
                 if (_command.ImageSmall != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageSmall, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageSmall, value);
 
                     _command.ImageSmall = value;
                 }
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             {
                 if (_command.ImageLarge != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageLarge, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageLarge, value);
 
                     _command.ImageLarge = value;
                 }
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
             {
                 if (_command.ImageTransparentColor != value)
                 {
-                    _service.OnComponentChanged(_command, null, _command.ImageTransparentColor, value);
+                    _service?.OnComponentChanged(_command, null, _command.ImageTransparentColor, value);
 
                     _command.ImageTransparentColor = value;
                 }

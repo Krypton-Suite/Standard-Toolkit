@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -25,15 +25,13 @@ namespace Krypton.Toolkit
             get
             {
                 // gets the property descriptor for the property "Orientation"
-                PropertyDescriptor propDescriptor =
-                   TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
+                var propDescriptor = TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
 
                 // if not null - we can read the current orientation of the scroll bar
-                if (propDescriptor != null)
+                if (propDescriptor is not null)
                 {
                     // get the current orientation
-                    var orientation =
-                       (ScrollBarOrientation)propDescriptor.GetValue(Component);
+                    var orientation = (ScrollBarOrientation?)propDescriptor.GetValue(Component);
 
                     // if vertical orientation
                     return orientation == ScrollBarOrientation.Vertical
@@ -41,8 +39,10 @@ namespace Krypton.Toolkit
                            | SelectionRules.Moveable
                            | SelectionRules.BottomSizeable
                            | SelectionRules.TopSizeable
-                        : SelectionRules.Visible | SelectionRules.Moveable
-                       | SelectionRules.LeftSizeable | SelectionRules.RightSizeable;
+                        : SelectionRules.Visible 
+                            | SelectionRules.Moveable
+                            | SelectionRules.LeftSizeable 
+                            | SelectionRules.RightSizeable;
                 }
 
                 return base.SelectionRules;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,8 +35,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (InternalKCT.InternalGripDark == Color.Empty) &&
-                                          (InternalKCT.InternalGripLight == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (InternalKCT.InternalGripDark == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (InternalKCT.InternalGripLight == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for shadow effects on the grip (move handle).")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color GripDark
         {
             get => InternalKCT.InternalGripDark;
@@ -73,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripDark property to its default value.
         /// </summary>
-        public void ResetGripDark() => GripDark = Color.Empty;
+        public void ResetGripDark() => GripDark = GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region GripLight
@@ -83,7 +84,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Color to use for highlight effects on the grip (move handle).")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public Color GripLight
         {
             get => InternalKCT.InternalGripLight;
@@ -98,7 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the GripLight property to its default value.
         /// </summary>
-        public void ResetGripLight() => GripLight = Color.Empty;
+        public void ResetGripLight() => GripLight = GlobalStaticValues.EMPTY_COLOR;
         #endregion
     }
 }

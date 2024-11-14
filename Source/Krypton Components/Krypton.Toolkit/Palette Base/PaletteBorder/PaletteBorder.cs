@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -42,10 +42,10 @@ namespace Krypton.Toolkit
             {
                 // Set to default values
                 BorderDraw = InheritBool.Inherit;
-                BorderDrawBorders = PaletteDrawBorders.All;
+                BorderDrawBorders = PaletteDrawBorders.Inherit;
                 BorderGraphicsHint = PaletteGraphicsHint.Inherit;
-                BorderColor1 = Color.Empty;
-                BorderColor2 = Color.Empty;
+                BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
+                BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
                 BorderColorStyle = PaletteColorStyle.Inherit;
                 BorderColorAlign = PaletteRectangleAlign.Inherit;
                 BorderColorAngle = -1;
@@ -61,13 +61,13 @@ namespace Krypton.Toolkit
             public bool IsDefault => (BorderDraw == InheritBool.Inherit) &&
                                      (BorderDrawBorders == PaletteDrawBorders.Inherit) &&
                                      (BorderGraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                     (BorderColor1 == Color.Empty) &&
-                                     (BorderColor2 == Color.Empty) &&
+                                     (BorderColor1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                     (BorderColor2 == GlobalStaticValues.EMPTY_COLOR) &&
                                      (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                      (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
-                                     (BorderColorAngle == -1f) &&
+                                     (BorderColorAngle == -1) &&
                                      (BorderWidth == -1) &&
-                                     (BorderRounding == -1f) &&
+                                     (BorderRounding == -1) &&
                                      (BorderImage == null) &&
                                      (BorderImageStyle == PaletteImageStyle.Inherit) &&
                                      (BorderImageAlign == PaletteRectangleAlign.Inherit);
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit!;
+            _inherit = inherit ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(inherit)));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -112,6 +112,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => (_storage == null) || _storage.IsDefault;
 
         #endregion
@@ -262,7 +263,7 @@ namespace Krypton.Toolkit
         [Description(@"Hint for drawing graphics.")]
         [DefaultValue(PaletteGraphicsHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
-        public PaletteGraphicsHint GraphicsHint
+        public virtual PaletteGraphicsHint GraphicsHint
         {
             get => _storage?.BorderGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
@@ -297,7 +298,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
+        public virtual PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) =>
             GraphicsHint != PaletteGraphicsHint.Inherit ? GraphicsHint : _inherit.GetBorderGraphicsHint(state);
         #endregion
 
@@ -308,7 +309,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Main border color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
@@ -320,7 +321,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    return Color.Empty;
+                    return GlobalStaticValues.EMPTY_COLOR;
                 }
             }
 
@@ -337,7 +338,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {
@@ -355,7 +356,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : _inherit.GetBorderColor1(state);
+        public Color GetBorderColor1(PaletteState state) => Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : _inherit.GetBorderColor1(state);
 
         #endregion
 
@@ -366,11 +367,11 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Secondary border color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {
-            get => _storage?.BorderColor2 ?? Color.Empty;
+            get => _storage?.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
 
             set
             {
@@ -385,7 +386,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != Color.Empty)
+                    if (value != GlobalStaticValues.EMPTY_COLOR)
                     {
                         _storage = new InternalStorage
                         {
@@ -403,7 +404,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state) => Color2 != Color.Empty ? Color2 : _inherit.GetBorderColor2(state);
+        public Color GetBorderColor2(PaletteState state) => Color2 != GlobalStaticValues.EMPTY_COLOR ? Color2 : _inherit.GetBorderColor2(state);
         #endregion
 
         #region ColorStyle
@@ -559,7 +560,7 @@ namespace Krypton.Toolkit
         [Description(@"Border width.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
-        public int Width
+        public virtual int Width
         {
             get => _storage?.BorderWidth ?? -1;
 
@@ -604,11 +605,11 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"How much to round the border corners.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        [DefaultValue(GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshProperties(RefreshProperties.All)]
         public float Rounding
         {
-            get => _storage?.BorderRounding ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            get => _storage?.BorderRounding ?? GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
             set
             {
@@ -623,7 +624,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != -1f)
+                    if (value != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
                     {
                         _storage = new InternalStorage
                         {
@@ -635,6 +636,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void ResetRounding() => Rounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+        private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
         /// <summary>
         /// Gets the border rounding.

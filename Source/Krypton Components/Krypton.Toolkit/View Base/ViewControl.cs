@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the root control for point translation and message dispatch. 
         /// </summary>
         /// <param name="parent">Parent control.</param>
-        public void UpdateParent(Control parent)
+        public void UpdateParent(Control? parent)
         {
             // Keep looking till we run out of parents
             while (parent != null)
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up another level
-                parent = parent.Parent;
+                parent = parent.Parent!;
             }
         }
         #endregion
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
 
                 // Do we need to paint the background as the foreground of the parent
@@ -158,9 +158,9 @@ namespace Krypton.Toolkit
 
                 // Create a render context for drawing the view
                 using var context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
-                    e.ClipRectangle, Renderer);
+                    e.ClipRectangle, Renderer!);
                 // Ask the view to paint itself
-                ViewLayoutControl.ChildView.Render(context);
+                ViewLayoutControl.ChildView?.Render(context);
             }
         }
 
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         protected override void OnDoubleClick(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseLeave(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyDown(e);
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyPress(e);
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyUp(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyUp(e);
@@ -488,13 +488,13 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null);
                 }
 
                 try
                 {
-                    _ = _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                    _ = _miPTB?.Invoke(this, [e, ClientRectangle, null!]);
                 }
                 catch
                 {

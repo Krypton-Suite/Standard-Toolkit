@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             public KryptonCheckButtonCollection([DisallowNull] KryptonCheckSet owner)
             {
                 Debug.Assert(owner != null);
-                _owner = owner;
+                _owner = owner!;
             }
             #endregion
 
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate in the collection.</param>
             /// <returns>True if found in collection; otherwise false.</returns>
-            public bool Contains(KryptonCheckButton checkButton) =>
+            public bool Contains(KryptonCheckButton? checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
                 base.List.Contains(checkButton);
             // ReSharper restore RedundantBaseQualifier
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate.</param>
             /// <returns>Index of reference; otherwise -1.</returns>
-            public int IndexOf(KryptonCheckButton checkButton) =>
+            public int IndexOf(KryptonCheckButton? checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
                 base.List.IndexOf(checkButton);
             // ReSharper restore RedundantBaseQualifier
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Index of entry to return.</param>
             /// <returns>Reference of KryptonCheckButton instance.</returns>
-            public KryptonCheckButton this[int index]
+            public KryptonCheckButton? this[int index]
             {
                 get
                 {
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
                     }
 
                     // ReSharper disable RedundantBaseQualifier
-                    return (KryptonCheckButton)base.List[index];
+                    return base.List[index] as KryptonCheckButton;
                     // ReSharper restore RedundantBaseQualifier
                 }
             }
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
             }
 
             // If the incoming button is already checked
-                if (checkButton.Checked)
+            if (checkButton.Checked)
             {
                 // If we already have a button checked
                 if (_checkedButton != null)
@@ -469,26 +469,26 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckedChanging(object sender, CancelEventArgs e)
+        private void OnCheckedChanging(object? sender, CancelEventArgs e)
         {
             // Are we allowed to process the event?
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                var checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
 
                 // Prevent the checked button becoming unchecked unless AllowUncheck is defined
                 e.Cancel = checkedButton.Checked && !AllowUncheck;
             }
         }
 
-        private void OnCheckedChanged(object sender, EventArgs e)
+        private void OnCheckedChanged(object? sender, EventArgs e)
         {
             // Are we allowed to process the event?
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                var checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
 
                 if (checkedButton.Checked)
                 {

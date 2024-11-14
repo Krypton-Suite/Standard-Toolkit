@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonContextMenu? _contextMenu;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -35,10 +35,10 @@ namespace Krypton.Toolkit
             _contextMenu = component as KryptonContextMenu;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -67,11 +67,10 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the palette specific list
-                    new KryptonContextMenuActionList(this)
-                };
+                var actionLists = new DesignerActionListCollection();
+                actionLists.AddRange(base.ActionLists);
+                // Add the palette specific list
+                actionLists.Add(new KryptonContextMenuActionList(this));
 
                 return actionLists;
             }
@@ -90,7 +89,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Unhook from events
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                    _changeService!.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -102,20 +101,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
         {
             // If our context menu is being removed
-            if ((_contextMenu != null) && (e.Component == _contextMenu))
+            if ((_contextMenu != null) && (Equals(e.Component, _contextMenu)))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all items from the context menu
                 for (var j = _contextMenu.Items.Count - 1; j >= 0; j--)
                 {
                     var item = _contextMenu.Items[j] as Component;
                     _contextMenu.Items.Remove(item);
-                    host.DestroyComponent(item);
+                    host?.DestroyComponent(item);
                 }
             }
         }

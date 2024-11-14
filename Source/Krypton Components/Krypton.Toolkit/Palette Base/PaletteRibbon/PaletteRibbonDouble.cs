@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -39,25 +39,25 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonDouble([DisallowNull] IPaletteRibbonBack inheritBack,
                                    [DisallowNull] IPaletteRibbonText inheritText,
-                                   NeedPaintHandler needPaint) 
+                                   NeedPaintHandler needPaint)
         {
-            Debug.Assert(inheritBack != null);
-            Debug.Assert(inheritText != null);
+            Debug.Assert(inheritBack is not null);
+            Debug.Assert(inheritText is not null);
 
             // Remember inheritance
-            _inheritBack = inheritBack;
-            _inheritText = inheritText;
+            _inheritBack = inheritBack ?? throw new ArgumentNullException(nameof(inheritBack));
+            _inheritText = inheritText ?? throw new ArgumentNullException(nameof(inheritText));
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Define default values
-            _backColor1 = Color.Empty;
-            _backColor2 = Color.Empty;
-            _backColor3 = Color.Empty;
-            _backColor4 = Color.Empty;
-            _backColor5 = Color.Empty;
-            _textColor = Color.Empty;
+            _backColor1 = GlobalStaticValues.EMPTY_COLOR;
+            _backColor2 = GlobalStaticValues.EMPTY_COLOR;
+            _backColor3 = GlobalStaticValues.EMPTY_COLOR;
+            _backColor4 = GlobalStaticValues.EMPTY_COLOR;
+            _backColor5 = GlobalStaticValues.EMPTY_COLOR;
+            _textColor = GlobalStaticValues.EMPTY_COLOR;
         }
         #endregion
 
@@ -66,12 +66,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (BackColor1 == Color.Empty) &&
-                                          (BackColor2 == Color.Empty) &&
-                                          (BackColor3 == Color.Empty) &&
-                                          (BackColor4 == Color.Empty) &&
-                                          (BackColor5 == Color.Empty) &&
-                                          (TextColor == Color.Empty);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => (BackColor1 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor3 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor4 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (BackColor5 == GlobalStaticValues.EMPTY_COLOR) &&
+                                            (TextColor == GlobalStaticValues.EMPTY_COLOR);
 
         #endregion
 
@@ -136,8 +137,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackColor1() => BackColor1 != Color.Empty;
-        private void ResetBackColor1() => BackColor1 = Color.Empty;
+        private bool ShouldSerializeBackColor1() => BackColor1 != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetBackColor1() => BackColor1 = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -145,7 +146,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor1(PaletteState state) =>
-            BackColor1 != Color.Empty ? BackColor1 : _inheritBack.GetRibbonBackColor1(state);
+            BackColor1 != GlobalStaticValues.EMPTY_COLOR ? BackColor1 : _inheritBack.GetRibbonBackColor1(state);
 
         #endregion
 
@@ -172,8 +173,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackColor2() => BackColor2 != Color.Empty;
-        private void ResetBackColor2() => BackColor2 = Color.Empty;
+        private bool ShouldSerializeBackColor2() => BackColor2 != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetBackColor2() => BackColor2 = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
@@ -181,7 +182,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor2(PaletteState state) =>
-            BackColor2 != Color.Empty ? BackColor2 : _inheritBack.GetRibbonBackColor2(state);
+            BackColor2 != GlobalStaticValues.EMPTY_COLOR ? BackColor2 : _inheritBack.GetRibbonBackColor2(state);
 
         #endregion
 
@@ -208,8 +209,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackColor3() => BackColor3 != Color.Empty;
-        private void ResetBackColor3() => BackColor3 = Color.Empty;
+        private bool ShouldSerializeBackColor3() => BackColor3 != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetBackColor3() => BackColor3 = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
@@ -217,7 +218,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor3(PaletteState state) =>
-            BackColor3 != Color.Empty ? BackColor3 : _inheritBack.GetRibbonBackColor3(state);
+            BackColor3 != GlobalStaticValues.EMPTY_COLOR ? BackColor3 : _inheritBack.GetRibbonBackColor3(state);
 
         #endregion
 
@@ -244,8 +245,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackColor4() => BackColor4 != Color.Empty;
-        private void ResetBackColor4() => BackColor4 = Color.Empty;
+        private bool ShouldSerializeBackColor4() => BackColor4 != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetBackColor4() => BackColor4 = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
@@ -253,7 +254,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor4(PaletteState state) =>
-            BackColor4 != Color.Empty ? BackColor4 : _inheritBack.GetRibbonBackColor4(state);
+            BackColor4 != GlobalStaticValues.EMPTY_COLOR ? BackColor4 : _inheritBack.GetRibbonBackColor4(state);
 
         #endregion
 
@@ -280,8 +281,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackColor5() => BackColor5 != Color.Empty;
-        private void ResetBackColor5() => BackColor5 = Color.Empty;
+        private bool ShouldSerializeBackColor5() => BackColor5 != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetBackColor5() => BackColor5 = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.
@@ -289,7 +290,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor5(PaletteState state) =>
-            BackColor5 != Color.Empty ? BackColor5 : _inheritBack.GetRibbonBackColor5(state);
+            BackColor5 != GlobalStaticValues.EMPTY_COLOR ? BackColor5 : _inheritBack.GetRibbonBackColor5(state);
 
         #endregion
 
@@ -316,8 +317,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeTextColor() => TextColor != Color.Empty;
-        private void ResetTextColor() => TextColor = Color.Empty;
+        private bool ShouldSerializeTextColor() => TextColor != GlobalStaticValues.EMPTY_COLOR;
+        private void ResetTextColor() => TextColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the tab color for the item text.
@@ -325,7 +326,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonTextColor(PaletteState state) =>
-            TextColor != Color.Empty ? TextColor : _inheritText.GetRibbonTextColor(state);
+            TextColor != GlobalStaticValues.EMPTY_COLOR ? TextColor : _inheritText.GetRibbonTextColor(state);
 
         #endregion
     }

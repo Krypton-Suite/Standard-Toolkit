@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -18,18 +18,18 @@ namespace Krypton.Toolkit
     public class PaletteRedirectContent : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteContent _disabled;
-        private IPaletteContent _normal;
-        private IPaletteContent _pressed;
-        private IPaletteContent _tracking;
-        private IPaletteContent _checkedNormal;
-        private IPaletteContent _checkedPressed;
-        private IPaletteContent _checkedTracking;
-        private IPaletteContent _focusOverride;
-        private IPaletteContent _normalDefaultOverride;
-        private IPaletteContent _linkVisitedOverride;
-        private IPaletteContent _linkNotVisitedOverride;
-        private IPaletteContent _linkPressedOverride;
+        private IPaletteContent? _disabled;
+        private IPaletteContent? _normal;
+        private IPaletteContent? _pressed;
+        private IPaletteContent? _tracking;
+        private IPaletteContent? _checkedNormal;
+        private IPaletteContent? _checkedPressed;
+        private IPaletteContent? _checkedTracking;
+        private IPaletteContent? _focusOverride;
+        private IPaletteContent? _normalDefaultOverride;
+        private IPaletteContent? _linkVisitedOverride;
+        private IPaletteContent? _linkNotVisitedOverride;
+        private IPaletteContent? _linkPressedOverride;
         #endregion
 
         #region Identity
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectContent(PaletteBase? target,
+        public PaletteRedirectContent(PaletteBase target,
                                       IPaletteContent disabled,
                                       IPaletteContent normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null, null, null, null)
@@ -71,18 +71,18 @@ namespace Krypton.Toolkit
         /// <param name="linkNotVisitedOverride">Redirection for link not visited override state requests.</param>
         /// <param name="linkPressedOverride">Redirection for link pressed override state requests.</param>
         public PaletteRedirectContent(PaletteBase? target,
-                                      IPaletteContent disabled,
-                                      IPaletteContent normal,
-                                      IPaletteContent pressed,
-                                      IPaletteContent tracking,
-                                      IPaletteContent checkedNormal,
-                                      IPaletteContent checkedPressed,
-                                      IPaletteContent checkedTracking,
-                                      IPaletteContent focusOverride,
-                                      IPaletteContent normalDefaultOverride,
-                                      IPaletteContent linkVisitedOverride,
-                                      IPaletteContent linkNotVisitedOverride,
-                                      IPaletteContent linkPressedOverride)
+                                      IPaletteContent? disabled,
+                                      IPaletteContent? normal,
+                                      IPaletteContent? pressed,
+                                      IPaletteContent? tracking,
+                                      IPaletteContent? checkedNormal,
+                                      IPaletteContent? checkedPressed,
+                                      IPaletteContent? checkedTracking,
+                                      IPaletteContent? focusOverride,
+                                      IPaletteContent? normalDefaultOverride,
+                                      IPaletteContent? linkVisitedOverride,
+                                      IPaletteContent? linkNotVisitedOverride,
+                                      IPaletteContent? linkPressedOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentDraw(state) ?? Target.GetContentDraw(style, state);
+            return inherit?.GetContentDraw(state) ?? Target!.GetContentDraw(style, state);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentDrawFocus(state) ?? Target.GetContentDrawFocus(style, state);
+            return inherit?.GetContentDrawFocus(state) ?? Target!.GetContentDrawFocus(style, state);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentImageH(state) ?? Target.GetContentImageH(style, state);
+            return inherit?.GetContentImageH(state) ?? Target!.GetContentImageH(style, state);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentImageV(state) ?? Target.GetContentImageV(style, state);
+            return inherit?.GetContentImageV(state) ?? Target!.GetContentImageV(style, state);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentImageEffect(state) ?? Target.GetContentImageEffect(style, state);
+            return inherit?.GetContentImageEffect(state) ?? Target!.GetContentImageEffect(style, state);
         }
 
         /// <summary>
@@ -250,11 +250,11 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextFont(state) ?? Target.GetContentShortTextFont(style, state);
+            return inherit?.GetContentShortTextFont(state) ?? Target!.GetContentShortTextFont(style, state);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextHint(state) ?? Target.GetContentShortTextHint(style, state);
+            return inherit?.GetContentShortTextHint(state) ?? Target!.GetContentShortTextHint(style, state);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextPrefix(state) ?? Target.GetContentShortTextPrefix(style, state);
+            return inherit?.GetContentShortTextPrefix(state) ?? Target!.GetContentShortTextPrefix(style, state);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextMultiLine(state) ?? Target.GetContentShortTextMultiLine(style, state);
+            return inherit?.GetContentShortTextMultiLine(state) ?? Target!.GetContentShortTextMultiLine(style, state);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextTrim(state) ?? Target.GetContentShortTextTrim(style, state);
+            return inherit?.GetContentShortTextTrim(state) ?? Target!.GetContentShortTextTrim(style, state);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextH(state) ?? Target.GetContentShortTextH(style, state);
+            return inherit?.GetContentShortTextH(state) ?? Target!.GetContentShortTextH(style, state);
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextV(state) ?? Target.GetContentShortTextV(style, state);
+            return inherit?.GetContentShortTextV(state) ?? Target!.GetContentShortTextV(style, state);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextMultiLineH(state) ?? Target.GetContentShortTextMultiLineH(style, state);
+            return inherit?.GetContentShortTextMultiLineH(state) ?? Target!.GetContentShortTextMultiLineH(style, state);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextColor1(state) ?? Target.GetContentShortTextColor1(style, state);
+            return inherit?.GetContentShortTextColor1(state) ?? Target!.GetContentShortTextColor1(style, state);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextColor2(state) ?? Target.GetContentShortTextColor2(style, state);
+            return inherit?.GetContentShortTextColor2(state) ?? Target!.GetContentShortTextColor2(style, state);
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextColorStyle(state) ?? Target.GetContentShortTextColorStyle(style, state);
+            return inherit?.GetContentShortTextColorStyle(state) ?? Target!.GetContentShortTextColorStyle(style, state);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextColorAlign(state) ?? Target.GetContentShortTextColorAlign(style, state);
+            return inherit?.GetContentShortTextColorAlign(state) ?? Target!.GetContentShortTextColorAlign(style, state);
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextColorAngle(state) ?? Target.GetContentShortTextColorAngle(style, state);
+            return inherit?.GetContentShortTextColorAngle(state) ?? Target!.GetContentShortTextColorAngle(style, state);
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextImage(state) ?? Target.GetContentShortTextImage(style, state);
+            return inherit?.GetContentShortTextImage(state) ?? Target!.GetContentShortTextImage(style, state);
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextImageStyle(state) ?? Target.GetContentShortTextImageStyle(style, state);
+            return inherit?.GetContentShortTextImageStyle(state) ?? Target!.GetContentShortTextImageStyle(style, state);
         }
 
         /// <summary>
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentShortTextImageAlign(state) ?? Target.GetContentShortTextImageAlign(style, state);
+            return inherit?.GetContentShortTextImageAlign(state) ?? Target!.GetContentShortTextImageAlign(style, state);
         }
 
         /// <summary>
@@ -458,11 +458,11 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextFont(state) ?? Target.GetContentLongTextFont(style, state);
+            return inherit?.GetContentLongTextFont(state) ?? Target!.GetContentLongTextFont(style, state);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextHint(state) ?? Target.GetContentLongTextHint(style, state);
+            return inherit?.GetContentLongTextHint(state) ?? Target!.GetContentLongTextHint(style, state);
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextMultiLine(state) ?? Target.GetContentLongTextMultiLine(style, state);
+            return inherit?.GetContentLongTextMultiLine(state) ?? Target!.GetContentLongTextMultiLine(style, state);
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextTrim(state) ?? Target.GetContentLongTextTrim(style, state);
+            return inherit?.GetContentLongTextTrim(state) ?? Target!.GetContentLongTextTrim(style, state);
         }
 
         /// <summary>
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextPrefix(state) ?? Target.GetContentLongTextPrefix(style, state);
+            return inherit?.GetContentLongTextPrefix(state) ?? Target!.GetContentLongTextPrefix(style, state);
         }
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextH(state) ?? Target.GetContentLongTextH(style, state);
+            return inherit?.GetContentLongTextH(state) ?? Target!.GetContentLongTextH(style, state);
         }
 
         /// <summary>
@@ -540,7 +540,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextV(state) ?? Target.GetContentLongTextV(style, state);
+            return inherit?.GetContentLongTextV(state) ?? Target!.GetContentLongTextV(style, state);
         }
 
         /// <summary>
@@ -553,7 +553,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextMultiLineH(state) ?? Target.GetContentLongTextMultiLineH(style, state);
+            return inherit?.GetContentLongTextMultiLineH(state) ?? Target!.GetContentLongTextMultiLineH(style, state);
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextColor1(state) ?? Target.GetContentLongTextColor1(style, state);
+            return inherit?.GetContentLongTextColor1(state) ?? Target!.GetContentLongTextColor1(style, state);
         }
 
         /// <summary>
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextColor2(state) ?? Target.GetContentLongTextColor2(style, state);
+            return inherit?.GetContentLongTextColor2(state) ?? Target!.GetContentLongTextColor2(style, state);
         }
 
         /// <summary>
@@ -592,7 +592,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextColorStyle(state) ?? Target.GetContentLongTextColorStyle(style, state);
+            return inherit?.GetContentLongTextColorStyle(state) ?? Target!.GetContentLongTextColorStyle(style, state);
         }
 
         /// <summary>
@@ -605,7 +605,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextColorAlign(state) ?? Target.GetContentLongTextColorAlign(style, state);
+            return inherit?.GetContentLongTextColorAlign(state) ?? Target!.GetContentLongTextColorAlign(style, state);
         }
 
         /// <summary>
@@ -618,7 +618,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextImage(state) ?? Target.GetContentLongTextImage(style, state);
+            return inherit?.GetContentLongTextImage(state) ?? Target!.GetContentLongTextImage(style, state);
         }
 
         /// <summary>
@@ -631,7 +631,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextImageStyle(state) ?? Target.GetContentLongTextImageStyle(style, state);
+            return inherit?.GetContentLongTextImageStyle(state) ?? Target!.GetContentLongTextImageStyle(style, state);
         }
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentLongTextImageAlign(state) ?? Target.GetContentLongTextImageAlign(style, state);
+            return inherit?.GetContentLongTextImageAlign(state) ?? Target!.GetContentLongTextImageAlign(style, state);
         }
 
         /// <summary>
@@ -657,7 +657,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentPadding(state) ?? Target.GetContentPadding(style, state);
+            return inherit?.GetContentPadding(state) ?? Target!.GetContentPadding(style, state);
         }
 
         /// <summary>
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentAdjacentGap(state) ?? Target.GetContentAdjacentGap(style, state);
+            return inherit?.GetContentAdjacentGap(state) ?? Target!.GetContentAdjacentGap(style, state);
         }
         #endregion
 
@@ -682,6 +682,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return _disabled;
                 case PaletteState.Normal:
+                case PaletteState.ContextNormal:    // From the TreeGrid
                     return _normal;
                 case PaletteState.Pressed:
                     return _pressed;
@@ -706,7 +707,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

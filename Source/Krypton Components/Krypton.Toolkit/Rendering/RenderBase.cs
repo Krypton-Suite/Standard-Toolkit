@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -28,60 +28,52 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly object _threadLock = new object();
 
-        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new[] { 0, 0.59f, 0.59f, 0, 0 }, new[] { 0, 0.11f, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 0.59f, 0.59f, 0, 0], [0, 0.11f, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0, 0.3f, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new[] { 0.11f, 0, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix([
+            [0.3f, 0, 0.3f, 0, 0], [0, 1, 0, 0, 0], [0.11f, 0, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0, 0, 0 }, new[] { 0.59f, 0.59f, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix([
+            [0.3f, 0.3f, 0, 0, 0], [0.59f, 0.59f, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.1f, 0.1f, 0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.1f, 0.1f, 0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.2f, 0.2f, 0.2f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.2f, 0.2f, 0.2f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.1f, -0.1f, -0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.1f, -0.1f, -0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.25f, -0.25f, -0.25f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.25f, -0.25f, -0.25f, 0, 1]
+        ]);
         #endregion
 
         #region IRenderer
         /// <summary>
         /// Gets the standard border renderer.
         /// </summary>
-        public IRenderBorder RenderStandardBorder 
+        public IRenderBorder RenderStandardBorder
         {
             [DebuggerStepThrough]
             get => this;
@@ -126,7 +118,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the glyph renderer.
         /// </summary>
-        public IRenderGlyph RenderGlyph 
+        public IRenderGlyph RenderGlyph
         {
             [DebuggerStepThrough]
             get => this;
@@ -136,7 +128,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public abstract ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette);
+        public abstract ToolStripRenderer RenderToolStrip(PaletteBase colorPalette);
         #endregion
 
         #region RenderStandardBorder
@@ -158,7 +150,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <returns>Padding structure detailing all four edges.</returns>
-        public abstract Padding GetBorderDisplayPadding(IPaletteBorder palette,
+        public abstract Padding GetBorderDisplayPadding(IPaletteBorder? palette,
                                                         PaletteState state,
                                                         VisualOrientation orientation);
 
@@ -173,10 +165,10 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         public abstract GraphicsPath GetOutsideBorderPath(RenderContext context,
                                                           Rectangle rect,
-                                                          IPaletteBorder palette,
+                                                          IPaletteBorder? palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state);
-        
+
         /// <summary>
         /// Generate a graphics path that is in the middle of the border.
         /// </summary>
@@ -186,8 +178,8 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <returns>GraphicsPath instance.</returns>
-        public abstract GraphicsPath GetBorderPath(RenderContext context, 
-                                                   Rectangle rect, 
+        public abstract GraphicsPath GetBorderPath(RenderContext context,
+                                                   Rectangle rect,
                                                    IPaletteBorder palette,
                                                    VisualOrientation orientation,
                                                    PaletteState state);
@@ -206,7 +198,7 @@ namespace Krypton.Toolkit
                                                  IPaletteBorder palette,
                                                  VisualOrientation orientation,
                                                  PaletteState state);
-        
+
         /// <summary>
         /// Draw border on the inside edge of the specified rectangle.
         /// </summary>
@@ -215,8 +207,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette used for drawing.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
-        public abstract void DrawBorder(RenderContext context, 
-                                        Rectangle rect, 
+        public abstract void DrawBorder(RenderContext context,
+                                        Rectangle rect,
                                         IPaletteBorder palette,
                                         VisualOrientation orientation,
                                         PaletteState state);
@@ -233,9 +225,9 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public abstract IDisposable? DrawBack(RenderContext context, 
+        public abstract IDisposable? DrawBack(RenderContext context,
                                              Rectangle rect,
-                                             GraphicsPath path, 
+                                             GraphicsPath path,
                                              IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
@@ -243,6 +235,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderStandardContent
+
         /// <summary>
         /// Get the preferred size for drawing the content.
         /// </summary>
@@ -251,16 +244,12 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Preferred size.</returns>
         public abstract Size GetContentPreferredSize(ViewLayoutContext context,
-                                                     IPaletteContent palette,
-                                                     IContentValues values,
-                                                     VisualOrientation orientation,
-                                                     PaletteState state,
-                                                     bool composition,
-                                                     bool glowing);
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform layout calculations on the provided content.
@@ -271,17 +260,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
         public abstract IDisposable LayoutContent(ViewLayoutContext context,
-                                                  Rectangle availableRect,
-                                                  IPaletteContent palette,
-                                                  IContentValues values,
-                                                  VisualOrientation orientation,
-                                                  PaletteState state,
-                                                  bool composition, 
-                                                  bool glowing);
+            Rectangle availableRect,
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform draw of content using provided memento.
@@ -292,60 +277,56 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         public abstract void DrawContent(RenderContext context,
-                                         Rectangle displayRect,
-                                         IPaletteContent palette,
-                                         IDisposable memento,
-                                         VisualOrientation orientation,
-                                         PaletteState state,
-                                         bool composition,
-                                         bool glowing,
-                                         bool allowFocusRect);
+            Rectangle displayRect,
+            IPaletteContent palette,
+            IDisposable memento,
+            VisualOrientation orientation,
+            PaletteState state,
+            bool allowFocusRect);
 
         /// <summary>
         /// Request the calculated display of the image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the image is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentImageDisplayed(IDisposable memento);
+        public abstract bool GetContentImageDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content image.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentImageRectangle(IDisposable memento);
+        public abstract Rectangle GetContentImageRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the short text is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentShortTextDisplayed(IDisposable memento);
+        public abstract bool GetContentShortTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content short text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentShortTextRectangle(IDisposable memento);
+        public abstract Rectangle GetContentShortTextRectangle(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated display of the long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>True if the long text is being Displayed; otherwise false.</returns>
-        public abstract bool GetContentLongTextDisplayed(IDisposable memento);
+        public abstract bool GetContentLongTextDisplayed(IDisposable? memento);
 
         /// <summary>
         /// Request the calculated position of the content long text.
         /// </summary>
         /// <param name="memento">Cached values from layout call.</param>
         /// <returns>Display rectangle for the image content.</returns>
-        public abstract Rectangle GetContentLongTextRectangle(IDisposable memento);
+        public abstract Rectangle GetContentLongTextRectangle(IDisposable? memento);
         #endregion
 
         #region RenderTabBorder
@@ -430,6 +411,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -439,16 +421,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public abstract IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento);
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.
@@ -459,12 +439,12 @@ namespace Krypton.Toolkit
         /// <param name="paletteGeneral">Palette used for general ribbon settings.</param>
         /// <param name="paletteBack">Palette used for background ribbon settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public abstract IDisposable DrawRibbonTabContextTitle(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonTabContextTitle(PaletteRibbonShape shape,
                                                               RenderContext context,
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento);
+                                                              IDisposable? memento);
 
         /// <summary>
         /// Draw the application button.
@@ -475,31 +455,29 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached storage for drawing objects.</param>
-        public abstract IDisposable DrawRibbonApplicationButton(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonApplicationButton(PaletteRibbonShape shape,
                                                                 RenderContext context,
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento);
+                                                                IDisposable? memento);
 
         /// <summary>
-        /// Draw the application tab.
+        /// Draw the "File application tab"
         /// </summary>
         /// <param name="shape">Ribbon shape.</param>
         /// <param name="context">Rendering context.</param>
         /// <param name="rect">Target rectangle.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="baseColor1">Base color1 used for drawing the ribbon tab.</param>
-        /// <param name="baseColor2">Base color2 used for drawing the ribbon tab.</param>
+        /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public abstract IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonFileApplicationTab(PaletteRibbonShape shape,
                                                              RenderContext context,
                                                              Rectangle rect,
                                                              PaletteState state,
-                                                             Color baseColor1,
-                                                             Color baseColor2,
-                                                             IDisposable memento);
-        
+                                                             IPaletteRibbonFileAppTab palette,
+                                                             IDisposable? memento);
+
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
         /// </summary>
@@ -544,7 +522,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public abstract Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                                      PaletteBase? palette,
+                                                      PaletteBase palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -562,7 +540,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public abstract void DrawCheckBox(RenderContext context,
                                           Rectangle displayRect,
-                                          PaletteBase? palette,
+                                          PaletteBase palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -609,7 +587,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public abstract Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            PaletteBase? palette,
+                                                            PaletteBase palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation);
 
@@ -623,7 +601,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         public abstract void DrawDropDownButton(RenderContext context,
                                                 Rectangle displayRect,
-                                                PaletteBase? palette,
+                                                PaletteBase palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation);
 
@@ -662,7 +640,7 @@ namespace Krypton.Toolkit
                                                            Rectangle cellRect,
                                                            IPaletteContent? paletteContent,
                                                            PaletteState state);
-        
+
 
         /// <summary>
         /// Perform drawing of a ribbon dialog box launcher glyph.
@@ -747,7 +725,7 @@ namespace Krypton.Toolkit
         public abstract Rectangle DrawGridSortGlyph(RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    IPaletteContent? paletteContent,
+                                                    IPaletteContent paletteContent,
                                                     PaletteState state,
                                                     bool rtl);
 
@@ -835,8 +813,8 @@ namespace Krypton.Toolkit
                                                  Size positionSize,
                                                  int minimum,
                                                  int maximum,
-                                                 int frequency);    
- 
+                                                 int frequency);
+
         /// <summary>
         /// Draw the track bar track glyph.
         /// </summary>
@@ -935,7 +913,7 @@ namespace Krypton.Toolkit
         /// <param name="remapNew">New color for remap.</param>
         /// <exception cref="ArgumentNullException"></exception>
         protected static void DrawImageHelper([DisallowNull] ViewContext context,
-                                              Image image,
+                                              Image? image,
                                               Color remapTransparent,
                                               Rectangle imageRect,
                                               VisualOrientation orientation,
@@ -987,20 +965,20 @@ namespace Krypton.Toolkit
                     case PaletteImageEffect.DarkDark:
                         attribs.SetColorMatrix(_matrixDarkDark);
                         break;
-                    case PaletteImageEffect.Inherit:
-                        // Should never happen!
+                    case PaletteImageEffect.Inherit:                            // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(effect.ToString());
                         break;
                 }
 
                 // Do we need to remap a colors in the bitmap?
-                if ((remapTransparent != Color.Empty) ||
-                    ((remapColor != Color.Empty) && (remapNew != Color.Empty)))
+                if ((remapTransparent != GlobalStaticValues.EMPTY_COLOR) ||
+                    ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR)))
                 {
                     var colorMaps = new List<ColorMap>();
 
                     // Create remapping for the transparent color
-                    if (remapTransparent != Color.Empty)
+                    if (remapTransparent != GlobalStaticValues.EMPTY_COLOR)
                     {
                         var remap = new ColorMap
                         {
@@ -1011,7 +989,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create remapping from source to target colors
-                    if ((remapColor != Color.Empty) && (remapNew != Color.Empty))
+                    if ((remapColor != GlobalStaticValues.EMPTY_COLOR) && (remapNew != GlobalStaticValues.EMPTY_COLOR))
                     {
                         var remap = new ColorMap
                         {
@@ -1072,7 +1050,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Finally, just draw the image and let the transforms do the rest
-                    context.Graphics.DrawImage(image, imageRect, 0, 0, imageRect.Width, imageRect.Height, GraphicsUnit.Pixel, attribs);
+                    context.Graphics.DrawImage(image!, imageRect, 0, 0, imageRect.Width, imageRect.Height, GraphicsUnit.Pixel, attribs);
                 }
                 catch (ArgumentException)
                 {

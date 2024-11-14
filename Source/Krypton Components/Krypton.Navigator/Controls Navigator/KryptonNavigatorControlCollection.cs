@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -35,16 +35,14 @@ namespace Krypton.Navigator
         /// Adds the specified control to the control collection.
         /// </summary>
         /// <param name="value">The KryptonPage to add to the control collection.</param>
-        public override void Add([DisallowNull] Control value)
+        public override void Add(Control? value)
         {
-            Debug.Assert(value != null);
+            Debug.Assert(value is not null);
 
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-
-            // Cast to correct type
 
             // We only allow KryptonPage controls to be added
             if (value is not KryptonPage)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
                                     int barMinimumHeight,
                                     TabBorderStyle tabBorderStyle,
                                     bool reorderSelectedLine)
-            : base(paletteMetric, metricGap, itemSizing, 
+            : base(paletteMetric, metricGap, itemSizing,
                    itemAlignment, barMultiline, itemMinimumSize,
                    itemMaximumSize, barMinimumHeight, tabBorderStyle,
                    reorderSelectedLine)
@@ -115,8 +115,13 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void RenderChildren(RenderContext context, bool drawChecked)
+        private void RenderChildren([DisallowNull] RenderContext context, bool drawChecked)
         {
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
+
             // Use tab style to decide what order the children are drawn in
             var orderedChildren = context.Renderer.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
 
@@ -132,7 +137,7 @@ namespace Krypton.Navigator
                     if ((buttonBar != null) ||
                         (tab != null))
                     {
-                        var itemChecked = buttonBar?.Checked ?? tab.Checked;
+                        var itemChecked = buttonBar?.Checked ?? tab!.Checked;
 
                         // Are we allowed to draw the checked item?
                         if ((!itemChecked && !drawChecked) ||

@@ -5,20 +5,18 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
 
-using Krypton.Toolkit.Designers.Designers;
-
-namespace Krypton.Toolkit.Designers.Action_Lists
+namespace Krypton.Toolkit
 {
     internal class KryptonListViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListView? _listView;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonListView _listView;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -30,64 +28,15 @@ namespace Krypton.Toolkit.Designers.Action_Lists
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listView = owner.Component as KryptonListView;
+            _listView = (owner.Component as KryptonListView)!;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
         #region Public
-        /// <summary>
-        /// Gets and sets the style used for list items.
-        /// </summary>
-        public ButtonStyle ItemStyle
-        {
-            get => _listView.ItemStyle;
-
-            set
-            {
-                if (_listView.ItemStyle != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.ItemStyle, value);
-                    _listView.ItemStyle = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the background drawing style.
-        /// </summary>
-        public PaletteBackStyle BackStyle
-        {
-            get => _listView.BackStyle;
-
-            set
-            {
-                if (_listView.BackStyle != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.BackStyle, value);
-                    _listView.BackStyle = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the border drawing style.
-        /// </summary>
-        public PaletteBorderStyle BorderStyle
-        {
-            get => _listView.BorderStyle;
-
-            set
-            {
-                if (_listView.BorderStyle != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.BorderStyle, value);
-                    _listView.BorderStyle = value;
-                }
-            }
-        }
+        
 
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
@@ -99,65 +48,13 @@ namespace Krypton.Toolkit.Designers.Action_Lists
             {
                 if (_listView.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
+                    _service?.OnComponentChanged(_listView, null, _listView.KryptonContextMenu, value);
 
                     _listView.KryptonContextMenu = value;
                 }
             }
         }
 
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        public Font StateCommonShortTextFont
-        {
-            get => _listView.StateCommon.Item.Content.ShortText.Font;
-
-            set
-            {
-                if (_listView.StateCommon.Item.Content.ShortText.Font != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Content.ShortText.Font, value);
-
-                    _listView.StateCommon.Item.Content.ShortText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _listView.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_listView.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Border.Rounding, value);
-
-                    _listView.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the item corner radius.</summary>
-        /// <value>The item corner radius.</value>
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonItemCornerRoundingRadius
-        {
-            get => _listView.StateCommon.Item.Border.Rounding;
-
-            set
-            {
-                if (_listView.StateCommon.Item.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Border.Rounding, value);
-
-                    _listView.StateCommon.Item.Border.Rounding = value;
-                }
-            }
-        }
 
         #endregion
 
@@ -169,23 +66,14 @@ namespace Krypton.Toolkit.Designers.Action_Lists
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            var actions = new DesignerActionItemCollection();
-
-            // This can be null when deleting a control instance at design time
-            if (_listView != null)
+            var actions = new DesignerActionItemCollection
             {
+                // This can be null when deleting a control instance at design time
                 // Add the list of list box specific actions
-                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
-                actions.Add(new DesignerActionPropertyItem(nameof(BackStyle), @"Back Style", nameof(Appearance), @"Style used to draw background."));
-                actions.Add(new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(ItemStyle), @"Item Style", nameof(Appearance), @"How to display list items."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonItemCornerRoundingRadius), @"State Common Item Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the item."));
-                actions.Add(new DesignerActionHeaderItem(nameof(Behavior)));
-                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-            }
+                new DesignerActionHeaderItem(nameof(Appearance)),
+                new DesignerActionPropertyItem(nameof(BorderStyle), @"Border Style", nameof(Appearance), @"Style used to draw the border."),
+                new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."),
+            };
 
             return actions;
         }

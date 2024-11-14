@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector)
+                                       PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -59,7 +59,7 @@ namespace Krypton.Navigator
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutHeaderBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                      new[] { _layoutBarDocker },
-                                                                     new IPaletteMetric[] { Navigator.StateCommon.Bar },
+                                                                     new IPaletteMetric[] { Navigator.StateCommon!.Bar },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                      new[] { PaletteMetricPadding.BarButtonPadding },
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected override void PostCreate()
         {
-            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
+            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
             _viewHeadingBar.Visible = Navigator.Header.HeaderVisibleBar;
             base.PostCreate();
         }
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator? paletteState;
+            PaletteNavigator paletteState;
 
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;
@@ -132,12 +132,12 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Property changed details.</param>
-        protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case @"HeaderStyleBar":
-                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
+                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -148,7 +148,7 @@ namespace Krypton.Navigator
                 case @"HeaderPositionBar":
                     UpdateOrientation();
                     UpdateItemOrientation();
-                    _buttonManager.RecreateButtons();
+                    _buttonManager!.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -239,15 +239,15 @@ namespace Krypton.Navigator
         private PaletteState GetRemappingPaletteState() =>
             Navigator.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        private void OnEnabledChanged(object sender, EventArgs e)
+        private void OnEnabledChanged(object? sender, EventArgs e)
         {
             if (_buttonManager != null)
             {
                 // Cast button manager to correct type
-                var headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
+                var headerBarBM = _buttonManager as ButtonSpecNavManagerLayoutHeaderBar;
 
                 // Update with newly calculated values
-                headerBarBM.UpdateRemapping(GetRemappingPaletteContent(),
+                headerBarBM?.UpdateRemapping(GetRemappingPaletteContent(),
                                             GetRemappingPaletteState());
             }
         }

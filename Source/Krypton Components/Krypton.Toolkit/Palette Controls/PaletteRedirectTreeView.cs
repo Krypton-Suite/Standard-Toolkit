@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -27,10 +27,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectTreeView class.
         /// </summary>
         /// <param name="plusMinusImages">Reference to source of tree view images.</param>
-        /// <param name="checkboxImages">Reference to source of check box images.</param>
+        /// <param name="checkBoxImages">Reference to source of check box images.</param>
         public PaletteRedirectTreeView(TreeViewImages plusMinusImages,
-                                       CheckBoxImages checkboxImages)
-            : this(null, plusMinusImages, checkboxImages)
+                                       CheckBoxImages checkBoxImages)
+            : this(null, plusMinusImages, checkBoxImages)
         {
         }
 
@@ -39,17 +39,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="plusMinusImages">Reference to source of tree view images.</param>
-        /// <param name="checkboxImages">Reference to source of check box images.</param>
+        /// <param name="checkBoxImages">Reference to source of check box images.</param>
         public PaletteRedirectTreeView(PaletteBase? target,
             [DisallowNull] TreeViewImages plusMinusImages,
-                                       CheckBoxImages checkboxImages)
+                                       CheckBoxImages checkBoxImages)
             : base(target)
         {
             Debug.Assert(plusMinusImages != null);
 
             // Remember incoming targets
-            _plusMinusImages = plusMinusImages;
-            _checkboxImages = checkboxImages;
+            _plusMinusImages = plusMinusImages!;
+            _checkboxImages = checkBoxImages;
         }
         #endregion
 
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetTreeViewImage(bool expanded)
         {
-            Image? retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
+            Image? retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target?.GetTreeViewImage(expanded);
 
             // Not found, then inherit from target
 
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                                                bool tracking,
                                                bool pressed)
         {
-            Image retImage;
+            Image? retImage;
 
             // Get the state specific image
             switch (checkState)
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
             retImage ??= _checkboxImages.Common;
 
             // Not found, then inherit from target
-            return retImage ?? Target.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            return retImage ?? Target?.GetCheckBoxImage(enabled, checkState, tracking, pressed);
         }
         #endregion
     }

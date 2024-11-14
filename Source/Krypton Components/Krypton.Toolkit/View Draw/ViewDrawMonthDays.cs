@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]?.Dispose();
                     _dayMementos[i] = null;
                 }
             }
@@ -223,7 +223,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override void Layout([DisallowNull] ViewLayoutContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Get the current date values
             DateTime minDate = _calendar.MinDate.Date;
@@ -232,7 +242,7 @@ namespace Krypton.Toolkit
             DateTime selectEnd = _calendar.SelectionEnd.Date;
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
@@ -257,7 +267,7 @@ namespace Krypton.Toolkit
 
                     if (_dayMementos[index] != null)
                     {
-                        _dayMementos[index].Dispose();
+                        _dayMementos[index]?.Dispose();
                         _dayMementos[index] = null;
                     }
 
@@ -321,8 +331,8 @@ namespace Krypton.Toolkit
 
                     if (!skip)
                     {
-                        _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent,
-                                                                                                   this, VisualOrientation.Top, paletteState, false, false);
+                        _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent!,
+                                                                                                   this, VisualOrientation.Top, paletteState);
 
                         // Track the maximum date displayed for this month (exclude disabled days that are shown for
                         // information but cannot actually be selected themselves as part of a multi selection action)
@@ -361,7 +371,17 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore([DisallowNull] RenderContext context)
         {
-            Debug.Assert(context != null);
+            Debug.Assert(context is not null);
+
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Renderer is null)
+            {
+                throw new ArgumentNullException(nameof(context.Renderer));
+            }
 
             // Get the current date values
             DateTime minDate = _calendar.MinDate.Date;
@@ -453,22 +473,23 @@ namespace Krypton.Toolkit
                             // Do we need to draw the background?
                             if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                             {
-                                using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
-                                    VisualOrientation.Top, paletteState);
+                                using GraphicsPath path = context?.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder!, 
+                                    VisualOrientation.Top, paletteState)!;
+                                using var gh = new GraphicsHint(context!.Graphics, paletteTriple.PaletteBorder!.GetBorderGraphicsHint(paletteState));
                                 context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                             }
 
                             // Do we need to draw the border?
-                            if (paletteTriple.PaletteBorder.GetBorderDraw(paletteState) == InheritBool.True)
+                            if (paletteTriple.PaletteBorder!.GetBorderDraw(paletteState) == InheritBool.True)
                             {
-                                context.Renderer.RenderStandardBorder.DrawBorder(context, drawRectCell, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
+                                context?.Renderer.RenderStandardBorder.DrawBorder(context, drawRectCell, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
                             }
 
                             // Do we need to draw the content?
-                            if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
+                            if (paletteTriple.PaletteContent!.GetContentDraw(paletteState) == InheritBool.True)
                             {
-                                context.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index],
-                                                                                   VisualOrientation.Top, paletteState, false, false, true);
+                                context?.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index]!,
+                                                                                   VisualOrientation.Top, paletteState, true);
                             }
                         }
                     }
@@ -503,7 +524,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.

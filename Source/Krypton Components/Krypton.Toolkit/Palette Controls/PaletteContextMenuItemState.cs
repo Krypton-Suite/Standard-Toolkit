@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -52,10 +52,15 @@ namespace Krypton.Toolkit
         public PaletteContextMenuItemState(PaletteDoubleMetricRedirect? redirectItemHighlight,
                                            PaletteTripleJustImageRedirect redirectItemImage,
                                            PaletteContentInheritRedirect redirectItemShortcutText,
-                                           PaletteDoubleRedirect? redirectItemSplit,
+                                           PaletteDoubleRedirect redirectItemSplit,
                                            PaletteContentInheritRedirect redirectItemTextStandard,
                                            PaletteContentInheritRedirect redirectItemTextAlternate)
         {
+            if (redirectItemHighlight is null)
+            {
+                throw new ArgumentNullException(nameof(redirectItemHighlight));
+            }
+
             ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);
             ItemImage = new PaletteTripleJustImage(redirectItemImage);
             ItemShortcutText = new PaletteContentJustShortText(redirectItemShortcutText);
@@ -70,12 +75,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ItemHighlight.IsDefault &&
-                                           ItemImage.IsDefault &&
-                                           ItemShortcutText.IsDefault &&
-                                           ItemSplit.IsDefault &&
-                                           ItemTextStandard.IsDefault &&
-                                           ItemTextAlternate.IsDefault;
+                                            ItemImage.IsDefault &&
+                                            ItemShortcutText.IsDefault &&
+                                            ItemSplit.IsDefault &&
+                                            ItemTextStandard.IsDefault &&
+                                            ItemTextAlternate.IsDefault;
 
         #endregion
 
@@ -115,7 +121,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleMetric? ItemHighlight { get; }
+        public PaletteDoubleMetric ItemHighlight { get; }
 
         private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
 
@@ -157,7 +163,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble? ItemSplit { get; }
+        public PaletteDouble ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 

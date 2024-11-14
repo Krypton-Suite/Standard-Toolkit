@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
  *  
  */
 #endregion
@@ -40,19 +40,19 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxController([DisallowNull] ViewDrawCheckBox target,
-            [DisallowNull] ViewBase top,
+        public CheckBoxController(ViewDrawCheckBox target,
+                                  ViewBase top,
                                   NeedPaintHandler needPaint)
         {
-            Debug.Assert(target != null);
-            Debug.Assert(top != null);
-
-            // Store the provided paint notification delegate
-            NeedPaint = needPaint;
+            Debug.Assert(target is not null);
+            Debug.Assert(top is not null);
 
             // Remember target for state changes
-            _target = target;
-            _top = top;
+            // Debug.Assert() causes the null assignment warning.
+            // Suppressed by the null forgiving operator
+            _target = target!;
+            _top = top!;
+            NeedPaint = needPaint;
         }
         #endregion
 
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
                     {
                         // Only if check box is still pressed
                         if (_target is { Pressed: true, Enabled: true })
-                            // Can only click if enabled
+                        // Can only click if enabled
                         {
                             OnClick(EventArgs.Empty);
                         }
