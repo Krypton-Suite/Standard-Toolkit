@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -208,6 +208,21 @@ namespace TestForm
         private void kbtnPropertyGrid_Click(object sender, EventArgs e)
         {
             new PropertyGridTest().Show();
+        }
+
+        private void kbtnDateTime_Click(object sender, EventArgs e)
+        {
+            new DateTimeExample().Show();
+        }
+
+        private void kbtnControlStyles_Click(object sender, EventArgs e)
+        {
+            new ControlStyles().Show();
+        }
+
+        private void kbtnSplashScreen_Click(object sender, EventArgs e)
+        {
+            new SplashScreenExample().Show();
         }
     }
 }

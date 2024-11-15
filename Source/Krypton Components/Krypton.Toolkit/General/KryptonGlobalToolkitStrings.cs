@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -189,6 +189,9 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
             new KryptonToastNotificationStrings();
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
 
         #endregion
 
@@ -572,6 +575,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton toast notification strings.</summary>
         public void ResetToastNotificationStrings() => KryptonToastNotificationStrings.Reset();
 
+        /// <summary>Gets the krypton splash screen strings.</summary>
+        /// <value>The krypton splash screen strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of splash screen strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public SplashScreenStrings SplashScreenStrings => KryptonSplashScreenStrings;
+
+        private bool ShouldSerializeSplashScreenStringsStrings() => !KryptonSplashScreenStrings.IsDefault;
+
+        /// <summary>Resets the krypton splash screen strings.</summary>
+        public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
+
         #endregion
 
         #region Identity
@@ -610,7 +627,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
-                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings());
+                                   ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
+                                   ShouldSerializeSplashScreenStringsStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -649,6 +667,7 @@ namespace Krypton.Toolkit
             ResetToastNotificationIconStrings();
             ResetToastNotificationStrings();
             ResetToolBarStrings();
+            ResetSplashScreenStringsStrings();
         }
 
         #endregion
