@@ -76,8 +76,7 @@ namespace Krypton.Toolkit
         /// https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
         internal (int xBorder, int yBorder) BorderWidths(FormBorderStyle formFormBorderStyle)
         {
-            //GraphicsHint = PaletteGraphicsHint.None;
-            var xBorder = base.Width;
+            var xBorder = base.Width;   // do not call GetBorderWidth(PaletteState.Normal); as it will get lost in the stack recursion !
             var yBorder = base.Width;
             if (!UseThemeFormChromeBorderWidth)
             {

@@ -1238,11 +1238,15 @@ namespace Krypton.Toolkit
             int xOffset = 0;
             int yOffset = 0;
             uint dwStyle = (uint)cp.Style;
+            bool useAdjust = false;
+            bool useWindowTheme = false;
             if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
             {
+                useAdjust = true;
                 if (!CommonHelper.IsFormMaximized(kryptonForm))
                 {
                     var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                    useWindowTheme = xOffset1 == -1;
                     xOffset = Math.Max(0, xOffset1);
                     yOffset = Math.Max(0, yOffset1);
                 }
@@ -1255,15 +1259,17 @@ namespace Krypton.Toolkit
             var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
-                left = -xOffset,
-                right = xOffset,
                 top = -yOffset,
                 bottom = yOffset
             };
-            // Adjust rectangle to add on the borders required
-            PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
+            if (useAdjust)
+            {
+                // Adjust rectangle to add on the borders required
+                PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
+            }
+
             // Return the per side border values
-            return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+            return new Padding(useWindowTheme? -rect.left:xOffset, -rect.top, useWindowTheme ? rect.right:xOffset, useWindowTheme ? rect.bottom:yOffset);
         }
 
         /// <summary>
