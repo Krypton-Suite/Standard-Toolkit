@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
                                              string? text, string? caption,
                                              KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
                                              KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.None,
-                                             KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
+                                             KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
                                              MessageBoxOptions options = 0,
                                              HelpInfo? helpInfo = null, 
                                              bool? showCtrlCopy = null,
