@@ -3,7 +3,7 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
-* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height colapses when MultiLine is enabled.
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 
 =======
 
