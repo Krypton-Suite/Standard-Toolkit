@@ -2,6 +2,11 @@
 
 =======
 
+# 2025-02-01 - Build 2502 (Patch 5) - Fefruary 2025
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
+
+=======
+
 # 2024-11-14 - Build 2411 (Patch 4) - November 2024
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
 * Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set WinForms columns are used. See the issue for full text.

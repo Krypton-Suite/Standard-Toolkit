@@ -1854,7 +1854,16 @@ namespace Krypton.Toolkit
             if (!ignoreAnchored || ((Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) != (AnchorStyles.Bottom | AnchorStyles.Top)))
             {
                 // If auto sizing the control and not in multiline mode then override the height
-                Height = _autoSize && !Multiline ? PreferredHeight : _cachedHeight;
+                // #1842 when autosize == true and MultiLine == true and the _cachedHeight == -1 which is the initial value
+                // the box collapses. Only when _cachedHeight > -1 it will be assigned. Otherwise Height is left alone.
+                if (_autoSize && !Multiline)
+                {
+                    Height = PreferredHeight;
+                }
+                else if (_cachedHeight > -1)
+                {
+                    Height = _cachedHeight;
+                }
             }
         }
 
