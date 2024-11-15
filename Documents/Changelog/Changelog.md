@@ -2,6 +2,11 @@
 
 =======
 
+## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height colapses when MultiLine is enabled.
+
+=======
+
 ## 2024-11-12 - Build 2411 - November 2024
 * Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set Winforms columns are used. See the issue for full text.
 * Resolved [#1787](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1787), Office 2007 & 2010 Silver Darkmode themes ribbon buttton tracking colors adjusted.
