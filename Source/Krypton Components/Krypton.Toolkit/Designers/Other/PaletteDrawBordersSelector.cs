@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the value being edited.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Content )]
         public PaletteDrawBorders Value
         {
             get

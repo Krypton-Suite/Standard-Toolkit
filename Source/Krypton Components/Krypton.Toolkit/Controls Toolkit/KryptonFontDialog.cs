@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the title of the common Font Dialog
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         public string Title
         {
             get => _commonDialogHandler.Title;
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
@@ -46,6 +47,7 @@ namespace Krypton.Toolkit
         /// Changes the default Icon to Developer set
         /// </summary>
         [DefaultValue(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ShowIcon
         {
             get => _commonDialogHandler.ShowIcon;
@@ -65,6 +67,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool DisplayExtendedColorsButton
         {
             get => _displayExtendedColorsButton;
@@ -81,6 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Place an informative area at the bottom of the form stating if this will also be used on printers
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool DisplayIsPrinterFontDescription
         {
             get

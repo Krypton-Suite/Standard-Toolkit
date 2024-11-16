@@ -203,6 +203,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the floating messages interface.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal IFloatingMessages? FloatingMessages { get; set; }
 
         #endregion

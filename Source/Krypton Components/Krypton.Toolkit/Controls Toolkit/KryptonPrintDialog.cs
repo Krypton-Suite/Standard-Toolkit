@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the title of the common Print Dialog
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public string Title
         {
             get => _commonDialogHandler.Title;
@@ -57,6 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;

@@ -30,6 +30,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets the ignoring of Alt+F4
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public bool IgnoreAltF4 { get; set; }
 
             #endregion

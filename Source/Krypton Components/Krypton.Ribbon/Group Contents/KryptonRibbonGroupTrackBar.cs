@@ -550,10 +550,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal Control? LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonTrackBar? LastTrackBar { get; set; }
 
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);

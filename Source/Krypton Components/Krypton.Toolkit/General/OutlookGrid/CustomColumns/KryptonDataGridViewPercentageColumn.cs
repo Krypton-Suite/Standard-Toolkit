@@ -55,6 +55,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Overrides CellTemplate
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;

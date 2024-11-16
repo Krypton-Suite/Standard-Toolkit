@@ -34,6 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the foreground to use for color map redirection.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ViewDrawContent? Foreground { get; set; }
 
         #endregion

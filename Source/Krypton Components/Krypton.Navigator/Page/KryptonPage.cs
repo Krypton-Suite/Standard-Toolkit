@@ -731,6 +731,7 @@ namespace Krypton.Navigator
         [Category(@"Appearance")]
         [Description(@"The unique name of the page.")]
         [DisallowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public virtual string UniqueName
         {
             [DebuggerStepThrough]
@@ -759,6 +760,7 @@ namespace Krypton.Navigator
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [Category(@"Appearance")]
         [Description(@"When used within a KryptonDockingSpace,\nGive a hint on the Minimum Initial size needed")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public virtual Size AutoHiddenSlideSize
         {
             get => _autoHiddenSlideSize;
@@ -1228,6 +1230,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public virtual bool LastVisibleSet
         {
             get => _setVisible;

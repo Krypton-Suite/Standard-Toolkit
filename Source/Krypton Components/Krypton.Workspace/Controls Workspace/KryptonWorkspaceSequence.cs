@@ -199,6 +199,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the workspace sequence.")]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public string UniqueName
         {
             [DebuggerStepThrough]
@@ -251,6 +252,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public Size WorkspaceActualSize { get; internal set; }
 
         /// <summary>
@@ -575,8 +577,9 @@ namespace Krypton.Workspace
         /// <summary>
         /// Internal method.
         /// </summary>
+        [Browsable( false )]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public KryptonWorkspace WorkspaceControl { get; set; }
 
         /// <summary>

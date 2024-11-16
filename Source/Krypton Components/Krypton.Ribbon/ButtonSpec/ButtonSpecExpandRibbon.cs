@@ -53,6 +53,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the actual type of the button.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public PaletteButtonSpecStyle ButtonSpecType
         {
             get => ProtectedType;

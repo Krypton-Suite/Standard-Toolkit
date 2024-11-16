@@ -574,6 +574,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Values")]
         [Description(@"Currently selected ribbon tab.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonRibbonTab? SelectedTab
         {
             get => _selectedTab;
@@ -950,6 +951,7 @@ namespace Krypton.Ribbon
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool InDesignHelperMode
         {
             get => InDesignMode && _designHelpers;
@@ -971,6 +973,7 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if currently in keyboard mode.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool KeyboardMode { get; private set; }
 
         #endregion
@@ -1704,6 +1707,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool IgnoreDoubleClickClose { get; set; }
 
         internal void OnDesignTimeAddTab() => DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
@@ -1712,16 +1716,22 @@ namespace Krypton.Ribbon
 
         internal ViewRibbonManager? ViewRibbonManager => ViewManager as ViewRibbonManager;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ViewDrawRibbonPanel MainPanel { get; private set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ViewLayoutRibbonTabsArea? TabsArea { get; private set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ViewLayoutRibbonGroupsArea GroupsArea { get; private set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ViewDrawRibbonCaptionArea? CaptionArea { get; private set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal CalculatedValues CalculatedValues { get; private set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal PaletteBackStyle BackStyle
         {
             get => _backStyle;
@@ -1733,6 +1743,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal PaletteBackStyle BackInactiveStyle
         {
             get => _backInactiveStyle;
@@ -1785,6 +1796,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle ScrollerStyle
         {
             get => _scrollerStyle;
@@ -1800,6 +1812,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle GroupButtonStyle
         {
             get => _groupButtonStyle;
@@ -1815,6 +1828,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle GroupClusterButtonStyle
         {
             get => _groupClusterButtonStyle;
@@ -1830,6 +1844,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle GroupCollapsedButtonStyle
         {
             get => _groupCollapsedButtonStyle;
@@ -1845,6 +1860,7 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle GroupDialogButtonStyle
         {
             get => _groupDialogButtonStyle;
@@ -1911,6 +1927,7 @@ namespace Krypton.Ribbon
             return c as KryptonForm;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ButtonStyle QATButtonStyle
         {
             get => _qatButtonStyle;
@@ -2209,6 +2226,7 @@ namespace Krypton.Ribbon
 
         internal bool InKeyboardMode => KeyboardMode;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool InKeyTipsMode { get; private set; }
 
         internal void KillKeyboardMode()
@@ -2292,6 +2310,7 @@ namespace Krypton.Ribbon
 
         internal void UpdateQAT() => CaptionArea?.UpdateQAT();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KeyTipMode KeyTipMode
         {
             get => _keyTipMode;
@@ -2422,6 +2441,7 @@ namespace Krypton.Ribbon
 
         internal Rectangle KeyTipToScreen(ViewBase? view) => view!.OwningControl!.RectangleToScreen(view.ClientRectangle);
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ViewBase? FocusView
         {
             get => _focusView;
@@ -2442,8 +2462,10 @@ namespace Krypton.Ribbon
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool LostFocusLosesKeyboard { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool IgnoreRestoreFocus { get; set; }
 
         internal PaletteRibbonShape RibbonShape => StateCommon.RibbonGeneral.GetRibbonShape();

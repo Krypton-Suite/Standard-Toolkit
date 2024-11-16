@@ -224,6 +224,7 @@ namespace Krypton.Docking
         /// Gets the button spec type for the pin button.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool AutoHiddenHost { get; set; }
 
         /// <summary>

@@ -406,6 +406,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if palette colors are applied to toolstrips.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public static bool ApplyToolstrips
         {
             get => _globalApplyToolstrips;
@@ -436,6 +437,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if form chrome should be customized.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         public static bool UseThemeFormChromeBorderWidth
         {
             get => _globalUseThemeFormChromeBorderWidth;
@@ -960,11 +962,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// What is the CurrentGlobalPaletteMode in use
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = ThemeManager.DefaultGlobalPalette;
 
         /// <summary>
         /// Access the Current Palette
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
 
         #endregion

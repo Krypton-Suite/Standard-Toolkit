@@ -39,7 +39,16 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the button spec style.</summary>
         /// <value>The button spec style.</value>
-        public PaletteButtonSpecStyle ButtonSpecStyle { get => _style; private set { _style = value; UpdateButtonSpec(); } }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public PaletteButtonSpecStyle ButtonSpecStyle 
+        { 
+            get => _style; 
+            private set 
+            { 
+                _style = value; 
+                UpdateButtonSpec(); 
+            } 
+        }
 
         /// <summary>Gets or sets the print button.</summary>
         /// <value>The print button.</value>
@@ -53,18 +62,22 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the active image.</summary>
         /// <value>The active image.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Image? ActiveImage { get => _activeImage; private set => _activeImage = value; }
 
         /// <summary>Gets the disabled image.</summary>
         /// <value>The disabled image.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
 
         /// <summary>Gets the normal image.</summary>
         /// <value>The normal image.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
 
         /// <summary>Gets the pressed image.</summary>
         /// <value>The pressed image.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
 
         #endregion

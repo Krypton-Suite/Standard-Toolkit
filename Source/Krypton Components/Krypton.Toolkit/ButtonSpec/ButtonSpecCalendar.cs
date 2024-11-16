@@ -41,18 +41,20 @@ namespace Krypton.Toolkit
 
             // Fix the type
             ProtectedType = fixedStyle;
-        }      
+        }
         #endregion
 
         #region Public
         /// <summary>
         /// Gets and sets the visible state.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool Visible { get; set; }
 
         /// <summary>
         /// Gets and sets the enabled state.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool Enabled { get; set; }
 
         /// <summary>

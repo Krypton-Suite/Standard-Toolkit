@@ -808,6 +808,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool AllowDrop
         {
             get => base.AllowDrop;
@@ -817,6 +818,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -826,6 +828,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull, MaybeNull]
         public override Image BackgroundImage
         {
@@ -845,6 +848,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ImageLayout BackgroundImageLayout
         {
             get => base.BackgroundImageLayout;
@@ -865,6 +869,7 @@ namespace Krypton.Toolkit
         /// <see langword="true" /> if the control, when it receives focus, causes validation to be performed on any controls that require validation; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool CausesValidation
         {
             get => base.CausesValidation;
@@ -883,6 +888,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
@@ -902,6 +908,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
         public override Font Font
         {
@@ -924,6 +931,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -934,6 +942,7 @@ namespace Krypton.Toolkit
         /// <returns>One of the <see cref="T:System.Windows.Forms.ImeMode" /> values.</returns>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ImeMode ImeMode
         {
             get => base.ImeMode;
@@ -974,6 +983,7 @@ namespace Krypton.Toolkit
         /// <returns>true if the user can set the focus to the control by using the TAB key; otherwise, false. The default is true.</returns>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool TabStop
         {
             get => base.TabStop;

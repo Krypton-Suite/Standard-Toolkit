@@ -208,6 +208,7 @@ namespace Krypton.Ribbon
         /// 
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
         public BindingContext BindingContext
         {

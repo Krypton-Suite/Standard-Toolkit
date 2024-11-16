@@ -44,6 +44,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning krypton form.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Form? MdiChild { get; set; }
 
         #endregion
@@ -52,6 +53,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the actual type of the button.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public PaletteButtonSpecStyle ButtonSpecType
         {
             get => ProtectedType;

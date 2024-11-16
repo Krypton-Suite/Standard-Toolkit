@@ -318,6 +318,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ImageList? ImageList
         {
             get => _imageList;
@@ -689,6 +690,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         internal int TrackingIndex
         {
             get => _trackingIndex;
@@ -738,12 +740,14 @@ namespace Krypton.Ribbon
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal Size InternalPreferredItemSize
         {
             get => _preferredItemSize;
             set => _preferredItemSize = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonRibbon? Ribbon { get; set; }
 
         internal void OnDropButton() => ShownGalleryDropDown(RectangleToScreen(ClientRectangle),
