@@ -2,8 +2,9 @@
 
 =======
 
-# 2025-02-01 - Build 2502 (Patch 5) - Fefruary 2025
+# 2025-02-01 - Build 2502 (Patch 5) - February 2025
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
+* Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
 
 =======
 
