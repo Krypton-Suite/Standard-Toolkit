@@ -180,22 +180,25 @@ namespace Krypton.Ribbon
         /// <returns>Color value.</returns>
         public Color GetRibbonTextColor(PaletteState state)
         {
-            Color retColor = _inherit.GetRibbonTextColor(state);
+            return _inherit.GetRibbonTextColor(state);
 
-            // If empty then try and recover the context specific color
-            if (retColor == Color.Empty)
-            {
-                retColor = CheckForContextColor();
-            }
-            else if ((state == PaletteState.Normal) && LightBackground)
-            {
-                // With a light background we force the color to be dark in normal state so it stands out
-                return Color.FromArgb(Math.Min(retColor.R, (byte)60),
-                                      Math.Min(retColor.G, (byte)60),
-                                      Math.Min(retColor.B, (byte)60));
-            }
+            // #1399 Disable this override on the theme color arrays and accepting the normal return color
+            // The approach below goes outside of the theme color array and causes problems.
 
-            return retColor;
+            //// If empty then try and recover the context specific color
+            //if (retColor == Color.Empty)
+            //{
+            //    retColor = CheckForContextColor();
+            //}
+            //else if ((state == PaletteState.Normal) && LightBackground)
+            //{
+            //    // With a light background we force the color to be dark in normal state so it stands out
+            //    return Color.FromArgb(Math.Min(retColor.R, (byte)60),
+            //                          Math.Min(retColor.G, (byte)60),
+            //                          Math.Min(retColor.B, (byte)60));
+            //}
+
+            //return retColor;
         }
         #endregion
 
