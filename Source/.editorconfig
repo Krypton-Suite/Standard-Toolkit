@@ -78,7 +78,7 @@ csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimenta
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-dotnet_diagnostic.WFO1000.severity = suggestion
+dotnet_diagnostic.WFO1000.severity = Warning
 
 
 [*.{cs,vb}]
