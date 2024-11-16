@@ -413,6 +413,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public virtual string Text
         {
             get => ComboBox.Text;
@@ -531,6 +532,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The height, in pixels, of items in an owner-draw KryptomComboBox.")]
         [Localizable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ItemHeight
         {
             get => ComboBox.ItemHeight;
@@ -1041,10 +1043,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal Control? LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonComboBox? LastComboBox { get; set; }
 
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);

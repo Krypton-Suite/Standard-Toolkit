@@ -76,6 +76,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets access to the view layout control.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public ViewLayoutControl ViewLayoutControl { get; set; }
 
         #endregion
@@ -116,6 +117,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the background is transparent.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public bool TransparentBackground { get; set; }
 
         #endregion
@@ -124,6 +126,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if the control is in design mode.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool InDesignMode { get; set; }
 
         #endregion

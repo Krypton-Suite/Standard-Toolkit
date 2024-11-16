@@ -33,14 +33,14 @@ namespace TestForm
 
             foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationInputAreaType)))
             {
-                kcmbUserInputType.Items.Add(value.ToString());
+                kcmbUserInputType.Items.Add(value!.ToString()!);
             }
 
             kcmbUserInputType.SelectedIndex = 0;
 
             foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
             {
-                kcmbToastIcon.Items.Add(value.ToString());
+                kcmbToastIcon.Items.Add(value!.ToString()!);
             }
 
             kcmbToastIcon.SelectedIndex = 0;

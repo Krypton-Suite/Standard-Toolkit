@@ -149,6 +149,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public override DataGridViewCellStyle DefaultCellStyle
         {
             // base.DefaultCellStyle will take a null value and handle it.

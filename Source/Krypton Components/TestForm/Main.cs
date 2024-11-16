@@ -373,5 +373,10 @@ namespace TestForm
             KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
                 KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
         }
+
+        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

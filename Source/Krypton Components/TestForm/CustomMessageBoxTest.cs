@@ -107,7 +107,7 @@ namespace TestForm
             }
         }
 
-        private void CustomMessageBoxTest_HelpRequested(object sender, HelpEventArgs hlpevent)
+        private void CustomMessageBoxTest_HelpRequested(object? sender, HelpEventArgs hlpevent)
         {
             // Create a custom Help window in response to the HelpRequested event.
             using var helpForm = new Form

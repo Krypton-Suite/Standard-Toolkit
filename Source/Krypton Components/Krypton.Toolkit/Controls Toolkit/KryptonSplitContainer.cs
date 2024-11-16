@@ -182,6 +182,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Name
         {
             get => base.Name;

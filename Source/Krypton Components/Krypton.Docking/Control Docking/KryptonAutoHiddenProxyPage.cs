@@ -60,6 +60,7 @@ namespace Krypton.Docking
         /// Gets and sets the page text.
         /// </summary>
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override string Text
         {
             // Check for null when initialising
@@ -81,6 +82,7 @@ namespace Krypton.Docking
         /// Gets and sets the title text for the page.
         /// </summary>
         [AllowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public override string TextTitle
         {
             get => Page.TextTitle;
@@ -92,6 +94,7 @@ namespace Krypton.Docking
         /// Gets and sets the description text for the page.
         /// </summary>
         [AllowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public override string TextDescription
         {
             get => Page.TextDescription;
@@ -102,6 +105,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the small image for the page.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override Bitmap? ImageSmall
         {
             get => Page.ImageSmall;
@@ -112,6 +116,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the medium image for the page.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override Bitmap? ImageMedium
         {
             get => Page.ImageMedium;
@@ -122,6 +127,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the large image for the page.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Bitmap? ImageLarge
         {
             get => Page.ImageLarge;
@@ -132,6 +138,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override Bitmap? ToolTipImage
         {
             get => Page.ToolTipImage;
@@ -142,6 +149,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the tooltip image transparent color.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override Color ToolTipImageTransparentColor
         {
             get => Page.ToolTipImageTransparentColor;
@@ -152,6 +160,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the page tooltip title text.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public override string ToolTipTitle
         {
             get => Page.ToolTipTitle;
@@ -162,6 +171,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the page tooltip body text.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override string ToolTipBody
         {
             get => Page.ToolTipBody;
@@ -172,6 +182,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override LabelStyle ToolTipStyle
         {
             get => Page.ToolTipStyle;
@@ -182,6 +193,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right-clicked.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override KryptonContextMenu? KryptonContextMenu
         {
             get => Page.KryptonContextMenu;
@@ -193,6 +205,7 @@ namespace Krypton.Docking
         /// Gets and sets the unique name of the page.
         /// </summary>
         [DisallowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public override string UniqueName
         {
             get => Page.UniqueName;
@@ -217,6 +230,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the set of page flags.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override int Flags
         {
             get => Page.Flags;
@@ -248,6 +262,7 @@ namespace Krypton.Docking
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public override bool LastVisibleSet
         {
             get => Page.LastVisibleSet;

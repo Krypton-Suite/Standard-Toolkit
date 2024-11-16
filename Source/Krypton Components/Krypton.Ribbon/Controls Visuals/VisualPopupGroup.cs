@@ -124,6 +124,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a flag indicating if previous ribbon focus should be restored on dispose.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool RestorePreviousFocus { get; set; }
 
         #endregion

@@ -80,6 +80,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
         public new string Name
         {

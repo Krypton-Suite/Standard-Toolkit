@@ -374,6 +374,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal KryptonSplitContainer Owner { get; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool Collapsed { get; set; }
 
         #endregion

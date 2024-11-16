@@ -107,11 +107,13 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets the item index the mouse is over.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public int MouseIndex { get; private set; }
 
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -140,6 +142,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets the drawing mode of the checked list box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public override DrawMode DrawMode
             {
                 get => DrawMode.OwnerDrawVariable;

@@ -452,8 +452,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         internal VisualContextMenu? VisualContextMenu { get; private set; }
 
         #endregion

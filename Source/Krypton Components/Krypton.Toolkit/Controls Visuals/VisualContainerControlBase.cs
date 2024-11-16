@@ -165,6 +165,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the ContextMenuStrip associated with this control.
         /// </summary>
+        [DefaultValue(null)]
         public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
@@ -391,6 +392,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image? BackgroundImage
         {
             get => base.BackgroundImage;
@@ -402,6 +404,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ImageLayout BackgroundImageLayout
         {
             get => base.BackgroundImageLayout;

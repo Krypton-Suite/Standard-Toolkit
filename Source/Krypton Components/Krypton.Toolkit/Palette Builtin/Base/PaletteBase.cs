@@ -1785,11 +1785,13 @@ namespace Krypton.Toolkit
         /// <value>The name of the theme.</value>
         [Description(@"Gets or sets the name of the theme.")]
         [DisallowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public BasePaletteType BasePaletteType { get; set; }
 
         #endregion

@@ -107,14 +107,14 @@ namespace TestForm
 
             foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
             {
-                kcmbToastIcon.Items.Add(value!.ToString());
+                kcmbToastIcon.Items.Add(value!.ToString()!);
             }
 
             kcmbToastIcon.SelectedIndex = 8;
 
             foreach (var value in Enum.GetValues(typeof(ContentAlignment)))
             {
-                kcmbToastTitleAlignment.Items.Add(value!.ToString());
+                kcmbToastTitleAlignment.Items.Add(value!.ToString()!);
             }
 
             kcmbToastTitleAlignment.SelectedIndex = 4;
