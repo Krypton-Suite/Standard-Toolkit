@@ -11,11 +11,12 @@
 
 =======
 
-## 2025-01-12 - Build 2501 - January 2025
+## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
 * Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), ChromeBorderWidth and Padding
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
 * Resolved [#1241](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1241), `KryptonDataGridViewComboBoxColumn` ignores `ValueMember` in data binding.
 * Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 
 =======
 
