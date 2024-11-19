@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -38,18 +38,18 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsTest));
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsTest));
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Cat with areally long text to see what happens"}, 1, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Dog     "}, 2, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "Mouse     "}, 3, System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91))))), System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))), new System.Drawing.Font("Segoe UI", 9F));
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
             this.kryptonRibbonContext1 = new Krypton.Ribbon.KryptonRibbonContext();
@@ -67,6 +67,8 @@ namespace TestForm
             this.kryptonRibbonGroupLabel2 = new Krypton.Ribbon.KryptonRibbonGroupLabel();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
             this.kryptonRibbonGroupThemeComboBox2 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
+            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.krgbBug833Test = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
@@ -114,8 +116,10 @@ namespace TestForm
             this.kryptonGalleryRange1 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange2 = new Krypton.Ribbon.KryptonGalleryRange();
             this.kryptonGalleryRange3 = new Krypton.Ribbon.KryptonGalleryRange();
-            this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.krgbBug833Test = new Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.kryptonColorDialog1 = new Krypton.Toolkit.KryptonColorDialog();
+            this.kryptonPrintDialog1 = new Krypton.Toolkit.KryptonPrintDialog();
+            this.kryptonComboBox3 = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonSeparator1 = new Krypton.Toolkit.KryptonSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -130,6 +134,8 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSeparator1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonRibbon1
@@ -138,7 +144,6 @@ namespace TestForm
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonContexts.AddRange(new Krypton.Ribbon.KryptonRibbonContext[] {
             this.kryptonRibbonContext1});
-            this.kryptonRibbon1.RibbonFileAppButton.AppButtonToolTipStyle = Krypton.Toolkit.LabelStyle.SuperTip;
             this.kryptonRibbon1.RibbonFileAppButton.FormCloseBoxVisible = true;
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1,
@@ -255,12 +260,25 @@ namespace TestForm
             this.kryptonRibbonGroupThemeComboBox2.ItemHeight = 16;
             this.kryptonRibbonGroupThemeComboBox2.MinimumSize = new System.Drawing.Size(200, 0);
             // 
+            // kryptonRibbonGroupTriple2
+            // 
+            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.krgbBug833Test});
+            // 
+            // krgbBug833Test
+            // 
+            this.krgbBug833Test.TextLine1 = "Bug 833";
+            this.krgbBug833Test.TextLine2 = "Test";
+            this.krgbBug833Test.Click += new System.EventHandler(this.krgbBug833Test_Click);
+            // 
             // kryptonRibbonTab2
             // 
             this.kryptonRibbonTab2.ContextName = "Test";
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonSeparator1);
+            this.kryptonPanel1.Controls.Add(this.kryptonComboBox3);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kryptonLinkLabel2);
@@ -446,13 +464,13 @@ namespace TestForm
             this.kryptonListView1.HideSelection = false;
             this.kryptonListView1.HotTracking = true;
             this.kryptonListView1.HoverSelection = true;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem3.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
+            listViewItem8.StateImageIndex = 0;
+            listViewItem9.StateImageIndex = 0;
             this.kryptonListView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem7,
+            listViewItem8,
+            listViewItem9});
             this.kryptonListView1.Location = new System.Drawing.Point(648, 35);
             this.kryptonListView1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonListView1.Name = "kryptonListView1";
@@ -478,13 +496,13 @@ namespace TestForm
             this.listKrypton.HideSelection = false;
             this.listKrypton.HotTracking = true;
             this.listKrypton.HoverSelection = true;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
             this.listKrypton.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.listKrypton.Location = new System.Drawing.Point(521, 35);
             this.listKrypton.Margin = new System.Windows.Forms.Padding(2);
             this.listKrypton.Name = "listKrypton";
@@ -819,16 +837,35 @@ namespace TestForm
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
-            // kryptonRibbonGroupTriple2
+            // kryptonColorDialog1
             // 
-            this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.krgbBug833Test});
+            this.kryptonColorDialog1.Color = System.Drawing.Color.Black;
+            this.kryptonColorDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("kryptonColorDialog1.Icon")));
+            this.kryptonColorDialog1.Title = null;
             // 
-            // krgbBug833Test
+            // kryptonPrintDialog1
             // 
-            this.krgbBug833Test.TextLine1 = "Bug 833";
-            this.krgbBug833Test.TextLine2 = "Test";
-            this.krgbBug833Test.Click += new System.EventHandler(this.krgbBug833Test_Click);
+            this.kryptonPrintDialog1.AllowPrintToFile = false;
+            this.kryptonPrintDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("kryptonPrintDialog1.Icon")));
+            this.kryptonPrintDialog1.Title = null;
+            // 
+            // kryptonComboBox3
+            // 
+            this.kryptonComboBox3.DropDownWidth = 121;
+            this.kryptonComboBox3.IntegralHeight = false;
+            this.kryptonComboBox3.Location = new System.Drawing.Point(1069, 373);
+            this.kryptonComboBox3.Name = "kryptonComboBox3";
+            this.kryptonComboBox3.Size = new System.Drawing.Size(121, 22);
+            this.kryptonComboBox3.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox3.TabIndex = 44;
+            this.kryptonComboBox3.Text = "kryptonComboBox3";
+            // 
+            // kryptonSeparator1
+            // 
+            this.kryptonSeparator1.Location = new System.Drawing.Point(1220, 397);
+            this.kryptonSeparator1.Name = "kryptonSeparator1";
+            this.kryptonSeparator1.Size = new System.Drawing.Size(53, 52);
+            this.kryptonSeparator1.TabIndex = 45;
             // 
             // ControlsTest
             // 
@@ -855,6 +892,8 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSeparator1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -927,5 +966,9 @@ namespace TestForm
         private KryptonLabel kryptonLabel2;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
         private Krypton.Ribbon.KryptonRibbonGroupButton krgbBug833Test;
+        private KryptonColorDialog kryptonColorDialog1;
+        private KryptonPrintDialog kryptonPrintDialog1;
+        private KryptonComboBox kryptonComboBox3;
+        private KryptonSeparator kryptonSeparator1;
     }
 }

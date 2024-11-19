@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -240,6 +240,7 @@ namespace Krypton.Toolkit
         [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int DropDownWidth
         {
             get =>
@@ -468,6 +469,7 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
+        [DefaultValue(null)]
         public object? DataSource
         {
 

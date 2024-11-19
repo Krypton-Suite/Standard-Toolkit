@@ -18,6 +18,7 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
+    * [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
 	* [V90.00 (2024-11-12 - Build 2411 - November 2024)](v90-24-11-12--build-2411---november-2024)
 		* [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
@@ -174,6 +175,9 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 # Breaking Changes
+
+## V100.00 (2025-11-xx - Build 2511 - November 2025)
+There are list of changes that have occurred during the development of the V100.00 version
 
 ## V90.00 (2024-11-12 - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.00 version

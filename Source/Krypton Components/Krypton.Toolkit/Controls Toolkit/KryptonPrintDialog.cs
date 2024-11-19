@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the title of the common Print Dialog
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public string Title
         {
             get => _commonDialogHandler.Title;
@@ -57,6 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;

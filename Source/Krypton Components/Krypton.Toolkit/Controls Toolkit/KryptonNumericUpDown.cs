@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -74,6 +74,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -180,6 +181,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets or sets a value indicating whether a value has been entered by the user.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             protected internal bool InternalUserEdit
             {
                 get => UserEdit;
@@ -914,6 +916,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool TabStop
         {
             get => _numericUpDown.TabStop;
@@ -955,6 +958,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -968,6 +972,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -979,6 +984,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -1016,6 +1022,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;

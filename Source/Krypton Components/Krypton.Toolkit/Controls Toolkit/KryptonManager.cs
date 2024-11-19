@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -406,6 +406,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if palette colors are applied to toolstrips.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public static bool ApplyToolstrips
         {
             get => _globalApplyToolstrips;
@@ -436,6 +437,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if form chrome should be customized.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         public static bool UseThemeFormChromeBorderWidth
         {
             get => _globalUseThemeFormChromeBorderWidth;
@@ -960,11 +962,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// What is the CurrentGlobalPaletteMode in use
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = ThemeManager.DefaultGlobalPalette;
 
         /// <summary>
         /// Access the Current Palette
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
 
         #endregion

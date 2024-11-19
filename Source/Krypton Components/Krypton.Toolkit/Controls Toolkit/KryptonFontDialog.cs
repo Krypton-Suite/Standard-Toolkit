@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the title of the common Font Dialog
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         public string Title
         {
             get => _commonDialogHandler.Title;
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
@@ -46,6 +47,7 @@ namespace Krypton.Toolkit
         /// Changes the default Icon to Developer set
         /// </summary>
         [DefaultValue(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ShowIcon
         {
             get => _commonDialogHandler.ShowIcon;
@@ -65,6 +67,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool DisplayExtendedColorsButton
         {
             get => _displayExtendedColorsButton;
@@ -81,6 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Place an informative area at the bottom of the form stating if this will also be used on printers
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool DisplayIsPrinterFontDescription
         {
             get

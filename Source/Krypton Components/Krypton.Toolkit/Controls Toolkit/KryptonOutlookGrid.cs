@@ -3,7 +3,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
  *
  */
 
@@ -247,6 +247,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the previous selected group row
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int PreviousSelectedGroupRow
         {
             get => _previousGroupRowSelected;
@@ -265,6 +266,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <value>OutlookGridGroupCollection.</value>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OutlookGridGroupCollection GroupCollection
         {
             get => _groupCollection;
@@ -326,6 +328,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The fill mode.
         /// </value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public GridFillMode FillMode
         {
             get => _fillMode;
@@ -339,6 +342,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Indicates wether the component should draw right to left for RTL languagues.
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public RightToLeftLayout RightToLeftLayout
         {
             get => _rightToLeftLayout;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -312,6 +312,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AllowDrop
         {
             get => base.AllowDrop;
@@ -324,6 +325,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AutoSize
         {
             get => base.AutoSize;
@@ -337,6 +339,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override string Text
         {
             get => base.Text;
@@ -349,6 +352,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -363,6 +367,7 @@ namespace Krypton.Workspace
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -375,6 +380,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -435,6 +441,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Determines the compacting options to be applied.")]
         //[DefaultValue(typeof(CompactFlags), "All")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public CompactFlags CompactFlags
         {
             get => _compactFlags;
@@ -477,6 +484,7 @@ namespace Krypton.Workspace
         [Description(@"Determines the thickness of the splitters.")]
         [Localizable(true)]
         //[DefaultValue(typeof(int), "5")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int SplitterWidth
         {
             get => _splitterWidth;
@@ -527,6 +535,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Container background style.")]
         //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public PaletteBackStyle ContainerBackStyle
         {
             get => StateCommon.BackStyle;
@@ -547,6 +556,7 @@ namespace Krypton.Workspace
         [Category(@"Visuals")]
         [Description(@"Separator style.")]
         //[DefaultValue(typeof(SeparatorStyle), "Low Profile")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public SeparatorStyle SeparatorStyle
         {
             get => _separatorStyle;

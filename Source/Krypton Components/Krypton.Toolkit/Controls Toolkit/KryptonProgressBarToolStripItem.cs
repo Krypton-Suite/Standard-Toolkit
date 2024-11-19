@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
  */
 #endregion
 
@@ -190,11 +190,13 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor { get => base.BackColor; set => base.BackColor = value; }
 
         /// <inheritdoc />
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor { get => base.ForeColor; set => base.ForeColor = value; }
 
         #endregion

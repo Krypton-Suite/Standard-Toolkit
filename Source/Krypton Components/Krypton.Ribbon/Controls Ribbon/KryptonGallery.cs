@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  */
 #endregion
 
@@ -318,6 +318,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ImageList? ImageList
         {
             get => _imageList;
@@ -689,6 +690,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
         internal int TrackingIndex
         {
             get => _trackingIndex;
@@ -738,12 +740,14 @@ namespace Krypton.Ribbon
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal Size InternalPreferredItemSize
         {
             get => _preferredItemSize;
             set => _preferredItemSize = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonRibbon? Ribbon { get; set; }
 
         internal void OnDropButton() => ShownGalleryDropDown(RectangleToScreen(ClientRectangle),

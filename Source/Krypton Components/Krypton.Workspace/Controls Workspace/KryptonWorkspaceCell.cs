@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -207,6 +207,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public bool WorkspaceVisible { get; private set; }
 
         /// <summary>
@@ -214,6 +215,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public bool WorkspaceAllowResizing { get; private set; }
 
         /// <summary>
@@ -221,6 +223,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
         public Size WorkspaceActualSize => Size;
 
         /// <summary>
@@ -228,6 +231,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
         public Size WorkspacePreferredSize => IsDisposed ? Size.Empty : GetPreferredSize(WorkspaceMinSize);
 
         /// <summary>
@@ -254,6 +258,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override Size MinimumSize
         {
             get => base.MinimumSize;
@@ -271,6 +276,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override Size MaximumSize
         {
             get => base.MaximumSize;
@@ -385,6 +391,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the workspace cell.")]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public string UniqueName
         {
             [DebuggerStepThrough]

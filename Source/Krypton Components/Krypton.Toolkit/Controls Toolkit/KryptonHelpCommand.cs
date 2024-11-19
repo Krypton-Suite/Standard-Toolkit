@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -49,13 +49,33 @@ namespace Krypton.Toolkit
          [AllowNull, Category(@"Appearance"), Description(@"State specific images for the help button."), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
          public ButtonImageStates? ImageStates { get => _imageStates ?? new(); set { _imageStates = value; UpdateImageStates(KryptonManager.InternalGlobalPaletteMode); } }*/
 
-        public Image? ActiveImage { get => _activeImage; private set => _activeImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? ActiveImage 
+        { 
+            get => _activeImage; 
+            private set => _activeImage = value; 
+        }
 
-        public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? DisabledImage 
+        { 
+            get => _disabledImage; 
+            private set => _disabledImage = value; 
+        }
 
-        public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? NormalImage 
+        { 
+            get => _normalImage; 
+            private set => _normalImage = value; 
+        }
 
-        public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? PressedImage 
+        { 
+            get => _pressedImage; 
+            private set => _pressedImage = value; 
+        }
 
         #endregion
 

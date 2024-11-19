@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -107,11 +107,13 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets the item index the mouse is over.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public int MouseIndex { get; private set; }
 
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -140,6 +142,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets the drawing mode of the checked list box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public override DrawMode DrawMode
             {
                 get => DrawMode.OwnerDrawVariable;

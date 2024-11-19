@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -149,11 +149,13 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the combo box is currently dropped.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool Dropped { get; set; }
 
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -1297,6 +1299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new bool TabStop
         {
             get => _comboBox.TabStop;
@@ -1353,6 +1356,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -1364,6 +1368,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
         public override Font Font
         {
@@ -1377,6 +1382,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -1400,6 +1406,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated with the control.
         /// </summary>
         [AllowNull]
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public override string Text
         {
             get => _comboBox.Text;
@@ -1468,6 +1475,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
+        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
         public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
@@ -1672,6 +1680,7 @@ namespace Krypton.Toolkit
         [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
+        [DefaultValue(200)]
         public int DropDownWidth
         {
             get => _comboBox.DropDownWidth;

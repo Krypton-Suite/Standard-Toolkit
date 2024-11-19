@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -76,8 +76,7 @@ namespace Krypton.Toolkit
         /// https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
         internal (int xBorder, int yBorder) BorderWidths(FormBorderStyle formFormBorderStyle)
         {
-            //GraphicsHint = PaletteGraphicsHint.None;
-            var xBorder = base.Width;
+            var xBorder = base.Width;   // do not call GetBorderWidth(PaletteState.Normal); as it will get lost in the stack recursion !
             var yBorder = base.Width;
             if (!UseThemeFormChromeBorderWidth)
             {

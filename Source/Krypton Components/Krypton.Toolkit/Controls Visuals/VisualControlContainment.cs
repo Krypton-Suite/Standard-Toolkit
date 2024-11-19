@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -57,6 +57,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AllowDrop
         {
             get => base.AllowDrop;
@@ -69,6 +70,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AutoSize
         {
             get => base.AutoSize;
@@ -82,6 +84,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override string Text
         {
             get => base.Text;
@@ -93,6 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -106,6 +110,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -117,6 +122,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;

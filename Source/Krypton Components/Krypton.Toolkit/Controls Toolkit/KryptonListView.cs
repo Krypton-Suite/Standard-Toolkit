@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2025. All rights reserved. 
  */
 #endregion
 
@@ -106,6 +106,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
