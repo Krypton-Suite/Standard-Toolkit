@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
                 if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService service)
                 {
                     // Create the custom control used to edit value
-                    var selector = new PaletteDrawBordersSelector
+                    PaletteDrawBordersSelector selector = new PaletteDrawBordersSelector
                     {
                         // Populate selector with starting value
                         Value = (PaletteDrawBorders)value
