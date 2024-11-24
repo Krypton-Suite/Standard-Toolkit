@@ -657,7 +657,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 0, 1);
         private static readonly Padding _contentPaddingButtonForm = new Padding(0);
         private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
-        private static readonly Padding _contentPaddingButtonListItem = new Padding(0, -1, 0, -1);
+        private static readonly Padding _contentPaddingButtonListItem = new Padding(0, 0, 0, 0);
         private static readonly Padding _contentPaddingToolTip = new Padding(2);
         private static readonly Padding _contentPaddingSuperTip = new Padding(4);
         private static readonly Padding _contentPaddingKeyTip = new Padding(0, -1, 0, -3);
