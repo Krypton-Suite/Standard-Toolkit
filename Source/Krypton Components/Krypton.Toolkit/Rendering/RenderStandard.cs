@@ -1220,7 +1220,7 @@ namespace Krypton.Toolkit
             var spacingGap = palette.GetContentAdjacentGap(state);
 
             // Drawing vertical means we can ignore right to left, otherwise get value from control
-            RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
+            RightToLeft rtl = vertical ? RightToLeft.No : context.Control!.RightToLeft;
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, availableRect, rtl, ref allocation);

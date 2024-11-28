@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colourPalette">The colour palette.</param>
         /// <returns></returns>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colourPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colourPalette)
         {
             Debug.Assert(colourPalette != null);
 
