@@ -8,6 +8,8 @@
  */
 #endregion
 
+using ArgumentNullException = System.ArgumentNullException;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -347,21 +349,21 @@ namespace Krypton.Toolkit
 
             _gridSortOrder = new ImageList
             {
-                TransparentColor = Color.Magenta,
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
                 ImageSize = new Size(17, 11)
             };
             _gridSortOrder.Images.AddStrip(GridImageResources.GridSortOrder);
 
             _gridRowIndicators = new ImageList
             {
-                TransparentColor = Color.Magenta,
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
                 ImageSize = new Size(19, 13)
             };
             _gridRowIndicators.Images.AddStrip(GridImageResources.GridRowIndicators);
 
             _gridErrorIcon = new ImageList
             {
-                TransparentColor = Color.Magenta,
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
                 ImageSize = new Size(18, 17)
             };
             _gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
@@ -373,7 +375,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -677,8 +679,10 @@ namespace Krypton.Toolkit
             Debug.Assert(!context.Control!.IsDisposed);
 
             // Use helper to create a border path in middle of the pen
-            return CreateBorderBackPath(false,
-                                        true,
+            var isForm = context.Control as KryptonForm;
+            var forBorder = isForm != null && isForm.MdiParent == null;
+            return CreateBorderBackPath(forBorder,
+                                  !forBorder,
                                         rect,
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
@@ -1089,7 +1093,7 @@ namespace Krypton.Toolkit
             var allocatedHeight = AllocatedTotalHeight(allocation);
 
             // Grab the padding for the content
-            Padding borderPadding = palette.GetContentPadding(state);
+            Padding borderPadding = palette.GetBorderContentPadding(context.Control as KryptonForm, state);
 
             // For the form level buttons we have to calculate the correct padding based on caption area
             PaletteContentStyle contentStyle = palette.GetContentStyle();
@@ -1164,7 +1168,14 @@ namespace Krypton.Toolkit
             Rectangle cacheDisplayRect = availableRect;
 
             // Grab the padding for the content
-            Padding borderPadding = palette.GetContentPadding(state);
+            KryptonForm? ownerForm = context.Control as KryptonForm;
+            if (ownerForm == null
+                && context.Control?.GetType().ToString() == "Krypton.Ribbon.KryptonRibbon")
+            {
+                ownerForm = context.TopControl as KryptonForm;
+            }
+
+            Padding borderPadding = palette.GetBorderContentPadding(ownerForm, state);
 
             // Is the content intended for a vertical drawing orientation?
             var vertical = orientation is VisualOrientation.Left or VisualOrientation.Right;
@@ -3808,46 +3819,47 @@ namespace Krypton.Toolkit
                                                          int variant)
         {
             var borderPath = new GraphicsPath();
-
-            // A zero size rectangle cannot be drawn, so return a null path
+            if (borderRounding < 0.1f
+                && CommonHelper.HasABorder(borders)
+                )
+            {   // Deal with issues arrising within https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871
+                borderRounding = 0.1f;
+            }
+            
             if (rect is { Width: > 0, Height: > 0 })
             {
                 // Only use a rounding that will fit inside the rect
                 var rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2f, rect.Height / 2f) - borderWidth);
 
-                // Shrink the rect by half the width of the pen, because the pen will 
-                // draw half the distance overlapping each side of the centre anyway.
-                // Unless not drawing into the middle in which case give the outside.
-                var halfBorderWidth = middle ? borderWidth / 2f : 0f;
 
-                RectangleF rectF = rect;
-                if (forBorder)  // #1757
+                if (middle)
                 {
-                    // Remove the transparency 1/2 pixel around borders
-                    rectF.Inflate(0.5f, 0.5f);
-                }
+                    // Shrink the rect by half the width of the pen, because the pen will 
+                    // draw half the distance overlapping each side of the centre anyway.
+                    // Unless not drawing into the middle in which case give the outside.
+                    int halfBorderWidthTL = (int)((borderWidth + .5f) / 2f);
+                    // Only adjust the edges that are being drawn
+                    if (CommonHelper.HasTopBorder(borders))
+                    {
+                        rect.Y += halfBorderWidthTL;
+                        rect.Height -= halfBorderWidthTL;
+                    }
 
-                // Only adjust the edges that are being drawn
-                if (CommonHelper.HasTopBorder(borders))
-                {
-                    rectF.Y += halfBorderWidth;
-                    rectF.Height -= halfBorderWidth;
-                }
+                    if (CommonHelper.HasLeftBorder(borders))
+                    {
+                        rect.X += halfBorderWidthTL;
+                        rect.Width -= halfBorderWidthTL;
+                    }
 
-                if (CommonHelper.HasLeftBorder(borders))
-                {
-                    rectF.X += halfBorderWidth;
-                    rectF.Width -= halfBorderWidth;
-                }
+                    if (CommonHelper.HasBottomBorder(borders))
+                    {
+                        rect.Height -= halfBorderWidthTL;
+                    }
 
-                if (CommonHelper.HasBottomBorder(borders))
-                {
-                    rectF.Height -= halfBorderWidth;
-                }
-
-                if (CommonHelper.HasRightBorder(borders))
-                {
-                    rectF.Width -= halfBorderWidth;
+                    if (CommonHelper.HasRightBorder(borders))
+                    {
+                        rect.Width -= halfBorderWidthTL;
+                    }
                 }
 
                 // Find the width/height of the arc box
@@ -3857,7 +3869,7 @@ namespace Krypton.Toolkit
                 // If drawing all the four borders use a single routine
                 if (CommonHelper.HasAllBorders(borders))
                 {
-                    CreateAllBorderBackPath(middle, borderPath, rectF, borderWidth, rounding, forBorder, arcLength, arcLength1);
+                    CreateAllBorderBackPath(middle, borderPath, rect, borderWidth, rounding, forBorder, arcLength, arcLength1);
                 }
                 else
                 {
@@ -3872,26 +3884,25 @@ namespace Krypton.Toolkit
                             // because this is going to be used as a region we need to close the path as well.
                             if (rounding > 0)
                             {
-                                CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rectF, arcLength, variant);
+                                CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rect, arcLength, variant);
                             }
                             else
                             {
-                                // Without rounding, we just provide the entire area
-                                borderPath.AddRectangle(rectF);
+                                // Without rounding we just provide the entire area
+                                borderPath.AddRectangle(rect);
                             }
                         }
                         else
                         {
                             // We are calculating the middle of the border as the brush will then draw the entire
                             // border from the middle outwards.
-
                             if (rounding > 0)
                             {
-                                CreateBorderBackPathOnly(middle, borders, borderPath, rectF, arcLength, variant);
+                                CreateBorderBackPathOnly(middle, borders, borderPath, rect, arcLength, variant);
                             }
                             else
                             {
-                                CreateBorderBackPathOnly(borders, borderPath, rectF, variant);
+                                CreateBorderBackPathOnly(borders, borderPath, rect, variant);
                             }
                         }
                     }
@@ -3901,12 +3912,12 @@ namespace Krypton.Toolkit
                         // If there is rounding we need to calculate a path that honors the rounding at corners
                         if (rounding > 0)
                         {
-                            CreateBorderBackPathComplete(middle, borders, borderPath, rectF, arcLength);
+                            CreateBorderBackPathComplete(middle, borders, borderPath, rect, arcLength);
                         }
                         else
                         {
                             // Without rounding the complete path is always just the entire area
-                            borderPath.AddRectangle(rectF);
+                            borderPath.AddRectangle(rect);
                         }
                     }
                 }
@@ -3969,6 +3980,7 @@ namespace Krypton.Toolkit
             switch (borders)
             {
                 case PaletteDrawBorders.None:
+                    borderPath.AddRectangle(rectF);
                     break;
                 case PaletteDrawBorders.Top:
                     borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right + 1, rectF.Top);
@@ -4050,9 +4062,10 @@ namespace Krypton.Toolkit
                                                      float arcLength,
                                                      int variant)
         {
-            //// Reduce the width and height by 1 pixel for drawing into rectangle
-            //rect.Width--;
-            //rect.Height--;
+            // Reduce the width and height by 1 pixel for drawing into rectangle
+            // Fixes the issue as displayed here: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871#issuecomment-2503893001
+            rectF.Width--;
+            rectF.Height--;
 
             // If trying to get the outside edge then perform some offsetting so that
             // when converted to a region it draws nicely inside the path outline
@@ -4467,8 +4480,10 @@ namespace Krypton.Toolkit
                     AddSlantBothPath(borderPath, orientation, rect, forBorder);
                     break;
                 case TabBorderStyle.OneNote:
+                {
                     // Is the current tab selected?
-                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking;
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed
+                        or PaletteState.CheckedTracking;
 
                     // The right padding depends on the selected state
                     var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
@@ -4487,7 +4502,7 @@ namespace Krypton.Toolkit
                     {
                         AddOneNotePath(borderPath, orientation, rect, forBorder, rp);
                     }
-
+                }
                     break;
                 case TabBorderStyle.SmoothEqual:
                 case TabBorderStyle.SmoothOutsize:
@@ -4637,6 +4652,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Top, rect.Right, rect.Top);
                     borderPath.AddLine(rect.Right, rect.Top, rect.Right, rect.Bottom);
                     break;
+
                 case VisualOrientation.Bottom:
                     if (!forBorder)
                     {
@@ -4657,6 +4673,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top);
                     borderPath.AddLine(rect.Left, rect.Top, rect.Right, rect.Top);
                     break;
+
                 case VisualOrientation.Right:
                     if (!forBorder)
                     {
@@ -4692,6 +4709,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Right - x, rect.Top, rect.Right, rect.Top + x);
                     borderPath.AddLine(rect.Right, rect.Top + x, rect.Right, rect.Bottom);
                     break;
+
                 case VisualOrientation.Bottom:
                     if (!forBorder)
                     {
@@ -4716,6 +4734,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Top + x, rect.Left + x, rect.Top);
                     borderPath.AddLine(rect.Left + x, rect.Top, rect.Right, rect.Top);
                     break;
+
                 case VisualOrientation.Right:
                     if (!forBorder)
                     {
@@ -4753,6 +4772,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left + xW, rect.Top, rect.Right, rect.Top);
                     borderPath.AddLine(rect.Right, rect.Top, rect.Right, rect.Bottom);
                     break;
+
                 case VisualOrientation.Bottom:
                     if (!forBorder)
                     {
@@ -4763,6 +4783,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left + xW, rect.Bottom, rect.Right, rect.Bottom);
                     borderPath.AddLine(rect.Right, rect.Bottom, rect.Right, rect.Top);
                     break;
+
                 case VisualOrientation.Left:
                     if (!forBorder)
                     {
@@ -4808,6 +4829,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Top, rect.Right - xW, rect.Top);
                     borderPath.AddLine(rect.Right - xW, rect.Top, rect.Right, rect.Bottom);
                     break;
+
                 case VisualOrientation.Bottom:
                     if (!forBorder)
                     {
@@ -4818,6 +4840,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Bottom, rect.Right - xW, rect.Bottom);
                     borderPath.AddLine(rect.Right - xW, rect.Bottom, rect.Right, rect.Top);
                     break;
+
                 case VisualOrientation.Left:
                     if (!forBorder)
                     {
@@ -4863,6 +4886,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left + xW, rect.Top, rect.Right - xW, rect.Top);
                     borderPath.AddLine(rect.Right - xW, rect.Top, rect.Right, rect.Bottom);
                     break;
+
                 case VisualOrientation.Bottom:
                     if (!forBorder)
                     {
@@ -4873,6 +4897,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left + xW, rect.Bottom, rect.Right - xW, rect.Bottom);
                     borderPath.AddLine(rect.Right - xW, rect.Bottom, rect.Right, rect.Top);
                     break;
+
                 case VisualOrientation.Left:
                     if (!forBorder)
                     {
@@ -4883,6 +4908,7 @@ namespace Krypton.Toolkit
                     borderPath.AddLine(rect.Left, rect.Bottom - xH, rect.Left, rect.Top + xH);
                     borderPath.AddLine(rect.Left, rect.Top + xH, rect.Right, rect.Top - 1);
                     break;
+
                 case VisualOrientation.Right:
                     if (!forBorder)
                     {
@@ -5023,6 +5049,7 @@ namespace Krypton.Toolkit
                             new Point(rect.Right, rect.Bottom)}, tension);
                     }
                     break;
+
                 case VisualOrientation.Bottom:
                     // If there is not enough room for the rounded style then use the rounded
                     if (rect.Width < 14)
@@ -5047,6 +5074,7 @@ namespace Krypton.Toolkit
                             new Point(rect.Right - indentW, rect.Bottom - 5), new Point(rect.Right, rect.Top)}, tension);
                     }
                     break;
+
                 case VisualOrientation.Left:
                     // If there is not enough room for the rounded style then use the rounded
                     if (rect.Height < 14)
@@ -5071,6 +5099,7 @@ namespace Krypton.Toolkit
                             new Point(rect.Right, rect.Top)}, tension);
                     }
                     break;
+
                 case VisualOrientation.Right:
                     // If there is not enough room for the rounded style then use the rounded
                     if (rect.Height < 14)

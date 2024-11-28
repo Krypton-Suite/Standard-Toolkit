@@ -764,12 +764,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Padding
+
         /// <summary>
         /// Gets the actual padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetContentPadding(PaletteState state) => Inherit.GetContentPadding(state);
+        public virtual Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state) => Inherit.GetBorderContentPadding(owningForm, state);
 
         #endregion
 

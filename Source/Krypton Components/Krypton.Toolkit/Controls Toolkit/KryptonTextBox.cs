@@ -1611,7 +1611,7 @@ namespace Krypton.Toolkit
                 var paletteContent = GetTripleState().PaletteContent;
                 if (paletteContent != null)
                 {
-                    Padding contentPadding = paletteContent.GetContentPadding(_drawDockerOuter.State);
+                    Padding contentPadding = paletteContent.GetBorderContentPadding(null, _drawDockerOuter.State);
                     _layoutFill.DisplayPadding = contentPadding;
                 }
             }

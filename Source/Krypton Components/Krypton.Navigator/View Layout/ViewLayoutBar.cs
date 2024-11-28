@@ -321,7 +321,7 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                var gap = _paletteMetric?.GetMetricInt(null, State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
                 var lineGap = (gap < 0 ? 0 : gap);
@@ -852,7 +852,7 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                var gap = _paletteMetric?.GetMetricInt(null, State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
                 var lineGap = (gap < 0 ? 0 : gap);

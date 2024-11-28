@@ -655,10 +655,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public abstract Padding GetContentPadding(PaletteContentStyle style, PaletteState state);
+        public abstract Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -670,13 +672,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public abstract int GetMetricInt(PaletteState state, PaletteMetricInt metric);
+        public abstract int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -689,10 +693,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public abstract Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric);
+        public abstract Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric);
 
         #endregion
 
@@ -857,7 +862,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
+                    return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 case PaletteButtonSpecStyle.New:
                 case PaletteButtonSpecStyle.Open:
                 case PaletteButtonSpecStyle.SaveAll:
@@ -1159,7 +1164,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
+                    return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

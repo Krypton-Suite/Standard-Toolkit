@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
             Image.Effect = GetContentImageEffect(state);
             Image.ImageColorMap = GetContentImageColorMap(state);
             Image.ImageColorTo = GetContentImageColorTo(state);
-            Padding = GetContentPadding(state);
+            Padding = GetBorderContentPadding(null, state);
         }
         #endregion
 

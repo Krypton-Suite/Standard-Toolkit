@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
                 if (_paletteMetric != null && _metricPadding != PaletteMetricPadding.None)
                 {
                     // Apply padding needed outside the border of the canvas
-                    var padding = _paletteMetric.GetMetricPadding(State, _metricPadding);
+                    var padding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
                     preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                     displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
                 }
@@ -421,7 +421,7 @@ namespace Krypton.Toolkit
                 if (_paletteMetric != null && _metricPadding != PaletteMetricPadding.None)
                 {
                     // Apply padding needed outside the border of the canvas
-                    var padding = _paletteMetric.GetMetricPadding(State, _metricPadding);
+                    var padding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
                     preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, padding);
                     displayRect = CommonHelper.ApplyPadding(Orientation, displayRect, padding);
                 }
@@ -561,7 +561,7 @@ namespace Krypton.Toolkit
                 if (_paletteMetric != null && _metricPadding != PaletteMetricPadding.None)
                 {
                     // Get the padding to be applied before the canvas drawing
-                    var outerPadding = _paletteMetric.GetMetricPadding(State, _metricPadding);
+                    var outerPadding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
                     ClientRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, outerPadding);
                 }
             }
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
             var fillerRect = ClientRectangle;
             context.DisplayRectangle = fillerRect;
 
-            // By default all the children need to draw all their borders
+            // By default, all the children need to draw all their borders
             var leftEdges = PaletteDrawBorders.All;
             var rightEdges = PaletteDrawBorders.All;
             var topEdges = PaletteDrawBorders.All;
@@ -717,6 +717,7 @@ namespace Krypton.Toolkit
                         rightEdges &= PaletteDrawBorders.BottomLeftRight;
                         topEdges &= PaletteDrawBorders.BottomLeftRight;
                         break;
+
                     case ViewDockStyle.Bottom:
                         if (childCanvas != null)
                         {
@@ -728,6 +729,7 @@ namespace Krypton.Toolkit
                         rightEdges &= PaletteDrawBorders.TopLeftRight;
                         bottomEdges &= PaletteDrawBorders.TopLeftRight;
                         break;
+
                     case ViewDockStyle.Left:
                         if (childCanvas != null)
                         {
@@ -739,6 +741,7 @@ namespace Krypton.Toolkit
                         bottomEdges &= PaletteDrawBorders.TopBottomRight;
                         leftEdges &= PaletteDrawBorders.TopBottomRight;
                         break;
+
                     case ViewDockStyle.Right:
                         if (childCanvas != null)
                         {

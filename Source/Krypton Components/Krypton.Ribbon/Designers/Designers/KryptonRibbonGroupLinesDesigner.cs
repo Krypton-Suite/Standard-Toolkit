@@ -1187,22 +1187,22 @@ namespace Krypton.Ribbon
                     });
 
                     // Ensure add images have correct transparent background
-                    _addButtonMenu.ImageTransparentColor = Color.Magenta;
-                    _addColorButtonMenu.ImageTransparentColor = Color.Magenta;
-                    _addCheckBoxMenu.ImageTransparentColor = Color.Magenta;
-                    _addRadioButtonMenu.ImageTransparentColor = Color.Magenta;
-                    _addLabelMenu.ImageTransparentColor = Color.Magenta;
-                    _addCustomControlMenu.ImageTransparentColor = Color.Magenta;
-                    _addClusterMenu.ImageTransparentColor = Color.Magenta;
-                    _addTextBoxMenu.ImageTransparentColor = Color.Magenta;
-                    _addMaskedTextBoxMenu.ImageTransparentColor = Color.Magenta;
-                    _addRichTextBoxMenu.ImageTransparentColor = Color.Magenta;
-                    _addComboBoxMenu.ImageTransparentColor = Color.Magenta;
-                    _addNumericUpDownMenu.ImageTransparentColor = Color.Magenta;
-                    _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
-                    _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
-                    _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
-                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
+                    _addButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addColorButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addCheckBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addRadioButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addLabelMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addCustomControlMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addClusterMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addTextBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addMaskedTextBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addRichTextBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addComboBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addNumericUpDownMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addDomainUpDownMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addDateTimePickerMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addTrackBarMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addThemeComboBoxMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 // Update verbs to work out correct enable states

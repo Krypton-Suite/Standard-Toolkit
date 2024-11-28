@@ -756,7 +756,6 @@ namespace Krypton.Toolkit
                 // the 'this.Size' which is out of date when performing a resize of the window.
                 var windowRect = new PI.RECT();
                 PI.GetWindowRect(Handle, ref windowRect);
-
                 // Create rectangle that encloses the entire window
                 return new Rectangle(0, 0,
                                      windowRect.right - windowRect.left,
@@ -1011,9 +1010,7 @@ namespace Krypton.Toolkit
         {
             var processed = false;
 
-            if (!CommonHelper.IsFormMaximized(this)
-                && _themedApp
-                )
+            if (_themedApp)
             {
                 switch (m.Msg)
                 {
@@ -1151,7 +1148,7 @@ namespace Krypton.Toolkit
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-            var monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+            IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
 
             if (monitor != IntPtr.Zero)
             {
@@ -1494,7 +1491,7 @@ namespace Krypton.Toolkit
             if (windowBounds is { Width: > 0, Height: > 0 })
             {
                 // Get the device context for this window
-                var hDC = PI.GetWindowDC(Handle);
+                IntPtr hDC = PI.GetWindowDC(Handle);
 
                 // If we managed to get a device context
                 if (hDC != IntPtr.Zero)
@@ -1521,7 +1518,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Create one the correct size and cache for future drawing
-                            var hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
+                            IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
 
                             // If we managed to get a compatible bitmap
                             if (hBitmap != IntPtr.Zero)
@@ -1730,7 +1727,7 @@ namespace Krypton.Toolkit
         private void UpdateDpiFactors()
         {
             // Do not use the control dpi, as these values are being used to target the screen
-            var screenDc = PI.GetDC(IntPtr.Zero);
+            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
             if (screenDc != IntPtr.Zero)
             {
                 FactorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;

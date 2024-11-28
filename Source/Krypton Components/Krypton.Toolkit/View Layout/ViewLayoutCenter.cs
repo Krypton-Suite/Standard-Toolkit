@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
             if ((_paletteMetric != null) && (MetricPadding != PaletteMetricPadding.None))
             {
                 // Get the required padding for the border
-                Padding borderPadding = _paletteMetric.GetMetricPadding(ElementState, MetricPadding);
+                Padding borderPadding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding);
 
                 // Applying the padding will depend on the orientation
                 switch(Orientation)
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
             if ((_paletteMetric != null) && (MetricPadding != PaletteMetricPadding.None))
             {
                 // Get the required padding for the border
-                Padding borderPadding = _paletteMetric.GetMetricPadding(ElementState, MetricPadding);
+                Padding borderPadding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding);
 
                 // Applying the padding will depend on the orientation
                 ClientRectangle = Orientation switch
