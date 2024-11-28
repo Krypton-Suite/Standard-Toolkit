@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            BarPaddingInside = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
-            BarPaddingOutside = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOutside);
-            BarPaddingOnly = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarPaddingOnly);
-            ButtonPadding = _redirect.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.BarButtonPadding);
-            ButtonEdgeInside = _redirect.GetMetricInt(PaletteState.Normal, PaletteMetricInt.BarButtonEdgeInside);
-            ButtonEdgeOutside = _redirect.GetMetricInt(PaletteState.Normal, PaletteMetricInt.BarButtonEdgeOutside);
-            CheckButtonGap = _redirect.GetMetricInt(PaletteState.Normal, PaletteMetricInt.CheckButtonGap);
-            RibbonTabGap = _redirect.GetMetricInt(PaletteState.Normal, PaletteMetricInt.RibbonTabGap);
+            BarPaddingInside = _redirect!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.BarPaddingInside);
+            BarPaddingOutside = _redirect.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.BarPaddingOutside);
+            BarPaddingOnly = _redirect.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.BarPaddingOnly);
+            ButtonPadding = _redirect.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.BarButtonPadding);
+            ButtonEdgeInside = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.BarButtonEdgeInside);
+            ButtonEdgeOutside = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.BarButtonEdgeOutside);
+            CheckButtonGap = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.CheckButtonGap);
+            RibbonTabGap = _redirect.GetMetricInt(null, PaletteState.Normal, PaletteMetricInt.RibbonTabGap);
         }
         #endregion
 
@@ -358,13 +358,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public virtual int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
             switch (metric)
             {
@@ -399,7 +401,7 @@ namespace Krypton.Toolkit
             }
 
             // Always pass onto the inheritance
-            return _redirect!.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(owningForm, state, metric);
         }
 
         /// <summary>
@@ -415,10 +417,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public virtual Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             switch (metric)
             {
@@ -460,7 +464,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect!.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
     }

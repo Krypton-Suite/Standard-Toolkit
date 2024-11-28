@@ -227,12 +227,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void ResetExtraText() => ExtraText = _defaultExtraText;
         private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
-        /// <summary>
-        /// Resets the Description property to its default value.
-        /// </summary>
-        public void ResetExtraText() => ExtraText = _defaultExtraText;
         #endregion
 
         #region UseAsADialogButton
@@ -369,7 +366,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
+        private void ResetDropDownArrowColor() => _dropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region CreateImageStates

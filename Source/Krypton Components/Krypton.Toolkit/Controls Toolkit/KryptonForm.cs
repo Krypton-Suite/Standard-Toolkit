@@ -13,6 +13,8 @@
 // ReSharper disable InconsistentNaming
 
 // ReSharper disable UnusedMember.Global
+using SolidBrush = System.Drawing.SolidBrush;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -132,7 +134,7 @@ namespace Krypton.Toolkit
             buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 
             // Create the palette storage
-            StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate, this);
             StateInactive = new PaletteForm(StateCommon, StateCommon.Header, NeedPaintDelegate);
             StateActive = new PaletteForm(StateCommon, StateCommon.Header, NeedPaintDelegate);
 
@@ -180,7 +182,7 @@ namespace Krypton.Toolkit
                 [PaletteMetricInt.HeaderButtonEdgeInsetForm],
                 [PaletteMetricPadding.HeaderButtonPaddingForm],
                                                        CreateToolStripRenderer,
-                                                       OnButtonManagerNeedPaint!);
+                                                       OnNeedPaint);
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
@@ -201,7 +203,7 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
-            TransparencyKey = Color.Magenta; // Bug #1749
+            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR; // Bug #1749
         }
 
         /// <summary>
@@ -634,7 +636,15 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [DefaultValue(KryptonFormTitleStyle.Inherit),
          Description(@"Arranges the current window title alignment.")]
-        public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
+        public KryptonFormTitleStyle TitleStyle
+        {
+            get => _titleStyle;
+            set
+            {
+                _titleStyle = value;
+                UpdateTitleStyle(value);
+            }
+        }
 
         #endregion
 
@@ -771,7 +781,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette(), this);
+        protected override PaletteRedirect CreateRedirector() => new FormPaletteRedirect(GetResolvedPalette()!, this);
 
         internal class FormPaletteRedirect : PaletteRedirect
         {
@@ -1331,8 +1341,20 @@ namespace Krypton.Toolkit
                         || (GetDefinedIcon() != _cacheIcon)
                         )
                     {
+                        Rectangle realWindowRectangle = RealWindowRectangle;
                         // Ask the view to perform a layout
-                        using (var context = new ViewLayoutContext(ViewManager, this, RealWindowRectangle, Renderer))
+                        if (GetWindowState() == FormWindowState.Maximized)
+                        {
+                            if (MdiParent == null)
+                            {
+                                // Get the size of each window border
+                                var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+                                // Reduce the Bounds by the padding on all but the top
+                                realWindowRectangle.Width -= xBorder;
+                            }
+                        }
+
+                        using (var context = new ViewLayoutContext(ViewManager, this, realWindowRectangle, Renderer))
                         {
                             ViewManager.Layout(context);
                         }
@@ -1390,9 +1412,22 @@ namespace Krypton.Toolkit
                         UpdateRegionForMaximized();
                     }
                 }
-                else
+                else if (MdiParent != null)
+                {
+                    using var backBrush = new SolidBrush(MdiParent.ActiveMdiChild == MdiParent
+                        ? StateActive.Border.Color1
+                        : StateInactive.Border.Color1);
+                    g.FillRectangle(backBrush, rect); // Bug #????
+                }
+                else if (TransparencyKey == GlobalStaticValues.TRANSPARENCY_KEY_COLOR)
                 {
                     g.FillRectangle(Brushes.Magenta, rect); // Bug #1749
+                }
+                else
+                {
+                    // TODO: Use a cached brush !
+                    using var backBrush = new SolidBrush(TransparencyKey);
+                    g.FillRectangle(backBrush, rect); // Bug #1749
                 }
 
                 // We draw the main form and header background
@@ -1409,11 +1444,14 @@ namespace Krypton.Toolkit
             if (MdiParent == null)
             {
                 // Get the size of each window border
+                var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+                var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
+
                 Padding padding = RealWindowBorders;
 
                 // Reduce the Bounds by the padding on all but the top
-                var maximizedRect = new Rectangle(padding.Left, padding.Left, Width - padding.Horizontal,
-                    Height - padding.Left - padding.Bottom);
+                var maximizedRect = new Rectangle(xBorder, yBorder, Width - (xBorder * 2),
+                    Height - (yBorder * 2));
 
                 // Use this as the new region
                 SuspendPaint();
@@ -1577,34 +1615,6 @@ namespace Krypton.Toolkit
 
             // Not showing a popup page anymore
             _visualPopupToolTip = null;
-        }
-
-        private void OnButtonManagerNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
-            // Only interested in optimizing specific button spec changes
-            if (sender is ButtonSpecView bsView)
-            {
-                ButtonSpec bs = bsView.ButtonSpec;
-
-                // Only interest in the three form level buttons, as we know 
-                // these never change in size because of a paint request
-                if ((bs == ButtonSpecMin) ||
-                    (bs == ButtonSpecMax) ||
-                    (bs == ButtonSpecClose))
-                {
-                    // Translate the button rectangle into the non client area
-                    Rectangle buttonRect = bsView.ViewButton.ClientRectangle;
-                    Padding borders = RealWindowBorders;
-                    buttonRect.X -= borders.Left;
-                    buttonRect.Y -= borders.Top;
-
-                    // Only invalidate the actual button area itself
-                    OnNeedPaint(sender, new NeedLayoutEventArgs(false, buttonRect));
-                    return;
-                }
-            }
-
-            OnNeedPaint(sender, e);
         }
 
         private void OnStatusDockChanged(object? sender, EventArgs e)

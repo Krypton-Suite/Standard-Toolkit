@@ -235,10 +235,12 @@ namespace Krypton.Toolkit
             base.OnLayout(lEvent);
 
             // Need a render context for accessing the renderer
-            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            Rectangle rect = ClientRectangle;
+            rect.Inflate(1, 1); // Make sure bottom and left borders are visible
+            using var context = new RenderContext(this, null, rect, Renderer);
             using var gh = new GraphicsHint(context.Graphics, _palette.Border.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
-            Rectangle borderRect = ClientRectangle;
+            Rectangle borderRect = rect;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
             GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);

@@ -43,7 +43,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteNavigatorNormabled class.
+        /// Initialize a new instance of the PaletteNavigatorRedirect class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator.</param>
         /// <param name="redirectNavigator">inheritance redirection for navigator level.</param>
@@ -352,48 +352,43 @@ namespace Krypton.Navigator
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
-            switch (metric)
+            if (metric == PaletteMetricInt.PageButtonInset 
+                && Metrics.PageButtonSpecInset != -1)
             {
-                case PaletteMetricInt.PageButtonInset:
-                    if (Metrics.PageButtonSpecInset != -1)
-                    {
-                        return Metrics.PageButtonSpecInset;
-                    }
-                    break;
+                return Metrics.PageButtonSpecInset;
             }
 
             // Pass onto the inheritance
-            return base.GetMetricInt(state, metric);
+            return base.GetMetricInt(owningForm, state, metric);
         }
 
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric)
         {
-            switch (metric)
+            if (metric == PaletteMetricPadding.PageButtonPadding 
+                && !Metrics.PageButtonSpecPadding.Equals(CommonHelper.InheritPadding))
             {
-                case PaletteMetricPadding.PageButtonPadding:
-                    if (!Metrics.PageButtonSpecPadding.Equals(CommonHelper.InheritPadding))
-                    {
-                        return Metrics.PageButtonSpecPadding;
-                    }
-                    break;
+                return Metrics.PageButtonSpecPadding;
             }
 
             // Pass onto the inheritance
-            return base.GetMetricPadding(state, metric);
+            return base.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
 

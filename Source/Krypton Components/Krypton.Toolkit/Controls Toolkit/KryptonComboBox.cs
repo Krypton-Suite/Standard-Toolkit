@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
                                     // Draw text using font defined by the control
                                     var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
                                         rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
+                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
                                     // Find correct text color
                                     Color textColor = states.Content.GetContentShortTextColor1(state);
                                     Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);

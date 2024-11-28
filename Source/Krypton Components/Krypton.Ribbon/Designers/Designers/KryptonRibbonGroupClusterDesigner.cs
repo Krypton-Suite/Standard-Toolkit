@@ -511,8 +511,8 @@ namespace Krypton.Ribbon
                                                               _deleteClusterMenu });
 
                     // Ensure add images have correct transparent background
-                    _addButtonMenu.ImageTransparentColor = Color.Magenta;
-                    _addColorButtonMenu.ImageTransparentColor = Color.Magenta;
+                    _addButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addColorButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 // Update verbs to work out correct enable states

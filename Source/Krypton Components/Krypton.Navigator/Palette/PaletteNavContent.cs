@@ -129,7 +129,7 @@ namespace Krypton.Navigator
             LongText.TextV = GetContentLongTextV(state);
             LongText.MultiLineH = GetContentLongTextMultiLineH(state);
             LongText.MultiLine = GetContentLongTextMultiLine(state);
-            Padding = GetContentPadding(state);
+            Padding = GetBorderContentPadding(null, state);
             AdjacentGap = GetContentAdjacentGap(state);
         }
         #endregion
@@ -666,12 +666,13 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the actual padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetContentPadding(PaletteState state)
+        public Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state)
         {
             // Initialize the padding from inherited values
-            Padding paddingInherit = _inherit!.GetContentPadding(state);
+            Padding paddingInherit = _inherit!.GetBorderContentPadding(owningForm, state);
             Padding paddingThis = Padding;
 
             // Override with specified values

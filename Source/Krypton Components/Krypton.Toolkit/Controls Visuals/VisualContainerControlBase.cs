@@ -566,7 +566,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         protected bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up one level
-                c = c.Parent!;
+                c = c.Parent;
             }
 
             // Evert control in chain is visible and enabled, so allow mnemonics

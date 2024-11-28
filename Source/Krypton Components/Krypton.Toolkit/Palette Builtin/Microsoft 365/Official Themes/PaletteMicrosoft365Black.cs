@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
-                TransparentColor = Color.Magenta
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
             };
 
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);

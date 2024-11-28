@@ -333,13 +333,15 @@ namespace Krypton.Navigator
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
             // Is this the metric we provide?
             switch (metric)
@@ -371,7 +373,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect!.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(owningForm, state, metric);
         }
 
         /// <summary>
@@ -387,10 +389,11 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric)
         {
             switch (metric)
             {
@@ -427,7 +430,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect!.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
     }
