@@ -3,6 +3,7 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
+* Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), KryptonListView is missing key events
 * Resolved [#1843](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), `ButtonSpec` position is off due to an incorrect padding when style is set to "List Item".
 * Resolved [#1865](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1865), Outlook Mockup Error (thanks to [AngeloCresta](https://github.com/AngeloCresta))
 * Resolved [#1862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1862), `VisualPanel.PaintTransparentBackground()` throws a null reference exception
