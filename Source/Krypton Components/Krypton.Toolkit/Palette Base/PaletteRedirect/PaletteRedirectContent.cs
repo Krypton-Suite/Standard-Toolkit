@@ -650,14 +650,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state)
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentPadding(state) ?? Target!.GetContentPadding(style, state);
+            return inherit?.GetBorderContentPadding(owningForm, state) 
+                   ?? Target!.GetBorderContentPadding(owningForm, style, state);
         }
 
         /// <summary>
@@ -670,7 +673,8 @@ namespace Krypton.Toolkit
         {
             IPaletteContent? inherit = GetInherit(state);
 
-            return inherit?.GetContentAdjacentGap(state) ?? Target!.GetContentAdjacentGap(style, state);
+            return inherit?.GetContentAdjacentGap(state) 
+                   ?? Target!.GetContentAdjacentGap(style, state);
         }
         #endregion
 

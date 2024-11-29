@@ -151,6 +151,13 @@ namespace Krypton.Toolkit
             }
 
             // We take on all the available display area
+            if (context.Control is KryptonForm)
+            {
+                Rectangle contextDisplayRectangle = context.DisplayRectangle;
+                contextDisplayRectangle.Width -= 10;
+                context.DisplayRectangle = contextDisplayRectangle;
+            }
+
             ClientRectangle = context.DisplayRectangle;
 
             // Let child elements layout

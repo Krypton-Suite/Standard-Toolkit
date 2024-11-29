@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         public const int CURRENT_SUPPORTED_PALETTE_VERSION = 20;
 
         /// <summary>The default highlight debugging color</summary>
-        public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Magenta;
+        public static Color DEFAULT_HIGHLIGHT_DEBUGGING_COLOR = Color.Red;
 
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";

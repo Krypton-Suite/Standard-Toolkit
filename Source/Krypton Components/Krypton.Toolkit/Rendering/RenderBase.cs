@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public abstract ToolStripRenderer RenderToolStrip(PaletteBase colorPalette);
+        public abstract ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette);
         #endregion
 
         #region RenderStandardBorder

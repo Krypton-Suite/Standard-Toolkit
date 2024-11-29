@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                 if (_imageColumn)
                 {
                     itemColumnImage = _empty16x16;
-                    itemImageTransparent = Color.Magenta;
+                    itemImageTransparent = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 switch (ResolveCheckState)
@@ -144,7 +144,14 @@ namespace Krypton.Toolkit
 
             // SubMenu Indicator
             HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : GlobalStaticValues.EMPTY_COLOR), 3);
+            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, 
+                !HasSubMenu 
+                    ? _empty16x16 
+                    : provider.ProviderImages.GetContextMenuSubMenuImage(), 
+                KryptonContextMenuItem.Items.Count == 0 
+                    ? GlobalStaticValues.TRANSPARENCY_KEY_COLOR 
+                    : GlobalStaticValues.EMPTY_COLOR),
+                3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
 
@@ -517,7 +524,7 @@ namespace Krypton.Toolkit
                     if (_imageColumn)
                     {
                         itemColumnImage = _empty16x16;
-                        itemImageTransparent = Color.Magenta;
+                        itemImageTransparent = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                     }
 
                     switch (ResolveCheckState)

@@ -73,10 +73,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public void PopulateFromBase()
         {
-            PrimaryHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingPrimary);
-            SecondaryHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingSecondary);
-            DockInactiveHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockInactive);
-            DockActiveHeaderPadding = _redirect!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockActive);
+            PrimaryHeaderPadding = _redirect!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingPrimary);
+            SecondaryHeaderPadding = _redirect!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingSecondary);
+            DockInactiveHeaderPadding = _redirect!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockInactive);
+            DockActiveHeaderPadding = _redirect!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.HeaderGroupPaddingDockActive);
             OverlayHeaders = _redirect!.GetMetricBool(PaletteState.Normal, PaletteMetricBool.HeaderGroupOverlay);
         }
         #endregion
@@ -227,15 +227,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
+        public virtual int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) =>
             // Always pass onto the inheritance
-            _redirect!.GetMetricInt(state, metric);
+            _redirect!.GetMetricInt(owningForm, state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -262,10 +264,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public virtual Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             switch (metric)
             {
@@ -300,7 +304,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect!.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
     }

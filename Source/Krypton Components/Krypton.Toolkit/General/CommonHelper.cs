@@ -1110,7 +1110,7 @@ namespace Krypton.Toolkit
         public static int ColorDepth()
         {
             // Get access to the desktop DC
-            var desktopDC = PI.GetDC(IntPtr.Zero);
+            IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
             var planes = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.PLANES);
@@ -1239,21 +1239,12 @@ namespace Krypton.Toolkit
             int yOffset = 0;
             uint dwStyle = (uint)cp.Style;
             bool useAdjust = false;
-            bool useWindowTheme = false;
             if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
             {
                 useAdjust = true;
-                if (!CommonHelper.IsFormMaximized(kryptonForm))
-                {
-                    var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
-                    useWindowTheme = xOffset1 == -1;
-                    xOffset = Math.Max(0, xOffset1);
-                    yOffset = Math.Max(0, yOffset1);
-                }
-                else //if (kryptonForm.FormBorderStyle == FormBorderStyle.None )
-                {
-                    dwStyle |= PI.WS_.CAPTION;
-                }
+                var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                xOffset = Math.Max(0, xOffset1);
+                yOffset = Math.Max(0, yOffset1);
             }
 
             var rect = new PI.RECT
@@ -1266,10 +1257,63 @@ namespace Krypton.Toolkit
             {
                 // Adjust rectangle to add on the borders required
                 PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
+                PaletteBase? resolvedPalette = form?.GetResolvedPalette();
+                if (resolvedPalette == null)
+                {   // Need to breakout when the form is closing
+                    return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+                }
+                // Set the values determined by the formBorder.BorderWidths etc.
+                rect.left = -xOffset;
+                rect.right = xOffset;
+                rect.bottom = yOffset;
+
+                PaletteDrawBorders borders = CommonHelper.IsFormMaximized(form!)
+                    ? PaletteDrawBorders.Top
+                    : form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal);
+                switch (borders)
+                {
+                    case PaletteDrawBorders.Top:
+                    case PaletteDrawBorders.None:
+                        rect.left = 0;
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.Bottom:
+                    case PaletteDrawBorders.TopBottom:
+                        rect.left = 0;
+                        rect.right = 0;
+                        break;
+                    case PaletteDrawBorders.Left:
+                    case PaletteDrawBorders.TopLeft:
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.BottomLeft:
+                    case PaletteDrawBorders.TopBottomLeft:
+                        rect.right = 0;
+                        break;
+                    case PaletteDrawBorders.Right:
+                    case PaletteDrawBorders.TopRight:
+                        rect.left = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.BottomRight:
+                    case PaletteDrawBorders.TopBottomRight:
+                        rect.left = 0;
+                        break;
+                    case PaletteDrawBorders.LeftRight:
+                    case PaletteDrawBorders.TopLeftRight:
+                        rect.bottom = 0;
+                        break;
+                    //case PaletteDrawBorders.BottomLeftRight:
+                    //case PaletteDrawBorders.All:
+                    default:
+                        break;
+                }
             }
 
             // Return the per side border values
-            return new Padding(useWindowTheme? -rect.left:xOffset, -rect.top, useWindowTheme ? rect.right:xOffset, useWindowTheme ? rect.bottom:yOffset);
+            return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
 
         /// <summary>

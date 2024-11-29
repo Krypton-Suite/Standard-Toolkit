@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
-                TransparentColor = Color.Magenta
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
             _radioButtonArray =
@@ -464,7 +464,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
         private static readonly Padding _contentPaddingCalendar = new Padding(2);
-        private static readonly Padding _contentPaddingHeaderForm = new Padding(10, 6, 3, 0); // 10 is from the RealWindowFrameSize +1
+        //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
         private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
         private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
         private static readonly Padding _contentPaddingButtonCalendar = new Padding(-1);
@@ -477,7 +477,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 0, 1);
         private static readonly Padding _contentPaddingButtonForm = new Padding(0);
         private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
-        private static readonly Padding _contentPaddingButtonListItem = new Padding(0, 0, 0, 0);
+        private static readonly Padding _contentPaddingButtonListItem = new Padding(0);
         private static readonly Padding _contentPaddingToolTip = new Padding(2);
         private static readonly Padding _contentPaddingSuperTip = new Padding(4);
         private static readonly Padding _contentPaddingKeyTip = new Padding(0, -1, 0, -3);
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
         private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
         private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
-        private static readonly Padding _metricPaddingHeaderForm = new Padding(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
+        //private static readonly Padding _metricPaddingHeaderForm = new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);//, 3, 0, -3); // Move the Maximised Form buttons down a bit
         private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
         private static readonly Padding _metricPaddingBarInside = new Padding(3);
         private static readonly Padding _metricPaddingBarTabs = new Padding(0);
@@ -3915,11 +3915,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state)
         {
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
@@ -3927,37 +3929,90 @@ namespace Krypton.Toolkit
                 return CommonHelper.InheritPadding;
             }
 
-            return style switch
+            switch (style)
             {
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => _contentPaddingGrid,
-                PaletteContentStyle.HeaderForm => _contentPaddingHeaderForm,
-                PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _contentPaddingHeader1,
-                PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive => _contentPaddingDock,
-                PaletteContentStyle.HeaderSecondary => _contentPaddingHeader2,
-                PaletteContentStyle.HeaderCalendar => _contentPaddingCalendar,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 => _contentPaddingLabel,
-                PaletteContentStyle.LabelGroupBoxCaption => _contentPaddingLabel2,
-                PaletteContentStyle.ContextMenuItemTextStandard => _contentPaddingContextMenuItemText,
-                PaletteContentStyle.ContextMenuItemTextAlternate => _contentPaddingContextMenuItemTextAlt,
-                PaletteContentStyle.ContextMenuItemShortcutText => _contentPaddingContextMenuItemShortcutText,
-                PaletteContentStyle.ContextMenuItemImage => _contentPaddingContextMenuImage,
-                PaletteContentStyle.LabelToolTip => _contentPaddingToolTip,
-                PaletteContentStyle.LabelSuperTip => _contentPaddingSuperTip,
-                PaletteContentStyle.LabelKeyTip => _contentPaddingKeyTip,
-                PaletteContentStyle.ContextMenuHeading => _contentPaddingContextMenuHeading,
-                PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => InputControlPadding,
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => _contentPaddingButton12,
-                PaletteContentStyle.ButtonInputControl or PaletteContentStyle.ButtonCalendarDay => _contentPaddingButtonInputControl,
-                PaletteContentStyle.ButtonButtonSpec => _contentPaddingButton3,
-                PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => _contentPaddingButton4,
-                PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => _contentPaddingButtonForm,
-                PaletteContentStyle.ButtonGallery => _contentPaddingButtonGallery,
-                PaletteContentStyle.ButtonListItem => _contentPaddingButtonListItem,
-                PaletteContentStyle.ButtonBreadCrumb => _contentPaddingButton6,
-                PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => _contentPaddingButton5,
-                PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _contentPaddingButton7,
-                _ => throw new ArgumentOutOfRangeException(nameof(style))
-            };
+                case PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
+                    or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
+                    or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
+                    or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1
+                    or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3
+                    or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet
+                    or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2
+                    or PaletteContentStyle.GridDataCellCustom3:
+                    return _contentPaddingGrid;
+                case PaletteContentStyle.HeaderForm:
+                    {
+                        Padding borders = owningForm!.RealWindowBorders;
+                        return new Padding(borders.Left, borders.Bottom / 2, 0, 0);
+                    }
+                case PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1
+                    or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3:
+                    return _contentPaddingHeader1;
+                case PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive:
+                    return _contentPaddingDock;
+                case PaletteContentStyle.HeaderSecondary:
+                    return _contentPaddingHeader2;
+                case PaletteContentStyle.HeaderCalendar:
+                    return _contentPaddingCalendar;
+                case PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl
+                    or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl
+                    or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel
+                    or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel
+                    or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2
+                    or PaletteContentStyle.LabelCustom3:
+                    return _contentPaddingLabel;
+                case PaletteContentStyle.LabelGroupBoxCaption:
+                    return _contentPaddingLabel2;
+                case PaletteContentStyle.ContextMenuItemTextStandard:
+                    return _contentPaddingContextMenuItemText;
+                case PaletteContentStyle.ContextMenuItemTextAlternate:
+                    return _contentPaddingContextMenuItemTextAlt;
+                case PaletteContentStyle.ContextMenuItemShortcutText:
+                    return _contentPaddingContextMenuItemShortcutText;
+                case PaletteContentStyle.ContextMenuItemImage:
+                    return _contentPaddingContextMenuImage;
+                case PaletteContentStyle.LabelToolTip:
+                    return _contentPaddingToolTip;
+                case PaletteContentStyle.LabelSuperTip:
+                    return _contentPaddingSuperTip;
+                case PaletteContentStyle.LabelKeyTip:
+                    return _contentPaddingKeyTip;
+                case PaletteContentStyle.ContextMenuHeading:
+                    return _contentPaddingContextMenuHeading;
+                case PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon
+                    or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2
+                    or PaletteContentStyle.InputControlCustom3:
+                    return InputControlPadding;
+                case PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonCommand
+                    or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile
+                    or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini
+                    or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2
+                    or PaletteContentStyle.ButtonCustom3:
+                    return _contentPaddingButton12;
+                case PaletteContentStyle.ButtonInputControl or PaletteContentStyle.ButtonCalendarDay:
+                    return _contentPaddingButtonInputControl;
+                case PaletteContentStyle.ButtonButtonSpec:
+                    return _contentPaddingButton3;
+                case PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow:
+                    return _contentPaddingButton4;
+                case PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose:
+                    return _contentPaddingButtonForm;
+                case PaletteContentStyle.ButtonGallery:
+                    return _contentPaddingButtonGallery;
+                case PaletteContentStyle.ButtonListItem:
+                    return _contentPaddingButtonListItem;
+                case PaletteContentStyle.ButtonBreadCrumb:
+                    return _contentPaddingButton6;
+                case PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile
+                    or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote
+                    or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2
+                    or PaletteContentStyle.TabCustom3:
+                    return _contentPaddingButton5;
+                case PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden:
+                    return _contentPaddingButton7;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(style));
+            }
         }
 
         /// <summary>
@@ -3985,13 +4040,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
             switch (metric)
             {
@@ -4002,7 +4059,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricInt.CheckButtonGap:
                     return 5;
                 case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                    return 9; // Needs to be the RealWindowBorderWidth Offset - No idea how to get it at this point
+                    return Math.Max(2, owningForm!.RealWindowBorders.Right);
                 case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                     return 1;
                 case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
@@ -4056,10 +4113,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             switch (metric)
             {
@@ -4073,7 +4132,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricPadding.BarPaddingOutside:
                     return _metricPaddingBarOutside;
                 case PaletteMetricPadding.HeaderButtonPaddingForm:
-                    return _metricPaddingHeaderForm;
+                    return new Padding(0, owningForm!.RealWindowBorders.Right, 0, 0);
                 case PaletteMetricPadding.RibbonButtonPadding:
                     return _metricPaddingRibbon;
                 case PaletteMetricPadding.RibbonAppButton:

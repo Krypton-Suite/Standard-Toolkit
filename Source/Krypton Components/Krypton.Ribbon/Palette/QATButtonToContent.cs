@@ -326,9 +326,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetContentPadding(PaletteState state) => Padding.Empty;
+        public Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state) => Padding.Empty;
 
         /// <summary>
         /// Gets the padding between adjacent content items.

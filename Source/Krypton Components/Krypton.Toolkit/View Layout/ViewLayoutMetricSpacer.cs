@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Get the sizing metric
-            var length = _paletteMetric.GetMetricInt(ElementState, _metricInt);
+            var length = _paletteMetric.GetMetricInt(OwningControl as KryptonForm, ElementState, _metricInt);
 
             // Use the same size for vertical and horizontal
             return new Size(length, length);
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Get the sizing metric
-            var length = _paletteMetric.GetMetricInt(ElementState, _metricInt);
+            var length = _paletteMetric.GetMetricInt(OwningControl as KryptonForm, ElementState, _metricInt);
 
             // Always use the metric and ignore given space
             ClientRectangle = new Rectangle(context!.DisplayRectangle.Location, new Size(length, length));

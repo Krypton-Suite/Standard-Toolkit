@@ -2121,8 +2121,8 @@ namespace Krypton.Navigator
                 addRemoveButtons.Items.Add(addRemoveButtonItems);
 
                 // Setup the transparent color for the images
-                moreButtons.ImageTransparentColor = Color.Magenta;
-                fewerButtons.ImageTransparentColor = Color.Magenta;
+                moreButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                fewerButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
 
                 // Decide if the more/fewer buttons should be enabled/disabled
                 moreButtons.Enabled = AreMoreButtons();

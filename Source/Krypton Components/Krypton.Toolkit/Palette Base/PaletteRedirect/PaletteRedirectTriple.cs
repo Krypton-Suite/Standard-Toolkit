@@ -632,7 +632,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentImageV(state) : Target!.GetContentImageV(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentImageV(state)
+            : Target!.GetContentImageV(style, state);
     }
 
     /// <summary>
@@ -645,7 +647,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentImageEffect(state) : Target!.GetContentImageEffect(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentImageEffect(state)
+            : Target!.GetContentImageEffect(style, state);
     }
 
     /// <summary>
@@ -658,7 +662,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentImageColorMap(state) : Target!.GetContentImageColorMap(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentImageColorMap(state)
+            : Target!.GetContentImageColorMap(style, state);
     }
 
     /// <summary>
@@ -671,7 +677,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentImageColorTo(state) : Target!.GetContentImageColorTo(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentImageColorTo(state)
+            : Target!.GetContentImageColorTo(style, state);
     }
 
     /// <summary>
@@ -684,7 +692,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextFont(state) : Target!.GetContentShortTextFont(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextFont(state)
+            : Target!.GetContentShortTextFont(style, state);
     }
 
     /// <summary>
@@ -697,7 +707,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextHint(state) : Target!.GetContentShortTextHint(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextHint(state) 
+            : Target!.GetContentShortTextHint(style, state);
     }
 
     /// <summary>
@@ -710,7 +722,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextPrefix(state) : Target!.GetContentShortTextPrefix(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextPrefix(state)
+            : Target!.GetContentShortTextPrefix(style, state);
     }
 
     /// <summary>
@@ -738,7 +752,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextTrim(state) : Target!.GetContentShortTextTrim(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextTrim(state)
+            : Target!.GetContentShortTextTrim(style, state);
     }
 
     /// <summary>
@@ -751,7 +767,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextH(state) : Target!.GetContentShortTextH(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextH(state)
+            : Target!.GetContentShortTextH(style, state);
     }
 
     /// <summary>
@@ -764,7 +782,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextV(state) : Target!.GetContentShortTextV(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextV(state)
+            : Target!.GetContentShortTextV(style, state);
     }
 
     /// <summary>
@@ -792,7 +812,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextColor1(state) : Target!.GetContentShortTextColor1(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextColor1(state)
+            : Target!.GetContentShortTextColor1(style, state);
     }
 
     /// <summary>
@@ -805,7 +827,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextColor2(state) : Target!.GetContentShortTextColor2(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextColor2(state)
+            : Target!.GetContentShortTextColor2(style, state);
     }
 
     /// <summary>
@@ -863,7 +887,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentShortTextImage(state) : Target!.GetContentShortTextImage(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentShortTextImage(state)
+            : Target!.GetContentShortTextImage(style, state);
     }
 
     /// <summary>
@@ -906,7 +932,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextFont(state) : Target!.GetContentLongTextFont(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextFont(state)
+            : Target!.GetContentLongTextFont(style, state);
     }
 
     /// <summary>
@@ -919,7 +947,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextHint(state) : Target!.GetContentLongTextHint(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextHint(state)
+            : Target!.GetContentLongTextHint(style, state);
     }
 
     /// <summary>
@@ -932,7 +962,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextMultiLine(state) : Target!.GetContentLongTextMultiLine(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextMultiLine(state)
+            : Target!.GetContentLongTextMultiLine(style, state);
     }
 
     /// <summary>
@@ -945,7 +977,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextTrim(state) : Target!.GetContentLongTextTrim(style, state);
+        return inherit != null 
+            ? inherit.PaletteContent!.GetContentLongTextTrim(state) 
+            : Target!.GetContentLongTextTrim(style, state);
     }
 
     /// <summary>
@@ -958,7 +992,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextPrefix(state) : Target!.GetContentLongTextPrefix(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextPrefix(state)
+            : Target!.GetContentLongTextPrefix(style, state);
     }
 
     /// <summary>
@@ -971,7 +1007,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextH(state) : Target!.GetContentLongTextH(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextH(state)
+            : Target!.GetContentLongTextH(style, state);
     }
 
     /// <summary>
@@ -984,7 +1022,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextV(state) : Target!.GetContentLongTextV(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextV(state)
+            : Target!.GetContentLongTextV(style, state);
     }
 
     /// <summary>
@@ -1012,7 +1052,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextColor1(state) : Target!.GetContentLongTextColor1(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextColor1(state)
+            : Target!.GetContentLongTextColor1(style, state);
     }
 
     /// <summary>
@@ -1025,7 +1067,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextColor2(state) : Target!.GetContentLongTextColor2(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextColor2(state)
+            : Target!.GetContentLongTextColor2(style, state);
     }
 
     /// <summary>
@@ -1083,7 +1127,9 @@ public class PaletteRedirectTriple : PaletteRedirect
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentLongTextImage(state) : Target!.GetContentLongTextImage(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetContentLongTextImage(state)
+            : Target!.GetContentLongTextImage(style, state);
     }
 
     /// <summary>
@@ -1119,14 +1165,18 @@ public class PaletteRedirectTriple : PaletteRedirect
     /// <summary>
     /// Gets the padding between the border and content drawing.
     /// </summary>
+    /// <param name="owningForm"></param>
     /// <param name="style">Content style.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Padding value.</returns>
-    public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
+    public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+        PaletteState state)
     {
         IPaletteTriple? inherit = GetInherit(state);
 
-        return inherit != null ? inherit.PaletteContent!.GetContentPadding(state) : Target!.GetContentPadding(style, state);
+        return inherit != null
+            ? inherit.PaletteContent!.GetBorderContentPadding(owningForm, state)
+            : Target!.GetBorderContentPadding(owningForm, style, state);
     }
 
     /// <summary>

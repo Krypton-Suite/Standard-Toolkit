@@ -1229,24 +1229,25 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetContentPadding(PaletteState state)
+        public virtual Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state)
         {
             if (Apply)
             {
-                Padding ret = _primaryContent.GetContentPadding(Override ? OverrideState : state);
+                Padding ret = _primaryContent.GetBorderContentPadding(owningForm, Override ? OverrideState : state);
 
                 if (ret.All == -1)
                 {
-                    ret = _backupContent.GetContentPadding(state);
+                    ret = _backupContent.GetBorderContentPadding(owningForm, state);
                 }
 
                 return ret;
             }
             else
             {
-                return _backupContent.GetContentPadding(state);
+                return _backupContent.GetBorderContentPadding(owningForm, state);
             }
         }
 

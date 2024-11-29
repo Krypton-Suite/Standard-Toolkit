@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
             StartPosition = FormStartPosition.Manual;
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
-            TransparencyKey = Color.Magenta;
+            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
 #pragma warning disable CS0618 // Type or member is obsolete
             UseDropShadow = false;
 #pragma warning restore CS0618 // Type or member is obsolete

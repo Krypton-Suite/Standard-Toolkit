@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
             };
 
             var layoutDocker = new ViewLayoutDocker();
-            Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
+            Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Left), ViewDockStyle.Left);

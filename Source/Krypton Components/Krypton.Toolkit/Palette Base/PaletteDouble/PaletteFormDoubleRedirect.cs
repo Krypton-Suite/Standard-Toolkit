@@ -14,18 +14,18 @@ namespace Krypton.Toolkit
     public class PaletteFormDoubleRedirect : PaletteDoubleRedirect
     {
         #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteDoubleRedirect class.
-        /// </summary>
-        /// <param name="redirect">inheritance redirection instance.</param>
-        /// <param name="backStyle">Initial background style.</param>
-        /// <param name="borderStyle">Initial border style.</param>
-        public PaletteFormDoubleRedirect(PaletteRedirect redirect,
-                                     PaletteBackStyle backStyle,
-                                     PaletteBorderStyle borderStyle)
-            : this(redirect, backStyle, borderStyle, null)
-        {
-        }
+        ///// <summary>
+        ///// Initialize a new instance of the PaletteDoubleRedirect class.
+        ///// </summary>
+        ///// <param name="redirect">inheritance redirection instance.</param>
+        ///// <param name="backStyle">Initial background style.</param>
+        ///// <param name="borderStyle">Initial border style.</param>
+        //public PaletteFormDoubleRedirect(PaletteRedirect redirect,
+        //                             PaletteBackStyle backStyle,
+        //                             PaletteBorderStyle borderStyle)
+        //    : this(redirect, backStyle, borderStyle, null)
+        //{
+        //}
 
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
@@ -34,10 +34,12 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
+        /// <param name="ownerForm"></param>
         public PaletteFormDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
-                                     NeedPaintHandler? needPaint)
+                                     NeedPaintHandler? needPaint,
+                                     VisualForm ownerForm)
         {
             // Store the inherit instances
             var backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
@@ -45,7 +47,7 @@ namespace Krypton.Toolkit
 
             // Create storage that maps onto the inherit instances
             var back = new PaletteBack(backInherit, needPaint);
-            var border = new PaletteFormBorder(borderInherit, needPaint);
+            var border = new PaletteFormBorder(borderInherit, needPaint, ownerForm);
 
             Construct(redirect, back, backInherit, border, borderInherit, needPaint);
         }

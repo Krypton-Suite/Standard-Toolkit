@@ -60,8 +60,8 @@ namespace Krypton.Toolkit
 
             // Grab the padding used for the text/extra content of a menu item
             Padding paddingText = _standardStyle
-                ? _stateCommon.ItemTextStandard.GetContentPadding(PaletteState.Normal)
-                : _stateCommon.ItemTextAlternate.GetContentPadding(PaletteState.Normal);
+                ? _stateCommon.ItemTextStandard.GetBorderContentPadding(context.Control as KryptonForm, PaletteState.Normal)
+                : _stateCommon.ItemTextAlternate.GetBorderContentPadding(context.Control as KryptonForm, PaletteState.Normal);
 
             // Get padding needed for the left edge of the item highlight
             Padding paddingHighlight = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_stateCommon.ItemHighlight?.Border!, PaletteState.Normal, VisualOrientation.Top);

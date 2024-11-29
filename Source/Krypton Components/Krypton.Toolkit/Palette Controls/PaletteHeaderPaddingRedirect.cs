@@ -88,13 +88,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             // Is this the metric we provide?
             if (metric is PaletteMetricPadding.HeaderGroupPaddingPrimary or PaletteMetricPadding.HeaderGroupPaddingSecondary or PaletteMetricPadding.HeaderGroupPaddingDockInactive or PaletteMetricPadding.HeaderGroupPaddingDockActive)
@@ -107,7 +110,7 @@ namespace Krypton.Toolkit
             }
 
             // Let base class perform its own testing
-            return base.GetMetricPadding(state, metric);
+            return base.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
     }
