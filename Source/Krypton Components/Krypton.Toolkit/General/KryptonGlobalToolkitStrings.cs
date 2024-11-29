@@ -596,8 +596,10 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton splash screen strings.</summary>
         public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
 
+        /// <summary>Gets the message box strings.</summary>
+        /// <value>The message box strings.</value>
         [Category(@"Visuals")]
-        [Description(@"Collection of splash screen strings.")]
+        [Description(@"Collection of message box strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
@@ -605,7 +607,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
 
-        /// <summary>Resets the krypton splash screen strings.</summary>
+        /// <summary>Resets the krypton message box strings.</summary>
         public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
 
         #endregion
