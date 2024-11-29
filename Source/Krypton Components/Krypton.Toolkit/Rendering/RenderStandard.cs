@@ -3997,7 +3997,7 @@ namespace Krypton.Toolkit
                 case PaletteDrawBorders.TopBottom:
                     if (variant == 0)
                     {
-                        borderPath.AddLine(rectF.Left - 1, rectF.Bottom, rectF.Right + 1, rectF.Top);
+                        borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right + 1, rectF.Top);
                     }
                     else
                     {

@@ -1095,14 +1095,16 @@ namespace Krypton.Toolkit
             if ((parent is not null) && NeedTransparentPaint)
             {
                 // Only grab the required reference once
-                if (_miPTB.Equals(null) /*== null*/)
+                if (_miPTB is null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
-                                                       BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-                                                       null, CallingConventions.HasThis,
-                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
-                                                       null)!;
+                    _miPTB = typeof(Control).GetMethod(
+                        nameof(PaintTransparentBackground),
+                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+                        null, 
+                        CallingConventions.HasThis,
+                        [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
+                        null)!;
                 }
 
                 _miPTB.Invoke(this, [e!, ClientRectangle, null!]);
