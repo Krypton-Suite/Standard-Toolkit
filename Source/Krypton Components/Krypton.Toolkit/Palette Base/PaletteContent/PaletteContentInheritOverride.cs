@@ -56,14 +56,14 @@ namespace Krypton.Toolkit
             Apply = apply;
             OverrideState = overrideState;
 
-            // By default we do override the state
+            // By default, we do override the state
             Override = true;
         }
         #endregion
 
         #region SetPalettes
         /// <summary>
-        /// Update the the primary and backup palettes.
+        /// Update the primary and backup palettes.
         /// </summary>
         /// <param name="primary">New primary palette.</param>
         /// <param name="backup">New backup palette.</param>
@@ -1058,24 +1058,25 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteState state)
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state)
         {
             if (Apply)
             {
-                Padding ret = _primary.GetContentPadding(Override ? OverrideState : state);
+                Padding ret = _primary.GetBorderContentPadding(owningForm, Override ? OverrideState : state);
 
                 if (ret.All == -1)
                 {
-                    ret = _backup.GetContentPadding(state);
+                    ret = _backup.GetBorderContentPadding(owningForm, state);
                 }
 
                 return ret;
             }
             else
             {
-                return _backup.GetContentPadding(state);
+                return _backup.GetBorderContentPadding(owningForm, state);
             }
         }
 

@@ -847,12 +847,8 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel
-                    or KryptonMessageBoxButtons.YesNo
-                    or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore
-                    or KryptonMessageBoxButtons.YesNoCancel
-                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new EvaluateException("_buttons out of range")
             };
             if (helpButton != null)
@@ -1053,7 +1049,7 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    return krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                    return krtbMessageText.StateCommon.Content.GetBorderContentPadding(null, PaletteState.Normal);
                 case MessageBoxContentAreaType.LinkLabel:
                     return klwlblMessageText.Padding;
                 case null:

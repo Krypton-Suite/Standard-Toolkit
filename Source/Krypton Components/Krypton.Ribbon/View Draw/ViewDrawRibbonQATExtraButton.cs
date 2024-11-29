@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
         // TODO: Needs to be scaled
-        private static readonly Size _contentSize = new Size(-4, -7);
+        private static readonly Size _contentSize = new Size(-2, -5);
 
         #region Instance Fields
         private readonly Size _viewSize; // = new(13, 22);
@@ -153,31 +153,30 @@ namespace Krypton.Ribbon
             Enabled = _ribbon.Enabled;
 
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;
-            IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
+            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
             IPaletteRibbonGeneral paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder!, VisualOrientation.Top, State);
-                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder!, State, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
 
                 // Apply the padding depending on the orientation
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
-                using var gh = new GraphicsHint(context.Graphics, paletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
+                using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                     paletteBack, VisualOrientation.Top,
                     State, _mementoBack);
             }
 
             // Do we need to draw the border?
-            if (paletteBorder?.GetBorderDraw(State) == InheritBool.True)
+            if (paletteBorder.GetBorderDraw(State) == InheritBool.True)
             {
-                context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, 
-                    VisualOrientation.Top, State);
+                context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
             }
 
             // Find the content area inside the button rectangle

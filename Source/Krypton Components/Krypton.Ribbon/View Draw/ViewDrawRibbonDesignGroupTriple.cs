@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
             // Use image list to convert background Magenta to transparent
             _imageList = new ImageList
             {
-                TransparentColor = Color.Magenta
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
             };
             _imageList.Images.AddRange([
                 GenericImageResources.KryptonRibbonGroupButton,

@@ -20,19 +20,20 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly PaletteRedirect _redirect;
-        private InheritBool _overlayHeaders;
-
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the PaletteFormRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
+        /// <param name="ownerForm"></param>
         public PaletteFormRedirect(PaletteRedirect redirect,
-                                   NeedPaintHandler needPaint)
-            : this(redirect, redirect, needPaint)
+                                   NeedPaintHandler needPaint,
+                                   VisualForm ownerForm)
+            : this(redirect, redirect, needPaint, ownerForm)
         {
         }
 
@@ -42,13 +43,16 @@ namespace Krypton.Toolkit
         /// <param name="redirectForm">inheritance redirection for form group.</param>
         /// <param name="redirectHeader">inheritance redirection for header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
+        /// <param name="ownerForm"></param>
         public PaletteFormRedirect([DisallowNull] PaletteRedirect redirectForm,
                                    [DisallowNull] PaletteRedirect redirectHeader,
-                                   NeedPaintHandler needPaint)
+                                   NeedPaintHandler needPaint,
+                                   VisualForm ownerForm)
             : base(redirectForm, 
                    PaletteBackStyle.FormMain,
                    PaletteBorderStyle.FormMain, 
-                   needPaint)
+                   needPaint,
+                   ownerForm)
         {
             Debug.Assert(redirectForm != null);
             Debug.Assert(redirectHeader != null);
@@ -60,7 +64,7 @@ namespace Krypton.Toolkit
             Header = new PaletteHeaderButtonRedirect(redirectHeader!, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
 
             // Default other values
-            _overlayHeaders = InheritBool.Inherit;
+            OverlayHeaders = InheritBool.Inherit;
         }
         #endregion
 
@@ -90,6 +94,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OverlayHeaders
+
         /// <summary>
         /// Gets and sets a value indicating if headers should overlay the border.
         /// </summary>
@@ -99,29 +104,32 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {
-            get => _overlayHeaders;
+            get;
 
             set
             {
-                if (_overlayHeaders != value)
+                if (field != value)
                 {
-                    _overlayHeaders = value;
+                    field = value;
                     PerformNeedPaint();
                 }
             }
         }
+
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
+        public int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _redirect.GetMetricInt(state, metric);
+            _redirect.GetMetricInt(owningForm, state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -148,12 +156,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
+        public Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricPadding(state, metric);
+            _redirect.GetMetricPadding(owningForm, state, metric);
 
         #endregion
     }

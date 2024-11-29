@@ -3,6 +3,8 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
+* Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
+* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
 * Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), ChromeBorderWidth and Padding
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 

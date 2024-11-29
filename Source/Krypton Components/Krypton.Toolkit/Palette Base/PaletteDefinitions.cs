@@ -488,9 +488,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        Padding GetContentPadding(PaletteState state);
+        Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -516,10 +517,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        int GetMetricInt(PaletteState state, PaletteMetricInt metric);
+        int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -532,10 +534,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric);
+        Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric);
     }
     #endregion
 

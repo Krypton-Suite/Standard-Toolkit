@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
             // Draw entire client area in the background color
             g?.FillRectangle(backBrush, layoutRectangle);
 
-            var padding = GetContentPadding(PaletteState.Normal);
+            var padding = GetBorderContentPadding(null, PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))
             {
                 layoutRectangle.X += padding.Left;

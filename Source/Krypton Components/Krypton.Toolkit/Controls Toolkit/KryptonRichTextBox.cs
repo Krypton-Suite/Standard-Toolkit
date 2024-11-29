@@ -1930,7 +1930,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Update with latest content padding for placing around the contained text box control
-                Padding contentPadding = GetTripleState().PaletteContent!.GetContentPadding(_drawDockerOuter.State);
+                Padding contentPadding = GetTripleState().PaletteContent!.GetBorderContentPadding(null, _drawDockerOuter.State);
                 _layoutFill.DisplayPadding = contentPadding;
             }
 
