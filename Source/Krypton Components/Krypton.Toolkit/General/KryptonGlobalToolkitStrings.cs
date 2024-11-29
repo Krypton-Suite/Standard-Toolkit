@@ -190,9 +190,13 @@ namespace Krypton.Toolkit
         public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
             new KryptonToastNotificationStrings();
 
+        /// <summary>Gets the krypton splash screen strings.</summary>
+        /// <value>The krypton splash screen strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
 
+        /// <summary>Gets the krypton message box strings.</summary>
+        /// <value>The krypton message box strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static MessageBoxStrings KryptonMessageBoxStrings { get; } = new MessageBoxStrings();
 
