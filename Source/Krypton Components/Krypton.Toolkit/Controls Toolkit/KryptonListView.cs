@@ -7,6 +7,7 @@
 
 using ListView = System.Windows.Forms.ListView;
 // ReSharper disable UnusedMember.Global
+#pragma warning disable 67
 
 namespace Krypton.Toolkit
 {
@@ -316,7 +317,57 @@ namespace Krypton.Toolkit
 
         #region Events
 
-        // TODO:
+        /// <summary>Occurs when the label for an item is edited by the user.</summary>
+        [Category("Behavior")]
+        [Description("ListView AfterLabelEdit")]
+        public event LabelEditEventHandler? AfterLabelEdit;
+
+        /// <summary>Occurs when the user starts editing the label of an item.</summary>
+        [Category("Behavior")]
+        [Description("tView BeforeLabelEdit")]
+        public event LabelEditEventHandler? BeforeLabelEdit;
+
+        /// <summary>Occurs when the user clicks a column header within the list view control.</summary>
+        [Category("Action")]
+        [Description("ListView ColumnClick")]
+        public event ColumnClickEventHandler? ColumnClick;
+
+        /// <summary>
+        /// </summary>
+        [Description(@"")]
+        [Category(@"Property Changed")]
+        public event EventHandler? ItemActivate;
+
+        /// <summary>Occurs when the check state of an item changes.</summary>
+        [Category("Behavior")]
+        [Description("CheckedListBox ItemCheck")]
+        public event ItemCheckEventHandler? ItemCheck;
+
+        /// <summary>Occurs when the checked state of an item changes.</summary>
+        [Category("Behavior")]
+        [Description("ListView ItemChecked")]
+        public event ItemCheckedEventHandler? ItemChecked;
+
+        /// <summary>Occurs when the selection state of an item changes.</summary>
+        [Category("Behavior")]
+        [Description("ListView ItemSelectionChanged")]
+        public event ListViewItemSelectionChangedEventHandler? ItemSelectionChanged;
+
+        /// <summary>Occurs when the <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and a search is taking place.</summary>
+        [Category("Action")]
+        [Description("ListView SearchForVirtualItem")]
+        public event SearchForVirtualItemEventHandler? SearchForVirtualItem;
+
+        /// <summary>
+        /// </summary>
+        [Description(@"Behavior")]
+        [Category(@"Property Changed")]
+        public event EventHandler? SelectedIndexChanged;
+
+        /// <summary>Occurs when a <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and the selection state of a range of items has changed.</summary>
+        [Category("Behavior")]
+        [Description("ListViewVirtualItemsSelectionRangeChanged")]
+        public event ListViewVirtualItemsSelectionRangeChangedEventHandler? VirtualItemsSelectionRangeChanged;
 
         #endregion
 
@@ -365,9 +416,23 @@ namespace Krypton.Toolkit
 
             // Create the internal list box used for containing content
             _listView = new InternalListView(this);
-            _listView.Click += OnListBoxClick; // SKC: make sure that the default click is also routed.
+            _listView.AfterLabelEdit += OnAfterLabelEdit;
+            _listView.BeforeLabelEdit += OnBeforeLabelEdit;
+            _listView.Click += OnListViewClick; // SKC: make sure that the default click is also routed.
+            _listView.ColumnClick += OnColumnClick;
+            _listView.DoubleClick += OnListViewDoubleClick;
             _listView.GotFocus += OnListViewGotFocus;
+            _listView.ItemActivate += OnItemActivate;
+            _listView.ItemCheck += OnItemCheck;
+            _listView.ItemChecked += OnItemChecked;
+            _listView.ItemSelectionChanged += OnItemSelectionChanged;
+            _listView.KeyDown += OnListViewKeyDown;
+            _listView.KeyPress += OnListViewKeyPress;
+            _listView.KeyUp += OnListViewKeyUp;
             _listView.LostFocus += OnListViewLostFocus;
+            _listView.SearchForVirtualItem += OnSearchForVirtualItem;
+            _listView.SelectedIndexChanged += OnSelectedIndexChanged;
+            _listView.VirtualItemsSelectionRangeChanged += OnVirtualItemsSelectionRangeChanged;
 
             _layoutFill = new ViewLayoutFill(_listView)
             {
@@ -396,7 +461,37 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listView);
         }
 
-        private void OnListBoxClick(object? sender, EventArgs e) => OnClick(e);
+        private void OnAfterLabelEdit(object? sender, LabelEditEventArgs e) => AfterLabelEdit?.Invoke(this, e);
+
+        private void OnBeforeLabelEdit(object? sender, LabelEditEventArgs e) => BeforeLabelEdit?.Invoke(this, e);
+
+        private void OnColumnClick(object? sender, ColumnClickEventArgs e) => ColumnClick?.Invoke(this, e);
+
+        private void OnListViewDoubleClick(object? sender, EventArgs e) => OnDoubleClick(e);
+
+        private void OnItemActivate(object? sender, EventArgs e) => ItemActivate?.Invoke(this, e);
+
+        private void OnItemCheck(object? sender, ItemCheckEventArgs e) => ItemCheck?.Invoke(this, e);
+
+        private void OnItemChecked(object? sender, ItemCheckedEventArgs e) => ItemChecked?.Invoke(this, e);
+
+        private void OnItemSelectionChanged(object? sender, ListViewItemSelectionChangedEventArgs e) => ItemSelectionChanged?.Invoke(this, e);
+
+        private void OnListViewKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
+
+        private void OnListViewKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
+
+        private void OnListViewKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
+
+        private void OnSearchForVirtualItem(object? sender, SearchForVirtualItemEventArgs e) => SearchForVirtualItem?.Invoke(this, e);
+
+        private void OnSelectedIndexChanged(object? sender, EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
+
+        private void OnVirtualItemsSelectionRangeChanged(object? sender,
+            ListViewVirtualItemsSelectionRangeChangedEventArgs e)
+            => VirtualItemsSelectionRangeChanged?.Invoke(this, e);
+
+        private void OnListViewClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Clean up any resources being used.
