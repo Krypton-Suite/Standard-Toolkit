@@ -193,6 +193,9 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static MessageBoxStrings KryptonMessageBoxStrings { get; } = new MessageBoxStrings();
+
         #endregion
 
         #region Public
@@ -589,6 +592,18 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton splash screen strings.</summary>
         public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
 
+        [Category(@"Visuals")]
+        [Description(@"Collection of splash screen strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public MessageBoxStrings MessageBoxStrings => KryptonMessageBoxStrings;
+
+        private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
+
+        /// <summary>Resets the krypton splash screen strings.</summary>
+        public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
+
         #endregion
 
         #region Identity
@@ -628,7 +643,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                                   ShouldSerializeSplashScreenStringsStrings());
+                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMessageBoxStringsStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -668,6 +683,7 @@ namespace Krypton.Toolkit
             ResetToastNotificationStrings();
             ResetToolBarStrings();
             ResetSplashScreenStringsStrings();
+            ResetMessageBoxStrings();
         }
 
         #endregion
