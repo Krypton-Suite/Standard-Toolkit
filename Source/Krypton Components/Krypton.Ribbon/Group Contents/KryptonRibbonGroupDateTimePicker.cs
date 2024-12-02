@@ -701,7 +701,7 @@ namespace Krypton.Ribbon
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string? CustomFormat
+        public string CustomFormat
         {
             get => DateTimePicker.CustomFormat;
             set => DateTimePicker.CustomFormat = value;

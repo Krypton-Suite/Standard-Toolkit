@@ -3,7 +3,8 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
-* Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), KryptonListView is missing key events
+* Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
+* Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
 * Resolved [#1843](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), `ButtonSpec` position is off due to an incorrect padding when style is set to "List Item".
 * Resolved [#1865](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1865), Outlook Mockup Error (thanks to [AngeloCresta](https://github.com/AngeloCresta))
 * Resolved [#1862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1862), `VisualPanel.PaintTransparentBackground()` throws a null reference exception
@@ -11,18 +12,18 @@
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
 * Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
 * Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
-* Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), ChromeBorderWidth and Padding
+* Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), `ChromeBorderWidth` and Padding
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 * Resolved [#1241](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1241), `KryptonDataGridViewComboBoxColumn` ignores `ValueMember` in data binding. 
 
 =======
 
 ## 2024-11-12 - Build 2411 - November 2024
-* Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set Winforms columns are used. See the issue for full text.
+* Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When `KryptonDataGridView.AutoGenerate` is set Winforms columns are used. See the issue for full text.
 * Resolved [#1787](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1787), Office 2007 & 2010 Silver Darkmode themes ribbon buttton tracking colors adjusted.
 * Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800), `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .netcore onwards [Returns error due to abstract class]
-* Resolved [#1757](https://github.com/Krypton-Suite/Standard-Toolkit/issues1757), KForm has a thin magenta border after the fix of #1749
+* Resolved [#1757](https://github.com/Krypton-Suite/Standard-Toolkit/issues1757), `KForm` has a thin magenta border after the fix of #1749
 * Implemented [#1765](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1765), Colours for `KryptonRibbon` contexts need sorting out
 * Resolved [#1715](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1715), Not Implemented Exception thrown for `GetRibbonBackColorStyle` `PaletteOffice2010Base.cs`
 * Resolved [#1299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1299), Ribbon context colours not implemented
