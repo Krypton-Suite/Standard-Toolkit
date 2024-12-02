@@ -1473,7 +1473,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="format">Incoming format.</param>
         /// <returns>Corrected format.</returns>
-        public static string MakeCustomDateFormat(string? format)
+        public static string MakeCustomDateFormat(string format)
         {
             // Is this a single character format?
             if (format!.Length == 1)

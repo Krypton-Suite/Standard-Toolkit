@@ -966,7 +966,7 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string? CustomFormat
+        public string CustomFormat
         {
             get => _customFormat;
 
