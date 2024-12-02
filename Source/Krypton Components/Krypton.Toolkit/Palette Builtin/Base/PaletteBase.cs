@@ -88,6 +88,7 @@ namespace Krypton.Toolkit
             _dragFeedback = PaletteDragFeedback.Inherit;
 
             BaseFont = _defaultFontStyle;
+            ThemeName = @"PaletteBase"; // DisallowNull !
         }
         #endregion
 
