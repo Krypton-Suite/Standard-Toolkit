@@ -1349,7 +1349,8 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 #if DEBUG
-            Console.WriteLine(@"OutlookGrid - Receives ColumnSortChangedEvent : " + e.Column.Name + @" " + e.Column.SortDirection);
+            Console.WriteLine(
+                $@"OutlookGrid - Receives ColumnSortChangedEvent : {e.Column.Name} {e.Column.SortDirection}");
 #endif
             _internalColumns[e.Column.Name!]!.SortDirection = e.Column.SortDirection;
             _internalColumns[e.Column.Name!]!.DataGridViewColumn!.HeaderCell.SortGlyphDirection = e.Column.SortDirection;
@@ -1367,7 +1368,7 @@ namespace Krypton.Toolkit
             //We fill again the grid with the new Grouping info
             Fill();
 #if DEBUG
-            Console.WriteLine(@"OutlookGrid - Receives ColumnGroupAddedEvent : " + e.Column.Name);
+            Console.WriteLine($@"OutlookGrid - Receives ColumnGroupAddedEvent : {e.Column.Name}");
 #endif
         }
 
@@ -1382,7 +1383,7 @@ namespace Krypton.Toolkit
             //We fill again the grid with the new Grouping info
             Fill();
 #if DEBUG
-            Console.WriteLine(@"OutlookGrid - Receives ColumnGroupRemovedEvent : " + e.Column.Name);
+            Console.WriteLine($@"OutlookGrid - Receives ColumnGroupRemovedEvent : {e.Column.Name}");
 #endif
         }
 
@@ -2856,7 +2857,7 @@ namespace Krypton.Toolkit
             //End of Formatting
 #if DEBUG
             azer.Stop();
-            Console.WriteLine(@"Formatting : " + azer.ElapsedMilliseconds + @" ms");
+            Console.WriteLine($@"Formatting : {azer.ElapsedMilliseconds} ms");
             azer.Start();
 #endif
             // this block is used of grouping is turned off
@@ -3036,7 +3037,7 @@ namespace Krypton.Toolkit
             Cursor.Current = Cursors.Default;
 #if DEBUG
             azer.Stop();
-            Console.WriteLine(@"FillGrid : " + azer.ElapsedMilliseconds + @" ms");
+            Console.WriteLine($@"FillGrid : {azer.ElapsedMilliseconds} ms");
 #endif
         }
 

@@ -211,8 +211,8 @@ namespace Krypton.Toolkit
             }
 
 #if (DEBUG)
-            Console.WriteLine("currentGroupIndex=" + currentGroupIndex.ToString());
-            Console.WriteLine("newGroupIndex=" + newGroupIndex.ToString());
+            Console.WriteLine($"currentGroupIndex={currentGroupIndex}");
+            Console.WriteLine($"newGroupIndex={newGroupIndex}");
             Console.WriteLine("Before");
             DebugOutput();
 #endif
