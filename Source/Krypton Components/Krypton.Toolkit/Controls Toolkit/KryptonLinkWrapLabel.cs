@@ -202,6 +202,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new FlatStyle FlatStyle
         {
             get => base.FlatStyle;
