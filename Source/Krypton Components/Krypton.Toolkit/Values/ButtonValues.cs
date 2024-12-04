@@ -347,10 +347,10 @@ namespace Krypton.Toolkit
 
         #region DropDownArrowColor
 
-        /// <summary>Gets or sets the color of the drop down arrow.</summary>
-        /// <value>The color of the drop down arrow.</value>
+        /// <summary>Gets or sets the color of the drop-down arrow.</summary>
+        /// <value>The color of the drop-down arrow.</value>
         [Category(@"Visuals")]
-        [Description(@"Sets the drop down arrow color.")]
+        [Description(@"Sets the drop-down arrow color.")]
         [DefaultValue(typeof(Color), @"Empty")]
         public Color? DropDownArrowColor
         {

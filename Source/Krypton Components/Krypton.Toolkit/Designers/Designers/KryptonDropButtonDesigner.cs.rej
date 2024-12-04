@@ -1,0 +1,10 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/Designers/Designers/KryptonDropButtonDesigner.cs b/Source/Krypton Components/Krypton.Toolkit/Designers/Designers/KryptonDropButtonDesigner.cs	(rejected hunks)
+@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
+                 // Create a collection of action lists
+                 var actionLists = new DesignerActionListCollection
+                 {
+-                    // Add the drop-down button specific list
++                    // Add the drop-down button specific list
+                     new KryptonDropButtonActionList(this)
+                 };
+ 

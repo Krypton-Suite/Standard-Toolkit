@@ -641,10 +641,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if clicking the Today button closes the drop down menu.
+        /// Gets and sets if clicking the Today button closes the drop-down menu.
         /// </summary>
         [Category(@"MonthCalendar")]
-        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
+        [Description(@"Indicates if clicking the Today button closes the drop-down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick
         {

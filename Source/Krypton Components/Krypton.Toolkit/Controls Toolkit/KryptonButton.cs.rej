@@ -1,0 +1,10 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonButton.cs b/Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonButton.cs	(rejected hunks)
+@@ -1101,7 +1101,7 @@ namespace Krypton.Toolkit
+                 midPoint with { Y = midPoint.Y + 2 }
+             };
+ 
+-            // Issue 1388, an adaptation from PR 1500 applied here to fix the color of the drop-down arrow.
++            // Issue 1388, an adaptation from PR 1500 applied here to fix the color of the drop-down arrow.
+             // This version does not have the customizable Values.DropArrowColor property.
+             // This applies the theme color and if something is null, it'll be Black.
+             SolidBrush brush = new( KryptonManager.CurrentGlobalPalette?.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal) ?? Color.Black );

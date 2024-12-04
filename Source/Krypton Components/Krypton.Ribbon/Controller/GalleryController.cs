@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
             // as this causes the tracking windows to be killed and we want them kept
             ribbon.LostFocusLosesKeyboard = false;
 
-            // Get the target to show the drop down menu for the gallery
+            // Get the target to show the drop-down menu for the gallery
             _target.KeyTipSelect();
 
             // Exit the use of keyboard mode

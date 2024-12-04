@@ -2,7 +2,12 @@
 
 =======
 
-## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
+## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+    - Create Scaled Drop Glyph and use for colour button and comboDrops
+    - Remove the `PaletteRedirectDropDownButton`
+    - Remove `KryptonPaletteImagesDropDownButton`
+    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
 * Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
 * Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
 * Resolved [#1843](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), `ButtonSpec` position is off due to an incorrect padding when style is set to "List Item".
@@ -174,7 +179,26 @@
 
 =======
 
+# 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+    - Create Scaled Drop Glyph and use for colour button and comboDrops
+    - Remove the `PaletteRedirectDropDownButton`
+    - Remove `KryptonPaletteImagesDropDownButton`
+    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
+* Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
+
+=======
+
+# 2024-11-14 - Build 2411 (Patch 4) - November 2024
+* Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
+* Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set WinForms columns are used. See the issue for full text.
+
+=======
+
 # 2024-10-14 - Build 2410 (Patch 3) - October 2024
+* Implemented [#1813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1813), LTS Configuration
+* Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800) `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Implemented [#1792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1792), Enable 'SourceLink' for NuGet packages
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .netcore onwards [Returns error due to abstract class]
 * Resolved [#297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/297), Office 2k7 colour usages are wrong
@@ -183,7 +207,7 @@
 =======
 
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
-* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
+* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled when reenabled again.
 * Resolved [#1755](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1755), Ribbon `GalleryButtonController` timer component causes an exception on mouse movements.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
 * Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
@@ -211,7 +235,7 @@
 * Resolved [#1455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
 * Resolved [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
-	- Added property `ShowDrop`, which displays a drop down arrow on the button.
+	- Added property `ShowDrop`, which displays a drop-down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
 	- When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
 	- When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.

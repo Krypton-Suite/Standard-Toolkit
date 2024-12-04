@@ -2506,28 +2506,15 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            [DisallowNull] PaletteBase palette,
-                                                            PaletteState state,
-                                                            VisualOrientation orientation)
+            [DisallowNull] IPaletteContent palette,
+            PaletteState state,
+            VisualOrientation orientation)
         {
-            // Grab an image appropriate to the state
-            Image? drawImage = palette.GetDropDownButtonImage(state);
+            var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
+            square = Math.Min(square, 16);
+            square = (int)(square * context.Graphics.DpiY / 96f);
 
-            // Get the image defined size
-            var imageSize = Size.Empty;
-            if (drawImage != null)
-            {
-                imageSize = drawImage.Size;
-            }
-
-            // Alter size for different orientations
-            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
-            {
-                // Switch dimensions to reflect rotation of 90 or 270 degrees
-                imageSize = new Size(imageSize.Height, imageSize.Width);
-            }
-
-            return imageSize;
+            return new Size(square, square);
         }
 
         /// <summary>
@@ -2540,10 +2527,10 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawDropDownButton([DisallowNull] RenderContext context,
-                                                Rectangle displayRect,
-                                                [DisallowNull] PaletteBase palette,
-                                                PaletteState state,
-                                                VisualOrientation orientation)
+            Rectangle displayRect,
+            [DisallowNull] IPaletteContent palette,
+            PaletteState state,
+            VisualOrientation orientation)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -2559,13 +2546,71 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(palette));
             }
 
-            // Grab an image appropriate to the state
-            Image? drawImage = palette.GetDropDownButtonImage(state);
-            if (drawImage != null)
+            var translateX = 0;
+            var translateY = 0;
+            var rotation = 0f;
+
+            // Perform any transformations needed for orientation
+            switch (orientation)
             {
-                DrawImageHelper(context, drawImage, GlobalStaticValues.EMPTY_COLOR,
-                                displayRect, orientation, PaletteImageEffect.Normal,
-                                GlobalStaticValues.EMPTY_COLOR, GlobalStaticValues.EMPTY_COLOR);
+                case VisualOrientation.Bottom:
+                    // Translate to opposite side of origin, so the rotate can 
+                    // then bring it back to original position but mirror image
+                    translateX = (displayRect.X * 2) + displayRect.Width;
+                    translateY = (displayRect.Y * 2) + displayRect.Height;
+                    rotation = 180f;
+                    break;
+
+                case VisualOrientation.Left:
+                    // Invert the dimensions of the rectangle for drawing upwards
+                    displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
+                    // Translate back from a quarter left turn to the original place 
+                    translateX = displayRect.X - displayRect.Y;
+                    translateY = displayRect.X + displayRect.Y + displayRect.Width;
+                    rotation = -90f;
+                    break;
+
+                case VisualOrientation.Right:
+                    // Invert the dimensions of the rectangle for drawing upwards
+                    displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
+                    // Translate back from a quarter right turn to the original place 
+                    translateX = displayRect.X + displayRect.Y + displayRect.Height;
+                    translateY = -(displayRect.X - displayRect.Y);
+                    rotation = 90f;
+                    break;
+            }
+
+            try
+            {
+                // Apply the transforms if we have any to apply
+                if ((translateX != 0) || (translateY != 0))
+                {
+                    context.Graphics.TranslateTransform(translateX, translateY);
+                }
+
+                if (rotation != 0f)
+                {
+                    context.Graphics.RotateTransform(rotation);
+                }
+
+                // Finally, just draw the image and let the transforms do the rest
+                DrawInputControlDropDownGlyph(context, displayRect, palette, state);
+            }
+            catch (ArgumentException)
+            {
+            }
+            finally
+            {
+                if (rotation != 0f)
+                {
+                    context.Graphics.RotateTransform(-rotation);
+                }
+
+                // Remove the applied transforms
+                if ((translateX != 0) | (translateY != 0))
+                {
+                    context.Graphics.TranslateTransform(-translateX, -translateY);
+                }
             }
         }
 
@@ -2663,13 +2708,13 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph(RenderContext context,
+        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           IPaletteContent? paletteContent,
+                                                           [DisallowNull] IPaletteContent paletteContent,
                                                            PaletteState state)
         {
-            Debug.Assert(context is not null);
-            Debug.Assert(paletteContent is not null);
+            Debug.Assert(context != null);
+            Debug.Assert(paletteContent != null);
 
             // Validate parameter references
             if (context == null)
@@ -2684,18 +2729,38 @@ namespace Krypton.Toolkit
 
             Color c1 = paletteContent.GetContentShortTextColor1(state);
             Color c2 = paletteContent.GetContentShortTextColor2(state);
+            if (c2 == Color.Empty
+            || c2 == Color.Transparent)
+            {
+                c2 = Color.FromArgb(64, c1.R, c1.G, c1.B);
+            }
 
             // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
+            float xOffset = cellRect.Width / 4f;
+            float yOffset = cellRect.Height / 4f;
+            float xStart = cellRect.Left + xOffset;
+            float yStart = cellRect.Top + yOffset;
 
-            using var darkPen = new Pen(c1);
-            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            using var lightPen = new Pen(c2);
-            context.Graphics.DrawLine(lightPen, xStart, yStart + 1, xStart + 2, yStart + 3);
-            context.Graphics.DrawLine(lightPen, xStart + 2, yStart + 3, xStart + 4, yStart + 1);
+            //using Pen darkPen = new Pen(c1),
+            //    lightPen = new Pen(c2);
+
+            using var path = new GraphicsPath();
+            // Define path with the geometry information only
+            path.AddLines([
+                new PointF(xStart, yStart),
+                new PointF(xStart + 2 * xOffset, yStart),
+                new PointF(xStart + xOffset, yStart + 2 * yOffset)
+            ]);
+            path.CloseFigure();
+
+            using var aa = new AntiAlias(context.Graphics);
+            // Fill Triangle
+            using var brush = new SolidBrush(c2);
+            context.Graphics.FillPath(brush, path);
+
+            // Draw Triangle
+            using Pen darkPen = new Pen(c1);
+            context.Graphics.DrawPath(darkPen, path);
         }
 
         /// <summary>

@@ -86,11 +86,11 @@ namespace Krypton.Toolkit
 
         #region DropDown
         /// <summary>
-        /// Gallery drop down button images.
+        /// Gallery drop-down button images.
         /// </summary>
         [KryptonPersist(true)]
         [Category(@"Visuals")]
-        [Description(@"Gallery drop down button images.")]
+        [Description(@"Gallery drop-down button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesGalleryButton DropDown { get; }
 

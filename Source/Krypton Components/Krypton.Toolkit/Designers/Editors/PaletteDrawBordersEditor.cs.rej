@@ -1,0 +1,10 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/Designers/Editors/PaletteDrawBordersEditor.cs b/Source/Krypton Components/Krypton.Toolkit/Designers/Editors/PaletteDrawBordersEditor.cs	(rejected hunks)
+@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
+         {
+             if ((context != null) && (provider != null) && (value != null))
+             {
+-                // Grab the service needed to show the drop-down
++                // Grab the service needed to show the drop-down
+                 var service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+ 
+                 if (service != null)

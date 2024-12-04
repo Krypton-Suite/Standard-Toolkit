@@ -329,11 +329,11 @@ namespace Krypton.Toolkit
 
         #region DropDown
         /// <summary>
-        /// Gets access to the drop down button specification.
+        /// Gets access to the drop-down button specification.
         /// </summary>
         [KryptonPersist]
         [Category(@"Visuals")]
-        [Description(@"Overrides for defining drop down button specifications.")]
+        [Description(@"Overrides for defining drop-down button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped DropDown { get; }
 

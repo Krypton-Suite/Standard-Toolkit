@@ -64,15 +64,9 @@ namespace Krypton.Toolkit
                                                  PaletteContentStyle.ButtonButtonSpec,
                                                  needPaint);
 
-
             // Create the view for displaying a button
             ViewButton = new ViewDrawButton(_palette, _palette, _palette, _palette,
                                              paletteMetric, this, VisualOrientation.Top, false);
-
-            var images = new DropDownButtonImages(needPaint);
-            // Image need an extra redirector to check the local images first
-            var paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector, images);
-            ViewButton.DropDownPalette = paletteDropDownButtonImages;
 
             // Associate the view with the source component (for design time support)
             if (ButtonSpec.AllowComponent)

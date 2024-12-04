@@ -1438,29 +1438,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets a drop-down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state)
-        {
-            // Grab state specific image
-            var retImage = state switch
-            {
-                PaletteState.Disabled => Images.DropDownButton.Disabled,
-                PaletteState.Normal => Images.DropDownButton.Normal,
-                PaletteState.Tracking => Images.DropDownButton.Tracking,
-                PaletteState.Pressed => Images.DropDownButton.Pressed,
-                _ => null
-            };
-
-            // Use common image as the last resort
-            retImage ??= Images.DropDownButton.Common;
-
-            // If nothing found then use the base palette
-            return retImage ?? _redirector.GetDropDownButtonImage(state);
-        }
-
-        /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>

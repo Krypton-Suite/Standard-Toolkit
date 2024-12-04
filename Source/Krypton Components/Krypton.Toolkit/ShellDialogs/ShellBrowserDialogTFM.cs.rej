@@ -1,0 +1,10 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/ShellDialogs/ShellBrowserDialogTFM.cs b/Source/Krypton Components/Krypton.Toolkit/ShellDialogs/ShellBrowserDialogTFM.cs	(rejected hunks)
+@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
+ 
+             if (e.message == PI.WM_.INITDIALOG)
+             {
+-                // TODO: Also Disable the Combo filter drop-down 
++                // TODO: Also Disable the Combo filter drop-down 
+                 var button = _commonDialogHandler.Controls.FirstOrDefault(static ctl => ctl.DlgCtrlId == 1);
+                 if (button?.Button != null)
+                 {

@@ -27,10 +27,10 @@ namespace Krypton.Docking
         public event EventHandler<KryptonPageEventArgs>? CellPageInserting;
 
         /// <summary>
-        /// Occurs when a page requests that a drop down menu be shown.
+        /// Occurs when a page requests that a drop-down menu be shown.
         /// </summary>
         [Category("DockableNavigator")]
-        [Description("Occurs when a page requests that a drop down menu be shown.")]
+        [Description("Occurs when a page requests that a drop-down menu be shown.")]
         public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
         #endregion
 

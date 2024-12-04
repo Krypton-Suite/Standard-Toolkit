@@ -3308,7 +3308,7 @@ namespace Krypton.Toolkit
         ArrowDown,
 
         /// <summary>
-        /// Specifies a drop down button specification.
+        /// Specifies a drop-down button specification.
         /// </summary>
         DropDown,
 
@@ -4192,7 +4192,7 @@ namespace Krypton.Toolkit
         Down,
 
         /// <summary>
-        /// Specifies the drop down gallery button.
+        /// Specifies the drop-down gallery button.
         /// </summary>
         DropDown
     }
