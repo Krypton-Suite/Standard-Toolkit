@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_RIGHT = @"Arrow Right";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_UP = @"Arrow Up";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_DOWN = @"Arrow Down";
-        private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN = @"Drop Down";
+        private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN = @"drop-down";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_VERTICAL = @"Pin Vertical";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_HORIZONTAL = @"Pin Horizontal";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_CLOSE = @"Form Close";
@@ -197,9 +197,9 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string ArrowDown { get; set; }
 
-        /// <summary>Gets or sets the drop down palette button spec style string.</summary>
+        /// <summary>Gets or sets the drop-down palette button spec style string.</summary>
         [Category(@"Visuals")]
-        [Description(@"The drop down palette button spec style.")]
+        [Description(@"The drop-down palette button spec style.")]
         [DefaultValue(DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN)]
         [RefreshProperties(RefreshProperties.All)]
         public string DropDown { get; set; }

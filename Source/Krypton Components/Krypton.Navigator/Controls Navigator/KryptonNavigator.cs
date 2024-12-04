@@ -128,7 +128,7 @@ namespace Krypton.Navigator
         /// Occurs when the context action occurs.
         /// </summary>
         [Category(@"Navigator")]
-        [Description(@"Occurs when the drop down button is clicked in Outlook mode.")]
+        [Description(@"Occurs when the drop-down button is clicked in Outlook mode.")]
         public event EventHandler<KryptonContextMenuEventArgs>? OutlookDropDown;
 
         /// <summary>

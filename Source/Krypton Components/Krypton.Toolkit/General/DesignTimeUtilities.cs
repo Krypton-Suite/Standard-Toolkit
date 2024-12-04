@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_RIGHT = @"Arrow Right";
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_UP = @"Arrow Up";
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_DOWN = @"Arrow Down";
-        internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN = @"Drop Down";
+        internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_DROP_DOWN = @"drop-down";
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_VERTICAL = @"Pin Vertical";
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PIN_HORIZONTAL = @"Pin Horizontal";
         internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_FORM_CLOSE = @"Form Close";

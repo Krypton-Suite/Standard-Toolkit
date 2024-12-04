@@ -166,45 +166,6 @@ namespace Krypton.Toolkit
         #region RenderGlyph Overrides
 
         /// <summary>
-        /// Draw a drop down grid appropriate for a input control.
-        /// </summary>
-        /// <param name="context">Render context.</param>
-        /// <param name="cellRect">Available drawing rectangle space.</param>
-        /// <param name="paletteContent">Content palette for getting colors.</param>
-        /// <param name="state">State associated with rendering.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
-                                                           Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent paletteContent,
-                                                           PaletteState state)
-        {
-            Debug.Assert(context != null);
-            Debug.Assert(paletteContent != null);
-
-            // Validate parameter references
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            if (paletteContent == null)
-            {
-                throw new ArgumentNullException(nameof(paletteContent));
-            }
-
-            Color c1 = paletteContent.GetContentShortTextColor1(state);
-
-            // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
-
-            using var darkPen = new Pen(c1);
-            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-        }
-
-        /// <summary>
         /// Draw a numeric up button image appropriate for a input control.
         /// </summary>
         /// <param name="context">Render context.</param>

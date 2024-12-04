@@ -59,10 +59,10 @@ namespace Krypton.Ribbon
         public event EventHandler? Click;
 
         /// <summary>
-        /// Occurs when the drop down button type is pressed.
+        /// Occurs when the drop-down button type is pressed.
         /// </summary>
         [Category(@"Ribbon")]
-        [Description(@"Occurs when the drop down button type is pressed.")]
+        [Description(@"Occurs when the drop-down button type is pressed.")]
         public event EventHandler<ContextMenuArgs>? DropDown;
 
         /// <summary>

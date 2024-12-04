@@ -191,10 +191,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the height, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The height, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -234,10 +234,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the width, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The width, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public int DropDownWidth
