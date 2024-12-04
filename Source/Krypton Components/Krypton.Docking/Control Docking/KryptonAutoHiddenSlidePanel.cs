@@ -95,7 +95,7 @@ namespace Krypton.Docking
         /// Occurs when a page requests that a drop-down menu be shown.
         /// </summary>
         [Category("Behavior")]
-        [Description("Occurs when the user clicks the drop down button for a page.")]
+        [Description("Occurs when the user clicks the drop-down button for a page.")]
         public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
         /// <summary>

@@ -68,10 +68,10 @@ namespace Krypton.Ribbon
         public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
-        /// Occurs when the user invokes the drop down menu.
+        /// Occurs when the user invokes the drop-down menu.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when user invokes the drop down menu.")]
+        [Description(@"Occurs when user invokes the drop-down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs>? GalleryDropMenu;
 
         /// <summary>
@@ -158,10 +158,10 @@ namespace Krypton.Ribbon
         public KryptonGallery Gallery { get; }
 
         /// <summary>
-        /// Gets the collection of drop down ranges.
+        /// Gets the collection of drop-down ranges.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Collection of drop down ranges")]
+        [Description(@"Collection of drop-down ranges")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGalleryRangeCollection DropButtonRanges => Gallery.DropButtonRanges;
@@ -299,10 +299,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the maximum number of lines items for the drop down menu.
+        /// Gets and sets the maximum number of lines items for the drop-down menu.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Maximum number of line items for the drop down menu.")]
+        [Description(@"Maximum number of line items for the drop-down menu.")]
         [DefaultValue(128)]
         public int DropMaxItemWidth
         {
@@ -319,10 +319,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the minimum number of lines items for the drop down menu.
+        /// Gets and sets the minimum number of lines items for the drop-down menu.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Minimum number of line items for the drop down menu.")]
+        [Description(@"Minimum number of line items for the drop-down menu.")]
         [DefaultValue(3)]
         public int DropMinItemWidth
         {
