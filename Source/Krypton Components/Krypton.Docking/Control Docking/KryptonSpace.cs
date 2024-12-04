@@ -54,7 +54,7 @@ namespace Krypton.Docking
             public ButtonSpecNavigator? PinButtonSpec { get; set; }
 
             /// <summary>
-            /// Gets and sets the button spec used to represent a drop down button.
+            /// Gets and sets the button spec used to represent a drop-down button.
             /// </summary>
             public ButtonSpecNavigator? DropDownButtonSpec { get; set; }
         }
@@ -110,10 +110,10 @@ namespace Krypton.Docking
         public event EventHandler<UniqueNameEventArgs>? PageAutoHiddenClicked;
 
         /// <summary>
-        /// Occurs when a page requests that a drop down menu be shown.
+        /// Occurs when a page requests that a drop-down menu be shown.
         /// </summary>
         [Category("DockableWorkspace")]
-        [Description("Occurs when a page drop down menu is requested from a header button.")]
+        [Description("Occurs when a page drop-down menu is requested from a header button.")]
         public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
         /// <summary>
@@ -204,10 +204,10 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Gets and sets the tooltips used for the drop down button.
+        /// Gets and sets the tooltips used for the drop-down button.
         /// </summary>
         [Category("Dockable")]
-        [Description("Tooltip for the drop down button.")]
+        [Description("Tooltip for the drop-down button.")]
         [DefaultValue("Window Position")]
         public string DropDownTooltip
         {
@@ -344,7 +344,7 @@ namespace Krypton.Docking
         protected virtual bool ApplyDockingPinAction => true;
 
         /// <summary>
-        /// Gets a value indicating if docking specific drop down actions should be applied.
+        /// Gets a value indicating if docking specific drop-down actions should be applied.
         /// </summary>
         protected virtual bool ApplyDockingDropDownAction => true;
 
@@ -737,7 +737,7 @@ namespace Krypton.Docking
                     // Set the focus into the active page
                     cell.SelectedPage.SelectNextControl(cell.SelectedPage, true, true, true, false);
 
-                    // Create and populate a context menu with the drop down set of options
+                    // Create and populate a context menu with the drop-down set of options
                     var kcm = new KryptonContextMenu();
                     var args = new CancelDropDownEventArgs(kcm, cell.SelectedPage);
                     OnPageDropDownClicked(args);

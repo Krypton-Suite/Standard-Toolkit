@@ -347,7 +347,7 @@ namespace Krypton.Ribbon
             // Create the layout docker for the contents of the button
             _viewMediumSmall = new ViewLayoutRibbonCheckBox();
 
-            // Create the image and drop down content
+            // Create the image and drop-down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, false);
