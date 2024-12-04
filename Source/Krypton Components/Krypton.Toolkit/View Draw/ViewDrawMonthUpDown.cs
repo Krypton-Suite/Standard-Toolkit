@@ -151,13 +151,13 @@ namespace Krypton.Toolkit
             switch (_glyph)
             {
                 case DrawMonthCalendarGlyph.DropDownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawMonthCalendarGlyph.UpButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawMonthCalendarGlyph.DownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
             }
         }
