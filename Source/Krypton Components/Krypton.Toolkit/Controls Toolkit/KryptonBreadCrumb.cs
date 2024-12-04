@@ -65,17 +65,17 @@ namespace Krypton.Toolkit
         public event EventHandler? Initialized;
 
         /// <summary>
-        /// Occurs when the drop down portion of a bread crumb is pressed.
+        /// Occurs when the drop-down portion of a bread crumb is pressed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when the drop down portion of a bread crumb is pressed.")]
+        [Description(@"Occurs when the drop-down portion of a bread crumb is pressed.")]
         public event EventHandler<BreadCrumbMenuArgs>? CrumbDropDown;
 
         /// <summary>
-        /// Occurs when the drop down portion of the overflow button is pressed.
+        /// Occurs when the drop-down portion of the overflow button is pressed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when the drop down portion of the overflow button is pressed.")]
+        [Description(@"Occurs when the drop-down portion of the overflow button is pressed.")]
         public event EventHandler<ContextPositionMenuArgs>? OverflowDropDown;
 
         /// <summary>
@@ -283,10 +283,10 @@ namespace Krypton.Toolkit
         public BreadCrumbButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
-        /// Gets and sets a value indicating if drop down buttons should allow navigation to children.
+        /// Gets and sets a value indicating if drop-down buttons should allow navigation to children.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should drop down buttons allow navigation to children.")]
+        [Description(@"Should drop-down buttons allow navigation to children.")]
         [DefaultValue(true)]
         public bool DropDownNavigation
         {

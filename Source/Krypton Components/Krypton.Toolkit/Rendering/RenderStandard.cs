@@ -10,6 +10,9 @@
  */
 #endregion
 
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -2513,39 +2516,26 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Calculate the requested display size for the drop down button.
+        /// Calculate the requested display size for the drop-down button.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            [DisallowNull] PaletteBase? palette,
-                                                            PaletteState state,
-                                                            VisualOrientation orientation)
+            [DisallowNull] IPaletteContent? palette,
+            PaletteState state,
+            VisualOrientation orientation)
         {
-            // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetDropDownButtonImage(state);
+            var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
+            square = Math.Min(square, 16);
+            square = (int)(square * context.Graphics.DpiY / 96f);
 
-            // Get the image defined size
-            Size imageSize = Size.Empty;
-            if (drawImage != null)
-            {
-                imageSize = drawImage.Size;
-            }
-
-            // Alter size for different orientations
-            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
-            {
-                // Switch dimensions to reflect rotation of 90 or 270 degrees
-                imageSize = new Size(imageSize.Height, imageSize.Width);
-            }
-
-            return imageSize;
+            return new Size(square, square);
         }
 
         /// <summary>
-        /// Perform drawing of a drop down button.
+        /// Perform drawing of a drop-down button.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
@@ -2554,10 +2544,10 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawDropDownButton([DisallowNull] RenderContext context,
-                                                Rectangle displayRect,
-                                                [DisallowNull] PaletteBase? palette,
-                                                PaletteState state,
-                                                VisualOrientation orientation)
+            Rectangle displayRect,
+            [DisallowNull] IPaletteContent palette,
+            PaletteState state,
+            VisualOrientation orientation)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -2573,18 +2563,76 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(palette));
             }
 
-            // Grab an image appropriate to the state
-            Image? drawImage = palette.GetDropDownButtonImage(state);
-            if (drawImage != null)
+            var translateX = 0;
+            var translateY = 0;
+            var rotation = 0f;
+
+            // Perform any transformations needed for orientation
+            switch (orientation)
             {
-                DrawImageHelper(context, drawImage, Color.Empty,
-                                displayRect, orientation, PaletteImageEffect.Normal,
-                                Color.Empty, Color.Empty);
+                case VisualOrientation.Bottom:
+                    // Translate to opposite side of origin, so the rotate can 
+                    // then bring it back to original position but mirror image
+                    translateX = (displayRect.X * 2) + displayRect.Width;
+                    translateY = (displayRect.Y * 2) + displayRect.Height;
+                    rotation = 180f;
+                    break;
+
+                case VisualOrientation.Left:
+                    // Invert the dimensions of the rectangle for drawing upwards
+                    displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
+                    // Translate back from a quarter left turn to the original place 
+                    translateX = displayRect.X - displayRect.Y;
+                    translateY = displayRect.X + displayRect.Y + displayRect.Width;
+                    rotation = -90f;
+                    break;
+
+                case VisualOrientation.Right:
+                    // Invert the dimensions of the rectangle for drawing upwards
+                    displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
+                    // Translate back from a quarter right turn to the original place 
+                    translateX = displayRect.X + displayRect.Y + displayRect.Height;
+                    translateY = -(displayRect.X - displayRect.Y);
+                    rotation = 90f;
+                    break;
+            }
+
+            try
+            {
+                // Apply the transforms if we have any to apply
+                if ((translateX != 0) || (translateY != 0))
+                {
+                    context.Graphics.TranslateTransform(translateX, translateY);
+                }
+
+                if (rotation != 0f)
+                {
+                    context.Graphics.RotateTransform(rotation);
+                }
+
+                // Finally, just draw the image and let the transforms do the rest
+                DrawInputControlDropDownGlyph(context, displayRect, palette, state);
+            }
+            catch (ArgumentException)
+            {
+            }
+            finally
+            {
+                if (rotation != 0f)
+                {
+                    context.Graphics.RotateTransform(-rotation);
+                }
+
+                // Remove the applied transforms
+                if ((translateX != 0) | (translateY != 0))
+                {
+                    context.Graphics.TranslateTransform(-translateX, -translateY);
+                }
             }
         }
 
         /// <summary>
-        /// Draw a numeric up button image appropriate for a input control.
+        /// Draw a numeric up button image appropriate for an input control.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="cellRect">Available drawing rectangle space.</param>
@@ -2670,7 +2718,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Draw a drop down grid appropriate for a input control.
+        /// Draw a drop-down grid appropriate for a input control.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="cellRect">Available drawing rectangle space.</param>
@@ -2679,7 +2727,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent? paletteContent,
+                                                           [DisallowNull] IPaletteContent paletteContent,
                                                            PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2698,18 +2746,39 @@ namespace Krypton.Toolkit
 
             Color c1 = paletteContent.GetContentShortTextColor1(state);
             Color c2 = paletteContent.GetContentShortTextColor2(state);
+            if (c2 == Color.Empty
+            || c2 == Color.Transparent)
+            {
+                c2 = Color.FromArgb(64, c1.R, c1.G, c1.B);
+            }
 
             // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
+            float xOffset = cellRect.Width / 4f;
+            float yOffset = cellRect.Height / 4f;
+            float xStart = cellRect.Left + xOffset;
+            float yStart = cellRect.Top + yOffset;
 
-            using Pen darkPen = new Pen(c1),
-                lightPen = new Pen(c2);
-            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            context.Graphics.DrawLine(lightPen, xStart, yStart + 1, xStart + 2, yStart + 3);
-            context.Graphics.DrawLine(lightPen, xStart + 2, yStart + 3, xStart + 4, yStart + 1);
+            //using Pen darkPen = new Pen(c1),
+            //    lightPen = new Pen(c2);
+
+            using var path = new GraphicsPath();
+            // Define path with the geometry information only
+            path.AddLines(new PointF[]
+            {
+                new PointF(xStart, yStart),
+                new PointF(xStart + 2 * xOffset, yStart),
+                new PointF(xStart + xOffset, yStart + 2 * yOffset),
+            });
+            path.CloseFigure();
+
+            using var aa = new AntiAlias(context.Graphics);
+            // Fill Triangle
+            using var brush = new SolidBrush(c2);
+            context.Graphics.FillPath(brush, path);
+
+            // Draw Triangle
+            using Pen darkPen = new Pen(c1);
+            context.Graphics.DrawPath(darkPen, path);
         }
 
         /// <summary>
@@ -2745,62 +2814,62 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
-                           lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
                     {
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
-                            displayRect.Left + 1, displayRect.Top + 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
-                            displayRect.Left + 5, displayRect.Top + 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
-                            displayRect.Right - 1, displayRect.Bottom - 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                            displayRect.Right - 4, displayRect.Bottom - 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                            displayRect.Right - 4, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 2);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 4);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
+                               lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
+                        {
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
+                                displayRect.Left + 1, displayRect.Top + 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
+                                displayRect.Left + 5, displayRect.Top + 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
+                                displayRect.Right - 1, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                                displayRect.Right - 4, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                                displayRect.Right - 4, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 2);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 4);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                        }
                     }
-                }
                     break;
                 case PaletteRibbonShape.Office2010:
-                {
-                    var dialogBrush = new LinearGradientBrush(
-                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                            displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
-                        paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
-
-                    using (var dialogPen = new Pen(dialogBrush))
                     {
-                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 2);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 4);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        var dialogBrush = new LinearGradientBrush(
+                            new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
+                            paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
+
+                        using (var dialogPen = new Pen(dialogBrush))
+                        {
+                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 2);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 4);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                        }
                     }
-                }
                     break;
             }
         }
@@ -2844,37 +2913,37 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(darkColor),
-                           lightPen = new Pen(lightColor))
                     {
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
-                            displayRect.Left + 3, displayRect.Top + 1);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
-                            displayRect.Left + 2, displayRect.Top + 2);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
-                            displayRect.Top + 3);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
-                            displayRect.Left + 4, displayRect.Top + 1);
+                        using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
+                        {
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
+                                displayRect.Left + 3, displayRect.Top + 1);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
+                                displayRect.Left + 2, displayRect.Top + 2);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
+                                displayRect.Top + 3);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
+                                displayRect.Left + 4, displayRect.Top + 1);
+                        }
                     }
-                }
                     break;
                 case PaletteRibbonShape.Office2010:
-                {
-                    using (var fillBrush = new LinearGradientBrush(
-                               new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                                   displayRect.Height + 2), lightColor, darkColor, 45f))
                     {
-                        context.Graphics.FillPolygon(fillBrush, new Point[]
+                        using (var fillBrush = new LinearGradientBrush(
+                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                       displayRect.Height + 2), lightColor, darkColor, 45f))
                         {
+                            context.Graphics.FillPolygon(fillBrush, new Point[]
+                            {
                             new Point(displayRect.Left - 1, displayRect.Top - 1),
                             new Point(displayRect.Left + 2, displayRect.Top + 3),
                             new Point(displayRect.Left + 5, displayRect.Top)
-                        });
+                            });
+                        }
                     }
-                }
                     break;
             }
         }
@@ -3035,36 +3104,36 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(darkColor),
-                           lightPen = new Pen(lightColor))
                     {
-                        context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
-                    }
-                }
-                    break;
-                case PaletteRibbonShape.Office2010:
-                {
-                    using (LinearGradientBrush darkBrush =
-                           new LinearGradientBrush(
-                               new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
-                                   displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
-                           lightBrush = new LinearGradientBrush(
-                               new RectangleF(displayRect.X - 1, displayRect.Y - 1,
-                                   displayRect.Width + 2, displayRect.Height + 2),
-                               Color.FromArgb(128, lightColor), lightColor, 90f))
-                    {
-                        darkBrush.SetSigmaBellShape(0.5f);
-                        lightBrush.SetSigmaBellShape(0.5f);
-
-                        using (var darkPen = new Pen(darkBrush))
+                        using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
                         {
-                            context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
-                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
                         }
                     }
-                }
+                    break;
+                case PaletteRibbonShape.Office2010:
+                    {
+                        using (LinearGradientBrush darkBrush =
+                               new LinearGradientBrush(
+                                   new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
+                                       displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
+                               lightBrush = new LinearGradientBrush(
+                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1,
+                                       displayRect.Width + 2, displayRect.Height + 2),
+                                   Color.FromArgb(128, lightColor), lightColor, 90f))
+                        {
+                            darkBrush.SetSigmaBellShape(0.5f);
+                            lightBrush.SetSigmaBellShape(0.5f);
+
+                            using (var darkPen = new Pen(darkBrush))
+                            {
+                                context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
+                                context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
+                            }
+                        }
+                    }
                     break;
             }
         }
@@ -3657,8 +3726,8 @@ namespace Krypton.Toolkit
                 }
             }
 
-            if ((outside != null) 
-                && (border != null) 
+            if ((outside != null)
+                && (border != null)
                 && (inside != null)
                 )
             {
@@ -10213,9 +10282,9 @@ namespace Krypton.Toolkit
 
                     LinearGradientBrush underlineBrush =
                         new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
-                    {
-                        Blend = _ribbonGroup7Blend
-                    };
+                        {
+                            Blend = _ribbonGroup7Blend
+                        };
                     cache.UnderlinePen = new Pen(underlineBrush);
 
                     cache.FillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(196, c2), Color.Transparent, 270f)

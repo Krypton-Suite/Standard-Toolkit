@@ -103,12 +103,6 @@ namespace Krypton.Toolkit
             cm.Checked = GetScaledImage(cm.Checked, scaleFactor);
             cm.Indeterminate = GetScaledImage(cm.Indeterminate, scaleFactor);
             cm.SubMenu = GetScaledImage(cm.SubMenu, scaleFactor);
-            // DropDownButton
-            KryptonPaletteImagesDropDownButton ddb = pal.Images.DropDownButton;
-            ddb.Disabled = GetScaledImage(ddb.Disabled, scaleFactor);
-            ddb.Normal = GetScaledImage(ddb.Normal, scaleFactor);
-            ddb.Pressed = GetScaledImage(ddb.Pressed, scaleFactor);
-            ddb.Tracking = GetScaledImage(ddb.Tracking, scaleFactor);
             // GalleryButtons
             // I'm not using these so I'm skipping it
             // Radio Buttons

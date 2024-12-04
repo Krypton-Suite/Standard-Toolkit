@@ -321,10 +321,10 @@ namespace Krypton.Navigator
 
         #region ShowDropDownButton
         /// <summary>
-        /// Gets and sets the visibility of the drop down button on the Outlook overflow bar.
+        /// Gets and sets the visibility of the drop-down button on the Outlook overflow bar.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Visibility of the drop down button on the Outlook overflow bar.")]
+        [Description(@"Visibility of the drop-down button on the Outlook overflow bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool ShowDropDownButton

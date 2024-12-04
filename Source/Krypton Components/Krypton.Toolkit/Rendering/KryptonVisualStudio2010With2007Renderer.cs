@@ -1450,7 +1450,7 @@ namespace Krypton.Toolkit
                 x = rect.X + (rect.Width / 2);
                 y = rect.Bottom - ((rect.Height - 3) / 2);
 
-                // The drop down button is position 1 pixel incorrectly when in RTL
+                // The drop-down button is position 1 pixel incorrectly when in RTL
                 if ((item is ToolStripDropDownButton) &&
                     (item.RightToLeft == RightToLeft.Yes))
                 {

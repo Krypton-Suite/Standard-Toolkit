@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
 
         private protected virtual void FormResize(object sender, EventArgs e)
         {
-            // Align the button underneath the drop down
+            // Align the button underneath the drop-down
             var clientSize = _commonDialogHandler._wrapperForm.ClientSize;
             foreach (var button in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null))
             {

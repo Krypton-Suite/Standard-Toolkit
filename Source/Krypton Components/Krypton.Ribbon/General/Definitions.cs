@@ -386,12 +386,12 @@ namespace Krypton.Ribbon
         Check,
 
         /// <summary>
-        /// Specifies a button that when pressed shows a drop down.
+        /// Specifies a button that when pressed shows a drop-down.
         /// </summary>
         DropDown,
 
         /// <summary>
-        /// Specifies a button that is split between push area and drop down area.
+        /// Specifies a button that is split between push area and drop-down area.
         /// </summary>
         Split
     }

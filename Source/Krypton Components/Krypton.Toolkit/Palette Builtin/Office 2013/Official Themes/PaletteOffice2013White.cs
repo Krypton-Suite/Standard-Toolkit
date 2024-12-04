@@ -354,12 +354,6 @@ namespace Krypton.Toolkit
 
         #region Images
         /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
-
-        /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
@@ -3456,12 +3450,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.

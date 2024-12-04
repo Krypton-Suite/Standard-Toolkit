@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Details about the context menu about to be shown when clicking the drop down button on a KryptonDateTimePicker.
+    /// Details about the context menu about to be shown when clicking the drop-down button on a KryptonDateTimePicker.
     /// </summary>
     public class DateTimePickerDropArgs : CancelEventArgs
     {

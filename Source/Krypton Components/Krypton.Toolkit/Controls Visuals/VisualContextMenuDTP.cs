@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Specialized version of the visual context menu that knows about the KryptonDateTimePicker drop down button.
+    /// Specialized version of the visual context menu that knows about the KryptonDateTimePicker drop-down button.
     /// </summary>
     public class VisualContextMenuDTP : VisualContextMenu
     {
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="items">Collection of context menu items to be displayed.</param>
         /// <param name="enabled">Enabled state of the context menu.</param>
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
-        /// <param name="dropScreenRect">Screen rectangle of the drop down button.</param>
+        /// <param name="dropScreenRect">Screen rectangle of the drop-down button.</param>
         public VisualContextMenuDTP(KryptonContextMenu contextMenu,
                                     PaletteBase? palette,
                                     PaletteMode paletteMode,
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Screen coordinates point.</param>
         /// <returns>True to eat message; otherwise false.</returns>
         public override bool DoesMouseDownGetEaten(Message m, Point pt) =>
-            // If the user dismissed the context menu by clicking down on the drop down button of
+            // If the user dismissed the context menu by clicking down on the drop-down button of
             // the KryptonDateTimePicker then eat the down message to prevent the down press from
             // opening the menu again.
             _dropScreenRect.Contains(new Point(pt.X, pt.Y));

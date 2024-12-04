@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Draws a drop down button using the provided renderer.
+    /// Draws a drop-down button using the provided renderer.
     /// </summary>
     public class ViewDrawDropDownButton : ViewLeaf
     {
@@ -21,7 +21,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewDrawDropDownButton class.
         /// </summary>
-        public ViewDrawDropDownButton() => Orientation = VisualOrientation.Top;
+        public ViewDrawDropDownButton(IPaletteContent? palette)
+        {
+            Palette = palette;
+            Orientation = VisualOrientation.Top;
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -37,13 +41,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to use.
         /// </summary>
-        public PaletteBase? Palette { get; set; }
+        public IPaletteContent? Palette { get; }
 
         #endregion
 
         #region Orientation
         /// <summary>
-        /// Gets and sets the orientation of the drop down button.
+        /// Gets and sets the orientation of the drop-down button.
         /// </summary>
         public VisualOrientation Orientation { get; set; }
 
@@ -58,7 +62,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            // Ask the renderer for the required size of the drop down button
+            // Ask the renderer for the required size of the drop-down button
             return context!.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
         }
 

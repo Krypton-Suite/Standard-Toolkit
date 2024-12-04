@@ -2547,7 +2547,7 @@ DEFCOMMANDLINK = 0x0, // Creates a command link button that behaves like a BS_PU
 DEFSPLITBUTTON = 0x0, // Creates a split button that behaves like a BS_PUSHBUTTON style button, but also has a distinctive appearance. If the split button is in a dialog box, the user can select the split button by pressing the ENTER key, even when the split button does not have the input focus. This style is useful for enabling the user to quickly select the most likely (default) option.
 NOTIFY = 0x0, // Enables a button to send BN_KILLFOCUS and BN_SETFOCUS notification codes to its parent window.
                 //Note that buttons send the BN_CLICKED notification code regardless of whether it has this style. To get BN_DBLCLK notification codes, the button must have the BS_RADIOBUTTON or BS_OWNERDRAW style.
-SPLITBUTTON = 0x0, // Creates a split button. A split button has a drop down arrow.
+SPLITBUTTON = 0x0, // Creates a split button. A split button has a drop-down arrow.
 BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
     Yes 	                Yes 	                Show icon only.
     No 	                    Yes 	                Show icon and text.

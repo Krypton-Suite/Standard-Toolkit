@@ -307,7 +307,7 @@ namespace Krypton.Ribbon
                 _viewMediumSmall.MouseController = controller;
             }
 
-            // Create the image and drop down content
+            // Create the image and drop-down content
             _viewMediumSmallLabelImage = new ViewDrawRibbonGroupLabelImage(_ribbon, GroupLabel, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupLabelText(_ribbon, GroupLabel, false);

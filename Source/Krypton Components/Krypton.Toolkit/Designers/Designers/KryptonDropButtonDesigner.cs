@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
                 // Create a collection of action lists
                 var actionLists = new DesignerActionListCollection
                 {
-                    // Add the drop down button specific list
+                    // Add the drop-down button specific list
                     new KryptonDropButtonActionList(this)
                 };
 
