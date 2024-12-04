@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
                     // Call the renderer directly to draw the drop-down glyph
                     renderContext.Renderer!.RenderGlyph.DrawInputControlDropDownGlyph(renderContext,
                                                                                      _viewButton.ClientRectangle,
-                                                                                     _palette.PaletteContent,
+                                                                                     _palette.PaletteContent!,
                                                                                      state);
                 }
             }

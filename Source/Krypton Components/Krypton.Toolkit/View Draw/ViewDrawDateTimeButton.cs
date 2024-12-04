@@ -169,13 +169,13 @@ namespace Krypton.Toolkit
             switch (_glyph)
             {
                 case DrawDateTimeGlyph.DropDownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawDateTimeGlyph.UpButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawDateTimeGlyph.DownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
             }
         }
