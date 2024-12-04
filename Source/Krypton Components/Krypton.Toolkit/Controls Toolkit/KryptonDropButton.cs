@@ -25,14 +25,14 @@ namespace Krypton.Toolkit
     public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
-        private readonly ViewDrawButton _drawButton;
+        protected internal readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
-        private readonly ButtonController _buttonController;
+        protected internal readonly ButtonController _buttonController;
         private readonly PaletteTripleOverride _overrideFocus;
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private KryptonCommand? _command;
+        private IKryptonCommand? _command;
         private bool _isDefault;
         private bool _useMnemonic;
         private bool _wasEnabled;
@@ -64,6 +64,7 @@ namespace Krypton.Toolkit
             // production of them by the base Control class
             SetStyle(ControlStyles.StandardClick |
                      ControlStyles.StandardDoubleClick, false);
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
 
             // Set default button properties
             _style = ButtonStyle.Standalone;
@@ -161,7 +162,6 @@ namespace Krypton.Toolkit
         public override string Text
         {
             get => Values.Text;
-
             set => Values.Text = value;
         }
 
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                var converted = value switch
+                VisualOrientation converted = value switch
                 {
                     VisualOrientation.Top => VisualOrientation.Bottom,
                     VisualOrientation.Right => VisualOrientation.Left,
@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the drop button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand? KryptonCommand
+        public virtual IKryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -628,7 +628,30 @@ namespace Krypton.Toolkit
             if (owner is not null)
             {
                 // Update owner with our dialog result setting
-                owner.DialogResult = DialogResult;
+                try
+                {
+                    owner.DialogResult = DialogResult;
+                }
+                catch (InvalidEnumArgumentException)
+                {
+                    // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
+                    if (owner is VisualMessageBoxForm
+                        or VisualMessageBoxFormDep
+                        or VisualMessageBoxRtlAwareForm
+                        or VisualMessageBoxRtlAwareFormDep)
+                    {
+                        // need to gain access to `dialogResult` and set it forcefully
+                        FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fi != null)
+                        {
+                            fi.SetValue(owner, DialogResult);
+                        }
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
 
             // Let base class fire standard event
@@ -765,7 +788,9 @@ namespace Krypton.Toolkit
             var showingContextMenu = false;
 
             // Do we need to show a drop-down menu?
-            if (!Splitter || (Splitter && _drawButton.SplitRectangle.Contains(e.Location)))
+            if ((!Splitter && this is not KryptonButton)
+                || (Splitter && _drawButton.SplitRectangle.Contains(e.Location))
+               )
             {
                 showingContextMenu = ShowDropDown();
             }
