@@ -1,4 +1,5 @@
-﻿#region BSD License
+﻿
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -638,10 +639,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal Control? LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal KryptonNumericUpDown? LastNumericUpDown { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);

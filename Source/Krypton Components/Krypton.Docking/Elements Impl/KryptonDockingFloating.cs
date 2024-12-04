@@ -87,6 +87,7 @@ namespace Krypton.Docking
         /// <summary>
         /// 
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool UseMinimiseBox { get; set; }
         #endregion
 

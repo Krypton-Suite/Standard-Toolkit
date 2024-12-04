@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the redirection target.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual PaletteBase? Target
         {
             get => _target;
@@ -51,6 +52,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         /// <returns>InheritBool value.</returns>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override InheritBool UseThemeFormChromeBorderWidth
         {
             get => _target!.UseThemeFormChromeBorderWidth;

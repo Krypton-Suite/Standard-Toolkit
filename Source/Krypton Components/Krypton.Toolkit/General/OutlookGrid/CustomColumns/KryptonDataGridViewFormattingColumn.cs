@@ -52,6 +52,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets a value indicating whether [contrast text color].</summary>
         /// <value><c>true</c> if [contrast text color]; otherwise, <c>false</c>.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ContrastTextColor
         {
             get => _contrastTextColor; 

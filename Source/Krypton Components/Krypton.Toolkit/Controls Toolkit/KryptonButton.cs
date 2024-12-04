@@ -95,6 +95,15 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ImeMode ImeMode
+        {
+            get => base.ImeMode;
+            set => base.ImeMode = value;
+        }
+
+        /*/// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
         [DefaultValue(false)]
         public new bool Splitter
         {

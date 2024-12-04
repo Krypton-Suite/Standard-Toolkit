@@ -314,6 +314,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the horizontal setting used to position the menu.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonContextMenuPositionH ShowHorz
         {
             get => _provider.ProviderShowHorz;
@@ -323,6 +324,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the vertical setting used to position the menu.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonContextMenuPositionV ShowVert
         {
             get => _provider.ProviderShowVert;

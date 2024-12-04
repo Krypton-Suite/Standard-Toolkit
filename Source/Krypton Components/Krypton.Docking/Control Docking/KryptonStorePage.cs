@@ -40,6 +40,7 @@ namespace Krypton.Docking
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool LastVisibleSet
         {
             get => false;

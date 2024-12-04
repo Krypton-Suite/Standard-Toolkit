@@ -624,6 +624,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Collection of recent colors.")]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color[] RecentColors
         {
             get => _recentColors.ToArray();

@@ -255,6 +255,7 @@ namespace Krypton.Ribbon
         [Description(@"Color to draw as transparent in the ToolTipImage.")]
         [KryptonDefaultColor]
         [Localizable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         public Color ToolTipImageTransparentColor { get; set; }
 
         /// <summary>

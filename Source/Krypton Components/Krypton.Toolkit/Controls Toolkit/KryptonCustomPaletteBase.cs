@@ -2947,6 +2947,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ThemeName
         {
             get => _basePalette!.ThemeName;
@@ -2955,6 +2956,7 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new BasePaletteType BasePaletteType
         {
             get => _basePalette!.BasePaletteType;

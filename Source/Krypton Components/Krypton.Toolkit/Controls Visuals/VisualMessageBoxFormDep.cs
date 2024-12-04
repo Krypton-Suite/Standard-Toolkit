@@ -49,6 +49,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonMessageBoxResult MessageBoxResult
         {
             get => _messageBoxResult;

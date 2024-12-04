@@ -92,6 +92,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the title of the common Colour Dialog
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string Title
         {
             get => _commonDialogHandler.Title;
@@ -101,6 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
@@ -111,6 +113,7 @@ namespace Krypton.Toolkit
         /// Changes the default Icon to Developer set
         /// </summary>
         [DefaultValue(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ShowIcon
         {
             get => _commonDialogHandler.ShowIcon;
@@ -148,6 +151,7 @@ namespace Krypton.Toolkit
         /// <returns>The color selected by the user. If a color is not selected, the default value is black.</returns>
         [Category("Data")]
         [Description("The color selected in the dialog box")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new Color Color
         {
             get => !_showAlphaSlider ? base.Color : Color.FromArgb(_alphaSlider.Value, base.Color);

@@ -188,6 +188,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ImageList? ImageList
         {
             get => Gallery.ImageList;
@@ -653,14 +654,18 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal Control? LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal KryptonGallery? LastGallery { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal int InternalItemCount { get; set; }
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;

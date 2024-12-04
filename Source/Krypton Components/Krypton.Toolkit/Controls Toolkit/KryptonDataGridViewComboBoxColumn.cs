@@ -240,6 +240,7 @@ namespace Krypton.Toolkit
         [Description(@"The width, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int DropDownWidth
         {
             get =>
@@ -468,6 +469,7 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
+        [DefaultValue(null)]
         public object? DataSource
         {
 
