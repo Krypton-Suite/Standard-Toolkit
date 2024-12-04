@@ -69,6 +69,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the new solid rectangle area.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Rectangle SolidRect
         {
             get => _solidRect;

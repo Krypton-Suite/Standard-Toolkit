@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public KryptonMessageBoxResult MessageBoxResult { get; set; }
 
         #endregion
@@ -761,6 +762,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ignoring of Alt+F4
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         public bool IgnoreAltF4 { get; set; }
 
         #endregion

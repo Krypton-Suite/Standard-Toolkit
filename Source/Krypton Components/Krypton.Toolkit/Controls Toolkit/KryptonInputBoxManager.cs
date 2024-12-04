@@ -24,7 +24,12 @@ namespace Krypton.Toolkit
 
         #region Properties
 
-        public KryptonInputBoxData InputBoxData { get => _inputBoxData; set => _inputBoxData = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public KryptonInputBoxData InputBoxData 
+        {
+            get => _inputBoxData; 
+            set => _inputBoxData = value;
+        }
 
         #endregion
 

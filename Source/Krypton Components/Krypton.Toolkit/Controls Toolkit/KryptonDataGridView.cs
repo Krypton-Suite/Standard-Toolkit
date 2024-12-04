@@ -344,6 +344,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates if tool tips are Displayed when the mouse hovers over the cell.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         public new bool ShowCellToolTips { get; set; }
 
         #endregion
@@ -1670,6 +1671,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal PaletteRedirect Redirector {
             [DebuggerStepThrough]
             get;

@@ -35,6 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the left border should be removed.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool Left { get; set; }
 
         #endregion
@@ -43,6 +44,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the right border should be removed.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool Right { get; set; }
 
         #endregion
@@ -51,6 +53,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the top and bottom borders should be removed.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool TopBottom { get; set; }
 
         #endregion

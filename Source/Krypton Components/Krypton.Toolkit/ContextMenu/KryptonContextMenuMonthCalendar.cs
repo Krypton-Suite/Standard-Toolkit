@@ -1143,6 +1143,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public int MonthlyBoldedDatesMask { get; private set; }
 
         /// <summary>

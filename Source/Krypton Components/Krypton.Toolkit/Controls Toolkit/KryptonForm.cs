@@ -425,6 +425,7 @@ namespace Krypton.Toolkit
         /// </value>
         [Category(@"Appearance")]
         [Description(@"Is the user currently an administrator.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInAdministratorMode
         {
             get => _isInAdministratorMode;
@@ -676,6 +677,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DisallowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public Rectangle CustomCaptionArea { get; set; } = Rectangle.Empty;
 
         #endregion
