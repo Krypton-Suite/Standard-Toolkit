@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         {
             if (provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService svc)
             {
-                UserControl ctrl = new ();
+                var ctrl = new UserControl();
                 ListBox clb = new ListBox { Dock = DockStyle.Fill };
                 
                 if (clb is not null && value is not null)
