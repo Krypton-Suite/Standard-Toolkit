@@ -525,7 +525,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DisallowNull]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
