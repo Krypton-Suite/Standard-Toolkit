@@ -325,8 +325,7 @@ namespace Krypton.Toolkit
                                                  this, VisualOrientation.Top, false)
             {
                 Splitter = true,
-                TestForFocusCues = true,
-                DropDownPalette = _kryptonBreadCrumb.GetRedirector()
+                TestForFocusCues = true
             };
 
             // Create controller for operating the button
@@ -351,7 +350,7 @@ namespace Krypton.Toolkit
                 // If we do not have a button to represent this crumb...
                 if (!_crumbToButton.TryGetValue(item, out ViewDrawButton? crumbButton))
                 {
-                    // Setup the button for drawing as a drop down button if required
+                    // Setup the button for drawing as a drop-down button if required
                     crumbButton = new ViewDrawButton(_kryptonBreadCrumb.StateDisabled.BreadCrumb,
                                                      _kryptonBreadCrumb.StateNormal.BreadCrumb,
                                                      _kryptonBreadCrumb.StateTracking.BreadCrumb,
@@ -360,8 +359,7 @@ namespace Krypton.Toolkit
                                                      item, VisualOrientation.Top, false)
                     {
                         Splitter = true,
-                        TestForFocusCues = true,
-                        DropDownPalette = _kryptonBreadCrumb.GetRedirector()
+                        TestForFocusCues = true
                     };
 
                     // Create controller for operating the button
@@ -378,7 +376,7 @@ namespace Krypton.Toolkit
                     _buttonToCrumb.Add(crumbButton, item);
                 }
 
-                // Only show a drop down button if we have some children to choose from
+                // Only show a drop-down button if we have some children to choose from
                 crumbButton.DropDown = _kryptonBreadCrumb.DropDownNavigation && (item.Items.Count > 0);
 
                 // Add crumb to end of child collection
@@ -402,7 +400,7 @@ namespace Krypton.Toolkit
                 var controller = viewButton?.MouseController as ButtonController;
                 var breadCrumb = controller?.Tag as KryptonBreadCrumbItem;
 
-                // Do we need to show a drop down menu?
+                // Do we need to show a drop-down menu?
                 if (viewButton!.DropDown && viewButton.SplitRectangle.Contains(e.Location))
                 {
                     // Create a context menu with a items collection

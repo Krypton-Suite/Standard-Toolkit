@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         public enum DrawDateTimeGlyph
         {
             /// <summary>
-            /// Specifies the drop down button glyph.
+            /// Specifies the drop-down button glyph.
             /// </summary>
             DropDownButton,
 
@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
-            // We want to be as wide as drop down buttons on standard controls
+            // We want to be as wide as drop-down buttons on standard controls
             new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         {
             PaletteState state = ElementState;
 
-            // If the drop down calendar is showing then always draw button as pressed
+            // If the drop-down calendar is showing then always draw button as pressed
             if (_dateTimePicker.IsDropped)
             {
                 state = PaletteState.Pressed;

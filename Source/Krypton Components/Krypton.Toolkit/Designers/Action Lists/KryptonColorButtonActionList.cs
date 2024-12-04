@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the visual drop down position.
+        /// Gets and sets the visual drop-down position.
         /// </summary>
         public VisualOrientation DropDownPosition
         {
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the visual drop down orientation.
+        /// Gets and sets the visual drop-down orientation.
         /// </summary>
         public VisualOrientation DropDownOrientation
         {
@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the splitter or drop down functionality.
+        /// Gets and sets the splitter or drop-down functionality.
         /// </summary>
         public bool Splitter
         {

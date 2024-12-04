@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
 
         #region ToolStripDropDownBackground
         /// <summary>
-        /// Gets the background color for drop down menus.
+        /// Gets the background color for drop-down menus.
         /// </summary>
         public override Color ToolStripDropDownBackground => _contextMenuBackground;
 

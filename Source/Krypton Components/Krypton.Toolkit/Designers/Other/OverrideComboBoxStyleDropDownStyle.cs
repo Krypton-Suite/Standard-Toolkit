@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         /// <param name="context">An ITypeDescriptorContext that can be used to gain additional context information.</param>
         /// <returns>UITypeEditorEditStyle value.</returns>
         /// <remarks>
-        /// We show a drop down for editing the PaletteDrawBorders value.
+        /// We show a drop-down for editing the PaletteDrawBorders value.
         /// </remarks>
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => context?.Instance != null
             ? UITypeEditorEditStyle.DropDown

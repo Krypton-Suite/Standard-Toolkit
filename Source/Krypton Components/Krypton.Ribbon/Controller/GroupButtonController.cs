@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         public event MouseEventHandler? ContextClick;
 
         /// <summary>
-        /// Occurs when a drop down portion is clicked.
+        /// Occurs when a drop-down portion is clicked.
         /// </summary>
         public event EventHandler? DropDown;
         #endregion

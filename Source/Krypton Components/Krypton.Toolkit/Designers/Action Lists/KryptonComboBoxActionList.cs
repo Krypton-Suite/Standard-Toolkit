@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
                 actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(DropDownStyle), @"Drop Down Style", nameof(Appearance), @"The combobox drop down style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(DropDownStyle), @"Drop Down Style", nameof(Appearance), @"The combobox drop-down style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"ComboBox display style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The font for the combobox."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));

@@ -1,0 +1,14 @@
+diff a/Source/Krypton Components/Krypton.Ribbon/Group Contents/KryptonRibbonGroupGallery.cs b/Source/Krypton Components/Krypton.Ribbon/Group Contents/KryptonRibbonGroupGallery.cs	(rejected hunks)
+@@ -68,10 +68,10 @@ namespace Krypton.Ribbon
+         public event EventHandler<ImageSelectEventArgs>? TrackingImage;
+ 
+         /// <summary>
+-        /// Occurs when the user invokes the drop-down menu.
++        /// Occurs when the user invokes the drop-down menu.
+         /// </summary>
+         [Category(@"Action")]
+-        [Description(@"Occurs when user invokes the drop-down menu.")]
++        [Description(@"Occurs when user invokes the drop-down menu.")]
+         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
+ 
+         /// <summary>

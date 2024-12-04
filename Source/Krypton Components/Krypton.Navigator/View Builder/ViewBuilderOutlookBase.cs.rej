@@ -1,0 +1,14 @@
+diff a/Source/Krypton Components/Krypton.Navigator/View Builder/ViewBuilderOutlookBase.cs b/Source/Krypton Components/Krypton.Navigator/View Builder/ViewBuilderOutlookBase.cs	(rejected hunks)
+@@ -2138,10 +2138,10 @@ namespace Krypton.Navigator
+                     addRemoveButtonItems.Items.Add(pageMenuItem);
+                 }
+ 
+-                // Only enable the 'Add/Remove' if it has at least one drop-down item
++                // Only enable the 'Add/Remove' if it has at least one drop-down item
+                 addRemoveButtons.Enabled = (visibleAddRemove > 0);
+ 
+-                // Get the display rectangle of the drop-down button
++                // Get the display rectangle of the drop-down button
+                 Rectangle rect = _buttonManager.GetButtonRectangle(_specDropDown);
+ 
+                 // Convert to screen coordinates

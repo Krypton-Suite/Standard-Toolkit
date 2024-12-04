@@ -669,12 +669,6 @@ namespace Krypton.Toolkit
         public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target?.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
         /// <summary>
-        /// Gets a drop-down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _target?.GetDropDownButtonImage(state);
-
-        /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>

@@ -32,7 +32,6 @@ namespace Krypton.Toolkit
             // Create the different image sets
             CheckBox = new KryptonPaletteImagesCheckBox(redirector, needPaint);
             ContextMenu = new KryptonPaletteImagesContextMenu(redirector, needPaint);
-            DropDownButton = new KryptonPaletteImagesDropDownButton(redirector, needPaint);
             GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
             RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
             TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
@@ -48,7 +47,6 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => CheckBox.IsDefault &&
                                             ContextMenu.IsDefault &&
-                                            DropDownButton.IsDefault &&
                                             GalleryButtons.IsDefault &&
                                             RadioButton.IsDefault &&
                                             TreeView.IsDefault;
@@ -64,7 +62,6 @@ namespace Krypton.Toolkit
             // Populate only the designated styles
             CheckBox.PopulateFromBase();
             ContextMenu.PopulateFromBase();
-            DropDownButton.PopulateFromBase();
             GalleryButtons.PopulateFromBase();
             RadioButton.PopulateFromBase();
             TreeView.PopulateFromBase();
@@ -96,20 +93,6 @@ namespace Krypton.Toolkit
         public KryptonPaletteImagesContextMenu ContextMenu { get; }
 
         private bool ShouldSerializeContextMenu() => !ContextMenu.IsDefault;
-
-        #endregion
-
-        #region DropDownButton
-        /// <summary>
-        /// Gets access to the drop down button set of images.
-        /// </summary>
-        [KryptonPersist]
-        [Category(@"Visuals")]
-        [Description(@"Overrides for defining drop down button images.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteImagesDropDownButton DropDownButton { get; }
-
-        private bool ShouldSerializeDropDownButton() => !DropDownButton.IsDefault;
 
         #endregion
 

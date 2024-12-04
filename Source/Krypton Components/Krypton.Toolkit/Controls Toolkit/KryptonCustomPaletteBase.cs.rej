@@ -1,0 +1,31 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonCustomPaletteBase.cs b/Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonCustomPaletteBase.cs	(rejected hunks)
+@@ -1466,29 +1466,6 @@ namespace Krypton.Toolkit
+             return retImage ?? _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+         }
+ 
+-        /// <summary>
+-        /// Gets a drop-down button image appropriate for the provided state.
+-        /// </summary>
+-        /// <param name="state">PaletteState for which image is required.</param>
+-        public override Image? GetDropDownButtonImage(PaletteState state)
+-        {
+-            // Grab state specific image
+-            Image? retImage = state switch
+-            {
+-                PaletteState.Disabled => Images.DropDownButton.Disabled,
+-                PaletteState.Normal => Images.DropDownButton.Normal,
+-                PaletteState.Tracking => Images.DropDownButton.Tracking,
+-                PaletteState.Pressed => Images.DropDownButton.Pressed,
+-                _ => null
+-            };
+-
+-            // Use common image as the last resort
+-            retImage ??= Images.DropDownButton.Common;
+-
+-            // If nothing found then use the base palette
+-            return retImage ?? _redirector.GetDropDownButtonImage(state);
+-        }
+-
+         /// <summary>
+         /// Gets a checked image appropriate for a context menu item.
+         /// </summary>

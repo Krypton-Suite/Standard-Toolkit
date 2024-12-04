@@ -1,0 +1,22 @@
+diff a/Source/Krypton Components/Krypton.Toolkit/View Layout/ViewLayoutCrumbs.cs b/Source/Krypton Components/Krypton.Toolkit/View Layout/ViewLayoutCrumbs.cs	(rejected hunks)
+@@ -347,9 +346,9 @@ namespace Krypton.Toolkit
+             while (item != null)
+             {
+                 // If we do not have a button to represent this crumb...
+-                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton crumbButton))
++                if (!_crumbToButton.TryGetValue(item, out ViewDrawButton? crumbButton))
+                 {
+-                    // Setup the button for drawing as a drop-down button if required
++                    // Setup the button for drawing as a drop-down button if required
+                     crumbButton = new ViewDrawButton(_kryptonBreadCrumb.StateDisabled.BreadCrumb,
+                                                      _kryptonBreadCrumb.StateNormal.BreadCrumb,
+                                                      _kryptonBreadCrumb.StateTracking.BreadCrumb,
+@@ -400,7 +398,7 @@ namespace Krypton.Toolkit
+                 var controller = viewButton.MouseController as ButtonController;
+                 var breadCrumb = controller.Tag as KryptonBreadCrumbItem;
+ 
+-                // Do we need to show a drop-down menu?
++                // Do we need to show a drop-down menu?
+                 if (viewButton.DropDown && viewButton.SplitRectangle.Contains(e.Location))
+                 {
+                     // Create a context menu with a items collection
