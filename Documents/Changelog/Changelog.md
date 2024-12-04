@@ -3,7 +3,8 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
-* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
     - Create Scaled Drop Glyph and use for colour button and comboDrops
     - Remove the `PaletteRedirectDropDownButton`
     - Remove `KryptonPaletteImagesDropDownButton`
@@ -22,7 +23,8 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
-* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
     - Create Scaled Drop Glyph and use for colour button and comboDrops
     - Remove the `PaletteRedirectDropDownButton`
     - Remove `KryptonPaletteImagesDropDownButton`
@@ -197,7 +199,8 @@
 =======
 
 # 2025-02-01 - Build 2502 (Patch 5) - February 2025
-* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
     - Create Scaled Drop Glyph and use for colour button and comboDrops
     - Remove the `PaletteRedirectDropDownButton`
     - Remove `KryptonPaletteImagesDropDownButton`
