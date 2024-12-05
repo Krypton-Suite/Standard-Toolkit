@@ -67,6 +67,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [RefreshProperties(RefreshProperties.All)]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             // Backward compatible fix.

@@ -75,12 +75,6 @@
         </Compile>
         <Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
         <Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
-        <Compile Update="Controls Visuals\RTL Aware\VisualMessageBoxRtlAwareFormDep.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="Controls Visuals\VisualMessageBoxFormDep.cs">
-            <SubType>Form</SubType>
-        </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
             <SubType>Component</SubType>
