@@ -181,6 +181,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation ButtonOrientation
         {
