@@ -10,6 +10,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>A structure that contains basic information for <see cref="VisualMessageBoxForm"/>.</summary>
+    [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
     public struct KryptonMessageBoxDataDep
     {
         #region Public

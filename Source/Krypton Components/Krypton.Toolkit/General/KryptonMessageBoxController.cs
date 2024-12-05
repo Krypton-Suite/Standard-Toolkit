@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
         /// <param name="forceUseOfOperatingSystemIcons">If set to true, the <see cref="VisualMessageBoxForm"/> will use standard operating system icons.</param>
         /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
         public static DialogResult ShowCore(IWin32Window? owner,
                                              string? text, string? caption,
                                              KryptonMessageBoxButtons buttons,
@@ -84,6 +85,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
         public static DialogResult ShowCore(KryptonMessageBoxDataDep messageBoxData)
         {
             messageBoxData.Caption = string.IsNullOrEmpty(messageBoxData.Caption) ? @" " : messageBoxData.Caption;
