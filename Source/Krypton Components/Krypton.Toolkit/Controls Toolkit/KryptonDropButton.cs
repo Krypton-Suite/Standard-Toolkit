@@ -181,6 +181,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation ButtonOrientation
         {
@@ -636,9 +637,7 @@ namespace Krypton.Toolkit
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
                     if (owner is VisualMessageBoxForm
-                        or VisualMessageBoxFormDep
-                        or VisualMessageBoxRtlAwareForm
-                        or VisualMessageBoxRtlAwareFormDep)
+                        or VisualMessageBoxRtlAwareForm)
                     {
                         // need to gain access to `dialogResult` and set it forcefully
                         FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
