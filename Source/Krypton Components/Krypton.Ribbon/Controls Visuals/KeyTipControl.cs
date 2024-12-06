@@ -35,6 +35,7 @@ namespace Krypton.Ribbon
                              KeyTipInfoList keyTips,
                              bool showDisabled)
         {
+            SetInheritedControlOverride();
             _ribbon = ribbon;
             _showDisabled = showDisabled;
 
@@ -45,6 +46,8 @@ namespace Krypton.Ribbon
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            StateCommon!.Border.DrawBorders = PaletteDrawBorders.None;
+            StateCommon!.Border.Width = 0;
 #pragma warning disable CS0618 // Type or member is obsolete
             UseDropShadow = false;
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -114,7 +117,7 @@ namespace Krypton.Ribbon
                                                        _ribbon.StateCommon.RibbonKeyTip.Content));
             }
 
-            // Inflate the enclosing rect to account for maximum expected key tip
+            // Inflate the enclosing rect to account for maximum expected key tip size
             enclosingRect.Inflate(50, 50);
 
             // Remove any prefix characters
@@ -207,7 +210,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pevent">An PaintEventArgs containing the event data.</param>
         protected override void OnPaintBackground(PaintEventArgs pevent) =>
-            // Magenta is the transparent color
+            // Magenta is the transparent color => GlobalStaticValues.TRANSPARENCY_KEY_COLOR
             pevent.Graphics.FillRectangle(Brushes.Magenta, pevent.ClipRectangle);
 
         /// <summary>
@@ -255,12 +258,9 @@ namespace Krypton.Ribbon
 
             using (var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
             {
-                foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
+                foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList.Where(viewKeyTip => viewKeyTip.Visible))
                 {
-                    if (viewKeyTip.Visible)
-                    {
-                        viewKeyTip.Render(renderContext);
-                    }
+                    viewKeyTip.Render(renderContext);
                 }
             }
         }

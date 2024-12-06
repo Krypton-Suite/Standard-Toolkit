@@ -31,6 +31,7 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer renderer)
         {
+            SetInheritedControlOverride();
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
 

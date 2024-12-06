@@ -319,6 +319,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DefaultValue(null)]
         public ImageList? ImageList
         {
             get => _imageList;

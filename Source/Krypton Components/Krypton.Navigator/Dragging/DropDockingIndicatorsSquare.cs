@@ -42,6 +42,7 @@ namespace Krypton.Navigator
                                            bool showTop, bool showBottom,
                                            bool showMiddle)
         {
+            SetInheritedControlOverride();
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
 

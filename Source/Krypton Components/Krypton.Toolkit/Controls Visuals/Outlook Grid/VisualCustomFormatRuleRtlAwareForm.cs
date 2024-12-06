@@ -41,6 +41,7 @@ namespace Krypton.Toolkit
 
         public VisualCustomFormatRuleRtlAwareForm(EnumConditionalFormatType conditionalFormatType)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _conditionalFormatType = conditionalFormatType;

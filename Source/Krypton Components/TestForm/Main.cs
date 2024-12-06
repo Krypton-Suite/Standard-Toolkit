@@ -378,5 +378,10 @@ namespace TestForm
         {
             
         }
+
+        private void kryptonButton15_Click(object sender, EventArgs e)
+        {
+            new PanelForm().ShowDialog(this);
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace Krypton.Toolkit
         public KryptonCheckButtonCollectionForm()
             : this(null)
         {
+            SetInheritedControlOverride();
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonCheckButtonCollectionForm(KryptonCheckSet? checkSet)
         {
+            SetInheritedControlOverride();
             // Remember the owning control
             _checkSet = checkSet;
 

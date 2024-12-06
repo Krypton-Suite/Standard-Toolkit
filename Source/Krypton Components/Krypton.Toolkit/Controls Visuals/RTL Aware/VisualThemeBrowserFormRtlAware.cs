@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
         /// <param name="themeBrowserData">The data to create the <see cref="VisualThemeBrowserFormRtlAware"/> UI.</param>
         public VisualThemeBrowserFormRtlAware(KryptonThemeBrowserData themeBrowserData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _themeBrowserData = themeBrowserData;

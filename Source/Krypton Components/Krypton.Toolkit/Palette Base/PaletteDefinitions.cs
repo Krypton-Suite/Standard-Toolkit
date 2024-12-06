@@ -3070,7 +3070,7 @@ namespace Krypton.Toolkit
         BottomRight,
 
         /// <summary>
-        /// Specifies image should be stretch to fix area.
+        /// Specifies image should be stretch to fit area.
         /// </summary>
         Stretch,
 

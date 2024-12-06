@@ -46,6 +46,7 @@ namespace Krypton.Toolkit
 
         public VisualMessageBoxForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
 
@@ -57,6 +58,7 @@ namespace Krypton.Toolkit
                                        bool? showHelpButton,
                                        bool? showCloseButton)
         {
+            SetInheritedControlOverride();
             // Store incoming values
             _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
             _caption = caption;

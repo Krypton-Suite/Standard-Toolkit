@@ -33,6 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="owner"></param>
         public MultilineStringEditor1(KryptonTextBox owner)
         {
+            SetInheritedControlOverride();
             SuspendLayout();
             _textBox = new KryptonTextBox { Dock = DockStyle.Fill, Multiline = true };
             _textBox.StateCommon.Border.Draw = InheritBool.False;
@@ -70,7 +71,6 @@ namespace Krypton.Toolkit
             Show();
         }
         #endregion
-
 
         #region Protected Override
         /// <summary>
