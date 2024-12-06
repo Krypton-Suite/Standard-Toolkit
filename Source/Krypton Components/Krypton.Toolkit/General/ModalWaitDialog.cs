@@ -42,6 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public ModalWaitDialog()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             // Remove redraw flicker by using double buffering
@@ -58,6 +59,7 @@ namespace Krypton.Toolkit
         /// <param name="maximumProgressValue">The maximum progress value.</param>
         public ModalWaitDialog(bool? showProgressBar, int? minimumProgressValue, int? maximumProgressValue)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _showProgressBar = showProgressBar ?? false;

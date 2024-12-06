@@ -28,6 +28,7 @@ namespace Krypton.Toolkit
 
         public VisualMultilineStringEditorForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             InitialSetup();
@@ -37,6 +38,7 @@ namespace Krypton.Toolkit
 
         public VisualMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _contents = contents ?? [string.Empty];

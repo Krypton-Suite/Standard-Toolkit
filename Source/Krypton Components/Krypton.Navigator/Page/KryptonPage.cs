@@ -143,8 +143,7 @@ namespace Krypton.Navigator
             : this(text, null, null)
         {
         }
-
-
+        
         /// <summary>
         /// Initialize a new instance of the KryptonPage class.
         /// </summary>
@@ -154,7 +153,6 @@ namespace Krypton.Navigator
             : this(text, null, uniqueName ?? string.Empty)
         {
         }
-
 
         /// <summary>
         /// Initialize a new instance of the KryptonPage class.
@@ -168,7 +166,6 @@ namespace Krypton.Navigator
         public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
-
         }
 
         /// <summary>
@@ -454,10 +451,7 @@ namespace Krypton.Navigator
             }
         }
 
-        /// <summary>
-        /// Resets the TextTitle property to its default value.
-        /// </summary>
-        public void ResetTextTitle() => TextTitle = null;
+        private void ResetTextTitle() => TextTitle = null;
 
         /// <summary>
         /// Gets and sets the description text for the page.
@@ -483,10 +477,7 @@ namespace Krypton.Navigator
             }
         }
 
-        /// <summary>
-        /// Resets the TextDescription property to its default value.
-        /// </summary>
-        public void ResetTextDescription() => TextDescription = null;
+        private void ResetTextDescription() => TextDescription = null;
 
         /// <summary>
         /// Gets and sets the small image for the page.
@@ -510,10 +501,7 @@ namespace Krypton.Navigator
             }
         }
 
-        /// <summary>
-        /// Resets the ImageSmall property to its default value.
-        /// </summary>
-        public void ResetImageSmall() => ImageSmall = null;
+        private void ResetImageSmall() => ImageSmall = null;
 
         /// <summary>
         /// Gets and sets the medium image for the page.
@@ -537,10 +525,7 @@ namespace Krypton.Navigator
             }
         }
 
-        /// <summary>
-        /// Resets the ImageMedium property to its default value.
-        /// </summary>
-        public void ResetImageMedium() => ImageMedium = null;
+        private void ResetImageMedium() => ImageMedium = null;
 
         /// <summary>
         /// Gets and sets the large image for the page.
@@ -564,10 +549,7 @@ namespace Krypton.Navigator
             }
         }
 
-        /// <summary>
-        /// Resets the ImageLarge property to its default value.
-        /// </summary>
-        public void ResetImageLarge() => ImageLarge = null;
+        private void ResetImageLarge() => ImageLarge = null;
 
         /// <summary>
         /// Gets and sets the page tooltip image.
@@ -591,11 +573,7 @@ namespace Krypton.Navigator
         }
 
         private bool ShouldSerializeToolTipImage() => ToolTipImage != null;
-
-        /// <summary>
-        /// Resets the ToolTipImage property to its default value.
-        /// </summary>
-        public void ResetToolTipImage() => ToolTipImage = null;
+        private void ResetToolTipImage() => ToolTipImage = null;
 
         /// <summary>
         /// Gets and sets the tooltip image transparent color.
@@ -619,11 +597,7 @@ namespace Krypton.Navigator
         }
 
         private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
-
-        /// <summary>
-        /// Resets the ToolTipImageTransparentColor property to its default value.
-        /// </summary>
-        public void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
+        private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip title text.
@@ -648,12 +622,7 @@ namespace Krypton.Navigator
         }
 
         private bool ShouldSerializeToolTipTitle() => ToolTipTitle != string.Empty;
-
-        /// <summary>
-        /// Resets the ToolTipTitle property to its default value.
-        /// </summary>
-        public void ResetToolTipTitle()
-        => ToolTipTitle = string.Empty;
+        private void ResetToolTipTitle() => ToolTipTitle = string.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip body text.
@@ -678,11 +647,7 @@ namespace Krypton.Navigator
         }
 
         private bool ShouldSerializeToolTipBody() => ToolTipBody != string.Empty;
-
-        /// <summary>
-        /// Resets the ToolTipBody property to its default value.
-        /// </summary>
-        public void ResetToolTipBody() => ToolTipBody = string.Empty;
+        private void ResetToolTipBody() => ToolTipBody = string.Empty;
 
         /// <summary>
         /// Gets and sets the tooltip label style.
@@ -705,11 +670,7 @@ namespace Krypton.Navigator
         }
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
-
-        /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
-        /// </summary>
-        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
+        private void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
 
         #region ToolTipShadow
         /// <summary>
@@ -721,7 +682,6 @@ namespace Krypton.Navigator
         public bool ToolTipShadow { get; set; } = true; // Backward compatible -> "Material Design" suggests this to be false
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
-
         private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
@@ -741,10 +701,7 @@ namespace Krypton.Navigator
             set => _uniqueName = value;
         }
 
-        /// <summary>
-        /// Resets the UniqueName property to its default value.
-        /// </summary>
-        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
+        private void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
 
         /// <summary>
         /// Fix the control to a particular palette state.

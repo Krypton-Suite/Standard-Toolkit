@@ -2359,7 +2359,7 @@ namespace Krypton.Ribbon
 
         internal KeyTipInfoList GenerateKeyTipsAtTopLevel()
         {
-            // Make sure all the elements in current ribbon have been synched 
+            // Make sure all the elements in current ribbon have been synced 
             // and created so that the generated contents are accurate
             Refresh();
 

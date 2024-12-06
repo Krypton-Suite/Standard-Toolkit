@@ -13,6 +13,7 @@ namespace Krypton.Toolkit
     {
         public VisualAboutBoxRtlAwareForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
     }

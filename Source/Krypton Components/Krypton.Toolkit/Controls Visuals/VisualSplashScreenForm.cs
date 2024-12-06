@@ -33,6 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="splashScreenData">The splash screen data.</param>
         public VisualSplashScreenForm(KryptonSplashScreenData splashScreenData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _splashScreenData = splashScreenData;
@@ -46,6 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="nextWindow">The next window.</param>
         public VisualSplashScreenForm(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _entryAssembly = entryAssembly;
