@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
             {
                 var comboColumn = OwningColumn as KryptonDataGridViewComboBoxColumn;
 
-                if (comboColumn is not null && comboColumn.DataSource is not null)
+                if (comboColumn is not null && comboColumn.DataSource is null)
                 {
                     var strings = new object[comboColumn.Items.Count];
 
