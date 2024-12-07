@@ -30,44 +30,42 @@ namespace Krypton.Toolkit
         {
             Size newSize = iconSize ?? new Size(16, 16);
 
-            using (Bitmap bmp = new Bitmap(sourceImage, newSize))
+            using var bmp = new Bitmap(sourceImage, newSize);
+            byte[] png;
+
+            using (var ms = new MemoryStream())
             {
-                byte[] png;
+                bmp.Save(ms, ImageFormat.Png);
 
-                using (MemoryStream ms = new MemoryStream())
+                ms.Position = 0;
+
+                png = ms.ToArray();
+            }
+
+            using (var ms2 = new MemoryStream())
+            {
+                if (newSize.Height > 256 && newSize.Height > 256)
                 {
-                    bmp.Save(ms, ImageFormat.Png);
-
-                    ms.Position = 0;
-
-                    png = ms.ToArray();
+                    newSize = new Size(0, 0);
                 }
 
-                using (MemoryStream ms2 = new MemoryStream())
-                {
-                    if (newSize.Height > 256 && newSize.Height > 256)
-                    {
-                        newSize = new Size(0, 0);
-                    }
+                _pngIconHeader[6] = (byte)newSize.Width;
 
-                    _pngIconHeader[6] = (byte)newSize.Width;
+                _pngIconHeader[7] = (byte)newSize.Height;
 
-                    _pngIconHeader[7] = (byte)newSize.Height;
+                _pngIconHeader[14] = (byte)(png.Length & 255);
 
-                    _pngIconHeader[14] = (byte)(png.Length & 255);
+                _pngIconHeader[15] = (byte)(png.Length / 256);
 
-                    _pngIconHeader[15] = (byte)(png.Length / 256);
+                _pngIconHeader[18] = (byte)(_pngIconHeader.Length);
 
-                    _pngIconHeader[18] = (byte)(_pngIconHeader.Length);
+                ms2.Write(_pngIconHeader, 0, _pngIconHeader.Length);
 
-                    ms2.Write(_pngIconHeader, 0, _pngIconHeader.Length);
+                ms2.Write(png, 0, png.Length);
 
-                    ms2.Write(png, 0, png.Length);
+                ms2.Position = 0;
 
-                    ms2.Position = 0;
-
-                    return new Icon(ms2);
-                }
+                return new Icon(ms2);
             }
         }
 

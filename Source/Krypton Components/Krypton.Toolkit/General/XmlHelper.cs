@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
             {
                 // Convert the Image into base64 so it can be used in xml
                 using var memory = new MemoryStream();
-                image.Save(memory, image.RawFormat);
+                image.Save(memory, ImageFormat.Png);
                 memory.Position = 0;
                 var base64 = Convert.ToBase64String(memory.ToArray());
 
