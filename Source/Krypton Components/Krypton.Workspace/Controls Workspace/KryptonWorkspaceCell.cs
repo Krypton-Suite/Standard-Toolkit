@@ -517,7 +517,7 @@ namespace Krypton.Workspace
                             // Remember the page that should become selected
                             if (!string.IsNullOrEmpty(page.UniqueName) && (page.UniqueName == selectedPageUniqueName))
                             {
-                                // Can only selected a visible page
+                                // Can only select a visible page
                                 if (page.LastVisibleSet)
                                 {
                                     selectedPage = page;
