@@ -311,11 +311,13 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonComboBox comboBox)
             {
-                if (OwningColumn is KryptonDataGridViewComboBoxColumn { DataSource: null } comboColumn)
+                var comboColumn = OwningColumn as KryptonDataGridViewComboBoxColumn;
+
+                if (comboColumn is not null && comboColumn.DataSource is null)
                 {
                     var strings = new object[comboColumn.Items.Count];
 
-                    for (var i = 0; i < strings.Length; i++)
+                    for (var i = 0 ; i < strings.Length ; i++)
                     {
                         strings[i] = comboColumn.Items[i];
                     }
@@ -323,7 +325,7 @@ namespace Krypton.Toolkit
                     comboBox.Items.AddRange(strings);
 
                     var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
-                    for (var j = 0; j < autoAppend.Length; j++)
+                    for (var j = 0 ; j < autoAppend.Length ; j++)
                     {
                         autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
                     }
@@ -340,7 +342,7 @@ namespace Krypton.Toolkit
                 comboBox.AutoCompleteMode = AutoCompleteMode;
                 comboBox.DisplayMember = DisplayMember;
                 comboBox.ValueMember = ValueMember;
-                comboBox.DataSource = DataSource;
+                comboBox.DataSource = comboColumn?.DataSource;
 
                 if (initialFormattedValue is not string initialFormattedValueStr)
                 {
