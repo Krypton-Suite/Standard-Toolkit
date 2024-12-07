@@ -70,7 +70,7 @@ namespace Krypton.Docking
                 // Let base class perform standard processing
                 base.Parent = value;
 
-                // Generate event so the any dockable workspace customization can be performed.
+                // Generate event so that any dockable workspace customization can be performed.
                 KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
@@ -517,7 +517,7 @@ namespace Krypton.Docking
         /// </summary>
         protected override void RaiseRemoved()
         {
-            // Generate event so the any dockable workspace customization can be reversed.
+            // Generate event so that any dockable workspace customization can be reversed.
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
