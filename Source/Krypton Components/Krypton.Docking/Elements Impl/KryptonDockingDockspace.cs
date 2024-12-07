@@ -265,7 +265,7 @@ namespace Krypton.Docking
         /// </summary>
         protected override void RaiseRemoved()
         {
-            // Generate event so the any dockspace customization can be reversed.
+            // Generate event so that any dockspace customization can be reversed.
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {

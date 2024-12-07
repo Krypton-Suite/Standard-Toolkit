@@ -268,8 +268,12 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+#if NET8_0_OR_GREATER
         [AllowNull]
         public override Font Font
+#else
+        public override Font Font
+#endif
         {
             get => base.Font;
             set { } //base.Font = value;
@@ -444,7 +448,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        #endregion
+#endregion
 
         #region Public
         /// <summary>
