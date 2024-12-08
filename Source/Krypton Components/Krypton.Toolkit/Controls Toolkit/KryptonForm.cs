@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     [Description(@"Draws the window chrome using a Krypton palette.")]
     [Designer(typeof(KryptonFormDesigner))]
     public class KryptonForm : VisualForm,
-        IContentValues
+                               IContentValues
     {
         #region Type Definitions
 
@@ -34,7 +34,6 @@ namespace Krypton.Toolkit
         public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
         {
             #region Identity
-
             /// <summary>
             /// Initialize a new instance of the FormButtonSpecCollection class.
             /// </summary>
@@ -43,7 +42,6 @@ namespace Krypton.Toolkit
                 : base(owner)
             {
             }
-
             #endregion
         }
 
@@ -53,7 +51,6 @@ namespace Krypton.Toolkit
         public class FormFixedButtonSpecCollection : ButtonSpecCollection<ButtonSpecFormFixed>
         {
             #region Identity
-
             /// <summary>
             /// Initialize a new instance of the FormFixedButtonSpecCollection class.
             /// </summary>
@@ -62,14 +59,11 @@ namespace Krypton.Toolkit
                 : base(owner)
             {
             }
-
             #endregion
         }
-
         #endregion
 
         #region Static Fields
-
         private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
 
         private const int HT_CORNER = 8;
@@ -78,7 +72,6 @@ namespace Krypton.Toolkit
         private const int CS_DROPSHADOW = 0x00020000;
 
         private const int CP_NOCLOSE_BUTTON = 0x200;
-
         #endregion
 
         #region Instance Fields
@@ -126,7 +119,6 @@ namespace Krypton.Toolkit
             _headerStyle = HeaderStyle.Form;
             _formTitleAlign = PaletteRelativeAlign.Near;
             _headerStylePrev = _headerStyle;
-
             AllowButtonSpecToolTips = false;
             _allowFormChrome = true;
             _allowStatusStripMerge = true;
@@ -155,11 +147,11 @@ namespace Krypton.Toolkit
 
             // Create a header to act as the form title bar
             _drawHeading = new ViewDrawDocker(StateActive.Header.Back,
-                StateActive.Header.Border,
-                StateActive.Header,
-                PaletteMetricBool.None,
-                PaletteMetricPadding.None,
-                VisualOrientation.Top)
+                                              StateActive.Header.Border,
+                                              StateActive.Header,
+                                              PaletteMetricBool.None,
+                                              PaletteMetricPadding.None,
+                                              VisualOrientation.Top)
             {
                 // We need the border drawn before content to allow any injected elements
                 // such as the application button for the ribbon to draw over borders.
@@ -203,9 +195,7 @@ namespace Krypton.Toolkit
                 OnNeedPaint);
 
             // Create the manager for handling tooltips
-            ToolTipManager =
-                new ToolTipManager(
-                    new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -259,7 +249,6 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-
         #endregion
 
         #region Magic Overrides to make the internal Panel work indesigners etc.
@@ -1387,7 +1376,6 @@ namespace Krypton.Toolkit
                         {
                             return Icon;
                         }
-
                         break;
                 }
             }
@@ -1408,16 +1396,19 @@ namespace Krypton.Toolkit
                                                     PaletteMetricInt.HeaderButtonEdgeInsetPrimary,
                                                     PaletteMetricPadding.HeaderButtonPaddingPrimary);
                     break;
+
                 case HeaderStyle.Secondary:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetSecondary,
                                                     PaletteMetricPadding.HeaderButtonPaddingSecondary);
                     break;
+
                 case HeaderStyle.DockActive:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockActive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockActive);
                     break;
+
                 case HeaderStyle.DockInactive:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
@@ -1484,7 +1475,6 @@ namespace Krypton.Toolkit
                     else
                     {
                         ButtonSpecMin.ButtonSpecType = PaletteButtonSpecStyle.FormMin;
-
                         // Make sure the top level form docker has the status strip being merged
                         _drawDocker.StatusStrip = StatusStripMerging ? _statusStrip : null;
                     }
@@ -1497,7 +1487,6 @@ namespace Krypton.Toolkit
                     {
                         // Ensure the header style matches the form border style
                         SetHeaderStyle(_drawHeading, StateCommon!.Header, _headerStyle);
-
                         // Remember last header style set
                         _headerStylePrev = _headerStyle;
                     }
@@ -1578,7 +1567,6 @@ namespace Krypton.Toolkit
                         {
                             // Track the window state at the time the region is created
                             _regionWindowState = WindowState;
-
                             // Get the path for the border, so we can shape the form using it
                             using var context = new RenderContext(this, null, Bounds, Renderer);
                             using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);

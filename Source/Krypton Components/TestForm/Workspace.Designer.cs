@@ -111,7 +111,7 @@ namespace TestForm
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell1.Owner = null;
-            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1,
             this.kryptonPage2});
@@ -188,7 +188,7 @@ namespace TestForm
             this.kryptonWorkspaceCell2.Name = "kryptonWorkspaceCell2";
             this.kryptonWorkspaceCell2.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell2.Owner = null;
-            this.kryptonWorkspaceCell2.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell2.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell2.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage3,
             this.kryptonPage4});

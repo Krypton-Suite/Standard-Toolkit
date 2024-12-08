@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PalettePageRedirect(PaletteRedirect redirect,
                                    NeedPaintHandler needPaint)
-            : base(redirect, PaletteBackStyle.ControlClient,
+            : base(redirect, PaletteBackStyle.PanelClient,
                              PaletteBorderStyle.ControlClient, needPaint)
         {
         }
