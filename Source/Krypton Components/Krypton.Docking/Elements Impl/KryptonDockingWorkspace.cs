@@ -46,11 +46,8 @@ namespace Krypton.Docking
         {
             SpaceControl = workspace ?? throw new ArgumentNullException(nameof(workspace));
 
-            if (DockableWorkspaceControl != null)
-            {
-                DockableWorkspaceControl.CellPageInserting += OnSpaceCellPageInserting;
-                DockableWorkspaceControl.BeforePageDrag += OnDockableWorkspaceBeforePageDrag;
-            }
+            DockableWorkspaceControl.CellPageInserting += OnSpaceCellPageInserting;
+            DockableWorkspaceControl.BeforePageDrag += OnDockableWorkspaceBeforePageDrag;
         }
         #endregion
 
@@ -58,7 +55,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
-        public KryptonDockableWorkspace? DockableWorkspaceControl => SpaceControl as KryptonDockableWorkspace;
+        public KryptonDockableWorkspace DockableWorkspaceControl => (KryptonDockableWorkspace)SpaceControl!;
 
         /// <summary>
         /// Gets and sets access to the parent docking element.
@@ -433,7 +430,7 @@ namespace Krypton.Docking
             // Do we have any pages left for dragging?
             if (pages.Count > 0)
             {
-                if (DockableWorkspaceControl != null)
+                if (!DockableWorkspaceControl.IsDisposed)
                 {
                     DragTargetList workspaceTargets = DockableWorkspaceControl.GenerateDragTargets(new PageDragEndData(this, pages), KryptonPageFlags.DockingAllowWorkspace);
                     targets.AddRange(workspaceTargets.ToArray());
@@ -448,15 +445,10 @@ namespace Krypton.Docking
         /// <returns>Enumeration value indicating docking location.</returns>
         public override DockingLocation FindPageLocation(string uniqueName)
         {
-            KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return DockingLocation.Workspace;
-            }
-            else
-            {
-                return DockingLocation.None;
-            }
+            KryptonPage? page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
+            return (page != null) && page is not KryptonStorePage
+                ? DockingLocation.Workspace
+                : DockingLocation.None;
         }
 
         /// <summary>
@@ -466,15 +458,10 @@ namespace Krypton.Docking
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
         public override IDockingElement? FindPageElement(string uniqueName)
         {
-            KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
+            KryptonPage? page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
+            return (page != null) && page is not KryptonStorePage
+                ? this
+                : null;
         }
 
         /// <summary>
@@ -487,7 +474,7 @@ namespace Krypton.Docking
         {
             if (location == DockingLocation.Workspace)
             {
-                KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
+                KryptonPage? page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
                 if (page is KryptonStorePage)
                 {
                     return this;
@@ -536,7 +523,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                if (DockableWorkspaceControl != null)
+                if (!DockableWorkspaceControl.IsDisposed)
                 {
                     var args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
                     dockingManager.RaiseDockableWorkspaceCellAdding(args);
@@ -554,7 +541,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                if (DockableWorkspaceControl != null)
+                if (!DockableWorkspaceControl.IsDisposed)
                 {
                     var args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
                     dockingManager.RaiseDockableWorkspaceCellRemoved(args);
@@ -589,7 +576,7 @@ namespace Krypton.Docking
         /// </summary>
         protected override string XmlElementName => @"DW";
 
-        #endregion    
+        #endregion
 
         #region Implementation
         private void OnDockableWorkspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)

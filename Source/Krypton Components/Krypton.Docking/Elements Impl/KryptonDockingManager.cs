@@ -1730,14 +1730,14 @@ namespace Krypton.Docking
                             var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]!);
                             workspaceElement.CellInsert(cell, pageIndex, new[] { page });
                             workspaceElement.SelectPage(uniqueName);
-                            workspaceElement.DockableWorkspaceControl?.Select();
+                            workspaceElement.DockableWorkspaceControl.Select();
                         }
                         else
                         {
                             // No existing store page so just append to the workspace
                             workspaceElement.Append(new[] { page });
                             workspaceElement.SelectPage(uniqueName);
-                            workspaceElement.DockableWorkspaceControl?.Select();
+                            workspaceElement.DockableWorkspaceControl.Select();
                         }
                     }
                 }

@@ -432,7 +432,7 @@ namespace Krypton.Docking
             // Output docking manager element
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
-            xmlWriter.WriteAttributeString(@"C", AutoHiddenGroupControl.Pages.Count.ToString());
+            xmlWriter.WriteAttributeString(@"C", AutoHiddenGroupControl.Pages.Count(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)).ToString());
 
             // Output an element per page
             foreach (KryptonPage page in AutoHiddenGroupControl.Pages)

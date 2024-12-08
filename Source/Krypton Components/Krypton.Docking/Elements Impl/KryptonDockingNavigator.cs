@@ -756,7 +756,7 @@ namespace Krypton.Docking
             // Output navigator docking element
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
-            xmlWriter.WriteAttributeString(@"C", DockableNavigatorControl.Pages.Count.ToString());
+            xmlWriter.WriteAttributeString(@"C", DockableNavigatorControl.Pages.Count(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)).ToString());
 
             // Persist each child page in turn
             KryptonDockingManager? dockingManager = DockingManager;
