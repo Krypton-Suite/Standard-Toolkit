@@ -1132,12 +1132,9 @@ namespace Krypton.Docking
         public DockingLocation FindPageLocation([DisallowNull] KryptonPage? page)
         {
             // Cannot find a null reference
-            if (page == null)
-            {
-                throw new ArgumentNullException(nameof(page));
-            }
-
-            return FindPageLocation(page.UniqueName);
+            return page == null
+                ? throw new ArgumentNullException(nameof(page))
+                : FindPageLocation(page.UniqueName);
         }
 
         /// <summary>
@@ -1171,12 +1168,9 @@ namespace Krypton.Docking
         public IDockingElement? FindPageElement([DisallowNull] KryptonPage page)
         {
             // Cannot find a null reference
-            if (page == null)
-            {
-                throw new ArgumentNullException(nameof(page));
-            }
-
-            return FindPageElement(page.UniqueName);
+            return page == null
+                ? throw new ArgumentNullException(nameof(page))
+                : FindPageElement(page.UniqueName);
         }
 
         /// <summary>
@@ -1211,12 +1205,9 @@ namespace Krypton.Docking
         public IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] KryptonPage page)
         {
             // Cannot find a null reference
-            if (page == null)
-            {
-                throw new ArgumentNullException(nameof(page));
-            }
-
-            return FindStorePageElement(location, page.UniqueName);
+            return page == null
+                ? throw new ArgumentNullException(nameof(page))
+                : FindStorePageElement(location, page.UniqueName);
         }
 
         /// <summary>
@@ -3681,6 +3672,7 @@ namespace Krypton.Docking
                         // Find the cell containing the unique name page
                         return dockspace?.CellForPage(uniqueName);
                     }
+
                 case DockingLocation.Floating:
                     {
                         // Unique name page must be inside a Dockspace instance
@@ -3688,12 +3680,14 @@ namespace Krypton.Docking
                         // Find the cell containing the unique name page
                         return floatspace?.CellForPage(uniqueName);
                     }
+
                 case DockingLocation.Workspace:
                     {
                         var workspace = FindPageElement(uniqueName) as KryptonDockingWorkspace;
                         // Find the cell containing the unique name page
                         return workspace?.CellForPage(uniqueName);
                     }
+
                 case DockingLocation.AutoHidden:
                 case DockingLocation.Navigator:
                 case DockingLocation.Custom:
@@ -4222,7 +4216,7 @@ namespace Krypton.Docking
         private void OnDropDownCloseClicked(object? sender, EventArgs e)
         {
             var closeItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
-            CloseRequest(new[] { (closeItem.Tag as string) ?? string.Empty});
+            CloseRequest(new[] { (closeItem.Tag as string) ?? string.Empty });
         }
 
         private static KryptonPage[] ArrayFromCollection(KryptonPageCollection pages)

@@ -349,14 +349,9 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return DockingLocation.AutoHidden;
-            }
-            else
-            {
-                return DockingLocation.None;
-            }
+            return (page != null) && page is not KryptonStorePage 
+                ? DockingLocation.AutoHidden 
+                : DockingLocation.None;
         }
 
         /// <summary>
@@ -367,14 +362,9 @@ namespace Krypton.Docking
         public override IDockingElement? FindPageElement(string uniqueName)
         {
             KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
+            return (page != null) && page is not KryptonStorePage 
+                ? this 
+                : null;
         }
 
         /// <summary>
@@ -432,27 +422,23 @@ namespace Krypton.Docking
             // Output docking manager element
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
-            xmlWriter.WriteAttributeString(@"C", AutoHiddenGroupControl.Pages.Count.ToString());
+            xmlWriter.WriteAttributeString(@"C", AutoHiddenGroupControl.Pages.Count(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)).ToString());
 
-            // Output an element per page
-            foreach (KryptonPage page in AutoHiddenGroupControl.Pages)
+            // Output an element per page                 // Are we allowed to save the page?
+            foreach (KryptonPage page in AutoHiddenGroupControl.Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)))
             {
-                // Are we allowed to save the page?
-                if (page.AreFlagsSet(KryptonPageFlags.AllowConfigSave))
-                {
-                    xmlWriter.WriteStartElement("KP");
-                    xmlWriter.WriteAttributeString(@"UN", page.UniqueName);
-                    xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet));
-                    xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage));
+                xmlWriter.WriteStartElement("KP");
+                xmlWriter.WriteAttributeString(@"UN", page.UniqueName);
+                xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet)!);
+                xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage)!);
 
-                    // Give event handlers a chance to save custom data with the page
-                    xmlWriter.WriteStartElement("CPD");
-                    var args = new DockPageSavingEventArgs(manager, xmlWriter, page);
-                    manager?.RaisePageSaving(args);
-                    xmlWriter.WriteEndElement();
+                // Give event handlers a chance to save custom data with the page
+                xmlWriter.WriteStartElement("CPD");
+                var args = new DockPageSavingEventArgs(manager, xmlWriter, page);
+                manager?.RaisePageSaving(args);
+                xmlWriter.WriteEndElement();
 
-                    xmlWriter.WriteFullEndElement();
-                }
+                xmlWriter.WriteFullEndElement();
             }
 
             // Terminate the workspace element
