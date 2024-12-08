@@ -11,6 +11,7 @@ using System.Data;
 
 namespace Krypton.Toolkit
 {
+    [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
     internal partial class VisualMessageBoxRtlAwareFormDep : KryptonForm
     {
         #region Instance Fields
