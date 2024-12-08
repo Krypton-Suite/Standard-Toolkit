@@ -42,7 +42,7 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Default values
-            _groupBackStyle = PaletteBackStyle.ControlClient;
+            _groupBackStyle = PaletteBackStyle.PanelClient;
             _groupBorderStyle = PaletteBorderStyle.ControlClient;
         }
         #endregion
@@ -53,7 +53,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => ((GroupBackStyle == PaletteBackStyle.ControlClient) &&
+        public override bool IsDefault => ((GroupBackStyle == PaletteBackStyle.PanelClient) &&
                                              (GroupBorderStyle == PaletteBorderStyle.ControlClient));
 
         #endregion
@@ -64,7 +64,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Group back style.")]
-        //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+        //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
         public PaletteBackStyle GroupBackStyle
         {
             get => _groupBackStyle;

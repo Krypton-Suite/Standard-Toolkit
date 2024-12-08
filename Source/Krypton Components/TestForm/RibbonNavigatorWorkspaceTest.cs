@@ -224,8 +224,8 @@ namespace TestForm
                     eCell.Group.GroupBorderStyle = PaletteBorderStyle.ControlRibbon;
                     break;
                 default:
-                    eCell.PageBackStyle = PaletteBackStyle.ControlClient;
-                    eCell.Group.GroupBackStyle = PaletteBackStyle.ControlClient;
+                    eCell.PageBackStyle = PaletteBackStyle.PanelClient;
+                    eCell.Group.GroupBackStyle = PaletteBackStyle.PanelClient;
                     eCell.Group.GroupBorderStyle = PaletteBorderStyle.ControlClient;
                     break;
             }
