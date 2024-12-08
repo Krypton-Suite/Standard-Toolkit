@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
                                           [DisallowNull] PaletteRedirect redirectHeaderPrimary,
                                           [DisallowNull] PaletteRedirect redirectHeaderSecondary,
                                           NeedPaintHandler needPaint)
-            : base(redirectHeaderGroup, PaletteBackStyle.ControlClient, 
+            : base(redirectHeaderGroup, PaletteBackStyle.PanelClient, 
                    PaletteBorderStyle.ControlClient, needPaint)
         {
             Debug.Assert(redirectHeaderGroup != null);

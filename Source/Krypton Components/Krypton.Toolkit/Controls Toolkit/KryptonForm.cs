@@ -160,13 +160,6 @@ namespace Krypton.Toolkit
 
             // Create a null element that takes up all remaining space
             _layoutNull = new ViewLayoutNull();
-            //// Create the internal panel used for containing content
-            //Panel = new KryptonPanel(this, StateCommon, StateDisabled, StateNormal, OnPanelPaint!)
-            //{
-            //    // Make sure the panel back style always mimics our back style
-            //    PanelBackStyle = PaletteBackStyle.ControlClient
-            //};
-            //_layoutFill = new ViewLayoutFill(Panel);  // TODO For the Panel in a form
 
             // Create the root element that contains the title bar and null filler
             _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
