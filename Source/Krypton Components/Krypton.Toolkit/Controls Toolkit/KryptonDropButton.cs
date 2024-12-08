@@ -637,9 +637,11 @@ namespace Krypton.Toolkit
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
                     if (owner is VisualMessageBoxForm
-                        or VisualMessageBoxFormDep
                         or VisualMessageBoxRtlAwareForm
+#pragma warning disable CS0618 // Type or member is obsolete
+                        or VisualMessageBoxFormDep
                         or VisualMessageBoxRtlAwareFormDep)
+#pragma warning restore CS0618 // Type or member is obsolete
                     {
                         // need to gain access to `dialogResult` and set it forcefully
                         FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);

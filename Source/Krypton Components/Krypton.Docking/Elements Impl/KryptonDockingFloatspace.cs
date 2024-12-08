@@ -87,14 +87,10 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return DockingLocation.Floating;
-            }
-            else
-            {
-                return DockingLocation.None;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? DockingLocation.Floating
+                : DockingLocation.None;
         }
 
         /// <summary>
@@ -105,14 +101,10 @@ namespace Krypton.Docking
         public override IDockingElement? FindPageElement(string uniqueName)
         {
             KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? this
+                : null;
         }
 
         /// <summary>
