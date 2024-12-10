@@ -90,7 +90,21 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Background => _background.Back;
 
-        private bool ShouldSerializeBackground() => !_background.IsDefault;
+        private bool ShouldSerializeBackground() => !_background.Back.IsDefault;
+
+        #endregion
+
+        #region PaletteBorder
+        /// <summary>
+        /// Gets access to the data grid view background palette details.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining data grid view border appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public virtual PaletteBorder PaletteBorder => _background.Border;
+
+        private bool ShouldSerializePaletteBorder() => !_background.Border.IsDefault;
 
         #endregion
     }
