@@ -177,6 +177,9 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 ## V100.00 (2025-11-xx - Build 2511 - November 2025)
 There are list of changes that have occurred during the development of the V100.00 version
+* Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
+    - `ButtonSpecs` have been removed from the `KryptonRichTextBox`
+	- Use another layout to align in the designers
 * Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
     - Create Scaled Drop Glyph and use for colour button and comboDrops
     - Remove the `PaletteRedirectDropDownButton`

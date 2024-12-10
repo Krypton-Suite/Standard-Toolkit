@@ -640,38 +640,6 @@ namespace Krypton.Ribbon
         public override ToolTipValues ToolTipValues => RichTextBox!.ToolTipValues;
 
         /// <summary>
-        /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Should tooltips be Displayed for button specs.")]
-        [DefaultValue(false)]
-        public bool AllowButtonSpecToolTips
-        {
-            get => RichTextBox!.AllowButtonSpecToolTips;
-            set => RichTextBox!.AllowButtonSpecToolTips = value;
-        }
-
-        /// <summary>
-        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Should button spec tooltips should remove the parent tooltip")]
-        [DefaultValue(false)]
-        public bool AllowButtonSpecToolTipPriority
-        {
-            get => RichTextBox!.AllowButtonSpecToolTipPriority;
-            set => RichTextBox!.AllowButtonSpecToolTipPriority = value;
-        }
-
-        /// <summary>
-        /// Gets the collection of button specifications.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Collection of button specifications.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonRichTextBox.RichTextBoxButtonSpecCollection ButtonSpecs => RichTextBox!.ButtonSpecs;
-
-        /// <summary>
         /// Gets and sets if the control can redo a previously undo operation.
         /// </summary>
         [Browsable(false)]
@@ -735,7 +703,8 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [RefreshProperties(RefreshProperties.All)]
-        public string Rtf
+        [AllowNull]
+        public string? Rtf
         {
             get => RichTextBox!.Rtf;
             set => RichTextBox!.Rtf = value;
