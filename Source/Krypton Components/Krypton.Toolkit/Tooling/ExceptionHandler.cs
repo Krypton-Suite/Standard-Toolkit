@@ -36,34 +36,42 @@ namespace Krypton.Toolkit
         /// <param name="lineNumber">The line number.</param>
         /// <param name="callerMethod">The calling method.</param>
         /// <param name="showStackTrace">Show the stack trace.</param>
+        /// <param name="useExceptionDialog">Use a <see cref="KryptonExceptionDialog"/> to display the exception. Set to true by default.</param>
         public static void CaptureException(
             Exception exception, 
             string title = "Exception Caught",
             [CallerFilePath] string callerFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string callerMethod = "", 
-            bool showStackTrace = false)
+            bool showStackTrace = false, bool? useExceptionDialog = true)
         {
-            StringBuilder messageBuilder = new StringBuilder();
-
-            messageBuilder.Append($"An unexpected error has occurred:\r\n\r\n");
-            messageBuilder.Append($"Class: {callerFilePath}\r\n");
-            messageBuilder.Append($"Method: {callerMethod}\r\n");
-            messageBuilder.Append($"Line: {lineNumber}\r\n");
-            messageBuilder.Append($"Message: {exception.Message}\r\n\r\n");
-
-            if (showStackTrace)
+            if (useExceptionDialog is not null or true)
             {
-                messageBuilder.Append($"Stacktrace:\r\n{exception.StackTrace}\r\n");
+                KryptonExceptionDialog.Show(exception);
             }
+            else
+            {
+                var messageBuilder = new StringBuilder();
 
-            string message = messageBuilder.ToString();
+                messageBuilder.Append($"An unexpected error has occurred:\r\n\r\n");
+                messageBuilder.Append($"Class: {callerFilePath}\r\n");
+                messageBuilder.Append($"Method: {callerMethod}\r\n");
+                messageBuilder.Append($"Line: {lineNumber}\r\n");
+                messageBuilder.Append($"Message: {exception.Message}\r\n\r\n");
 
-            KryptonMessageBoxButtons okButton = KryptonMessageBoxButtons.OK;
+                if (showStackTrace)
+                {
+                    messageBuilder.Append($"Stacktrace:\r\n{exception.StackTrace}\r\n");
+                }
 
-            KryptonMessageBoxIcon exceptionIcon = KryptonMessageBoxIcon.Error;
+                var message = messageBuilder.ToString();
 
-            KryptonMessageBox.Show(message, title, okButton, exceptionIcon, showCtrlCopy: true);
+                var okButton = KryptonMessageBoxButtons.OK;
+
+                var exceptionIcon = KryptonMessageBoxIcon.Error;
+
+                KryptonMessageBox.Show(message, title, okButton, exceptionIcon, showCtrlCopy: true);
+            }
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>

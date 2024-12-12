@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull, MaybeNull]
+        //[AllowNull, MaybeNull]
         public override DataGridViewCell CellTemplate
         {
             // base.CellTemplate can be null for getter and setter

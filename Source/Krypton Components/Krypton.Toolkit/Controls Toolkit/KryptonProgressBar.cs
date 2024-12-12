@@ -829,7 +829,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull, MaybeNull]
+        //[AllowNull, MaybeNull]
         public override Image BackgroundImage
         {
             get => base.BackgroundImage;
@@ -889,7 +889,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull, MaybeNull]
+        //[AllowNull, MaybeNull]
         public override ContextMenuStrip ContextMenuStrip
         {
             get => base.ContextMenuStrip!;

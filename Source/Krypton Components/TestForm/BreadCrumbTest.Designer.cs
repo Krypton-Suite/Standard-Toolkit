@@ -70,14 +70,13 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1102, 630);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1104, 624);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonNavigator1
             // 
             this.kryptonNavigator1.ControlKryptonFormFeatures = false;
             this.kryptonNavigator1.Location = new System.Drawing.Point(426, 13);
-            this.kryptonNavigator1.Name = "kryptonNavigator1";
             this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonNavigator1.Owner = null;
             this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
@@ -96,7 +95,7 @@ namespace TestForm
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(150, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(656, 239);
+            this.kryptonPage1.Size = new System.Drawing.Size(656, 238);
             this.kryptonPage1.Text = "kryptonPage1";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "e1a692ea0e18480aa2ed26f6e2ee01ff";
@@ -117,7 +116,6 @@ namespace TestForm
             // 
             this.kryptonSplitContainer1.Cursor = System.Windows.Forms.Cursors.Default;
             this.kryptonSplitContainer1.Location = new System.Drawing.Point(13, 58);
-            this.kryptonSplitContainer1.Name = "kryptonSplitContainer1";
             this.kryptonSplitContainer1.Size = new System.Drawing.Size(359, 150);
             this.kryptonSplitContainer1.SplitterDistance = 119;
             this.kryptonSplitContainer1.TabIndex = 2;
@@ -128,6 +126,7 @@ namespace TestForm
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton1.TabIndex = 1;
+            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "kryptonButton1";
             // 
             // kryptonBreadCrumb1
@@ -169,7 +168,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1102, 630);
+            this.ClientSize = new System.Drawing.Size(1104, 624);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "BreadCrumbTest";
             this.Text = "Form2";
