@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         /// <summary>Creates the node from exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <returns>The <see cref="KryptonTreeView"/> node structure.</returns>
-        private TreeNode CreateNodeFromException([AllowNull]Exception exception)
+        private TreeNode CreateNodeFromException(Exception? exception)
         {
             var rootNode = new TreeNode($"{exception?.GetType().Name}: {exception?.Message}")
             {

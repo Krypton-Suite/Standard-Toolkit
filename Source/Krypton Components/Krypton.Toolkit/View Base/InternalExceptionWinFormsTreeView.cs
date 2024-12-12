@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
         #region Public Override
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font { get; set; }
 
         #endregion
