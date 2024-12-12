@@ -19,6 +19,13 @@ namespace Krypton.Toolkit
         private const string DEFAULT_EXCEPTION_DIALOG_WINDOW_TITLE = @"Exception Caught";
         private const string DEFAULT_EXCEPTION_DIALOG_EXCEPTION_OUTLINE_HEADER = @"Exception Outline";
         private const string DEFAULT_EXCEPTION_DIALOG_EXCEPTION_DETAILS_HEADER = @"Exception Details";
+        private const string DEFAULT_EXCEPTION_DIALOG_MORE_DETAILS = @"Please select another node to view more details.";
+        private const string DEFAULT_EXCEPTION_DIALOG_TYPE = @"Type";
+        private const string DEFAULT_EXCEPTION_DIALOG_INNER_EXCEPTION = @"Inner Exception";
+        private const string DEFAULT_EXCEPTION_DIALOG_MESSAGE = @"Message";
+        private const string DEFAULT_EXCEPTION_DIALOG_STACK_TRACE = @"Stack Trace";
+        private const string DEFAULT_EXCEPTION_DIALOG_NONE = @"None";
+        private const string DEFAULT_EXCEPTION_DIALOG_DATA = @"Data";
 
         #endregion
 
@@ -45,46 +52,102 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => WindowTitle.Equals(DEFAULT_EXCEPTION_DIALOG_WINDOW_TITLE) &&
                                  ExceptionDetailsHeader.Equals(DEFAULT_EXCEPTION_DIALOG_EXCEPTION_DETAILS_HEADER) &&
-                                 ExceptionOutlineHeader.Equals(DEFAULT_EXCEPTION_DIALOG_EXCEPTION_OUTLINE_HEADER);
+                                 ExceptionOutlineHeader.Equals(DEFAULT_EXCEPTION_DIALOG_EXCEPTION_OUTLINE_HEADER) &&
+                                 MoreDetails.Equals(DEFAULT_EXCEPTION_DIALOG_MORE_DETAILS) &&
+                                 Type.Equals(DEFAULT_EXCEPTION_DIALOG_TYPE) &&
+                                 InnerException.Equals(DEFAULT_EXCEPTION_DIALOG_INNER_EXCEPTION) &&
+                                 Message.Equals(DEFAULT_EXCEPTION_DIALOG_MESSAGE) &&
+                                 StackTrace.Equals(DEFAULT_EXCEPTION_DIALOG_STACK_TRACE) &&
+                                 None.Equals(DEFAULT_EXCEPTION_DIALOG_NONE) &&
+                                 Data.Equals(DEFAULT_EXCEPTION_DIALOG_DATA);
 
         #endregion
 
         #region Public
 
-        /// <summary>
-        /// Gets and sets the collapse text on the expand button.
-        /// </summary>
+        /// <summary>Gets or sets the window title for the exception dialog.</summary>
+        /// <value>The window title.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"Collapse text on the expand button.")]
+        [Description(@"The window title for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_WINDOW_TITLE)]
         [RefreshProperties(RefreshProperties.All)]
         public string WindowTitle { get; set; }
 
-        /// <summary>
-        /// Gets and sets the collapse text on the expand button.
-        /// </summary>
+        /// <summary>Gets or sets the exception details header for the exception dialog.</summary>
+        /// <value>The exception details header.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"Collapse text on the expand button.")]
+        [Description(@"The exception details header for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_EXCEPTION_DETAILS_HEADER)]
         [RefreshProperties(RefreshProperties.All)]
         public string ExceptionDetailsHeader { get; set; }
 
-        /// <summary>
-        /// Gets and sets the collapse text on the expand button.
-        /// </summary>
+        /// <summary>Gets or sets the exception outline header for the exception dialog.</summary>
+        /// <value>The exception outline header.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"Collapse text on the expand button.")]
+        [Description(@"The exception outline header for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_EXCEPTION_OUTLINE_HEADER)]
         [RefreshProperties(RefreshProperties.All)]
         public string ExceptionOutlineHeader { get; set; }
+
+        /// <summary>Gets or sets the more details when specific <see cref="TreeNode"/> are clicked.</summary>
+        /// <value>The more details.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The more details when specific TreeNodes are clicked.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_MORE_DETAILS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string MoreDetails { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_TYPE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Type { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_INNER_EXCEPTION)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InnerException { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_MESSAGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Message { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_STACK_TRACE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string StackTrace { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_NONE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string None { get; set; }
+
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The exception outline header for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_DATA)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Data { get; set; }
 
         #endregion
 
         #region Implementation
 
+        /// <summary>Resets the strings.</summary>
         public void Reset()
         {
             ExceptionDetailsHeader = DEFAULT_EXCEPTION_DIALOG_EXCEPTION_DETAILS_HEADER;
@@ -92,6 +155,20 @@ namespace Krypton.Toolkit
             ExceptionOutlineHeader = DEFAULT_EXCEPTION_DIALOG_EXCEPTION_OUTLINE_HEADER;
 
             WindowTitle = DEFAULT_EXCEPTION_DIALOG_WINDOW_TITLE;
+
+            Message = DEFAULT_EXCEPTION_DIALOG_MESSAGE;
+
+            MoreDetails = DEFAULT_EXCEPTION_DIALOG_MORE_DETAILS;
+
+            Type = DEFAULT_EXCEPTION_DIALOG_TYPE;
+
+            InnerException = DEFAULT_EXCEPTION_DIALOG_INNER_EXCEPTION;
+
+            StackTrace = DEFAULT_EXCEPTION_DIALOG_STACK_TRACE;
+
+            None = DEFAULT_EXCEPTION_DIALOG_NONE;
+
+            Data = DEFAULT_EXCEPTION_DIALOG_DATA;
         }
 
         #endregion

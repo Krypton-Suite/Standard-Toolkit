@@ -19,18 +19,24 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        public VisualExceptionDialogForm(Exception exception, bool? showCopyButton)
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="VisualExceptionDialogForm" /> class.</summary>
+        /// <param name="showCopyButton">The show copy button.</param>
+        /// <param name="exception">The exception.</param>
+        public VisualExceptionDialogForm(bool? showCopyButton, Exception? exception)
         {
             SetInheritedControlOverride();
-
             InitializeComponent();
-
-            _showCopyButton = showCopyButton ?? true;
-
+            _showCopyButton = showCopyButton;
             _exception = exception;
 
             SetupUI();
         }
+
+        #endregion
+
+        #region Implementation
 
         private void SetupUI()
         {
@@ -45,47 +51,62 @@ namespace Krypton.Toolkit
             kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
             kbtnCopy.Visible = _showCopyButton ?? true;
+
+            if (_exception is not null)
+            {
+                etvExceptionOutline.Populate(_exception);
+            }
         }
 
         private void VisualExceptionDialogForm_Load(object sender, EventArgs e)
         {
-            if (_exception is not null)
+
+        }
+
+        private void etvExceptionOutline_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // Display the selected exception's details in the RichTextBox
+            var selectedException = etvExceptionOutline.SelectedException;
+
+            if (e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.InnerException ||
+                e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.StackTrace)
             {
-                ketvExceptionOutline.Populate(_exception);
+                rtbExceptionDetails.Text = KryptonManager.Strings.ExceptionDialogStrings.MoreDetails;
+            }
+            else 
+            {
+                rtbExceptionDetails.Text = selectedException != null ? FormatExceptionDetails(selectedException) : e.Node.Text; // Display general node text if no exception is associated
             }
         }
 
-        private void ketvExceptionOutline_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            // Display the selected exception's details in the RichTextBox
-            var selectedException = ketvExceptionOutline.SelectedException;
-            
-            // Display general node text if no exception is associated
-            krtbExceptionDetails.Text = selectedException != null ? FormatExceptionDetails(selectedException) : e.Node.Text;
-        }
-
-        private string FormatExceptionDetails(Exception exception) =>
-            // Format exception details
-            $"Type: {exception.GetType().Name}\n" +
-            $"Message: {exception.Message}\n\n" +
-            $"Stack Trace:\n{exception.StackTrace}\n\n" +
-            $"Inner Exception:\n{(exception.InnerException != null ? exception.InnerException.Message : "None")}\n";
-
         private void kbtnCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(krtbExceptionDetails.Text);
+            Clipboard.SetText(rtbExceptionDetails.Text);
         }
 
         private void kbtnOk_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.OK;
         }
+
+        private static string FormatExceptionDetails(Exception exception) =>
+            // Format exception details
+            $"{KryptonManager.Strings.ExceptionDialogStrings.Type}: {exception.GetType().Name}\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.Message}: {exception.Message}\n\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
+
+        #endregion
+
+        #region Show
 
         internal static void Show(Exception exception, bool? showCopyButton)
         {
-            using var ked = new VisualExceptionDialogForm(exception, showCopyButton);
+            using var ved = new VisualExceptionDialogForm(showCopyButton, exception);
 
-            ked.ShowDialog();
+            ved.ShowDialog();
         }
     }
+
+    #endregion
 }
