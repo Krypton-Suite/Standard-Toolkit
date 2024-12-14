@@ -28,6 +28,8 @@ namespace Krypton.Toolkit
         private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteRedirectTriple _redirectHeading;
+        private string _text;
+
         #endregion
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0067 // Event is never used
         private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
 #pragma warning restore CS0067 // Event is never used
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuHeading class.
@@ -66,6 +69,7 @@ namespace Krypton.Toolkit
                                                      PaletteBackStyle.ContextMenuHeading,
                                                      PaletteBorderStyle.ContextMenuHeading,
                                                      PaletteContentStyle.ContextMenuHeading);
+            _text = initialText;
         }
 
         /// <summary>
@@ -139,10 +143,18 @@ namespace Krypton.Toolkit
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(@"Heading")]
-        public override string Text
+        public string Text
         {
-            get => base.Text;
-            set => base.Text = value;
+            get => _text;
+
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+                }
+            }
         }
 
         /// <summary>
