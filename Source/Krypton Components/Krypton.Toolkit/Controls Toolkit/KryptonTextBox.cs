@@ -32,6 +32,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonTextBox _kryptonTextBox;
             private bool _mouseOver;
+
             #endregion
 
             #region Events
@@ -144,6 +145,8 @@ namespace Krypton.Toolkit
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
+                            var textRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                rect.bottom - rect.top);
 
                             // Create rect for the text area
                             Size borderSize = SystemInformation.BorderSize;
@@ -155,7 +158,7 @@ namespace Krypton.Toolkit
                             {
                                 // Go perform the drawing of the CueHint
                                 using var backBrush = new SolidBrush(BackColor);
-                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
+                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, textRectangle, backBrush);
                             }
                             else
                             {
@@ -163,8 +166,7 @@ namespace Krypton.Toolkit
                                 {
                                     // Draw entire client area in the background color
                                     g.FillRectangle(backBrush,
-                                        new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                            rect.bottom - rect.top));
+                                        textRectangle);
                                 }
 
                                 // If enabled then let the combo draw the text area
@@ -229,8 +231,7 @@ namespace Krypton.Toolkit
                                     {
                                         using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString, Font, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
-                                                rect.bottom - rect.top),
+                                            textRectangle,
                                             stringFormat);
                                     }
                                     catch (ArgumentException)
@@ -239,8 +240,7 @@ namespace Krypton.Toolkit
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
                                                 .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
-                                                rect.bottom - rect.top),
+                                            textRectangle,
                                             stringFormat);
                                     }
                                 }
