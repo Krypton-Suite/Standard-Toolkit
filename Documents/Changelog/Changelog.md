@@ -3,9 +3,11 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Implemented [#1928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1928), A proper exception dialog
+	- To invoke, use `KryptonExceptionDialog`
 * Implemented [#519](https://github.com/Krypton-Suite/Standard-Toolkit/issues/519), `PaletteDataGridViewAll` does not expose the border value of the `private readonly PaletteDouble _background`
 * Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
-    - `ButtonSpecs` have been removed from the `KryptonRichTextBox`
+	- `ButtonSpecs` have been removed from the `KryptonRichTextBox`
 	- Use another layout to align in the designers
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
 * Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
@@ -15,10 +17,10 @@
 * Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1900), Remove Obsolete `KryptonMessageBoxDep` from V100 code base
 * Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
 * Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-    - Create Scaled Drop Glyph and use for colour button and comboDrops
-    - Remove the `PaletteRedirectDropDownButton`
-    - Remove `KryptonPaletteImagesDropDownButton`
-    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers
 * Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
 * Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
 * Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
@@ -39,14 +41,14 @@
 * Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1900), Obsolete `KryptonMessageBoxDep` in V95 code base
 * Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
 * Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-    - Create Scaled Drop Glyph and use for colour button and comboDrops
-    - Remove the `PaletteRedirectDropDownButton`
-    - Remove `KryptonPaletteImagesDropDownButton`
-    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
 * Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
 * Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
 * Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
-* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect#
+* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
 * Resolved [#1865](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1865), Outlook Mockup Error (thanks to [AngeloCresta](https://github.com/AngeloCresta))
 * Resolved [#1862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1862), `VisualPanel.PaintTransparentBackground()` throws a null reference exception
 * Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
@@ -218,10 +220,10 @@
 * Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`
 * Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
 * Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
-    - Create Scaled Drop Glyph and use for colour button and comboDrops
-    - Remove the `PaletteRedirectDropDownButton`
-    - Remove `KryptonPaletteImagesDropDownButton`
-    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 * Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
 
