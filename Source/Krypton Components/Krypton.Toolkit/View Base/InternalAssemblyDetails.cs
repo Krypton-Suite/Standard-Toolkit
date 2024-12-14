@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class InternalAssemblyDetails : UserControl
+    internal partial class InternalAssemblyDetails : UserControl
     {
         public InternalAssemblyDetails()
         {

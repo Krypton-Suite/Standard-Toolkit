@@ -149,7 +149,7 @@ namespace TestForm
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(1067, 475);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1099, 475);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonButton2
@@ -251,13 +251,15 @@ namespace TestForm
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
             this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(527, 425);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(559, 425);
             this.kryptonPropertyGrid1.TabIndex = 2;
             // 
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010Black;
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
             // menuStrip1
             // 
@@ -271,7 +273,7 @@ namespace TestForm
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1067, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1099, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -543,7 +545,7 @@ namespace TestForm
             this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel2.Size = new System.Drawing.Size(1067, 66);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1099, 66);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonLabel2
@@ -567,7 +569,7 @@ namespace TestForm
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 17, 0);
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(1067, 36);
+            this.statusStrip1.Size = new System.Drawing.Size(1099, 36);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -776,7 +778,8 @@ namespace TestForm
             // 
             // kryptonCustomPaletteBase1
             // 
-            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonCustomPaletteBase1.BaseRenderMode = Krypton.Toolkit.RendererMode.Office2010;
             this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // ThemeTest
@@ -797,7 +800,7 @@ namespace TestForm
             this.ButtonSpecs.Add(this.buttonSpecAny13);
             this.ButtonSpecs.Add(this.buttonSpecAny14);
             this.ButtonSpecs.Add(this.buttonSpecAny15);
-            this.ClientSize = new System.Drawing.Size(1067, 577);
+            this.ClientSize = new System.Drawing.Size(1099, 577);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.statusStrip1);

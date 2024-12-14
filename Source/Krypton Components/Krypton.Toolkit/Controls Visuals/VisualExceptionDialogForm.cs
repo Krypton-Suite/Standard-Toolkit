@@ -56,6 +56,15 @@ namespace Krypton.Toolkit
             {
                 etvExceptionOutline.Populate(_exception);
             }
+
+            if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))
+            {
+                GeneralToolkitUtilities.AdjustFormDimensions(this, 900, 650);
+            }
+            else
+            {
+                GeneralToolkitUtilities.AdjustFormDimensions(this, 1070, 656);
+            }
         }
 
         private void VisualExceptionDialogForm_Load(object sender, EventArgs e)

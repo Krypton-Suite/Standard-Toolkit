@@ -391,9 +391,9 @@ namespace TestForm
             {
                 throw new ArgumentOutOfRangeException();
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                KryptonExceptionDialog.Show(exception);
+                KryptonExceptionDialog.Show(ex);
             }
         }
     }

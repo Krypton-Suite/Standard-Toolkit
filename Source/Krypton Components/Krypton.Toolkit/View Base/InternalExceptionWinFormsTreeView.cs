@@ -38,17 +38,18 @@ namespace Krypton.Toolkit
 
         public void Populate(Exception? exception)
         {
-            this.Nodes.Clear(); // Clear existing nodes
+            Nodes.Clear(); // Clear existing nodes
             if (exception != null)
             {
                 TreeNode rootNode = CreateNodeFromException(exception);
-                this.Nodes.Add(rootNode);
+                
+                Nodes.Add(rootNode);
             }
         }
 
         private TreeNode CreateNodeFromException(Exception? exception)
         {
-            TreeNode rootNode = new TreeNode($"{exception.GetType().Name}: {exception.Message}")
+            TreeNode rootNode = new TreeNode($"{exception?.GetType().Name}: {exception!.Message}")
             {
                 Tag = exception // Store the exception in the Tag property
             };
@@ -57,7 +58,33 @@ namespace Krypton.Toolkit
             if (!string.IsNullOrWhiteSpace(exception.StackTrace))
             {
                 TreeNode stackTraceNode = new TreeNode(KryptonManager.Strings.ExceptionDialogStrings.StackTrace);
+
+                var stackTrace = new StackTrace(exception, true);
+
+                var frames = stackTrace.GetFrames();
+
+                if (frames is not null)
+                {
+                    foreach (var frame in frames)
+                    {
+                        var method = frame.GetMethod();
+
+                        var fileName = frame.GetFileName();
+
+                        var lineNumber = frame.GetFileLineNumber();
+
+                        string frameInfo = $"at {method?.DeclaringType?.FullName}.{method?.Name}";
+                        if (!string.IsNullOrEmpty(fileName))
+                        {
+                            frameInfo += $" in {fileName}:line {lineNumber}";
+                        }
+
+                        stackTraceNode.Nodes.Add(new TreeNode(frameInfo));
+                    }
+                }
+
                 stackTraceNode.Nodes.Add(exception.StackTrace);
+
                 rootNode.Nodes.Add(stackTraceNode);
             }
 
@@ -81,6 +108,13 @@ namespace Krypton.Toolkit
             }
 
             return rootNode;
+        }
+
+        private string? ExtractLineNumberFromStackTrace(string stackTrace)
+        {
+            // Use regex to parse the stack trace and extract the line number
+            var match = Regex.Match(stackTrace, @"\bline (\d+)\b");
+            return match.Success ? match.Groups[1].Value : null;
         }
 
         #endregion

@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_EXCEPTION_DIALOG_STACK_TRACE = @"Stack Trace";
         private const string DEFAULT_EXCEPTION_DIALOG_NONE = @"None";
         private const string DEFAULT_EXCEPTION_DIALOG_DATA = @"Data";
+        private const string DEFAULT_EXCEPTION_DIALOG_LINE = @"Line";
 
         #endregion
 
@@ -59,7 +60,8 @@ namespace Krypton.Toolkit
                                  Message.Equals(DEFAULT_EXCEPTION_DIALOG_MESSAGE) &&
                                  StackTrace.Equals(DEFAULT_EXCEPTION_DIALOG_STACK_TRACE) &&
                                  None.Equals(DEFAULT_EXCEPTION_DIALOG_NONE) &&
-                                 Data.Equals(DEFAULT_EXCEPTION_DIALOG_DATA);
+                                 Data.Equals(DEFAULT_EXCEPTION_DIALOG_DATA) &&
+                                 Line.Equals(DEFAULT_EXCEPTION_DIALOG_LINE);
 
         #endregion
 
@@ -101,16 +103,20 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string MoreDetails { get; set; }
 
+        /// <summary>Gets or sets the type text.</summary>
+        /// <value>The type text.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"The exception outline header for the exception dialog.")]
+        [Description(@"The exception type text for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_TYPE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Type { get; set; }
 
+        /// <summary>Gets or sets the inner exception text.</summary>
+        /// <value>The inner exception text.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"The exception outline header for the exception dialog.")]
+        [Description(@"The exception inner exception text for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_INNER_EXCEPTION)]
         [RefreshProperties(RefreshProperties.All)]
         public string InnerException { get; set; }
@@ -122,16 +128,20 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Message { get; set; }
 
+        /// <summary>Gets or sets the stack trace node text.</summary>
+        /// <value>The stack trace node text.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"The exception outline header for the exception dialog.")]
+        [Description(@"The stack trace node text for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_STACK_TRACE)]
         [RefreshProperties(RefreshProperties.All)]
         public string StackTrace { get; set; }
 
+        /// <summary>Gets or sets the 'None' text.</summary>
+        /// <value>The 'None' text.</value>
         [Localizable(true)]
         [Category(@"Values")]
-        [Description(@"The exception outline header for the exception dialog.")]
+        [Description(@"The 'None' text for the exception dialog.")]
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_NONE)]
         [RefreshProperties(RefreshProperties.All)]
         public string None { get; set; }
@@ -142,6 +152,15 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_DATA)]
         [RefreshProperties(RefreshProperties.All)]
         public string Data { get; set; }
+
+        /// <summary>Gets or sets the 'Line' text.</summary>
+        /// <value>The 'Line' text.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The 'Line' text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_LINE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Line { get; set; }
 
         #endregion
 
@@ -169,6 +188,8 @@ namespace Krypton.Toolkit
             None = DEFAULT_EXCEPTION_DIALOG_NONE;
 
             Data = DEFAULT_EXCEPTION_DIALOG_DATA;
+
+            Line = DEFAULT_EXCEPTION_DIALOG_LINE;
         }
 
         #endregion
