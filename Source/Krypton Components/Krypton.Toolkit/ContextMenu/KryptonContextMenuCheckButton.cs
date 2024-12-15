@@ -33,6 +33,8 @@ namespace Krypton.Toolkit
         private Color _imageTransparentColor;
         private ButtonStyle _style;
         private KryptonCommand? _command;
+        private string _text;
+
         #endregion
 
         #region Events
@@ -56,7 +58,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuCheckButton class.
         /// </summary>
         public KryptonContextMenuCheckButton()
-            : this("CheckButton")
+            : this(nameof(CheckBox))
         {
         }
 
@@ -178,11 +180,20 @@ namespace Krypton.Toolkit
         [Description(@"Main check box text.")]
         [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
-        public override string Text
+        public string Text
         {
-            get => base.Text;
-            set => base.Text = value;
+            get => _text;
+
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+                }
+            }
         }
+
 
         /// <summary>
         /// Gets and sets the check box extra text.
