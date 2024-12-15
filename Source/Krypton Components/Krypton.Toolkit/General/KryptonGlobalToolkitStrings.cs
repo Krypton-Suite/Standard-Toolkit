@@ -168,6 +168,11 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static KryptonAboutBoxStrings KryptonAboutBoxStrings { get; } = new KryptonAboutBoxStrings();
 
+        /// <summary>Gets the exception dialog strings.</summary>
+        /// <value>The exception dialog strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonExceptionDialogStrings KryptonExceptionDialogStrings { get; } = new KryptonExceptionDialogStrings();
+
         /// <summary>Gets the miscellaneous theme strings.</summary>
         /// <value>The miscellaneous theme strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -482,6 +487,17 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeAboutBoxStrings() => !KryptonAboutBoxStrings.IsDefault;
         private void ResetAboutBoxStrings() => KryptonAboutBoxStrings.Reset();
 
+        /// <summary>Gets the krypton exception dialog strings.</summary>
+        /// <value>The krypton exception dialog strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of exception dialog strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonExceptionDialogStrings ExceptionDialogStrings => KryptonExceptionDialogStrings;
+        private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
+        private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
+
         /// <summary>Gets the krypton miscellaneous theme strings.</summary>
         /// <value>The krypton miscellaneous theme strings.</value>
         [Category(@"Visuals")]
@@ -630,6 +646,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                                   ShouldSerializeExceptionDialogStrings() ||
                                    ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                    ShouldSerializeButtonOrientationStrings() ||
                                    ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
@@ -656,6 +673,7 @@ namespace Krypton.Toolkit
         {
             ResetAboutBoxBasicStrings();
             ResetAboutBoxStrings();
+            ResetExceptionDialogStrings();
             ResetBackStyleStrings();
             ResetBorderStyleStrings();
             ResetButtonOrientationStrings();

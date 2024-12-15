@@ -7,6 +7,7 @@
  */
 #endregion
 
+using System.CodeDom;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -382,6 +383,18 @@ namespace TestForm
         private void kryptonButton15_Click(object sender, EventArgs e)
         {
             new PanelForm().ShowDialog(this);
+        }
+
+        private void kbtnExceptionDialog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            catch (Exception ex)
+            {
+                KryptonExceptionDialog.Show(ex);
+            }
         }
     }
 }
