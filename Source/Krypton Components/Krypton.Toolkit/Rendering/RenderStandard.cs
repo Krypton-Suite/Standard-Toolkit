@@ -1252,8 +1252,9 @@ namespace Krypton.Toolkit
             var col1 = col0 + colWidths[0];
 
             // Do we need to add a spacing gap after the first column?
-            if (((colWidths[0] > 0) && (colWidths[1] > 0)) ||
-                ((colWidths[0] > 0) && (colWidths[1] == 0) && (colWidths[2] > 0)))
+            if (((colWidths[0] > 0) && (colWidths[1] > 0)) 
+                || ((colWidths[0] > 0) && (colWidths[1] == 0) && (colWidths[2] > 0))
+                )
             {
                 col1 += spacingGap;
             }

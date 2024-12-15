@@ -48,12 +48,6 @@ namespace Krypton.Toolkit
 
             var scaleFactor = new SizeF(factorDpiX, factorDpiY);
 
-            // if the scale is the same then no further processing needed (we are at 96 dpi).
-            if (scaleFactor is { Width: 1.0F, Height: 1.0F })
-            {
-                return;
-            }
-
             // suspend palette updates
             pal.SuspendUpdates();
 
@@ -104,7 +98,7 @@ namespace Krypton.Toolkit
             cm.Indeterminate = GetScaledImage(cm.Indeterminate, scaleFactor);
             cm.SubMenu = GetScaledImage(cm.SubMenu, scaleFactor);
             // GalleryButtons
-            // I'm not using these so I'm skipping it
+            // I'm not using GalleryButtons, so I'm skipping them
             // Radio Buttons
             KryptonPaletteImagesRadioButton rb = pal.Images.RadioButton;
             rb.CheckedDisabled = GetScaledImage(rb.CheckedDisabled, scaleFactor);

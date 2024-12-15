@@ -36,6 +36,8 @@ namespace Krypton.Toolkit
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
         private KryptonCommand? _command;
         private LabelStyle _style;
+        private string _text;
+
         #endregion
 
         #region Events
@@ -184,10 +186,18 @@ namespace Krypton.Toolkit
         [Description(@"Main check box text.")]
         [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
-        public override string Text
+        public string Text
         {
-            get => base.Text;
-            set => base.Text = value;
+            get => _text;
+
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+                }
+            }
         }
 
         /// <summary>
