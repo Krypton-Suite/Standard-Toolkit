@@ -12,6 +12,8 @@
  */
 #endregion
 
+using static Krypton.Toolkit.HeaderValuesBase;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -537,10 +539,21 @@ namespace Krypton.Ribbon
                                                                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonSpecManager.ToolTipManager = ToolTipManager;
+        }
+
+        private float GetDpiFactor()
+        {
+            return (_visualPopupToolTip != null)
+#if NET462
+                ? PI.GetDpiForWindow(_visualPopupToolTip.Handle) / 96F
+#else
+                ? _visualPopupToolTip.DeviceDpi / 96F
+#endif
+                : 1F;
         }
 
         private void SetupParentMonitoring()

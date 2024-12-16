@@ -102,9 +102,9 @@ namespace Krypton.Toolkit
             _visibleSecondary = true;
 
             // Create storage objects
-            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate);
+            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate, GetDpiFactor);
             ValuesPrimary.TextChanged += OnHeaderGroupTextChanged;
-            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate);
+            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate, GetDpiFactor);
             ButtonSpecs = new HeaderGroupButtonSpecCollection(this);
 
             // We need to monitor button spec click events
@@ -206,6 +206,17 @@ namespace Krypton.Toolkit
             _headerPrimaryCornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             _headerSecondaryCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+        }
+
+        private float GetDpiFactor()
+        {
+            return (Panel != null)
+#if NET462
+                ? PI.GetDpiForWindow(Panel.Handle) / 96F
+#else
+                ? Panel.DeviceDpi / 96F
+#endif
+                : 1f;
         }
 
         /// <summary>

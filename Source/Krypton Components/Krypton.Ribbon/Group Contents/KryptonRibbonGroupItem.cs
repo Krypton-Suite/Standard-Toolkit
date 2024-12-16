@@ -12,6 +12,8 @@
  */
 #endregion
 
+using static Krypton.Toolkit.HeaderValuesBase;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -40,8 +42,19 @@ namespace Krypton.Ribbon
         /// Initialise a new instance of the KryptonRibbonGroupItem class.
         /// </summary>
         protected KryptonRibbonGroupItem() =>
-            // Do the Tooltip Magic
-            _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/); // Must be replaced by appropriate call
+        // Do the Tooltip Magic
+            _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/, GetDpiFactor); // Must be replaced by appropriate call
+
+        private float GetDpiFactor()
+        {
+            return (Ribbon != null)
+#if NET462
+                ? PI.GetDpiForWindow(Ribbon.Handle) / 96F
+#else
+                ? Ribbon.DeviceDpi / 96F
+#endif
+                : 1.0f;
+        }
 
         #endregion Identity
 

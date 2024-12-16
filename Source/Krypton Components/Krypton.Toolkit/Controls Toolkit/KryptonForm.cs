@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
                                                        OnButtonManagerNeedPaint!);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -199,6 +199,17 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
+        }
+
+        private float GetDpiFactor()
+        {
+            return (_visualPopupToolTip != null)
+#if NET462
+                ? PI.GetDpiForWindow(_visualPopupToolTip.Handle) / 96F
+#else
+                ? _visualPopupToolTip.DeviceDpi / 96F
+#endif
+                : 1F;
         }
 
         /// <summary>

@@ -22,12 +22,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the HeaderGroupValuesSecondary class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public HeaderGroupValuesSecondary(NeedPaintHandler needPaint)
-            : base(needPaint)
+        /// <param name="getDpiFactor"></param>
+        public HeaderGroupValuesSecondary(NeedPaintHandler needPaint, GetDpiFactor getDpiFactor)
+            : base(needPaint, getDpiFactor)
         {
         }
         #endregion

@@ -88,8 +88,7 @@ namespace Krypton.Toolkit
             if (e.message == PI.WM_.INITDIALOG)
             {
 #if NET462
-                using var g  = _commonDialogHandler._wrapperForm.CreateGraphics();
-                _scaleFactor = g.DpiX / 96.0f;
+                _scaleFactor = PI.GetDpiForWindow(_commonDialogHandler._wrapperForm.Handle) / 96F;
 #else
                 _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
 #endif
@@ -178,7 +177,7 @@ namespace Krypton.Toolkit
             return true;
         }
 
-        #endregion Do_CBT
+#endregion Do_CBT
 
         /// <summary>
         ///  Runs a common dialog box, parented to the given IWin32Window.

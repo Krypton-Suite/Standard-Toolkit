@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTipPriority = false;
 
             // Create storage objects
-            Values = new HeaderValues(NeedPaintDelegate);
+            Values = new HeaderValues(NeedPaintDelegate, GetDpiFactor);
             Values.TextChanged += OnHeaderTextChanged;
             ButtonSpecs = new HeaderButtonSpecCollection(this);
 
@@ -108,6 +108,15 @@ namespace Krypton.Toolkit
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+        }
+
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
         }
 
         /// <summary>
