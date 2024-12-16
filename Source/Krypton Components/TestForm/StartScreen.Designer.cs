@@ -116,6 +116,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnBreadCrumb);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(440, 550);
             this.kryptonPanel1.TabIndex = 0;
@@ -144,7 +145,7 @@ namespace TestForm
             // 
             this.kbtnRibbonNavigatorWorkspace.Location = new System.Drawing.Point(13, 350);
             this.kbtnRibbonNavigatorWorkspace.Name = "kbtnRibbonNavigatorWorkspace";
-            this.kbtnRibbonNavigatorWorkspace.Size = new System.Drawing.Size(204, 25);
+            this.kbtnRibbonNavigatorWorkspace.Size = new System.Drawing.Size(272, 31);
             this.kbtnRibbonNavigatorWorkspace.TabIndex = 27;
             this.kbtnRibbonNavigatorWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRibbonNavigatorWorkspace.Values.Text = "Ribbon/Navigator/Workspace";
@@ -153,9 +154,10 @@ namespace TestForm
             // kbtnAbout
             // 
             this.kbtnAbout.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnAbout.Location = new System.Drawing.Point(12, 40);
+            this.kbtnAbout.Location = new System.Drawing.Point(16, 49);
+            this.kbtnAbout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnAbout.Name = "kbtnAbout";
-            this.kbtnAbout.Size = new System.Drawing.Size(204, 25);
+            this.kbtnAbout.Size = new System.Drawing.Size(272, 31);
             this.kbtnAbout.TabIndex = 26;
             this.kbtnAbout.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnAbout.Values.Text = "About Box";
@@ -165,7 +167,7 @@ namespace TestForm
             // 
             this.kbtnInputBox.Location = new System.Drawing.Point(223, 226);
             this.kbtnInputBox.Name = "kbtnInputBox";
-            this.kbtnInputBox.Size = new System.Drawing.Size(204, 25);
+            this.kbtnInputBox.Size = new System.Drawing.Size(272, 31);
             this.kbtnInputBox.TabIndex = 25;
             this.kbtnInputBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnInputBox.Values.Text = "Input Box";
@@ -175,7 +177,7 @@ namespace TestForm
             // 
             this.kbtnHeaderExamples.Location = new System.Drawing.Point(13, 226);
             this.kbtnHeaderExamples.Name = "kbtnHeaderExamples";
-            this.kbtnHeaderExamples.Size = new System.Drawing.Size(204, 25);
+            this.kbtnHeaderExamples.Size = new System.Drawing.Size(272, 31);
             this.kbtnHeaderExamples.TabIndex = 24;
             this.kbtnHeaderExamples.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnHeaderExamples.Values.Text = "Header Examples";
@@ -185,7 +187,7 @@ namespace TestForm
             // 
             this.kbtnDataGrid.Location = new System.Drawing.Point(223, 133);
             this.kbtnDataGrid.Name = "kbtnDataGrid";
-            this.kbtnDataGrid.Size = new System.Drawing.Size(204, 25);
+            this.kbtnDataGrid.Size = new System.Drawing.Size(272, 31);
             this.kbtnDataGrid.TabIndex = 23;
             this.kbtnDataGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDataGrid.Values.Text = "DataGrid";
@@ -193,9 +195,10 @@ namespace TestForm
             // 
             // kbtnControlsTest
             // 
-            this.kbtnControlsTest.Location = new System.Drawing.Point(223, 102);
+            this.kbtnControlsTest.Location = new System.Drawing.Point(297, 126);
+            this.kbtnControlsTest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnControlsTest.Name = "kbtnControlsTest";
-            this.kbtnControlsTest.Size = new System.Drawing.Size(204, 25);
+            this.kbtnControlsTest.Size = new System.Drawing.Size(272, 31);
             this.kbtnControlsTest.TabIndex = 22;
             this.kbtnControlsTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnControlsTest.Values.Text = "Controls Test";
@@ -205,7 +208,7 @@ namespace TestForm
             // 
             this.kbtnThemeControls.Location = new System.Drawing.Point(13, 412);
             this.kbtnThemeControls.Name = "kbtnThemeControls";
-            this.kbtnThemeControls.Size = new System.Drawing.Size(204, 25);
+            this.kbtnThemeControls.Size = new System.Drawing.Size(272, 31);
             this.kbtnThemeControls.TabIndex = 21;
             this.kbtnThemeControls.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnThemeControls.Values.Text = "Theme Controls";
@@ -215,7 +218,7 @@ namespace TestForm
             // 
             this.kbtnWorkspace.Location = new System.Drawing.Point(13, 474);
             this.kbtnWorkspace.Name = "kbtnWorkspace";
-            this.kbtnWorkspace.Size = new System.Drawing.Size(204, 25);
+            this.kbtnWorkspace.Size = new System.Drawing.Size(272, 31);
             this.kbtnWorkspace.TabIndex = 20;
             this.kbtnWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnWorkspace.Values.Text = "Workspace";
@@ -224,9 +227,10 @@ namespace TestForm
             // kbtnCalendar
             // 
             this.kbtnCalendar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCalendar.Location = new System.Drawing.Point(223, 71);
+            this.kbtnCalendar.Location = new System.Drawing.Point(297, 87);
+            this.kbtnCalendar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnCalendar.Name = "kbtnCalendar";
-            this.kbtnCalendar.Size = new System.Drawing.Size(204, 25);
+            this.kbtnCalendar.Size = new System.Drawing.Size(272, 31);
             this.kbtnCalendar.TabIndex = 19;
             this.kbtnCalendar.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCalendar.Values.Text = "Calendar";
@@ -237,9 +241,10 @@ namespace TestForm
             this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 417;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(10, 11);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 14);
+            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(417, 22);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(556, 26);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 18;
             // 
@@ -247,7 +252,7 @@ namespace TestForm
             // 
             this.kbtnOutlookGrid.Location = new System.Drawing.Point(13, 288);
             this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
-            this.kbtnOutlookGrid.Size = new System.Drawing.Size(204, 25);
+            this.kbtnOutlookGrid.Size = new System.Drawing.Size(272, 31);
             this.kbtnOutlookGrid.TabIndex = 17;
             this.kbtnOutlookGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
@@ -257,7 +262,7 @@ namespace TestForm
             // 
             this.btnColourTestimonials.Location = new System.Drawing.Point(223, 474);
             this.btnColourTestimonials.Name = "btnColourTestimonials";
-            this.btnColourTestimonials.Size = new System.Drawing.Size(204, 25);
+            this.btnColourTestimonials.Size = new System.Drawing.Size(272, 31);
             this.btnColourTestimonials.TabIndex = 16;
             this.btnColourTestimonials.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnColourTestimonials.Values.Text = "Colour Testimonials";
@@ -267,7 +272,7 @@ namespace TestForm
             // 
             this.kbtnTreeView.Location = new System.Drawing.Point(223, 443);
             this.kbtnTreeView.Name = "kbtnTreeView";
-            this.kbtnTreeView.Size = new System.Drawing.Size(204, 25);
+            this.kbtnTreeView.Size = new System.Drawing.Size(272, 31);
             this.kbtnTreeView.TabIndex = 16;
             this.kbtnTreeView.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTreeView.Values.Text = "TreeView";
@@ -278,7 +283,7 @@ namespace TestForm
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnExit.Location = new System.Drawing.Point(13, 505);
             this.kbtnExit.Name = "kbtnExit";
-            this.kbtnExit.Size = new System.Drawing.Size(204, 25);
+            this.kbtnExit.Size = new System.Drawing.Size(272, 31);
             this.kbtnExit.TabIndex = 15;
             this.kbtnExit.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnExit.Values.Text = "Exit";
@@ -288,7 +293,7 @@ namespace TestForm
             // 
             this.kbtnFormBorder.Location = new System.Drawing.Point(13, 195);
             this.kbtnFormBorder.Name = "kbtnFormBorder";
-            this.kbtnFormBorder.Size = new System.Drawing.Size(204, 25);
+            this.kbtnFormBorder.Size = new System.Drawing.Size(272, 31);
             this.kbtnFormBorder.TabIndex = 14;
             this.kbtnFormBorder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnFormBorder.Values.Text = "Form Border";
@@ -298,7 +303,7 @@ namespace TestForm
             // 
             this.kbtnToast.Location = new System.Drawing.Point(13, 443);
             this.kbtnToast.Name = "kbtnToast";
-            this.kbtnToast.Size = new System.Drawing.Size(204, 25);
+            this.kbtnToast.Size = new System.Drawing.Size(272, 31);
             this.kbtnToast.TabIndex = 13;
             this.kbtnToast.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnToast.Values.Text = "Toast";
@@ -308,7 +313,7 @@ namespace TestForm
             // 
             this.kbtnTheme.Location = new System.Drawing.Point(223, 412);
             this.kbtnTheme.Name = "kbtnTheme";
-            this.kbtnTheme.Size = new System.Drawing.Size(204, 25);
+            this.kbtnTheme.Size = new System.Drawing.Size(272, 31);
             this.kbtnTheme.TabIndex = 12;
             this.kbtnTheme.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTheme.Values.Text = "Theme";
@@ -318,7 +323,7 @@ namespace TestForm
             // 
             this.kbtnTextBox.Location = new System.Drawing.Point(223, 381);
             this.kbtnTextBox.Name = "kbtnTextBox";
-            this.kbtnTextBox.Size = new System.Drawing.Size(204, 25);
+            this.kbtnTextBox.Size = new System.Drawing.Size(272, 31);
             this.kbtnTextBox.TabIndex = 11;
             this.kbtnTextBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTextBox.Values.Text = "TextBox";
@@ -328,7 +333,7 @@ namespace TestForm
             // 
             this.kbtnRibbon.Location = new System.Drawing.Point(223, 350);
             this.kbtnRibbon.Name = "kbtnRibbon";
-            this.kbtnRibbon.Size = new System.Drawing.Size(204, 25);
+            this.kbtnRibbon.Size = new System.Drawing.Size(272, 31);
             this.kbtnRibbon.TabIndex = 10;
             this.kbtnRibbon.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRibbon.Values.Text = "Ribbon";
@@ -338,7 +343,7 @@ namespace TestForm
             // 
             this.kbtnProgressBar.Location = new System.Drawing.Point(13, 319);
             this.kbtnProgressBar.Name = "kbtnProgressBar";
-            this.kbtnProgressBar.Size = new System.Drawing.Size(204, 25);
+            this.kbtnProgressBar.Size = new System.Drawing.Size(272, 31);
             this.kbtnProgressBar.TabIndex = 9;
             this.kbtnProgressBar.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnProgressBar.Values.Text = "ProgressBar";
@@ -346,9 +351,10 @@ namespace TestForm
             // 
             // kbtnButtons
             // 
-            this.kbtnButtons.Location = new System.Drawing.Point(13, 71);
+            this.kbtnButtons.Location = new System.Drawing.Point(17, 87);
+            this.kbtnButtons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnButtons.Name = "kbtnButtons";
-            this.kbtnButtons.Size = new System.Drawing.Size(204, 25);
+            this.kbtnButtons.Size = new System.Drawing.Size(272, 31);
             this.kbtnButtons.TabIndex = 8;
             this.kbtnButtons.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnButtons.Values.Text = "Buttons";
@@ -358,7 +364,7 @@ namespace TestForm
             // 
             this.kbtnAboutBox.Location = new System.Drawing.Point(223, 288);
             this.kbtnAboutBox.Name = "kbtnAboutBox";
-            this.kbtnAboutBox.Size = new System.Drawing.Size(204, 25);
+            this.kbtnAboutBox.Size = new System.Drawing.Size(272, 31);
             this.kbtnAboutBox.TabIndex = 7;
             this.kbtnAboutBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnAboutBox.Values.Text = "Old Style Main: \"Fullscreen\"";
@@ -368,7 +374,7 @@ namespace TestForm
             // 
             this.kbtnMessageBox.Location = new System.Drawing.Point(223, 257);
             this.kbtnMessageBox.Name = "kbtnMessageBox";
-            this.kbtnMessageBox.Size = new System.Drawing.Size(204, 25);
+            this.kbtnMessageBox.Size = new System.Drawing.Size(272, 31);
             this.kbtnMessageBox.TabIndex = 6;
             this.kbtnMessageBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnMessageBox.Values.Text = "MessageBox";
@@ -378,7 +384,7 @@ namespace TestForm
             // 
             this.kbtnMenuToolStatusStrips.Location = new System.Drawing.Point(13, 257);
             this.kbtnMenuToolStatusStrips.Name = "kbtnMenuToolStatusStrips";
-            this.kbtnMenuToolStatusStrips.Size = new System.Drawing.Size(204, 25);
+            this.kbtnMenuToolStatusStrips.Size = new System.Drawing.Size(272, 31);
             this.kbtnMenuToolStatusStrips.TabIndex = 5;
             this.kbtnMenuToolStatusStrips.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnMenuToolStatusStrips.Values.Text = "Menu/Tool/Status Strips";
@@ -388,7 +394,7 @@ namespace TestForm
             // 
             this.kbtnGroupBox.Location = new System.Drawing.Point(223, 195);
             this.kbtnGroupBox.Name = "kbtnGroupBox";
-            this.kbtnGroupBox.Size = new System.Drawing.Size(204, 25);
+            this.kbtnGroupBox.Size = new System.Drawing.Size(272, 31);
             this.kbtnGroupBox.TabIndex = 4;
             this.kbtnGroupBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnGroupBox.Values.Text = "GroupBox";
@@ -398,7 +404,7 @@ namespace TestForm
             // 
             this.kbtnFadeForm.Location = new System.Drawing.Point(223, 164);
             this.kbtnFadeForm.Name = "kbtnFadeForm";
-            this.kbtnFadeForm.Size = new System.Drawing.Size(204, 25);
+            this.kbtnFadeForm.Size = new System.Drawing.Size(272, 31);
             this.kbtnFadeForm.TabIndex = 3;
             this.kbtnFadeForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnFadeForm.Values.Text = "Fade Form";
@@ -406,9 +412,10 @@ namespace TestForm
             // 
             // kbtnCommandLinkButtons
             // 
-            this.kbtnCommandLinkButtons.Location = new System.Drawing.Point(13, 102);
+            this.kbtnCommandLinkButtons.Location = new System.Drawing.Point(17, 126);
+            this.kbtnCommandLinkButtons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnCommandLinkButtons.Name = "kbtnCommandLinkButtons";
-            this.kbtnCommandLinkButtons.Size = new System.Drawing.Size(204, 25);
+            this.kbtnCommandLinkButtons.Size = new System.Drawing.Size(272, 31);
             this.kbtnCommandLinkButtons.TabIndex = 2;
             this.kbtnCommandLinkButtons.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCommandLinkButtons.Values.Text = "CommandLink Buttons";
@@ -416,9 +423,10 @@ namespace TestForm
             // 
             // kbtnBreadCrumb
             // 
-            this.kbtnBreadCrumb.Location = new System.Drawing.Point(223, 40);
+            this.kbtnBreadCrumb.Location = new System.Drawing.Point(297, 49);
+            this.kbtnBreadCrumb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.kbtnBreadCrumb.Name = "kbtnBreadCrumb";
-            this.kbtnBreadCrumb.Size = new System.Drawing.Size(204, 25);
+            this.kbtnBreadCrumb.Size = new System.Drawing.Size(272, 31);
             this.kbtnBreadCrumb.TabIndex = 1;
             this.kbtnBreadCrumb.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
@@ -450,16 +458,22 @@ namespace TestForm
             // 
             // StartScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
             this.ClientSize = new System.Drawing.Size(440, 550);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "StartScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Rounding2;
+            this.StateCommon.Border.Draw = Krypton.Toolkit.InheritBool.True;
+            this.StateCommon.Border.Width = 10;
             this.Text = "Welcome";
             this.Load += new System.EventHandler(this.StartScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
