@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
-        private string? _extraText;
+        private string _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteRedirectTriple _redirectHeading;
@@ -165,17 +165,17 @@ namespace Krypton.Toolkit
         [Description(@"Heading menu item extra text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
-        [DefaultValue(null)]
+        [DefaultValue("")]
         [AllowNull]
         public string ExtraText
         {
-            get => _extraText ?? string.Empty;
+            get => _extraText;
 
             set 
             {
                 if (_extraText != value)
                 {
-                    _extraText = value;
+                    _extraText = value ?? string.Empty;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
 
         /// <summary>
         /// Gets access to the header instance specific appearance values.
