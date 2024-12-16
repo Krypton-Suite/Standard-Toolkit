@@ -67,7 +67,11 @@ namespace Krypton.Navigator
 
         private float GetDpiFactor()
         {
+#if NET462
+            return PI.GetDpiForWindow(_navigator.Handle) / 96F;
+#else
             return _navigator.DeviceDpi / 96F;
+#endif
         }
 
         #endregion

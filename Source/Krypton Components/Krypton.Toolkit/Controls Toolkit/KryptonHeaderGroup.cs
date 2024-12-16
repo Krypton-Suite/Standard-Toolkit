@@ -211,7 +211,11 @@ namespace Krypton.Toolkit
         private float GetDpiFactor()
         {
             return (Panel != null)
+#if NET462
+                ? PI.GetDpiForWindow(Panel.Handle) / 96F
+#else
                 ? Panel.DeviceDpi / 96F
+#endif
                 : 1f;
         }
 

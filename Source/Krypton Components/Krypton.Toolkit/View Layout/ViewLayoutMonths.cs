@@ -128,7 +128,11 @@ namespace Krypton.Toolkit
         private float GetDpiFactor()
         {
             return (_visualPopupToolTip != null)
+#if NET462
+                ? PI.GetDpiForWindow(_visualPopupToolTip.Handle) / 96F
+#else
                 ? _visualPopupToolTip.DeviceDpi / 96F
+#endif
                 : 1F;
         }
 
@@ -480,10 +484,10 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(context != null);
 
-            SyncData(context);
+            SyncData(context!);
             SyncMonths();
 
-            return this[1].GetPreferredSize(context);
+            return this[1].GetPreferredSize(context!);
         }
 
         /// <summary>

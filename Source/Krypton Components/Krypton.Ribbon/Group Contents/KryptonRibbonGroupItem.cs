@@ -48,7 +48,11 @@ namespace Krypton.Ribbon
         private float GetDpiFactor()
         {
             return (Ribbon != null)
+#if NET462
+                ? PI.GetDpiForWindow(Ribbon.Handle) / 96F
+#else
                 ? Ribbon.DeviceDpi / 96F
+#endif
                 : 1.0f;
         }
 
