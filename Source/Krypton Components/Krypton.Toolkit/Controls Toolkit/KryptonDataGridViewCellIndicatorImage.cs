@@ -75,12 +75,15 @@ namespace Krypton.Toolkit
             }
         }
         
+        /// <summary>
+        /// Cell indicator image.
+        /// </summary>
         public virtual Image? Image
         {
             get
             {
                 _rwls.EnterReadLock();
-                Image? image = _image;
+                var image = _image?.Clone() as Image;
                 _rwls.ExitReadLock();
              
                 return image;
