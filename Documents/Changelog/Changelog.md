@@ -5,7 +5,8 @@
 ## 2025-11-xx - Build 2511 - November 2025
 * Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
-* Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text* Implemented [#1928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1928), A proper exception dialog
+* Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
+* Implemented [#1928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1928), A proper exception dialog
 	- To invoke, use `KryptonExceptionDialog`
 * Implemented [#519](https://github.com/Krypton-Suite/Standard-Toolkit/issues/519), `PaletteDataGridViewAll` does not expose the border value of the `private readonly PaletteDouble _background`
 * Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
