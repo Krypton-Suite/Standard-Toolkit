@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
         {
-            IPaletteRibbonBack inherit = GetBackInherit(state);
+            IPaletteRibbonBack? inherit = GetBackInherit(state);
 
             return inherit?.GetRibbonBackColorStyle(state) ?? Target.GetRibbonBackColorStyle(style, state);
         }

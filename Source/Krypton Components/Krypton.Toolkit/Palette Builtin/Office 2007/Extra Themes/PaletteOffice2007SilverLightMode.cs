@@ -4559,6 +4559,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder2;
+                        case PaletteState.ContextNormal:
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorderContext;
                         case PaletteState.Tracking:
