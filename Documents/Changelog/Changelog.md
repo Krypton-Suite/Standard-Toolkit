@@ -3,6 +3,7 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
 * Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text* Implemented [#1928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1928), A proper exception dialog
 	- To invoke, use `KryptonExceptionDialog`
@@ -36,6 +37,7 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
 * Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
@@ -218,6 +220,7 @@
 =======
 
 # 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
 * Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
 * Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`

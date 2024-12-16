@@ -153,6 +153,18 @@ namespace TestForm
             this.kryptonContextMenuItem2,
             this.kryptonContextMenuItem3});
             // 
+            // kryptonContextMenuItem1
+            // 
+            this.kryptonContextMenuItem1.Text = "Choice 1";
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Text = "Choice 2";
+            // 
+            // kryptonContextMenuItem3
+            // 
+            this.kryptonContextMenuItem3.Text = "Choice 3";
+            // 
             // kryptonButton6
             // 
             this.kryptonButton6.Enabled = false;
