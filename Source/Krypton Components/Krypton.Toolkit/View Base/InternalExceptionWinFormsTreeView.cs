@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
 
         #region Public Override
 
-        [Browsable(false)]
+        /*[Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font { get; set; }
+        public override Font Font { get; set; }*/
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             Nodes.Clear(); // Clear existing nodes
             if (exception != null)
             {
-                TreeNode rootNode = CreateNodeFromException(exception);
+                var rootNode = CreateNodeFromException(exception);
                 
                 Nodes.Add(rootNode);
             }
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             }
 
             // Data dictionary
-            if (exception.Data != null && exception.Data.Count > 0)
+            if (exception.Data.Count > 0)
             {
                 TreeNode dataNode = new TreeNode(KryptonManager.Strings.ExceptionDialogStrings.Data);
                 foreach (var key in exception.Data.Keys)

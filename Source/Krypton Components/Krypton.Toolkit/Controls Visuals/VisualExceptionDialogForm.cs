@@ -72,19 +72,19 @@ namespace Krypton.Toolkit
 
         }
 
-        private void etvExceptionOutline_AfterSelect(object sender, TreeViewEventArgs e)
+        private void etvExceptionOutline_AfterSelect(object sender, TreeViewEventArgs? e)
         {
             // Display the selected exception's details in the RichTextBox
             var selectedException = etvExceptionOutline.SelectedException;
 
-            if (e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.InnerException ||
+            if (e!.Node!.Text == KryptonManager.Strings.ExceptionDialogStrings.InnerException ||
                 e.Node.Text == KryptonManager.Strings.ExceptionDialogStrings.StackTrace)
             {
                 rtbExceptionDetails.Text = KryptonManager.Strings.ExceptionDialogStrings.MoreDetails;
             }
             else 
             {
-                rtbExceptionDetails.Text = selectedException != null ? FormatExceptionDetails(selectedException) : e.Node.Text; // Display general node text if no exception is associated
+                rtbExceptionDetails.Text = selectedException != null ? FormatExceptionDetails(selectedException) : e?.Node.Text; // Display general node text if no exception is associated
             }
         }
 
