@@ -26,17 +26,18 @@ namespace Krypton.Navigator
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the HeaderGroupMappingBase class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
+        /// <param name="getDpiFactor"></param>
         protected HeaderGroupMappingBase([DisallowNull] KryptonNavigator navigator,
-                                      NeedPaintHandler needPaint)
-            : base(needPaint)
+                                      NeedPaintHandler needPaint, GetDpiFactor getDpiFactor)
+            : base(needPaint, getDpiFactor)
         {
             Debug.Assert(navigator != null);
-
             // Remember back reference to owning control
             _navigator = navigator;
 
@@ -45,6 +46,7 @@ namespace Krypton.Navigator
             _mapHeading = GetMapHeadingDefault();
             _mapDescription = GetMapDescriptionDefault();
         }
+
         #endregion
 
         #region Default Values

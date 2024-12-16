@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _visible;
-        private ToolTipValues _toolTipValues = new ToolTipValues(null);
+        private ToolTipValues _toolTipValues;
         private VisualPopupToolTip? _visualPopupToolTip;
         private IContextMenuProvider _provider;
         #endregion
@@ -49,9 +49,17 @@ namespace Krypton.Toolkit
         protected KryptonContextMenuItemBase()
         {
             _visible = true;
+            _toolTipValues = new ToolTipValues(null, GetDpiFactor);
             ToolTipManager = new ToolTipManager(_toolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
+        }
+
+        private float GetDpiFactor()
+        {
+            return (_visualPopupToolTip != null)
+                ? _visualPopupToolTip.DeviceDpi / 96F
+                : 1F;
         }
 
         #endregion

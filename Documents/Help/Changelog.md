@@ -3,6 +3,8 @@
 =======
 
 # 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
+* Resolved [#559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/559), Header group icon is not scaled for dpi awareness
 * Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1890), V85 codebase: Exception thrown for colouring a ribbon
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background

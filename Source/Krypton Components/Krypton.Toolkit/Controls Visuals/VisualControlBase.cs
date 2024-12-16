@@ -118,12 +118,17 @@ namespace Krypton.Toolkit
             AttachGlobalEvents();
 
             // Do the Tooltip Magic
-            ToolTipValues = new ToolTipValues(NeedPaintDelegate);
+            ToolTipValues = new ToolTipValues(NeedPaintDelegate, GetDpiFactor);
             // Create the manager for handling tooltips
             // ReSharper disable once UseObjectOrCollectionInitializer
             _toolTipManager = new ToolTipManager(ToolTipValues);
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
+        }
+
+        private float GetDpiFactor()
+        {
+            return DeviceDpi / 96F;
         }
 
         /// <summary>

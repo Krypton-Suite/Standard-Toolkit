@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             _captionVisible = true;
 
             // Create storage objects
-            Values = new CaptionValues(NeedPaintDelegate);
+            Values = new CaptionValues(NeedPaintDelegate, GetDpiFactor);
             Values.TextChanged += OnValuesTextChanged;
 
             // Create the palette storage
@@ -67,11 +67,9 @@ namespace Krypton.Toolkit
             // Create the internal panel used for containing content
             Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
-
                 // Make sure the panel back style always mimics our back style
                 PanelBackStyle = PaletteBackStyle.ControlGroupBox
             };
-
             _drawContent = new ViewDrawContent(StateNormal.Content, Values, VisualOrientation.Top);
 
             // Create view for the control border and background
@@ -106,6 +104,13 @@ namespace Krypton.Toolkit
             _ignoreLayout = false;
 
             _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+        }
+
+        private float GetDpiFactor()
+        {
+            return (Panel != null)
+                ? Panel.DeviceDpi / 96F
+                : 1f;
         }
 
         /// <summary>

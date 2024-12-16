@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips
-            _toolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
+            _toolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonManager.ToolTipManager = _toolTipManager;
@@ -123,6 +123,13 @@ namespace Krypton.Toolkit
             _drawToday = new ViewDrawToday(Calendar, _palette, _palette, _palette, _palette, _needPaintDelegate);
             _drawToday.Click += OnTodayClick;
             _drawHeader.Add(_drawToday, ViewDockStyle.Left);
+        }
+
+        private float GetDpiFactor()
+        {
+            return (_visualPopupToolTip != null)
+                ? _visualPopupToolTip.DeviceDpi / 96F
+                : 1F;
         }
 
         /// <summary>
