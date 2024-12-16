@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{C2B58A1A-4451-4A21-8487-14DBA720672D}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
 		..\..\Documents\Help\Designer-Fix.md = ..\..\Documents\Help\Designer-Fix.md
 	EndProjectSection
 EndProject
