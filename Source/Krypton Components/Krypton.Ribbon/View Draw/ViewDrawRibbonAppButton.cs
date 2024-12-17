@@ -176,7 +176,7 @@ namespace Krypton.Ribbon
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
-                    localImage.Height * FactorDpiY);
+                    localImage.Height * FactorDpiY, false);
 
                 if (localImage != null)
                 {

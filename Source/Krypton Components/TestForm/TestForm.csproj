@@ -10,6 +10,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
   </PropertyGroup>
 

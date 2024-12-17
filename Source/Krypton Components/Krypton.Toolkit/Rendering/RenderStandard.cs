@@ -2346,7 +2346,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                return drawImage.Size;
+                Size drawImageSize = drawImage.Size;
+                float dpiFactor = context.Graphics.DpiY / 96f;
+                return new Size((int)(drawImageSize.Width * dpiFactor), (int)(drawImageSize.Height * dpiFactor));
             }
         }
 
@@ -2397,6 +2399,9 @@ namespace Krypton.Toolkit
             }
             else
             {
+                float dpiFactor = context.Graphics.DpiY / 96f;
+                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
+                    drawImage.Height * dpiFactor, false)!;
                 // Find the offset to center the image
                 var xOffset = (displayRect.Width - drawImage.Width) / 2;
                 var yOffset = (displayRect.Height - drawImage.Height) / 2;
@@ -2437,7 +2442,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                return drawImage.Size;
+                Size drawImageSize = drawImage.Size;
+                float dpiFactor = context.Graphics.DpiY / 96f;
+                return new Size((int)(drawImageSize.Width * dpiFactor), (int)(drawImageSize.Height * dpiFactor));
             }
         }
 
@@ -2488,6 +2495,9 @@ namespace Krypton.Toolkit
             }
             else
             {
+                float dpiFactor = context.Graphics.DpiY / 96f;
+                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
+                    drawImage.Height * dpiFactor, false)!;
                 // Find the offset to center the image
                 var xOffset = (displayRect.Width - drawImage.Width) / 2;
                 var yOffset = (displayRect.Height - drawImage.Height) / 2;
@@ -5771,7 +5781,7 @@ namespace Krypton.Toolkit
 
                         // Resize image to fit display area
                         memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-                                                                               displayRect.Height * ratio);
+                                                                               displayRect.Height * ratio, false);
                     }
 
                     if (memento.Image != null)
