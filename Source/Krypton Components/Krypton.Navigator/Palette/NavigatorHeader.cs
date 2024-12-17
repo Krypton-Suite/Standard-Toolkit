@@ -59,16 +59,26 @@ namespace Krypton.Navigator
             _headerVisiblePrimary = true;
             _headerVisibleSecondary = true;
             _headerVisibleBar = true;
-            HeaderValuesPrimary = new HeaderGroupMappingPrimary(_navigator, needPaint);
-            HeaderValuesSecondary = new HeaderGroupMappingSecondary(_navigator, needPaint);
+            HeaderValuesPrimary = new HeaderGroupMappingPrimary(_navigator, needPaint, GetDpiFactor);
+            HeaderValuesSecondary = new HeaderGroupMappingSecondary(_navigator, needPaint, GetDpiFactor);
         }
-        #endregion
 
-        #region IsDefault
-        /// <summary>
-        /// Gets a value indicating if all values are default.
-        /// </summary>
-        [Browsable(false)]
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(_navigator.Handle) / 96F;
+#else
+            return _navigator.DeviceDpi / 96F;
+#endif
+        }
+
+            #endregion
+
+            #region IsDefault
+            /// <summary>
+            /// Gets a value indicating if all values are default.
+            /// </summary>
+            [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsDefault => ((HeaderStylePrimary == HeaderStyle.Primary) &&
                                              (HeaderStyleSecondary == HeaderStyle.Secondary) &&

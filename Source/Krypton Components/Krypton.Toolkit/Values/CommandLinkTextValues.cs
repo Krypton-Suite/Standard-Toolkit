@@ -40,7 +40,9 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="CommandLinkTextValues" /> class.</summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CommandLinkTextValues(NeedPaintHandler needPaint) : base(needPaint)
+        /// <param name="getDpiFactor"></param>
+        public CommandLinkTextValues(NeedPaintHandler needPaint, GetDpiFactor getDpiFactor)
+            : base(needPaint, getDpiFactor)
         {
             _descriptionFont = null;
 

@@ -3,6 +3,8 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+* Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
+* Resolved [#559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/559), Header group icon is not scaled for dpi awareness
 * Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
 * Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
@@ -190,6 +192,8 @@
 =======
 
 # 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
+* Resolved [#559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/559), Header group icon is not scaled for dpi awareness
 * Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
 * Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
