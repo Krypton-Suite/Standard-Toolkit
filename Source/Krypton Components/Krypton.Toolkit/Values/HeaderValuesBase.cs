@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
             float dpiFactor = _getDpiFactor();
             return (_image != null)
                 ? CommonHelper.ScaleImageForSizedDisplay(_image, _image.Width * dpiFactor,
-                    _image.Height * dpiFactor)
+                    _image.Height * dpiFactor, false)
                 : null;
         }
         #endregion
