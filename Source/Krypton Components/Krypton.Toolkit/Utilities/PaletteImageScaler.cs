@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             }
             using var tmpBmp = new Bitmap(img);
             tmpBmp.MakeTransparent(GlobalStaticValues.TRANSPARENCY_KEY_COLOR);
-            return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height);
+            return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height, false);
         }
     }
 }

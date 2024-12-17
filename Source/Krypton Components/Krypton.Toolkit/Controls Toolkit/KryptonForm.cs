@@ -949,7 +949,7 @@ namespace Krypton.Toolkit
                 // Cache for future access
                 if (resizedBitmap != null)
                 {
-                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
+                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight, false);
                 }
             }
 

@@ -1732,9 +1732,10 @@ namespace Krypton.Toolkit
         /// <param name="src"></param>
         /// <param name="trgtWidth"></param>
         /// <param name="trgtHeight"></param>
+        /// <param name="avoidPurple"></param>
         /// <returns></returns>
         /// <exception >thrown if targets are negative</exception>
-        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight)
+        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight, bool avoidPurple)
         {
             if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
             {
@@ -1748,9 +1749,9 @@ namespace Krypton.Toolkit
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
             using Graphics gr = Graphics.FromImage(newImage);
             gr.Clear(Color.Transparent);
-            gr.SmoothingMode = SmoothingMode.HighQuality;
+            gr.SmoothingMode = SmoothingMode.AntiAlias;
             // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-            gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+            gr.InterpolationMode = avoidPurple ? InterpolationMode.NearestNeighbor : InterpolationMode.High;
             gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
             //var srcRect = new RectangleF(0.0f, 0.0f, src.Width, src.Height);
             //var destRect = new RectangleF(0.0f, 0.0f, trgtWidth, trgtHeight);
