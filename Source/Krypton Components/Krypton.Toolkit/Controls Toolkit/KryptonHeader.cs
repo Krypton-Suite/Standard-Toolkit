@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTipPriority = false;
 
             // Create storage objects
-            Values = new HeaderValues(NeedPaintDelegate);
+            Values = new HeaderValues(NeedPaintDelegate, GetDpiFactor);
             Values.TextChanged += OnHeaderTextChanged;
             ButtonSpecs = new HeaderButtonSpecCollection(this);
 
@@ -107,10 +107,19 @@ namespace Krypton.Toolkit
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
+        }
+
+            /// <summary>
+            /// Clean up any resources being used.
+            /// </summary>
+            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

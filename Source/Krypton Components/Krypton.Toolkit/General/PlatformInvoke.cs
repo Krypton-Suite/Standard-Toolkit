@@ -2842,6 +2842,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #region Static User32
         [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern uint GetDpiForWindow(IntPtr hWnd);
+
+        [DllImport(Libraries.User32)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern BOOL EndDialog(IntPtr hDlg, IntPtr nResult);
 
         internal static BOOL EndDialog(HandleRef hDlg, IntPtr nResult)
