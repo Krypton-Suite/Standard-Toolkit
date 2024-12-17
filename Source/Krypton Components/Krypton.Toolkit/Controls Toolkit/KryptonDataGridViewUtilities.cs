@@ -14,27 +14,27 @@ namespace Krypton.Toolkit
         internal static class TextFormatFlagsCellStyleAlignments
         {
             // Calculate these once for use in ComputeTextFormatFlagsForCellStyleAlignment()
-            private static readonly TextFormatFlags baseMask = TextFormatFlags.NoPrefix | TextFormatFlags.PreserveGraphicsClipping;
+            private const TextFormatFlags baseMask = TextFormatFlags.NoPrefix | TextFormatFlags.PreserveGraphicsClipping;
 
-            internal static readonly TextFormatFlags TopLeft_RightToLeft = baseMask | TextFormatFlags.Top | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags TopLeft_LeftToRight = baseMask | TextFormatFlags.Top | TextFormatFlags.Left;
-            internal static readonly TextFormatFlags TopCenter = baseMask | TextFormatFlags.Top | TextFormatFlags.HorizontalCenter;
-            internal static readonly TextFormatFlags TopRight_RightToLeft = baseMask | TextFormatFlags.Top | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags TopRight_LeftToRight = baseMask | TextFormatFlags.Top | TextFormatFlags.Right;
+            internal const TextFormatFlags TopLeft_RightToLeft = baseMask | TextFormatFlags.Top | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags TopLeft_LeftToRight = baseMask | TextFormatFlags.Top | TextFormatFlags.Left;
+            internal const TextFormatFlags TopCenter = baseMask | TextFormatFlags.Top | TextFormatFlags.HorizontalCenter;
+            internal const TextFormatFlags TopRight_RightToLeft = baseMask | TextFormatFlags.Top | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags TopRight_LeftToRight = baseMask | TextFormatFlags.Top | TextFormatFlags.Right;
 
-            internal static readonly TextFormatFlags MiddleLeft_RightToLeft = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags MiddleLeft_LeftToRight = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Left;
-            internal static readonly TextFormatFlags MiddleCenter = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
-            internal static readonly TextFormatFlags MiddleRight_RightToLeft = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags MiddleRight_LeftToRight = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Right;
+            internal const TextFormatFlags MiddleLeft_RightToLeft = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags MiddleLeft_LeftToRight = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Left;
+            internal const TextFormatFlags MiddleCenter = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
+            internal const TextFormatFlags MiddleRight_RightToLeft = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags MiddleRight_LeftToRight = baseMask | TextFormatFlags.VerticalCenter | TextFormatFlags.Right;
 
-            internal static readonly TextFormatFlags BottomLeft_RightToLeft = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags BottomLeft_LeftToRight = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Left;
-            internal static readonly TextFormatFlags BottomCenter = baseMask | TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter;
-            internal static readonly TextFormatFlags BottomRight_RightToLeft = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
-            internal static readonly TextFormatFlags BottomRight_Lefttoright = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Right;
+            internal const TextFormatFlags BottomLeft_RightToLeft = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Right | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags BottomLeft_LeftToRight = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Left;
+            internal const TextFormatFlags BottomCenter = baseMask | TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter;
+            internal const TextFormatFlags BottomRight_RightToLeft = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Left | TextFormatFlags.RightToLeft;
+            internal const TextFormatFlags BottomRight_Lefttoright = baseMask | TextFormatFlags.Bottom | TextFormatFlags.Right;
 
-            internal static readonly TextFormatFlags DefaultAlignment = baseMask | TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+            internal const TextFormatFlags DefaultAlignment = baseMask | TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
         }
 
         internal static TextFormatFlags ComputeTextFormatFlagsForCellStyleAlignment(
