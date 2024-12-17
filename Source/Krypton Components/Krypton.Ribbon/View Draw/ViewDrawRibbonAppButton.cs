@@ -167,12 +167,12 @@ namespace Krypton.Ribbon
             _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
 
             // If there is an application button to be drawn
-            if (_ribbon.RibbonAppButton.AppButtonImage != null)
+            if (_ribbon.RibbonAppButton.AppButtonImage != null!)
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
                 var localImage = _ribbon.RibbonAppButton.AppButtonImage;
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
-                    localImage.Height * FactorDpiY);
+                    localImage.Height * FactorDpiY, false);
 
                 var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
                     ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));

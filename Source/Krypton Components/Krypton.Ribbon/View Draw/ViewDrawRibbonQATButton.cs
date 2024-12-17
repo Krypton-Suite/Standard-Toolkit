@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
         /// <returns>Image.</returns>
         public Image? GetImage(PaletteState state)
         {
-            if (_cachedImage == null)
+            if (_cachedImage == null!)
             {
                 var sourceImage = QATButton.GetImage();
                 var currentWidth = sourceImage.Width * FactorDpiX;
@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
                 }
                 */
 
-                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight);
+                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight, false);
             }
 
             return _cachedImage;
