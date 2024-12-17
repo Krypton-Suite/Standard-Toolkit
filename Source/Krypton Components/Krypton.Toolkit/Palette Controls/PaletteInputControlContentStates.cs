@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
             // Get the values and set into storage
             Font = GetContentShortTextFont(state);
             Color1 = GetContentShortTextColor1(state);
-            Padding = GetContentPadding(state);
+            Padding = GetBorderContentPadding(null, state);
         }
         #endregion
 
@@ -491,9 +491,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the actual padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetContentPadding(PaletteState state) => !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);
+        public virtual Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state) => 
+            !_padding.Equals(CommonHelper.InheritPadding)
+                ? _padding
+                : Inherit.GetBorderContentPadding(owningForm, state);
 
         #endregion
 

@@ -638,10 +638,10 @@ namespace Krypton.Ribbon
                                                               _clearItemsMenu, new ToolStripSeparator(),
                                                               _deleteGroupMenu });
 
-                    _addTripleMenu.ImageTransparentColor = Color.Magenta;
-                    _addLinesMenu.ImageTransparentColor = Color.Magenta;
-                    _addSeparatorMenu.ImageTransparentColor = Color.Magenta;
-                    _addGalleryMenu.ImageTransparentColor = Color.Magenta;
+                    _addTripleMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addLinesMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addSeparatorMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                    _addGalleryMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 // Update verbs to work out correct enable states

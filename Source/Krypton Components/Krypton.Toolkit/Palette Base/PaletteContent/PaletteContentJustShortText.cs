@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             ShortText.Image = GetContentShortTextImage(state);
             ShortText.ImageStyle = GetContentShortTextImageStyle(state);
             ShortText.ImageAlign = GetContentShortTextImageAlign(state);
-            Padding = GetContentPadding(state);
+            Padding = GetBorderContentPadding(null, state);
         }
         #endregion
 

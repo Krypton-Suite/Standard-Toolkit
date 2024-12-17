@@ -227,12 +227,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void ResetExtraText() => ExtraText = _defaultExtraText;
         private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
-        /// <summary>
-        /// Resets the Description property to its default value.
-        /// </summary>
-        public void ResetExtraText() => ExtraText = _defaultExtraText;
         #endregion
 
         #region UseAsADialogButton
@@ -350,10 +347,10 @@ namespace Krypton.Toolkit
 
         #region DropDownArrowColor
 
-        /// <summary>Gets or sets the color of the drop down arrow.</summary>
-        /// <value>The color of the drop down arrow.</value>
+        /// <summary>Gets or sets the color of the drop-down arrow.</summary>
+        /// <value>The color of the drop-down arrow.</value>
         [Category(@"Visuals")]
-        [Description(@"Sets the drop down arrow color.")]
+        [Description(@"Sets the drop-down arrow color.")]
         [DefaultValue(typeof(Color), @"Empty")]
         public Color? DropDownArrowColor
         {
@@ -369,7 +366,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
+        private void ResetDropDownArrowColor() => _dropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
+        private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != GlobalStaticValues.EMPTY_COLOR;
         #endregion
 
         #region CreateImageStates

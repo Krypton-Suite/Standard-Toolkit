@@ -10,31 +10,30 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit
 {
- //   public class GeneralToolkitUtilities
- //   {
-	//	#region Implementation
+    public class GeneralToolkitUtilities
+    {
+        #region Implementation
 
-	//	public static DateTime GetLinkerTime(Assembly assembly)
- //       {
- //           const string BuildVersionMetadataPrefix = "+build";
+        /// <summary>Gets the size of the current screen.</summary>
+        /// <returns></returns>
+        public static Point GetCurrentScreenSize()
+        {
+            var screenWidth = Screen.PrimaryScreen!.Bounds.Width;
 
- //           var attribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
- //           if (attribute?.InformationalVersion != null)
- //           {
- //               var value = attribute.InformationalVersion;
- //               var index = value.IndexOf(BuildVersionMetadataPrefix);
- //               if (index > 0)
- //               {
- //                   value = value[(index + BuildVersionMetadataPrefix.Length)..];
- //                   return DateTime.ParseExact(value, "yyyy-MM-ddTHH:mm:ss:fffZ", CultureInfo.InvariantCulture);
- //               }
- //           }
+            var screenHeight = Screen.PrimaryScreen!.Bounds.Height;
 
- //           return default;
- //       }
+            return new Point(screenWidth, screenHeight);
+        }
 
-	//	#endregion
-	//}
+        /// <summary>Adjusts the form dimensions.</summary>
+        /// <param name="owner">The owner.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        internal static void AdjustFormDimensions(KryptonForm owner, int width, int height) => owner.Size = new Size(width, height);
+
+        #endregion
+    }
 }

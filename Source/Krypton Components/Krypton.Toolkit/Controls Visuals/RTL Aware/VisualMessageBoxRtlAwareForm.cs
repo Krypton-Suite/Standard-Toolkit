@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
 
         public VisualMessageBoxRtlAwareForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
 
@@ -49,6 +50,7 @@ namespace Krypton.Toolkit
             bool? showHelpButton,
             bool? showCloseButton)
         {
+            SetInheritedControlOverride();
             // Store incoming values
             _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
             _caption = caption;
@@ -427,12 +429,8 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel
-                    or KryptonMessageBoxButtons.YesNo
-                    or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore
-                    or KryptonMessageBoxButtons.YesNoCancel
-                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (helpButton != null)
@@ -531,11 +529,11 @@ namespace Krypton.Toolkit
             }
 
             // Calculate the size of the icon area and text area including margins
-            Padding textPadding = krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textPadding = krtbMessageText.StateCommon.Content.GetBorderContentPadding(null, PaletteState.Normal);
             Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
-            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+            var iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
                 _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
-            Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
+            var textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
                 textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
             return new Size(textArea.Width + iconArea.Width,
                 Math.Max(iconArea.Height, textArea.Height));

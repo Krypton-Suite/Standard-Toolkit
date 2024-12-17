@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                 MinimizeBox = false;
                 ShowInTaskbar = false;
                 BackColor = Color.Black;
-                TransparencyKey = Color.Magenta;
+                TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 Opacity = 0.5;
             }
 

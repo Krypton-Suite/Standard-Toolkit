@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                     if (length > 0)
                     {
                         // If let the message occur as it is being pressed on a combo box 
-                        // drop down list and so it will process the message appropriately
+                        // drop-down list and so it will process the message appropriately
                         if (className.ToString() == "ComboLBox")
                         {
                             endTracking = false;

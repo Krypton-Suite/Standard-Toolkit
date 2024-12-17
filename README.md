@@ -18,7 +18,7 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
-    * [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
+	* [V100.00 (2025-11-xx - Build 2511 - November 2025)](#v10000-2025-11-xx---build-2511---november-2025)
 	* [V90.00 (2024-11-12 - Build 2411 - November 2024)](v90-24-11-12--build-2411---november-2024)
 		* [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
@@ -49,42 +49,7 @@
 
 # NuGet Information
 
-## Nightly
-
-| Module Name | Current Version | Github License | 
-|---|---|---|
-| <img src="https://img.shields.io/badge/Module-Toolkit-000080.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Toolkit.Nightly?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit.Nightly/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking-000080.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Docking.Nightly?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking.Nightly/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator-000080.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Navigator.Nightly?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator.Nightly/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon-000080.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Ribbon.Nightly?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon.Nightly/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace-000080.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Workspace.Nightly?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace.Nightly/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-
-## Canary
-
-| Module Name | Current Version | Github License | 
-|---|---|---|
-| <img src="https://img.shields.io/badge/Module-Toolkit-yellow.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Toolkit.Canary?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit.Canary/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking-yellow.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Docking.Canary?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking.Canary/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator-yellow.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Navigator.Canary?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator.Canary/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon-yellow.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Ribbon.Canary?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon.Canary/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace-yellow.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/vpre/Krypton.Workspace.Canary?color=informational&label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace.Canary/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-
-## Stable
-
-| Module Name | Current Version | Github License | 
-|---|---|---|
-| <img src="https://img.shields.io/badge/Module-Toolkit-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Toolkit (Lite)-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit.Lite/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Docking?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking (Lite)-brightgreen.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Docking.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking.Lite/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator (Lite)-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator.Lite/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon-brightgreen.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon (Lite)-brightgreen.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon.Lite/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace (Lite)-brightgreen.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Lite?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace.Lite/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-
-Keep up-to-date [here](https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard)
+View package version details [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/Krypton%20Toolkit%20Suite%20Standard%20Modules.html).
 
 =======
 
@@ -175,9 +140,24 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 # Breaking Changes
-
 ## V100.00 (2025-11-xx - Build 2511 - November 2025)
 There are list of changes that have occurred during the development of the V100.00 version
+* Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
+	- `ButtonSpecs` have been removed from the `KryptonRichTextBox`
+	- Use another layout to align in the designers
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
+
+
+## V95.00 (2025-02-01 - Build 2502 - February 2025)
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
 
 ## V90.00 (2024-11-12 - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.00 version
@@ -232,13 +212,20 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 ### Building the Toolkit
 As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
+## V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
+
 ## V85.00 (2024-06-24 - Build 2406 - June 2024)
 There are a list of changes that have occurred during the development of the V85.00 version
 
 * [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
 	- The Option to use `SystemDefault` no longer exists a font rendering hint
 * [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
-	- Added property `ShowDrop`, which displays a drop down arrow on the button.
+	- Added property `ShowDrop`, which displays a drop-down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
 	- When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
 	- When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.

@@ -323,7 +323,7 @@
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell1.Owner = null;
-            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage1,
             this.kryptonPage3,
@@ -401,7 +401,7 @@
             this.kryptonWorkspaceCell3.Name = "kryptonWorkspaceCell3";
             this.kryptonWorkspaceCell3.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell3.Owner = null;
-            this.kryptonWorkspaceCell3.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell3.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell3.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage4,
             this.kryptonPage5,
@@ -470,7 +470,7 @@
             this.kryptonWorkspaceCell4.Name = "kryptonWorkspaceCell4";
             this.kryptonWorkspaceCell4.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonWorkspaceCell4.Owner = null;
-            this.kryptonWorkspaceCell4.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.kryptonWorkspaceCell4.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.kryptonWorkspaceCell4.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage6,
             this.kryptonPage11});
@@ -544,7 +544,7 @@
             this.navigatorOutlook.Name = "navigatorOutlook";
             this.navigatorOutlook.NavigatorMode = Krypton.Navigator.NavigatorMode.OutlookFull;
             this.navigatorOutlook.Owner = null;
-            this.navigatorOutlook.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlClient;
+            this.navigatorOutlook.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
             this.navigatorOutlook.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.pageGlobalPalettes,
             this.kryptonDisplayMode});

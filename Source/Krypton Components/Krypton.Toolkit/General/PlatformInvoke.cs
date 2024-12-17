@@ -30,6 +30,7 @@
 
 // Note: DO NOT REMOVE!!!
 using Microsoft.Win32.SafeHandles;
+using static System.Runtime.InteropServices.Marshal;
 
 
 namespace Krypton.Toolkit
@@ -2547,7 +2548,7 @@ DEFCOMMANDLINK = 0x0, // Creates a command link button that behaves like a BS_PU
 DEFSPLITBUTTON = 0x0, // Creates a split button that behaves like a BS_PUSHBUTTON style button, but also has a distinctive appearance. If the split button is in a dialog box, the user can select the split button by pressing the ENTER key, even when the split button does not have the input focus. This style is useful for enabling the user to quickly select the most likely (default) option.
 NOTIFY = 0x0, // Enables a button to send BN_KILLFOCUS and BN_SETFOCUS notification codes to its parent window.
                 //Note that buttons send the BN_CLICKED notification code regardless of whether it has this style. To get BN_DBLCLK notification codes, the button must have the BS_RADIOBUTTON or BS_OWNERDRAW style.
-SPLITBUTTON = 0x0, // Creates a split button. A split button has a drop down arrow.
+SPLITBUTTON = 0x0, // Creates a split button. A split button has a drop-down arrow.
 BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
     Yes 	                Yes 	                Show icon only.
     No 	                    Yes 	                Show icon and text.
@@ -2982,7 +2983,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
             public WINDOWINFO(int _ = 0) : this()   // Allows automatic initialization of "cbSize" with "new WINDOWINFO(null/true/false)".
                 =>
-                    cbSize = (uint)Marshal.SizeOf(typeof(WINDOWINFO));
+                    cbSize = (uint)SizeOf(typeof(WINDOWINFO));
         }
         internal static bool GetWindowInfo(IntPtr hwnd, out WINDOWINFO pwi)
         {
@@ -3023,7 +3024,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             if (!noThrow
             && IntPtr.Zero == ret)
             {
-                var error = Marshal.GetLastWin32Error();
+                var error = GetLastWin32Error();
                 if (error != 0)
                 {
                     throw new Win32Exception(error);
@@ -3040,7 +3041,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             if (!noThrow
             && IntPtr.Zero == ret)
             {
-                var error = Marshal.GetLastWin32Error();
+                var error = GetLastWin32Error();
                 if (error != 0)
                 {
                     throw new Win32Exception(error);
@@ -3180,7 +3181,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             if (!PostMessage(hWnd, msg, wParam, lParam))
             {
                 // An error occurred
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception(GetLastWin32Error());
             }
         }
 
@@ -3248,6 +3249,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern void DisableProcessWindowsGhosting();
+
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern void AdjustWindowRect(ref RECT rect, uint dwStyle, bool hasMenu);
 
         [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3617,8 +3622,17 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969515(v=vs.85).aspx
             [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-            internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
-                int attrSize);
+            internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue, int attrSize);
+
+            [DllImport(Libraries.DWMApi)]
+            [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+            internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, out RECT pvAttribute, int attrSize);
+
+            internal static Rectangle DwmGetWindowRect(IntPtr hwnd)
+            {
+                DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.ExtendedFrameBounds, out RECT rect, SizeOf(typeof(RECT)));
+                return System.Drawing.Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
+            }
 
             //https://msdn.microsoft.com/en-us/library/windows/desktop/aa969524(v=vs.85).aspx
             [DllImport(Libraries.DWMApi)]
@@ -3801,8 +3815,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 IntPtr accentPtr = IntPtr.Zero;
                 try
                 {
-                    var accentSize = Marshal.SizeOf(accPolicy);
-                    accentPtr = Marshal.AllocHGlobal(accentSize);
+                    var accentSize = SizeOf(accPolicy);
+                    accentPtr = AllocHGlobal(accentSize);
                     Marshal.StructureToPtr(accPolicy, accentPtr, false);
                     var data = new WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
                         accentPtr, accentSize);
@@ -3813,7 +3827,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 {
                     if (accentPtr != IntPtr.Zero)
                     {
-                        Marshal.FreeHGlobal(accentPtr);
+                        FreeHGlobal(accentPtr);
                     }
                 }
             }
@@ -4108,7 +4122,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class CHOOSEFONT
         {
-            public int lStructSize = Marshal.SizeOf(typeof(CHOOSEFONT));
+            public int lStructSize = SizeOf(typeof(CHOOSEFONT));
             public IntPtr hwndOwner;
             public IntPtr hDC;
             public IntPtr lpLogFont;
@@ -4412,7 +4426,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         {
             /// <summary>
             /// </summary>            
-            public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+            public int cbSize = SizeOf(typeof(MONITORINFO));
 
             /// <summary>
             /// </summary>            

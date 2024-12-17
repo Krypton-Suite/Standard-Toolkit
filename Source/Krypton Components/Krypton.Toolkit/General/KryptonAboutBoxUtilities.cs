@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                         {
                             ComCompatibleVersionAttribute x;
                             x = ((ComCompatibleVersionAttribute)attrib);
-                            value = x.MajorVersion + "." + x.MinorVersion + "." + x.RevisionNumber + "." + x.BuildNumber;
+                            value = $"{x.MajorVersion}.{x.MinorVersion}.{x.RevisionNumber}.{x.BuildNumber}";
                             break;
                         }
                     case "System.Runtime.InteropServices.ComVisibleAttribute":
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                         {
                             TypeLibVersionAttribute x;
                             x = ((TypeLibVersionAttribute)attrib);
-                            value = x.MajorVersion + "." + x.MinorVersion;
+                            value = $"{x.MajorVersion}.{x.MinorVersion}";
                             break;
                         }
                     case "System.Security.AllowPartiallyTrustedCallersAttribute":

@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         public void PopulateFromBase(PaletteState state, PaletteMetricPadding metric)
         {
             base.PopulateFromBase(state);
-            Padding = _inherit!.GetMetricPadding(state, metric);
+            Padding = _inherit!.GetMetricPadding(null, state, metric);
         }
         #endregion
 
@@ -113,15 +113,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
+        public int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _inherit!.GetMetricInt(state, metric);
+            _inherit!.GetMetricInt(owningForm, state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -136,10 +138,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric)
         {
             // Is this the metric we provide?
             if (metric is PaletteMetricPadding.SeparatorPaddingLowProfile or PaletteMetricPadding.SeparatorPaddingHighProfile or PaletteMetricPadding.SeparatorPaddingHighInternalProfile or PaletteMetricPadding.SeparatorPaddingCustom1 or PaletteMetricPadding.SeparatorPaddingCustom2 or PaletteMetricPadding.SeparatorPaddingCustom3
@@ -148,11 +151,11 @@ namespace Krypton.Toolkit
                 // If the user has defined an actual value to use
                 return !Padding.Equals(CommonHelper.InheritPadding)
                     ? Padding
-                    : _inherit!.GetMetricPadding(state, metric);
+                    : _inherit!.GetMetricPadding(owningForm, state, metric);
             }
 
             // Pass onto the inheritance
-            return _inherit!.GetMetricPadding(state, metric);
+            return _inherit!.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
     }

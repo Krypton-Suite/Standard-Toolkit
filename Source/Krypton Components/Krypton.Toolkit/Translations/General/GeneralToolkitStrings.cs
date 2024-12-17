@@ -26,6 +26,10 @@ namespace Krypton.Toolkit
         private const string DEFAULT_CLOSE = @"Clo&se"; // Accelerator key - S
         private const string DEFAULT_TODAY = @"&Today"; // Accelerator key - T
         private const string DEFAULT_HELP = @"H&elp"; // Accelerator key - E
+        private const string DEFAULT_CUT = @"C&ut"; // Accelerator key - U
+        private const string DEFAULT_COPY = @"Co&py"; // Accelerator key - P
+        private const string DEFAULT_PASTE = @"P&aste"; // Accelerator key - A
+        private const string DEFAULT_SELECT_ALL = @"&Select All"; // Accelerator key - S
 
         // NET 6 & newer
         private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
@@ -67,11 +71,11 @@ namespace Krypton.Toolkit
                                  Today.Equals(DEFAULT_TODAY) &&
                                  Help.Equals(DEFAULT_HELP) &&
                                  Continue.Equals(DEFAULT_CONTINUE) &&
-                                 TryAgain.Equals(DEFAULT_TRY_AGAIN);
-
-        // Note: The following may not be needed...
-        /*MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
-        LessDetails.Equals(DEFAULT_LESS_DETAILS);*/
+                                 TryAgain.Equals(DEFAULT_TRY_AGAIN) &&
+                                 Cut.Equals(DEFAULT_CUT) &&
+                                 Copy.Equals(DEFAULT_COPY) &&
+                                 Paste.Equals(DEFAULT_PASTE) &&
+                                 SelectAll.Equals(DEFAULT_SELECT_ALL);
 
         /// <summary>
         /// Reset all strings to default values.
@@ -88,6 +92,10 @@ namespace Krypton.Toolkit
             Close = DEFAULT_CLOSE;
             Today = DEFAULT_TODAY;
             Help = DEFAULT_HELP;
+            Cut = DEFAULT_CUT;
+            Copy = DEFAULT_COPY;
+            Paste = DEFAULT_PASTE;
+            SelectAll = DEFAULT_SELECT_ALL;
 
             // NET 6 & newer
             Continue = DEFAULT_CONTINUE;
@@ -217,19 +225,42 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_TRY_AGAIN)]
         public string TryAgain { get; set; }
 
-        // Note: The following may not be needed...
-
-        /*/// <summary>Gets or sets the more details string used in expandable footers.</summary>
+        /// <summary>
+        /// Gets and sets the Cut string.
+        /// </summary>
         [Localizable(true)]
         [Category(@"Visuals")]
-        [Description(@"More details string used in expandable footers.")]
-        public string MoreDetails { get; set; }
+        [Description(@"Cut string.")]
+        [DefaultValue(DEFAULT_CUT)]
+        public string Cut { get; set; }
 
-        /// <summary>Gets or sets the less details string used in expandable footers.</summary>
+        /// <summary>
+        /// Gets and sets the Copy string.
+        /// </summary>
         [Localizable(true)]
         [Category(@"Visuals")]
-        [Description(@"Less details string used in expandable footers.")]
-        public string LessDetails { get; set; }*/
+        [Description(@"Copy string.")]
+        [DefaultValue(DEFAULT_COPY)]
+        public string Copy { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Paste string.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Paste string.")]
+        [DefaultValue(DEFAULT_CUT)]
+        public string Paste { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Select All string.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Select All string.")]
+        [DefaultValue(DEFAULT_SELECT_ALL)]
+        public string SelectAll { get; set; }
+
         #endregion
     }
 }

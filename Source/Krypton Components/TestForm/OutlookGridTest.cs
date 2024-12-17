@@ -72,13 +72,13 @@ namespace TestForm
                         //Sub row
                         OutlookGridRow row2 = new OutlookGridRow();
                         row2.CreateCells(kryptonOutlookGrid1, new object[] {
-                            customer["CustomerID"]!.InnerText + " 2",
-                            customer["CustomerName"]!.InnerText + " 2",
-                            customer["Address"]!.InnerText + "2",
-                            customer["City"]!.InnerText + " 2",
+                            $"{customer["CustomerID"]!.InnerText} 2",
+                            $"{customer["CustomerName"]!.InnerText} 2",
+                            $"{customer["Address"]!.InnerText}2",
+                            $"{customer["City"]!.InnerText} 2",
                             new TextAndImage(customer["Country"]!.InnerText,GetFlag(customer["Country"]!.InnerText)),
                             DateTime.Now,
-                            customer["ProductName"]!.InnerText + " 2",
+                            $"{customer["ProductName"]!.InnerText} 2",
                             (double)random.Next(1000),
                             (double)random.Next(101) /100,
                             tokensList[random.Next(5)]
@@ -91,7 +91,7 @@ namespace TestForm
                 }
                 catch (Exception ex)
                 {
-                    KryptonMessageBox.Show("Gasp...Something went wrong ! " + ex.Message, "Error", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+                    KryptonMessageBox.Show($"Gasp...Something went wrong ! {ex.Message}", "Error", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
                 }
             }
 
@@ -194,7 +194,7 @@ namespace TestForm
 
         private void kryptonOutlookGrid1_GroupImageClick(object sender, OutlookGridGroupImageEventArgs e)
         {
-            KryptonMessageBox.Show("Group Image clicked for group row : " + e.Row.Group!.Text);
+            KryptonMessageBox.Show($"Group Image clicked for group row : {e.Row.Group!.Text}");
         }
 
         private void bsahgLoad_Click(object sender, EventArgs e)
@@ -206,7 +206,7 @@ namespace TestForm
 
         private void bsahgSave_Click(object sender, EventArgs e)
         {
-            kryptonOutlookGrid1.PersistConfiguration(Application.StartupPath + "/grid.xml", StaticInfos._GRIDCONFIG_VERSION.ToString());
+            kryptonOutlookGrid1.PersistConfiguration($"{Application.StartupPath}/grid.xml", StaticInfos._GRIDCONFIG_VERSION.ToString());
         }
 
         private void bsahgToggle_Click(object sender, EventArgs e)

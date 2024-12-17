@@ -53,16 +53,7 @@ namespace Krypton.Toolkit
             _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
             _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
             _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
-
-            // We need to know when we are being removed
-            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
-
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _richTextBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -72,7 +63,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Start with all edges being sizeable
-                var rules = base.SelectionRules;
+                SelectionRules rules = base.SelectionRules;
 
                 // Get access to the actual control instance
                 var richTextBox = (KryptonRichTextBox)Component;
@@ -152,7 +143,7 @@ namespace Krypton.Toolkit
             if ((_richTextBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                var component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -172,44 +163,15 @@ namespace Krypton.Toolkit
         private void OnTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            var component = _richTextBox?.DesignerComponentFromPoint(pt);
+            Component? component = _richTextBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                var designer = _designerHost?.GetDesigner(component);
+                IDesigner? designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
                 designer?.DoDefaultAction();
-            }
-        }
-
-        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
-        {
-            // If our control is being removed
-            if (Equals(e.Component, _richTextBox))
-            {
-                // Need access to host in order to delete a component
-                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
-
-                // We need to remove all the button spec instances
-                for (var i = _richTextBox!.ButtonSpecs.Count - 1; i >= 0; i--)
-                {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _richTextBox.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanging(_richTextBox, null);
-
-                    // Perform actual removal of button spec from rich textbox
-                    _richTextBox.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host?.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanged(_richTextBox, null, null, null);
-                }
             }
         }
         #endregion

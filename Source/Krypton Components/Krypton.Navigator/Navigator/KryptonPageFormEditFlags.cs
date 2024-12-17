@@ -24,6 +24,7 @@ namespace Krypton.Navigator
         /// </summary>
         public KryptonPageFormEditFlags()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
 
@@ -33,6 +34,7 @@ namespace Krypton.Navigator
         /// <param name="page">Reference to page to display flags for.</param>
         public KryptonPageFormEditFlags(KryptonPage? page)
         {
+            SetInheritedControlOverride();
             _page = page;
             InitializeComponent();
         }

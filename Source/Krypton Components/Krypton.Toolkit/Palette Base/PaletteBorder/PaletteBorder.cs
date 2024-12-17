@@ -244,12 +244,11 @@ namespace Krypton.Toolkit
         /// <returns>PaletteDrawBorders value.</returns>
         public PaletteDrawBorders GetBorderDrawBorders(PaletteState state)
         {
-            if (DrawBorders != PaletteDrawBorders.Inherit)
-            {
-                return Draw == InheritBool.False ? PaletteDrawBorders.None : DrawBorders;
-            }
-
-            return _inherit.GetBorderDrawBorders(state);
+            return Draw == InheritBool.False 
+                ? PaletteDrawBorders.None 
+                : DrawBorders != PaletteDrawBorders.Inherit 
+                    ? DrawBorders 
+                    : _inherit.GetBorderDrawBorders(state);
         }
 
         #endregion
@@ -645,7 +644,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
+        public virtual float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
         #endregion
 
         #region Image

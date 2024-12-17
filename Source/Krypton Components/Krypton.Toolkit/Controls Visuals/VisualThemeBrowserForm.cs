@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
         /// <param name="themeBrowserData">The data to provide to the <see cref="VisualThemeBrowserForm"/>.</param>
         public VisualThemeBrowserForm(KryptonThemeBrowserData themeBrowserData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _themeBrowserData = themeBrowserData;

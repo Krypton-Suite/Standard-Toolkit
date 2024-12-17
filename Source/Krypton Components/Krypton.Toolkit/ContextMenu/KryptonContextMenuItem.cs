@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
         private bool _showShortcutKeys;
         private bool _autoClose;
         private bool _largeKryptonCommandImage;
+        private string _text;
         private string _extraText;
         private string _shortcutKeyDisplayString;
         private Image? _image;
@@ -39,6 +40,7 @@ namespace Krypton.Toolkit
         private Keys _shortcutKeys;
         private readonly PaletteContextMenuItemStateRedirect _stateRedirect;
         private KryptonCommand? _command;
+
         #endregion
 
         #region Events
@@ -69,7 +71,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
         public KryptonContextMenuItem()
-            : this(@"Menu Item", null, null, Keys.None)
+            : this(@"MenuItem", null, null, Keys.None)
         {
         }
 
@@ -230,10 +232,18 @@ namespace Krypton.Toolkit
         [DefaultValue(@"MenuItem")]
         [Localizable(true)]
         [Bindable(true)]
-        public override string Text
+        public string Text
         {
-            get => base.Text;
-            set => base.Text = value;
+            get => _text;
+
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
+                }
+            }
         }
 
         /// <summary>

@@ -12,7 +12,8 @@
 
 // ReSharper disable InconsistentNaming
 
-// ReSharper disable UnusedMember.Global
+using SolidBrush = System.Drawing.SolidBrush;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -26,6 +27,7 @@ namespace Krypton.Toolkit
                                IContentValues
     {
         #region Type Definitions
+
         /// <summary>
         /// Collection for managing ButtonSpecAny instances.
         /// </summary>
@@ -63,7 +65,9 @@ namespace Krypton.Toolkit
 
         #region Static Fields
         private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
+
         private const int HT_CORNER = 8;
+
         // Drop shadow
         private const int CS_DROPSHADOW = 0x00020000;
 
@@ -98,9 +102,14 @@ namespace Krypton.Toolkit
         private Icon? _cacheIcon;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
+        private InheritBool _internalPanelState;
+        private int _foundRibbonOffset = -1;
+        private readonly KryptonPanel _internalKryptonPanel;
+
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonForm class.
         /// </summary>
@@ -132,7 +141,7 @@ namespace Krypton.Toolkit
             buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 
             // Create the palette storage
-            StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteFormRedirect(Redirector, NeedPaintDelegate, this);
             StateInactive = new PaletteForm(StateCommon, StateCommon.Header, NeedPaintDelegate);
             StateActive = new PaletteForm(StateCommon, StateCommon.Header, NeedPaintDelegate);
 
@@ -158,13 +167,16 @@ namespace Krypton.Toolkit
 
             // Create a null element that takes up all remaining space
             _layoutNull = new ViewLayoutNull();
-            //// Create the internal panel used for containing content
-            //Panel = new KryptonPanel(this, StateCommon, StateDisabled, StateNormal, OnPanelPaint!)
-            //{
-            //    // Make sure the panel back style always mimics our back style
-            //    PanelBackStyle = PaletteBackStyle.ControlClient
-            //};
-            //_layoutFill = new ViewLayoutFill(Panel);  // TODO For the Panel in a form
+            // Create the internal panel used for containing content
+            _internalKryptonPanel = new KryptonPanel
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+                Margin = new Padding(0),
+                Name = "InternalKryptonPanel",
+                Size = new Size(100, 100),
+                TabStop = false
+            };
 
             // Create the root element that contains the title bar and null filler
             _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
@@ -179,8 +191,8 @@ namespace Krypton.Toolkit
                 [StateCommon.Header],
                 [PaletteMetricInt.HeaderButtonEdgeInsetForm],
                 [PaletteMetricPadding.HeaderButtonPaddingForm],
-                                                       CreateToolStripRenderer,
-                                                       OnButtonManagerNeedPaint!);
+                CreateToolStripRenderer,
+                OnNeedPaint);
 
             // Create the manager for handling tooltips
             ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
@@ -201,7 +213,7 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
-            TransparencyKey = Color.Magenta; // Bug #1749
+            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR; // Bug #1749
         }
 
         /// <summary>
@@ -220,7 +232,8 @@ namespace Krypton.Toolkit
 
                 // Unhook from the global static events
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -=
+                    OnGlobalUseThemeFormChromeBorderWidthChanged;
 
                 // Clear down the cached bitmap
                 if (_cacheBitmap != null)
@@ -237,6 +250,194 @@ namespace Krypton.Toolkit
             base.Dispose(disposing);
         }
         #endregion
+
+        #region Magic Overrides to make the internal Panel work indesigners etc.
+
+        /// <inheritdoc cref="Form" />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+#if NET8_0_OR_GREATER
+        [AllowNull]
+        public override Font Font
+#else
+        public override Font Font
+#endif
+        {
+            get => base.Font;
+            set { } //base.Font = value;
+        }
+
+        /// <inheritdoc cref="Form" />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color ForeColor
+        {
+            get => base.ForeColor;
+            set { } // base.ForeColor = value;
+        }
+
+        /// <inheritdoc cref="Form" />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color BackColor
+        {
+            get => base.BackColor;
+            set { } // base.BackColor = value;
+        }
+
+        /// <summary>
+        /// Gets and sets the background image.
+        /// </summary>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Background image.")]
+        [DefaultValue(null)]
+        [RefreshProperties(RefreshProperties.All)]
+        public override Image? BackgroundImage
+        {
+            get => _internalKryptonPanel.StateCommon.Image;
+            set => _internalKryptonPanel.StateCommon.Image = value;
+        }
+
+        /// <inheritdoc cref="Form" />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get => base.BackgroundImageLayout;
+            set => base.BackgroundImageLayout = value;
+        }
+
+        /// <summary>
+        /// Gets and sets the background image style.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Background image style.")]
+        [DefaultValue(PaletteImageStyle.Inherit)]
+        [RefreshProperties(RefreshProperties.All)]
+        public PaletteImageStyle ImageStyle
+        {
+            get => _internalKryptonPanel.StateCommon.ImageStyle;
+            set => _internalKryptonPanel.StateCommon.ImageStyle = value;
+        }
+
+        /// <inheritdoc cref="Form" />
+        public new void SuspendLayout()
+        {
+            if (_internalPanelState == InheritBool.Inherit)
+            {
+                _internalPanelState = InheritBool.False;
+                ((ISupportInitialize)(this._internalKryptonPanel)).BeginInit();
+                _internalKryptonPanel.SuspendLayout();
+            }
+
+            base.SuspendLayout();
+        }
+
+        /// <summary>
+        ///  Gets or sets a value indicating whether the form is a container for multiple document interface
+        ///  (MDI) child forms.
+        /// </summary>
+        [Category("Window Style")]
+        [DefaultValue(false)]
+        [Description(
+            "Gets or sets a value indicating whether the form is a container for multiple document interface (MDI) child forms.")]
+        public new bool IsMdiContainer
+        {
+            get => base.IsMdiContainer;
+            set
+            {
+                base.IsMdiContainer = value;
+                if (value)
+                {
+                    SetInheritedControlOverride();
+                    // So this (in the designer) is normally set after all the controls have been added !
+                    Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
+                    var controlCount = checkForRibbon.Count;
+                    for (var i = controlCount - 1; i >= 0; i--)
+                    {
+                        //In reverse, because they are removed when added to another control
+                        base.Controls.Add(checkForRibbon[i]);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// If the `KryptonForm` is a base class, then use this to override the internal panel usage
+        /// </summary>
+        public void SetInheritedControlOverride()
+        {
+            _internalPanelState = InheritBool.True;
+            _foundRibbonOffset = 0;
+        }
+
+        /// <inheritdoc cref="Form" />
+        public new void ResumeLayout(bool performLayout)
+        {
+            if (!performLayout
+                && _internalPanelState == InheritBool.False)
+            {
+                _internalPanelState = InheritBool.True;
+
+                Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
+                var controlCount = checkForRibbon.Count;
+                for (var i = controlCount - 1; i >= 0; i--)
+                {
+                    //In reverse, because "normally" the ribbon is added last.
+                    // Have to do a string match as the dll reflection may not be in the project
+                    if (checkForRibbon[i].GetType().ToString() == @"Krypton.Ribbon.KryptonRibbon")
+                    {
+                        _foundRibbonOffset = i;
+                        break;
+                    }
+                }
+
+                if (_foundRibbonOffset == -1)
+                {
+                    base.Controls.Add(_internalKryptonPanel);
+                    ((ISupportInitialize)(this._internalKryptonPanel)).EndInit();
+                    _internalKryptonPanel.ResumeLayout(false);
+                    _internalKryptonPanel.PerformLayout();
+                }
+                else
+                {
+                    for (var i = controlCount - 1; i >= 0; i--)
+                    {
+                        //In reverse, because they are removed when added to another control
+                        if (i != _foundRibbonOffset)
+                        {
+                            base.Controls.Add(checkForRibbon[i]);
+                        }
+                    }
+                    // Adding above removes from the _internalKryptonPanel
+                    base.Controls.Add(checkForRibbon[0]);
+                }
+            }
+
+            base.ResumeLayout(performLayout);
+        }
+
+        /// <inheritdoc cref="Form" />
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Description("ControlControlsDescr")]
+        public new Control.ControlCollection Controls
+        {
+            get
+            {
+                // Deal with adding after the `InitializeComponent` has completed
+                return _foundRibbonOffset == -1 
+                    ? _internalKryptonPanel.Controls 
+                    : base.Controls;
+            }
+        }
+
+#endregion
 
         #region Public
         /// <summary>
@@ -621,10 +822,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (_activeControl != value)
-                {
-                    _activeControl = value;
-                }
+                _activeControl = value;
                 _activeControl?.Focus();
             }
         }
@@ -634,7 +832,15 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [DefaultValue(KryptonFormTitleStyle.Inherit),
          Description(@"Arranges the current window title alignment.")]
-        public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
+        public KryptonFormTitleStyle TitleStyle
+        {
+            get => _titleStyle;
+            set
+            {
+                _titleStyle = value;
+                UpdateTitleStyle(value);
+            }
+        }
 
         #endregion
 
@@ -953,7 +1159,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override void WindowChromeEnd()
         {
-            // Remove any region begin used to shape the form
+            // Remove any region "begin" used to shape the form
             UpdateBorderRegion(null);
 
             base.WindowChromeEnd();
@@ -1170,7 +1376,6 @@ namespace Krypton.Toolkit
                         {
                             return Icon;
                         }
-
                         break;
                 }
             }
@@ -1191,16 +1396,19 @@ namespace Krypton.Toolkit
                                                     PaletteMetricInt.HeaderButtonEdgeInsetPrimary,
                                                     PaletteMetricPadding.HeaderButtonPaddingPrimary);
                     break;
+
                 case HeaderStyle.Secondary:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetSecondary,
                                                     PaletteMetricPadding.HeaderButtonPaddingSecondary);
                     break;
+
                 case HeaderStyle.DockActive:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockActive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockActive);
                     break;
+
                 case HeaderStyle.DockInactive:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
@@ -1267,7 +1475,6 @@ namespace Krypton.Toolkit
                     else
                     {
                         ButtonSpecMin.ButtonSpecType = PaletteButtonSpecStyle.FormMin;
-
                         // Make sure the top level form docker has the status strip being merged
                         _drawDocker.StatusStrip = StatusStripMerging ? _statusStrip : null;
                     }
@@ -1280,7 +1487,6 @@ namespace Krypton.Toolkit
                     {
                         // Ensure the header style matches the form border style
                         SetHeaderStyle(_drawHeading, StateCommon!.Header, _headerStyle);
-
                         // Remember last header style set
                         _headerStylePrev = _headerStyle;
                     }
@@ -1331,8 +1537,20 @@ namespace Krypton.Toolkit
                         || (GetDefinedIcon() != _cacheIcon)
                         )
                     {
+                        Rectangle realWindowRectangle = RealWindowRectangle;
                         // Ask the view to perform a layout
-                        using (var context = new ViewLayoutContext(ViewManager, this, RealWindowRectangle, Renderer))
+                        if (GetWindowState() == FormWindowState.Maximized)
+                        {
+                            if (MdiParent == null)
+                            {
+                                // Get the size of each window border
+                                var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+                                // Reduce the Bounds by the padding on all but the top
+                                realWindowRectangle.Width -= xBorder;
+                            }
+                        }
+
+                        using (var context = new ViewLayoutContext(ViewManager, this, realWindowRectangle, Renderer))
                         {
                             ViewManager.Layout(context);
                         }
@@ -1349,7 +1567,6 @@ namespace Krypton.Toolkit
                         {
                             // Track the window state at the time the region is created
                             _regionWindowState = WindowState;
-
                             // Get the path for the border, so we can shape the form using it
                             using var context = new RenderContext(this, null, Bounds, Renderer);
                             using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
@@ -1390,9 +1607,22 @@ namespace Krypton.Toolkit
                         UpdateRegionForMaximized();
                     }
                 }
-                else
+                else if (MdiParent != null)
+                {
+                    using var backBrush = new SolidBrush(MdiParent.ActiveMdiChild == MdiParent
+                        ? StateActive.Border.Color1
+                        : StateInactive.Border.Color1);
+                    g.FillRectangle(backBrush, rect); // Bug #????
+                }
+                else if (TransparencyKey == GlobalStaticValues.TRANSPARENCY_KEY_COLOR)
                 {
                     g.FillRectangle(Brushes.Magenta, rect); // Bug #1749
+                }
+                else
+                {
+                    // TODO: Use a cached brush !
+                    using var backBrush = new SolidBrush(TransparencyKey);
+                    g.FillRectangle(backBrush, rect); // Bug #1749
                 }
 
                 // We draw the main form and header background
@@ -1409,11 +1639,12 @@ namespace Krypton.Toolkit
             if (MdiParent == null)
             {
                 // Get the size of each window border
-                Padding padding = RealWindowBorders;
+                var xBorder = PI.GetSystemMetrics(PI.SM_.CXSIZEFRAME) * 2;
+                var yBorder = PI.GetSystemMetrics(PI.SM_.CYSIZEFRAME) * 2;
 
                 // Reduce the Bounds by the padding on all but the top
-                var maximizedRect = new Rectangle(padding.Left, padding.Left, Width - padding.Horizontal,
-                    Height - padding.Left - padding.Bottom);
+                var maximizedRect = new Rectangle(xBorder, yBorder, Width - (xBorder * 2),
+                    Height - (yBorder * 2));
 
                 // Use this as the new region
                 SuspendPaint();
@@ -1577,34 +1808,6 @@ namespace Krypton.Toolkit
 
             // Not showing a popup page anymore
             _visualPopupToolTip = null;
-        }
-
-        private void OnButtonManagerNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
-            // Only interested in optimizing specific button spec changes
-            if (sender is ButtonSpecView bsView)
-            {
-                ButtonSpec bs = bsView.ButtonSpec;
-
-                // Only interest in the three form level buttons, as we know 
-                // these never change in size because of a paint request
-                if ((bs == ButtonSpecMin) ||
-                    (bs == ButtonSpecMax) ||
-                    (bs == ButtonSpecClose))
-                {
-                    // Translate the button rectangle into the non client area
-                    Rectangle buttonRect = bsView.ViewButton.ClientRectangle;
-                    Padding borders = RealWindowBorders;
-                    buttonRect.X -= borders.Left;
-                    buttonRect.Y -= borders.Top;
-
-                    // Only invalidate the actual button area itself
-                    OnNeedPaint(sender, new NeedLayoutEventArgs(false, buttonRect));
-                    return;
-                }
-            }
-
-            OnNeedPaint(sender, e);
         }
 
         private void OnStatusDockChanged(object? sender, EventArgs e)

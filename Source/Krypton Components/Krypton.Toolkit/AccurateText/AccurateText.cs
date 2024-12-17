@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(align.ToString());
                     break;
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(trim.ToString());
                     break;
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(prefix.ToString());
                     break;
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
 
                     return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
                 };
-                //);
+            //);
             // Return a memento with drawing details
             return memento.Invoke();
         }
@@ -289,8 +289,7 @@ namespace Krypton.Toolkit
 
                     try
                     {
-
-                                g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
+                        g.DrawString(memento.Text, memento.Font!, brush, rect, memento.Format);
                     }
                     catch
                     {

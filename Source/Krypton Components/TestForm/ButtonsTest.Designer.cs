@@ -39,6 +39,7 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ButtonsTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnButtonStyles = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonColorButton1 = new Krypton.Toolkit.KryptonColorButton();
             this.kcbtnDropDown = new Krypton.Toolkit.KryptonColorButton();
@@ -56,7 +57,6 @@ namespace TestForm
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
-            this.kbtnButtonStyles = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -79,8 +79,18 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(522, 236);
+            this.kryptonPanel1.Size = new System.Drawing.Size(543, 220);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnButtonStyles
+            // 
+            this.kbtnButtonStyles.Location = new System.Drawing.Point(140, 196);
+            this.kbtnButtonStyles.Name = "kbtnButtonStyles";
+            this.kbtnButtonStyles.Size = new System.Drawing.Size(243, 25);
+            this.kbtnButtonStyles.TabIndex = 10;
+            this.kbtnButtonStyles.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnButtonStyles.Values.Text = "Button Styles";
+            this.kbtnButtonStyles.Click += new System.EventHandler(this.kbtnButtonStyles_Click);
             // 
             // kryptonThemeComboBox1
             // 
@@ -142,7 +152,6 @@ namespace TestForm
             this.kryptonContextMenuItem1,
             this.kryptonContextMenuItem2,
             this.kryptonContextMenuItem3});
-            this.kryptonContextMenuItems1.Text = "";
             // 
             // kryptonContextMenuItem1
             // 
@@ -239,22 +248,12 @@ namespace TestForm
             this.buttonSpecAny1.Text = "Test Text";
             this.buttonSpecAny1.UniqueName = "bad5983b9e7f4d82b15e55a1a19807bb";
             // 
-            // kbtnButtonStyles
-            // 
-            this.kbtnButtonStyles.Location = new System.Drawing.Point(140, 196);
-            this.kbtnButtonStyles.Name = "kbtnButtonStyles";
-            this.kbtnButtonStyles.Size = new System.Drawing.Size(243, 25);
-            this.kbtnButtonStyles.TabIndex = 10;
-            this.kbtnButtonStyles.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnButtonStyles.Values.Text = "Button Styles";
-            this.kbtnButtonStyles.Click += new System.EventHandler(this.kbtnButtonStyles_Click);
-            // 
             // ButtonsTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
-            this.ClientSize = new System.Drawing.Size(522, 236);
+            this.ClientSize = new System.Drawing.Size(543, 220);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

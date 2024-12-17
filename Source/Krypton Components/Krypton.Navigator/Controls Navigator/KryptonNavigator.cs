@@ -128,7 +128,7 @@ namespace Krypton.Navigator
         /// Occurs when the context action occurs.
         /// </summary>
         [Category(@"Navigator")]
-        [Description(@"Occurs when the drop down button is clicked in Outlook mode.")]
+        [Description(@"Occurs when the drop-down button is clicked in Outlook mode.")]
         public event EventHandler<KryptonContextMenuEventArgs>? OutlookDropDown;
 
         /// <summary>
@@ -2142,7 +2142,7 @@ namespace Krypton.Navigator
         {
             // Assign the default values
             _mode = NavigatorMode.BarTabGroup;
-            _pageBackStyle = PaletteBackStyle.ControlClient;
+            _pageBackStyle = PaletteBackStyle.PanelClient;
             AllowPageReorder = true;
             _allowTabFocus = true;
             _allowTabSelect = true;
@@ -2229,7 +2229,7 @@ namespace Krypton.Navigator
                     OnGroupPanelPaint!)
                 {
                     // Make sure the panel back style always mimics our back style
-                    PanelBackStyle = PaletteBackStyle.ControlClient
+                    PanelBackStyle = PaletteBackStyle.PanelClient
                 };
             }
 

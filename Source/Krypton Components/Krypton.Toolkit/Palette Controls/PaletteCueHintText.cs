@@ -120,6 +120,11 @@ namespace Krypton.Toolkit
 
         internal void PerformPaint(VisualControlBase textBox, Graphics? g, PI.RECT rect, SolidBrush backBrush)
         {
+            Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
+        }
+
+        internal void PerformPaint(VisualControlBase textBox, Graphics? g, Rectangle layoutRectangle, SolidBrush backBrush)
+        {
             using var old = new GraphicsHint(g, PaletteGraphicsHint.HighQuality);
             using var old1 = new GraphicsTextHint(g!, CommonHelper.PaletteTextHintToRenderingHint(_contentTextHint));
             // Define the string formatting requirements
@@ -151,12 +156,10 @@ namespace Krypton.Toolkit
             // Use the correct prefix setting
             stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
-            Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
-
             // Draw entire client area in the background color
             g?.FillRectangle(backBrush, layoutRectangle);
 
-            var padding = GetContentPadding(PaletteState.Normal);
+            var padding = GetBorderContentPadding(null, PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))
             {
                 layoutRectangle.X += padding.Left;

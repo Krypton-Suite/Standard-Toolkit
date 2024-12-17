@@ -55,6 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="conditionalFormatType">Type of the conditional format.</param>
         public VisualCustomFormatRuleForm(EnumConditionalFormatType conditionalFormatType)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _conditionalFormatType = conditionalFormatType;

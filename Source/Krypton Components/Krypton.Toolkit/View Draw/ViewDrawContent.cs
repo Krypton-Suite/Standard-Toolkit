@@ -410,7 +410,5 @@ namespace Krypton.Toolkit
             return (bool)_pi!.GetValue(c, null)!;
         }
         #endregion
-
-    
     }
 }

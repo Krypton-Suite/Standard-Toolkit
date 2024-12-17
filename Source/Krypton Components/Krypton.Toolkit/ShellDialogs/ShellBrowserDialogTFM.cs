@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
                         panel.Width += (int)(30 * _scaleFactor);
                     }
                 }
-                // Also Hide the Combo filter drop down 
+                // Also Hide the Combo filter drop-down 
                 var filterCombo = _commonDialogHandler.Controls.FirstOrDefault(static ctl => ctl.DlgCtrlId == 0x470);
                 if (filterCombo != null)
                 {

@@ -1114,11 +1114,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
-        => GetPaletteContent(style, state).GetContentPadding(state);
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state)
+        => GetPaletteContent(style, state).GetBorderContentPadding(owningForm, state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -1131,25 +1133,28 @@ namespace Krypton.Toolkit
         #endregion
 
         #region PaletteBase Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric) => metric switch
+        /// <inheritdoc />
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
         {
-            PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(state, metric),
-            PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(state, metric),
+            PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
+            PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
             // Otherwise use base instance for the value instead
-            _ => _redirector.GetMetricInt(state, metric)
+            _ => _redirector.GetMetricInt(owningForm, state, metric)
         };
 
         /// <summary>
@@ -1172,10 +1177,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             switch (metric)
             {
@@ -1184,39 +1191,39 @@ namespace Krypton.Toolkit
                 case PaletteMetricPadding.BarPaddingOutside:
                 case PaletteMetricPadding.BarPaddingOnly:
                 case PaletteMetricPadding.BarButtonPadding:
-                    return Navigator.StateCommon.Bar.GetMetricPadding(state, metric);
+                    return Navigator.StateCommon.Bar.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderGroupPaddingPrimary:
                 case PaletteMetricPadding.HeaderGroupPaddingSecondary:
                 case PaletteMetricPadding.HeaderGroupPaddingDockInactive:
                 case PaletteMetricPadding.HeaderGroupPaddingDockActive:
-                    return HeaderGroup.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderGroup.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingPrimary:
-                    return HeaderStyles.HeaderPrimary.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderPrimary.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingSecondary:
-                    return HeaderStyles.HeaderSecondary.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderSecondary.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingDockInactive:
-                    return HeaderStyles.HeaderDockInactive.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderDockInactive.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingDockActive:
-                    return HeaderStyles.HeaderDockActive.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderDockActive.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingForm:
-                    return HeaderStyles.HeaderForm.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderForm.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingCustom1:
-                    return HeaderStyles.HeaderCustom1.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderCustom1.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingCustom2:
-                    return HeaderStyles.HeaderCustom2.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderCustom2.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.HeaderButtonPaddingCustom3:
-                    return HeaderStyles.HeaderCustom3.StateCommon.GetMetricPadding(state, metric);
+                    return HeaderStyles.HeaderCustom3.StateCommon.GetMetricPadding(owningForm, state, metric);
                 case PaletteMetricPadding.SeparatorPaddingLowProfile:
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return SeparatorStyles.SeparatorLowProfile.StateDisabled.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorLowProfile.StateDisabled.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Normal:
-                            return SeparatorStyles.SeparatorLowProfile.StateNormal.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorLowProfile.StateNormal.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Tracking:
-                            return SeparatorStyles.SeparatorLowProfile.StateTracking.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorLowProfile.StateTracking.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Pressed:
-                            return SeparatorStyles.SeparatorLowProfile.StatePressed.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorLowProfile.StatePressed.GetMetricPadding(owningForm, state, metric);
                     }
                     break;
                 case PaletteMetricPadding.SeparatorPaddingHighProfile:
@@ -1224,58 +1231,58 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return SeparatorStyles.SeparatorHighProfile.StateDisabled.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorHighProfile.StateDisabled.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Normal:
-                            return SeparatorStyles.SeparatorHighProfile.StateNormal.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorHighProfile.StateNormal.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Tracking:
-                            return SeparatorStyles.SeparatorHighProfile.StateTracking.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorHighProfile.StateTracking.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Pressed:
-                            return SeparatorStyles.SeparatorHighProfile.StatePressed.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorHighProfile.StatePressed.GetMetricPadding(owningForm, state, metric);
                     }
                     break;
                 case PaletteMetricPadding.SeparatorPaddingCustom1:
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return SeparatorStyles.SeparatorCustom1.StateDisabled.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom1.StateDisabled.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Normal:
-                            return SeparatorStyles.SeparatorCustom1.StateNormal.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom1.StateNormal.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Tracking:
-                            return SeparatorStyles.SeparatorCustom1.StateTracking.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom1.StateTracking.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Pressed:
-                            return SeparatorStyles.SeparatorCustom1.StatePressed.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom1.StatePressed.GetMetricPadding(owningForm, state, metric);
                     }
                     break;
                 case PaletteMetricPadding.SeparatorPaddingCustom2:
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return SeparatorStyles.SeparatorCustom2.StateDisabled.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom2.StateDisabled.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Normal:
-                            return SeparatorStyles.SeparatorCustom2.StateNormal.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom2.StateNormal.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Tracking:
-                            return SeparatorStyles.SeparatorCustom2.StateTracking.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom2.StateTracking.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Pressed:
-                            return SeparatorStyles.SeparatorCustom2.StatePressed.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom2.StatePressed.GetMetricPadding(owningForm, state, metric);
                     }
                     break;
                 case PaletteMetricPadding.SeparatorPaddingCustom3:
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return SeparatorStyles.SeparatorCustom3.StateDisabled.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom3.StateDisabled.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Normal:
-                            return SeparatorStyles.SeparatorCustom3.StateNormal.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom3.StateNormal.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Tracking:
-                            return SeparatorStyles.SeparatorCustom3.StateTracking.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom3.StateTracking.GetMetricPadding(owningForm, state, metric);
                         case PaletteState.Pressed:
-                            return SeparatorStyles.SeparatorCustom3.StatePressed.GetMetricPadding(state, metric);
+                            return SeparatorStyles.SeparatorCustom3.StatePressed.GetMetricPadding(owningForm, state, metric);
                     }
                     break;
             }
 
             // Otherwise use base instance for the value instead
-            return _redirector.GetMetricPadding(state, metric);
+            return _redirector.GetMetricPadding(owningForm, state, metric);
         }
 
         #endregion
@@ -1428,29 +1435,6 @@ namespace Krypton.Toolkit
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed);
-        }
-
-        /// <summary>
-        /// Gets a drop-down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state)
-        {
-            // Grab state specific image
-            var retImage = state switch
-            {
-                PaletteState.Disabled => Images.DropDownButton.Disabled,
-                PaletteState.Normal => Images.DropDownButton.Normal,
-                PaletteState.Tracking => Images.DropDownButton.Tracking,
-                PaletteState.Pressed => Images.DropDownButton.Pressed,
-                _ => null
-            };
-
-            // Use common image as the last resort
-            retImage ??= Images.DropDownButton.Common;
-
-            // If nothing found then use the base palette
-            return retImage ?? _redirector.GetDropDownButtonImage(state);
         }
 
         /// <summary>
@@ -3751,15 +3735,7 @@ namespace Krypton.Toolkit
                 {
                     // Convert the Image into base64, so it can be used in xml
                     using var memory = new MemoryStream();
-
-                    var imageFormat = entry.Key.RawFormat;
-
-                    if (imageFormat.Equals(ImageFormat.MemoryBmp))
-                    {
-                        imageFormat = ImageFormat.Bmp;
-                    }
-
-                    entry.Key.Save(memory, imageFormat);
+                    entry.Key.Save(memory, ImageFormat.Png);
                     memory.Position = 0;
                     var base64 = Convert.ToBase64String(memory.ToArray());
 

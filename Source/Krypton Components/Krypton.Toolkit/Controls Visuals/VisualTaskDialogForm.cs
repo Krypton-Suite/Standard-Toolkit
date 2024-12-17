@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
         /// <exception cref="System.ArgumentNullException">taskDialog</exception>
         public VisualTaskDialogForm(KryptonTaskDialog taskDialog)
         {
+            SetInheritedControlOverride();
             // Must provide a valid reference
 
             _taskDialog = taskDialog ??

@@ -488,7 +488,7 @@ namespace Krypton.Ribbon
                                                               _clearGroupsMenu, new ToolStripSeparator(),
                                                               _deleteTabMenu });
 
-                    _addGroupMenu.ImageTransparentColor = Color.Magenta;
+                    _addGroupMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 // Update verbs to work out correct enable states

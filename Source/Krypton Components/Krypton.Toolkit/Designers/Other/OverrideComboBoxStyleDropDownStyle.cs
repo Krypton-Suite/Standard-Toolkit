@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         /// <param name="context">An ITypeDescriptorContext that can be used to gain additional context information.</param>
         /// <returns>UITypeEditorEditStyle value.</returns>
         /// <remarks>
-        /// We show a drop down for editing the PaletteDrawBorders value.
+        /// We show a drop-down for editing the PaletteDrawBorders value.
         /// </remarks>
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => context?.Instance != null
             ? UITypeEditorEditStyle.DropDown
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         {
             if (provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService svc)
             {
-                var ctrl = new UserControl();
+                UserControl ctrl = new();
                 ListBox clb = new ListBox { Dock = DockStyle.Fill };
                 
                 if (clb is not null && value is not null)

@@ -110,9 +110,9 @@ namespace Krypton.Toolkit
             _splitter = false;
             _dropDownPosition = VisualOrientation.Right;
 
-            // Create the drop down view
+            // Create the drop-down view
             _drawDropDown = new ViewLayoutCenter(1);
-            _drawDropDownButton = new ViewDrawDropDownButton();
+            _drawDropDownButton = new ViewDrawDropDownButton(_paletteNormal.PaletteContent!);
             _drawDropDown.Add(_drawDropDownButton);
             _drawOuterSeparator = new ViewLayoutSeparator(1);
 
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
 
         #region DropDown
         /// <summary>
-        /// Gets and sets the drop down capability of the button.
+        /// Gets and sets the drop-down capability of the button.
         /// </summary>
         public bool DropDown
         {
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
 
         #region DropDownPosition
         /// <summary>
-        /// Gets and sets the drop down position.
+        /// Gets and sets the drop-down position.
         /// </summary>
         public VisualOrientation DropDownPosition
         {
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
 
         #region DropDownOrientation
         /// <summary>
-        /// Gets and sets the drop down orientation.
+        /// Gets and sets the drop-down orientation.
         /// </summary>
         public VisualOrientation DropDownOrientation
         {
@@ -230,20 +230,9 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region DropDownPalette
-        /// <summary>
-        /// Gets and sets the drop down capability of the button.
-        /// </summary>
-        public PaletteBase DropDownPalette
-        {
-            get => _drawDropDownButton.Palette;
-            set => _drawDropDownButton.Palette = value;
-        }
-        #endregion
-
         #region Splitter
         /// <summary>
-        /// Gets and sets if the drop down button needs a splitter.
+        /// Gets and sets if the drop-down button needs a splitter.
         /// </summary>
         public bool Splitter
         {
@@ -520,7 +509,7 @@ namespace Krypton.Toolkit
             _nonSplitRectangle = ClientRectangle;
             if (_dropDown && _splitter)
             {
-                // Splitter rectangle depends on drop down position
+                // Splitter rectangle depends on drop-down position
                 switch (_dropDownPosition)
                 {
                     case VisualOrientation.Top:

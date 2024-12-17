@@ -30,6 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualInputBoxForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
 
@@ -37,6 +38,7 @@ namespace Krypton.Toolkit
         /// <param name="inputBoxData">The input box data.</param>
         public VisualInputBoxForm(KryptonInputBoxData inputBoxData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _inputBoxData = inputBoxData;

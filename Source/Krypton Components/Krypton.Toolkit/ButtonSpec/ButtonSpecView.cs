@@ -64,15 +64,9 @@ namespace Krypton.Toolkit
                                                  PaletteContentStyle.ButtonButtonSpec,
                                                  needPaint);
 
-
             // Create the view for displaying a button
             ViewButton = new ViewDrawButton(_palette, _palette, _palette, _palette,
                                              paletteMetric, this, VisualOrientation.Top, false);
-
-            var images = new DropDownButtonImages(needPaint);
-            // Image need an extra redirector to check the local images first
-            var paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector, images);
-            ViewButton.DropDownPalette = paletteDropDownButtonImages;
 
             // Associate the view with the source component (for design time support)
             if (ButtonSpec.AllowComponent)
@@ -325,12 +319,12 @@ namespace Krypton.Toolkit
         public Image? GetImage(PaletteState state)
         {
             // Get value from button spec passing inheritance redirector
-            var baseImage = ButtonSpec.GetImage(_redirector, state);
+            Image? baseImage = ButtonSpec.GetImage(_redirector, state);
 
-            // No need to perform scaling as it will be done @
-            // $\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Rendering\RenderStandard.cs
-            // line 5779: memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, currentWidth, currentHeight);
-            return baseImage;
+            return (baseImage != null)
+                ? CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * _controller!.Target.FactorDpiX,
+                    baseImage.Height * _controller!.Target.FactorDpiY)
+                : null;
         }
 
         /// <summary>

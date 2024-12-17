@@ -87,7 +87,7 @@ namespace Krypton.Navigator
         /// <summary>Specifies that the user is allowed to close a docking page.</summary>
         DockingAllowClose = 0x0004,
 
-        /// <summary>Specifies that the user is allowed to select from a drop down button.</summary>
+        /// <summary>Specifies that the user is allowed to select from a drop-down button.</summary>
         DockingAllowDropDown = 0x008,
 
         /// <summary>Specifies that the user is allowed to make a page auto hidden.</summary>
@@ -501,7 +501,7 @@ namespace Krypton.Navigator
         ArrowDown,
 
         /// <summary>
-        /// Specifies a drop down button specification.
+        /// Specifies a drop-down button specification.
         /// </summary>
         DropDown,
 

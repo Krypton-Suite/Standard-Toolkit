@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
             }
 
             cache.First = DrawBackExpert(rect,
-                CommonHelper.MergeColors(backColor1, 0.5f, Color.White, 0.5f),
-                CommonHelper.MergeColors(backColor2, 0.5f, Color.White, 0.5f),
+                backColor1,//CommonHelper.MergeColors(backColor1, 0.5f, Color.White, 0.5f),
+                backColor2,//CommonHelper.MergeColors(backColor2, 0.5f, Color.White, 0.5f),
                 orientation, context.Graphics, memento, true, false);
 
             cache.Second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, false);

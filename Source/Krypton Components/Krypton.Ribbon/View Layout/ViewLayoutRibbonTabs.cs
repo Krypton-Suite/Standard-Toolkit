@@ -252,7 +252,6 @@ namespace Krypton.Ribbon
                 // Only interested in tab views
                 if (child is ViewDrawRibbonTab viewTab)
                 {
-
                     // Get the screen location of the view tab
                     Rectangle tabRect = viewTab.OwningControl!.RectangleToScreen(viewTab.ClientRectangle);
 

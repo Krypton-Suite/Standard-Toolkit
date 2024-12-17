@@ -3,6 +3,33 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
+* Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
+* Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
+* Implemented [#1928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1928), A proper exception dialog
+	- To invoke, use `KryptonExceptionDialog`
+* Implemented [#519](https://github.com/Krypton-Suite/Standard-Toolkit/issues/519), `PaletteDataGridViewAll` does not expose the border value of the `private readonly PaletteDouble _background`
+* Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
+	- `ButtonSpecs` have been removed from the `KryptonRichTextBox`
+	- Use another layout to align in the designers
+* Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
+* Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
+* Resolved [#1909](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1909), `KryptonDataGridViewComboBoxCell` displays an empty drop-down list on the first new row.
+* Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`
+* Implemented [#1177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1177), Is it possible to have the KForm back colour as the KPanel colour
+* Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1900), Remove Obsolete `KryptonMessageBoxDep` from V100 code base
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers
+* Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
+* Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
+* Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
+* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
+* Resolved [#1843](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), `ButtonSpec` position is off due to an incorrect padding when style is set to "List Item".
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when the MultiLine property is enabled.
 * Implemented [#1184](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1184), A proper `SplashScreen` item
 * Implemented [#1236](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1236), Backport `StockIconId` feature
 * Support for .NET 10
@@ -10,18 +37,35 @@
 
 =======
 
-## 2025-02-01 - Build 2502 (Version 90 - Patch 1) - February 2025
+## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
+* Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
+* Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
+* Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
+* Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
+* Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`
+* Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1900), Obsolete `KryptonMessageBoxDep` in V95 code base
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
+* Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
+* Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
+* Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
+* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
 * Resolved [#1865](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1865), Outlook Mockup Error (thanks to [AngeloCresta](https://github.com/AngeloCresta))
 * Resolved [#1862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1862), `VisualPanel.PaintTransparentBackground()` throws a null reference exception
 * Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
-* Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), ChromeBorderWidth and Padding
+* Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), `ChromeBorderWidth` and Padding
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 * Resolved [#1241](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1241), `KryptonDataGridViewComboBoxColumn` ignores `ValueMember` in data binding. 
 
 =======
 
-## 2024-11-12 - Build 2411 - November 2024
+## 2024-11-12 - Build 2411 (V90) - November 2024
 * Resolved [#1787](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1787), Office 2007 & 2010 Silver Dark Mode themes ribbon button tracking colors adjusted.
 * Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800), `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .NETCore onwards [Returns error due to abstract class]
@@ -176,12 +220,31 @@
 
 =======
 
+# 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
+* Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
+* Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
+* Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`
+* Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+	- Create Scaled Drop Glyph and use for colour button and comboDrops
+	- Remove the `PaletteRedirectDropDownButton`
+	- Remove `KryptonPaletteImagesDropDownButton`
+	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
+* Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
+* Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
+
+=======
+
 # 2024-11-14 - Build 2411 (Patch 4) - November 2024
+* Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
 * Resolved [#1820](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1820), When KryptonDataGridView.AutoGenerate is set WinForms columns are used. See the issue for full text.
 
 =======
 
 # 2024-10-14 - Build 2410 (Patch 3) - October 2024
+* Implemented [#1813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1813), LTS Configuration
+* Resolved [#1800](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1800) `KryptonDataGridViewComboBoxEditingControl.EditingControlFormattedValue` property is differently implemented.
 * Implemented [#1792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1792), Enable 'SourceLink' for NuGet packages
 * Resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), Cannot Add Ribbon-Buttons-Container (KryptonRibbonGroupTripple) when using .netcore onwards [Returns error due to abstract class]
 * Resolved [#297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/297), Office 2k7 colour usages are wrong
@@ -190,7 +253,7 @@
 =======
 
 ## 2024-08-26 - Build 2408 (Patch 2) - August 2024
-* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled en reenabled again.
+* Resolved [#1697](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1697), `KryptonComboBox` change in DropDownStyle cripples the control while the control is disabled when reenabled again.
 * Resolved [#1755](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1755), Ribbon `GalleryButtonController` timer component causes an exception on mouse movements.
 * Resolved [#1548](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1548), KComboBox DropDown arrow is illegible in certain themes
 * Resolved [#1659](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1659), Solves `KryptonMessageBox` selected text issue, usage of diverse line breaks and sizing issues.
@@ -218,7 +281,7 @@
 * Resolved [#1455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1455), **[Regression]** KryptonComboBox text is clipped; as height is incorrect.
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1502), Docking Persistence broken since build `##.23.10.303`
 * Resolved [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
-	- Added property `ShowDrop`, which displays a drop down arrow on the button.
+	- Added property `ShowDrop`, which displays a drop-down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
 	- When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
 	- When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.

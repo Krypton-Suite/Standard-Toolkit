@@ -62,10 +62,10 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => (Image == GetImageDefault()) &&
-                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                            (Heading == GetHeadingDefault()) &&
-                                            (Description == GetDescriptionDefault());
+        public override bool IsDefault => !ShouldSerializeImage()
+                                          && !ShouldSerializeImageTransparentColor()
+                                          && !ShouldSerializeHeading()
+                                          && !ShouldSerializeDescription();
 
         #endregion
 
@@ -113,11 +113,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeImage() => Image != GetImageDefault();
-
-        /// <summary>
-        /// Resets the Image property to its default value.
-        /// </summary>
-        public void ResetImage() => Image = GetImageDefault();
+        protected internal void ResetImage() => Image = GetImageDefault();
 
         /// <summary>
         /// Gets the content image.
@@ -152,11 +148,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-
-        /// <summary>
-        /// Resets the ImageTransparentColor property to its default value.
-        /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        protected internal void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -193,11 +185,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeHeading() => Heading != GetHeadingDefault();
-
-        /// <summary>
-        /// Resets the Heading property to its default value.
-        /// </summary>
-        public void ResetHeading() => Heading = GetHeadingDefault();
+        public /*internal*/ void ResetHeading() => Heading = GetHeadingDefault();
 
         /// <summary>
         /// Gets the content short text.
@@ -230,11 +218,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeDescription() => Description != GetDescriptionDefault();
-
-        /// <summary>
-        /// Resets the Description property to its default value.
-        /// </summary>
-        public void ResetDescription() => Description = GetDescriptionDefault();
+        protected internal void ResetDescription() => Description = GetDescriptionDefault();
 
         /// <summary>
         /// Gets the content long text.

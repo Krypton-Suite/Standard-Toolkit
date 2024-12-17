@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
             Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
                 // Make sure the panel back style always mimics our back style
-                PanelBackStyle = PaletteBackStyle.ControlClient
+                PanelBackStyle = PaletteBackStyle.PanelClient
             };
 
             // Create view for header 1
@@ -489,9 +489,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlClient;
-
-        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlClient;
+        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.PanelClient;
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets and sets the primary header style.

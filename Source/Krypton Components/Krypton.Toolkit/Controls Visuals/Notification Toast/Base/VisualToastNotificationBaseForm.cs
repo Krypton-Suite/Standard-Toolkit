@@ -47,6 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationBaseForm" /> class.</summary>
         public VisualToastNotificationBaseForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _notificationResult = KryptonToastNotificationResult.None;

@@ -31,6 +31,7 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer renderer)
         {
+            SetInheritedControlOverride();
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
 
@@ -40,8 +41,8 @@ namespace Krypton.Navigator
             MaximizeBox = false;
             MinimizeBox = false;
             ShowInTaskbar = false;
-            BackColor = Color.Magenta;
-            TransparencyKey = Color.Magenta;
+            BackColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
             Opacity = _paletteDragDrop.GetDragDropSolidOpacity();
         }
 

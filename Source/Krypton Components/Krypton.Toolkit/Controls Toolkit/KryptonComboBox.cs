@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
                             rect.top += borderSize.Height;
                             rect.bottom -= borderSize.Height;
 
-                            // Create rectangle that represents the drop down button
+                            // Create rectangle that represents the drop-down button
                             var dropRect = new Rectangle(rect.right + 2, rect.top, dropDownWidth - 2,
                                 rect.bottom - rect.top);
 
@@ -349,10 +349,10 @@ namespace Krypton.Toolkit
                                 rect.top += borderSize.Height;
                                 rect.bottom -= borderSize.Height;
 
-                                // Create rectangle that represents the drop down button
+                                // Create rectangle that represents the drop-down button
                                 Rectangle dropRect;
 
-                                // Update text and drop down rects dependent on the right to left setting
+                                // Update text and drop-down rects dependent on the right to left setting
                                 if (_kryptonComboBox.RightToLeft == RightToLeft.Yes)
                                 {
                                     dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
                                     // Draw text using font defined by the control
                                     var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
                                         rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
+                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetBorderContentPadding(null, state));
                                     // Find correct text color
                                     Color textColor = states.Content.GetContentShortTextColor1(state);
                                     Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
                                 // Remove clipping settings
                                 PI.SelectClipRgn(hdc, IntPtr.Zero);
 
-                                // Draw the drop down button
+                                // Draw the drop-down button
                                 DrawDropButton(g, dropRect);
                             }
 
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
                                                      this, VisualOrientation.Top, false);
                 }
 
-                // Update with the latest button style for the drop down
+                // Update with the latest button style for the drop-down
                 _palette.SetStyles(_kryptonComboBox.DropButtonStyle);
 
                 // Find the new state for the button
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
 
                 _viewButton.ElementState = state;
 
-                // Position the button element inside the available drop down button area
+                // Position the button element inside the available drop-down button area
                 using (var layoutContext = new ViewLayoutContext(_kryptonComboBox, _kryptonComboBox.Renderer))
                 {
                     // Define the available area for layout
@@ -558,10 +558,10 @@ namespace Krypton.Toolkit
                     // Ask the button element to draw itself
                     _viewButton.Render(renderContext);
 
-                    // Call the renderer directly to draw the drop down glyph
+                    // Call the renderer directly to draw the drop-down glyph
                     renderContext.Renderer!.RenderGlyph.DrawInputControlDropDownGlyph(renderContext,
                                                                                      _viewButton.ClientRectangle,
-                                                                                     _palette.PaletteContent,
+                                                                                     _palette.PaletteContent!,
                                                                                      state);
                 }
             }
@@ -1263,7 +1263,7 @@ namespace Krypton.Toolkit
             // We are no longer initializing
             IsInitializing = false;
 
-            // Force calculation of the drop down items again so they are sized correctly
+            // Force calculation of the drop-down items again so they are sized correctly
             _comboBox.DrawMode = DrawMode.OwnerDrawVariable;
 
             // Raise event to show control is now initialized
@@ -1660,10 +1660,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the height, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The height, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -1674,10 +1674,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the width, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The width, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(200)]
@@ -2969,8 +2969,8 @@ namespace Krypton.Toolkit
             }
 
             // Always ensure there is some text that can be measured, if only a single space. The height of
-            // the first item is used to calculate the total height of the drop down. So if the first time
-            // had null then the height would be very small for the item and also the drop down.
+            // the first item is used to calculate the total height of the drop-down. So if the first time
+            // had null then the height would be very small for the item and also the drop-down.
             if (string.IsNullOrEmpty(_contentValues.ShortText))
             {
                 _contentValues.ShortText = @" ";

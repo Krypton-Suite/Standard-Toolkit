@@ -168,6 +168,11 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static KryptonAboutBoxStrings KryptonAboutBoxStrings { get; } = new KryptonAboutBoxStrings();
 
+        /// <summary>Gets the exception dialog strings.</summary>
+        /// <value>The exception dialog strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonExceptionDialogStrings KryptonExceptionDialogStrings { get; } = new KryptonExceptionDialogStrings();
+
         /// <summary>Gets the miscellaneous theme strings.</summary>
         /// <value>The miscellaneous theme strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -190,8 +195,15 @@ namespace Krypton.Toolkit
         public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
             new KryptonToastNotificationStrings();
 
+        /// <summary>Gets the krypton splash screen strings.</summary>
+        /// <value>The krypton splash screen strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
+
+        /// <summary>Gets the krypton message box strings.</summary>
+        /// <value>The krypton message box strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static MessageBoxStrings KryptonMessageBoxStrings { get; } = new MessageBoxStrings();
 
         #endregion
 
@@ -475,6 +487,17 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeAboutBoxStrings() => !KryptonAboutBoxStrings.IsDefault;
         private void ResetAboutBoxStrings() => KryptonAboutBoxStrings.Reset();
 
+        /// <summary>Gets the krypton exception dialog strings.</summary>
+        /// <value>The krypton exception dialog strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of exception dialog strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonExceptionDialogStrings ExceptionDialogStrings => KryptonExceptionDialogStrings;
+        private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
+        private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
+
         /// <summary>Gets the krypton miscellaneous theme strings.</summary>
         /// <value>The krypton miscellaneous theme strings.</value>
         [Category(@"Visuals")]
@@ -589,6 +612,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton splash screen strings.</summary>
         public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
 
+        /// <summary>Gets the message box strings.</summary>
+        /// <value>The message box strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of message box strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public MessageBoxStrings MessageBoxStrings => KryptonMessageBoxStrings;
+
+        private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
+
+        /// <summary>Resets the krypton message box strings.</summary>
+        public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
+
         #endregion
 
         #region Identity
@@ -609,6 +646,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
+                                   ShouldSerializeExceptionDialogStrings() ||
                                    ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                    ShouldSerializeButtonOrientationStrings() ||
                                    ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
@@ -628,13 +666,14 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                                   ShouldSerializeSplashScreenStringsStrings());
+                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMessageBoxStringsStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
         {
             ResetAboutBoxBasicStrings();
             ResetAboutBoxStrings();
+            ResetExceptionDialogStrings();
             ResetBackStyleStrings();
             ResetBorderStyleStrings();
             ResetButtonOrientationStrings();
@@ -668,6 +707,7 @@ namespace Krypton.Toolkit
             ResetToastNotificationStrings();
             ResetToolBarStrings();
             ResetSplashScreenStringsStrings();
+            ResetMessageBoxStrings();
         }
 
         #endregion

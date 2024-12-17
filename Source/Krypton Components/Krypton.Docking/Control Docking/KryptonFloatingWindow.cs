@@ -45,6 +45,7 @@ namespace Krypton.Docking
         /// <param name="useMinimiseBox">Allow window to be minimised.</param>
         public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox = false)
         {
+            SetInheritedControlOverride();
             // Set the owner of the window so that minimizing the owner will do the same to this
             Owner = owner;
 

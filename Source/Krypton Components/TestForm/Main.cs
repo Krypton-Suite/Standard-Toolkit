@@ -7,6 +7,7 @@
  */
 #endregion
 
+using System.CodeDom;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -77,13 +78,13 @@ namespace TestForm
 
         private void kbtnTestMessagebox_Click(object sender, EventArgs e)
         {
-            KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
+            KryptonMessageBox.Show(this, @"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information, showCloseButton: kryptonCheckBox1.Checked);
 
-            KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, options: MessageBoxOptions.RtlReading, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
+            KryptonMessageBox.Show(this, @"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information, KryptonMessageBoxDefaultButton.Button1,
+                options: MessageBoxOptions.RtlReading, 
+                showCloseButton: kryptonCheckBox1.Checked);
         }
 
         private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
@@ -341,7 +342,7 @@ namespace TestForm
 
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
-            KryptonMessageBoxDep.Show(string.Empty, @"Test with no Text", showCloseButton: kryptonCheckBox1.Checked);
+            KryptonMessageBox.Show(string.Empty, @"Test with no Text", showCloseButton: kryptonCheckBox1.Checked);
         }
 
         private void kryptonButton12_Click(object sender, EventArgs e)
@@ -377,6 +378,23 @@ namespace TestForm
         private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void kryptonButton15_Click(object sender, EventArgs e)
+        {
+            new PanelForm().ShowDialog(this);
+        }
+
+        private void kbtnExceptionDialog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            catch (Exception ex)
+            {
+                KryptonExceptionDialog.Show(ex);
+            }
         }
     }
 }

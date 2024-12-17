@@ -1945,7 +1945,7 @@ namespace Krypton.Toolkit
                 _columnPadding = StateCommon.HeaderColumn.Content.Padding;
                 if (_columnPadding.Equals(CommonHelper.InheritPadding))
                 {
-                    _columnPadding = StateCommon.HeaderColumn.Content.GetContentPadding(state);
+                    _columnPadding = StateCommon.HeaderColumn.Content.GetBorderContentPadding(null, state);
                 }
 
                 ColumnHeadersDefaultCellStyle.Padding = _columnPadding;
@@ -1956,7 +1956,7 @@ namespace Krypton.Toolkit
                 _rowPadding = StateCommon.HeaderRow.Content.Padding;
                 if (_rowPadding.Equals(CommonHelper.InheritPadding))
                 {
-                    _rowPadding = StateCommon.HeaderRow.Content.GetContentPadding(state);
+                    _rowPadding = StateCommon.HeaderRow.Content.GetBorderContentPadding(null, state);
                 }
 
                 RowHeadersDefaultCellStyle.Padding = _rowPadding;
@@ -1967,7 +1967,7 @@ namespace Krypton.Toolkit
                 _dataCellPadding = StateCommon.DataCell.Content.Padding;
                 if (_dataCellPadding.Equals(CommonHelper.InheritPadding))
                 {
-                    _dataCellPadding = StateCommon.DataCell.Content.GetContentPadding(state);
+                    _dataCellPadding = StateCommon.DataCell.Content.GetBorderContentPadding(null, state);
                 }
 
                 DefaultCellStyle.Padding = _dataCellPadding;

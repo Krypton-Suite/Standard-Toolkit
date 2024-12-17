@@ -21,11 +21,13 @@ namespace Krypton.Toolkit
 
         public VisualInputBoxRtlAwareForm()
         {
+            SetInheritedControlOverride();
             InitializeComponent();
         }
 
         public VisualInputBoxRtlAwareForm(KryptonInputBoxData inputBoxData)
         {
+            SetInheritedControlOverride();
             _inputBoxData = inputBoxData;
 
             InitializeComponent();

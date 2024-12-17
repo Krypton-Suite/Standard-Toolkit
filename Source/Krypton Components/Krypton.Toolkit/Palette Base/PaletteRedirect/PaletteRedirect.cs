@@ -594,10 +594,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state) => _target!.GetContentPadding(style, state);
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state) => _target!.GetBorderContentPadding(owningForm, style, state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -610,13 +612,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric) => _target!.GetMetricInt(state, metric);
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => _target!.GetMetricInt(owningForm, state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -629,10 +633,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) => _target!.GetMetricPadding(state, metric);
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric) => _target!.GetMetricPadding(owningForm, state, metric);
 
         #endregion
 
@@ -663,12 +669,6 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target?.GetRadioButtonImage(enabled, checkState, tracking, pressed);
-
-        /// <summary>
-        /// Gets a drop-down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _target?.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.

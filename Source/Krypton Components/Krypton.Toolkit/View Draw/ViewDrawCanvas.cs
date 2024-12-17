@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
             if (_paletteMetric != null)
             {
                 // Apply padding needed outside the border of the canvas
-                preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, _paletteMetric.GetMetricPadding(State, _metricPadding));
+                preferredSize = CommonHelper.ApplyPadding(Orientation, preferredSize, _paletteMetric.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding));
             }
 
             return preferredSize;
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
             if (_paletteMetric != null)
             {
                 // Get the padding to be applied before the canvas drawing
-                Padding outerPadding = _paletteMetric.GetMetricPadding(State, _metricPadding);
+                Padding outerPadding = _paletteMetric.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
 
                 // Apply the padding to the client rectangle
                 ClientRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, outerPadding);

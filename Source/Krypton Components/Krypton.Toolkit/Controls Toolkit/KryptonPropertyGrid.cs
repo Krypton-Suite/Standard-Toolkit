@@ -5,11 +5,6 @@
  */
 #endregion
 
-// ReSharper disable UnusedMember.Global
-
-// ReSharper disable UnusedMember.Local
-using System.ComponentModel;
-
 namespace Krypton.Toolkit
 {
     ///<summary>A property grid control that supports the Krypton render.</summary>
@@ -28,19 +23,6 @@ namespace Krypton.Toolkit
             private readonly ViewManager? _viewManager;
             private readonly KryptonPropertyGrid _kryptonPropertyGrid;
             private readonly IntPtr _screenDC;
-            private bool _mouseOver;
-            #endregion
-
-            #region Events
-            /// <summary>
-            /// Occurs when the mouse enters the InternalListView.
-            /// </summary>
-            public event EventHandler? TrackMouseEnter;
-
-            /// <summary>
-            /// Occurs when the mouse leaves the InternalListView.
-            /// </summary>
-            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -97,32 +79,6 @@ namespace Krypton.Toolkit
             /// </summary>
             public ViewDrawPanel ViewDrawPanel { get; }
 
-            /// <summary>
-            /// Gets and sets if the mouse is currently over the combo box.
-            /// </summary>
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public bool MouseOver
-            {
-                get => _mouseOver;
-                set
-                {
-                    // Only interested in changes
-                    if (_mouseOver != value)
-                    {
-                        _mouseOver = value;
-
-                        // Generate appropriate change event
-                        if (_mouseOver)
-                        {
-                            OnTrackMouseEnter(EventArgs.Empty);
-                        }
-                        else
-                        {
-                            OnTrackMouseLeave(EventArgs.Empty);
-                        }
-                    }
-                }
-            }
             #endregion
 
             #region Protected
@@ -176,26 +132,6 @@ namespace Krypton.Toolkit
                         base.WndProc(ref m);
                         break;
 
-                    case PI.WM_.MOUSELEAVE:
-                        if (MouseOver)
-                        {
-                            MouseOver = false;
-                            _kryptonPropertyGrid.PerformNeedPaint(true);
-                            Invalidate();
-                        }
-                        base.WndProc(ref m);
-                        break;
-
-                    case PI.WM_.MOUSEMOVE:
-                        if (!MouseOver)
-                        {
-                            MouseOver = true;
-                            _kryptonPropertyGrid.PerformNeedPaint(true);
-                            Invalidate();
-                        }
-                        base.WndProc(ref m);
-                        break;
-
                     default:
                         base.WndProc(ref m);
                         break;
@@ -205,18 +141,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Private
-
-            /// <summary>
-            /// Raises the TrackMouseEnter event.
-            /// </summary>
-            /// <param name="e">An EventArgs containing the event data.</param>
-            private void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
-
-            /// <summary>
-            /// Raises the TrackMouseLeave event.
-            /// </summary>
-            /// <param name="e">An EventArgs containing the event data.</param>
-            private void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
 
             private void WmPaint(ref Message m)
             {
@@ -302,7 +226,6 @@ namespace Krypton.Toolkit
         private readonly InternalPropertyGrid _propertyGrid;
         private bool? _fixedActive;
         private readonly IntPtr _screenDC;
-        private bool _mouseOver;
         private bool _alwaysActive;
         private bool _forcedLayout;
         #endregion
@@ -312,7 +235,6 @@ namespace Krypton.Toolkit
         // TODO:
 
         #endregion
-
 
         #region Constructor
 
@@ -436,11 +358,11 @@ namespace Krypton.Toolkit
 
 
         /// <summary>
-        /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
+        /// Gets and sets Determines if the control is always active or has focus.
         /// </summary>
         [Category(@"Visuals")]
         [Description(
-            @"Determines if the control is always active or only when the mouse is over the control or has focus.")]
+            @"Determines if the control is always active or has focus.")]
         [DefaultValue(false)]
         public bool AlwaysActive
         {
@@ -466,7 +388,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -756,24 +678,14 @@ namespace Krypton.Toolkit
                     // Do not draw the background here, always do it in the paint 
                     // instead to prevent flicker because of a two stage drawing process
                     break;
-                //case PI.WM_.PRINTCLIENT:
-                //case PI.WM_.PAINT:
-                //    WmPaint(ref m);
-                //    break;
+
                 case PI.WM_.VSCROLL:
                 case PI.WM_.HSCROLL:
                 case PI.WM_.MOUSEWHEEL:
                     Invalidate();
                     base.WndProc(ref m);
                     break;
-                //case PI.WM_.MOUSEMOVE:// TODO: On Mouse Enter ??
-                //    if (!_mouseOver)
-                //    {
-                //        _mouseOver = true;
-                //        Invalidate();
-                //    }
-                //    base.WndProc(ref m);
-                //    break;
+
                 // We need to snoop the need to show a context menu
                 case PI.WM_.CONTEXTMENU:
                     // Only interested in overriding the behaviour when we have a krypton context menu...
@@ -804,8 +716,8 @@ namespace Krypton.Toolkit
                             KryptonContextMenu.Show(this, PointToScreen(mousePt));
                         }
                     }
-
                     break;
+
                 default:
                     base.WndProc(ref m);
                     break;
@@ -846,22 +758,6 @@ namespace Krypton.Toolkit
 
             // We need a layout to occur before any painting
             InvokeLayout();
-        }
-
-
-        /// <summary>
-        /// Raises the MouseDown event.
-        /// </summary>
-        /// <param name="e">A MouseEventArgs that contains the event data.</param>
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            _mouseOver = false;
-
-            PerformNeedPaint(true);
-
-            _propertyGrid.Invalidate();
-
-            base.OnMouseDown(e);
         }
 
         /// <summary>
@@ -929,33 +825,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Raises the MouseEnter event.
-        /// </summary>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            _mouseOver = true;
-            PerformNeedPaint(true);
-            _propertyGrid.Invalidate();
-            base.OnMouseEnter(e);
-        }
-
-        /// <summary>
-        /// Raises the MouseLeave event.
-        /// </summary>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            _mouseOver = false;
-            PerformNeedPaint(true);
-            _propertyGrid.Invalidate();
-            base.OnMouseLeave(e);
-        }
-
         /// <inheritdoc />
         protected override void OnNotifyMessage(Message m)
         {
+            // TODO: What is this attempting to do ?
             if (m.Msg != 0x14)
             {
                 base.OnNotifyMessage(m);
@@ -964,26 +837,27 @@ namespace Krypton.Toolkit
 
         private void OnPropertyGridGotFocus(object? sender, EventArgs e)
         {
-            UpdateStateAndPalettes();
-            _propertyGrid.Invalidate();
-            PerformNeedPaint(true);
             OnGotFocus(e);
+            UpdateStateAndPalettes();
+            PerformNeedPaint(false);
+            _propertyGrid.Invalidate();
         }
 
         private void OnPropertyGridLostFocus(object? sender, EventArgs e)
         {
-            UpdateStateAndPalettes();
-            _propertyGrid.Invalidate();
-            PerformNeedPaint(true);
             OnLostFocus(e);
+            UpdateStateAndPalettes();
+            PerformNeedPaint(false);
+            _propertyGrid.Invalidate();
         }
 
         /// <inheritdoc />
         protected override void OnEnabledChanged(EventArgs e)
         {
-            UpdateStateAndPalettes();
-            PerformNeedPaint(true);
             base.OnEnabledChanged(e);
+            UpdateStateAndPalettes();
+            PerformNeedPaint(false);
+            _propertyGrid.Invalidate();
         }
 
         /// <summary>

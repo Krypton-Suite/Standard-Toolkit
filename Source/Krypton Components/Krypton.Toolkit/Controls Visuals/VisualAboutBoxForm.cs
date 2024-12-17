@@ -25,6 +25,7 @@ namespace Krypton.Toolkit
 
         public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _aboutBoxData = aboutBoxData;
@@ -38,6 +39,7 @@ namespace Krypton.Toolkit
 
         public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
         {
+            SetInheritedControlOverride();
             InitializeComponent();
 
             _showToolkitButton = aboutBoxData.ShowToolkitInformation ?? false;

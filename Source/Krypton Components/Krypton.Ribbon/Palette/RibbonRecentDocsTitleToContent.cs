@@ -85,9 +85,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteState state) => _titlePadding;
+        public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state) => _titlePadding;
 
         /// <summary>
         /// Gets the font for the short text.

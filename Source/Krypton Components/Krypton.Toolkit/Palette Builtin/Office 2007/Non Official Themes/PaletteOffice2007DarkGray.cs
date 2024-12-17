@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
-                TransparentColor = Color.Magenta
+                TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
             _radioButtonArray =
@@ -345,12 +345,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Images
-        /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
-
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
