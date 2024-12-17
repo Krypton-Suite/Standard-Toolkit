@@ -27,8 +27,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// </summary>
         /// <param name="needPaint"></param>
-        public ToolTipValues(NeedPaintHandler? needPaint)
-            : base(needPaint)
+        /// <param name="getDpiFactor"></param>
+        public ToolTipValues(NeedPaintHandler? needPaint, GetDpiFactor getDpiFactor)
+            : base(needPaint, getDpiFactor)
         {
             ResetToolTipStyle();
             ToolTipPosition = new PopupPositionValues();

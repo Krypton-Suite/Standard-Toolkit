@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             _captionVisible = true;
 
             // Create storage objects
-            Values = new CaptionValues(NeedPaintDelegate);
+            Values = new CaptionValues(NeedPaintDelegate, GetDpiFactor);
             Values.TextChanged += OnValuesTextChanged;
 
             // Create the palette storage
@@ -102,6 +102,15 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
+        }
+
+        private float GetDpiFactor()
+        {
+#if NET462
+                return PI.GetDpiForWindow(Panel.Handle) / 96F;
+#else
+                return Panel.DeviceDpi / 96F;
+#endif
         }
 
         /// <summary>
