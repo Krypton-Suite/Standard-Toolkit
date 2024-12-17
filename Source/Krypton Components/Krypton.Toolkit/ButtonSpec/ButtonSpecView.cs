@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
             float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
             return (baseImage != null)
                 ? CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
-                    baseImage.Height * dpiFactor)
+                    baseImage.Height * dpiFactor, true)
                 : null;
         }
 
