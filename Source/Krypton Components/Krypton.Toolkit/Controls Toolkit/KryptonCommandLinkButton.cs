@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             // Create content storage
             CommandLinkImageValues = new CommandLinkImageValues(NeedPaintDelegate);
             CommandLinkImageValues.Image = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
-            CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate);
+            CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate, GetDpiFactor);
 
             // Create the palette storage
             StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
@@ -151,6 +151,15 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawCommandLinkButton);
+        }
+
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
         }
 
         #endregion

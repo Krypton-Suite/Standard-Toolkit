@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
         private Color _transparent;
         private string? _heading;
         private string _description;
+        private readonly GetDpiFactor _getDpiFactor;
         #endregion
 
         #region Events
@@ -38,13 +39,23 @@ namespace Krypton.Toolkit
         public event EventHandler? TextChanged;
         #endregion
 
+        #region Delegates
+        /// <summary>
+        /// Signature of method that is called when scaling an image is required.
+        /// </summary>
+        public delegate float GetDpiFactor();
+        #endregion
+
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the HeaderValuesBase class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderValuesBase(NeedPaintHandler? needPaint)
+        /// <param name="getDpiFactor"></param>
+        protected HeaderValuesBase(NeedPaintHandler? needPaint, GetDpiFactor getDpiFactor)
         {
+            _getDpiFactor = getDpiFactor;
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
@@ -112,16 +123,22 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage() => Image != GetImageDefault();
-        protected internal void ResetImage() => Image = GetImageDefault();
+        private bool ShouldSerializeImage() => _image != GetImageDefault();
+        protected internal void ResetImage() => _image = GetImageDefault();
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image? GetImage(PaletteState state) => Image;
-
+        public virtual Image? GetImage(PaletteState state)
+        {
+            float dpiFactor = _getDpiFactor();
+            return (_image != null)
+                ? CommonHelper.ScaleImageForSizedDisplay(_image, _image.Width * dpiFactor,
+                    _image.Height * dpiFactor)
+                : null;
+        }
         #endregion
 
         #region ImageTransparentColor
