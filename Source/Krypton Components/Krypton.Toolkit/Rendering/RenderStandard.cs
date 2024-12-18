@@ -2401,7 +2401,7 @@ namespace Krypton.Toolkit
             {
                 float dpiFactor = context.Graphics.DpiY / 96f;
                 drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
-                    drawImage.Height * dpiFactor, false);
+                    drawImage.Height * dpiFactor, false)!;
                 // Find the offset to center the image
                 var xOffset = (displayRect.Width - drawImage.Width) / 2;
                 var yOffset = (displayRect.Height - drawImage.Height) / 2;
@@ -2497,7 +2497,7 @@ namespace Krypton.Toolkit
             {
                 float dpiFactor = context.Graphics.DpiY / 96f;
                 drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage, drawImage.Width * dpiFactor,
-                    drawImage.Height * dpiFactor, false);
+                    drawImage.Height * dpiFactor, false)!;
                 // Find the offset to center the image
                 var xOffset = (displayRect.Width - drawImage.Width) / 2;
                 var yOffset = (displayRect.Height - drawImage.Height) / 2;
