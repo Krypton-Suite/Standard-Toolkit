@@ -2220,10 +2220,10 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                Image? drawImage = _redirectImages?.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
-                                    float dpiFactor = DeviceDpi / 96F;
+                                    float dpiFactor = g.DpiX / 96F;
                                     drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
                                         drawImage.Width * dpiFactor,
                                         drawImage.Height * dpiFactor, false);
@@ -2290,6 +2290,10 @@ namespace Krypton.Toolkit
 
                                 if (drawImage != null)
                                 {
+                                    float dpiFactor = g.DpiX / 96F;
+                                    drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                        drawImage.Width * dpiFactor,
+                                        drawImage.Height * dpiFactor, false);
                                     g.DrawImage(drawImage, _layoutImage.ClientRectangle);
                                 }
                             }
@@ -2304,6 +2308,10 @@ namespace Krypton.Toolkit
                         {
                             if (drawStateImage != null)
                             {
+                                float dpiFactor = g.DpiX / 96F;
+                                drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
+                                    drawStateImage.Width * dpiFactor,
+                                    drawStateImage.Height * dpiFactor, false);
                                 g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
                             }
                         }
