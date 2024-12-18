@@ -2246,7 +2246,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e);
+                KryptonExceptionHandler.CaptureException(e);
             }
             finally
             {
@@ -2295,7 +2295,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -3260,7 +3260,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
             finally
             {
@@ -3400,7 +3400,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
 
                 return new XmlDocument();
             }

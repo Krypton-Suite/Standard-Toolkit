@@ -3,6 +3,8 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Implemented [#1968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1968), Open up 'ExceptionHandler' for public use
+	- To invoke, use `KryptonExceptionHandler`
 * Resolved [#560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/560), CheckBox Images are not scaled with dpi Awareness
 * Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
 * Resolved [#559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/559), Header group icon is not scaled for dpi awareness

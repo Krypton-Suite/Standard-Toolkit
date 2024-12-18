@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
-                ExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
