@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             Debug.Assert(plusMinusImages != null);
 
             // Remember incoming targets
-            _plusMinusImages = plusMinusImages;
+            _plusMinusImages = plusMinusImages!;
             _checkboxImages = checkboxImages;
         }
         #endregion
@@ -61,9 +61,11 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image? GetTreeViewImage(bool expanded)
         {
-            Image? retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
-
-            // Not found, then inherit from target
+            Image? retImage = (expanded 
+                                  ? _plusMinusImages.Minus 
+                                  : _plusMinusImages.Plus)
+                              // Not found, then inherit from target
+                              ?? Target?.GetTreeViewImage(expanded);
 
             return retImage;
         }
