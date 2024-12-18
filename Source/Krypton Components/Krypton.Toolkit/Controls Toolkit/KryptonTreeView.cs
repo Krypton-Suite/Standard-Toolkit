@@ -2223,6 +2223,10 @@ namespace Krypton.Toolkit
                                 Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
+                                    float dpiFactor = DeviceDpi / 96F;
+                                    drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                        drawImage.Width * dpiFactor,
+                                        drawImage.Height * dpiFactor, false);
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
                                         indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
                                         drawImage.Width, drawImage.Height));
