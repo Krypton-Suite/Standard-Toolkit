@@ -165,7 +165,6 @@ namespace Krypton.Toolkit
         [Description(@"Heading menu item extra text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
-        [DefaultValue("")]
         [AllowNull]
         public string ExtraText
         {
@@ -180,6 +179,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(_extraText);
 
         /// <summary>
         /// Gets and sets the heading menu item image.

@@ -261,7 +261,6 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Link label extra text.")]
-        [DefaultValue(null)]
         [Localizable(true)]
         public string? ExtraText
         {
@@ -276,6 +275,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(_extraText);
 
         /// <summary>
         /// Gets and sets the link label image.

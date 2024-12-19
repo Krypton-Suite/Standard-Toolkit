@@ -84,11 +84,11 @@ namespace TestForm
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 567);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 511);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(1645, 62);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1661, 62);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonBorderEdge1
@@ -96,9 +96,9 @@ namespace TestForm
             this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderSecondary;
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonBorderEdge1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonBorderEdge1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(1645, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(1661, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -113,25 +113,27 @@ namespace TestForm
             this.kryptonPanel2.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(1645, 567);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1661, 511);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonDataGridView1
             // 
+            this.kryptonDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonDataGridView1.AutoGenerateColumns = false;
-            this.kryptonDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.kryptonDataGridView1.ColumnHeadersHeight = 36;
             this.kryptonDataGridView1.DataMember = "TestData";
             this.kryptonDataGridView1.DataSource = this.dataSet;
             this.kryptonDataGridView1.GridStyles.Style = Krypton.Toolkit.DataGridViewStyle.Mixed;
             this.kryptonDataGridView1.KryptonContextMenu = this.kryptonContextMenu1;
             this.kryptonDataGridView1.Location = new System.Drawing.Point(17, 15);
-            this.kryptonDataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonDataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonDataGridView1.Name = "kryptonDataGridView1";
             this.kryptonDataGridView1.RowHeadersWidth = 51;
-            this.kryptonDataGridView1.Size = new System.Drawing.Size(1160, 310);
+            this.kryptonDataGridView1.Size = new System.Drawing.Size(1170, 275);
             this.kryptonDataGridView1.TabIndex = 2;
             // 
             // dataSet
@@ -210,26 +212,16 @@ namespace TestForm
             this.kryptonContextMenuImageSelect1,
             this.kryptonContextMenuMonthCalendar1});
             // 
-            // kryptonContextMenuHeading1
-            // 
-            this.kryptonContextMenuHeading1.ExtraText = "";
-            // 
-            // kryptonContextMenuCheckBox1
-            // 
-            this.kryptonContextMenuCheckBox1.ExtraText = "";
-            // 
             // kryptonContextMenuCheckButton1
             // 
             this.kryptonContextMenuCheckButton1.Text = "CheckButton";
             // 
             // kryptonContextMenuRadioButton1
             // 
-            this.kryptonContextMenuRadioButton1.ExtraText = "";
             this.kryptonContextMenuRadioButton1.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             // 
             // kryptonContextMenuLinkLabel1
             // 
-            this.kryptonContextMenuLinkLabel1.ExtraText = "";
             this.kryptonContextMenuLinkLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             // 
             // kryptonContextMenuColorColumns1
@@ -239,7 +231,7 @@ namespace TestForm
             // kryptonLabel1
             // 
             this.kryptonLabel1.Location = new System.Drawing.Point(456, 335);
-            this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonLabel1.Name = "kryptonLabel1";
             this.kryptonLabel1.Size = new System.Drawing.Size(295, 26);
             this.kryptonLabel1.TabIndex = 8;
@@ -248,7 +240,7 @@ namespace TestForm
             // kryptonButton1
             // 
             this.kryptonButton1.Location = new System.Drawing.Point(15, 486);
-            this.kryptonButton1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonButton1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(432, 36);
             this.kryptonButton1.TabIndex = 7;
@@ -258,7 +250,7 @@ namespace TestForm
             // buttonClearCellColors
             // 
             this.buttonClearCellColors.Location = new System.Drawing.Point(15, 443);
-            this.buttonClearCellColors.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClearCellColors.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearCellColors.Name = "buttonClearCellColors";
             this.buttonClearCellColors.Size = new System.Drawing.Size(432, 36);
             this.buttonClearCellColors.TabIndex = 6;
@@ -268,7 +260,7 @@ namespace TestForm
             // buttonRandomCellColors
             // 
             this.buttonRandomCellColors.Location = new System.Drawing.Point(16, 401);
-            this.buttonRandomCellColors.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRandomCellColors.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRandomCellColors.Name = "buttonRandomCellColors";
             this.buttonRandomCellColors.Size = new System.Drawing.Size(432, 36);
             this.buttonRandomCellColors.TabIndex = 5;
@@ -281,7 +273,7 @@ namespace TestForm
             this.kcmbGridStyle.DropDownWidth = 323;
             this.kcmbGridStyle.IntegralHeight = false;
             this.kcmbGridStyle.Location = new System.Drawing.Point(17, 368);
-            this.kcmbGridStyle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kcmbGridStyle.Margin = new System.Windows.Forms.Padding(4);
             this.kcmbGridStyle.Name = "kcmbGridStyle";
             this.kcmbGridStyle.Size = new System.Drawing.Size(431, 26);
             this.kcmbGridStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -293,7 +285,7 @@ namespace TestForm
             this.kryptonThemeComboBox1.DropDownWidth = 323;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(17, 334);
-            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(431, 26);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -302,7 +294,7 @@ namespace TestForm
             // kryptonPropertyGrid1
             // 
             this.kryptonPropertyGrid1.Location = new System.Drawing.Point(1184, 15);
-            this.kryptonPropertyGrid1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kryptonPropertyGrid1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
             this.kryptonPropertyGrid1.Size = new System.Drawing.Size(445, 528);
@@ -313,10 +305,10 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1645, 629);
+            this.ClientSize = new System.Drawing.Size(1661, 573);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DataGridViewTest";
             this.Text = "DataGridViewTest";
             this.Load += new System.EventHandler(this.DataGridViewTest_Load);

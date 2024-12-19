@@ -206,7 +206,6 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Check box extra text.")]
-        [DefaultValue(null)]
         [Localizable(true)]
         [AllowNull]
         public string ExtraText
@@ -222,6 +221,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(_extraText);
 
         /// <summary>
         /// Gets and sets the check box image.
