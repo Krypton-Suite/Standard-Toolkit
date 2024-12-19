@@ -439,6 +439,10 @@ namespace Krypton.Toolkit
         {
             get
             {
+                if (_internalKryptonPanel.Controls.Count == 0)
+                {
+                    _internalKryptonPanel.ClientSize = ClientSize;
+                }
                 // Deal with adding after the `InitializeComponent` has completed
                 return _foundRibbonOffset == -1 
                     ? _internalKryptonPanel.Controls 

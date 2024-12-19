@@ -194,7 +194,6 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Radio button extra text.")]
-        [DefaultValue(null)]
         [Localizable(true)]
         public string? ExtraText
         {
@@ -209,6 +208,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(_extraText);
 
         /// <summary>
         /// Gets and sets the radio button image.

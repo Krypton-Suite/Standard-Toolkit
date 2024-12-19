@@ -253,7 +253,6 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Standard menu item extra text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-        [DefaultValue(@"")]
         [Localizable(true)]
         [Bindable(true)]
         public string ExtraText
@@ -269,6 +268,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(_extraText);
 
         /// <summary>
         /// Gets and sets the standard menu item image.
