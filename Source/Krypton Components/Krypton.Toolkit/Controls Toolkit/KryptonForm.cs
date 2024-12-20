@@ -245,8 +245,11 @@ namespace Krypton.Toolkit
 
                 // Unhook from the global static events
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -=
-                    OnGlobalUseThemeFormChromeBorderWidthChanged;
+                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+
+                // #1979 Temporary fix
+                base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
+                // END #1979 Temporary fix
 
                 // Clear down the cached bitmap
                 if (_cacheBitmap != null)
