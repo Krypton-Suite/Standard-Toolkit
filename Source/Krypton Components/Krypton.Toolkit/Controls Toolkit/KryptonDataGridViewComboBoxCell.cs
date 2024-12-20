@@ -261,8 +261,6 @@ namespace Krypton.Toolkit
                 if (_dataSource != value)
                 {
                     SetDataSource(RowIndex, value);
-                    _selectedItemText = string.Empty;
-                    _initialSelectedTextSet = false;
                     OnCommonChange();
                 }
             }
