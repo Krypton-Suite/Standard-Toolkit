@@ -214,6 +214,10 @@ namespace Krypton.Toolkit
             _useDropShadow = false;
 #pragma warning restore CS0618
             TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR; // Bug #1749
+
+            // #1979 Temporary fix
+            base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
+            // END #1979 Temporary fix
         }
 
         private float GetDpiFactor()
@@ -241,8 +245,11 @@ namespace Krypton.Toolkit
 
                 // Unhook from the global static events
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -=
-                    OnGlobalUseThemeFormChromeBorderWidthChanged;
+                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+
+                // #1979 Temporary fix
+                base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
+                // END #1979 Temporary fix
 
                 // Clear down the cached bitmap
                 if (_cacheBitmap != null)
@@ -1988,5 +1995,9 @@ namespace Krypton.Toolkit
             return form.IsInAdministratorMode;
         }
         #endregion
+
+        #region #1979 Temporary Fix
+        public KryptonPanel InternalPanel => _internalKryptonPanel;
+        #endregion #1979 Temporary Fix
     }
 }
