@@ -16,10 +16,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private volatile int _countdownSeconds;
         private int _initialCountdownSeconds;
         private Timer _countdownTimer;
-        private volatile string _originalText;
 
         #endregion
 
@@ -27,16 +25,18 @@ namespace Krypton.Toolkit
 
         public CountdownButtonValues()
         {
-            _countdownSeconds = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
-
-            CountdownInterval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL;
+            Reset();
         }
 
         #endregion
 
         #region IsDefault
 
-        public override bool IsDefault { get; }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override bool IsDefault => CountdownDuration.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE) &&
+                                          CountdownInterval.Equals(GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL) &&
+                                          CountdownTextFormat.Equals("{0} ({1})");
 
         #endregion
 
@@ -88,6 +88,17 @@ namespace Krypton.Toolkit
         /// <summary>Gets the countdown timer.</summary>
         /// <value>The countdown timer.</value>
         internal Timer CountdownTimer => _countdownTimer;
+
+        #endregion
+
+        #region Implementation
+
+        public void Reset()
+        {
+            CountdownInterval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL;
+            CountdownDuration = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
+            CountdownTextFormat = "{0} ({1})";
+        }
 
         #endregion
     }
