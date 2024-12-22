@@ -638,7 +638,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the single instance of the professional system palette.
         /// </summary>
-        public static PaletteProfessionalSystem PaletteProfessionalSystem => _lazyPaletteProfessionalSystem.Value;
+        public static PaletteProfessionalSystem PaletteProfessionalSystem =>
+            _paletteProfessionalSystem ??= new PaletteProfessionalSystem(); //  _lazyPaletteProfessionalSystem.Value;
 
         /// <summary>
         /// Gets the single instance of the professional office palette.
