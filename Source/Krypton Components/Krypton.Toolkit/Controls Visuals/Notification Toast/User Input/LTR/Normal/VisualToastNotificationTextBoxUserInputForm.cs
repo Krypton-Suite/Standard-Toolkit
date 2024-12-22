@@ -78,9 +78,9 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlNotificationTitle.Text = _notificationTitleText;
+            klblHeader.Text = _notificationTitleText;
 
-            kwlNotificationMessage.Text = _notificationContentText;
+            krtbNotificationContentText.Text = _notificationContentText;
         }
 
         private void UpdateCueValues()

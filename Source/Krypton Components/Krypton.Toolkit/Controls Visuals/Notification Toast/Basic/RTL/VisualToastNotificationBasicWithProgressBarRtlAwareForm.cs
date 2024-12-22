@@ -67,12 +67,13 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblNotificationContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
+            krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
-            kwlblNotificationTitle.Text = _basicToastNotificationData.NotificationTitle;
+            klblHeader.Text = _basicToastNotificationData.NotificationTitle;
 
-            kwlblNotificationTitle.TextAlign =
-                _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+            klblHeader.StateCommon.ShortText.TextH = _basicToastNotificationData.NotificationTitleAlignmentH ?? PaletteRelativeAlign.Center;
+
+            klblHeader.StateCommon.ShortText.TextV = _basicToastNotificationData.NotificationTitleAlignmentV ?? PaletteRelativeAlign.Center;
         }
 
         private void UpdateBorderColors()
@@ -88,19 +89,19 @@ namespace Krypton.Toolkit
 
         private void UpdateFonts()
         {
-            kwlblNotificationContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
-                                            KryptonManager.CurrentGlobalPalette.BaseFont;
+            krtbNotificationContentText.StateCommon.Content.Font = _basicToastNotificationData.NotificationContentFont ??
+                                                                   KryptonManager.CurrentGlobalPalette.BaseFont;
 
             if (_basicToastNotificationData.NotificationTitleFont != null)
             {
-                kwlblNotificationContent.LabelStyle = LabelStyle.NormalControl;
+                krtbNotificationContentText.InputControlStyle = InputControlStyle.PanelClient;
 
-                kwlblNotificationTitle.StateCommon.Font =
+                klblHeader.StateCommon.ShortText.Font =
                     _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {
-                kwlblNotificationTitle.LabelStyle = LabelStyle.TitleControl;
+                klblHeader.LabelStyle = LabelStyle.TitleControl;
             }
         }
 

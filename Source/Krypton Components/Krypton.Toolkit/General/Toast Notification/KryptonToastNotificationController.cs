@@ -80,13 +80,12 @@ namespace Krypton.Toolkit
                 case KryptonToastNotificationInputAreaType.DomainUpDown:
                 case KryptonToastNotificationInputAreaType.MaskedTextBox:
                 case KryptonToastNotificationInputAreaType.TextBox:
+                case null:
                     return ReturnStringInput(data);
                 case KryptonToastNotificationInputAreaType.DateTime:
                     return ReturnDateTimeInput(data);
                 case KryptonToastNotificationInputAreaType.NumericUpDown:
                     return ReturnDecimalInput(data);
-                case null:
-                    throw new ArgumentNullException();
                 default:
                     DebugTools.NotImplemented(data.ToString());
                     break;
