@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Countdown duration must be greater than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
                 }
                 _initialCountdownSeconds = value;
             }
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Interval must be greater than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
                 }
                 _countdownTimer.Interval = value;
             }
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Handles the countdown timer tick event.</summary>
-        private void OnCountdownTimer_Tick(object sender, EventArgs e)
+        private void OnCountdownTimer_Tick(object? sender, EventArgs? e)
         {
             try
             {
@@ -202,13 +202,13 @@ namespace Krypton.Toolkit
         /// <summary>Raises the <see cref="CountdownFinished" /> event.</summary>
         protected virtual void OnCountdownFinished(EventArgs e)
         {
-            CountdownFinished?.Invoke(this, e);
+            CountdownFinished.Invoke(this, e);
         }
 
         /// <summary>Raises the <see cref="CountdownError" /> event.</summary>
         protected virtual void OnCountdownError(Exception ex)
         {
-            CountdownError?.Invoke(this, ex);
+            CountdownError.Invoke(this, ex);
         }
 
         #endregion
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
         {
             if (disposing)
             {
-                _countdownTimer?.Dispose();
+                _countdownTimer.Dispose();
             }
             base.Dispose(disposing);
         }
