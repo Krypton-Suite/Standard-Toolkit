@@ -61,7 +61,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(483, 183);
+            this.kryptonPanel1.Size = new System.Drawing.Size(485, 177);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kcbtnProgressBarColour
@@ -84,7 +84,7 @@ namespace TestForm
             this.kcmbProgressBarStyle.IntegralHeight = false;
             this.kcmbProgressBarStyle.Location = new System.Drawing.Point(208, 117);
             this.kcmbProgressBarStyle.Name = "kcmbProgressBarStyle";
-            this.kcmbProgressBarStyle.Size = new System.Drawing.Size(261, 21);
+            this.kcmbProgressBarStyle.Size = new System.Drawing.Size(261, 22);
             this.kcmbProgressBarStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbProgressBarStyle.TabIndex = 15;
             this.kcmbProgressBarStyle.SelectedIndexChanged += new System.EventHandler(this.kcmbProgressBarStyle_SelectedIndexChanged);
@@ -92,7 +92,7 @@ namespace TestForm
             // kchkUseProgressValueAsText
             // 
             this.kchkUseProgressValueAsText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.kchkUseProgressValueAsText.Location = new System.Drawing.Point(15, 116);
+            this.kchkUseProgressValueAsText.Location = new System.Drawing.Point(17, 116);
             this.kchkUseProgressValueAsText.Name = "kchkUseProgressValueAsText";
             this.kchkUseProgressValueAsText.Size = new System.Drawing.Size(165, 20);
             this.kchkUseProgressValueAsText.TabIndex = 14;
@@ -102,7 +102,7 @@ namespace TestForm
             // ktrkProgressValues
             // 
             this.ktrkProgressValues.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ktrkProgressValues.Location = new System.Drawing.Point(15, 77);
+            this.ktrkProgressValues.Location = new System.Drawing.Point(17, 77);
             this.ktrkProgressValues.Maximum = 100;
             this.ktrkProgressValues.Name = "ktrkProgressValues";
             this.ktrkProgressValues.Size = new System.Drawing.Size(456, 33);
@@ -137,7 +137,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 183);
+            this.ClientSize = new System.Drawing.Size(485, 177);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "ProgressBarTest";
             this.Text = "ProgressBarTest";
