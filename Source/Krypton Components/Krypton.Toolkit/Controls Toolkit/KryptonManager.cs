@@ -35,7 +35,9 @@ namespace Krypton.Toolkit
 
         private static PaletteBase _currentGlobalPalette = GetPaletteForMode(CurrentGlobalPaletteMode);
 
-        private static readonly Lazy<PaletteProfessionalSystem> _lazyPaletteProfessionalSystem = new Lazy<PaletteProfessionalSystem>(() => new PaletteProfessionalSystem(), isThreadSafe: true);
+        private static readonly Lazy<PaletteProfessionalSystem> _lazyPaletteProfessionalSystem =
+            new Lazy<PaletteProfessionalSystem>(() => new PaletteProfessionalSystem(), isThreadSafe: true);
+
 
         private static Font? _baseFont;
 
@@ -638,8 +640,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the single instance of the professional system palette.
         /// </summary>
-        public static PaletteProfessionalSystem PaletteProfessionalSystem =>
-            _paletteProfessionalSystem ??= new PaletteProfessionalSystem(); //  _lazyPaletteProfessionalSystem.Value;
+        public static PaletteProfessionalSystem PaletteProfessionalSystem => _paletteProfessionalSystem ??= new PaletteProfessionalSystem();
 
         /// <summary>
         /// Gets the single instance of the professional office palette.
