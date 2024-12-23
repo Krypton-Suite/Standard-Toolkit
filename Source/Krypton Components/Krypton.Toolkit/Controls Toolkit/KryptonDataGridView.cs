@@ -1019,11 +1019,8 @@ namespace Krypton.Toolkit
         {
             base.OnDataBindingComplete(e);
 
-            if (//AutoGenerateColumns
-                 AutoGenerateKryptonColumns
-                && DataSource is not null)
+            if (AutoGenerateKryptonColumns && DataSource is not null)
             {
-
                 ReplaceDefaultColumsWithKryptonColumns();
             }
         }
