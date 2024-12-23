@@ -1015,48 +1015,6 @@ namespace Krypton.Toolkit
 
         #region Protected Override
         /// <inheritdoc/>
-        //protected override void OnDataMemberChanged(EventArgs e)
-        //{
-        //    base.OnDataMemberChanged(e);
-
-        //    if (AutoGenerateColumns
-        //        && AutoGenerateKryptonColumns
-        //        && DataSource is not null)
-        //    {
-        //        ReplaceDefaultColumsWithKryptonColumns();
-        //    }
-        //}
-
-        /// <inheritdoc/>
-        //protected override void OnDataSourceChanged(EventArgs e)
-        //{
-
-        //    base.OnDataSourceChanged(e);
-
-        //    if (AutoGenerateColumns
-        //        && AutoGenerateKryptonColumns
-        //        && DataSource is not null)
-        //    {
-        //        ReplaceDefaultColumsWithKryptonColumns();
-        //    }
-        //}
-
-        /// <inheritdoc/>
-        //protected override void OnAutoGenerateColumnsChanged(EventArgs e)
-        //{
-        //    // First handle the base the event
-        //    base.OnAutoGenerateColumnsChanged(e);
-
-        //    // If needed convert the winforms columns to Krypton columns
-        //    if (AutoGenerateColumns
-        //        && AutoGenerateKryptonColumns
-        //        && DataSource is not null)
-        //    {
-        //        ReplaceDefaultColumsWithKryptonColumns();
-        //    }
-        //}
-
-        /// <inheritdoc/>
         protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
         {
             base.OnDataBindingComplete(e);
