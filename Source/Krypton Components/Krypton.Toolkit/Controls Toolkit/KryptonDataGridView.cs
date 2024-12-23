@@ -23,7 +23,6 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(CellContentClick))]
     [ComplexBindingProperties(nameof(DataSource), nameof(DataMember))]
     [Docking(DockingBehavior.Ask)]
-
     [Description(@"Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {
@@ -1681,7 +1680,6 @@ namespace Krypton.Toolkit
         private void ReplaceDefaultColumsWithKryptonColumns()
         {
             DataGridViewColumn currentColumn;
-            List<int> columnsProcessed = [];
             int index;
             IComponentChangeService? changeService = null;
             IDesignerHost? designerHost = null;
@@ -1704,7 +1702,6 @@ namespace Krypton.Toolkit
                 if (currentColumn is DataGridViewTextBoxColumn && currentColumn.DataPropertyName.Length > 0)
                 {
                     index = currentColumn.Index;
-                    columnsProcessed.Add(index);
 
                     var newColumn = this.DesignMode
                         ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn 
@@ -1724,7 +1721,6 @@ namespace Krypton.Toolkit
                 else if (currentColumn is DataGridViewCheckBoxColumn && currentColumn.DataPropertyName.Length > 0)
                 {
                     index = currentColumn.Index;
-                    columnsProcessed.Add(index);
 
                     var newColumn = this.DesignMode
                         ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn 
