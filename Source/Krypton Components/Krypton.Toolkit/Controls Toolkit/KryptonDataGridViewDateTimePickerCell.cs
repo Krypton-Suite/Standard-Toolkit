@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         [ThreadStatic]
-        private static KryptonDateTimePicker _paintingDateTime;
         private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
         private static readonly Type _defaultValueType = typeof(DateTime);
@@ -52,17 +51,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewDateTimePickerCell()
         {
-            // Create a thread specific KryptonDateTimePicker control used for the painting of the non-edited cells
-            if (_paintingDateTime == null)
-            {
-                _paintingDateTime = new KryptonDateTimePicker
-                {
-                    ShowBorder = false
-                };
-                _paintingDateTime.StateCommon.Border.Width = 0;
-                _paintingDateTime.StateCommon.Border.Draw = InheritBool.False;
-            }
-
             // Set the default values of the properties:
             _showCheckBox = false;
             _showUpDown = false;
@@ -513,9 +501,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    var dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr)!;
-
-                    if (dt != null)
+                    if (_dtc.ConvertFromInvariantString(initialFormattedValueStr) is DateTime dt)
                     {
                         dateTime.Value = dt;
                     }
@@ -548,13 +534,10 @@ namespace Krypton.Toolkit
             {
                 return string.Empty;
             }
-            else
+            
+            if (value is DateTime dt)
             {
-                var dt = (DateTime)value;
-                if (dt != null)
-                {
-                    return _dtc.ConvertToInvariantString(dt);
-                }
+                return _dtc.ConvertToInvariantString(dt);
             }
 
             return base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
@@ -583,32 +566,74 @@ namespace Krypton.Toolkit
                 return string.IsNullOrEmpty(stringValue) ? DBNull.Value : _dtc.ConvertFromInvariantString(stringValue)!;
             }
         }
-
-        /// <summary>
-        /// Custom implementation of the PositionEditingControl method called by the DataGridView control when it
-        /// needs to relocate and/or resize the editing control.
-        /// </summary>
-        public override void PositionEditingControl(bool setLocation,
-            bool setSize,
-            Rectangle cellBounds,
-            Rectangle cellClip,
-            DataGridViewCellStyle cellStyle,
-            bool singleVerticalBorderAdded,
-            bool singleHorizontalBorderAdded,
-            bool isFirstDisplayedColumn,
-            bool isFirstDisplayedRow)
-        {
-            Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-                singleVerticalBorderAdded, singleHorizontalBorderAdded,
-                isFirstDisplayedColumn, isFirstDisplayedRow);
-
-            editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-        }
         #endregion
 
         #region Protected
+        ///<inheritdoc/>
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
+            object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        {
+            if (DataGridView is not null
+                && DataGridView.Rows.SharedRow(rowIndex).Index != -1
+                && KryptonOwningColumn?.CellIndicatorImage is Image image)
+            {
+                int pos;
+                Rectangle textArea;
+                var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
+
+                if (righToLeft)
+                {
+                    pos = cellBounds.Left;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left + image.Width,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+                else
+                {
+                    pos = cellBounds.Right - image.Width;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+
+                // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
+                // Afterwards we paint the text and drop down image.
+                if (DataGridView is DataGridView)
+                {
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                }
+
+                // Draw the drop down button, only if no ErrorText has been set.
+                // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+                if (ErrorText.Length == 0)
+                {
+                    graphics.DrawImage(image, new Point(pos, textArea.Top));
+
+                    if (formattedValue is string str
+                        && str.Length > 0
+                        && DateTime.TryParse(str, out DateTime dt))
+                    {
+                        formattedValue = dt.ToString(InheritedStyle.Format);
+                    }
+                }
+                else
+                {
+                    formattedValue = errorText;
+                }
+
+                TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, cellStyle.ForeColor,
+                    KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
+            }
+        }
+
         /// <summary>
         /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
         /// error icon next to the up/down buttons and not on top of them.
@@ -650,86 +675,12 @@ namespace Krypton.Toolkit
 
             return preferredSize;
         }
-
-        /// <summary>
-        /// Custom paints the cell. The base implementation of the DataGridViewTextBoxCell type is called first,
-        /// dropping the icon error and content foreground parts. Those two parts are painted by this custom implementation.
-        /// In this sample, the non-edited KryptonDateTimePicker control is painted by using a call to Control.DrawToBitmap. This is
-        /// an easy solution for painting controls but it's not necessarily the most performant. An alternative would be to paint
-        /// the KryptonDateTimePicker control piece by piece (text and up/down buttons).
-        /// </summary>
-        protected override void Paint(Graphics graphics,
-                                      Rectangle clipBounds,
-                                      Rectangle cellBounds,
-                                      int rowIndex,
-                                      DataGridViewElementStates cellState,
-                                      object? value,
-                                      object? formattedValue,
-                                      string? errorText,
-                                      DataGridViewCellStyle cellStyle,
-                                      DataGridViewAdvancedBorderStyle advancedBorderStyle,
-                                      DataGridViewPaintParts paintParts)
-          {
-            if (DataGridView == null)
-            {
-                return;
-            }
-
-            _paintingDateTime.RightToLeft = DataGridView.RightToLeft;
-            _paintingDateTime.Format = Format;
-            _paintingDateTime.CustomFormat = CustomFormat;
-            _paintingDateTime.CustomNullText = CustomNullText;
-            _paintingDateTime.MaxDate = MaxDate;
-            _paintingDateTime.MinDate = MinDate;
-
-            var drawText = CustomNullText;
-            if ((value == null) || (value == DBNull.Value))
-            {
-                _paintingDateTime.ValueNullable = value;
-                _paintingDateTime.PerformLayout();
-            }
-            else
-            {
-                _paintingDateTime.Value = (DateTime)value;
-                _paintingDateTime.PerformLayout();
-                drawText = _paintingDateTime.Text;
-            }
-
-            base.Paint(graphics, clipBounds, cellBounds, rowIndex,
-                cellState, value, drawText, errorText,
-                cellStyle, advancedBorderStyle, paintParts);
-        }
         #endregion
 
         #region Private
 
         private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker => 
             DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
-
-        private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-            DataGridViewCellStyle cellStyle)
-        {
-            // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingDateTime.GetPreferredSize(_sizeLarge).Height + 2;
-            if (preferredHeight < editingControlBounds.Height)
-            {
-                switch (cellStyle.Alignment)
-                {
-                    case DataGridViewContentAlignment.MiddleLeft:
-                    case DataGridViewContentAlignment.MiddleCenter:
-                    case DataGridViewContentAlignment.MiddleRight:
-                        editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                        break;
-                    case DataGridViewContentAlignment.BottomLeft:
-                    case DataGridViewContentAlignment.BottomCenter:
-                    case DataGridViewContentAlignment.BottomRight:
-                        editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                        break;
-                }
-            }
-
-            return editingControlBounds;
-        }
 
         private void OnCommonChange()
         {
@@ -906,6 +857,11 @@ namespace Krypton.Toolkit
                 EditingDateTimePicker.CalendarTodayDate = value;
             }
         }
+
+        /// <summary>
+        /// Type casted version of OwningColumn
+        /// </summary>
+        internal KryptonDataGridViewDateTimePickerColumn? KryptonOwningColumn => OwningColumn as KryptonDataGridViewDateTimePickerColumn;
         #endregion
     }
 }

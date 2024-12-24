@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
             _annualDates = [];
             _monthlyDates = [];
             _dates = [];
+            _kryptonDataGridViewCellIndicatorImage = new();
         }
 
         /// <summary>
@@ -894,8 +895,25 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
         private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
-
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
         #endregion
 
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
+
+        #region Protected
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
+        #endregion Protected
     }
 }
