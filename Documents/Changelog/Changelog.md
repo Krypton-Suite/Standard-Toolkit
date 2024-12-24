@@ -4,6 +4,7 @@
 
 ## 2025-11-xx - Build 2511 - November 2025
 * Resolved [#213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/213), `ThemeManager` needs to be CrossThread aware
+* Resolved [#1784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1784), `KryptonDataGridView` Auto generation of columns is not serialized correctly.
 * Resolved [#1977](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1977), When a control is set to anchor to the bottom, the control can be stretched beyond the form bottom.
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
 * Implemented [#1968](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1968), Open up 'ExceptionHandler' for public use
