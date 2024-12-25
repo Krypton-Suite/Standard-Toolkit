@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    text = errorText;
+                    text = ErrorText;
                 }
 
                 // Cell display text
