@@ -18,11 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     {
         #region Static Fields
-        [ThreadStatic]
         private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
         private static readonly Type _defaultValueType = typeof(DateTime);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -574,7 +572,6 @@ namespace Krypton.Toolkit
             object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             if (DataGridView is not null
-                && DataGridView.Rows.SharedRow(rowIndex).Index != -1
                 && KryptonOwningColumn?.CellIndicatorImage is Image image)
             {
                 int pos;
@@ -617,7 +614,8 @@ namespace Krypton.Toolkit
                 {
                     graphics.DrawImage(image, new Point(pos, textArea.Top));
 
-                    if (formattedValue is string str
+                    if (DataGridView.Rows.SharedRow(rowIndex).Index != -1
+                        && formattedValue is string str
                         && str.Length > 0
                         && DateTime.TryParse(str, out DateTime dt))
                     {
@@ -643,14 +641,10 @@ namespace Krypton.Toolkit
             const int ButtonsWidth = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView!.RightToLeft == RightToLeft.Yes)
-            {
-                errorIconBounds.X = errorIconBounds.Left + ButtonsWidth;
-            }
-            else
-            {
-                errorIconBounds.X = errorIconBounds.Left - ButtonsWidth;
-            }
+
+            errorIconBounds.X = DataGridView!.RightToLeft == RightToLeft.Yes
+                ? errorIconBounds.Left + ButtonsWidth
+                : errorIconBounds.Left - ButtonsWidth;
 
             return errorIconBounds;
         }
@@ -701,7 +695,6 @@ namespace Krypton.Toolkit
             rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control }
                            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
         #endregion
 
         #region Internal
