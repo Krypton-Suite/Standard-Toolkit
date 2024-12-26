@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -18,18 +18,10 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewNumericUpDownCell : DataGridViewTextBoxCell
     {
         #region Static Fields
-        [ThreadStatic]
-        private static KryptonNumericUpDown _paintingNumericUpDown;
-
-        private const DataGridViewContentAlignment ANY_RIGHT =
-            DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight |
-            DataGridViewContentAlignment.BottomRight;
-        private const DataGridViewContentAlignment ANY_CENTER =
-            DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter |
-            DataGridViewContentAlignment.BottomCenter;
+        private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
+        private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewNumericUpDownEditingControl);
         private static readonly Type _defaultValueType = typeof(decimal);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -49,17 +41,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewNumericUpDownCell()
         {
-            // Create a thread specific KryptonNumericUpDown control used for the painting of the non-edited cells
-            if (_paintingNumericUpDown == null)
-            {
-                _paintingNumericUpDown = new KryptonNumericUpDown();
-                _paintingNumericUpDown.SetLayoutDisplayPadding(new Padding(0, 0, 0, -1));
-                _paintingNumericUpDown.Maximum = decimal.MaxValue / 10;
-                _paintingNumericUpDown.Minimum = decimal.MinValue / 10;
-                _paintingNumericUpDown.StateCommon.Border.Width = 0;
-                _paintingNumericUpDown.StateCommon.Border.Draw = InheritBool.False;
-            }
-
             // Set the default values of the properties:
             _decimalPlaces = 0;
             _increment = decimal.One;
@@ -249,7 +230,7 @@ namespace Krypton.Toolkit
                 dataGridViewCell.AllowDecimals = AllowDecimals;
                 dataGridViewCell.TrailingZeroes = TrailingZeroes;
             }
-            return dataGridViewCell;
+            return dataGridViewCell!;
         }
 
         /// <summary>
@@ -259,8 +240,9 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
-            if (dataGridView?.EditingControl == null)
+            DataGridView dataGridView = DataGridView!;
+
+            if (dataGridView?.EditingControl is null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
             }
@@ -285,12 +267,12 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-            object initialFormattedValue,
+            object? initialFormattedValue,
             DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
-            if (DataGridView.EditingControl is KryptonNumericUpDown numericUpDown)
+            if (DataGridView!.EditingControl is KryptonNumericUpDown numericUpDown)
             {
                 numericUpDown.DecimalPlaces = DecimalPlaces;
                 numericUpDown.Increment = Increment;
@@ -298,7 +280,9 @@ namespace Krypton.Toolkit
                 numericUpDown.Minimum = Minimum;
                 numericUpDown.ThousandsSeparator = ThousandsSeparator;
                 numericUpDown.Hexadecimal = Hexadecimal;
-                numericUpDown.Text = initialFormattedValue is string initialFormattedValueStr ? initialFormattedValueStr : string.Empty;
+                numericUpDown.Value = decimal.TryParse(Value?.ToString() ?? string.Empty, out decimal d)
+                    ? d     // restore the cell value 
+                    : 0m;   // if the cell value was null set to zero
             }
         }
 
@@ -323,44 +307,84 @@ namespace Krypton.Toolkit
                     (Keys.Subtract == e.KeyCode)) &&
                    !e.Shift && e is { Alt: false, Control: false };
         }
-
-        /// <summary>
-        /// Custom implementation of the PositionEditingControl method called by the DataGridView control when it
-        /// needs to relocate and/or resize the editing control.
-        /// </summary>
-        public override void PositionEditingControl(bool setLocation,
-            bool setSize,
-            Rectangle cellBounds,
-            Rectangle cellClip,
-            DataGridViewCellStyle cellStyle,
-            bool singleVerticalBorderAdded,
-            bool singleHorizontalBorderAdded,
-            bool isFirstDisplayedColumn,
-            bool isFirstDisplayedRow)
-        {
-            Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-                singleVerticalBorderAdded, singleHorizontalBorderAdded,
-                isFirstDisplayedColumn, isFirstDisplayedRow);
-
-            editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView.EditingControl.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-        }
         #endregion
 
         #region Protected
+        ///<inheritdoc/>
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
+            object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        {
+            if (DataGridView is not null
+                && KryptonOwningColumn?.CellIndicatorImage is Image image)
+            {
+                int pos;
+                Rectangle textArea;
+                var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
+
+                if (righToLeft)
+                {
+                    pos = cellBounds.Left;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left + image.Width,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+                else
+                {
+                    pos = cellBounds.Right - image.Width;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+
+                // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
+                // Afterwards we paint the text and drop down image.
+                if (DataGridView is DataGridView)
+                {
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                }
+
+                // Draw the drop down button, only if no ErrorText has been set.
+                // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+                string text = string.Empty;
+
+                if (ErrorText.Length == 0)
+                {
+                    graphics.DrawImage(image, new Point(pos, textArea.Top));
+
+                    if (DataGridView.Rows.SharedRow(rowIndex).Index != -1
+                        && formattedValue is string str
+                        && str.Length > 0)
+                    {
+                        text = decimal.TryParse(str, out decimal d)
+                            ? d.ToString(InheritedStyle.Format)
+                            : str;
+                    }
+                }
+                else
+                {
+                    text = ErrorText;
+                }
+
+                TextRenderer.DrawText(graphics, text, cellStyle.Font, textArea, cellStyle.ForeColor,
+                    KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
+            }
+        }
         /// <summary>
         /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
         /// error icon next to the up/down buttons and not on top of them.
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            errorIconBounds.X = DataGridView.RightToLeft == RightToLeft.Yes
-                ? errorIconBounds.Left + BUTTONS_WIDTH
-                : errorIconBounds.Left - BUTTONS_WIDTH;
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -369,11 +393,11 @@ namespace Krypton.Toolkit
         /// Customized implementation of the GetFormattedValue function in order to include the decimal and thousand separator
         /// characters in the formatted representation of the cell value.
         /// </summary>
-        protected override object GetFormattedValue(object value,
+        protected override object GetFormattedValue(object? value,
             int rowIndex,
             ref DataGridViewCellStyle cellStyle,
-            TypeConverter valueTypeConverter,
-            TypeConverter formattedValueTypeConverter,
+            TypeConverter? valueTypeConverter,
+            TypeConverter? formattedValueTypeConverter,
             DataGridViewDataErrorContexts context)
         {
             // By default, the base implementation converts the Decimal 1234.5 into the string "1234.5"
@@ -398,7 +422,7 @@ namespace Krypton.Toolkit
                     return formattedDecimal.ToString((ThousandsSeparator ? "N" : "F") + DecimalPlaces.ToString());
                 }
             }
-            return formattedValue;
+            return formattedValue!;
         }
 
         /// <summary>
@@ -406,25 +430,14 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
         #endregion
 
         #region Private
-        private KryptonDataGridViewNumericUpDownEditingControl EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
+        private KryptonDataGridViewNumericUpDownEditingControl? EditingNumericUpDown => DataGridView!.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
 
         private decimal Constrain(decimal value)
         {
@@ -439,31 +452,6 @@ namespace Krypton.Toolkit
             }
 
             return value;
-        }
-
-        private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-            DataGridViewCellStyle cellStyle)
-        {
-            // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingNumericUpDown.GetPreferredSize(_sizeLarge).Height + 2;
-            if (preferredHeight < editingControlBounds.Height)
-            {
-                switch (cellStyle.Alignment)
-                {
-                    case DataGridViewContentAlignment.MiddleLeft:
-                    case DataGridViewContentAlignment.MiddleCenter:
-                    case DataGridViewContentAlignment.MiddleRight:
-                        editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                        break;
-                    case DataGridViewContentAlignment.BottomLeft:
-                    case DataGridViewContentAlignment.BottomCenter:
-                    case DataGridViewContentAlignment.BottomRight:
-                        editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                        break;
-                }
-            }
-
-            return editingControlBounds;
         }
 
         private void OnCommonChange()
@@ -482,10 +470,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingNumericUpDown(int rowIndex) =>
-            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewNumericUpDownEditingControl control } 
+            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewNumericUpDownEditingControl control }
                            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
-
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
 
         #endregion
 
@@ -495,7 +481,7 @@ namespace Krypton.Toolkit
             _allowDecimals = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.AllowDecimals = value;
+                EditingNumericUpDown!.AllowDecimals = value;
             }
         }
 
@@ -504,7 +490,7 @@ namespace Krypton.Toolkit
             _trailingZeroes = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.TrailingZeroes = value;
+                EditingNumericUpDown!.TrailingZeroes = value;
             }
         }
 
@@ -513,7 +499,7 @@ namespace Krypton.Toolkit
             _decimalPlaces = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.DecimalPlaces = value;
+                EditingNumericUpDown!.DecimalPlaces = value;
             }
         }
 
@@ -522,7 +508,7 @@ namespace Krypton.Toolkit
             _hexadecimal = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Hexadecimal = value;
+                EditingNumericUpDown!.Hexadecimal = value;
             }
         }
 
@@ -531,7 +517,7 @@ namespace Krypton.Toolkit
             _increment = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Increment = value;
+                EditingNumericUpDown!.Increment = value;
             }
         }
 
@@ -556,7 +542,7 @@ namespace Krypton.Toolkit
 
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Maximum = value;
+                EditingNumericUpDown!.Maximum = value;
             }
         }
 
@@ -581,7 +567,7 @@ namespace Krypton.Toolkit
 
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Minimum = value;
+                EditingNumericUpDown!.Minimum = value;
             }
         }
 
@@ -590,7 +576,7 @@ namespace Krypton.Toolkit
             _thousandsSeparator = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.ThousandsSeparator = value;
+                EditingNumericUpDown!.ThousandsSeparator = value;
             }
         }
 
@@ -600,6 +586,11 @@ namespace Krypton.Toolkit
             ANY_CENTER => HorizontalAlignment.Center,
             _ => HorizontalAlignment.Left
         };
+
+        /// <summary>
+        /// Type casted version of OwningColumn
+        /// </summary>
+        internal KryptonDataGridViewNumericUpDownColumn? KryptonOwningColumn => OwningColumn as KryptonDataGridViewNumericUpDownColumn;
         #endregion
     }
 }
