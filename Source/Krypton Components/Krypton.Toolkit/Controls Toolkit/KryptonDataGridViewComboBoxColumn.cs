@@ -21,6 +21,11 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
     public class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
     {
+        #region Fields
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+        #endregion
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewComboBoxColumn class.
@@ -30,8 +35,15 @@ namespace Krypton.Toolkit
         {
             Items = new List<object>();
             AutoCompleteCustomSource = new AutoCompleteStringCollection();
+            _kryptonDataGridViewCellIndicatorImage = new();
         }
 
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
         /// <summary>
         /// Returns a standard compact string representation of the column.
         /// </summary>
@@ -399,13 +411,14 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     // Update all the existing KryptonDataGridViewComboBoxCell cells in the column accordingly.
+                    DataGridViewRow dataGridViewRow;
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
                     var rowCount = dataGridViewRows.Count;
                     for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
-                        DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
                         {
                             dataGridViewCell.SetDisplayMember(rowIndex, value);
@@ -444,13 +457,14 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     // Update all the existing KryptonDataGridViewComboBoxCell cells in the column accordingly.
+                    DataGridViewRow dataGridViewRow;
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
                     var rowCount = dataGridViewRows.Count;
                     for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
-                        DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
                         {
                             dataGridViewCell.SetValueMember(rowIndex, value);
@@ -468,7 +482,7 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
-        public object DataSource
+        public object? DataSource
         {
 
             get =>
@@ -485,6 +499,21 @@ namespace Krypton.Toolkit
 
                 // Update the template cell so that subsequent cloned cells use the new value.
                 ComboBoxCellTemplate.DataSource = value;
+
+                if (DataGridView is not null)
+                {
+                    DataGridViewRow dataGridViewRow;
+                    DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
+                    int rowCount = dataGridViewRows.Count;
+                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    {
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
+                        {
+                            dataGridViewCell.DataSource = value;
+                        }
+                    }
+                }
             }
         }
         #endregion
@@ -494,8 +523,14 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewComboBoxCell
         /// </summary>
         private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => (KryptonDataGridViewComboBoxCell)CellTemplate;
-
         #endregion
 
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
     }
 }
