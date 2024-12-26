@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -20,11 +20,12 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
         #region Instance Fields
-
         private readonly DateTimeList _annualDates;
         private readonly DateTimeList _monthlyDates;
         private readonly DateTimeList _dates;
-        #endregion
+       // Cell indicator image instance
+        private readonly KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+         #endregion
 
         #region Identity
         /// <summary>
@@ -33,9 +34,10 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewDateTimePickerColumn()
             : base(new KryptonDataGridViewDateTimePickerCell())
         {
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            _dates = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            _dates = [];
+            _kryptonDataGridViewCellIndicatorImage = new();
         }
 
         /// <summary>
@@ -62,6 +64,7 @@ namespace Krypton.Toolkit
         {
             var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
 
+
             cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
             cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;
             cloned.CalendarBoldedDates = CalendarBoldedDates;
@@ -76,7 +79,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
 
@@ -808,7 +811,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -835,7 +839,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -862,7 +867,8 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        [AllowNull]
+        public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
 
@@ -889,9 +895,24 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
-        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
-
+        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
         #endregion
 
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
+
+        #region Protected
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
+        #endregion Protected
     }
 }
