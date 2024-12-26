@@ -354,13 +354,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        [Browsable(false)]
-        [Description(@"When true and AutoGenerateColumns is true the KryptonDataGridView will use Krypton column types, when false the standard WinForms column types.")]
+        [Browsable(true)]
+        [Category(@"Behavior")]
+        [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
         [DefaultValue(true)]
         public bool AutoGenerateKryptonColumns 
         {
-            get;
-            set;
+            get; set;
         } = true;
 
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
