@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -19,6 +19,11 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDataGridViewNumericUpDownColumn), "ToolboxBitmaps.KryptonNumericUpDown.bmp")]
     public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconColumn
     {
+        #region Fields
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+        #endregion
+
         #region Identity
 
         /// <summary>
@@ -27,6 +32,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewNumericUpDownColumn()
             : base(new KryptonDataGridViewNumericUpDownCell())
         {
+            _kryptonDataGridViewCellIndicatorImage = new();
         }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -393,9 +399,25 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewNumericUpDownCell
         /// </summary>
-        private KryptonDataGridViewNumericUpDownCell? NumericUpDownCellTemplate => (KryptonDataGridViewNumericUpDownCell)CellTemplate;
-
+        private KryptonDataGridViewNumericUpDownCell? NumericUpDownCellTemplate => CellTemplate as KryptonDataGridViewNumericUpDownCell;
         #endregion
+
+        #region Protected
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
+        #endregion Protected
+
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
 
     }
 }
