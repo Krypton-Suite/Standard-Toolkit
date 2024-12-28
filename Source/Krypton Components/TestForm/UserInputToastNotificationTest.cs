@@ -176,5 +176,10 @@ namespace TestForm
 
             return tempList;
         }
+
+        private void kbtnSampleText_Click(object sender, EventArgs e)
+        {
+            ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
+        }
     }
 }

@@ -57,9 +57,9 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlNotificationTitle.Text = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            klblHeader.Text = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
-            kwlNotificationMessage.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            krtbNotificationContentText.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
         private void UpdateComboBoxItems()
