@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
                 // Each element must contain a valid reference
                 if (colors[i] == null)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(colors), "Child array cannot be null.");
+                    throw new ArgumentOutOfRangeException(nameof(colors), @"Child array cannot be null.");
                 }
                 else
                 {
@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
                         // All other child arrays must be the same length
                         if (colors[i]!.Length != rows)
                         {
-                            throw new ArgumentOutOfRangeException(nameof(colors), "Each child color array must be the same length.");
+                            throw new ArgumentOutOfRangeException(nameof(colors), @"Each child color array must be the same length.");
                         }
                     }
                 }
