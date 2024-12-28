@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image? ResolveImage
+        private Image? ResolveImage
         {
             get
             {
@@ -553,9 +553,10 @@ namespace Krypton.Toolkit
                 _fixedTextExtraText.LongText = ResolveExtraText;
 
                 // Update the Image
-                _fixedImage.Image = itemColumnImage;
+                _fixedImage.Image = CommonHelper.ScaleImageForSizedDisplay(itemColumnImage,
+                    itemColumnImage.Width * FactorDpiX,
+                    itemColumnImage.Height * FactorDpiY, true);
                 _fixedImage.ImageTransparentColor = itemImageTransparent;
-
             }
 
             SplitSeparator.SetPalettes(splitPalette.Back, splitPalette.Border);
