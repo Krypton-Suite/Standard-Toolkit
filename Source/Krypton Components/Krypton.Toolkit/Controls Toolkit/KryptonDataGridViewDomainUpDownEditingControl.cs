@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
                 _dataGridView = value;
 
                 // Trigger a manual palette check
-                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(EditingControlDataGridView, this);
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(_dataGridView, this);
             }
 
         }
