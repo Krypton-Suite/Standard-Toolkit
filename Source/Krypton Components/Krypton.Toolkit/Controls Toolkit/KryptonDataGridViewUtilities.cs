@@ -86,22 +86,20 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Used by the KrypronDataGridViewEditingControl classes to (un)subscribe to the KrypronDataGridView.PaletteChanged event.
         /// </summary>
-        /// <param name="currentDataGridView"></param>
-        /// <param name="newDataGridView"></param>
-        /// <param name="eventHandler"></param>
+        /// <param name="currentDataGridView">The current DataGridView instance.</param>
+        /// <param name="newDataGridView">THe new DataGridView instance.</param>
+        /// <param name="eventHandler">Eventhandler to (un)subscribe from/to.</param>
         internal static void OnKryptonDataGridViewEditingControlDataGridViewChanged(DataGridView? currentDataGridView, DataGridView? newDataGridView, EventHandler eventHandler)
         {
             if (currentDataGridView != newDataGridView)
             {
                 if (currentDataGridView is KryptonDataGridView dataGridView1)
                 {
-                    Debug.Print($"Unsubscribed");
                     dataGridView1.PaletteChanged -= eventHandler;
                 }
 
                 if (newDataGridView is KryptonDataGridView dataGridView2)
                 {
-                    Debug.Print($"Subscribed");
                     dataGridView2.PaletteChanged += eventHandler;
                 }
             }
@@ -110,21 +108,19 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Used by the KrypronDataGridViewEditingControl classes to change the control's local palette to that of the KrypronDataGridView
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="visualControlBase"></param>
+        /// <param name="sender">KryptonDataGridView reference.</param>
+        /// <param name="visualControlBase">The control that will be assigned the palette values.</param>
         internal static void OnKryptonDataGridViewPaletteModeChanged(object? sender, VisualControlBase visualControlBase)
         {
             if (sender is KryptonDataGridView dataGridView)
             {
                 if (visualControlBase.LocalCustomPalette != dataGridView.Palette)
                 {
-                    Debug.Print($"PaletteModeChanged: 1 {visualControlBase.Text}");
                     visualControlBase.LocalCustomPalette = dataGridView.Palette as KryptonCustomPaletteBase;
                 }
 
                 if (visualControlBase.PaletteMode != dataGridView.PaletteMode)
                 {
-                    Debug.Print($"PaletteModeChanged: 2 {visualControlBase.Text}");
                     visualControlBase.PaletteMode = dataGridView.PaletteMode;
                 }
             }
