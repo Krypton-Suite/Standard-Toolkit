@@ -121,6 +121,8 @@ namespace Krypton.Toolkit
         internal void PerformPaint(VisualControlBase textBox, Graphics? g, PI.RECT rect, SolidBrush backBrush)
         {
             Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
+            // Now actually call the function!
+            PerformPaint(textBox, g, layoutRectangle, backBrush);
         }
 
         internal void PerformPaint(VisualControlBase textBox, Graphics? g, Rectangle layoutRectangle, SolidBrush backBrush)
