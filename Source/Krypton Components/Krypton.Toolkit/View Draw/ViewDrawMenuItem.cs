@@ -564,9 +564,10 @@ namespace Krypton.Toolkit
                 _fixedTextExtraText.LongText = ResolveExtraText;
 
                 // Update the Image
-                _fixedImage.Image = itemColumnImage;
+                _fixedImage.Image = CommonHelper.ScaleImageForSizedDisplay(itemColumnImage,
+                    itemColumnImage.Width * FactorDpiX,
+                    itemColumnImage.Height * FactorDpiY, true);
                 _fixedImage.ImageTransparentColor = itemImageTransparent;
-
             }
 
             SplitSeparator.SetPalettes(splitPalette.Back, splitPalette.Border);
