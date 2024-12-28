@@ -36,6 +36,12 @@ namespace Krypton.Toolkit
         /// <summary>The global button padding</summary>
         public const int GLOBAL_BUTTON_PADDING = 10;
 
+        /// <summary>The default countdown interval</summary>
+        internal const int DEFAULT_COUNTDOWN_INTERVAL = 1000;
+
+        /// <summary>The default countdown value</summary>
+        internal const int DEFAULT_COUNTDOWN_VALUE = 60;
+
         internal const int DEFAULT_PADDING = 10;
 
         /// <summary>The global default theme index</summary>

@@ -12,8 +12,6 @@
 
 // ReSharper disable MemberCanBeInternal
 
-using System.ComponentModel;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -564,7 +562,7 @@ namespace Krypton.Toolkit
         #endregion
 
         /// <summary>
-        /// Resets the inital selected item text.
+        /// Resets the initial selected item text.
         /// </summary>
         internal void ResetInitialSelectedItemText()
         {
