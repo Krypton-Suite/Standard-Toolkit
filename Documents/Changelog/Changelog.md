@@ -3,6 +3,7 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#2010](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2010), `KryptonDataGridView` columns with editing controls do not react to local palette changes.
 * Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
 * Resolved [#1287](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1287), `KryptonToast` has "Many" Issues
 	- Text areas now have padding

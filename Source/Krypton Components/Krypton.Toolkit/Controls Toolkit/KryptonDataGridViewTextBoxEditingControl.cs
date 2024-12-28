@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Instance Fields
         private DataGridView? _dataGridView;
@@ -46,7 +46,18 @@ namespace Krypton.Toolkit
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(_dataGridView, this);
+
+            }
+
         }
 
         /// <summary>
@@ -92,6 +103,12 @@ namespace Krypton.Toolkit
         /// Property which indicates whether the editing control needs to be repositioned when its value changes.
         /// </summary>
         public virtual bool RepositionEditingControlOnValueChange => false;
+
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
 
         /// <summary>
         /// Method called by the grid before the editing control is shown so it can adapt to the provided cell style.
