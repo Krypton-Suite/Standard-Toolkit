@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Instance Fields
         private DataGridView? _dataGridView;
@@ -46,7 +46,16 @@ namespace Krypton.Toolkit
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(EditingControlDataGridView, this);
+            }
         }
 
         /// <summary>
@@ -149,6 +158,13 @@ namespace Krypton.Toolkit
         public virtual void PrepareEditingControlForEdit(bool selectAll)
         {
         }
+
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
+
         #endregion
 
         #region Protected

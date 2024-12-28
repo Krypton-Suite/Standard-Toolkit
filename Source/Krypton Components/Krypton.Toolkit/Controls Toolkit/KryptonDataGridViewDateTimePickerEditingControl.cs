@@ -17,14 +17,14 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewDateTimePickerEditingControl : KryptonDateTimePicker,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Static Fields
         private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         #endregion
 
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
 
         #endregion
@@ -50,7 +50,17 @@ namespace Krypton.Toolkit
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value!;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(EditingControlDataGridView, this);
+            }
+
         }
 
         /// <summary>
@@ -113,6 +123,12 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool RepositionEditingControlOnValueChange => false;
 
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
+
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.
         /// </summary>
@@ -168,7 +184,7 @@ namespace Krypton.Toolkit
             if (!_valueChanged)
             {
                 _valueChanged = true;
-                _dataGridView.NotifyCurrentCellDirty(true);
+                _dataGridView?.NotifyCurrentCellDirty(true);
             }
         }
         #endregion
