@@ -71,12 +71,13 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
+            krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
-            kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
+            klblHeader.Text = _basicToastNotificationData.NotificationTitle;
 
-            kwlblHeader.TextAlign =
-                _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+            klblHeader.StateCommon.ShortText.TextH = _basicToastNotificationData.NotificationTitleAlignmentH ?? PaletteRelativeAlign.Center;
+
+            klblHeader.StateCommon.ShortText.TextV = _basicToastNotificationData.NotificationTitleAlignmentV ?? PaletteRelativeAlign.Center;
         }
 
         private void UpdateBorderColors()
@@ -92,19 +93,19 @@ namespace Krypton.Toolkit
 
         private void UpdateFonts()
         {
-            kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
+            krtbNotificationContentText.StateCommon.Content.Font = _basicToastNotificationData.NotificationContentFont ??
                                             KryptonManager.CurrentGlobalPalette.BaseFont;
 
             if (_basicToastNotificationData.NotificationTitleFont != null)
             {
-                kwlblContent.LabelStyle = LabelStyle.NormalControl;
+                krtbNotificationContentText.InputControlStyle = InputControlStyle.PanelClient;
 
-                kwlblHeader.StateCommon.Font =
+                klblHeader.StateCommon.ShortText.Font =
                     _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {
-                kwlblHeader.LabelStyle = LabelStyle.TitleControl;
+                klblHeader.LabelStyle = LabelStyle.TitleControl;
             }
         }
 

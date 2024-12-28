@@ -29,6 +29,10 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationDateTimeUserInputRtlAwareForm" /> class.</summary>
+        /// <param name="data">The data.</param>
         public VisualToastNotificationDateTimeUserInputRtlAwareForm(KryptonUserInputToastNotificationData data)
         {
             InitializeComponent();
@@ -42,6 +46,8 @@ namespace Krypton.Toolkit
             UpdateBorderColors();
         }
 
+        #endregion
+
         #region Implementation
 
         private void UpdateBorderColors()
@@ -53,9 +59,9 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlNotificationTitle.Text = _data.NotificationTitle;
+            klblHeader.Text = _data.NotificationTitle;
 
-            kwlNotificationMessage.Text = _data.NotificationContent;
+            krtbNotificationContentText.Text = _data.NotificationContent;
         }
 
         private void UpdateInitialValues()
