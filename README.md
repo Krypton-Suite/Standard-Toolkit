@@ -142,6 +142,9 @@ Follow the links to see the different objects and layouts that this framework al
 # Breaking Changes
 ## V100.00 (2025-11-xx - Build 2511 - November 2025)
 There are list of changes that have occurred during the development of the V100.00 version
+* Resolved [#213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/213), **[Breaking Change]** `ThemeManager` needs to be CrossThread aware
+	- The `ThemeManager` has been updated to be CrossThread aware
+	- The property `ApplyToolstrips` in the `KryptonManager` has been renamed to `ApplyToolStrips`
 * Resolved [#240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/240), **[Breaking Change]** `KryptonRichTextBox` Why is it not possible to have the `ButtonSpecs` aligned to the top of a control
 	- `ButtonSpecs` have been removed from the `KryptonRichTextBox`
 	- Use another layout to align in the designers
