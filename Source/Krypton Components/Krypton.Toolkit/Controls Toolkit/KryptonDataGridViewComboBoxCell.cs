@@ -12,8 +12,6 @@
 
 // ReSharper disable MemberCanBeInternal
 
-using System.ComponentModel;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -407,13 +405,19 @@ namespace Krypton.Toolkit
 
                 // Draw the drop down button, only if no ErrorText has been set.
                 // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+                string text;
                 if (ErrorText.Length == 0)
                 {
                     graphics.DrawImage(image, new Point(pos, textArea.Top));
+                    text = _selectedItemText;
+                }
+                else
+                {
+                    text = ErrorText;
                 }
 
                 // Cell display text
-                TextRenderer.DrawText(graphics, _selectedItemText, cellStyle.Font, textArea, cellStyle.ForeColor,
+                TextRenderer.DrawText(graphics, text, cellStyle.Font, textArea, cellStyle.ForeColor,
                     KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
             }
         }
@@ -558,7 +562,7 @@ namespace Krypton.Toolkit
         #endregion
 
         /// <summary>
-        /// Resets the inital selected item text.
+        /// Resets the initial selected item text.
         /// </summary>
         internal void ResetInitialSelectedItemText()
         {

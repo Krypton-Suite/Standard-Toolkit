@@ -19,13 +19,23 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
     public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
     {
+        #region Fields
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+        #endregion
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewDomainUpDownColumn class.
         /// </summary>
         public KryptonDataGridViewDomainUpDownColumn()
-            : base(new KryptonDataGridViewDomainUpDownCell()) =>
+            : base(new KryptonDataGridViewDomainUpDownCell())
+        {
             Items = [];
+            _kryptonDataGridViewCellIndicatorImage = new();
+
+            ReadOnlyItemsList = false;
+        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.
@@ -59,6 +69,7 @@ namespace Krypton.Toolkit
             }
 
             cloned.Items.AddRange(strings);
+            cloned.ReadOnlyItemsList = ReadOnlyItemsList;
 
             return cloned;
         }
@@ -93,6 +104,11 @@ namespace Krypton.Toolkit
         [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
         public StringCollection Items { get; }
 
+        [Category(@"Behavior")]
+        [Browsable(true)]
+        [Description(@"Forces the user to select a value from the domain list if enabled. If not the user can select a value from the list or enter text which will be saved tot the cell.")]
+        [DefaultValue(false)]
+        public bool ReadOnlyItemsList { get; set; }
         #endregion
 
         #region Private
@@ -100,8 +116,24 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewDomainUpDownCell
         /// </summary>
         private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(CellTemplate)));
-
         #endregion
+
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
+
+        #region Protected
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
+        #endregion Protected
 
     }
 }

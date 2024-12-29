@@ -117,6 +117,14 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
+        /// <summary>Gets or sets the notification title horizontal alignment.</summary>
+        /// <value>The notification title horizontal alignment.</value>
+        public PaletteRelativeAlign? NotificationTitleAlignmentH { get; set; }
+
+        /// <summary>Gets or sets the notification title vertical alignment.</summary>
+        /// <value>The notification title vertical alignment.</value>
+        public PaletteRelativeAlign? NotificationTitleAlignmentV { get; set; }
+
         #endregion
 
         #region Identity
@@ -154,6 +162,10 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
+
+            NotificationTitleAlignmentH = PaletteRelativeAlign.Center;
+
+            NotificationTitleAlignmentV = PaletteRelativeAlign.Center;
         }
 
         #endregion

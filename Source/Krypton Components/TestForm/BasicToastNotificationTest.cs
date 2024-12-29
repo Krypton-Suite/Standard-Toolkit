@@ -21,7 +21,8 @@ namespace TestForm
         private bool _useRtlReading;
         private Color _borderColor1;
         private Color _borderColor2;
-        private ContentAlignment _titleAlignment;
+        private PaletteRelativeAlign _titleAlignmentH;
+        private PaletteRelativeAlign _titleAlignmentV;
         private Font _contentFont;
         private Font? _titleFont;
         private int _countDownSeconds;
@@ -49,7 +50,7 @@ namespace TestForm
                 NotificationIcon = _notificationIcon,
                 NotificationLocation = null,
                 ShowDoNotShowAgainOption = _showDoNotShowAgainOption,
-                NotificationTitleAlignment = _titleAlignment,
+                NotificationTitleAlignmentH = _titleAlignmentH,
                 TopMost = _topMost,
                 UseFade = _useFade,
                 ShowCloseBox = _showCloseBox,
@@ -69,7 +70,7 @@ namespace TestForm
                 NotificationTitleFont = _titleFont,
                 NotificationIcon = _notificationIcon,
                 NotificationLocation = new Point((int)knudStartLocationX.Value, (int)knudStartLocationY.Value),
-                NotificationTitleAlignment = _titleAlignment,
+                NotificationTitleAlignmentH = _titleAlignmentH,
                 TopMost = _topMost,
                 UseFade = _useFade,
                 ShowCloseBox = _showCloseBox
@@ -93,7 +94,7 @@ namespace TestForm
             _useFade = false;
             _reportToastLocation = false;
             _showDoNotShowAgainOption = false;
-            _titleAlignment = ContentAlignment.MiddleCenter;
+            _titleAlignmentH = PaletteRelativeAlign.Center;
             _countDownSeconds = 60;
             _notificationIcon = KryptonToastNotificationIcon.Information;
             _notificationTitleText = ktxtToastTitle.Text;
@@ -112,12 +113,19 @@ namespace TestForm
 
             kcmbToastIcon.SelectedIndex = 8;
 
-            foreach (var value in Enum.GetValues(typeof(ContentAlignment)))
+            foreach (var value in Enum.GetValues(typeof(PaletteRelativeAlign)))
             {
-                kcmbToastTitleAlignment.Items.Add(value!.ToString()!);
+                kcmbToastTitleAlignmentH.Items.Add(value!.ToString()!);
             }
 
-            kcmbToastTitleAlignment.SelectedIndex = 4;
+            foreach (var value in Enum.GetValues(typeof(PaletteRelativeAlign)))
+            {
+                kcmbToastTitleAlignmentV.Items.Add(value);
+            }
+
+            kcmbToastTitleAlignmentH.SelectedIndex = 1;
+
+            kcmbToastTitleAlignmentV.SelectedIndex = 1;
 
             knudStartLocationX.Maximum = GraphicsExtensions.GetWorkingArea().Width;
 
@@ -163,9 +171,9 @@ namespace TestForm
             _notificationIcon = (KryptonToastNotificationIcon)Enum.Parse(typeof(KryptonToastNotificationIcon), kcmbToastIcon.Text);
         }
 
-        private void kcmbToastTitleAlignment_SelectedIndexChanged(object sender, EventArgs e)
+        private void kcmbToastTitleAlignmentH_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _titleAlignment = (ContentAlignment)Enum.Parse(typeof(ContentAlignment), kcmbToastTitleAlignment.Text);
+            _titleAlignmentH = (PaletteRelativeAlign)Enum.Parse(typeof(PaletteRelativeAlign), kcmbToastTitleAlignmentH.Text);
         }
 
         private void knudCountdownSeconds_ValueChanged(object sender, EventArgs e)
@@ -206,6 +214,21 @@ namespace TestForm
         private void kchkShowDoNotShowAgain_CheckedChanged(object sender, EventArgs e)
         {
             _showDoNotShowAgainOption = kchkShowDoNotShowAgain.Checked;
+        }
+
+        private void kbtnSampleText_Click(object sender, EventArgs e)
+        {
+            ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
+        }
+
+        private void kcmbToastTitleAlignment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _titleAlignmentV = (PaletteRelativeAlign)Enum.Parse(typeof(PaletteRelativeAlign), kcmbToastTitleAlignmentV.Text);
         }
     }
 }

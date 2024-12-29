@@ -3,6 +3,12 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
+* Resolved [#2010](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2010), `KryptonDataGridView` columns with editing controls do not react to local palette changes.
+* Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
+* Resolved [#1287](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1287), `KryptonToast` has "Many" Issues
+	- Text areas now have padding
+	- Content area has been replaced with a `KryptonRichTextBox`
 * Resolved [#213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/213), `ThemeManager` needs to be CrossThread aware
 * Resolved [#1784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1784), `KryptonDataGridView` Auto generation of columns is not serialized correctly.
 * Resolved [#1977](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1977), When a control is set to anchor to the bottom, the control can be stretched beyond the form bottom.
@@ -47,6 +53,8 @@
 =======
 
 ## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+* Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
+* Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
 * Resolved [#560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/560), CheckBox Images are not scaled with dpi Awareness
 * Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
@@ -234,6 +242,7 @@
 =======
 
 # 2025-02-01 - Build 2502 (Patch 5) - February 2025
+* Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
 * Resolved [#560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/560), CheckBox Images are not scaled with dpi Awareness
 * Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness

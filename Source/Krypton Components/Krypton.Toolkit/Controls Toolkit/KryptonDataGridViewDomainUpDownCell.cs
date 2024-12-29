@@ -18,14 +18,10 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewDomainUpDownCell : DataGridViewTextBoxCell
     {
         #region Static Fields
-        [ThreadStatic]
-        private static KryptonDomainUpDown _paintingDomainUpDown;
-
         private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDomainUpDownEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Identity
@@ -34,14 +30,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewDomainUpDownCell()
         {
-            // Create a thread specific KryptonNumericUpDown control used for the painting of the non-edited cells
-            if (_paintingDomainUpDown == null)
-            {
-                _paintingDomainUpDown = new KryptonDomainUpDown();
-                _paintingDomainUpDown.SetLayoutDisplayPadding(new Padding(0, 0, 0, -1));
-                _paintingDomainUpDown.StateCommon.Border.Width = 0;
-                _paintingDomainUpDown.StateCommon.Border.Draw = InheritBool.False;
-            }
         }
 
         /// <summary>
@@ -78,14 +66,11 @@ namespace Krypton.Toolkit
 
             if (dataGridView.EditingControl is KryptonDomainUpDown domainUpDown)
             {
-                if (OwningColumn is KryptonDataGridViewDomainUpDownColumn domainColumn)
-                {
-                    domainUpDown.Items.Clear();
+                domainUpDown.Items.Clear();
 
-                    if (domainUpDown.Controls[0].Controls[1] is TextBox textBox)
-                    {
-                        textBox.ClearUndo();
-                    }
+                if (domainUpDown.Controls[0].Controls[1] is TextBox textBox)
+                {
+                    textBox.ClearUndo();
                 }
             }
 
@@ -107,41 +92,76 @@ namespace Krypton.Toolkit
             {
                 domainUpDown.Items.Clear();
                 domainUpDown.ButtonSpecs.Clear();
+                domainUpDown.ReadOnly = KryptonOwningColumn?.ReadOnlyItemsList ?? false;
 
-                if (OwningColumn is KryptonDataGridViewDomainUpDownColumn domainColumn)
+                if (KryptonOwningColumn is not null)
                 {
-                    domainUpDown.Items.InsertRange(0, domainColumn.Items);
+                    domainUpDown.Items.AddRange(KryptonOwningColumn.Items);
                 }
 
                 domainUpDown.Text = initialFormattedValue as string ?? string.Empty;
             }
         }
 
-        /// <summary>
-        /// Custom implementation of the PositionEditingControl method called by the DataGridView control when it
-        /// needs to relocate and/or resize the editing control.
-        /// </summary>
-        public override void PositionEditingControl(bool setLocation,
-            bool setSize,
-            Rectangle cellBounds,
-            Rectangle cellClip,
-            DataGridViewCellStyle cellStyle,
-            bool singleVerticalBorderAdded,
-            bool singleHorizontalBorderAdded,
-            bool isFirstDisplayedColumn,
-            bool isFirstDisplayedRow)
-        {
-            Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-                singleVerticalBorderAdded, singleHorizontalBorderAdded,
-                isFirstDisplayedColumn, isFirstDisplayedRow);
-
-            editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-        }
         #endregion
 
         #region Protected
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
+            object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        {
+            if (DataGridView is not null
+                && KryptonOwningColumn?.CellIndicatorImage is Image image)
+            {
+                int pos;
+                Rectangle textArea;
+                var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
+
+                if (righToLeft)
+                {
+                    pos = cellBounds.Left;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left + image.Width,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+                else
+                {
+                    pos = cellBounds.Right - image.Width;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+
+                // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
+                // Afterwards we paint the text and drop down image.
+                if (DataGridView is DataGridView)
+                {
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                }
+
+                // Draw the drop down button, only if no ErrorText has been set.
+                // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+                if (ErrorText.Length == 0)
+                {
+                    graphics.DrawImage(image, new Point(pos, textArea.Top));
+                }
+                else
+                {
+                    formattedValue = errorText;
+                }
+
+                TextRenderer.DrawText(graphics, formattedValue?.ToString() ?? string.Empty, cellStyle.Font, textArea, cellStyle.ForeColor,
+                    KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
+            }
+        }
+
         /// <summary>
         /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
         /// error icon next to the up/down buttons and not on top of them.
@@ -169,31 +189,6 @@ namespace Krypton.Toolkit
 
         private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl 
             ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
-
-        private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-            DataGridViewCellStyle cellStyle)
-        {
-            // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingDomainUpDown.GetPreferredSize(_sizeLarge).Height + 2;
-            if (preferredHeight < editingControlBounds.Height)
-            {
-                switch (cellStyle.Alignment)
-                {
-                    case DataGridViewContentAlignment.MiddleLeft:
-                    case DataGridViewContentAlignment.MiddleCenter:
-                    case DataGridViewContentAlignment.MiddleRight:
-                        editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                        break;
-                    case DataGridViewContentAlignment.BottomLeft:
-                    case DataGridViewContentAlignment.BottomCenter:
-                    case DataGridViewContentAlignment.BottomRight:
-                        editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                        break;
-                }
-            }
-
-            return editingControlBounds;
-        }
 
         private void OnCommonChange()
         {
@@ -230,6 +225,11 @@ namespace Krypton.Toolkit
                 return (align & ANY_CENTER) != 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left;
             }
         }
+
+        /// <summary>
+        /// Type casted version of OwningColumn
+        /// </summary>
+        internal KryptonDataGridViewDomainUpDownColumn? KryptonOwningColumn => OwningColumn as KryptonDataGridViewDomainUpDownColumn;
         #endregion
     }
 }
