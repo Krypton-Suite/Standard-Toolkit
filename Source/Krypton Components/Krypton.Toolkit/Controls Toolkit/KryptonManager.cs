@@ -23,22 +23,10 @@ namespace Krypton.Toolkit
     public sealed class KryptonManager : Component
     {
         #region Static Fields
-
-        // Lock objects to ensure thread safety to the static instances
-        private static readonly object _lock = new object();
-        private static readonly object _paletteLock = new object();
-
         // Initialize the global state
-        private static bool _globalApplyToolStrips = true;
+        private static bool _globalApplyToolstrips = true;
         private static bool _globalUseThemeFormChromeBorderWidth = true;
         internal static bool _globalUseKryptonFileDialogs = true;
-
-        private static PaletteBase _currentGlobalPalette = GetPaletteForMode(CurrentGlobalPaletteMode);
-
-        private static readonly Lazy<PaletteProfessionalSystem> _lazyPaletteProfessionalSystem =
-            new Lazy<PaletteProfessionalSystem>(() => new PaletteProfessionalSystem(), isThreadSafe: true);
-
-
         private static Font? _baseFont;
 
         // Initialize the default modes
@@ -421,33 +409,24 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public static bool ApplyToolstrips
         {
-            get
-            {
-                lock (_lock)
-                {
-                    return _globalApplyToolStrips;
-                }
-            }
+            get => _globalApplyToolstrips;
 
             set
             {
-                lock (_lock)
+                // Only interested if the value changes
+                if (_globalApplyToolstrips != value)
                 {
-                    // Only interested if the value changes
-                    if (_globalApplyToolStrips != value)
-                    {
-                        // Use new value
-                        _globalApplyToolStrips = value;
+                    // Use new value
+                    _globalApplyToolstrips = value;
 
-                        // Change the toolstrip manager renderer as required
-                        if (_globalApplyToolStrips)
-                        {
-                            UpdateToolStripManager();
-                        }
-                        else
-                        {
-                            ResetToolStripManager();
-                        }
+                    // Change the toolstrip manager renderer as required
+                    if (_globalApplyToolstrips)
+                    {
+                        UpdateToolStripManager();
+                    }
+                    else
+                    {
+                        ResetToolStripManager();
                     }
                 }
             }
@@ -458,30 +437,21 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if form chrome should be customized.
         /// </summary>
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public static bool UseThemeFormChromeBorderWidth
         {
-            get
-            {
-                lock (_lock)
-                {
-                    return _globalUseThemeFormChromeBorderWidth;
-                }
-            }
+            get => _globalUseThemeFormChromeBorderWidth;
 
             set
             {
-                lock (_lock)
+                // Only interested if the value changes
+                if (_globalUseThemeFormChromeBorderWidth != value)
                 {
-                    // Only interested if the value changes
-                    if (_globalUseThemeFormChromeBorderWidth != value)
-                    {
-                        // Use new value
-                        _globalUseThemeFormChromeBorderWidth = value;
+                    // Use new value
+                    _globalUseThemeFormChromeBorderWidth = value;
 
-                        // Fire change event
-                        OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
-                    }
+                    // Fire change event
+                    OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
                 }
             }
         }
@@ -999,24 +969,7 @@ namespace Krypton.Toolkit
         /// Access the Current Palette
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static PaletteBase CurrentGlobalPalette
-        {
-            get
-            {
-                lock (_paletteLock)
-                {
-                    return _currentGlobalPalette;
-                }
-            }
-
-            private set
-            {
-                lock (_paletteLock)
-                {
-                    _currentGlobalPalette = value;
-                }
-            }
-        }
+        public static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
 
         #endregion
 
@@ -1088,12 +1041,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e)
-        {
-            EventHandler? handler = GlobalUseThemeFormChromeBorderWidthChanged;
-
-            handler?.Invoke(null, e);
-        }
+        private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 
         private static void OnGlobalPaletteChanged(EventArgs e)
         {
@@ -1181,17 +1129,7 @@ namespace Krypton.Toolkit
 
         private static void UpdateToolStripManager()
         {
-            var context = SynchronizationContext.Current;
-
-            if (context != null)
-            {
-                context.Post(_ =>
-                {
-                    ToolStripManager.Renderer =
-                        CurrentGlobalPalette?.GetRenderer()?.RenderToolStrip(CurrentGlobalPalette);
-                }, null);
-            }
-            else
+            if (_globalApplyToolstrips)
             {
                 ToolStripManager.Renderer = CurrentGlobalPalette?.GetRenderer()?.RenderToolStrip(CurrentGlobalPalette);
             }
