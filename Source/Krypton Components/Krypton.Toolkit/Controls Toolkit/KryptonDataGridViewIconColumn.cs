@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         /// Gets the list of icon specifications.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        List<IconSpec> IconSpecs
+        ObservableCollection<IconSpec> IconSpecs 
         {
             get;
         }
@@ -89,16 +89,48 @@ namespace Krypton.Toolkit
 
     public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
+        private KryptonDataGridView? _dataGridView = null;
+
         #region Identity
 
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
         /// </summary>
         protected KryptonDataGridViewIconColumn(DataGridViewCell cellTemplate)
-            : base(cellTemplate) =>
+            : base(cellTemplate)
+        {
             IconSpecs = [];
+        }
 
         #endregion
+
+        protected override void OnDataGridViewChanged()
+        {
+            IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
+
+            // KDGV needs a column refresh only
+            if (DataGridView is KryptonDataGridView dataGridView)
+            {
+                _dataGridView = dataGridView;
+                IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
+            }
+            else
+            {
+                _dataGridView = null;
+            }
+
+            base.OnDataGridViewChanged();
+        }
+
+        /// <summary>
+        /// Will inform the KGDV that the column needs a repaint. 
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">Not used.</param>
+        private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            _dataGridView?.InvalidateColumn(this.Index);
+        }
 
         /// <summary>
         /// Create a cloned copy of the column.
@@ -120,9 +152,9 @@ namespace Krypton.Toolkit
         /// Gets the collection of the icon specifications.
         /// </summary>
         [Category(@"Data")]
-        [Description(@"Set of extra icons to appear with control.")]
+        [Description(@"Set of extra icons to appear on the column header.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; }
+        public ObservableCollection<IconSpec> IconSpecs { get; }
 
     }
 

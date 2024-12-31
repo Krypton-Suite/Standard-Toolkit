@@ -3,7 +3,8 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
-* Resolved [#2018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2018) Corrects `KryptonDataGridView` palette switching difficulties.
+* Resolved [#2023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2023), `KryptonDataGridView` IconSpecs do not get a repaint when changed at run-time.
+* Resolved [#2018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2018), Corrects `KryptonDataGridView` palette switching difficulties.
 * Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#2010](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2010), `KryptonDataGridView` columns with editing controls do not react to local palette changes.
 * Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
