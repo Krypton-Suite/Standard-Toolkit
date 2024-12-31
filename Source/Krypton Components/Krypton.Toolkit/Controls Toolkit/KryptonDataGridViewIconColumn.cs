@@ -90,6 +90,7 @@ namespace Krypton.Toolkit
     public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
         private KryptonDataGridView? _dataGridView = null;
+
         #region Identity
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace Krypton.Toolkit
         /// <param name="e">Not used.</param>
         private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            _dataGridView   ?.InvalidateColumn(this.Index);
+            _dataGridView?.InvalidateColumn(this.Index);
         }
 
         /// <summary>
