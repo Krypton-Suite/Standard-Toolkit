@@ -89,7 +89,6 @@ namespace Krypton.Toolkit
 
     public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
-        private KryptonDataGridView? _kryptonDataGridView = null;
         #region Identity
 
         /// <summary>
@@ -105,7 +104,6 @@ namespace Krypton.Toolkit
 
         protected override void OnDataGridViewChanged()
         {
-            Debug.Print($"OnDataGridViewChanged: {(DataGridView?.ToString() ?? "is null")}");
             IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
 
             // KDGV needs a column refresh only
