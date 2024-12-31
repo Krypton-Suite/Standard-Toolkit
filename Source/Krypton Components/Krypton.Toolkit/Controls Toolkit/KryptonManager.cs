@@ -356,8 +356,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool GlobalApplyToolstrips
         {
-            get => ApplyToolStrips;
-            set => ApplyToolStrips = value;
+            get => ApplyToolstrips;
+            set => ApplyToolstrips = value;
         }
         private bool ShouldSerializeGlobalApplyToolstrips() => !GlobalApplyToolstrips;
         private void ResetGlobalApplyToolstrips() => GlobalApplyToolstrips = true;
@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the global flag that decides if palette colors are applied to toolstrips.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public static bool ApplyToolStrips
+        public static bool ApplyToolstrips
         {
             get
             {

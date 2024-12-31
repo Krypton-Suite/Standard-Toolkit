@@ -19,9 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private static readonly object _lock = new object();
-
-        private static readonly Lazy<ThemeManager> _instance = new Lazy<ThemeManager>(() => new ThemeManager());
+        
 
         #endregion
 
@@ -33,10 +31,6 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the Default Global Palette.</summary>
         public static PaletteMode DefaultGlobalPalette => GlobalStaticValues.GLOBAL_DEFAULT_PALETTE_MODE;
-
-        /// <summary>Gets the instance.</summary>
-        /// <value>The instance.</value>
-        public static ThemeManager Instance => _instance.Value;
 
         #endregion
 
@@ -80,11 +74,8 @@ namespace Krypton.Toolkit
         {
             try
             {
-                lock (_lock)
-                {
                     // Set the global palette mode
                     manager.GlobalPaletteMode = paletteMode;
-                }
             }
             catch (Exception exc)
             {
