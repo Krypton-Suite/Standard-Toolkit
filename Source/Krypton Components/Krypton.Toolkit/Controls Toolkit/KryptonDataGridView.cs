@@ -451,6 +451,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Palette applied to drawing.")]
+        [DefaultValue(PaletteMode.Global)]
         public PaletteMode PaletteMode 
         {
             [DebuggerStepThrough]
@@ -530,6 +531,7 @@ namespace Krypton.Toolkit
                         // No longer using a standard palette
                         _localPalette = value;
                         _paletteMode = PaletteMode.Custom;
+                        SetPalette(_localPalette);
                     }
 
                     // If real change has occurred
@@ -969,8 +971,10 @@ namespace Krypton.Toolkit
             // Update the redirector with latest palette
             Redirector.Target = _palette;
 
+            SyncCellStylesWithPalette();
+
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
+            OnNeedPaint(_palette, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -1755,10 +1759,9 @@ namespace Krypton.Toolkit
             _evalTransparent = true;
             _lastLayoutSize = Size.Empty;
 
-            // Set the palette to the defaults as specified by the manager
+            // Set the palette to the defaults as specified by the PaletteMode property
             _localPalette = null;
-            SetPalette(KryptonManager.CurrentGlobalPalette);
-            _paletteMode = PaletteMode.Global;
+            SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
 
             // Create constant target for resolving palette delegates
             Redirector = new PaletteRedirect(_palette);
