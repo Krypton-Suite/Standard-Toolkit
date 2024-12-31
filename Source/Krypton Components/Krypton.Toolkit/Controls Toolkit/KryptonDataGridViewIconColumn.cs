@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Will inform the KGDV that the column needs a repaint. 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">Not used.</param>
         private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             (DataGridView as KryptonDataGridView)?.InvalidateColumn(this.Index);
