@@ -6011,7 +6011,7 @@ namespace Krypton.Toolkit
             VisualConversionForm conversionForm = new VisualConversionForm()
             {
                 ConversionProgressBar = { Value = e.ProgressPercentage, Text =  $@"{e.ProgressPercentage}%" },
-                ConversionLog = { Text = $@"{(string)e.UserState}" },
+                ConversionLog = { Text = $@"{e.UserState as string}" },
                 ConversionWorker = _conversionWorker,
                 OpenConversionLogOnCompletion = _openConversionLogFileOnCompletion,
                 ConversionLogFilePath = _conversionLogPath

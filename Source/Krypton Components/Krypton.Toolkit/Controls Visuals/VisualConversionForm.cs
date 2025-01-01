@@ -21,18 +21,25 @@ namespace Krypton.Toolkit
 
         #region Properties
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool OpenConversionLogOnCompletion { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool OpenOutputPathOnCompletion { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal BackgroundWorker? ConversionWorker { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal string ConversionLogFilePath { get; set; } = string.Empty;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal string OutputPath { get; set; } = string.Empty;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonProgressBar ConversionProgressBar => kpbConversionProgress;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal KryptonWrapLabel ConversionLog => kwlMessage;
 
         #endregion
@@ -68,7 +75,7 @@ namespace Krypton.Toolkit
                 Interval = 1000
             };
 
-            _progressReportingTimer.Tick += ProgressReportingTimer_Tick;
+            _progressReportingTimer.Tick += ProgressReportingTimer_Tick!;
         }
 
         private void ProgressReportingTimer_Tick(object sender, EventArgs e)
