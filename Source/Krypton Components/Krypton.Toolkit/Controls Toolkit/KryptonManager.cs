@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if form chrome should be customized.
         /// </summary>
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public static bool UseThemeFormChromeBorderWidth
         {
             get => _globalUseThemeFormChromeBorderWidth;

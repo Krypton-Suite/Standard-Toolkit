@@ -17,7 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ThemeManager
     {
-        #region Properties        
+        #region Instance Fields
+
+        
+
+        #endregion
+
+        #region Properties
 
         /// <summary>Gets the supported theme array.</summary>
         /// <value>The supported theme array.</value>
@@ -43,7 +49,7 @@ namespace Krypton.Toolkit
         public static void ApplyTheme(PaletteMode mode, KryptonManager manager) => ApplyGlobalTheme(manager, mode);
 
         /// <summary>
-        /// Applies the theme using the themes name.<br/>
+        /// Applies the theme using the theme's name.
         /// </summary>
         /// <param name="themeName">Valid name of the theme.</param>
         /// <param name="manager">The manager.</param>
@@ -68,7 +74,8 @@ namespace Krypton.Toolkit
         {
             try
             {
-                manager.GlobalPaletteMode = paletteMode;
+                    // Set the global palette mode
+                    manager.GlobalPaletteMode = paletteMode;
             }
             catch (Exception exc)
             {
@@ -77,7 +84,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Returns the respective theme name for the given KryptonManager instance.<br/>
+        /// Returns the respective theme name for the given KryptonManager instance.
         /// </summary>
         /// <param name="manager">A valid reference to a KryptonManager instance.</param>
         /// <returns>The theme name.</returns>
@@ -89,7 +96,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMode">The palette mode.</param>
         /// <returns>The theme name</returns>
         public static string ReturnPaletteModeAsString(PaletteMode paletteMode) => new PaletteModeConverter().ConvertToString(paletteMode)!;
-        
+
         /// <summary>
         /// Loads the custom theme.
         /// </summary>
@@ -101,12 +108,9 @@ namespace Krypton.Toolkit
         {
             try
             {
-                // Declare new instances
+                // Declare new instances (no need for locking if these are local to the method)
                 palette = new KryptonCustomPaletteBase();
-
                 manager = new KryptonManager();
-
-                // Prompt user for palette definition
 
                 // TODO: Add silent option
                 if (silent)
@@ -128,7 +132,8 @@ namespace Krypton.Toolkit
             }
             catch (Exception exc)
             {
-                KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(exc,
+                    showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
@@ -146,4 +151,5 @@ namespace Krypton.Toolkit
 
         #endregion
     }
+
 }

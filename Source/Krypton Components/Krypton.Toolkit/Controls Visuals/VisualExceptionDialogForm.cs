@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                GeneralToolkitUtilities.AdjustFormDimensions(this, 1070, 656);
+                GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
             }
         }
 
@@ -104,6 +104,11 @@ namespace Krypton.Toolkit
             $"{KryptonManager.Strings.ExceptionDialogStrings.Message}: {exception.Message}\n\n" +
             $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
             $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
+
+        private void etvExceptionOutline_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            kbtnCopy.Enabled = e.Node.IsSelected;
+        }
 
         #endregion
 

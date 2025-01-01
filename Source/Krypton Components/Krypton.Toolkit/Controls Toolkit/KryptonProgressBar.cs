@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
 {
     /// <summary>Represents a Krypton progress bar control.</summary>
     [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
+    [ToolboxBitmap(typeof(KryptonProgressBar), "ToolboxBitmaps.KryptonProgressBar.bmp")]
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
     [DesignerCategory(@"code")]
