@@ -6228,14 +6228,12 @@ namespace Krypton.Toolkit
             return jsonBuilder.ToString();
         }
 
-        private string EscapeJsonString(string value)
-        {
-            return value.Replace("\\", "\\\\")
-                        .Replace("\"", "\\\"")
-                        .Replace("\n", "\\n")
-                        .Replace("\r", "\\r")
-                        .Replace("\t", "\\t");
-        }
+        private static string EscapeJsonString(string value) =>
+            value.Replace("\\", "\\\\")
+                 .Replace("\"", "\\\"")
+                 .Replace("\n", "\\n")
+                 .Replace("\r", "\\r")
+                 .Replace("\t", "\\t");
 
 #endif
 
