@@ -35,6 +35,9 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
+        private bool _openConversionLogFileOnCompletion;
+        private BackgroundWorker _conversionWorker;
+
         private int _suspendCount;
         private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
@@ -42,6 +45,10 @@ namespace Krypton.Toolkit
         //private PaletteMode _basePaletteMode;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
+
+        private string _conversionLogPath;
+
+        private string[] _originalPaletteFiles;
 
         #endregion
 
@@ -5920,5 +5927,318 @@ namespace Krypton.Toolkit
         public string GetPaletteName() => PaletteName;
         #endregion
 
+        #region JSON Functionality
+
+        public void ConvertPaletteXMLToJSON(string inputXMLFilePath, string outputJSONFilePath, bool? writeLogFile, string? logFilePath)
+        {
+            _conversionWorker = new BackgroundWorker()
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
+
+            _conversionWorker.DoWork += ConvertPaletteXMLToJSON_DoWork;
+
+            _conversionWorker.ProgressChanged += ConvertPaletteXMLToJSON_ProgressChanged;
+
+            _conversionWorker.RunWorkerCompleted += ConvertPaletteXMLToJSON_RunWorkerCompleted;
+
+            if (writeLogFile != null)
+            {
+                _conversionLogPath = logFilePath ?? Path.Combine(Path.GetFullPath(outputJSONFilePath), $"Logs\\Conversion Log {DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt");
+
+                File.AppendAllText(_conversionLogPath, $@"Log File Created: {DateTime.Now}\n\n");
+            }
+
+            string[] inputFiles = Directory.GetFiles(inputXMLFilePath, "*.xml", SearchOption.AllDirectories);
+
+            _originalPaletteFiles = inputFiles;
+
+            try
+            {
+                if (!Directory.Exists(outputJSONFilePath))
+                {
+                    Directory.CreateDirectory(outputJSONFilePath);
+                }
+                else
+                {
+                    var result = KryptonMessageBox.Show("The output directory already exists. Do you want to overwrite the existing files?", "Output Directory Exists", KryptonMessageBoxButtons.YesNo, KryptonMessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Directory.Delete(outputJSONFilePath, true);
+
+                        Directory.CreateDirectory(outputJSONFilePath);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                KryptonExceptionHandler.CaptureException(exception);
+            }
+
+            var paths = new ConversionPaths()
+            {
+                JsonDirectory = outputJSONFilePath,
+                XmlDirectory = inputXMLFilePath
+            };
+
+            _conversionWorker.RunWorkerAsync(paths);
+        }
+
+        private void ConvertPaletteXMLToJSON_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                File.AppendAllText(_conversionLogPath, $@"\nConversion cancelled by user.\n");
+                
+                KryptonMessageBox.Show("Conversion cancelled.", @"Cancelled", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+            else
+            {
+                File.AppendAllText(_conversionLogPath, $@"\nConversion completed successfully.\n");
+                
+                KryptonMessageBox.Show("Conversion completed successfully!", @"Success", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+
+        private void ConvertPaletteXMLToJSON_ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        {
+            VisualConversionForm conversionForm = new VisualConversionForm()
+            {
+                ConversionProgressBar = { Value = e.ProgressPercentage, Text =  $@"{e.ProgressPercentage}%" },
+                ConversionLog = { Text = $@"{(string)e.UserState}" },
+                ConversionWorker = _conversionWorker,
+                OpenConversionLogOnCompletion = _openConversionLogFileOnCompletion,
+                ConversionLogFilePath = _conversionLogPath
+            };
+
+            conversionForm.Show();
+        }
+
+        private void ConvertPaletteXMLToJSON_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            ConversionPaths paths = (ConversionPaths)e.Argument!;
+
+            string xmlDirectoryPath = paths.XmlDirectory;
+
+            string jsonOutputDirectoryPath = paths.JsonDirectory;
+
+            string[] xmlFiles = Directory.GetFiles(xmlDirectoryPath, "*.xml", SearchOption.AllDirectories);
+
+            int totalFiles = xmlFiles.Length;
+
+            for (int i = 0; i < totalFiles; i++)
+            {
+                if (_conversionWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+
+                    break;
+                }
+
+                string xmlFilePath = xmlFiles[i];
+
+                string relativePath = xmlFilePath.Substring(xmlDirectoryPath.Length + 1);
+
+                string jsonFilePath = Path.Combine(jsonOutputDirectoryPath, Path.ChangeExtension(relativePath, @".json"));
+
+                try
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(jsonFilePath)!);
+
+                    // Convert the XML file to JSON
+                    string paletteContent = File.ReadAllText(xmlFilePath);
+
+#if NETCOREAPP3_0_OR_GREATER
+                    JsonObject jsonObject = ConvertXmlToJson(paletteContent);
+
+                    File.WriteAllText(jsonFilePath, jsonObject.ToString());
+#else
+                    string jsonObject = ConvertXmlToJson(paletteContent);
+
+                    File.WriteAllText(jsonFilePath, jsonObject);
+#endif
+
+                    File.AppendAllText(_conversionLogPath, $@"({DateTime.Now:yyyy-MM-dd_HH-mm-ss}): SUCCESS: {relativePath} -> {jsonFilePath}\n");
+
+                    _conversionWorker.ReportProgress((int)((i + 1) / (double)totalFiles * 100), relativePath);
+                }
+                catch (Exception exception)
+                {
+                    File.AppendAllText(_conversionLogPath, $@"ERROR: {relativePath} - {exception.Message}");
+
+                    KryptonExceptionHandler.CaptureException(exception);
+                }
+            }
+        }
+
+#if NETCOREAPP3_0_OR_GREATER
+        private JsonObject ConvertXmlToJson(string xmlContent)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xmlContent);
+
+            JsonObject jsonObject = new JsonObject();
+
+            foreach (XmlNode node in xmlDocument.DocumentElement!.ChildNodes)
+            {
+                jsonObject.Add(node.Name, ConvertXmlNodeToJson(node));
+            }
+
+            return jsonObject;
+        }
+
+        private JsonNode ConvertXmlNodeToJson(XmlNode node)
+        {
+            // Check if the node has multiple child elements
+            if (node.HasChildNodes && node.ChildNodes.Count > 1)
+            {
+                JsonObject jsonObject = new JsonObject();
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    // Recursively process each child node
+                    jsonObject[childNode.Name] = ConvertXmlNodeToJson(childNode);
+                }
+                return jsonObject; // Return as a JsonObject
+            }
+            else if (node.HasChildNodes && node.ChildNodes.Count == 1 && node.FirstChild!.NodeType == XmlNodeType.Text)
+            {
+                // If the node has a single child and it's text, return as a JsonValue
+                return JsonValue.Create(node.FirstChild.Value)!;
+            }
+            else if (node.Attributes != null && node.Attributes.Count > 0)
+            {
+                // Handle nodes with attributes
+                JsonObject jsonObject = new JsonObject();
+                foreach (XmlAttribute attribute in node.Attributes)
+                {
+                    jsonObject[$"@{attribute.Name}"] = JsonValue.Create(attribute.Value);
+                }
+
+                if (node.HasChildNodes)
+                {
+                    // Add child nodes into the JsonObject
+                    foreach (XmlNode childNode in node.ChildNodes)
+                    {
+                        jsonObject[childNode.Name] = ConvertXmlNodeToJson(childNode);
+                    }
+                }
+                return jsonObject;
+            }
+            else
+            {
+                // If the node is a leaf (no children), return its value as a JsonValue
+                return JsonValue.Create(node.InnerText);
+            }
+        }
+#else
+        private string ConvertXmlToJson(string xmlContent)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xmlContent);
+
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append('{');
+
+            foreach (XmlNode node in xmlDocument.DocumentElement!.ChildNodes)
+            {
+                jsonBuilder.Append($"\"{node.Name}\":");
+                jsonBuilder.Append(ConvertXmlNodeToJson(node));
+                jsonBuilder.Append(',');
+            }
+
+            if (jsonBuilder[jsonBuilder.Length - 1] == ',')
+            {
+                jsonBuilder.Length--; // Remove trailing comma
+            }
+
+            jsonBuilder.Append('}');
+            return jsonBuilder.ToString();
+        }
+
+        private string ConvertXmlNodeToJson(XmlNode node)
+        {
+            StringBuilder jsonBuilder = new StringBuilder();
+
+            if (node.HasChildNodes && node.ChildNodes.Count > 1)
+            {
+                // Node with multiple children
+                jsonBuilder.Append('{');
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    jsonBuilder.Append($"\"{childNode.Name}\":");
+                    jsonBuilder.Append(ConvertXmlNodeToJson(childNode));
+                    jsonBuilder.Append(',');
+                }
+                if (jsonBuilder[jsonBuilder.Length - 1] == ',')
+                {
+                    jsonBuilder.Length--; // Remove trailing comma
+                }
+                jsonBuilder.Append('}');
+            }
+            else if (node.HasChildNodes && node.ChildNodes.Count == 1 && node.FirstChild.NodeType == XmlNodeType.Text)
+            {
+                // Node with a single text child
+                jsonBuilder.Append($"\"{EscapeJsonString(node.FirstChild.Value)}\"");
+            }
+            else if (node.Attributes != null && node.Attributes.Count > 0)
+            {
+                // Node with attributes
+                jsonBuilder.Append('{');
+                foreach (XmlAttribute attribute in node.Attributes)
+                {
+                    jsonBuilder.Append($"\"@{attribute.Name}\":\"{EscapeJsonString(attribute.Value)}\",");
+                }
+                switch (node.HasChildNodes)
+                {
+                    case true when node.FirstChild.NodeType == XmlNodeType.Text:
+                        jsonBuilder.Append($"\"#text\":\"{EscapeJsonString(node.FirstChild.Value)}\"");
+                        break;
+                    case true:
+                    {
+                        foreach (XmlNode childNode in node.ChildNodes)
+                        {
+                            jsonBuilder.Append($"\"{childNode.Name}\":");
+                            jsonBuilder.Append(ConvertXmlNodeToJson(childNode));
+                            jsonBuilder.Append(',');
+                        }
+
+                        break;
+                    }
+                }
+
+                if (jsonBuilder[jsonBuilder.Length - 1] == ',')
+                {
+                    jsonBuilder.Length--; // Remove trailing comma
+                }
+                
+                jsonBuilder.Append('}');
+            }
+            else
+            {
+                // Node with no children or attributes
+                jsonBuilder.Append($"\"{EscapeJsonString(node.InnerText)}\"");
+            }
+
+            return jsonBuilder.ToString();
+        }
+
+        private string EscapeJsonString(string value)
+        {
+            return value.Replace("\\", "\\\\")
+                        .Replace("\"", "\\\"")
+                        .Replace("\n", "\\n")
+                        .Replace("\r", "\\r")
+                        .Replace("\t", "\\t");
+        }
+
+#endif
+
+#endregion
     }
 }
