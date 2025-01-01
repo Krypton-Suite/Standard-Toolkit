@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Define and modify a palette for styling Krypton controls.
     /// </summary>
+    /// <seealso cref="Krypton.Toolkit.PaletteBase" />
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
     [DefaultEvent(nameof(PalettePaint))]
@@ -2954,7 +2955,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ThemeName
         {
             get => _basePalette!.ThemeName;
@@ -2963,7 +2964,7 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [Browsable(false)]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new BasePaletteType BasePaletteType
         {
             get => _basePalette!.BasePaletteType;
@@ -5643,7 +5644,7 @@ namespace Krypton.Toolkit
             {
                 case PaletteState.Disabled:
                     return panel.StateDisabled;
-               
+
                 case PaletteState.Tracking: // #1552 KPanel does not implement the tracking state, default to normal
                 case PaletteState.Normal:
                     return panel.StateNormal;
@@ -5995,13 +5996,13 @@ namespace Krypton.Toolkit
             if (e.Cancelled)
             {
                 File.AppendAllText(_conversionLogPath, $@"\nConversion cancelled by user.\n");
-                
+
                 KryptonMessageBox.Show("Conversion cancelled.", @"Cancelled", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
             }
             else
             {
                 File.AppendAllText(_conversionLogPath, $@"\nConversion completed successfully.\n");
-                
+
                 KryptonMessageBox.Show("Conversion completed successfully!", @"Success", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
             }
         }
@@ -6010,7 +6011,7 @@ namespace Krypton.Toolkit
         {
             VisualConversionForm conversionForm = new VisualConversionForm()
             {
-                ConversionProgressBar = { Value = e.ProgressPercentage, Text =  $@"{e.ProgressPercentage}%" },
+                ConversionProgressBar = { Value = e.ProgressPercentage, Text = $@"{e.ProgressPercentage}%" },
                 ConversionLog = { Text = $@"{e.UserState as string}" },
                 ConversionWorker = _conversionWorker,
                 OpenConversionLogOnCompletion = _openConversionLogFileOnCompletion,
@@ -6078,6 +6079,12 @@ namespace Krypton.Toolkit
         }
 
 #if NETCOREAPP3_0_OR_GREATER
+
+        /// <summary>
+        /// Converts the XML to json.
+        /// </summary>
+        /// <param name="xmlContent">Content of the XML.</param>
+        /// <returns></returns>
         private JsonObject ConvertXmlToJson(string xmlContent)
         {
             XmlDocument xmlDocument = new XmlDocument();
@@ -6093,6 +6100,11 @@ namespace Krypton.Toolkit
             return jsonObject;
         }
 
+        /// <summary>
+        /// Converts the XML node to json.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
         private JsonNode ConvertXmlNodeToJson(XmlNode node)
         {
             // Check if the node has multiple child elements
@@ -6137,6 +6149,11 @@ namespace Krypton.Toolkit
             }
         }
 #else
+        /// <summary>
+        /// Converts the XML to json.
+        /// </summary>
+        /// <param name="xmlContent">Content of the XML.</param>
+        /// <returns></returns>
         private string ConvertXmlToJson(string xmlContent)
         {
             XmlDocument xmlDocument = new XmlDocument();
@@ -6161,6 +6178,11 @@ namespace Krypton.Toolkit
             return jsonBuilder.ToString();
         }
 
+        /// <summary>
+        /// Converts the XML node to json.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
         private string ConvertXmlNodeToJson(XmlNode node)
         {
             StringBuilder jsonBuilder = new StringBuilder();
@@ -6200,23 +6222,23 @@ namespace Krypton.Toolkit
                         jsonBuilder.Append($"\"#text\":\"{EscapeJsonString(node.FirstChild.Value)}\"");
                         break;
                     case true:
-                    {
-                        foreach (XmlNode childNode in node.ChildNodes)
                         {
-                            jsonBuilder.Append($"\"{childNode.Name}\":");
-                            jsonBuilder.Append(ConvertXmlNodeToJson(childNode));
-                            jsonBuilder.Append(',');
-                        }
+                            foreach (XmlNode childNode in node.ChildNodes)
+                            {
+                                jsonBuilder.Append($"\"{childNode.Name}\":");
+                                jsonBuilder.Append(ConvertXmlNodeToJson(childNode));
+                                jsonBuilder.Append(',');
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                 }
 
                 if (jsonBuilder[jsonBuilder.Length - 1] == ',')
                 {
                     jsonBuilder.Length--; // Remove trailing comma
                 }
-                
+
                 jsonBuilder.Append('}');
             }
             else
@@ -6237,6 +6259,6 @@ namespace Krypton.Toolkit
 
 #endif
 
-#endregion
+        #endregion
     }
 }
