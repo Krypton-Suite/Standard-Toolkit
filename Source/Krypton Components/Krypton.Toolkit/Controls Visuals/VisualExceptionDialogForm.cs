@@ -105,9 +105,12 @@ namespace Krypton.Toolkit
             $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
             $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
 
-        private void etvExceptionOutline_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void etvExceptionOutline_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs? e)
         {
-            kbtnCopy.Enabled = e.Node.IsSelected;
+            if (e is not null)
+            {
+                kbtnCopy.Enabled = e.Node is { IsSelected: true };
+            }
         }
 
         #endregion
