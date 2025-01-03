@@ -132,13 +132,6 @@ namespace TestForm
             treeViewExample.Show();
         }
 
-        private void kbtnOutlookGrid_Click(object sender, EventArgs e)
-        {
-            var outlookGridTest = new OutlookGridTest();
-
-            outlookGridTest.Show();
-        }
-
         private void kbtnCalendar_Click(object sender, EventArgs e)
         {
             var calendarTest = new CalendarTest();
@@ -165,13 +158,6 @@ namespace TestForm
             var controlsTest = new ControlsTest();
 
             controlsTest.Show();
-        }
-
-        private void kbtnDataGrid_Click(object sender, EventArgs e)
-        {
-            var dataGrid = new DataGridViewTest();
-
-            dataGrid.Show();
         }
 
         private void kbtnHeaderExamples_Click(object sender, EventArgs e)
