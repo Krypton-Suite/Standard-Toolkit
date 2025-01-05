@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Displays editable text information in a KryptonDataGridView control.
     /// </summary>
-    public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell, IIconCell
+    public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
     {
         #region Instance Fields
         private bool _multiline;
@@ -77,13 +77,10 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
-            foreach (IconSpec sp in IconSpecs)
-            {
-                cloned.IconSpecs.Add(sp.Clone() as IconSpec);
-            }
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
+
             return cloned;
         }
 
@@ -321,13 +318,5 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-
-        /// <summary>
-        /// Gets the collection of the icon specifications.
-        /// </summary>
-        [Category(@"Data")]
-        [Description(@"Set of extra icons to appear with control.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
     }
 }
