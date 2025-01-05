@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -39,8 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the icon to display.
         /// </summary>
-        public Image? Icon
-        {
+        public Image? Icon {
             get;
             set;
         }
@@ -48,8 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the alignment of the icon.
         /// </summary>
-        public IconAlignment Alignment
-        {
+        public IconAlignment Alignment {
             get;
             set;
         }
@@ -81,24 +79,55 @@ namespace Krypton.Toolkit
         /// Gets the list of icon specifications.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        List<IconSpec> IconSpecs
-        {
+        ObservableCollection<IconSpec> IconSpecs {
             get;
         }
     }
 
     public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
+        private KryptonDataGridView? _dataGridView = null;
+
         #region Identity
 
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
         /// </summary>
         protected KryptonDataGridViewIconColumn(DataGridViewCell cellTemplate)
-            : base(cellTemplate) =>
+            : base(cellTemplate)
+        {
             IconSpecs = [];
+        }
 
         #endregion
+
+        protected override void OnDataGridViewChanged()
+        {
+            IconSpecs.CollectionChanged -= OnIconSpecsCollectionChanged;
+
+            // KDGV needs a column refresh only
+            if (DataGridView is KryptonDataGridView dataGridView)
+            {
+                _dataGridView = dataGridView;
+                IconSpecs.CollectionChanged += OnIconSpecsCollectionChanged;
+            }
+            else
+            {
+                _dataGridView = null;
+            }
+
+            base.OnDataGridViewChanged();
+        }
+
+        /// <summary>
+        /// Will inform the KGDV that the column needs a repaint. 
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">Not used.</param>
+        private void OnIconSpecsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            _dataGridView?.InvalidateColumn(this.Index);
+        }
 
         /// <summary>
         /// Create a cloned copy of the column.
@@ -120,9 +149,9 @@ namespace Krypton.Toolkit
         /// Gets the collection of the icon specifications.
         /// </summary>
         [Category(@"Data")]
-        [Description(@"Set of extra icons to appear with control.")]
+        [Description(@"Set of extra icons to appear on the column header.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; }
+        public ObservableCollection<IconSpec> IconSpecs { get; }
 
     }
 
