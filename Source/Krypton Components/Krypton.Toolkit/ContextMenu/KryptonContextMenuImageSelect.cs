@@ -332,6 +332,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal int TrackingIndex
         {
             get => _trackingIndex;

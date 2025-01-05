@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
             AttachGlobalEvents();
 
             // Do the Tooltip Magic
-            ToolTipValues = new ToolTipValues(NeedPaintDelegate);
+            ToolTipValues = new ToolTipValues(NeedPaintDelegate, GetDpiFactor);
             // Create the manager for handling tooltips
             // ReSharper disable once UseObjectOrCollectionInitializer
             _toolTipManager = new ToolTipManager(ToolTipValues);
@@ -126,10 +126,19 @@ namespace Krypton.Toolkit
             _toolTipManager.CancelToolTip += OnCancelToolTip;
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
+        }
+
+            /// <summary>
+            /// Clean up any resources being used.
+            /// </summary>
+            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -394,6 +403,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image? BackgroundImage
         {
             get => base.BackgroundImage;
@@ -405,6 +415,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ImageLayout BackgroundImageLayout
         {
             get => base.BackgroundImageLayout;

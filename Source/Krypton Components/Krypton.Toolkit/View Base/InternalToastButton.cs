@@ -27,6 +27,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsActionButton
         {
             get => _isActionButton;
@@ -41,6 +42,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDismissButton
         {
             get => _isDismissButton;
@@ -55,6 +57,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string ProcessPath
         {
             get => _processPath;
@@ -62,6 +65,7 @@ namespace Krypton.Toolkit
             set => _processPath = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public VisualToastNotificationBaseForm? Owner
         {
             get => _owner;
@@ -69,6 +73,7 @@ namespace Krypton.Toolkit
             set => _owner = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonToastNotificationResult NotificationResult
         {
             get => _notificationResult;
@@ -168,6 +173,7 @@ namespace Krypton.Toolkit
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public override IKryptonCommand? KryptonCommand { get; set; }
 
         #endregion

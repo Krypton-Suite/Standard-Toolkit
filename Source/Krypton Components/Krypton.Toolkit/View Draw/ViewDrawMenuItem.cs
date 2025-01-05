@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class ViewDrawMenuItem : ViewDrawCanvas
     {
         #region Static Fields
-        private static readonly Image? _empty16x16;
+        private static readonly Image _empty16x16;
         #endregion
 
         #region Instance Fields
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static ViewDrawMenuItem() => _empty16x16 = GenericImageResources.Empty16x16;
+        static ViewDrawMenuItem() => _empty16x16 = GenericImageResources.Transparent_16_x_16;
 
         /// <summary>
         /// Initialize a new instance of the ViewDrawMenuItem class.
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                 if (_imageColumn)
                 {
                     itemColumnImage = _empty16x16;
-                    itemImageTransparent = Color.Magenta;
+                    itemImageTransparent = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 }
 
                 switch (ResolveCheckState)
@@ -122,9 +122,7 @@ namespace Krypton.Toolkit
                 if (string.IsNullOrEmpty(shortcutString))
                 {
                     shortcutString = (KryptonContextMenuItem.ShortcutKeys != Keys.None) 
-                        ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) is string s
-                            ? s
-                            : string.Empty
+                        ? new KeysConverter().ConvertToString(KryptonContextMenuItem.ShortcutKeys) ?? string.Empty
                         : string.Empty;
                 }
 
@@ -144,7 +142,14 @@ namespace Krypton.Toolkit
 
             // SubMenu Indicator
             HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : GlobalStaticValues.EMPTY_COLOR), 3);
+            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, 
+                !HasSubMenu 
+                    ? _empty16x16 
+                    : provider.ProviderImages.GetContextMenuSubMenuImage(), 
+                KryptonContextMenuItem.Items.Count == 0 
+                    ? GlobalStaticValues.TRANSPARENCY_KEY_COLOR 
+                    : GlobalStaticValues.EMPTY_COLOR),
+                3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
 
@@ -517,7 +522,7 @@ namespace Krypton.Toolkit
                     if (_imageColumn)
                     {
                         itemColumnImage = _empty16x16;
-                        itemImageTransparent = Color.Magenta;
+                        itemImageTransparent = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                     }
 
                     switch (ResolveCheckState)
@@ -557,9 +562,18 @@ namespace Krypton.Toolkit
                 _fixedTextExtraText.LongText = ResolveExtraText;
 
                 // Update the Image
-                _fixedImage.Image = itemColumnImage;
-                _fixedImage.ImageTransparentColor = itemImageTransparent;
+                if (itemColumnImage != null)
+                {
+                    _fixedImage.Image = CommonHelper.ScaleImageForSizedDisplay(itemColumnImage,
+                        itemColumnImage.Width * FactorDpiX,
+                        itemColumnImage.Height * FactorDpiY, false);
+                }
+                else
+                {
+                    _fixedImage.Image = null;
+                }
 
+                _fixedImage.ImageTransparentColor = itemImageTransparent;
             }
 
             SplitSeparator.SetPalettes(splitPalette.Back, splitPalette.Border);

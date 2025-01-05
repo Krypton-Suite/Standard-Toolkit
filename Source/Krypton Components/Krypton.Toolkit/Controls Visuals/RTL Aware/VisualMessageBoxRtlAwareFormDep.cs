@@ -11,6 +11,7 @@ using System.Data;
 
 namespace Krypton.Toolkit
 {
+    [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
     internal partial class VisualMessageBoxRtlAwareFormDep : KryptonForm
     {
         #region Instance Fields
@@ -46,6 +47,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonMessageBoxResult MessageBoxResult
         {
             get => _messageBoxResult;
@@ -802,39 +804,56 @@ namespace Krypton.Toolkit
 
         private void UpdateDefault(KryptonMessageBoxDefaultButton? defaultButton)
         {
-            AcceptButton = defaultButton switch
+            switch (defaultButton)
             {
-                KryptonMessageBoxDefaultButton.Button1 =>
-                    //_button1.Select();
-                    _button1,
-                KryptonMessageBoxDefaultButton.Button2 =>
-                    //_button2.Select();
-                    _button2,
-                KryptonMessageBoxDefaultButton.Button3 =>
-                    //_button3.Select();
-                    _button3,
-                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
-                null => _button1,
-                _ => _showHelpButton ? _button4 : _button1
-            };
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    AcceptButton = _button1;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    _button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    _button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+                default:
+                    _button1.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+            }
         }
 
         private void UpdateDefault()
         {
-            AcceptButton = _defaultButton switch
+            switch (_defaultButton)
             {
-                KryptonMessageBoxDefaultButton.Button1 =>
-                    //_button1.Select();
-                    _button1,
-                KryptonMessageBoxDefaultButton.Button2 =>
-                    //_button2.Select();
-                    _button2,
-                KryptonMessageBoxDefaultButton.Button3 =>
-                    //_button3.Select();
-                    _button3,
-                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
-                _ => _showHelpButton ? _button4 : _button1
-            };
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    AcceptButton = _button1;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    _button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    _button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+                default:
+                    _button1.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+            }
         }
 
         private void UpdateHelp(bool? showHelpButton)
@@ -847,12 +866,8 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel
-                    or KryptonMessageBoxButtons.YesNo
-                    or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore
-                    or KryptonMessageBoxButtons.YesNoCancel
-                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new EvaluateException("_buttons out of range")
             };
             if (helpButton != null)
@@ -1053,7 +1068,7 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    return krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                    return krtbMessageText.StateCommon.Content.GetBorderContentPadding(null, PaletteState.Normal);
                 case MessageBoxContentAreaType.LinkLabel:
                     return klwlblMessageText.Padding;
                 case null:

@@ -128,7 +128,7 @@ namespace Krypton.Navigator
         /// Occurs when the context action occurs.
         /// </summary>
         [Category(@"Navigator")]
-        [Description(@"Occurs when the drop down button is clicked in Outlook mode.")]
+        [Description(@"Occurs when the drop-down button is clicked in Outlook mode.")]
         public event EventHandler<KryptonContextMenuEventArgs>? OutlookDropDown;
 
         /// <summary>
@@ -328,6 +328,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Name
         {
             get => base.Name;
@@ -517,6 +518,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// 
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonForm? Owner
         {
             get => _owner;
@@ -526,6 +528,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// 
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ControlKryptonFormFeatures
         {
             get => _controlKryptonFormFeatures;
@@ -698,6 +701,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Display mode of the control instance.")]
         //[DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public NavigatorMode NavigatorMode
         {
             get => _mode;
@@ -739,6 +743,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Page back style.")]
         //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public PaletteBackStyle PageBackStyle
         {
             get => _pageBackStyle;
@@ -1037,6 +1042,7 @@ namespace Krypton.Navigator
         /// Gets the child panel used for displaying actual pages.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public KryptonGroupPanel? ChildPanel { get; private set; }
 
         /// <summary>
@@ -1828,6 +1834,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal ViewBuilderBase? ViewBuilder { get; private set; }
 
         internal ButtonSpecCollectionBase? FixedSpecs => Button.FixedSpecs;
@@ -1836,6 +1843,7 @@ namespace Krypton.Navigator
 
         internal void InternalForceViewLayout() => ForceViewLayout();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal ToolTipManager? HoverManager { get; private set; }
 
         internal bool InternalDesignMode => DesignMode;
@@ -2014,6 +2022,7 @@ namespace Krypton.Navigator
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal bool IsChildPanelBorrowed { get; private set; }
 
         internal void BorrowChildPanel()
@@ -2133,7 +2142,7 @@ namespace Krypton.Navigator
         {
             // Assign the default values
             _mode = NavigatorMode.BarTabGroup;
-            _pageBackStyle = PaletteBackStyle.ControlClient;
+            _pageBackStyle = PaletteBackStyle.PanelClient;
             AllowPageReorder = true;
             _allowTabFocus = true;
             _allowTabSelect = true;
@@ -2220,7 +2229,7 @@ namespace Krypton.Navigator
                     OnGroupPanelPaint!)
                 {
                     // Make sure the panel back style always mimics our back style
-                    PanelBackStyle = PaletteBackStyle.ControlClient
+                    PanelBackStyle = PaletteBackStyle.PanelClient
                 };
             }
 

@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
             // Reduce available display rect by the required border sizing
             if (_paletteMetrics != null)
             {
-                context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, originalRect, _paletteMetrics.GetMetricPadding(State, _metricPadding));
+                context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, originalRect, _paletteMetrics.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding));
             }
 
             // Cache the maximum extent of all the children
@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
             context.DisplayRectangle = originalRect;
 
             // Apply padding needed outside the border of the canvas
-            return CommonHelper.ApplyPadding(Orientation, _extent, _paletteMetrics.GetMetricPadding(State, _metricPadding));
+            return CommonHelper.ApplyPadding(Orientation, _extent, _paletteMetrics.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding));
         }
 
         /// <summary>
@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
             if (_paletteMetrics != null)
             {
                 // Get the padding to be applied
-                Padding outerPadding = _paletteMetrics.GetMetricPadding(State, _metricPadding);
+                Padding outerPadding = _paletteMetrics.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
 
                 // Reduce space for children by the padding area
                 positionRectangle = ApplyPadding(positionRectangle, outerPadding);
@@ -595,7 +595,7 @@ namespace Krypton.Toolkit
             if (_paletteMetrics != null)
             {
                 // Get the padding to be applied
-                Padding outerPadding = _paletteMetrics.GetMetricPadding(State, _metricPadding);
+                Padding outerPadding = _paletteMetrics.GetMetricPadding(context.Control as KryptonForm, State, _metricPadding);
 
                 // Reduce the clipping area by the padding
                 clipRectangle = ApplyPadding(clipRectangle, outerPadding);
@@ -854,7 +854,7 @@ namespace Krypton.Toolkit
             // We might not be provided with metrics, so only use if reference provided
             if (_paletteMetrics != null)
             {
-                overs = _paletteMetrics.GetMetricInt(State, _metricOvers) + _scrollOvers;
+                overs = _paletteMetrics.GetMetricInt(OwningControl as KryptonForm, State, _metricOvers) + _scrollOvers;
             }
 
             // Move the required rectangle more than exactly into view in order to make it
@@ -876,7 +876,7 @@ namespace Krypton.Toolkit
                 // Is part of the required rectangle not currently visible
                 if (!ClientRectangle.Contains(rect))
                 {
-                    // Correct the alignmnet to take right to left into account
+                    // Correct the alignment to take right to left into account
                     RelativePositionAlign alignment = AlignmentRTL;
 
                     // Center alignment needs changing to near or far for scrolling
@@ -885,7 +885,7 @@ namespace Krypton.Toolkit
                         alignment = RelativePositionAlign.Near;
                     }
 
-                    // How to scroll into view depends on the alignmnent of items
+                    // How to scroll into view depends on the alignment of items
                     switch (alignment)
                     {
                         case RelativePositionAlign.Near:
@@ -945,11 +945,11 @@ namespace Krypton.Toolkit
 
         private void OnAnimationTick(object? sender, EventArgs e)
         {
-            // Limit check the animation offset, incase the limits have changed
+            // Limit check the animation offset, in case the limits have changed
             _animationOffset.X = Math.Min(Math.Max(_animationOffset.X, _limit.X), 0);
             _animationOffset.Y = Math.Min(Math.Max(_animationOffset.Y, _limit.Y), 0);
 
-            // Find distance half way to the destination
+            // Find distance half-way to the destination
             var distanceX = (_animationOffset.X - _offset.X) / 2;
             var distanceY = (_animationOffset.Y - _offset.Y) / 2;
 

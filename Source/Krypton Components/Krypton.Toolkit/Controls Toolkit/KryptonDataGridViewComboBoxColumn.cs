@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -30,6 +30,14 @@ namespace Krypton.Toolkit
         {
             Items = [];
             AutoCompleteCustomSource = [];
+            _kryptonDataGridViewCellIndicatorImage = new();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
         }
 
         /// <summary>
@@ -77,8 +85,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell? CellTemplate
-        {
+        public override DataGridViewCell? CellTemplate {
             get => base.CellTemplate;
 
             set
@@ -113,8 +120,7 @@ namespace Krypton.Toolkit
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [DefaultValue(ComboBoxStyle.DropDown)]
         [RefreshProperties(RefreshProperties.Repaint)]
-        public ComboBoxStyle DropDownStyle
-        {
+        public ComboBoxStyle DropDownStyle {
             get =>
                 ComboBoxCellTemplate?.DropDownStyle ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -155,8 +161,7 @@ namespace Krypton.Toolkit
         [Description(@"The maximum number of entries to display in the drop-down list.")]
         [Localizable(true)]
         [DefaultValue(8)]
-        public int MaxDropDownItems
-        {
+        public int MaxDropDownItems {
             get =>
                 ComboBoxCellTemplate?.MaxDropDownItems ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -191,15 +196,14 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the height, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The height, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
-        public int DropDownHeight
-        {
+        public int DropDownHeight {
             get =>
                 ComboBoxCellTemplate?.DropDownHeight ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -234,14 +238,14 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the width, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The width, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public int DropDownWidth
-        {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int DropDownWidth {
             get =>
                 ComboBoxCellTemplate?.DropDownWidth ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -295,8 +299,7 @@ namespace Krypton.Toolkit
         [DefaultValue(AutoCompleteMode.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteMode AutoCompleteMode
-        {
+        public AutoCompleteMode AutoCompleteMode {
             get =>
                 ComboBoxCellTemplate?.AutoCompleteMode ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -337,8 +340,7 @@ namespace Krypton.Toolkit
         [DefaultValue(AutoCompleteSource.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
-        public AutoCompleteSource AutoCompleteSource
-        {
+        public AutoCompleteSource AutoCompleteSource {
             get =>
                 ComboBoxCellTemplate?.AutoCompleteSource ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
@@ -380,8 +382,7 @@ namespace Krypton.Toolkit
         [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
         [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue(@"")]
-        public string DisplayMember
-        {
+        public string DisplayMember {
             get =>
                 ComboBoxCellTemplate == null
                     ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
@@ -399,13 +400,14 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     // Update all the existing KryptonDataGridViewComboBoxCell cells in the column accordingly.
+                    DataGridViewRow dataGridViewRow;
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
                     var rowCount = dataGridViewRows.Count;
                     for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
-                        DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
                         {
                             dataGridViewCell.SetDisplayMember(rowIndex, value);
@@ -425,8 +427,7 @@ namespace Krypton.Toolkit
         [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
         [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue(@"")]
-        public string ValueMember
-        {
+        public string ValueMember {
             get =>
                 ComboBoxCellTemplate == null
                     ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
@@ -444,13 +445,14 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     // Update all the existing KryptonDataGridViewComboBoxCell cells in the column accordingly.
+                    DataGridViewRow dataGridViewRow;
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
                     var rowCount = dataGridViewRows.Count;
                     for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
-                        DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
                         {
                             dataGridViewCell.SetValueMember(rowIndex, value);
@@ -468,8 +470,8 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
-        public object? DataSource
-        {
+        [DefaultValue(null)]
+        public object? DataSource {
 
             get =>
                 ComboBoxCellTemplate == null
@@ -485,6 +487,21 @@ namespace Krypton.Toolkit
 
                 // Update the template cell so that subsequent cloned cells use the new value.
                 ComboBoxCellTemplate.DataSource = value;
+
+                if (DataGridView is not null)
+                {
+                    DataGridViewRow dataGridViewRow;
+                    DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
+                    int rowCount = dataGridViewRows.Count;
+                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    {
+                        dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewComboBoxCell dataGridViewCell)
+                        {
+                            dataGridViewCell.DataSource = value;
+                        }
+                    }
+                }
             }
         }
         #endregion
@@ -494,8 +511,18 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewComboBoxCell
         /// </summary>
         private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => CellTemplate as KryptonDataGridViewComboBoxCell;
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
 
         #endregion
+
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
 
     }
 }

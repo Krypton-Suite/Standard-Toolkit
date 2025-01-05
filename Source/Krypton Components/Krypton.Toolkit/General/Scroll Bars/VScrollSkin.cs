@@ -48,12 +48,14 @@ namespace Krypton.Toolkit
             set => __win = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal virtual KryptonScrollBar VScrollBar1
         {
             get => _vScrollBar1;
             set => _vScrollBar1 = value;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal virtual KryptonScrollBar HScrollBar1
         {
             get => _hScrollBar1;

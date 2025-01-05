@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Combines drop down button functionality with the styling features of the Krypton Toolkit.
+    /// Combines drop-down button functionality with the styling features of the Krypton Toolkit.
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
@@ -25,15 +25,14 @@ namespace Krypton.Toolkit
     public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
-        private readonly ViewDrawButton _drawButton;
+        protected internal readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
-        private readonly ButtonController _buttonController;
-        private readonly PaletteRedirectDropDownButton _paletteDropDownButtonImages;
+        protected internal readonly ButtonController _buttonController;
         private readonly PaletteTripleOverride _overrideFocus;
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private KryptonCommand? _command;
+        private IKryptonCommand? _command;
         private bool _isDefault;
         private bool _useMnemonic;
         private bool _wasEnabled;
@@ -41,10 +40,10 @@ namespace Krypton.Toolkit
 
         #region Events
         /// <summary>
-        /// Occurs when the drop down portion of the button is pressed.
+        /// Occurs when the drop-down portion of the button is pressed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when the drop down portion of the button is pressed.")]
+        [Description(@"Occurs when the drop-down portion of the button is pressed.")]
         public event EventHandler<ContextPositionMenuArgs>? DropDown;
 
         /// <summary>
@@ -65,6 +64,7 @@ namespace Krypton.Toolkit
             // production of them by the base Control class
             SetStyle(ControlStyles.StandardClick |
                      ControlStyles.StandardDoubleClick, false);
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
 
             // Set default button properties
             _style = ButtonStyle.Standalone;
@@ -74,10 +74,6 @@ namespace Krypton.Toolkit
             // Create content storage
             Values = CreateButtonValues(NeedPaintDelegate);
             Values.TextChanged += OnButtonTextChanged;
-            Images = new DropDownButtonImages(NeedPaintDelegate);
-
-            // Image need an extra redirector to check the local images first
-            _paletteDropDownButtonImages = new PaletteRedirectDropDownButton(Redirector, Images);
 
             // Create the palette storage
             StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, NeedPaintDelegate);
@@ -107,8 +103,7 @@ namespace Krypton.Toolkit
                 // Set default button state
                 DropDown = true,
                 Splitter = true,
-                TestForFocusCues = true,
-                DropDownPalette = _paletteDropDownButtonImages
+                TestForFocusCues = true
             };
 
             // Create a button controller to handle button style behaviour
@@ -167,7 +162,6 @@ namespace Krypton.Toolkit
         public override string Text
         {
             get => Values.Text;
-
             set => Values.Text = value;
         }
 
@@ -187,6 +181,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation ButtonOrientation
         {
@@ -243,7 +238,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                var converted = value switch
+                VisualOrientation converted = value switch
                 {
                     VisualOrientation.Top => VisualOrientation.Bottom,
                     VisualOrientation.Right => VisualOrientation.Left,
@@ -259,10 +254,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if the button works as a splitter or as a drop down.
+        /// Gets and sets if the button works as a splitter or as a drop-down.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Determine if button acts as a splitter or just a drop down.")]
+        [Description(@"Determine if button acts as a splitter or just a drop-down.")]
         [DefaultValue(true)]
         public bool Splitter
         {
@@ -311,16 +306,6 @@ namespace Krypton.Toolkit
         public ButtonValues Values { get; }
 
         private bool ShouldSerializeValues() => !Values.IsDefault;
-
-        /// <summary>
-        /// Gets access to the image value overrides.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Image value overrides.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DropDownButtonImages Images { get; }
-
-        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
@@ -406,7 +391,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the drop button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand? KryptonCommand
+        public virtual IKryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -525,6 +510,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ImeMode ImeMode
         {
             get => base.ImeMode;
@@ -643,7 +629,32 @@ namespace Krypton.Toolkit
             if (owner is not null)
             {
                 // Update owner with our dialog result setting
-                owner.DialogResult = DialogResult;
+                try
+                {
+                    owner.DialogResult = DialogResult;
+                }
+                catch (InvalidEnumArgumentException)
+                {
+                    // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
+                    if (owner is VisualMessageBoxForm
+                        or VisualMessageBoxRtlAwareForm
+#pragma warning disable CS0618 // Type or member is obsolete
+                        or VisualMessageBoxFormDep
+                        or VisualMessageBoxRtlAwareFormDep)
+#pragma warning restore CS0618 // Type or member is obsolete
+                    {
+                        // need to gain access to `dialogResult` and set it forcefully
+                        FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fi != null)
+                        {
+                            fi.SetValue(owner, DialogResult);
+                        }
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
 
             // Let base class fire standard event
@@ -779,8 +790,10 @@ namespace Krypton.Toolkit
         {
             var showingContextMenu = false;
 
-            // Do we need to show a drop down menu?
-            if (!Splitter || (Splitter && _drawButton.SplitRectangle.Contains(e.Location)))
+            // Do we need to show a drop-down menu?
+            if ((!Splitter && this is not KryptonButton)
+                || (Splitter && _drawButton.SplitRectangle.Contains(e.Location))
+               )
             {
                 showingContextMenu = ShowDropDown();
             }
@@ -853,7 +866,7 @@ namespace Krypton.Toolkit
                                 break;
                         }
 
-                        // We are showing a drop down
+                        // We are showing a drop-down
                         showingContextMenu = true;
 
                         // Show relative to the screen rectangle
@@ -867,7 +880,7 @@ namespace Krypton.Toolkit
                     Rectangle screenRect = RectangleToScreen(ClientRectangle);
                     if (CommonHelper.ValidContextMenuStrip(cpma.ContextMenuStrip))
                     {
-                        // We are showing a drop down
+                        // We are showing a drop-down
                         showingContextMenu = true;
 
                         //...show the context menu below and at th left of the button

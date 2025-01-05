@@ -105,6 +105,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -2271,6 +2272,10 @@ namespace Krypton.Toolkit
                                 Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
+                                    float dpiFactor = g.DpiX / 96F;
+                                    drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                        drawImage.Width * dpiFactor,
+                                        drawImage.Height * dpiFactor, false)!;
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
                                         indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
                                         drawImage.Width, drawImage.Height));
@@ -2334,6 +2339,10 @@ namespace Krypton.Toolkit
 
                                 if (drawImage != null)
                                 {
+                                    float dpiFactor = g.DpiX / 96F;
+                                    drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                                        drawImage.Width * dpiFactor,
+                                        drawImage.Height * dpiFactor, false)!;
                                     g.DrawImage(drawImage, _layoutImage.ClientRectangle);
                                 }
                             }
@@ -2348,6 +2357,10 @@ namespace Krypton.Toolkit
                         {
                             if (drawStateImage != null)
                             {
+                                float dpiFactor = g.DpiX / 96F;
+                                drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
+                                    drawStateImage.Width * dpiFactor,
+                                    drawStateImage.Height * dpiFactor, false)!;
                                 g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
                             }
                         }

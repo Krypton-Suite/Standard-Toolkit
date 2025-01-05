@@ -109,6 +109,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the width of the scroll bar.</summary>
         /// <value>The width of the scroll bar.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ScrollBarWidth
         {
             get => Width; 

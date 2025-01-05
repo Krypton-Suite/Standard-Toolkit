@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                     if (length > 0)
                     {
                         // If let the message occur as it is being pressed on a combo box 
-                        // drop down list and so it will process the message appropriately
+                        // drop-down list and so it will process the message appropriately
                         if (className.ToString() == "ComboLBox")
                         {
                             endTracking = false;
@@ -320,6 +320,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public EventHandler? DismissedDelegate { get; set; }
 
         /// <summary>

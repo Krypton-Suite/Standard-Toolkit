@@ -100,11 +100,13 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the control this element is managing.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public Control Control { get; private set; }
 
         /// <summary>
         /// Gets and sets the minimum size for the inner area of the control that docking should not overlap.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Size InnerMinimum
         {
             get => _innerMinimum;

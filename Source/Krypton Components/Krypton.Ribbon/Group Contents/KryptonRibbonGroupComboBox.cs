@@ -413,6 +413,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public virtual string Text
         {
             get => ComboBox.Text;
@@ -498,10 +499,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the height, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The height, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -512,10 +513,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
+        /// Gets and sets the width, in pixels, of the drop-down box in a KryptonComboBox.
         /// </summary>
         [Category(@"Behavior")]
-        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Description(@"The width, in pixels, of the drop-down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(143)]
         [Browsable(true)]
@@ -531,6 +532,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The height, in pixels, of items in an owner-draw KryptomComboBox.")]
         [Localizable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ItemHeight
         {
             get => ComboBox.ItemHeight;
@@ -1041,10 +1043,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal Control? LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal KryptonComboBox? LastComboBox { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);

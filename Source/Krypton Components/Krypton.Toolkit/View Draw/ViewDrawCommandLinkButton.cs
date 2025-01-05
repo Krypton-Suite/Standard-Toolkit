@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
 			Checked = false;
 			AllowUncheck = true;
 
-			// Create the drop down view
+			// Create the drop-down view
 			_drawImageContent = new ViewDrawContent(_paletteNormal.PaletteContent, imageValues, orientation);
 			_drawImage = new ViewLayoutCenter(paletteMetric, PaletteMetricPadding.BarPaddingOnly,
 				orientation, _drawImageContent);
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
 		public override string ToString()
 		{
 			// Return the class name and instance identifier
-			return "ViewDrawButton:" + Id;
+			return $"ViewDrawButton:{Id}";
 		}
 		#endregion
 

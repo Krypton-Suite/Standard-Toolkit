@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public abstract ToolStripRenderer RenderToolStrip(PaletteBase colorPalette);
+        public abstract ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette);
         #endregion
 
         #region RenderStandardBorder
@@ -580,19 +580,19 @@ namespace Krypton.Toolkit
                                              bool pressed);
 
         /// <summary>
-        /// Calculate the requested display size for the drop down button.
+        /// Calculate the requested display size for the drop-down button.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="palette">Palette for sourcing display values.</param>
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public abstract Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            PaletteBase palette,
+                                                            IPaletteContent palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation);
 
         /// <summary>
-        /// Perform drawing of a drop down button.
+        /// Perform drawing of a drop-down button.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="displayRect">Display area available for drawing.</param>
@@ -600,10 +600,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public abstract void DrawDropDownButton(RenderContext context,
-                                                Rectangle displayRect,
-                                                PaletteBase palette,
-                                                PaletteState state,
-                                                VisualOrientation orientation);
+            Rectangle displayRect,
+            IPaletteContent palette,
+            PaletteState state,
+            VisualOrientation orientation);
 
         /// <summary>
         /// Draw a numeric up button image appropriate for a input control.
@@ -630,7 +630,7 @@ namespace Krypton.Toolkit
                                                               PaletteState state);
 
         /// <summary>
-        /// Draw a drop down grid appropriate for a input control.
+        /// Draw a drop-down grid appropriate for a input control.
         /// </summary>
         /// <param name="context">Render context.</param>
         /// <param name="cellRect">Available drawing rectangle space.</param>
@@ -638,9 +638,8 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         public abstract void DrawInputControlDropDownGlyph(RenderContext context,
                                                            Rectangle cellRect,
-                                                           IPaletteContent? paletteContent,
+                                                           IPaletteContent paletteContent,
                                                            PaletteState state);
-
 
         /// <summary>
         /// Perform drawing of a ribbon dialog box launcher glyph.

@@ -98,9 +98,9 @@ namespace Krypton.Toolkit
             _visibleSecondary = true;
 
             // Create storage objects
-            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate);
+            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate, GetDpiFactor);
             ValuesPrimary.TextChanged += OnHeaderGroupTextChanged;
-            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate);
+            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate, GetDpiFactor);
             ButtonSpecs = new HeaderGroupButtonSpecCollection(this);
 
             // We need to monitor button spec click events
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
             Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
                 // Make sure the panel back style always mimics our back style
-                PanelBackStyle = PaletteBackStyle.ControlClient
+                PanelBackStyle = PaletteBackStyle.PanelClient
             };
 
             // Create view for header 1
@@ -197,10 +197,19 @@ namespace Krypton.Toolkit
             _ignoreLayout = false;
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
+        }
+
+            /// <summary>
+            /// Clean up any resources being used.
+            /// </summary>
+            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -237,6 +246,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Name
         {
             get => base.Name;
@@ -488,9 +498,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlClient;
-
-        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlClient;
+        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.PanelClient;
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets and sets the primary header style.

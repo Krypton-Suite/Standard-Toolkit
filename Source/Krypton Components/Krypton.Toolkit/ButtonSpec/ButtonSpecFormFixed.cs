@@ -57,6 +57,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the actual type of the button.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual PaletteButtonSpecStyle ButtonSpecType
         {
             get => ProtectedType;

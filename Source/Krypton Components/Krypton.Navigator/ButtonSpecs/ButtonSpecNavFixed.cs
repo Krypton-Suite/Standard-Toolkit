@@ -75,6 +75,7 @@ namespace Krypton.Navigator
         [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
         //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public HeaderLocation HeaderLocation
         {
             get => _location;

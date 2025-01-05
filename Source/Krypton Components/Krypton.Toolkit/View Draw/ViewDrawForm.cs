@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
                     ToolStripRenderer renderer = ToolStripManager.Renderer;
 
                     // Size the render strip to the apparent size when merged into borders
-                    _renderStrip.Width = form.Width;
-                    _renderStrip.Height = StatusStrip.Height + borders.Bottom;
+                    _renderStrip.Width = form.Width - borders.Left - borders.Right;
+                    _renderStrip.Height = StatusStrip.Height;// + borders.Bottom;
 
                     // Find vertical start of the status strip
                     var y = StatusStrip.Top + borders.Top;
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                         try
                         {
                             // We need to transform downwards from drawing at 0,0 to actual required position
-                            context.Graphics.TranslateTransform(0, y);
+                            context.Graphics.TranslateTransform(borders.Left, y);
 
                             // Use the tool strip renderer to draw the correct status strip border/background
                             renderer.DrawToolStripBorder(new ToolStripRenderEventArgs(context.Graphics, _renderStrip));
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
                         finally
                         {
                             // Make sure that even a crash in the renderer does not prevent the transform reversal
-                            context.Graphics.TranslateTransform(0, -y);
+                            context.Graphics.TranslateTransform(-borders.Left, -y);
                         }
                     }
                 }

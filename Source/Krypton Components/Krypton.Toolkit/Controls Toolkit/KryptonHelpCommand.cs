@@ -48,14 +48,33 @@ namespace Krypton.Toolkit
          /// </summary>
          [AllowNull, Category(@"Appearance"), Description(@"State specific images for the help button."), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
          public ButtonImageStates? ImageStates { get => _imageStates ?? new(); set { _imageStates = value; UpdateImageStates(KryptonManager.InternalGlobalPaletteMode); } }*/
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? ActiveImage 
+        {
+            get => _activeImage;
+            private set => _activeImage = value;
+        }
 
-        public Image? ActiveImage { get => _activeImage; private set => _activeImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? DisabledImage 
+        {
+            get => _disabledImage;
+            private set => _disabledImage = value;
+        }
 
-        public Image? DisabledImage { get => _disabledImage; private set => _disabledImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? NormalImage 
+        {
+            get => _normalImage;
+            private set => _normalImage = value;
+        }
 
-        public Image? NormalImage { get => _normalImage; private set => _normalImage = value; }
-
-        public Image? PressedImage { get => _pressedImage; private set => _pressedImage = value; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Image? PressedImage 
+        {
+            get => _pressedImage;
+            private set => _pressedImage = value;
+        }
 
         #endregion
 

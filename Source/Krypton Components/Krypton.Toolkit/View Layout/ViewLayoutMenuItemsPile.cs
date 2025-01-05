@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             };
 
             // Grab the padding for around the item stack
-            Padding itemsPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
+            Padding itemsPadding = _paletteItemHighlight!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.ContextMenuItemsCollection);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Left), ViewDockStyle.Left);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Right), ViewDockStyle.Right);
             stackDocker.Add(new ViewLayoutSeparator(itemsPadding.Top), ViewDockStyle.Top);
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
                 imageColumnWidth += borderPadding.Left * 3;
 
                 // Add double the metric padding that occurs outside the item highlight
-                Padding itemMetricPadding = _paletteItemHighlight!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
+                Padding itemMetricPadding = _paletteItemHighlight!.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.ContextMenuItemHighlight);
                 imageColumnWidth += itemMetricPadding.Left * 2;
 
                 _imageColumn.ColumnWidth = imageColumnWidth;

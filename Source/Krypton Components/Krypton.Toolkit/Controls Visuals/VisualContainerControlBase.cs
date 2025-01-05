@@ -165,6 +165,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the ContextMenuStrip associated with this control.
         /// </summary>
+        [DefaultValue(null)]
         public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
@@ -391,6 +392,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image? BackgroundImage
         {
             get => base.BackgroundImage;
@@ -402,6 +404,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ImageLayout BackgroundImageLayout
         {
             get => base.BackgroundImageLayout;
@@ -563,7 +566,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         protected bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -575,7 +578,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up one level
-                c = c.Parent!;
+                c = c.Parent;
             }
 
             // Evert control in chain is visible and enabled, so allow mnemonics

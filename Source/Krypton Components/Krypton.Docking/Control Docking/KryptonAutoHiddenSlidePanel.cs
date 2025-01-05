@@ -95,7 +95,7 @@ namespace Krypton.Docking
         /// Occurs when a page requests that a drop-down menu be shown.
         /// </summary>
         [Category("Behavior")]
-        [Description("Occurs when the user clicks the drop down button for a page.")]
+        [Description("Occurs when the user clicks the drop-down button for a page.")]
         public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
         /// <summary>
@@ -241,11 +241,13 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to the KryptonPage associated with the slide panel.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public KryptonPage? Page { get; private set; }
 
         /// <summary>
         /// Gets and sets the drag page notify interface associated with the embedded dockspace.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDragPageNotify? DragPageNotify
         {
             get => _dockspaceSlide.DragPageNotify;

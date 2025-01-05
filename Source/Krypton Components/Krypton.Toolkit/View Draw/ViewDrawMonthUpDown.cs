@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         public enum DrawMonthCalendarGlyph
         {
             /// <summary>
-            /// Specifies the drop down button glyph.
+            /// Specifies the drop-down button glyph.
             /// </summary>
             DropDownButton,
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
-            // We want to be as wide as drop down buttons on standard controls
+            // We want to be as wide as drop-down buttons on standard controls
             new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
@@ -151,13 +151,13 @@ namespace Krypton.Toolkit
             switch (_glyph)
             {
                 case DrawMonthCalendarGlyph.DropDownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawMonthCalendarGlyph.UpButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
                 case DrawMonthCalendarGlyph.DownButton:
-                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent, State);
+                    context.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(context, ClientRectangle, CurrentPalette.PaletteContent!, State);
                     break;
             }
         }

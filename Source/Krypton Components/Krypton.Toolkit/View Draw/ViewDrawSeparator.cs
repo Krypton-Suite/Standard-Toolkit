@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
 
             // Apply padding needed outside the border of the separator
             var rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
-                                                       _metric!.GetMetricPadding(ElementState, MetricPadding));
+                                                       _metric!.GetMetricPadding(context.Control as KryptonForm, ElementState, MetricPadding));
 
             // Ask the renderer to perform drawing of the separator glyph
             context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette!.PaletteBack, _palette.PaletteBorder!,

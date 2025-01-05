@@ -495,8 +495,10 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal bool IsCollapsed { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal bool ShowingAsPopup { get; set; }
 
         internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);

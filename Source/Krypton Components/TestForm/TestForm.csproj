@@ -9,7 +9,10 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<UseWindowsForms>true</UseWindowsForms>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
-	</PropertyGroup>
+        <ApplicationVisualStyles>true</ApplicationVisualStyles>
+        <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
+        <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />

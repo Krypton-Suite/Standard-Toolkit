@@ -30,6 +30,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets the ignoring of Alt+F4
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
             public bool IgnoreAltF4 { get; set; }
 
             #endregion
@@ -1182,7 +1183,7 @@ namespace Krypton.Toolkit
             this._panelMain.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelMain.Location = new System.Drawing.Point(0, 0);
             this._panelMain.Name = "_panelMain";
-            this._panelMain.Size = new System.Drawing.Size(790, 72);
+            this._panelMain.Size = new System.Drawing.Size(811, 72);
             this._panelMain.TabIndex = 0;
             // 
             // _panelMainSpacer
@@ -1294,7 +1295,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(790, 46);
+            this._panelButtons.Size = new System.Drawing.Size(811, 46);
             this._panelButtons.TabIndex = 1;
             // 
             // _checkBox
@@ -1311,7 +1312,7 @@ namespace Krypton.Toolkit
             this._panelButtonsBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelButtonsBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
-            this._panelButtonsBorderTop.Size = new System.Drawing.Size(790, 1);
+            this._panelButtonsBorderTop.Size = new System.Drawing.Size(811, 1);
             this._panelButtonsBorderTop.Text = "kryptonBorderEdge1";
             // 
             // _buttonOK
@@ -1320,12 +1321,13 @@ namespace Krypton.Toolkit
             this._buttonOK.AutoSize = true;
             this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOK.IgnoreAltF4 = false;
-            this._buttonOK.Location = new System.Drawing.Point(681, 9);
+            this._buttonOK.Location = new System.Drawing.Point(702, 9);
             this._buttonOK.Margin = new System.Windows.Forms.Padding(0);
             this._buttonOK.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonOK.Name = "_buttonOK";
             this._buttonOK.Size = new System.Drawing.Size(50, 26);
             this._buttonOK.TabIndex = 1;
+            this._buttonOK.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonOK.Values.Text = "OK";
             // 
             // _buttonYes
@@ -1334,12 +1336,13 @@ namespace Krypton.Toolkit
             this._buttonYes.AutoSize = true;
             this._buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this._buttonYes.IgnoreAltF4 = false;
-            this._buttonYes.Location = new System.Drawing.Point(581, 9);
+            this._buttonYes.Location = new System.Drawing.Point(602, 9);
             this._buttonYes.Margin = new System.Windows.Forms.Padding(0);
             this._buttonYes.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonYes.Name = "_buttonYes";
             this._buttonYes.Size = new System.Drawing.Size(50, 26);
             this._buttonYes.TabIndex = 2;
+            this._buttonYes.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonYes.Values.Text = "Yes";
             // 
             // _buttonNo
@@ -1348,12 +1351,13 @@ namespace Krypton.Toolkit
             this._buttonNo.AutoSize = true;
             this._buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this._buttonNo.IgnoreAltF4 = false;
-            this._buttonNo.Location = new System.Drawing.Point(531, 9);
+            this._buttonNo.Location = new System.Drawing.Point(552, 9);
             this._buttonNo.Margin = new System.Windows.Forms.Padding(0);
             this._buttonNo.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonNo.Name = "_buttonNo";
             this._buttonNo.Size = new System.Drawing.Size(50, 26);
             this._buttonNo.TabIndex = 3;
+            this._buttonNo.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonNo.Values.Text = "No";
             // 
             // _buttonRetry
@@ -1362,12 +1366,13 @@ namespace Krypton.Toolkit
             this._buttonRetry.AutoSize = true;
             this._buttonRetry.DialogResult = System.Windows.Forms.DialogResult.Retry;
             this._buttonRetry.IgnoreAltF4 = false;
-            this._buttonRetry.Location = new System.Drawing.Point(631, 9);
+            this._buttonRetry.Location = new System.Drawing.Point(652, 9);
             this._buttonRetry.Margin = new System.Windows.Forms.Padding(0);
             this._buttonRetry.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonRetry.Name = "_buttonRetry";
             this._buttonRetry.Size = new System.Drawing.Size(50, 26);
             this._buttonRetry.TabIndex = 5;
+            this._buttonRetry.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonRetry.Values.Text = "Retry";
             // 
             // _buttonCancel
@@ -1376,12 +1381,13 @@ namespace Krypton.Toolkit
             this._buttonCancel.AutoSize = true;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.IgnoreAltF4 = false;
-            this._buttonCancel.Location = new System.Drawing.Point(474, 9);
+            this._buttonCancel.Location = new System.Drawing.Point(495, 9);
             this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
             this._buttonCancel.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonCancel.Name = "_buttonCancel";
             this._buttonCancel.Size = new System.Drawing.Size(57, 26);
             this._buttonCancel.TabIndex = 4;
+            this._buttonCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonCancel.Values.Text = "Cancel";
             // 
             // _buttonClose
@@ -1389,12 +1395,13 @@ namespace Krypton.Toolkit
             this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonClose.AutoSize = true;
             this._buttonClose.IgnoreAltF4 = false;
-            this._buttonClose.Location = new System.Drawing.Point(731, 9);
+            this._buttonClose.Location = new System.Drawing.Point(752, 9);
             this._buttonClose.Margin = new System.Windows.Forms.Padding(0);
             this._buttonClose.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonClose.Name = "_buttonClose";
             this._buttonClose.Size = new System.Drawing.Size(50, 26);
             this._buttonClose.TabIndex = 6;
+            this._buttonClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._buttonClose.Values.Text = "Close";
             // 
             // _panelFooter
@@ -1407,7 +1414,7 @@ namespace Krypton.Toolkit
             this._panelFooter.Location = new System.Drawing.Point(0, 118);
             this._panelFooter.Name = "_panelFooter";
             this._panelFooter.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelFooter.Size = new System.Drawing.Size(790, 49);
+            this._panelFooter.Size = new System.Drawing.Size(811, 49);
             this._panelFooter.TabIndex = 2;
             // 
             // _linkLabelFooter
@@ -1446,7 +1453,7 @@ namespace Krypton.Toolkit
             this._panelFooterBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelFooterBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelFooterBorderTop.Name = "_panelFooterBorderTop";
-            this._panelFooterBorderTop.Size = new System.Drawing.Size(790, 1);
+            this._panelFooterBorderTop.Size = new System.Drawing.Size(811, 1);
             this._panelFooterBorderTop.Text = "kryptonBorderEdge1";
             // 
             // VisualTaskDialog
@@ -1454,7 +1461,7 @@ namespace Krypton.Toolkit
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(790, 172);
+            this.ClientSize = new System.Drawing.Size(828, 160);
             this.Controls.Add(this._panelFooter);
             this.Controls.Add(this._panelButtons);
             this.Controls.Add(this._panelMain);

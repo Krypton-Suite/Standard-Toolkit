@@ -15,6 +15,7 @@
 
 namespace Krypton.Toolkit
 {
+    [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
     internal partial class VisualMessageBoxFormDep : KryptonForm
     {
         #region Instance Fields
@@ -49,6 +50,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonMessageBoxResult MessageBoxResult
         {
             get => _messageBoxResult;
@@ -823,24 +825,23 @@ namespace Krypton.Toolkit
             switch (defaultButton)
             {
                 case KryptonMessageBoxDefaultButton.Button1:
-                    //_button1.Select();
+                    _button1.Select();
                     AcceptButton = _button1;
                     break;
                 case KryptonMessageBoxDefaultButton.Button2:
-                    //_button2.Select();
+                    _button2.Select();
                     AcceptButton = _button2;
                     break;
                 case KryptonMessageBoxDefaultButton.Button3:
-                    //_button3.Select();
+                    _button3.Select();
                     AcceptButton = _button3;
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
-                case null:
-                    AcceptButton = _button1;
-                    break;
                 default:
+                    _button1.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
             }
@@ -851,21 +852,23 @@ namespace Krypton.Toolkit
             switch (_defaultButton)
             {
                 case KryptonMessageBoxDefaultButton.Button1:
-                    //_button1.Select();
+                    _button1.Select();
                     AcceptButton = _button1;
                     break;
                 case KryptonMessageBoxDefaultButton.Button2:
-                    //_button2.Select();
+                    _button2.Select();
                     AcceptButton = _button2;
                     break;
                 case KryptonMessageBoxDefaultButton.Button3:
-                    //_button3.Select();
+                    _button3.Select();
                     AcceptButton = _button3;
                     break;
                 case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
                 default:
+                    _button1.Select();
                     AcceptButton = _showHelpButton ? _button4 : _button1;
                     break;
             }
@@ -907,12 +910,8 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel
-                    or KryptonMessageBoxButtons.YesNo
-                    or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore
-                    or KryptonMessageBoxButtons.YesNoCancel
-                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (helpButton != null)
@@ -1084,7 +1083,7 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    return krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+                    return krtbMessageText.StateCommon.Content.GetBorderContentPadding(null, PaletteState.Normal);
                 case MessageBoxContentAreaType.LinkLabel:
                     return klwlblMessageText.Padding;
                 case null:

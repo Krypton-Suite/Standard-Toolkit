@@ -1110,7 +1110,7 @@ namespace Krypton.Toolkit
         public static int ColorDepth()
         {
             // Get access to the desktop DC
-            var desktopDC = PI.GetDC(IntPtr.Zero);
+            IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
             var planes = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.PLANES);
@@ -1238,30 +1238,80 @@ namespace Krypton.Toolkit
             int xOffset = 0;
             int yOffset = 0;
             uint dwStyle = (uint)cp.Style;
+            bool useAdjust = false;
             if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
             {
-                if (!CommonHelper.IsFormMaximized(kryptonForm))
-                {
-                    var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
-                    xOffset = Math.Max(0, xOffset1);
-                    yOffset = Math.Max(0, yOffset1);
-                }
-                else //if (kryptonForm.FormBorderStyle == FormBorderStyle.None )
-                {
-                    dwStyle |= PI.WS_.CAPTION;
-                }
+                useAdjust = true;
+                var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                xOffset = Math.Max(0, xOffset1);
+                yOffset = Math.Max(0, yOffset1);
             }
 
             var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
-                left = -xOffset,
-                right = xOffset,
                 top = -yOffset,
                 bottom = yOffset
             };
-            // Adjust rectangle to add on the borders required
-            PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
+            if (useAdjust)
+            {
+                // Adjust rectangle to add on the borders required
+                PI.AdjustWindowRectEx(ref rect, dwStyle, false, cp.ExStyle);
+                PaletteBase? resolvedPalette = form?.GetResolvedPalette();
+                if (resolvedPalette == null)
+                {   // Need to breakout when the form is closing
+                    return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+                }
+                // Set the values determined by the formBorder.BorderWidths etc.
+                rect.left = -xOffset;
+                rect.right = xOffset;
+                rect.bottom = yOffset;
+
+                PaletteDrawBorders borders = CommonHelper.IsFormMaximized(form!)
+                    ? PaletteDrawBorders.Top
+                    : form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal);
+                switch (borders)
+                {
+                    case PaletteDrawBorders.Top:
+                    case PaletteDrawBorders.None:
+                        rect.left = 0;
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.Bottom:
+                    case PaletteDrawBorders.TopBottom:
+                        rect.left = 0;
+                        rect.right = 0;
+                        break;
+                    case PaletteDrawBorders.Left:
+                    case PaletteDrawBorders.TopLeft:
+                        rect.right = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.BottomLeft:
+                    case PaletteDrawBorders.TopBottomLeft:
+                        rect.right = 0;
+                        break;
+                    case PaletteDrawBorders.Right:
+                    case PaletteDrawBorders.TopRight:
+                        rect.left = 0;
+                        rect.bottom = 0;
+                        break;
+                    case PaletteDrawBorders.BottomRight:
+                    case PaletteDrawBorders.TopBottomRight:
+                        rect.left = 0;
+                        break;
+                    case PaletteDrawBorders.LeftRight:
+                    case PaletteDrawBorders.TopLeftRight:
+                        rect.bottom = 0;
+                        break;
+                    //case PaletteDrawBorders.BottomLeftRight:
+                    //case PaletteDrawBorders.All:
+                    default:
+                        break;
+                }
+            }
+
             // Return the per side border values
             return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
@@ -1423,7 +1473,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="format">Incoming format.</param>
         /// <returns>Corrected format.</returns>
-        public static string MakeCustomDateFormat(string? format)
+        public static string MakeCustomDateFormat(string format)
         {
             // Is this a single character format?
             if (format!.Length == 1)
@@ -1682,9 +1732,10 @@ namespace Krypton.Toolkit
         /// <param name="src"></param>
         /// <param name="trgtWidth"></param>
         /// <param name="trgtHeight"></param>
+        /// <param name="avoidPurple">Do not use the `DpiHandler.ScaleBitmapLogicalToDevice` as that will introduce the "purple artifact" lines</param>
         /// <returns></returns>
         /// <exception >thrown if targets are negative</exception>
-        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight)
+        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight, bool avoidPurple)
         {
             if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
             {
@@ -1698,9 +1749,9 @@ namespace Krypton.Toolkit
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
             using Graphics gr = Graphics.FromImage(newImage);
             gr.Clear(Color.Transparent);
-            gr.SmoothingMode = SmoothingMode.HighQuality;
+            gr.SmoothingMode = SmoothingMode.AntiAlias;
             // Got to be careful with this setting, otherwise "Purple" artifacts will be introduced !
-            gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+            gr.InterpolationMode = avoidPurple ? InterpolationMode.NearestNeighbor : InterpolationMode.High;
             gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
             //var srcRect = new RectangleF(0.0f, 0.0f, src.Width, src.Height);
             //var destRect = new RectangleF(0.0f, 0.0f, trgtWidth, trgtHeight);

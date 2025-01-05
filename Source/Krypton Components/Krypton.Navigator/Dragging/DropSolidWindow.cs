@@ -40,8 +40,8 @@ namespace Krypton.Navigator
             MaximizeBox = false;
             MinimizeBox = false;
             ShowInTaskbar = false;
-            BackColor = Color.Magenta;
-            TransparencyKey = Color.Magenta;
+            BackColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
             Opacity = _paletteDragDrop.GetDragDropSolidOpacity();
         }
 
@@ -69,6 +69,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the new solid rectangle area.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Rectangle SolidRect
         {
             get => _solidRect;

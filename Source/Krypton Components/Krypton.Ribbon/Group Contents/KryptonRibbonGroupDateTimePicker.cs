@@ -62,17 +62,17 @@ namespace Krypton.Ribbon
         public event EventHandler? ValueNullableChanged;
 
         /// <summary>
-        /// Occurs when the drop down is shown.
+        /// Occurs when the drop-down is shown.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Event raised when the drop down is shown.")]
+        [Description(@"Event raised when the drop-down is shown.")]
         public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
-        /// Occurs when the drop down has been closed.
+        /// Occurs when the drop-down has been closed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Event raised when the drop down has been closed.")]
+        [Description(@"Event raised when the drop-down has been closed.")]
         public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
@@ -440,10 +440,10 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets if clicking the Today button closes the drop down menu.
+        /// Gets and sets if clicking the Today button closes the drop-down menu.
         /// </summary>
         [Category(@"MonthCalendar")]
-        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
+        [Description(@"Indicates if clicking the Today button closes the drop-down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick
         {
@@ -701,7 +701,7 @@ namespace Krypton.Ribbon
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string? CustomFormat
+        public string CustomFormat
         {
             get => DateTimePicker.CustomFormat;
             set => DateTimePicker.CustomFormat = value;
@@ -932,10 +932,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal Control LastParentControl { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal KryptonDateTimePicker? LastDateTimePicker { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);

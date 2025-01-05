@@ -15,7 +15,7 @@
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Event arguments for the drop down menu of a gallery.
+    /// Event arguments for the drop-down menu of a gallery.
     /// </summary>
     public class GalleryDropMenuEventArgs : CancelEventArgs
     {

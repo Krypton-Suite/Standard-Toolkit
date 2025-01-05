@@ -68,6 +68,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets access to the parent docking element.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override IDockingElement? Parent
         {
             set
@@ -75,7 +76,7 @@ namespace Krypton.Docking
                 // Let base class perform standard processing
                 base.Parent = value;
 
-                // Generate event so the any dockable navigator customization can be performed.
+                // Generate event so that any dockable navigator customization can be performed.
                 KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
@@ -674,14 +675,10 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage? page = DockableNavigatorControl.Pages[uniqueName];
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return DockingLocation.Navigator;
-            }
-            else
-            {
-                return DockingLocation.None;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? DockingLocation.Navigator
+                : DockingLocation.None;
         }
 
         /// <summary>
@@ -692,14 +689,10 @@ namespace Krypton.Docking
         public override IDockingElement? FindPageElement(string uniqueName)
         {
             KryptonPage? page = DockableNavigatorControl.Pages[uniqueName];
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? this
+                : null;
         }
 
         /// <summary>
@@ -757,7 +750,7 @@ namespace Krypton.Docking
             // Output navigator docking element
             xmlWriter.WriteStartElement(XmlElementName);
             xmlWriter.WriteAttributeString(@"N", Name);
-            xmlWriter.WriteAttributeString(@"C", DockableNavigatorControl.Pages.Count.ToString());
+            xmlWriter.WriteAttributeString(@"C", DockableNavigatorControl.Pages.Count(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)).ToString());
 
             // Persist each child page in turn
             KryptonDockingManager? dockingManager = DockingManager;
@@ -935,7 +928,7 @@ namespace Krypton.Docking
             DockableNavigatorControl.BeforePageDrag -= OnDockableNavigatorBeforePageDrag;
             DockableNavigatorControl.PageDrop -= OnDockableNavigatorPageDrop;
 
-            // Generate event so the any dockable navigator customization can be reversed.
+            // Generate event so that any dockable navigator customization can be reversed.
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {

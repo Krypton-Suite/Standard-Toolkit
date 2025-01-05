@@ -1737,7 +1737,7 @@ namespace Krypton.Navigator
             // Create a collection to hold button spec we want to display
             _buttons = new OutlookButtonSpecCollection(Navigator);
 
-            // Create out drop down button specification
+            // Create out drop-down button specification
             _specDropDown = new ButtonSpecAny
             {
                 Type = PaletteButtonSpecStyle.DropDown,
@@ -1998,7 +1998,7 @@ namespace Krypton.Navigator
             Orientation buttonEdgeOrient = (stackOrient == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical);
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
-            // Update the separator/drop down buttons with latest values
+            // Update the separator/drop-down buttons with latest values
             _viewSeparatorEdge.Orientation = buttonEdgeOrient;
             _viewSeparator.Orientation = buttonEdgeOrient;
 
@@ -2121,8 +2121,8 @@ namespace Krypton.Navigator
                 addRemoveButtons.Items.Add(addRemoveButtonItems);
 
                 // Setup the transparent color for the images
-                moreButtons.ImageTransparentColor = Color.Magenta;
-                fewerButtons.ImageTransparentColor = Color.Magenta;
+                moreButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                fewerButtons.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
 
                 // Decide if the more/fewer buttons should be enabled/disabled
                 moreButtons.Enabled = AreMoreButtons();
@@ -2155,10 +2155,10 @@ namespace Krypton.Navigator
                     addRemoveButtonItems.Items.Add(pageMenuItem);
                 }
 
-                // Only enable the 'Add/Remove' if it has at least one drop down item
+                // Only enable the 'Add/Remove' if it has at least one drop-down item
                 addRemoveButtons.Enabled = (visibleAddRemove > 0);
 
-                // Get the display rectangle of the drop down button
+                // Get the display rectangle of the drop-down button
                 Rectangle rect = _buttonManager!.GetButtonRectangle(_specDropDown);
 
                 // Convert to screen coordinates

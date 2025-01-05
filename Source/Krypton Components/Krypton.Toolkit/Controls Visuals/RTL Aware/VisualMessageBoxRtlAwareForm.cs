@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public KryptonMessageBoxResult MessageBoxResult { get; set; }
 
         #endregion
@@ -391,20 +392,29 @@ namespace Krypton.Toolkit
 
         private void UpdateDefault()
         {
-            AcceptButton = _defaultButton switch
+            switch (_defaultButton)
             {
-                KryptonMessageBoxDefaultButton.Button1 =>
-                    //_button1.Select();
-                    _button1,
-                KryptonMessageBoxDefaultButton.Button2 =>
-                    //_button2.Select();
-                    _button2,
-                KryptonMessageBoxDefaultButton.Button3 =>
-                    //_button3.Select();
-                    _button3,
-                KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
-                _ => _showHelpButton ? _button4 : _button1
-            };
+                case KryptonMessageBoxDefaultButton.Button1:
+                    _button1.Select();
+                    AcceptButton = _button1;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button2:
+                    _button2.Select();
+                    AcceptButton = _button2;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button3:
+                    _button3.Select();
+                    AcceptButton = _button3;
+                    break;
+                case KryptonMessageBoxDefaultButton.Button4:
+                    _button4.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+                default:
+                    _button1.Select();
+                    AcceptButton = _showHelpButton ? _button4 : _button1;
+                    break;
+            }
         }
 
         private void UpdateHelp()
@@ -417,12 +427,8 @@ namespace Krypton.Toolkit
             MessageButton helpButton = _buttons switch
             {
                 KryptonMessageBoxButtons.OK => _button2,
-                KryptonMessageBoxButtons.OKCancel
-                    or KryptonMessageBoxButtons.YesNo
-                    or KryptonMessageBoxButtons.RetryCancel => _button3,
-                KryptonMessageBoxButtons.AbortRetryIgnore
-                    or KryptonMessageBoxButtons.YesNoCancel
-                    or KryptonMessageBoxButtons.CancelTryContinue => _button4,
+                KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
+                KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (helpButton != null)
@@ -521,11 +527,11 @@ namespace Krypton.Toolkit
             }
 
             // Calculate the size of the icon area and text area including margins
-            Padding textPadding = krtbMessageText.StateCommon.Content.GetContentPadding(PaletteState.Normal);
+            Padding textPadding = krtbMessageText.StateCommon.Content.GetBorderContentPadding(null, PaletteState.Normal);
             Padding textAreaAllMargin = Padding.Add(textPadding, kpnlContentArea.Margin);
-            Size iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
+            var iconArea = new Size(_messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right,
                 _messageIcon.Height + _messageIcon.Margin.Top + _messageIcon.Margin.Bottom);
-            Size textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
+            var textArea = new Size(textSize.Width + textAreaAllMargin.Left + textAreaAllMargin.Right,
                 textSize.Height + textAreaAllMargin.Top + textAreaAllMargin.Bottom);
             return new Size(textArea.Width + iconArea.Width,
                 Math.Max(iconArea.Height, textArea.Height));

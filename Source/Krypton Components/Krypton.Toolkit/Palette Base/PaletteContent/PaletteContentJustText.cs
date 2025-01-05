@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             LongText.Image = GetContentLongTextImage(state);
             LongText.ImageStyle = GetContentLongTextImageStyle(state);
             LongText.ImageAlign = GetContentLongTextImageAlign(state);
-            Padding = GetContentPadding(state);
+            Padding = GetBorderContentPadding(null, state);
             AdjacentGap = GetContentAdjacentGap(state);
         }
         #endregion

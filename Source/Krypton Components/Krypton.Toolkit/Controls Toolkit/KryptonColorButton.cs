@@ -28,7 +28,6 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
-        private readonly PaletteRedirectDropDownButton _paletteDropDownButtonImages;
         private readonly PaletteTripleOverride _overrideFocus;
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
@@ -67,10 +66,10 @@ namespace Krypton.Toolkit
 
         #region Events
         /// <summary>
-        /// Occurs when the drop down portion of the color button is pressed.
+        /// Occurs when the drop-down portion of the color button is pressed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Occurs when the drop down portion of the color button is pressed.")]
+        [Description(@"Occurs when the drop-down portion of the color button is pressed.")]
         public event EventHandler<ContextPositionMenuArgs>? DropDown;
 
         /// <summary>
@@ -162,10 +161,6 @@ namespace Krypton.Toolkit
             // Create content storage
             Values = CreateButtonValues(NeedPaintDelegate);
             Values.TextChanged += OnButtonTextChanged;
-            Images = new DropDownButtonImages(NeedPaintDelegate);
-
-            // Image need an extra redirector to check the local images first
-            _paletteDropDownButtonImages = new PaletteRedirectDropDownButton(Redirector, Images);
 
             // Create the palette storage
             Strings = new PaletteColorButtonStrings();
@@ -197,8 +192,7 @@ namespace Krypton.Toolkit
                 // Set default color button state
                 DropDown = true,
                 Splitter = true,
-                TestForFocusCues = true,
-                DropDownPalette = _paletteDropDownButtonImages
+                TestForFocusCues = true
             };
 
             // Create a color button controller to handle button style behaviour
@@ -537,10 +531,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if the color button works as a splitter or as a drop down.
+        /// Gets and sets if the color button works as a splitter or as a drop-down.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Determine if color button acts as a splitter or just a drop down.")]
+        [Description(@"Determine if color button acts as a splitter or just a drop-down.")]
         [DefaultValue(true)]
         public virtual bool Splitter
         {
@@ -589,16 +583,6 @@ namespace Krypton.Toolkit
         public ColorButtonValues Values { get; }
 
         private bool ShouldSerializeValues() => !Values.IsDefault;
-
-        /// <summary>
-        /// Gets access to the image value overrides.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Image value overrides.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DropDownButtonImages Images { get; }
-
-        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu display strings.
@@ -813,6 +797,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ImeMode ImeMode
         {
             get => base.ImeMode;
@@ -1147,7 +1132,7 @@ namespace Krypton.Toolkit
         {
             var showingContextMenu = false;
 
-            // Do we need to show a drop down menu?
+            // Do we need to show a drop-down menu?
             if (!_clickOverriden
                 && (!Splitter || (Splitter && _drawButton.SplitRectangle.Contains(e.Location)))
                 )
@@ -1224,7 +1209,7 @@ namespace Krypton.Toolkit
                             break;
                     }
 
-                    // We are showing a drop down
+                    // We are showing a drop-down
                     showingContextMenu = true;
 
                     // Decide which separators are needed

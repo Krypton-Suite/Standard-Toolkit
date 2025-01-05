@@ -309,9 +309,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public abstract Padding GetContentPadding(PaletteState state);
+        public abstract Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteState state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.

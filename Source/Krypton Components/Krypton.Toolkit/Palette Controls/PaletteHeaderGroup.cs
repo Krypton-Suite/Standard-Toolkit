@@ -103,15 +103,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
+        public int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            _inherit.GetMetricInt(state, metric);
+            _inherit.GetMetricInt(owningForm, state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -126,12 +128,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
+        public Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            _inherit.GetMetricPadding(state, metric);
+            _inherit.GetMetricPadding(owningForm, state, metric);
 
         #endregion
     }

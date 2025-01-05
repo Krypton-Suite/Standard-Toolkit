@@ -16,6 +16,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
+    [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
     public static class KryptonMessageBoxDep
     {
         #region Public

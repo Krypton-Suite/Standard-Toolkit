@@ -372,6 +372,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         internal Color[][] Colors { get; private set; }
 
         #endregion

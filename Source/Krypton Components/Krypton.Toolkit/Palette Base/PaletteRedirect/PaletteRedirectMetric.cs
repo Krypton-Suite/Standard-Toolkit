@@ -75,17 +75,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
             IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricInt(state, metric) ?? Target!.GetMetricInt(state, metric);
+            return inherit?.GetMetricInt(owningForm, state, metric) 
+                   ?? Target!.GetMetricInt(owningForm, state, metric);
         }
 
         /// <summary>
@@ -98,20 +101,24 @@ namespace Krypton.Toolkit
         {
             IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricBool(state, metric) ?? Target!.GetMetricBool(state, metric);
+            return inherit?.GetMetricBool(state, metric) 
+                   ?? Target!.GetMetricBool(state, metric);
         }
 
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             IPaletteMetric? inherit = GetInherit(state);
 
-            return inherit?.GetMetricPadding(state, metric) ?? Target!.GetMetricPadding(state, metric);
+            return inherit?.GetMetricPadding(owningForm, state, metric) 
+                   ?? Target!.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
 

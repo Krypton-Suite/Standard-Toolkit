@@ -414,6 +414,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"The unique name of the ButtonSpec.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
         public string? UniqueName { get; set; }
         private void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
         #endregion

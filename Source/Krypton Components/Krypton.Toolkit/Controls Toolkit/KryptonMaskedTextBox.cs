@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Property
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public string? Hint
             {
                 get => _hint;
@@ -87,6 +88,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -566,6 +568,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new bool TabStop
         {
             get => _maskedTextBox.TabStop;
@@ -600,6 +603,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating whether the control has input focus.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public override bool Focused => MaskedTextBox.Focused;
 
         /// <summary>
@@ -607,6 +611,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool AutoSize
         {
             get => _autoSize;
@@ -631,6 +636,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -644,6 +650,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -655,6 +662,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -680,6 +688,7 @@ namespace Krypton.Toolkit
         [Editor(@"System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
             get => _maskedTextBox.Text;
@@ -689,6 +698,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
@@ -1559,7 +1569,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Update with latest content padding for placing around the contained text box control
-                Padding contentPadding = GetTripleState().PaletteContent!.GetContentPadding(_drawDockerOuter.State);
+                Padding contentPadding = GetTripleState().PaletteContent!.GetBorderContentPadding(null, _drawDockerOuter.State);
                 _layoutFill.DisplayPadding = contentPadding;
             }
 

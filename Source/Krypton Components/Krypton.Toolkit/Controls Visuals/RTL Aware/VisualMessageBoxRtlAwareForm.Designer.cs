@@ -56,7 +56,7 @@
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(219, 64);
+            this.kryptonPanel1.Size = new System.Drawing.Size(223, 52);
             this.kryptonPanel1.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -76,7 +76,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(219, 64);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(223, 52);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _panelButtons
@@ -88,11 +88,11 @@
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelButtons.Location = new System.Drawing.Point(0, 43);
+            this._panelButtons.Location = new System.Drawing.Point(0, 31);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(219, 21);
+            this._panelButtons.Size = new System.Drawing.Size(223, 21);
             this._panelButtons.TabIndex = 0;
             // 
             // _borderEdge
@@ -102,7 +102,7 @@
             this._borderEdge.Location = new System.Drawing.Point(0, 0);
             this._borderEdge.Margin = new System.Windows.Forms.Padding(2);
             this._borderEdge.Name = "_borderEdge";
-            this._borderEdge.Size = new System.Drawing.Size(219, 1);
+            this._borderEdge.Size = new System.Drawing.Size(223, 1);
             this._borderEdge.Text = "kryptonBorderEdge1";
             // 
             // _button4
@@ -111,7 +111,7 @@
             this._button4.AutoSize = true;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
-            this._button4.Location = new System.Drawing.Point(219, 0);
+            this._button4.Location = new System.Drawing.Point(223, 0);
             this._button4.Margin = new System.Windows.Forms.Padding(0);
             this._button4.MinimumSize = new System.Drawing.Size(38, 21);
             this._button4.Name = "_button4";
@@ -127,7 +127,7 @@
             this._button3.AutoSize = true;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
-            this._button3.Location = new System.Drawing.Point(182, 0);
+            this._button3.Location = new System.Drawing.Point(186, 0);
             this._button3.Margin = new System.Windows.Forms.Padding(0);
             this._button3.MinimumSize = new System.Drawing.Size(38, 21);
             this._button3.Name = "_button3";
@@ -143,7 +143,7 @@
             this._button1.AutoSize = true;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
-            this._button1.Location = new System.Drawing.Point(106, 0);
+            this._button1.Location = new System.Drawing.Point(110, 0);
             this._button1.Margin = new System.Windows.Forms.Padding(0);
             this._button1.MinimumSize = new System.Drawing.Size(38, 21);
             this._button1.Name = "_button1";
@@ -159,7 +159,7 @@
             this._button2.AutoSize = true;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
-            this._button2.Location = new System.Drawing.Point(144, 0);
+            this._button2.Location = new System.Drawing.Point(148, 0);
             this._button2.Margin = new System.Windows.Forms.Padding(0);
             this._button2.MinimumSize = new System.Drawing.Size(38, 21);
             this._button2.Name = "_button2";
@@ -173,10 +173,10 @@
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
             this._messageIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._messageIcon.Location = new System.Drawing.Point(178, 4);
+            this._messageIcon.Location = new System.Drawing.Point(182, 4);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
             this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(33, 35);
+            this._messageIcon.Size = new System.Drawing.Size(33, 23);
             this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._messageIcon.TabIndex = 0;
             this._messageIcon.TabStop = false;
@@ -188,7 +188,7 @@
             this.kpnlContentArea.Location = new System.Drawing.Point(4, 12);
             this.kpnlContentArea.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(166, 19);
+            this.kpnlContentArea.Size = new System.Drawing.Size(170, 7);
             this.kpnlContentArea.TabIndex = 1;
             // 
             // krtbMessageText
@@ -201,7 +201,7 @@
             this.krtbMessageText.Name = "krtbMessageText";
             this.krtbMessageText.ReadOnly = true;
             this.krtbMessageText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.krtbMessageText.Size = new System.Drawing.Size(150, 19);
+            this.krtbMessageText.Size = new System.Drawing.Size(170, 7);
             this.krtbMessageText.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.None;
             this.krtbMessageText.TabIndex = 0;
             this.krtbMessageText.TabStop = false;
@@ -212,7 +212,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(219, 64);
+            this.ClientSize = new System.Drawing.Size(223, 52);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
@@ -233,7 +233,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
             this.kpnlContentArea.ResumeLayout(false);
-            this.kpnlContentArea.PerformLayout();
             this.ResumeLayout(false);
 
         }

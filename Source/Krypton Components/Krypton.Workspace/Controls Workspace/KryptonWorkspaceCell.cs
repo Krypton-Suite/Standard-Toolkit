@@ -207,6 +207,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool WorkspaceVisible { get; private set; }
 
         /// <summary>
@@ -214,6 +215,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool WorkspaceAllowResizing { get; private set; }
 
         /// <summary>
@@ -228,6 +230,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public Size WorkspacePreferredSize => IsDisposed ? Size.Empty : GetPreferredSize(WorkspaceMinSize);
 
         /// <summary>
@@ -254,6 +257,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override Size MinimumSize
         {
             get => base.MinimumSize;
@@ -271,6 +275,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override Size MaximumSize
         {
             get => base.MaximumSize;
@@ -385,6 +390,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the workspace cell.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string UniqueName
         {
             [DebuggerStepThrough]
@@ -517,7 +523,7 @@ namespace Krypton.Workspace
                             // Remember the page that should become selected
                             if (!string.IsNullOrEmpty(page.UniqueName) && (page.UniqueName == selectedPageUniqueName))
                             {
-                                // Can only selected a visible page
+                                // Can only select a visible page
                                 if (page.LastVisibleSet)
                                 {
                                     selectedPage = page;

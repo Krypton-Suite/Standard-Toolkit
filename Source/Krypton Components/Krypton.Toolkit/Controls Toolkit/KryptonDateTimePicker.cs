@@ -115,17 +115,17 @@ namespace Krypton.Toolkit
         public event EventHandler? ActiveFragmentChanged;
 
         /// <summary>
-        /// Occurs when the drop down is shown.
+        /// Occurs when the drop-down is shown.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Event raised when the drop down is shown.")]
+        [Description(@"Event raised when the drop-down is shown.")]
         public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
-        /// Occurs when the drop down has been closed.
+        /// Occurs when the drop-down has been closed.
         /// </summary>
         [Category(@"Action")]
-        [Description(@"Event raised when the drop down has been closed.")]
+        [Description(@"Event raised when the drop-down has been closed.")]
         public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
             _paletteDropDown = new PaletteTripleToPalette(Redirector, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl);
             _paletteUpDown = new PaletteTripleToPalette(Redirector, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl);
 
-            // Create buttons for drawing the drop down and up/down buttons
+            // Create buttons for drawing the drop-down and up/down buttons
             _buttonDropDown = new ViewDrawDateTimeButton(this, _paletteDropDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DropDownButton, NeedPaintDelegate, false);
             _buttonUp = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.UpButton, NeedPaintDelegate, true);
             _buttonDown = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DownButton, NeedPaintDelegate, true);
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
             _buttonUp.Click += OnUpClick;
             _buttonDown.Click += OnDownClick;
 
-            // Stretch the drop down button to be the height of the available area
+            // Stretch the drop-down button to be the height of the available area
             _dropStretch = new ViewLayoutStretch(Orientation.Vertical)
             {
                 _buttonDropDown
@@ -332,6 +332,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -345,6 +346,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -356,6 +358,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -443,10 +446,10 @@ namespace Krypton.Toolkit
         public bool CalendarShowToday { get; set; }
 
         /// <summary>
-        /// Gets and sets if clicking the Today button closes the drop down menu.
+        /// Gets and sets if clicking the Today button closes the drop-down menu.
         /// </summary>
         [Category(@"MonthCalendar")]
-        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
+        [Description(@"Indicates if clicking the Today button closes the drop-down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick { get; set; }
 
@@ -966,7 +969,7 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string? CustomFormat
+        public string CustomFormat
         {
             get => _customFormat;
 
@@ -1323,13 +1326,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsMouseOver { get; private set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] public bool IsMouseOver { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating if the drop down calendar is showing.
+        /// Gets a value indicating if the drop-down calendar is showing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public bool IsDropped { get; }
 
         /// <summary>
@@ -2188,7 +2192,7 @@ namespace Krypton.Toolkit
             // Use new value
             Value = newDt;
 
-            // Remember that the date was changed from the drop down month calendar
+            // Remember that the date was changed from the drop-down month calendar
             _dropDownMonthChanged = true;
         }
 
@@ -2275,7 +2279,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Initialize a new instance of the DTPContextMenu class.
         /// </summary>
-        /// <param name="dropScreenRect">Screen rectangle of the drop down button on the KryptonDateTimePicker.</param>
+        /// <param name="dropScreenRect">Screen rectangle of the drop-down button on the KryptonDateTimePicker.</param>
         public DTPContextMenu(Rectangle dropScreenRect) => _dropScreenRect = dropScreenRect;
 
         #endregion

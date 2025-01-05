@@ -32,6 +32,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonTextBox _kryptonTextBox;
             private bool _mouseOver;
+
             #endregion
 
             #region Events
@@ -67,6 +68,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool MouseOver
             {
                 get => _mouseOver;
@@ -143,6 +145,8 @@ namespace Krypton.Toolkit
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
+                            var textRectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                rect.bottom - rect.top);
 
                             // Create rect for the text area
                             Size borderSize = SystemInformation.BorderSize;
@@ -154,7 +158,7 @@ namespace Krypton.Toolkit
                             {
                                 // Go perform the drawing of the CueHint
                                 using var backBrush = new SolidBrush(BackColor);
-                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
+                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, textRectangle, backBrush);
                             }
                             else
                             {
@@ -162,8 +166,7 @@ namespace Krypton.Toolkit
                                 {
                                     // Draw entire client area in the background color
                                     g.FillRectangle(backBrush,
-                                        new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                            rect.bottom - rect.top));
+                                        textRectangle);
                                 }
 
                                 // If enabled then let the combo draw the text area
@@ -228,8 +231,7 @@ namespace Krypton.Toolkit
                                     {
                                         using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString, Font, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
-                                                rect.bottom - rect.top),
+                                            textRectangle,
                                             stringFormat);
                                     }
                                     catch (ArgumentException)
@@ -238,8 +240,7 @@ namespace Krypton.Toolkit
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
                                                 .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
-                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
-                                                rect.bottom - rect.top),
+                                            textRectangle,
                                             stringFormat);
                                     }
                                 }
@@ -595,6 +596,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool TabStop
         {
             get => _textBox.TabStop;
@@ -655,6 +657,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
+        [DefaultValue(null)]
         public override bool AutoSize
         {
             get => _autoSize;
@@ -685,6 +688,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color BackColor
         {
             get => base.BackColor;
@@ -698,6 +702,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [AmbientValue(null)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Font Font
         {
             get => base.Font;
@@ -709,6 +714,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ForeColor
         {
             get => base.ForeColor;
@@ -733,6 +739,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
             get => _textBox.Text;
@@ -742,6 +749,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
@@ -1603,7 +1611,7 @@ namespace Krypton.Toolkit
                 var paletteContent = GetTripleState().PaletteContent;
                 if (paletteContent != null)
                 {
-                    Padding contentPadding = paletteContent.GetContentPadding(_drawDockerOuter.State);
+                    Padding contentPadding = paletteContent.GetBorderContentPadding(null, _drawDockerOuter.State);
                     _layoutFill.DisplayPadding = contentPadding;
                 }
             }
@@ -1840,7 +1848,16 @@ namespace Krypton.Toolkit
             if (!ignoreAnchored || ((Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) != (AnchorStyles.Bottom | AnchorStyles.Top)))
             {
                 // If auto sizing the control and not in multiline mode then override the height
-                Height = _autoSize && !Multiline ? PreferredHeight : _cachedHeight;
+                // #1842 when autosize == true and MultiLine == true and the _cachedHeight == -1 which is the initial value
+                // the box collapses. Only when _cachedHeight > -1 it will be assigned. Otherwise Height is left alone.
+                if (_autoSize && !Multiline)
+                {
+                    Height = PreferredHeight;
+                }
+                else if (_cachedHeight > -1)
+                {
+                    Height = _cachedHeight;
+                }
             }
         }
 

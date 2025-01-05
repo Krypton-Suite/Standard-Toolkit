@@ -48,12 +48,6 @@ namespace Krypton.Toolkit
 
             var scaleFactor = new SizeF(factorDpiX, factorDpiY);
 
-            // if the scale is the same then no further processing needed (we are at 96 dpi).
-            if (scaleFactor is { Width: 1.0F, Height: 1.0F })
-            {
-                return;
-            }
-
             // suspend palette updates
             pal.SuspendUpdates();
 
@@ -103,14 +97,8 @@ namespace Krypton.Toolkit
             cm.Checked = GetScaledImage(cm.Checked, scaleFactor);
             cm.Indeterminate = GetScaledImage(cm.Indeterminate, scaleFactor);
             cm.SubMenu = GetScaledImage(cm.SubMenu, scaleFactor);
-            // DropDownButton
-            KryptonPaletteImagesDropDownButton ddb = pal.Images.DropDownButton;
-            ddb.Disabled = GetScaledImage(ddb.Disabled, scaleFactor);
-            ddb.Normal = GetScaledImage(ddb.Normal, scaleFactor);
-            ddb.Pressed = GetScaledImage(ddb.Pressed, scaleFactor);
-            ddb.Tracking = GetScaledImage(ddb.Tracking, scaleFactor);
             // GalleryButtons
-            // I'm not using these so I'm skipping it
+            // I'm not using GalleryButtons, so I'm skipping them
             // Radio Buttons
             KryptonPaletteImagesRadioButton rb = pal.Images.RadioButton;
             rb.CheckedDisabled = GetScaledImage(rb.CheckedDisabled, scaleFactor);
@@ -160,8 +148,8 @@ namespace Krypton.Toolkit
                 return img;
             }
             using var tmpBmp = new Bitmap(img);
-            tmpBmp.MakeTransparent(Color.Magenta);
-            return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height);
+            tmpBmp.MakeTransparent(GlobalStaticValues.TRANSPARENCY_KEY_COLOR);
+            return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height, false);
         }
     }
 }

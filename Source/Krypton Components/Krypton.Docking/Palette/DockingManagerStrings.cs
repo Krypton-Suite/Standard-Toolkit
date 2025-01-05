@@ -290,10 +290,10 @@ namespace Krypton.Docking
 
         #region TextWindowLocation
         /// <summary>
-        /// Gets and sets the text to use for the drop down button tooltip.
+        /// Gets and sets the text to use for the drop-down button tooltip.
         /// </summary>
         [Category("Visuals")]
-        [Description("Text to use for the drop down button tooltip.")]
+        [Description("Text to use for the drop-down button tooltip.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Window Position")]
         [Localizable(true)]

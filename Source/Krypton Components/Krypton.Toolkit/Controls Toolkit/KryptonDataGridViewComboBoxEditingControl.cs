@@ -42,6 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
@@ -53,6 +54,7 @@ namespace Krypton.Toolkit
         /// <para>Allows null as input, but null will saved as an empty string.</para>
         /// </summary>
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual object EditingControlFormattedValue 
         {
             // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
@@ -75,11 +77,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the row in which the editing control resides
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public virtual int EditingControlRowIndex { get; set; }
 
         /// <summary>
         /// Property which indicates whether the value of the editing control has changed or not
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool EditingControlValueChanged
         {
             get => _valueChanged;
@@ -118,7 +122,26 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text!;
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
+        {
+            if (SelectedIndex > -1)
+            {
+                if (SelectedValue is not null
+                    && ValueMember is not null
+                    && ValueMember.Length > 0)
+                {
+                    return SelectedValue.ToString() ?? string.Empty;
+                }
+
+                if (SelectedItem is not null)
+                {
+                    return SelectedItem.ToString() ?? string.Empty;
+                }
+            }
+
+            // For all other cases, return an empty string
+            return string.Empty;
+        }
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.

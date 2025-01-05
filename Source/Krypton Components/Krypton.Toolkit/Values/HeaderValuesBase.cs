@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
         private Color _transparent;
         private string? _heading;
         private string _description;
+        private readonly GetDpiFactor _getDpiFactor;
         #endregion
 
         #region Events
@@ -38,13 +39,23 @@ namespace Krypton.Toolkit
         public event EventHandler? TextChanged;
         #endregion
 
+        #region Delegates
+        /// <summary>
+        /// Signature of method that is called when scaling an image is required.
+        /// </summary>
+        public delegate float GetDpiFactor();
+        #endregion
+
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the HeaderValuesBase class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderValuesBase(NeedPaintHandler? needPaint)
+        /// <param name="getDpiFactor"></param>
+        protected HeaderValuesBase(NeedPaintHandler? needPaint, GetDpiFactor getDpiFactor)
         {
+            _getDpiFactor = getDpiFactor;
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
@@ -62,10 +73,10 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => (Image == GetImageDefault()) &&
-                                            (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                            (Heading == GetHeadingDefault()) &&
-                                            (Description == GetDescriptionDefault());
+        public override bool IsDefault => !ShouldSerializeImage()
+                                          && !ShouldSerializeImageTransparentColor()
+                                          && !ShouldSerializeHeading()
+                                          && !ShouldSerializeDescription();
 
         #endregion
 
@@ -112,20 +123,22 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage() => Image != GetImageDefault();
-
-        /// <summary>
-        /// Resets the Image property to its default value.
-        /// </summary>
-        public void ResetImage() => Image = GetImageDefault();
+        private bool ShouldSerializeImage() => _image != GetImageDefault();
+        protected internal void ResetImage() => _image = GetImageDefault();
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image? GetImage(PaletteState state) => Image;
-
+        public virtual Image? GetImage(PaletteState state)
+        {
+            float dpiFactor = _getDpiFactor();
+            return (_image != null)
+                ? CommonHelper.ScaleImageForSizedDisplay(_image, _image.Width * dpiFactor,
+                    _image.Height * dpiFactor, false)
+                : null;
+        }
         #endregion
 
         #region ImageTransparentColor
@@ -152,11 +165,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-
-        /// <summary>
-        /// Resets the ImageTransparentColor property to its default value.
-        /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        protected internal void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -193,11 +202,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeHeading() => Heading != GetHeadingDefault();
-
-        /// <summary>
-        /// Resets the Heading property to its default value.
-        /// </summary>
-        public void ResetHeading() => Heading = GetHeadingDefault();
+        public /*internal*/ void ResetHeading() => Heading = GetHeadingDefault();
 
         /// <summary>
         /// Gets the content short text.
@@ -230,11 +235,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeDescription() => Description != GetDescriptionDefault();
-
-        /// <summary>
-        /// Resets the Description property to its default value.
-        /// </summary>
-        public void ResetDescription() => Description = GetDescriptionDefault();
+        protected internal void ResetDescription() => Description = GetDescriptionDefault();
 
         /// <summary>
         /// Gets the content long text.

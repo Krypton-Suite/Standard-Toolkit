@@ -336,6 +336,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Command image transparent color.")]
         [KryptonDefaultColor]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;

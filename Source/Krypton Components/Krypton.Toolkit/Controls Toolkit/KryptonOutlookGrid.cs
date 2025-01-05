@@ -247,10 +247,10 @@ namespace Krypton.Toolkit
         /// Gets or sets the previous selected group row
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int PreviousSelectedGroupRow
         {
             get => _previousGroupRowSelected;
-
             set => _previousGroupRowSelected = value;
         }
 
@@ -265,6 +265,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <value>OutlookGridGroupCollection.</value>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OutlookGridGroupCollection GroupCollection
         {
             get => _groupCollection;
@@ -326,6 +327,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The fill mode.
         /// </value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public GridFillMode FillMode
         {
             get => _fillMode;
@@ -339,10 +341,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Indicates wether the component should draw right to left for RTL languagues.
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public RightToLeftLayout RightToLeftLayout
         {
             get => _rightToLeftLayout;
-
             set => _rightToLeftLayout = value;
         }
 

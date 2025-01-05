@@ -88,6 +88,7 @@ namespace Krypton.Toolkit
             _dragFeedback = PaletteDragFeedback.Inherit;
 
             BaseFont = _defaultFontStyle;
+            ThemeName = @"PaletteBase"; // DisallowNull !
         }
         #endregion
 
@@ -655,10 +656,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public abstract Padding GetContentPadding(PaletteContentStyle style, PaletteState state);
+        public abstract Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style,
+            PaletteState state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -670,13 +673,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Metric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public abstract int GetMetricInt(PaletteState state, PaletteMetricInt metric);
+        public abstract int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -689,10 +694,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public abstract Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric);
+        public abstract Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric);
 
         #endregion
 
@@ -724,12 +730,6 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public abstract Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed);
-
-        /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        public abstract Image? GetDropDownButtonImage(PaletteState state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
@@ -857,7 +857,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
+                    return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 case PaletteButtonSpecStyle.New:
                 case PaletteButtonSpecStyle.Open:
                 case PaletteButtonSpecStyle.SaveAll:
@@ -1159,7 +1159,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.WorkspaceRestore:
                 case PaletteButtonSpecStyle.RibbonMinimize:
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
+                    return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -1785,11 +1785,13 @@ namespace Krypton.Toolkit
         /// <value>The name of the theme.</value>
         [Description(@"Gets or sets the name of the theme.")]
         [DisallowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
         public BasePaletteType BasePaletteType { get; set; }
 
         #endregion

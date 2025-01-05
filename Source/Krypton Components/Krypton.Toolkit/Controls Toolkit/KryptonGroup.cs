@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDouble(StateCommon, NeedPaintDelegate);
 
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
             {
 
                 // Make sure the panel back style always mimics our back style
-                PanelBackStyle = PaletteBackStyle.ControlClient
+                PanelBackStyle = PaletteBackStyle.PanelClient
             };
 
             // Create the element that fills the remainder space and remembers fill rectangle
@@ -81,6 +81,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Name
         {
             get => base.Name;
@@ -200,9 +201,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlClient;
-
-        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlClient;
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.PanelClient;
+        private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the common group appearance entries that other states can override.

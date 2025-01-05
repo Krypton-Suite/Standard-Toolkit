@@ -119,35 +119,30 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IPaletteMetric
+
         /// <summary>
         /// Gets an integer metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
+        public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric)
         {
-            // Is this the metric we provide?
-            if (metric is PaletteMetricInt.HeaderButtonEdgeInsetPrimary 
-                or PaletteMetricInt.HeaderButtonEdgeInsetSecondary 
-                or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive 
-                or PaletteMetricInt.HeaderButtonEdgeInsetDockActive 
-                or PaletteMetricInt.HeaderButtonEdgeInsetForm 
-                or PaletteMetricInt.HeaderButtonEdgeInsetInputControl
-                or PaletteMetricInt.HeaderButtonEdgeInsetCustom1
-                or PaletteMetricInt.HeaderButtonEdgeInsetCustom2
-                or PaletteMetricInt.HeaderButtonEdgeInsetCustom3
-                )
+            return metric switch
             {
+                // Is this the metric we provide?
                 // If the user has defined an actual value to use
-                if (ButtonEdgeInset != -1)
-                {
-                    return ButtonEdgeInset;
-                }
-            }
+                PaletteMetricInt.HeaderButtonEdgeInsetPrimary or PaletteMetricInt.HeaderButtonEdgeInsetSecondary
+                    or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive
+                    or PaletteMetricInt.HeaderButtonEdgeInsetDockActive or PaletteMetricInt.HeaderButtonEdgeInsetForm
+                    or PaletteMetricInt.HeaderButtonEdgeInsetInputControl
+                    or PaletteMetricInt.HeaderButtonEdgeInsetCustom1 or PaletteMetricInt.HeaderButtonEdgeInsetCustom2
+                    or PaletteMetricInt.HeaderButtonEdgeInsetCustom3 when ButtonEdgeInset != -1 => ButtonEdgeInset,
+                _ => _redirect.GetMetricInt(owningForm, state, metric)
+            };
 
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -163,17 +158,19 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a padding metric value.
         /// </summary>
+        /// <param name="owningForm"></param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
+        public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state,
+            PaletteMetricPadding metric)
         {
             // Is this the metric we provide?
             if (metric is PaletteMetricPadding.HeaderButtonPaddingPrimary
                 or PaletteMetricPadding.HeaderButtonPaddingSecondary
                 or PaletteMetricPadding.HeaderButtonPaddingDockInactive
                 or PaletteMetricPadding.HeaderButtonPaddingDockActive 
-                or PaletteMetricPadding.HeaderButtonPaddingForm
+                //or PaletteMetricPadding.HeaderButtonPaddingForm
                 or PaletteMetricPadding.HeaderButtonPaddingInputControl
                 or PaletteMetricPadding.HeaderButtonPaddingCustom1
                 or PaletteMetricPadding.HeaderButtonPaddingCustom2
@@ -188,7 +185,7 @@ namespace Krypton.Toolkit
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect.GetMetricPadding(owningForm, state, metric);
         }
         #endregion
 

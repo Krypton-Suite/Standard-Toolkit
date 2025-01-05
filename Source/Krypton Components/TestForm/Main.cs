@@ -75,6 +75,7 @@ namespace TestForm
             form3.ShowDialog();
         }
 
+        [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
         private void kbtnTestMessagebox_Click(object sender, EventArgs e)
         {
             KryptonMessageBoxDep.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
@@ -339,6 +340,7 @@ namespace TestForm
             toastNotification.Show();
         }
 
+        [Obsolete("Please use `KryptonTaskDialog`. Will be removed in V100")]
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
             KryptonMessageBoxDep.Show(string.Empty, @"Test with no Text", showCloseButton: kryptonCheckBox1.Checked);

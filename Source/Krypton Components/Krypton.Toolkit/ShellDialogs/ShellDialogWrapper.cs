@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
                 return;
             }
             _commonDialogHandler._wrapperForm.SuspendLayout();
-            // Align the button underneath the drop down
+            // Align the button underneath the drop-down
             var clientSize = _commonDialogHandler._wrapperForm.ClientSize;
             foreach (var button in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null))
             {

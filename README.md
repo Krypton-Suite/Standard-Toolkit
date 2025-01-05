@@ -175,6 +175,13 @@ Follow the links to see the different objects and layouts that this framework al
 
 # Breaking Changes
 
+## V95.00 (2025-02-01 - Build 2502 - February 2025)
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+    - Create Scaled Drop Glyph and use for colour button and comboDrops
+    - Remove the `PaletteRedirectDropDownButton`
+    - Remove `KryptonPaletteImagesDropDownButton`
+    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+
 ## V90.00 (2024-11-12 - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.00 version
 - [#632](https://github.com/Krypton-Suite/Standard-Toolkit/issues/632), **[Breaking Change]** `KryptonPropertyGrid` should have a customisable back colour.
@@ -228,13 +235,20 @@ The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data
 ### Building the Toolkit
 As of V90.00 support for longer path names **will** need to be enabled if you want to build the toolkit yourself. For more details on how to do this, please follow the instructions [here](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Contributing/Allowing-for-Longer-Path-and-File-Names.html).
 
+## V85.00 (2025-02-01 - Build 2502 (Patch 5) - February 2025)
+* Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
+    - Create Scaled Drop Glyph and use for colour button and comboDrops
+    - Remove the `PaletteRedirectDropDownButton`
+    - Remove `KryptonPaletteImagesDropDownButton`
+    - **Breaking Change**: Remove `DropDownButtonImages` from designers 
+
 ## V85.00 (2024-06-24 - Build 2406 - June 2024)
 There are a list of changes that have occurred during the development of the V85.00 version
 
 * [#1302](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1302), **[Breaking Change]** Font being used by "Professional" theme is pants ! 
 	- The Option to use `SystemDefault` no longer exists a font rendering hint
 * [#1508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1508), **[Breaking Change]** ButtonSpec does not open assigned context menu when clicked.
-	- Added property `ShowDrop`, which displays a drop down arrow on the button.
+	- Added property `ShowDrop`, which displays a drop-down arrow on the button.
 	- When a `KryptonContextMenu` is connected the menu is shown when the button is clicked.
 	- When a WinForms `ContextMenuStrip` is connected the menu is shown when the button is clicked.
 	- When both type of the above ContextMenus are connected the `KryptonContextMenu` takes precedence.

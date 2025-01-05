@@ -63,6 +63,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets access to the parent docking element.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override IDockingElement? Parent
         {
             set
@@ -70,7 +71,7 @@ namespace Krypton.Docking
                 // Let base class perform standard processing
                 base.Parent = value;
 
-                // Generate event so the any dockable workspace customization can be performed.
+                // Generate event so that any dockable workspace customization can be performed.
                 KryptonDockingManager? dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
@@ -449,14 +450,10 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return DockingLocation.Workspace;
-            }
-            else
-            {
-                return DockingLocation.None;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? DockingLocation.Workspace
+                : DockingLocation.None;
         }
 
         /// <summary>
@@ -467,14 +464,10 @@ namespace Krypton.Docking
         public override IDockingElement? FindPageElement(string uniqueName)
         {
             KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
-            {
-                return this;
-            }
-            else
-            {
-                return null;
-            }
+            return (page != null)
+                   && page is not KryptonStorePage
+                ? this
+                : null;
         }
 
         /// <summary>
@@ -517,7 +510,7 @@ namespace Krypton.Docking
         /// </summary>
         protected override void RaiseRemoved()
         {
-            // Generate event so the any dockable workspace customization can be reversed.
+            // Generate event so that any dockable workspace customization can be reversed.
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
@@ -589,7 +582,7 @@ namespace Krypton.Docking
         /// </summary>
         protected override string XmlElementName => @"DW";
 
-        #endregion    
+        #endregion
 
         #region Implementation
         private void OnDockableWorkspaceBeforePageDrag(object? sender, PageDragCancelEventArgs e)

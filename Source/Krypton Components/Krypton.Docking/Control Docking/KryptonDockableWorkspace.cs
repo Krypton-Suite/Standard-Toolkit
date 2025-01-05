@@ -52,7 +52,7 @@ namespace Krypton.Docking
         protected override bool ApplyDockingPinAction => false;
 
         /// <summary>
-        /// Gets a value indicating if docking specific drop down actions should be applied.
+        /// Gets a value indicating if docking specific drop-down actions should be applied.
         /// </summary>
         protected override bool ApplyDockingDropDownAction => false;
 

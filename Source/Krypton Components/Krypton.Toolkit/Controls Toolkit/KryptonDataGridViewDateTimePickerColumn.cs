@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -20,11 +20,12 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
         #region Instance Fields
-
         private readonly DateTimeList _annualDates;
         private readonly DateTimeList _monthlyDates;
         private readonly DateTimeList _dates;
-        #endregion
+       // Cell indicator image instance
+        private readonly KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
+         #endregion
 
         #region Identity
         /// <summary>
@@ -36,6 +37,7 @@ namespace Krypton.Toolkit
             _annualDates = [];
             _monthlyDates = [];
             _dates = [];
+            _kryptonDataGridViewCellIndicatorImage = new();
         }
 
         /// <summary>
@@ -641,10 +643,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if clicking the Today button closes the drop down menu.
+        /// Gets and sets if clicking the Today button closes the drop-down menu.
         /// </summary>
         [Category(@"MonthCalendar")]
-        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
+        [Description(@"Indicates if clicking the Today button closes the drop-down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick
         {
@@ -894,8 +896,23 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
         private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
-
         #endregion
 
+        #region Internal
+        /// <summary>
+        /// Provides the cell indicator images to the cells from from this column instance.<br/>
+        /// For internal use only.
+        /// </summary>
+        internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
+        #endregion Internal
+
+        #region Protected
+        /// <inheritdoc/>
+        protected override void OnDataGridViewChanged()
+        {
+            _kryptonDataGridViewCellIndicatorImage.DataGridView = DataGridView as KryptonDataGridView;
+            base.OnDataGridViewChanged();
+        }
+        #endregion Protected
     }
 }

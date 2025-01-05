@@ -41,7 +41,18 @@ namespace Krypton.Ribbon
         /// </summary>
         protected KryptonRibbonGroupItem() =>
             // Do the Tooltip Magic
-            _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/); // Must be replaced by appropriate call
+            _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/, GetDpiFactor); // Must be replaced by appropriate call
+
+        private float GetDpiFactor()
+        {
+            return (Ribbon != null)
+#if NET462
+                ? PI.GetDpiForWindow(Ribbon.Handle) / 96F
+#else
+                ? Ribbon.DeviceDpi / 96F
+#endif
+                : 1.0f;
+        }
 
         #endregion Identity
 
@@ -209,6 +220,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BindingContext BindingContext
         {
             get => _bindingContext ??= [];

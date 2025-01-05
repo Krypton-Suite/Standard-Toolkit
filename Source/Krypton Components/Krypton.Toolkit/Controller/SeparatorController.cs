@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                 MinimizeBox = false;
                 ShowInTaskbar = false;
                 BackColor = Color.Black;
-                TransparencyKey = Color.Magenta;
+                TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
                 Opacity = 0.5;
             }
 
@@ -122,6 +122,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets and sets the new solid rectangle area.
             /// </summary>
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Rectangle SolidRect
             {
                 get => _solidRect;
