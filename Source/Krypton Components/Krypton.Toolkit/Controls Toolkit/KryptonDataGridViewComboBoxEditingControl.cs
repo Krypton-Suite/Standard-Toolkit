@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Instance Fields
         private DataGridView? _dataGridView;
@@ -46,7 +46,16 @@ namespace Krypton.Toolkit
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(_dataGridView, this);
+            }
         }
 
         /// <summary>
@@ -77,7 +86,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the row in which the editing control resides
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual int EditingControlRowIndex { get; set; }
 
         /// <summary>
@@ -149,6 +158,13 @@ namespace Krypton.Toolkit
         public virtual void PrepareEditingControlForEdit(bool selectAll)
         {
         }
+
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
+
         #endregion
 
         #region Protected

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -17,14 +17,14 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewDateTimePickerEditingControl : KryptonDateTimePicker,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Static Fields
         private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         #endregion
 
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
 
         #endregion
@@ -50,14 +50,24 @@ namespace Krypton.Toolkit
         public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value!;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(_dataGridView, this);
+            }
+
         }
 
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
-        [AllowNull]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public virtual object EditingControlFormattedValue
         {
             // [AllowNull] removes warning CS8767 and allows to write null
@@ -90,7 +100,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the row in which the editing control resides
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] public virtual int EditingControlRowIndex { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual int EditingControlRowIndex { get; set; }
 
         /// <summary>
         /// Property which indicates whether the value of the editing control has changed or not
@@ -111,6 +122,12 @@ namespace Krypton.Toolkit
         /// Property which indicates whether the editing control needs to be repositioned when its value changes.
         /// </summary>
         public virtual bool RepositionEditingControlOnValueChange => false;
+
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.
@@ -167,7 +184,7 @@ namespace Krypton.Toolkit
             if (!_valueChanged)
             {
                 _valueChanged = true;
-                _dataGridView.NotifyCurrentCellDirty(true);
+                _dataGridView?.NotifyCurrentCellDirty(true);
             }
         }
         #endregion

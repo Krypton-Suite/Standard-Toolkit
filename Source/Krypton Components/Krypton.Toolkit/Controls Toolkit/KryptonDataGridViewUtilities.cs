@@ -8,6 +8,17 @@
 
 namespace Krypton.Toolkit
 {
+    #region Interfaces
+    public interface IKryptonDataGridViewEditingControl
+    {
+        /// <summary>
+        /// Connect this method to KryptonDataGridView.PaletteChanged
+        /// </summary>
+        /// <param name="sender">KryptonDataGridView instance that performed a local theme change.</param>
+        /// <param name="e">Not used.</param>
+        void OnKryptonDataGridViewPaletteModeChanged(object sender, EventArgs e);
+    }
+    #endregion
 
     internal class KryptonDataGridViewUtilities
     {
@@ -70,7 +81,49 @@ namespace Krypton.Toolkit
             return  tff | (wrapMode == DataGridViewTriState.False
                 ? TextFormatFlags.SingleLine
                 : TextFormatFlags.WordBreak);
+        }
 
+        /// <summary>
+        /// Used by the KrypronDataGridViewEditingControl classes to (un)subscribe to the KrypronDataGridView.PaletteChanged event.
+        /// </summary>
+        /// <param name="currentDataGridView">The current DataGridView instance.</param>
+        /// <param name="newDataGridView">THe new DataGridView instance.</param>
+        /// <param name="eventHandler">Eventhandler to (un)subscribe from/to.</param>
+        internal static void OnKryptonDataGridViewEditingControlDataGridViewChanged(DataGridView? currentDataGridView, DataGridView? newDataGridView, EventHandler eventHandler)
+        {
+            if (currentDataGridView != newDataGridView)
+            {
+                if (currentDataGridView is KryptonDataGridView dataGridView1)
+                {
+                    dataGridView1.PaletteChanged -= eventHandler;
+                }
+
+                if (newDataGridView is KryptonDataGridView dataGridView2)
+                {
+                    dataGridView2.PaletteChanged += eventHandler;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Used by the KrypronDataGridViewEditingControl classes to change the control's local palette to that of the KrypronDataGridView
+        /// </summary>
+        /// <param name="sender">KryptonDataGridView reference.</param>
+        /// <param name="visualControlBase">The control that will be assigned the palette values.</param>
+        internal static void OnKryptonDataGridViewPaletteModeChanged(object? sender, VisualControlBase visualControlBase)
+        {
+            if (sender is KryptonDataGridView dataGridView)
+            {
+                if (visualControlBase.LocalCustomPalette != dataGridView.Palette)
+                {
+                    visualControlBase.LocalCustomPalette = dataGridView.Palette as KryptonCustomPaletteBase;
+                }
+
+                if (visualControlBase.PaletteMode != dataGridView.PaletteMode)
+                {
+                    visualControlBase.PaletteMode = dataGridView.PaletteMode;
+                }
+            }
         }
     }
 }

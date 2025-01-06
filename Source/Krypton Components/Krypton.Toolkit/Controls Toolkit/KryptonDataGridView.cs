@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         private byte _oldLocation;
         private DataGridViewCell? _oldCell;
         private KryptonContextMenu? _kryptonContextMenu;
-
+ 
         //Seb
         private string _searchString;
         private List<int> _restrictColumnsSearch;
@@ -348,7 +348,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates if tool tips are Displayed when the mouse hovers over the cell.
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)] 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new bool ShowCellToolTips { get; set; }
 
         #endregion
@@ -358,7 +358,8 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
         [DefaultValue(true)]
-        public bool AutoGenerateKryptonColumns {
+        public bool AutoGenerateKryptonColumns 
+        {
             get; set;
         } = true;
 
@@ -450,6 +451,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Palette applied to drawing.")]
+        [DefaultValue(PaletteMode.Global)]
         public PaletteMode PaletteMode 
         {
             [DebuggerStepThrough]
@@ -529,6 +531,7 @@ namespace Krypton.Toolkit
                         // No longer using a standard palette
                         _localPalette = value;
                         _paletteMode = PaletteMode.Custom;
+                        SetPalette(_localPalette);
                     }
 
                     // If real change has occurred
@@ -968,8 +971,10 @@ namespace Krypton.Toolkit
             // Update the redirector with latest palette
             Redirector.Target = _palette;
 
+            SyncCellStylesWithPalette();
+
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
+            OnNeedPaint(_palette, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -1690,16 +1695,20 @@ namespace Krypton.Toolkit
                 changeService?.OnComponentChanging(this, null);
             }
 
-            for (int i = 0; i < ColumnCount; i++)
+            for (int i = 0 ; i < ColumnCount ; i++)
             {
                 currentColumn = Columns[i];
 
+                /* 
+                 * Auto generated columns are always of type System.Windows.Forms.DataGridViewTextBoxColumn.
+                 * Only columns that are of type DataGridViewTextBoxColumn and have the DataPropertyName set will be converted to krypton Columns.
+                 */
                 if (currentColumn is DataGridViewTextBoxColumn && currentColumn.DataPropertyName.Length > 0)
                 {
                     index = currentColumn.Index;
 
                     var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn
+                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn 
                         : new KryptonDataGridViewTextBoxColumn();
 
                     newColumn!.Name = currentColumn.Name;
@@ -1718,7 +1727,7 @@ namespace Krypton.Toolkit
                     index = currentColumn.Index;
 
                     var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn
+                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn 
                         : new KryptonDataGridViewCheckBoxColumn();
 
                     newColumn!.Name = currentColumn.Name;
@@ -1750,10 +1759,11 @@ namespace Krypton.Toolkit
             _evalTransparent = true;
             _lastLayoutSize = Size.Empty;
 
-            // Set the palette to the defaults as specified by the manager
+            // Set the palette to the defaults as specified by the PaletteMode property
             _localPalette = null;
-            SetPalette(KryptonManager.CurrentGlobalPalette);
+            // start off with global mode as default
             _paletteMode = PaletteMode.Global;
+            SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
 
             // Create constant target for resolving palette delegates
             Redirector = new PaletteRedirect(_palette);
