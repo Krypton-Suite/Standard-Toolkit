@@ -101,7 +101,6 @@ namespace Krypton.Toolkit
 
                 domainUpDown.Text = initialFormattedValue as string ?? string.Empty;
             }
-            Debug.Print("InitializeEditingControl 5");
         }
 
         #endregion
