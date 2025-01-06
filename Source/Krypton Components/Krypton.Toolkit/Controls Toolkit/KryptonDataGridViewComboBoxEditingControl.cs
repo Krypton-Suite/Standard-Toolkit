@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -17,17 +17,17 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     public class KryptonDataGridViewComboBoxEditingControl : KryptonComboBox,
-        IDataGridViewEditingControl
+        IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
     {
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
 
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initalize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
+        /// Initialize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
         /// </summary>
         public KryptonDataGridViewComboBoxEditingControl()
         {
@@ -42,17 +42,34 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
-        public virtual DataGridView EditingControlDataGridView
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
-            set => _dataGridView = value;
+            set
+            {
+                // (un)subscribing must be performed before _dataGridView is updated.
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewEditingControlDataGridViewChanged(_dataGridView, value, OnKryptonDataGridViewPaletteModeChanged);
+
+                _dataGridView = value;
+
+                // Trigger a manual palette check
+                KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(_dataGridView, this);
+            }
         }
 
         /// <summary>
         /// Property which represents the current formatted value of the editing control
+        /// <para>Allows null as input, but null will saved as an empty string.</para>
         /// </summary>
-        public virtual object? EditingControlFormattedValue
+        [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual object EditingControlFormattedValue 
         {
+            // [AllowNull] removes warning CS8767, but allows for null input, which is undesired.
+            // The Text property is a non-nullable string and therefore null input
+            // will be converted to String.Empty.
+
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
 
             set
@@ -69,11 +86,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the row in which the editing control resides
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual int EditingControlRowIndex { get; set; }
 
         /// <summary>
         /// Property which indicates whether the value of the editing control has changed or not
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool EditingControlValueChanged
         {
             get => _valueChanged;
@@ -91,7 +110,7 @@ namespace Krypton.Toolkit
         public virtual bool RepositionEditingControlOnValueChange => false;
 
         /// <summary>
-        /// Method called by the grid before the editing control is shown so it can adapt to the provided cell style.
+        /// Method called by the grid before the editing control is shown, so it can adapt to the provided cell style.
         /// </summary>
         public virtual void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
         {
@@ -139,6 +158,13 @@ namespace Krypton.Toolkit
         public virtual void PrepareEditingControlForEdit(bool selectAll)
         {
         }
+
+        /// <inheritdoc/>
+        public void OnKryptonDataGridViewPaletteModeChanged(object? sender, EventArgs e)
+        {
+            KryptonDataGridViewUtilities.OnKryptonDataGridViewPaletteModeChanged(sender, this);
+        }
+
         #endregion
 
         #region Protected
@@ -181,7 +207,7 @@ namespace Krypton.Toolkit
             if (!_valueChanged)
             {
                 _valueChanged = true;
-                _dataGridView.NotifyCurrentCellDirty(true);
+                _dataGridView?.NotifyCurrentCellDirty(true);
             }
         }
         #endregion

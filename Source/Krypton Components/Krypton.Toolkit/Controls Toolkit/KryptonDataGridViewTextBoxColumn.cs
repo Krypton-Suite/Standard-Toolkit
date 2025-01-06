@@ -1,11 +1,11 @@
-﻿#region BSD License
+﻿    #region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewTextBoxCell cells.
     /// </summary>
-    [Designer(typeof(KryptonTextBoxColumnDesigner))]
+    //[Designer(typeof(KryptonTextBoxColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewTextBoxColumn), "ToolboxBitmaps.KryptonTextBox.bmp")]
     public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     {
@@ -57,6 +57,7 @@ namespace Krypton.Toolkit
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
+
             return cloned;
         }
 
@@ -90,8 +91,9 @@ namespace Krypton.Toolkit
             {
                 if (MaxInputLength != value)
                 {
-                    TextBoxCellTemplate.MaxInputLength = value;
-                    if (DataGridView != null)
+                    TextBoxCellTemplate!.MaxInputLength = value;
+
+                    if (DataGridView is not null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
                         var count = rows.Count;
@@ -122,18 +124,20 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
+            // base.CellTemplate can be null for getter and setter
+
             get => base.CellTemplate;
 
             set
             {
-                if ((value != null) && value is not KryptonDataGridViewTextBoxCell)
+                if ((value is not null) && value is not KryptonDataGridViewTextBoxCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
                 }
 
-                base.CellTemplate = value;
+                base.CellTemplate = (KryptonDataGridViewTextBoxCell)value!;
             }
         }
 
@@ -143,18 +147,26 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         [Category(@"Appearance")]
         [Description(@"DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
+        [AllowNull]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public override DataGridViewCellStyle DefaultCellStyle
         {
+            // base.DefaultCellStyle will take a null value and handle it.
+            // [NotNull] if the base getter encounters a null value it will always return a DefaultCellStyle
+
             get => base.DefaultCellStyle;
 
             set
             {
                 base.DefaultCellStyle = value;
-                if ((value.WrapMode != DataGridViewTriState.True)
+
+                if (value is null
+                    || value.WrapMode != DataGridViewTriState.True
                     || DataGridView == null)
                 {
                     return;
                 }
+
                 // https://stackoverflow.com/questions/16514352/multiple-lines-in-a-datagridview-cell/16514393
                 switch (DataGridView.AutoSizeRowsMode)
                 {
@@ -252,7 +264,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
+        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => CellTemplate as KryptonDataGridViewTextBoxCell;
 
         #endregion
 
