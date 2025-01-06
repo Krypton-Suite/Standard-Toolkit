@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     public class KryptonDataGridView : DataGridView
     {
         #region Type Declaractions
-        private class ColumnHeaderCache : Dictionary<int, bool> { }
-        private class RowHeaderCache : Dictionary<int, Rectangle> { }
+        private class ColumnHeaderCache : Dictionary<int, bool>;
+        private class RowHeaderCache : Dictionary<int, Rectangle>;
         #endregion
 
         #region Classes
@@ -110,9 +110,9 @@ namespace Krypton.Toolkit
         // States and redirector
 
         // Cached values for determining cell style overrides
-        private Font _columnFont;
-        private Font _rowFont;
-        private Font _dataCellFont;
+        private Font? _columnFont;
+        private Font? _rowFont;
+        private Font? _dataCellFont;
         private Padding _columnPadding;
         private Padding _rowPadding;
         private Padding _dataCellPadding;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;
-        private DataGridViewCell _oldCell;
+        private DataGridViewCell? _oldCell;
         private KryptonContextMenu? _kryptonContextMenu;
 
         //Seb
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
 
                 // Dispose of view manager related resources
-                ViewManager.Dispose();
+                ViewManager?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -231,8 +231,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color BackgroundColor
-        {
+        public new Color BackgroundColor {
             get => base.BackgroundColor;
             set => base.BackgroundColor = value;
         }
@@ -256,7 +255,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellBorderStyle CellBorderStyle
+        public new DataGridViewCellBorderStyle CellBorderStyle 
         {
             get => base.CellBorderStyle;
             set => base.CellBorderStyle = value;
@@ -268,7 +267,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
+        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle 
         {
             get => base.ColumnHeadersBorderStyle;
             set => base.ColumnHeadersBorderStyle = value;
@@ -280,7 +279,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle
+        public new DataGridViewCellStyle ColumnHeadersDefaultCellStyle 
         {
             get => base.ColumnHeadersDefaultCellStyle;
             set => base.ColumnHeadersDefaultCellStyle = value;
@@ -292,7 +291,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle DefaultCellStyle
+        public new DataGridViewCellStyle DefaultCellStyle 
         {
             get => base.DefaultCellStyle;
             set => base.DefaultCellStyle = value;
@@ -304,7 +303,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new bool EnableHeadersVisualStyles
+        public new bool EnableHeadersVisualStyles 
         {
             get => base.EnableHeadersVisualStyles;
             set => base.EnableHeadersVisualStyles = value;
@@ -316,7 +315,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color GridColor
+        public new Color GridColor 
         {
             get => base.GridColor;
             set => base.GridColor = value;
@@ -328,7 +327,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle
+        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle 
         {
             get => base.RowHeadersBorderStyle;
             set => base.RowHeadersBorderStyle = value;
@@ -340,7 +339,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellStyle RowHeadersDefaultCellStyle
+        public new DataGridViewCellStyle RowHeadersDefaultCellStyle 
         {
             get => base.RowHeadersDefaultCellStyle;
             set => base.RowHeadersDefaultCellStyle = value;
@@ -349,16 +348,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates if tool tips are Displayed when the mouse hovers over the cell.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new bool ShowCellToolTips { get; set; }
 
         #endregion
 
         #region Public
-        [Browsable( true )]
-        [Category( @"Behavior" )]
-        [Description( @"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types." )]
-        [DefaultValue( true )]
-        public bool AutoGenerateKryptonColumns
+        [Browsable(true)]
+        [Category(@"Behavior")]
+        [Description(@"When true the KryptonDataGridView will, upon connecting a data source, convert WinForms column types to Krypton column types, when false the standard WinForms column types.")]
+        [DefaultValue(true)]
+        public bool AutoGenerateKryptonColumns 
         {
             get; set;
         } = true;
@@ -368,7 +368,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip? ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip 
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu? KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu 
         {
             get => _kryptonContextMenu;
 
@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Determine if the outer borders of the grid cells are drawn.")]
         [DefaultValue(false)]
-        public bool HideOuterBorders
+        public bool HideOuterBorders 
         {
             get => _hideOuterBorders;
 
@@ -451,7 +451,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Palette applied to drawing.")]
-        public PaletteMode PaletteMode
+        [DefaultValue(PaletteMode.Global)]
+        public PaletteMode PaletteMode 
         {
             [DebuggerStepThrough]
             get => _paletteMode;
@@ -499,7 +500,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette
+        public PaletteBase? Palette 
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -530,6 +531,7 @@ namespace Krypton.Toolkit
                         // No longer using a standard palette
                         _localPalette = value;
                         _paletteMode = PaletteMode.Custom;
+                        SetPalette(_localPalette);
                     }
 
                     // If real change has occurred
@@ -556,7 +558,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer? Renderer 
         {
             [DebuggerStepThrough]
             get;
@@ -652,7 +654,7 @@ namespace Krypton.Toolkit
                                                   int columnIndex,
                                                   out IPaletteBack paletteBack,
                                                   out IPaletteBorder paletteBorder,
-                                                  out IPaletteContent? paletteContent)
+                                                  out IPaletteContent paletteContent)
         {
             PaletteState retState;
 
@@ -814,7 +816,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Point CellOver
+        public Point CellOver 
         {
             get => _cellOver;
             set => _cellOver = value;
@@ -825,7 +827,7 @@ namespace Krypton.Toolkit
         /// Highlight search strings in the DataGridView 
         /// </summary>
         /// <param name="s">The string to search.</param>
-        public void HighlightSearch(string s) => HighlightSearch(s, new List<int>());
+        public void HighlightSearch(string s) => HighlightSearch(s, []);
 
         /// <summary>
         /// Highlight search strings in the DataGridView 
@@ -860,8 +862,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
-        {
+        protected ViewManager? ViewManager {
             [DebuggerStepThrough]
             get;
             set;
@@ -870,8 +871,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the need paint delegate.
         /// </summary>
-        protected NeedPaintHandler NeedPaintDelegate
-        {
+        protected NeedPaintHandler NeedPaintDelegate {
             [DebuggerStepThrough]
             get;
             private set;
@@ -882,7 +882,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedResyncPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedResyncPaint(object? sender, NeedLayoutEventArgs e)
         {
             // Ensure the current cell style values are in sync with the new 
             // palette setting and any state overrides that are defined
@@ -944,8 +944,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if transparent paint is needed
         /// </summary>
-        protected bool NeedTransparentPaint
-        {
+        protected bool NeedTransparentPaint {
             get
             {
                 // Do we need to evaluate the need for a tranparent paint
@@ -972,8 +971,10 @@ namespace Krypton.Toolkit
             // Update the redirector with latest palette
             Redirector.Target = _palette;
 
+            SyncCellStylesWithPalette();
+
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+            OnNeedPaint(_palette, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -984,7 +985,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -1002,7 +1003,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
+        protected virtual void OnButtonSpecChanged(object? sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1013,6 +1014,7 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
+
 
         #region Protected Override
         /// <inheritdoc/>
@@ -1052,7 +1054,7 @@ namespace Krypton.Toolkit
         protected override void OnCellMouseMove(DataGridViewCellMouseEventArgs e)
         {
             // Cache mouse location before calling base class
-            DataGridViewCell cell = GetCellInternal(e.ColumnIndex, e.RowIndex);
+            DataGridViewCell? cell = GetCellInternal(e.ColumnIndex, e.RowIndex);
 
             var oldLocation = CurrentMouseLocation(cell);
             if ((cell is DataGridViewRowHeaderCell) && (_oldCell == cell))
@@ -1173,6 +1175,10 @@ namespace Krypton.Toolkit
         /// <param name="e">A DataGridViewCellPaintingEventArgs that contains the event data.</param>
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
         {
+            if (e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
 
             // Get the palette and state values for this cell
             PaletteState state = GetCellTriple(e.State,
@@ -1180,12 +1186,12 @@ namespace Krypton.Toolkit
                                                e.ColumnIndex,
                                                out IPaletteBack paletteBack,
                                                out IPaletteBorder paletteBorder,
-                                               out IPaletteContent? paletteContent);
+                                               out IPaletteContent paletteContent);
 
             try
             {
                 // If the font we get from the base palette is a system font that is invalid this will throw exception
-                var hContent = _contentInherit.GetContentShortTextFont(state).Height;
+                var hContent = _contentInherit.GetContentShortTextFont(state)!.Height;
             }
             catch
             {
@@ -1197,18 +1203,18 @@ namespace Krypton.Toolkit
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
             var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
-            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics!))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
+                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                     {
                         // Force the border to have a specified maximum border edge
                         _borderForced.SetInherit(paletteBorder);
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
                         // Get the padding used to decide how to draw the background
-                        Padding borderPadding = Renderer.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
+                        Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
 
                         // Get the border path used to limit drawing of the background
                         GraphicsPath borderPath = Renderer.RenderStandardBorder.GetBackPath(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
@@ -1217,8 +1223,8 @@ namespace Krypton.Toolkit
                         Rectangle tempCellBackBounds = CommonHelper.ApplyPadding(VisualOrientation.Top, tempCellBounds, borderPadding);
 
                         // Update the back interceptor class
-                        _backInherit.SetInherit(paletteBack, e.CellStyle);
-
+                        _backInherit.SetInherit(paletteBack, e.CellStyle!);
+                        using var gh = new GraphicsHint(renderContext.Graphics, _borderForced.GetBorderGraphicsHint(PaletteState.Normal));
                         IDisposable? unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
 
                         // We never save the memento for reuse later
@@ -1227,6 +1233,7 @@ namespace Krypton.Toolkit
                         Renderer.RenderStandardBorder.DrawBorder(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
 
                         // Must remember to release resources!
+                        gh.Dispose();
                         borderPath.Dispose();
 
                         switch (e)
@@ -1258,8 +1265,12 @@ namespace Krypton.Toolkit
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                         renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
-                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
+                                        tempCellBounds = tempCellBounds with
+                                        {
+                                            X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0),
+                                            Width = width
+                                        };
                                     }
                                 }
 
@@ -1268,7 +1279,7 @@ namespace Krypton.Toolkit
                             // If this is a row header cell
                             case { RowIndex: >= 0, ColumnIndex: -1 }:
                             {
-                                // By default there is no glyph needed for the row
+                                // By default, there is no glyph needed for the row
                                 var glyph = GridRowGlyph.None;
 
                                 // Find the correct glyph that should be drawn
@@ -1321,9 +1332,9 @@ namespace Krypton.Toolkit
                                     Rectangle beforeCellBounds = tempCellBounds;
                                     tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
-                                        // Calculate the icon rectangle
-                                        var iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
-                                        beforeCellBounds.Width - tempCellBounds.Width, tempCellBounds.Height);
+                                    // Calculate the icon rectangle
+                                    var iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
+                                    beforeCellBounds.Width - tempCellBounds.Width, tempCellBounds.Height);
 
                                     // Cache the icon area
                                     if (_rowCache.ContainsKey(e.RowIndex))
@@ -1367,8 +1378,12 @@ namespace Krypton.Toolkit
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                         renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
-                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
+                                        tempCellBounds = tempCellBounds with
+                                        {
+                                            X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0),
+                                            Width = width
+                                        };
                                     }
                                 }
 
@@ -1390,11 +1405,14 @@ namespace Krypton.Toolkit
                             if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                             {
                                 // Blit the image onto the screen
-                                e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
 
                                 //Seb Search highlight 
                                 //Empty _restrictColumnsSearch means highlight everywhere
-                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != nameof(Bitmap))
+                                if (!string.IsNullOrEmpty(_searchString)
+                                    && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0
+                                    && _restrictColumnsSearch.Contains(e.ColumnIndex)))
+                                    && e.FormattedValue!.GetType().Name != nameof(Bitmap))
                                 {
                                     var val = (string)e.FormattedValue;
                                     var sindx = val.ToLower().IndexOf(_searchString.ToLower());
@@ -1409,8 +1427,8 @@ namespace Krypton.Toolkit
 
                                         var sBefore = val.Substring(0, sindx);
                                         var sWord = val.Substring(sindx, _searchString.Length);
-                                        Size s1 = TextRenderer.MeasureText(e.Graphics, sBefore, e.CellStyle.Font, e.CellBounds.Size);
-                                        Size s2 = TextRenderer.MeasureText(e.Graphics, sWord, e.CellStyle.Font, e.CellBounds.Size);
+                                        Size s1 = TextRenderer.MeasureText(e.Graphics!, sBefore, e.CellStyle!.Font, e.CellBounds.Size);
+                                        Size s2 = TextRenderer.MeasureText(e.Graphics!, sWord, e.CellStyle.Font, e.CellBounds.Size);
 
                                         if (s1.Width > 5)
                                         {
@@ -1441,7 +1459,7 @@ namespace Krypton.Toolkit
                                                 ? new SolidBrush(Color.DarkGoldenrod)
                                                 : new SolidBrush(Color.Yellow);
 
-                                        e.Graphics.FillRectangle(hl_brush, hl_rect);
+                                        e.Graphics!.FillRectangle(hl_brush, hl_rect);
 
                                         hl_brush.Dispose();
                                         sindx = val.ToLower().IndexOf(_searchString.ToLower(), sCount++);
@@ -1453,7 +1471,7 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Update the content interceptor class
-                                _contentInherit.SetInherit(paletteContent, e.CellStyle);
+                                _contentInherit.SetInherit(paletteContent!, e.CellStyle!);
 
                                 // Is there any text to be Displayed?
                                 if (e.FormattedValue != null)
@@ -1495,19 +1513,19 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Blit the image onto the screen
-                                e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
                             }
                         }
                         else
                         {
                             // Blit the image onto the screen
-                            e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                            e.Graphics?.DrawImage(tempBitmap, e.CellBounds.Location);
                         }
                     }
                 }
             }
 
-            if ((e.PaintParts & DataGridViewPaintParts.Focus) == DataGridViewPaintParts.Focus)
+            if (e != null && (e.PaintParts & DataGridViewPaintParts.Focus) == DataGridViewPaintParts.Focus)
             {
                 // Only consider drawing the focus rectangle if the control has focus wants to show the cues
                 if (ShowFocusCues && Focused)
@@ -1529,14 +1547,14 @@ namespace Krypton.Toolkit
                                 focusCellBounds.X++;
                             }
 
-                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, Color.Empty, paletteContent.GetContentShortTextColor1(state));
+                            ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, Color.Empty, paletteContent!.GetContentShortTextColor1(state));
                         }
                     }
                 }
             }
 
             // Prevent base class from doing the standard drawing
-            e.Handled = true;
+            e!.Handled = true;
 
             base.OnCellPainting(e);
         }
@@ -1571,7 +1589,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
+                        using var context = new RenderContext(this, graphics, clipBounds, Renderer!);
                         ViewManager.Paint(context);
                     }
 
@@ -1616,8 +1634,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteRedirect Redirector
-        {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        internal PaletteRedirect Redirector {
             [DebuggerStepThrough]
             get;
             private set;
@@ -1636,7 +1654,7 @@ namespace Krypton.Toolkit
             SyncCellStylesWithPalette();
         }
 
-        internal bool RightToLeftInternal
+        internal bool RightToLeftInternal 
         {
             get
             {
@@ -1645,18 +1663,19 @@ namespace Krypton.Toolkit
                 {
                     // Cache access to the internal get property 'RightToLeftInternal'
                     _piRTL = typeof(DataGridView).GetProperty(nameof(RightToLeftInternal), BindingFlags.Instance |
-                                                                                     BindingFlags.NonPublic |
-                                                                                     BindingFlags.GetField);
+                        BindingFlags.NonPublic |
+                        BindingFlags.GetField)!;
 
                 }
 
                 // Grab the internal calculated value of the right to left setting
-                return (bool)_piRTL.GetValue(this, null);
+                return (bool)_piRTL.GetValue(this, null)!;
             }
         }
         #endregion
 
         #region Implementation
+
         /// <summary>
         /// Handles the auto generation of Krypton columns<br/>
         /// </summary>
@@ -1674,16 +1693,20 @@ namespace Krypton.Toolkit
                 changeService?.OnComponentChanging(this, null);
             }
 
-            for (int i = 0; i < ColumnCount; i++)
+            for (int i = 0 ; i < ColumnCount ; i++)
             {
                 currentColumn = Columns[i];
 
+                /* 
+                 * Auto generated columns are always of type System.Windows.Forms.DataGridViewTextBoxColumn.
+                 * Only columns that are of type DataGridViewTextBoxColumn and have the DataPropertyName set will be converted to krypton Columns.
+                 */
                 if (currentColumn is DataGridViewTextBoxColumn && currentColumn.DataPropertyName.Length > 0)
                 {
                     index = currentColumn.Index;
 
                     var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn
+                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn 
                         : new KryptonDataGridViewTextBoxColumn();
 
                     newColumn!.Name = currentColumn.Name;
@@ -1702,7 +1725,7 @@ namespace Krypton.Toolkit
                     index = currentColumn.Index;
 
                     var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn
+                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn 
                         : new KryptonDataGridViewCheckBoxColumn();
 
                     newColumn!.Name = currentColumn.Name;
@@ -1734,10 +1757,11 @@ namespace Krypton.Toolkit
             _evalTransparent = true;
             _lastLayoutSize = Size.Empty;
 
-            // Set the palette to the defaults as specified by the manager
+            // Set the palette to the defaults as specified by the PaletteMode property
             _localPalette = null;
-            SetPalette(KryptonManager.CurrentGlobalPalette);
+            // start off with global mode as default
             _paletteMode = PaletteMode.Global;
+            SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
 
             // Create constant target for resolving palette delegates
             Redirector = new PaletteRedirect(_palette);
@@ -2175,7 +2199,7 @@ namespace Krypton.Toolkit
         }
 
         private byte UpdateLocationForRowErrors(DataGridViewCellMouseEventArgs e,
-                                                DataGridViewCell cell,
+                                                DataGridViewCell? cell,
                                                 byte location)
         {
             // If over the main area of a row header cell...
@@ -2237,6 +2261,7 @@ namespace Krypton.Toolkit
 
             // Should never happen!
             Debug.Assert(false);
+            DebugTools.NotImplemented(textH.ToString(), string.Empty);
             return DataGridViewContentAlignment.MiddleLeft;
         }
 
@@ -2310,7 +2335,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
 
@@ -2320,7 +2345,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CellDataAreaMouseEnterInternal(DataGridViewCell cell)
+        private void CellDataAreaMouseEnterInternal(DataGridViewCell? cell)
         {
             Point currentCellAddress = CurrentCellAddress;
 
@@ -2328,11 +2353,11 @@ namespace Krypton.Toolkit
             {
                 // Are we allowed to show a tooltip?
                 if (ShowCellToolTips &&
-                    ((currentCellAddress.X == -1) || (currentCellAddress.X != cell.ColumnIndex) ||
+                    ((currentCellAddress.X == -1) || (currentCellAddress.X != cell!.ColumnIndex) ||
                     (currentCellAddress.Y != cell.RowIndex) || (EditingControl == null)))
                 {
                     // Grab the correct tooltip text for the cell
-                    _toolTipText = GetToolTipText(cell, cell.RowIndex);
+                    _toolTipText = GetToolTipText(cell, cell!.RowIndex);
 
                     // No explicit text provided?
                     if (string.IsNullOrEmpty(_toolTipText))
@@ -2344,12 +2369,12 @@ namespace Krypton.Toolkit
                             if ((cell.RowIndex != -1) && (cell.OwningColumn != null))
                             {
                                 if ((cell.OwningColumn.Width < GetCellPreferredWidth(cell)) ||
-                                    (cell.OwningRow.Height < GetCellPreferredHeight(cell)))
+                                    (cell.OwningRow!.Height < GetCellPreferredHeight(cell)))
                                 {
                                     var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                     if (!string.IsNullOrEmpty(editedValue))
                                     {
-                                        _toolTipText = TruncateToolTipText(editedValue);
+                                        _toolTipText = TruncateToolTipText(editedValue ?? string.Empty);
                                     }
                                 }
                             }
@@ -2363,7 +2388,7 @@ namespace Krypton.Toolkit
                                         var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                         if (!string.IsNullOrEmpty(editedValue))
                                         {
-                                            _toolTipText = TruncateToolTipText(editedValue);
+                                            _toolTipText = TruncateToolTipText(editedValue ?? string.Empty);
                                         }
                                     }
                                     catch
@@ -2389,10 +2414,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CellErrorAreaMouseEnterInternal(DataGridViewCell cell)
+        private void CellErrorAreaMouseEnterInternal(DataGridViewCell? cell)
         {
             // Grab the correct error text for the cell
-            _toolTipText = GetErrorText(cell, cell.RowIndex);
+            _toolTipText = GetErrorText(cell, cell!.RowIndex);
 
             // Restart the timer for showing the error tooltip
             if (_showTimer != null)
@@ -2414,17 +2439,17 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             // Only need a one tick timer
             if (_showTimer != null)
@@ -2442,7 +2467,7 @@ namespace Krypton.Toolkit
                     // Create the actual tooltip popup object
                     _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                  new ToolTipContent(_toolTipText),
-                                                                 Renderer,
+                                                                 Renderer!,
                                                                  PaletteBackStyle.ControlToolTip,
                                                                  PaletteBorderStyle.ControlToolTip,
                                                                  PaletteContentStyle.LabelToolTip,
@@ -2456,7 +2481,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private DataGridViewCell GetCellInternal(int column, int row)
+        private DataGridViewCell? GetCellInternal(int column, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGCI == null)
@@ -2464,13 +2489,13 @@ namespace Krypton.Toolkit
                 // Cache access to the internal method 'GetCellInternal'
                 _miGCI = typeof(DataGridView).GetMethod(nameof(GetCellInternal), BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
-                                                                           BindingFlags.GetField);
+                                                                           BindingFlags.GetField)!;
             }
 
-            return (DataGridViewCell)_miGCI.Invoke(this, new object[] { column, row });
+            return _miGCI.Invoke(this, [column, row]) as DataGridViewCell;
         }
 
-        private string GetToolTipText(DataGridViewCell cell, int row)
+        private string GetToolTipText(DataGridViewCell? cell, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGTTT == null)
@@ -2478,12 +2503,12 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'GetToolTipText'
                 _miGTTT = typeof(DataGridViewCell).GetMethod(nameof(GetToolTipText), BindingFlags.Instance |
                                                                                BindingFlags.NonPublic |
-                                                                               BindingFlags.GetField);
+                                                                               BindingFlags.GetField)!;
             }
 
             try
             {
-                return (string)_miGTTT.Invoke(cell, new object[] { row });
+                return _miGTTT.Invoke(cell, [row]) as string ?? string.Empty;
             }
             catch
             {
@@ -2491,7 +2516,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private string GetErrorText(DataGridViewCell cell, int row)
+        private string GetErrorText(DataGridViewCell? cell, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGET == null)
@@ -2499,12 +2524,12 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'GetErrorText'
                 _miGET = typeof(DataGridViewCell).GetMethod(nameof(GetErrorText), BindingFlags.Instance |
                                                                             BindingFlags.NonPublic |
-                                                                            BindingFlags.GetField);
+                                                                            BindingFlags.GetField)!;
             }
 
             try
             {
-                return (string)_miGET.Invoke(cell, new object[] { row });
+                return _miGET.Invoke(cell, [row]) as string ?? string.Empty;
             }
             catch
             {
@@ -2512,7 +2537,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private byte CurrentMouseLocation(DataGridViewCell cell)
+        private byte CurrentMouseLocation(DataGridViewCell? cell)
         {
             // Only need to cache reflection info the first time around
             if (_piCML == null)
@@ -2520,39 +2545,49 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'CurrentMouseLocation'
                 _piCML = typeof(DataGridViewCell).GetProperty(nameof(CurrentMouseLocation), BindingFlags.Instance |
                                                                                       BindingFlags.NonPublic |
-                                                                                      BindingFlags.GetField);
+                                                                                      BindingFlags.GetField)!;
             }
 
             // Grab the internal calculated value of the right to left setting
-            return (byte)_piCML.GetValue(cell, null);
+            return (byte)_piCML.GetValue(cell, null)!;
         }
 
-        private int GetCellPreferredWidth(DataGridViewCell cell)
+        private int GetCellPreferredWidth([DisallowNull] DataGridViewCell? cell)
         {
+            if (cell is null)
+            {
+                throw new ArgumentNullException(nameof(cell));
+            }
+
             // Only need to cache reflection info the first time around
             if (_miGPW == null)
             {
                 // Cache access to the internal method 'GetPreferredWidth' of cells
                 _miGPW = typeof(DataGridViewCell).GetMethod(@"GetPreferredWidth", BindingFlags.Instance |
                                                                                  BindingFlags.NonPublic |
-                                                                                 BindingFlags.GetField);
+                                                                                 BindingFlags.GetField)!;
             }
 
-            return (int)_miGPW.Invoke(cell, new object[] { cell.RowIndex, cell.OwningRow.Height });
+            return (int)_miGPW.Invoke(cell, [cell.RowIndex!, cell.OwningRow!.Height!])!;
         }
 
-        private int GetCellPreferredHeight(DataGridViewCell cell)
+        private int GetCellPreferredHeight(DataGridViewCell? cell)
         {
+            if (cell is null)
+            {
+                throw new ArgumentNullException(nameof(cell));
+            }
+
             // Only need to cache reflection info the first time around
             if (_miGPH == null)
             {
                 // Cache access to the internal method 'GetPreferredHeight' of cells
                 _miGPH = typeof(DataGridViewCell).GetMethod(@"GetPreferredHeight", BindingFlags.Instance |
                                                                                   BindingFlags.NonPublic |
-                                                                                  BindingFlags.GetField);
+                                                                                  BindingFlags.GetField)!;
             }
 
-            return (int)_miGPH.Invoke(cell, new object[] { cell.RowIndex, cell.OwningColumn.Width });
+            return (int)_miGPH.Invoke(cell, [cell.RowIndex, cell.OwningColumn!.Width])!;
         }
 
         private string DismissBaseToolTips()
@@ -2563,10 +2598,10 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'ActivateToolTip'
                 _miATT = typeof(DataGridView).GetMethod(@"ActivateToolTip", BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
-                                                                           BindingFlags.GetField);
+                                                                           BindingFlags.GetField)!;
             }
 
-            return (string)_miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 });
+            return _miATT.Invoke(this, [false, string.Empty, -1, -1]) as string ?? string.Empty;
         }
 
         private string TruncateToolTipText(string toolTipText)
@@ -2595,7 +2630,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -2625,11 +2660,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
-                                                       null);
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
+                                                       null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null });
+                _miPTB.Invoke(this, [new PaintEventArgs(g, clipRect), ClientRectangle, null!]);
             }
         }
 
@@ -2658,7 +2693,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalPaletteChanged(object sender, EventArgs e)
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
@@ -2670,18 +2705,18 @@ namespace Krypton.Toolkit
                 SyncCellStylesWithPalette();
 
                 // A new palette source means we need to layout and redraw
-                OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+                OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
 
-        private void OnSyncPropertyChanged(object sender, EventArgs e) =>
+        private void OnSyncPropertyChanged(object? sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
             // setting and any state overrides that are defined.
             SyncCellStylesWithPalette();
 
-        private void OnSyncBackPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSyncBackPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Only interested in the first color from the background palettes
             if (e.PropertyName == "Color1")
@@ -2693,14 +2728,17 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region menus
-        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        #region Menus
+        private void OnContextMenuStripOpening(object? sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer();
+            if (cms != null)
+            {
+                cms.Renderer = CreateToolStripRenderer();
+            }
         }
 
         /// <summary>
@@ -2708,15 +2746,15 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette()!)!;
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
+        private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+        private void OnContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

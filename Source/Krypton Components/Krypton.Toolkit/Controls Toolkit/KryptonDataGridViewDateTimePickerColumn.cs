@@ -15,17 +15,16 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
     /// </summary>
-    [Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+    //[Designer(typeof(KryptonDateTimePickerColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
         #region Instance Fields
+
         private readonly DateTimeList _annualDates;
         private readonly DateTimeList _monthlyDates;
         private readonly DateTimeList _dates;
-       // Cell indicator image instance
-        private readonly KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
-         #endregion
+        #endregion
 
         #region Identity
         /// <summary>
@@ -896,6 +895,8 @@ namespace Krypton.Toolkit
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
         private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => CellTemplate as KryptonDataGridViewDateTimePickerCell;
+        // Cell indicator image instance
+        private KryptonDataGridViewCellIndicatorImage _kryptonDataGridViewCellIndicatorImage;
         #endregion
 
         #region Internal

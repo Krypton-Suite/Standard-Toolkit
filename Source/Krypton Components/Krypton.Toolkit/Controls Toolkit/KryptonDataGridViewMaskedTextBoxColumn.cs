@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewMaskedTextBoxCell cells.
     /// </summary>
-    [Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
+    //[Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewMaskedTextBoxColumn), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
     public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconColumn
     {
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override DataGridViewCell CellTemplate
+        public override DataGridViewCell? CellTemplate
         {
             get => base.CellTemplate;
             set
@@ -724,7 +724,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewMaskedTextBoxCell
         /// </summary>
-        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
+        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => CellTemplate as KryptonDataGridViewMaskedTextBoxCell;
 
         #endregion
 
