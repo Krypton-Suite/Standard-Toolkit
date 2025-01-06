@@ -1761,6 +1761,8 @@ namespace Krypton.Toolkit
 
             // Set the palette to the defaults as specified by the PaletteMode property
             _localPalette = null;
+            // start off with global mode as default
+            _paletteMode = PaletteMode.Global;
             SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
 
             // Create constant target for resolving palette delegates
