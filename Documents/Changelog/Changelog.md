@@ -3,7 +3,8 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
-* Resolved [#2037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2037) `KryptonDataGridView` Several bug fixes and improvements to the `KryptonDataGridView` and its components have been made. See this ticket for a complete overview.
+* Resolved [#2047](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2047), `KryptonForm` based MDI child windows do not respond to LayoutMDI calls
+* Resolved [#2037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2037), `KryptonDataGridView` Several bug fixes and improvements to the `KryptonDataGridView` and its components have been made. See this ticket for a complete overview.
 * Reverted [#2027](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2027), Reverting `KryptonOutlookGrid` back to Extended Toolkit for another inspection.
 * Resolved [#2023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2023), `KryptonDataGridView` IconSpecs do not get a repaint when changed at run-time.
 * Resolved [#2018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2018), Corrects `KryptonDataGridView` palette switching difficulties.
