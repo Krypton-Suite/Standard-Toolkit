@@ -1010,7 +1010,9 @@ namespace Krypton.Toolkit
         {
             var processed = false;
 
-            if (_themedApp)
+            // We do not process the message if on an MDI child, because doing so prevents the 
+            // LayoutMdi call on the parent from working and cascading/tiling the children
+            if (_themedApp && MdiParent is null)
             {
                 switch (m.Msg)
                 {
