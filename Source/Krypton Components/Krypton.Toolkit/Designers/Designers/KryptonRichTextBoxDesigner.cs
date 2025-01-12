@@ -15,10 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonRichTextBoxDesigner : ControlDesigner
     {
         #region Instance Fields
-        private bool _lastHitTest;
         private KryptonRichTextBox? _richTextBox;
         private IDesignerHost? _designerHost;
-        private IComponentChangeService? _changeService;
         private ISelectionService? _selectionService;
         #endregion
 
@@ -51,18 +49,8 @@ namespace Krypton.Toolkit
 
             // Get access to the design services
             _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
-            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
             _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
-
-            // We need to know when we are being removed
-            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
-
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _richTextBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -72,7 +60,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Start with all edges being sizeable
-                var rules = base.SelectionRules;
+                SelectionRules rules = base.SelectionRules;
 
                 // Get access to the actual control instance
                 var richTextBox = (KryptonRichTextBox)Component;
@@ -106,36 +94,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Indicates whether a mouse click at the specified point should be handled by the control.
-        /// </summary>
-        /// <param name="point">A Point indicating the position at which the mouse was clicked, in screen coordinates.</param>
-        /// <returns>true if a click at the specified point is to be handled by the control; otherwise, false.</returns>
-        protected override bool GetHitTest(Point point)
-        {
-            if (_richTextBox != null)
-            {
-                // Ask the control if it wants to process the point
-                var ret = _richTextBox.DesignerGetHitTest(_richTextBox.PointToClient(point));
-
-                // If the navigator does not want the mouse point then make sure the 
-                // tracking element is informed that the mouse has left the control
-                if (!ret && _lastHitTest)
-                {
-                    _richTextBox.DesignerMouseLeave();
-                }
-
-                // Cache the last answer recovered
-                _lastHitTest = ret;
-
-                return ret;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Receives a call when the mouse leaves the control. 
         /// </summary>
         protected override void OnMouseLeave()
@@ -152,7 +110,7 @@ namespace Krypton.Toolkit
             if ((_richTextBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                var component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -172,46 +130,17 @@ namespace Krypton.Toolkit
         private void OnTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            var component = _richTextBox?.DesignerComponentFromPoint(pt);
+            Component? component = _richTextBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                var designer = _designerHost?.GetDesigner(component);
+                IDesigner? designer = _designerHost?.GetDesigner(component);
 
                 // Request code for the default event be generated
                 designer?.DoDefaultAction();
             }
         }
-
-        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
-        {
-            // If our control is being removed
-            if (Equals(e.Component, _richTextBox))
-            {
-                // Need access to host in order to delete a component
-                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
-
-                // We need to remove all the button spec instances
-                for (var i = _richTextBox!.ButtonSpecs.Count - 1; i >= 0; i--)
-                {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _richTextBox.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanging(_richTextBox, null);
-
-                    // Perform actual removal of button spec from rich textbox
-                    _richTextBox.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host?.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanged(_richTextBox, null, null, null);
-                }
-            }
-        }
-        #endregion
+#endregion
     }
 }
