@@ -282,25 +282,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Type Definitions
-        /// <summary>
-        /// Collection for managing ButtonSpecAny instances.
-        /// </summary>
-        public class RichTextBoxButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
-        {
-            #region Identity
-            /// <summary>
-            /// Initialize a new instance of the RichTextBoxButtonSpecCollection class.
-            /// </summary>
-            /// <param name="owner">Reference to owning object.</param>
-            public RichTextBoxButtonSpecCollection(KryptonRichTextBox owner)
-                : base(owner)
-            {
-            }
-            #endregion
-        }
-        #endregion
-
         #region Instance Fields
 
         private VisualPopupToolTip? _visualPopupToolTip;

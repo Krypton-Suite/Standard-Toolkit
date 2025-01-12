@@ -15,10 +15,8 @@ namespace Krypton.Toolkit
     internal class KryptonRichTextBoxDesigner : ControlDesigner
     {
         #region Instance Fields
-        private bool _lastHitTest;
         private KryptonRichTextBox? _richTextBox;
         private IDesignerHost? _designerHost;
-        private IComponentChangeService? _changeService;
         private ISelectionService? _selectionService;
         #endregion
 
@@ -51,7 +49,6 @@ namespace Krypton.Toolkit
 
             // Get access to the design services
             _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
-            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
             _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
         }
 
@@ -93,36 +90,6 @@ namespace Krypton.Toolkit
                 };
 
                 return actionLists;
-            }
-        }
-
-        /// <summary>
-        /// Indicates whether a mouse click at the specified point should be handled by the control.
-        /// </summary>
-        /// <param name="point">A Point indicating the position at which the mouse was clicked, in screen coordinates.</param>
-        /// <returns>true if a click at the specified point is to be handled by the control; otherwise, false.</returns>
-        protected override bool GetHitTest(Point point)
-        {
-            if (_richTextBox != null)
-            {
-                // Ask the control if it wants to process the point
-                var ret = _richTextBox.DesignerGetHitTest(_richTextBox.PointToClient(point));
-
-                // If the navigator does not want the mouse point then make sure the 
-                // tracking element is informed that the mouse has left the control
-                if (!ret && _lastHitTest)
-                {
-                    _richTextBox.DesignerMouseLeave();
-                }
-
-                // Cache the last answer recovered
-                _lastHitTest = ret;
-
-                return ret;
-            }
-            else
-            {
-                return false;
             }
         }
 

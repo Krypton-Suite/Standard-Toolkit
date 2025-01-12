@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        public PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
