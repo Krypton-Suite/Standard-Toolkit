@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
             if (themeFile.Length > 0 && File.Exists(themeFile))
             {
                 KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile);
+                palette.Import(themeFile, silent);
 
                 ApplyTheme(palette, manager);
             }
