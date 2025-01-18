@@ -74,10 +74,17 @@ namespace Krypton.Toolkit
         {
             if (themeFile.Length > 0 && File.Exists(themeFile))
             {
-                KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, silent);
+                try
+                {
+                    KryptonCustomPaletteBase palette = new();
+                    palette.Import(themeFile, silent);
 
-                ApplyTheme(palette, manager);
+                    ApplyTheme(palette, manager);
+                }
+                catch (Exception exc)
+                {
+                    KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                }
             }
             else
             {
