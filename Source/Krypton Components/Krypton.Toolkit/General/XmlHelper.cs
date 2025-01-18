@@ -85,24 +85,21 @@ namespace Krypton.Toolkit
         /// <returns>Image that was recreated.</returns>
         public static Bitmap? XmlCDataToImage(XmlReader xmlReader)
         {
-            // Convert the content of the element into base64
-            var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
-
-            // Convert the bytes back into an Image
-            using var memory = new MemoryStream(bytes);
             try
             {
+                // Convert the content of the element into base64
+                var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
+
+                // Convert the bytes back into an Image
+                using var memory = new MemoryStream(bytes);
+
                 return new Bitmap(memory);
             }
-            catch
+            catch (Exception e)
             {
-                // Do the old image way
-                // SYSLIB0011: BinaryFormatter serialization is obsolete
-#pragma warning disable SYSLIB0011
-                var formatter = new BinaryFormatter();
-                var img = (Image)formatter.Deserialize(memory);
-#pragma warning restore SYSLIB0011
-                return new Bitmap(img);
+                KryptonExceptionHandler.CaptureException(e);
+
+                return null;
             }
         }
     }
