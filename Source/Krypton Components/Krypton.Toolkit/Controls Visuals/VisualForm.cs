@@ -543,26 +543,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Please use a ButtonSpec, as this gives greater flexibility!
-        /// </summary>
-        [Browsable(false)]
-        [Category(@"Window Style")]
-        [DefaultValue(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Obsolete(@"Please use a ButtonSpec, as this gives greater flexibility!", false)]
-        [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
-        public new bool HelpButton
-        {
-            get => base.HelpButton;
-            // ReSharper disable once ValueParameterNotUsed
-            set
-            {
-                base.HelpButton = false;
-                throw new NotSupportedException(@"Please use a ButtonSpec, as this gives greater flexibility!");
-            }
-        }
-
-        /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
         public void RedrawNonClient() => InvalidateNonClient(Rectangle.Empty, true);
