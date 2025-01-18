@@ -2140,7 +2140,7 @@ namespace Krypton.Toolkit
         /// Import palette settings from the specified xml file.
         /// </summary>
         /// <param name="filename">Filename to load.</param>
-        /// <param name="silent">Silent mode provides no user interface feedback.</param>
+        /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
         /// <returns>Full path of imported filename; otherwise empty string.</returns>
         /// <exception>Thrown if failure to import</exception>
         public string Import(string filename, bool silent)

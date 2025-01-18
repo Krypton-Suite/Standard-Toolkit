@@ -3,6 +3,7 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Implemented [#1623](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1623), Settings custom themes only available through ThemeManager from V110 onward. Adds Obsolete warnings so the move can be prepared from V100.
 * Resolved [#2053](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2053), `KryptonRichTextBox` Designer Issues
 * Resolved [#2047](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2047), `KryptonForm` based MDI child windows do not respond to LayoutMDI calls
 * Resolved [#2037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2037), `KryptonDataGridView` Several bug fixes and improvements to the `KryptonDataGridView` and its components have been made. See this ticket for a complete overview.
