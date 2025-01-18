@@ -49,20 +49,6 @@ namespace Krypton.Toolkit
         }
         #endregion Identity
 
-        /// <summary>
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Obsolete(@"No longer needed, just use 'BlurWhenFocusLost' to enable")]
-        public bool EnableBlur { private get; set; }
-
-        /// <summary>
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Obsolete(@"No longer in use, standard 5x5 Gaussian blur is applied")]
-        public byte Radius { private get; set; }
-
         private const byte OPACITY_DEFAULT = 80;
         /// <summary>
         /// </summary>
