@@ -17,10 +17,8 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ThemeManager
     {
-        #region Instance Fields
-
-        
-
+        #region Private static fields
+        private const string _msgBoxCaption = "ThemeManager";
         #endregion
 
         #region Properties
@@ -54,6 +52,42 @@ namespace Krypton.Toolkit
         /// <param name="themeName">Valid name of the theme.</param>
         /// <param name="manager">The manager.</param>
         public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+
+        /// <summary>
+        /// Applies the theme using the theme's name.
+        /// </summary>
+        /// <param name="palette">Reference to a KryptonCustomPaletteBase object</param>
+        /// <param name="manager">The manager.</param>
+        public static void ApplyTheme(KryptonCustomPaletteBase palette, KryptonManager manager)
+        {
+            manager.GlobalCustomPalette = palette;
+            manager.GlobalPaletteMode = PaletteMode.Custom;
+        }
+
+        /// <summary>
+        /// Applies the theme using the theme's name.
+        /// </summary>
+        /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
+        /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
+        /// <param name="manager">The manager.</param>
+        public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
+        {
+            if (themeFile.Length > 0 && File.Exists(themeFile))
+            {
+                KryptonCustomPaletteBase palette = new();
+                palette.Import(themeFile, silent);
+            }
+            else
+            {
+                KryptonMessageBox.Show(
+                    $"The parameter 'themeFile' points to a file that does not exist.\n" + 
+                    $"filename: {themeFile}\n\n" +
+                    $"ApplyTheme aborted.",
+                    _msgBoxCaption,
+                    buttons: KryptonMessageBoxButtons.OK,
+                    icon: KryptonMessageBoxIcon.Exclamation);
+            }
+        }
 
         /// <summary>
         /// Sets the theme.
@@ -104,6 +138,7 @@ namespace Krypton.Toolkit
         /// <param name="manager">The manager.</param>
         /// <param name="themeFile">A custom theme file.</param>
         /// <param name="silent">if set to <c>true</c> [silent].</param>
+        [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
         public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
         {
             try
