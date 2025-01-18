@@ -571,25 +571,6 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
-        /// <summary>
-        /// Gets and sets control watermark.
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
-        [Obsolete("Deprecated - Use CueHint.CueHintText")]
-        public string Hint
-        {
-            get => CueHint.CueHintText;
-            set
-            {
-                CueHint.CueHintText = value;
-
-                // Force a repaint
-                Invalidate();
-            }
-        }
-
         private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
 
 

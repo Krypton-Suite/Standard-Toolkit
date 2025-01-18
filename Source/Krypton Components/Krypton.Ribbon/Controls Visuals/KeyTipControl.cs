@@ -48,9 +48,6 @@ namespace Krypton.Ribbon
             TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
             StateCommon!.Border.DrawBorders = PaletteDrawBorders.None;
             StateCommon!.Border.Width = 0;
-#pragma warning disable CS0618 // Type or member is obsolete
-            UseDropShadow = false;
-#pragma warning restore CS0618 // Type or member is obsolete
 
             // Disabled key tips are show semi-transparent
             if (_showDisabled)
