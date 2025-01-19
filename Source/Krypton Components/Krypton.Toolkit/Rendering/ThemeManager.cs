@@ -90,23 +90,13 @@ namespace Krypton.Toolkit
             {
                 KryptonMessageBox.Show(
                     $"The parameter 'themeFile' points to a file that does not exist.\n" + 
-                    $"filename: {themeFile}\n\n" +
+                    $"Filename: {themeFile}\n\n" +
                     $"ApplyTheme aborted.",
                     _msgBoxCaption,
                     buttons: KryptonMessageBoxButtons.OK,
                     icon: KryptonMessageBoxIcon.Exclamation);
             }
         }
-
-        /// <summary>
-        /// Sets the theme.
-        /// </summary>
-        /// <param name="themeName">Name of the theme.</param>
-        /// <param name="manager">The manager.</param>
-        [Obsolete("Deprecated and will be removed in V100. Replace this with calls to ApplyTheme( . . . )")]
-        public static void SetTheme(string themeName, KryptonManager manager) =>
-            //TODO V100 Remove SetTheme method
-            ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
 
         /// <summary>
         /// Applies the global theme.
