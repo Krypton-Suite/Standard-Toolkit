@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
 
         /// <summary>
-        /// Applies the theme using the theme's name.
+        /// Applies the provided custom palette object.
         /// </summary>
         /// <param name="palette">Reference to a KryptonCustomPaletteBase object</param>
         /// <param name="manager">The manager.</param>
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Applies the theme using the theme's name.
+        /// Loads a custom theme from the given file.
         /// </summary>
         /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
         /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
@@ -74,8 +74,17 @@ namespace Krypton.Toolkit
         {
             if (themeFile.Length > 0 && File.Exists(themeFile))
             {
-                KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, silent);
+                try
+                {
+                    KryptonCustomPaletteBase palette = new();
+                    palette.Import(themeFile, silent);
+
+                    ApplyTheme(palette, manager);
+                }
+                catch (Exception exc)
+                {
+                    KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                }
             }
             else
             {
@@ -141,35 +150,38 @@ namespace Krypton.Toolkit
         [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
         public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
         {
-            try
-            {
-                // Declare new instances (no need for locking if these are local to the method)
-                palette = new KryptonCustomPaletteBase();
-                manager = new KryptonManager();
+            // Until removal pass the call to the new ApplyTheme method.
+            ApplyTheme(themeFile, silent, manager ?? new KryptonManager());
+            
+            //try
+            //{
+            //    // Declare new instances (no need for locking if these are local to the method)
+            //    palette = new KryptonCustomPaletteBase();
+            //    manager = new KryptonManager();
 
-                // TODO: Add silent option
-                if (silent)
-                {
-                    if (themeFile is not ("" and ""))
-                    {
-                        palette.Import(themeFile, silent);
-                    }
-                }
-                else
-                {
-                    palette.Import();
-                }
+            //    // TODO: Add silent option
+            //    if (silent)
+            //    {
+            //        if (themeFile is not ("" and ""))
+            //        {
+            //            palette.Import(themeFile, silent);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        palette.Import();
+            //    }
 
-                // Set manager
-                manager.GlobalCustomPalette = palette;
+            //    // Set manager
+            //    manager.GlobalCustomPalette = palette;
 
-                ApplyTheme(PaletteMode.Custom, manager);
-            }
-            catch (Exception exc)
-            {
-                KryptonExceptionHandler.CaptureException(exc,
-                    showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-            }
+            //    ApplyTheme(PaletteMode.Custom, manager);
+            //}
+            //catch (Exception exc)
+            //{
+            //    KryptonExceptionHandler.CaptureException(exc,
+            //        showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            //}
         }
 
         /// <summary>
