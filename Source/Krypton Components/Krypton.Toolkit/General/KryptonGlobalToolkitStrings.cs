@@ -179,11 +179,6 @@ namespace Krypton.Toolkit
         public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
         new KryptonMiscellaneousThemeStrings();
 
-        /// <summary>Gets the outlook grid strings.</summary>
-        /// <value>The outlook grid strings.</value>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public static KryptonOutlookGridStrings KryptonOutlookGridStrings { get; } = new KryptonOutlookGridStrings();
-
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -509,15 +504,6 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeMiscellaneousThemeStrings() => !KryptonMiscellaneousThemeStrings.IsDefault;
         private void ResetMiscellaneousThemeStrings() => KryptonMiscellaneousThemeStrings.Reset();
 
-        [Category(@"Visuals")]
-        [Description(@"Collection of outlook grid strings.")]
-        [MergableProperty(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Localizable(true)]
-        public KryptonOutlookGridStrings OutlookGridStrings => KryptonOutlookGridStrings;
-        private bool ShouldSerializeOutlookGridStrings() => !KryptonOutlookGridStrings.IsDefault;
-        private void ResetOutlookGridStrings() => KryptonOutlookGridStrings.Reset();
-
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
         [Category(@"Visuals")]
@@ -656,7 +642,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                    ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
                                    ShouldSerializeLabelStyleStrings() || ShouldSerializeLinkBehaviorStrings() ||
-                                   ShouldSerializeMiscellaneousThemeStrings() || ShouldSerializeOutlookGridStrings() ||
+                                   ShouldSerializeMiscellaneousThemeStrings() ||
                                    ShouldSerializePaletteButtonStyles() ||
                                    ShouldSerializePaletteContentStyleStrings() ||
                                    ShouldSerializePaletteImageEffectStrings() ||
@@ -691,7 +677,6 @@ namespace Krypton.Toolkit
             ResetLabelStyleStrings();
             ResetLinkBehaviorStrings();
             ResetMiscellaneousThemeStrings();
-            ResetOutlookGridStrings();
             ResetPaletteButtonStyles();
             ResetPaletteContentStyleStrings();
             ResetPaletteImageEffectStrings();

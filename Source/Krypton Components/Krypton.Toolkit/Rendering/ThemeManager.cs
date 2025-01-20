@@ -17,7 +17,11 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ThemeManager
     {
-        #region Properties        
+        #region Private static fields
+        private const string _msgBoxCaption = "ThemeManager";
+        #endregion
+
+        #region Properties
 
         /// <summary>Gets the supported theme array.</summary>
         /// <value>The supported theme array.</value>
@@ -43,21 +47,56 @@ namespace Krypton.Toolkit
         public static void ApplyTheme(PaletteMode mode, KryptonManager manager) => ApplyGlobalTheme(manager, mode);
 
         /// <summary>
-        /// Applies the theme using the themes name.<br/>
+        /// Applies the theme using the theme's name.
         /// </summary>
         /// <param name="themeName">Valid name of the theme.</param>
         /// <param name="manager">The manager.</param>
         public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
 
         /// <summary>
-        /// Sets the theme.
+        /// Applies the provided custom palette object.
         /// </summary>
-        /// <param name="themeName">Name of the theme.</param>
+        /// <param name="palette">Reference to a KryptonCustomPaletteBase object</param>
         /// <param name="manager">The manager.</param>
-        [Obsolete("Deprecated and will be removed in V100. Replace this with calls to ApplyTheme( . . . )")]
-        public static void SetTheme(string themeName, KryptonManager manager) =>
-            //TODO V100 Remove SetTheme method
-            ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+        public static void ApplyTheme(KryptonCustomPaletteBase palette, KryptonManager manager)
+        {
+            manager.GlobalCustomPalette = palette;
+            manager.GlobalPaletteMode = PaletteMode.Custom;
+        }
+
+        /// <summary>
+        /// Loads a custom theme from the given file.
+        /// </summary>
+        /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
+        /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
+        /// <param name="manager">The manager.</param>
+        public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
+        {
+            if (themeFile.Length > 0 && File.Exists(themeFile))
+            {
+                try
+                {
+                    KryptonCustomPaletteBase palette = new();
+                    palette.Import(themeFile, silent);
+
+                    ApplyTheme(palette, manager);
+                }
+                catch (Exception exc)
+                {
+                    KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                }
+            }
+            else
+            {
+                KryptonMessageBox.Show(
+                    $"The parameter 'themeFile' points to a file that does not exist.\n" + 
+                    $"Filename: {themeFile}\n\n" +
+                    $"ApplyTheme aborted.",
+                    _msgBoxCaption,
+                    buttons: KryptonMessageBoxButtons.OK,
+                    icon: KryptonMessageBoxIcon.Exclamation);
+            }
+        }
 
         /// <summary>
         /// Applies the global theme.
@@ -68,16 +107,17 @@ namespace Krypton.Toolkit
         {
             try
             {
-                manager.GlobalPaletteMode = paletteMode;
+                    // Set the global palette mode
+                    manager.GlobalPaletteMode = paletteMode;
             }
             catch (Exception exc)
             {
-                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+                KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
             }
         }
 
         /// <summary>
-        /// Returns the respective theme name for the given KryptonManager instance.<br/>
+        /// Returns the respective theme name for the given KryptonManager instance.
         /// </summary>
         /// <param name="manager">A valid reference to a KryptonManager instance.</param>
         /// <returns>The theme name.</returns>
@@ -89,7 +129,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMode">The palette mode.</param>
         /// <returns>The theme name</returns>
         public static string ReturnPaletteModeAsString(PaletteMode paletteMode) => new PaletteModeConverter().ConvertToString(paletteMode)!;
-        
+
         /// <summary>
         /// Loads the custom theme.
         /// </summary>
@@ -97,39 +137,41 @@ namespace Krypton.Toolkit
         /// <param name="manager">The manager.</param>
         /// <param name="themeFile">A custom theme file.</param>
         /// <param name="silent">if set to <c>true</c> [silent].</param>
+        [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
         public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
         {
-            try
-            {
-                // Declare new instances
-                palette = new KryptonCustomPaletteBase();
+            // Until removal pass the call to the new ApplyTheme method.
+            ApplyTheme(themeFile, silent, manager ?? new KryptonManager());
+            
+            //try
+            //{
+            //    // Declare new instances (no need for locking if these are local to the method)
+            //    palette = new KryptonCustomPaletteBase();
+            //    manager = new KryptonManager();
 
-                manager = new KryptonManager();
+            //    // TODO: Add silent option
+            //    if (silent)
+            //    {
+            //        if (themeFile is not ("" and ""))
+            //        {
+            //            palette.Import(themeFile, silent);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        palette.Import();
+            //    }
 
-                // Prompt user for palette definition
+            //    // Set manager
+            //    manager.GlobalCustomPalette = palette;
 
-                // TODO: Add silent option
-                if (silent)
-                {
-                    if (themeFile is not ("" and ""))
-                    {
-                        palette.Import(themeFile, silent);
-                    }
-                }
-                else
-                {
-                    palette.Import();
-                }
-
-                // Set manager
-                manager.GlobalCustomPalette = palette;
-
-                ApplyTheme(PaletteMode.Custom, manager);
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-            }
+            //    ApplyTheme(PaletteMode.Custom, manager);
+            //}
+            //catch (Exception exc)
+            //{
+            //    KryptonExceptionHandler.CaptureException(exc,
+            //        showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            //}
         }
 
         /// <summary>
@@ -146,4 +188,5 @@ namespace Krypton.Toolkit
 
         #endregion
     }
+
 }

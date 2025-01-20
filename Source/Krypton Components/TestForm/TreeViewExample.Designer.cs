@@ -196,7 +196,6 @@ namespace TestForm
             // 
             this.kryptonManager1.GlobalCustomPalette = this.kryptonCustomPaletteBase1;
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonManager1.ToolkitStrings.OutlookGridStrings.CustomFormatMinimumColorButtonText = null;
             // 
             // TreeViewExample
             // 

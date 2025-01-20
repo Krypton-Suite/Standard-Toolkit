@@ -21,7 +21,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         [ThreadStatic]
-        private static KryptonComboBox? _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
         private static readonly Size _sizeLarge = new Size(10000, 10000);
@@ -37,7 +36,9 @@ namespace Krypton.Toolkit
         private string _displayMember;
         private string _valueMember;
         private object? _dataSource;
-
+        private List<object> _items;
+        private string _selectedItemText;
+        private bool _initialSelectedTextSet;
         #endregion
 
         #region Identity
@@ -46,14 +47,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewComboBoxCell()
         {
-            // Create a thread specific KryptonComboBox control used for the painting of the non-edited cells
-            if (_paintingComboBox == null)
-            {
-                _paintingComboBox = new KryptonComboBox();
-                _paintingComboBox.SetLayoutDisplayPadding(new Padding(0, 1, 1, 0));
-                _paintingComboBox.StateCommon.ComboBox.Border.Width = 0;
-                _paintingComboBox.StateCommon.ComboBox.Border.Draw = InheritBool.False;
-            }
+            _items = [];
+            _selectedItemText = string.Empty;
+            _initialSelectedTextSet = false;
 
             _dropDownStyle = ComboBoxStyle.DropDown;
             _maxDropDownItems = 8;
@@ -86,7 +82,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the items in the combobox.</summary>
         /// <value>The items.</value>
-        public ComboBox.ObjectCollection Items => _paintingComboBox!.ComboBox.Items;
+        public List<object> Items => _items;
 
         /// <summary>
         /// Clones a DataGridViewComboBoxCell cell, copies all the custom properties.
@@ -111,8 +107,7 @@ namespace Krypton.Toolkit
         /// The DropDownStyle property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(0)]
-        public ComboBoxStyle DropDownStyle
-        {
+        public ComboBoxStyle DropDownStyle {
             get => _dropDownStyle;
 
             set
@@ -134,8 +129,7 @@ namespace Krypton.Toolkit
         /// The MaxDropDownItems property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(8)]
-        public int MaxDropDownItems
-        {
+        public int MaxDropDownItems {
             get => _maxDropDownItems;
 
             set
@@ -152,8 +146,7 @@ namespace Krypton.Toolkit
         /// The DropDownHeight property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(200)]
-        public int DropDownHeight
-        {
+        public int DropDownHeight {
             get => _dropDownHeight;
 
             set
@@ -170,8 +163,7 @@ namespace Krypton.Toolkit
         /// The DropDownWidth property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(121)]
-        public int DropDownWidth
-        {
+        public int DropDownWidth {
             get => _dropDownWidth;
 
             set
@@ -188,8 +180,7 @@ namespace Krypton.Toolkit
         /// The AutoCompleteMode property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(AutoCompleteMode.None)]
-        public AutoCompleteMode AutoCompleteMode
-        {
+        public AutoCompleteMode AutoCompleteMode {
             get => _autoCompleteMode;
 
             set
@@ -206,8 +197,7 @@ namespace Krypton.Toolkit
         /// The AutoCompleteSource property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(AutoCompleteSource.None)]
-        public AutoCompleteSource AutoCompleteSource
-        {
+        public AutoCompleteSource AutoCompleteSource {
             get => _autoCompleteSource;
 
             set
@@ -224,8 +214,7 @@ namespace Krypton.Toolkit
         /// The DisplayMember property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(@"")]
-        public string DisplayMember
-        {
+        public string DisplayMember {
             get => _displayMember;
 
             set
@@ -242,8 +231,7 @@ namespace Krypton.Toolkit
         /// The ValueMember property replicates the one from the KryptonComboBox control
         /// </summary>
         [DefaultValue(@"")]
-        public string ValueMember
-        {
+        public string ValueMember {
             get => _valueMember;
 
             set
@@ -264,8 +252,7 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object? DataSource
-        {
+        public object? DataSource {
             get => _dataSource;
             set
             {
@@ -292,8 +279,14 @@ namespace Krypton.Toolkit
 
             if (dataGridView.EditingControl is KryptonComboBox comboBox)
             {
+                _selectedItemText = comboBox.Text;
                 comboBox.DataSource = null;
             }
+            else
+            {
+                _selectedItemText = string.Empty;
+            }
+
 
             base.DetachEditingControl();
         }
@@ -304,30 +297,28 @@ namespace Krypton.Toolkit
         /// set according to the cell properties.
         /// </summary>
         public override void InitializeEditingControl(int rowIndex,
-                                                      object? initialFormattedValue,
-                                                      DataGridViewCellStyle dataGridViewCellStyle)
+            object? initialFormattedValue,
+            DataGridViewCellStyle dataGridViewCellStyle)
         {
             base.InitializeEditingControl(rowIndex, initialFormattedValue, dataGridViewCellStyle);
 
             if (DataGridView!.EditingControl is KryptonComboBox comboBox)
             {
-                var comboColumn = OwningColumn as KryptonDataGridViewComboBoxColumn;
-
-                if (comboColumn is not null && comboColumn.DataSource is null)
+                if (KryptonOwningColumn is not null && KryptonOwningColumn.DataSource is null)
                 {
-                    var strings = new object[comboColumn.Items.Count];
+                    var strings = new object[KryptonOwningColumn.Items.Count];
 
-                    for (var i = 0 ; i < strings.Length ; i++)
+                    for (var i = 0; i < strings.Length; i++)
                     {
-                        strings[i] = comboColumn.Items[i];
+                        strings[i] = KryptonOwningColumn.Items[i];
                     }
                     comboBox.Items.Clear();
                     comboBox.Items.AddRange(strings);
 
-                    var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
-                    for (var j = 0 ; j < autoAppend.Length ; j++)
+                    var autoAppend = new string[KryptonOwningColumn.AutoCompleteCustomSource.Count];
+                    for (var j = 0; j < autoAppend.Length; j++)
                     {
-                        autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
+                        autoAppend[j] = KryptonOwningColumn.AutoCompleteCustomSource[j];
                     }
 
                     comboBox.AutoCompleteCustomSource.Clear();
@@ -342,38 +333,95 @@ namespace Krypton.Toolkit
                 comboBox.AutoCompleteMode = AutoCompleteMode;
                 comboBox.DisplayMember = DisplayMember;
                 comboBox.ValueMember = ValueMember;
-                comboBox.DataSource = comboColumn?.DataSource;
+                comboBox.DataSource = KryptonOwningColumn?.DataSource;
 
-                comboBox.Text = initialFormattedValue as string ?? string.Empty;
+                // Restore the state, if needed.
+                if (!(Value is DBNull || Value is null))
+                {
+                    if (KryptonOwningColumn is not null
+                        && KryptonOwningColumn.DataSource is not null
+                        && ValueMember.Length > 0)
+                    {
+                        comboBox.SelectedValue = Value;
+                    }
+                    else if (comboBox.Items.Count > 0)
+                    {
+                        comboBox.SelectedIndex = comboBox.Items.IndexOf(Value.ToString());
+                    }
+                }
+
+                _selectedItemText = comboBox.Text;
             }
         }
-
-        /// <summary>
-        /// Custom implementation of the PositionEditingControl method called by the DataGridView control when it
-        /// needs to relocate and/or resize the editing control.
-        /// </summary>
-        public override void PositionEditingControl(bool setLocation,
-            bool setSize,
-            Rectangle cellBounds,
-            Rectangle cellClip,
-            DataGridViewCellStyle cellStyle,
-            bool singleVerticalBorderAdded,
-            bool singleHorizontalBorderAdded,
-            bool isFirstDisplayedColumn,
-            bool isFirstDisplayedRow)
-        {
-            Rectangle editingControlBounds = PositionEditingPanel(cellBounds, cellClip, cellStyle,
-                singleVerticalBorderAdded, singleHorizontalBorderAdded,
-                isFirstDisplayedColumn, isFirstDisplayedRow);
-
-            editingControlBounds = GetAdjustedEditingControlBounds(editingControlBounds, cellStyle);
-            DataGridView!.EditingControl!.Location = new Point(editingControlBounds.X, editingControlBounds.Y);
-            DataGridView.EditingControl.Size = new Size(editingControlBounds.Width, editingControlBounds.Height);
-        }
-
         #endregion
 
         #region Protected
+
+        ///<inheritdoc/>
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object? value,
+            object? formattedValue, string? errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        {
+            if (!_initialSelectedTextSet)
+            {
+                _initialSelectedTextSet = SetInitialSelectedItemText(rowIndex);
+            };
+
+            if (DataGridView is not null
+                && KryptonOwningColumn?.CellIndicatorImage is Image image)
+            {
+                int pos;
+                Rectangle textArea;
+                var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
+
+                if (righToLeft)
+                {
+                    pos = cellBounds.Left;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left + image.Width,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+                else
+                {
+                    pos = cellBounds.Right - image.Width;
+
+                    // The WinForms cell content always receives padding of one by default, custom padding is added tot that.
+                    textArea = new Rectangle(
+                        1 + cellBounds.Left + cellStyle.Padding.Left,
+                        1 + cellBounds.Top + cellStyle.Padding.Top,
+                        cellBounds.Width - cellStyle.Padding.Left - cellStyle.Padding.Right - image.Width - 3,
+                        cellBounds.Height - cellStyle.Padding.Top - cellStyle.Padding.Bottom - 2);
+                }
+
+                // When the Krypton column is part of a WinForms DataGridView let the default paint routine paint the cell.
+                // Afterwards we paint the text and drop down image.
+                if (DataGridView is DataGridView)
+                {
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, null, string.Empty, errorText, cellStyle, advancedBorderStyle, paintParts);
+                }
+
+                // Draw the drop down button, only if no ErrorText has been set.
+                // If the ErrorText is set, only the error icon is shown. Otherwise both are painted on the same spot.
+                string text;
+                if (ErrorText.Length == 0)
+                {
+                    graphics.DrawImage(image, new Point(pos, textArea.Top));
+                    text = _selectedItemText;
+                }
+                else
+                {
+                    text = ErrorText;
+                }
+
+                // Cell display text
+                TextRenderer.DrawText(graphics, text, cellStyle.Font, textArea, cellStyle.ForeColor,
+                    KryptonDataGridViewUtilities.ComputeTextFormatFlagsForCellStyleAlignment(righToLeft, cellStyle.Alignment, cellStyle.WrapMode));
+            }
+        }
+
         /// <summary>
         /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
         /// error icon next to the up/down buttons and not on top of them.
@@ -391,8 +439,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            return DataGridView == null 
-                ? new Size(-1, -1) 
+            return DataGridView == null
+                ? new Size(-1, -1)
                 : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
         #endregion
@@ -400,31 +448,6 @@ namespace Krypton.Toolkit
         #region Private
 
         private KryptonDataGridViewComboBoxEditingControl? EditingComboBox => DataGridView!.EditingControl as KryptonDataGridViewComboBoxEditingControl;
-
-        private static Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
-            DataGridViewCellStyle cellStyle)
-        {
-            // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingComboBox!.GetPreferredSize(_sizeLarge).Height + 2;
-            if (preferredHeight < editingControlBounds.Height)
-            {
-                switch (cellStyle.Alignment)
-                {
-                    case DataGridViewContentAlignment.MiddleLeft:
-                    case DataGridViewContentAlignment.MiddleCenter:
-                    case DataGridViewContentAlignment.MiddleRight:
-                        editingControlBounds.Y += (editingControlBounds.Height - preferredHeight) / 2;
-                        break;
-                    case DataGridViewContentAlignment.BottomLeft:
-                    case DataGridViewContentAlignment.BottomCenter:
-                    case DataGridViewContentAlignment.BottomRight:
-                        editingControlBounds.Y += editingControlBounds.Height - preferredHeight;
-                        break;
-                }
-            }
-
-            return editingControlBounds;
-        }
 
         private void OnCommonChange()
         {
@@ -445,9 +468,6 @@ namespace Krypton.Toolkit
             rowIndex != -1
             && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control }
             && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
-
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
-
         #endregion
 
         #region Internal
@@ -525,13 +545,126 @@ namespace Krypton.Toolkit
 
         internal void SetDataSource(int rowIndex, object? value)
         {
+            // Force a reread of the cell value and paint when the datasource changes
+            ResetInitialSelectedItemText();
+
             _dataSource = value;
             if (OwnsEditingComboBox(rowIndex))
             {
                 EditingComboBox!.DataSource = value;
             }
         }
+
+        /// <summary>
+        /// Type casted version of OwningColumn
+        /// </summary>
+        internal KryptonDataGridViewComboBoxColumn? KryptonOwningColumn => OwningColumn as KryptonDataGridViewComboBoxColumn;
         #endregion
+
+        /// <summary>
+        /// Resets the initial selected item text.
+        /// </summary>
+        internal void ResetInitialSelectedItemText()
+        {
+            _selectedItemText = string.Empty;
+            _initialSelectedTextSet = false;
+        }
+
+        /// <summary>
+        /// Sets the initial item text fetch from the cell value.<br/>
+        /// If the cell has a datasource connected this routine retrieves the value that should be shown in the cell. Which usually is the DisplayMember value.<br/>
+        /// If the items for the combo are supplied via the Items property, the cell value is checked to exist in the list for input consistency.
+        /// </summary>
+        /// <param name="rowIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        internal bool SetInitialSelectedItemText(int rowIndex)
+        {
+            var value = GetValue(rowIndex);
+            bool result = true;
+            var dataSource = KryptonOwningColumn?.DataSource;
+
+            // Documentation describing the behaviour for DisplayMember and ValueMember
+            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-9.0
+
+            if (value is not (DBNull or null)
+                && dataSource is not null
+                && ValueMember.Length > 0)
+            {
+                BindingMemberInfo bindingMemberInfo = new(ValueMember);
+
+                if (DataGridView is not null
+                    && DataGridView.BindingContext is not null
+                    && DataGridView.BindingContext[dataSource, bindingMemberInfo.BindingPath] is CurrencyManager currencyManager
+                    && currencyManager.List is IBindingList bindinglist
+                    && bindinglist.SupportsSearching)
+                {
+                    if (currencyManager.GetItemProperties().Find(bindingMemberInfo.BindingField, true) is PropertyDescriptor propertyDescriptor)
+                    {
+                        // Define the field used for displaymember.
+                        // If DisplayMember is not set, Valuemember will be used for both.
+                        var displayMember = DisplayMember.Length > 0
+                            ? DisplayMember
+                            : ValueMember;
+
+                        // Find the index of the row that contains propertyDescriptor having value.
+                        // The search stops on the first occurrence.
+                        int index = bindinglist.Find(propertyDescriptor, value);
+
+                        if (index != -1
+                            && currencyManager.List[index] is System.Data.DataRowView dataRowView)
+                        {
+                            try
+                            {
+                                _selectedItemText = dataRowView[displayMember].ToString() ?? string.Empty;
+                            }
+                            catch
+                            {
+                                // Member is an unknow column
+                                throw new ArgumentException($"The field '{displayMember}' specified as '{(DisplayMember.Length > 0 ? "DisplayMember" : "ValueMember")}' has not been found in the data source.");
+                            }
+                        }
+                        else
+                        {
+                            // The row containing the given value was not found.
+                            // Meaning there's a value mismatch between the combobox datasource and the cell value.
+                            throw new ArgumentException($"The property descriptor '{propertyDescriptor.DisplayName}' having value '{value}' was not found in the data source.");
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"The field '{ValueMember}' specified as ValueMember has not been found in the data source.");
+                    }
+                }
+                else
+                {
+                    _selectedItemText = string.Empty;
+                }
+            }
+            else if (value is not (DBNull or null)
+                && dataSource is null
+                && KryptonOwningColumn?.Items.Count > 0)
+            {
+                // DataSource is null and Items is populated
+                var valueStr = value.ToString();
+
+                if (valueStr is not null
+                    && KryptonOwningColumn.Items.IndexOf(valueStr) == -1)
+                {
+                    // The value was not found in the list
+                    throw new ArgumentException($"The cell value {valueStr} was not found in the list with drop-down items.");
+                }
+
+                _selectedItemText = valueStr ?? string.Empty;
+            }
+            else
+            {
+                _selectedItemText = value?.ToString() ?? string.Empty;
+                result = false;
+            }
+
+            return result;
+        }
     }
 }
 

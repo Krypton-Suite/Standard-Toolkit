@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
                 }
                 */
 
-                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight);
+                _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight, false);
             }
 
             return _cachedImage;

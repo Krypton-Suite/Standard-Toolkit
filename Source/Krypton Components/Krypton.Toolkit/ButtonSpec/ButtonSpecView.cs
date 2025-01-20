@@ -321,9 +321,10 @@ namespace Krypton.Toolkit
             // Get value from button spec passing inheritance redirector
             Image? baseImage = ButtonSpec.GetImage(_redirector, state);
 
+            float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
             return (baseImage != null)
-                ? CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * _controller!.Target.FactorDpiX,
-                    baseImage.Height * _controller!.Target.FactorDpiY)
+                ? CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
+                    baseImage.Height * dpiFactor, true)
                 : null;
         }
 

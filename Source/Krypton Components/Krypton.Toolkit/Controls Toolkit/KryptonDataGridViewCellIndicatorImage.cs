@@ -21,8 +21,6 @@ namespace Krypton.Toolkit
         private int _size;
         // Datagridview the column belongs to.
         private KryptonDataGridView? _dataGridView;
-        // Concurrency lock
-        private ReaderWriterLockSlim _rwls;
         // State of disposal
         private bool _disposed = false;
         
@@ -39,7 +37,6 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewCellIndicatorImage(int imageSize = 14)
         {
             _size = imageSize;
-            _rwls = new();
 
             UpdateCellIndicatorImage(true);
             KryptonManager.GlobalPaletteChanged += OnKryptonManagerGlobalPaletteChanged;
@@ -78,17 +75,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Cell indicator image.
         /// </summary>
-        public virtual Image? Image
-        {
-            get
-            {
-                _rwls.EnterReadLock();
-                var image = _image?.Clone() as Image;
-                _rwls.ExitReadLock();
-             
-                return image;
-            }
-        }
+        public virtual Image? Image => _image;
 
         /// <inheritdoc/>>
         public void Dispose()
@@ -144,18 +131,12 @@ namespace Krypton.Toolkit
         {
             if (updateFromKryptonManager)
             {
-                _rwls.EnterWriteLock();
-
                 // Probably the case used most, so first to check.
                 _image = KryptonManager.CurrentGlobalPalette.GetGalleryButtonImage(_paletteRibbonGalleryButton, _paletteState)!;
                 ResizeCellIndicatorImage();
-                
-                _rwls.ExitWriteLock();
             }
             else if (DataGridView is KryptonDataGridView dataGridView)
             {
-                _rwls.EnterWriteLock();
-                
                 if (dataGridView.Palette is not null && dataGridView.PaletteMode == PaletteMode.Custom)
                 {
                     // The grid has a custom palette instance assigned to it and PaletteMode is Custom
@@ -170,8 +151,6 @@ namespace Krypton.Toolkit
                 }
 
                 ResizeCellIndicatorImage();
-             
-                _rwls.ExitWriteLock();
             }
         }
 

@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
                 OnNeedPaint);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null, GetDpiFactor)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -214,6 +214,19 @@ namespace Krypton.Toolkit
             _useDropShadow = false;
 #pragma warning restore CS0618
             TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR; // Bug #1749
+
+            // #1979 Temporary fix
+            base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
+            // END #1979 Temporary fix
+        }
+
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
         }
 
         /// <summary>
@@ -232,8 +245,11 @@ namespace Krypton.Toolkit
 
                 // Unhook from the global static events
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -=
-                    OnGlobalUseThemeFormChromeBorderWidthChanged;
+                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+
+                // #1979 Temporary fix
+                base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
+                // END #1979 Temporary fix
 
                 // Clear down the cached bitmap
                 if (_cacheBitmap != null)
@@ -430,6 +446,10 @@ namespace Krypton.Toolkit
         {
             get
             {
+                if (_internalKryptonPanel.Controls.Count == 0)
+                {
+                    _internalKryptonPanel.ClientSize = ClientSize;
+                }
                 // Deal with adding after the `InitializeComponent` has completed
                 return _foundRibbonOffset == -1 
                     ? _internalKryptonPanel.Controls 
@@ -940,7 +960,7 @@ namespace Krypton.Toolkit
                 // Cache for future access
                 if (resizedBitmap != null)
                 {
-                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight);
+                    _cacheBitmap = CommonHelper.ScaleImageForSizedDisplay(resizedBitmap, currentWidth, currentHeight, false);
                 }
             }
 
@@ -1975,5 +1995,9 @@ namespace Krypton.Toolkit
             return form.IsInAdministratorMode;
         }
         #endregion
+
+        #region #1979 Temporary Fix
+        public KryptonPanel InternalPanel => _internalKryptonPanel;
+        #endregion #1979 Temporary Fix
     }
 }

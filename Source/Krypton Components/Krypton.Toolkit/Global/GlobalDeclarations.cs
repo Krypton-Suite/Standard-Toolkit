@@ -27,6 +27,9 @@ global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
 global using System.Linq;
+#if NETCOREAPP3_0_OR_GREATER
+global using System.Text.Json.Nodes;
+#endif
 global using System.Media;
 global using System.Reflection;
 global using System.Resources;

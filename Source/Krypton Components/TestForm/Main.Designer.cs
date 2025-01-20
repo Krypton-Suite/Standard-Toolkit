@@ -57,7 +57,6 @@ namespace TestForm
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonProgressBar3 = new Krypton.Toolkit.KryptonProgressBar();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new Krypton.Toolkit.KryptonDataGridViewFormattingColumn();
             this.kryptonGallery1 = new Krypton.Ribbon.KryptonGallery();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.kryptonProgressBar2 = new Krypton.Toolkit.KryptonProgressBar();
@@ -376,22 +375,11 @@ namespace TestForm
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1});
             this.dataGridView1.Location = new System.Drawing.Point(711, 16);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 52;
-            // 
-            // Column1
-            // 
-            this.Column1.ContrastTextColor = false;
-            this.Column1.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column1.HeaderText = "Column1";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 100;
             // 
             // kryptonGallery1
             // 
@@ -1050,7 +1038,6 @@ namespace TestForm
         private KryptonLinkWrapLabel kryptonLinkWrapLabel1;
         private KryptonMaskedTextBox kryptonMaskedTextBox1;
         private KryptonTableLayoutPanel kryptonTableLayoutPanel1;
-        private KryptonDataGridViewFormattingColumn Column1;
         private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonRichTextBox kryptonRichTextBox1;
         private KryptonColorDialog kryptonColorDialog1;

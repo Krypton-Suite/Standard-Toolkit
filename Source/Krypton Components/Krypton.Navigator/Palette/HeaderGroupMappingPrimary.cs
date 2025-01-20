@@ -22,14 +22,17 @@ namespace Krypton.Navigator
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the HeaderGroupMappingPrimary class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
+        /// <param name="getDpiFactor"></param>
         public HeaderGroupMappingPrimary(KryptonNavigator navigator,
-                                         NeedPaintHandler needPaint)
-            : base(navigator, needPaint)
+                                         NeedPaintHandler needPaint,
+                                         GetDpiFactor getDpiFactor)
+            : base(navigator, needPaint, getDpiFactor)
         {
         }
         #endregion

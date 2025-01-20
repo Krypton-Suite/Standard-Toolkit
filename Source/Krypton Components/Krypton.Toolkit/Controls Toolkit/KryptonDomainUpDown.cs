@@ -1793,7 +1793,11 @@ namespace Krypton.Toolkit
         private void InvalidateChildren()
         {
             DomainUpDown.Invalidate();
-            PI.RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, 0x85);
+
+            if (!IsDisposed && !Disposing)
+            {
+                PI.RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, 0x85);
+            }
         }
 
         private void SubclassEditControl()

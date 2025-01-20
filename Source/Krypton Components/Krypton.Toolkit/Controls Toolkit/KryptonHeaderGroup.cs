@@ -98,9 +98,9 @@ namespace Krypton.Toolkit
             _visibleSecondary = true;
 
             // Create storage objects
-            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate);
+            ValuesPrimary = new HeaderGroupValuesPrimary(NeedPaintDelegate, GetDpiFactor);
             ValuesPrimary.TextChanged += OnHeaderGroupTextChanged;
-            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate);
+            ValuesSecondary = new HeaderGroupValuesSecondary(NeedPaintDelegate, GetDpiFactor);
             ButtonSpecs = new HeaderGroupButtonSpecCollection(this);
 
             // We need to monitor button spec click events
@@ -197,10 +197,19 @@ namespace Krypton.Toolkit
             _ignoreLayout = false;
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private float GetDpiFactor()
+        {
+#if NET462
+            return PI.GetDpiForWindow(Handle) / 96F;
+#else
+            return DeviceDpi / 96F;
+#endif
+        }
+
+            /// <summary>
+            /// Clean up any resources being used.
+            /// </summary>
+            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

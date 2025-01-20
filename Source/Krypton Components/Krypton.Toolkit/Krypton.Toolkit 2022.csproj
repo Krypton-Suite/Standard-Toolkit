@@ -46,9 +46,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Krypton.Toolkit">
-      <HintPath>obj\Debug\net462\Krypton.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
       <SpecificVersion>True</SpecificVersion>
       <Version>4.0.0.0</Version>
@@ -143,9 +140,7 @@
     <Compile Update="ButtonSpec\ButtonSpecHeaderGroup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls Toolkit\KryptonManager.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="Controls Toolkit\KryptonManager.cs" />
     <Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs" />
     <Compile Update="Palette Builtin\Base\PaletteBase.cs" />
     <Compile Update="Rendering\RenderOffice2010.cs">

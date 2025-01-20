@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
         [Description(@"The custom assigned palette mode.")]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
         public KryptonCustomPaletteBase? KryptonCustomPalette 
         {
             get => _kryptonCustomPalette;
