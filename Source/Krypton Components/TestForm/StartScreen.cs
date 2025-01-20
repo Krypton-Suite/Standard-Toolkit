@@ -106,9 +106,6 @@ namespace TestForm
 
         private void kbtnTheme_Click(object sender, EventArgs e)
         {
-            var theme = new ThemeTest();
-
-            theme.Show();
         }
 
         private void kbtnToast_Click(object sender, EventArgs e)
