@@ -693,7 +693,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
@@ -710,6 +709,8 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private int _cachedHeight;
+        private bool _autoSize = false;
+        private Graphics? _graphics;
         #endregion
 
         #region Events
@@ -799,6 +800,8 @@ namespace Krypton.Toolkit
             _upDownButtonStyle = ButtonStyle.InputControl;
             _cachedHeight = -1;
             _alwaysActive = true;
+            _autoSize = false;
+            _graphics = null;
             AllowButtonSpecToolTips = false;
             AllowButtonSpecToolTipPriority = false;
 
@@ -890,6 +893,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        [Browsable(true)]
+        [DefaultValue(false)]
+        [Description("Autosizes the control. Only if either the Items list is populated or the Text property has been set.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public new bool AutoSize 
+        {
+            get => _autoSize;
+
+            set
+            {
+                if (_autoSize != value)
+                {
+                    _autoSize = value;
+                     UpdateAutoSizing();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -1790,6 +1811,63 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Adjusts the size of the control based on the maximm text width when AutoSize is set from False to True.
+        /// </summary>
+        private void UpdateAutoSizing()
+        {
+            int MeasureText(string text)
+            {
+                return (int)Math.Ceiling((double)_graphics!.MeasureString(text, this.Font).ToSize().Width);
+            }
+
+            if (_autoSize)
+            {
+                int upDownButtonWidth = CommonHelperUpDownBase.GetUpDownButtonWidth(_domainUpDown.Controls);
+                int buttonSpecsWidth = CommonHelperUpDownBase.GetButtonSpecsWidth(ButtonSpecs);
+                int newWidth = 0;
+
+                _graphics ??= Graphics.FromHwnd(Handle);
+
+                if (Items.Count > 0)
+                {
+                    int tmp;
+
+                    foreach (var s in Items)
+                    {
+                        tmp = MeasureText(s as string ?? string.Empty);
+
+                        if (tmp > newWidth)
+                        {
+                            newWidth = tmp;
+                        }
+                    }
+
+                    newWidth += upDownButtonWidth + buttonSpecsWidth;
+
+                }
+                else if (this.Text.Length > 0)
+                {
+                    // If no items are set use the Text property to size
+                    newWidth = MeasureText(Text) + upDownButtonWidth + buttonSpecsWidth;
+                }
+                else
+                {
+                    // If neither Items nor Text is set the controls retains it's size.
+                    newWidth = 0;
+                }
+
+                // GetPreferredSize does not handle this well for autosizing
+                newWidth = CommonHelperUpDownBase.GetAutoSizeWidth(newWidth, MinimumSize.Width, MaximumSize.Width);
+
+                if (newWidth > 0)
+                {
+                    Width = newWidth + 1;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
         private void InvalidateChildren()
         {
             DomainUpDown.Invalidate();
