@@ -735,6 +735,9 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
+        private bool _autoSize;
+        private Graphics? _graphics;
+
         #endregion
 
         #region Events
@@ -823,6 +826,8 @@ namespace Krypton.Toolkit
             _inputControlStyle = InputControlStyle.Standalone;
             _upDownButtonStyle = ButtonStyle.InputControl;
             _alwaysActive = true;
+            _autoSize = false;
+            _graphics = null;
             AllowButtonSpecToolTips = false;
             AllowButtonSpecToolTipPriority = false;
 
@@ -913,6 +918,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        [Browsable(true)]
+        [DefaultValue(false)]
+        [Description("Autosizes the control based on the maximum value possible.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public new bool AutoSize {
+            get => _autoSize;
+
+            set
+            {
+                if (_autoSize != value)
+                {
+                    _autoSize = value;
+                    UpdateAutoSizing();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -1917,6 +1939,30 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        private void UpdateAutoSizing()
+        {
+            if (_autoSize)
+            {
+                int upDownButtonWidth = CommonHelperUpDownBase.GetUpDownButtonWidth(_numericUpDown.Controls);
+                int buttonSpecsWidth = CommonHelperUpDownBase.GetButtonSpecsWidth(ButtonSpecs);
+                int newWidth = 0;
+
+                _graphics ??= Graphics.FromHwnd(Handle);
+
+                newWidth = (int)Math.Ceiling((double)_graphics!.MeasureString(Maximum.ToString(), this.Font).ToSize().Width);
+                newWidth += upDownButtonWidth + buttonSpecsWidth;
+
+                // GetPreferredSize does not handle this well for autosizing
+                newWidth = CommonHelperUpDownBase.GetAutoSizeWidth(newWidth, MinimumSize.Width, MaximumSize.Width);
+
+                if ( newWidth > 0)
+                { 
+                    Width = newWidth + 1;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
         private void InvalidateChildren()
         {
             if (NumericUpDown != null)
