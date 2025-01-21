@@ -391,5 +391,10 @@ namespace TestForm
                 KryptonExceptionDialog.Show(ex);
             }
         }
+
+        private void kryptonButton16_Click(object sender, EventArgs e)
+        {
+            new ToggleSwitchTest().ShowDialog();
+        }
     }
 }
