@@ -40,27 +40,34 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(804, 438);
+            this.kryptonPanel1.Size = new System.Drawing.Size(808, 426);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonToggleSwitch1
             // 
-            this.kryptonToggleSwitch1.BackColor = System.Drawing.Color.Transparent;
             this.kryptonToggleSwitch1.Checked = false;
-            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(155, 86);
+            this.kryptonToggleSwitch1.EnableKnobGradient = true;
+            this.kryptonToggleSwitch1.GradientEndIntensity = 0.5F;
+            this.kryptonToggleSwitch1.GradientStartIntensity = 0.8F;
+            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(61, 51);
             this.kryptonToggleSwitch1.Name = "kryptonToggleSwitch1";
-            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(478, 245);
+            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(670, 319);
             this.kryptonToggleSwitch1.TabIndex = 0;
-            this.kryptonToggleSwitch1.Text = "kryptonToggleSwitch1";
             // 
             // ToggleSwitchTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 438);
+            this.ClientSize = new System.Drawing.Size(808, 426);
             this.Controls.Add(this.kryptonPanel1);
+            this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.FormMain;
+            this.GroupBorderStyle = Krypton.Toolkit.PaletteBorderStyle.FormMain;
+            this.HeaderStyle = Krypton.Toolkit.HeaderStyle.Form;
+            this.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Inherit;
             this.Name = "ToggleSwitchTest";
             this.Text = "ToggleSwitchTest";
+            this.TitleStyle = Krypton.Toolkit.KryptonFormTitleStyle.Inherit;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

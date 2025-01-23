@@ -13,6 +13,10 @@ namespace Krypton.Toolkit
         private bool _checked;
         private bool _isTracking;
         private bool _isPressed;
+        private bool _useGradient;
+
+        private float _gradientStartIntensity;
+        private float _gradientEndIntensity;
 
         private int _knobSize;
         private int _padding;
@@ -112,7 +116,28 @@ namespace Krypton.Toolkit
             }
         }
 
-        public bool EnableKnobGradient { get; set; }
+        public bool EnableKnobGradient
+        {
+            get => _useGradient;
+
+            set
+            {
+                if (_useGradient != value)
+                {
+                    _useGradient = value;
+
+                    Invalidate();
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [Description("Specifies the gradient intensity for the knob.")]
+        public float GradientStartIntensity { get; set; } = 0.8f;
+
+        [Category("Appearance")]
+        [Description("Specifies the gradient intensity for the knob.")]
+        public float GradientEndIntensity { get; set; } = 0.6f;
 
         /*[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ToggleSwitchValues ToggleSwitchValues { get; }*/
@@ -167,7 +192,7 @@ namespace Krypton.Toolkit
             float borderWidth = state.PaletteBorder.GetBorderWidth(PaletteState.Normal);
             Rectangle adjustedBounds = AdjustForBorder(ClientRectangle, borderWidth);
 
-            // Background
+            /*// Background
             using (SolidBrush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
             {
                 using (GraphicsPath roundedPath = GetRoundedRectanglePath(adjustedBounds, Height / 2))
@@ -184,19 +209,57 @@ namespace Krypton.Toolkit
                 {
                     e.Graphics.DrawPath(borderPen, borderPath);
                 }
+            }*/
+
+            // Background with rounded corners
+            using (GraphicsPath backgroundPath = GetRoundedRectangle(ClientRectangle, 10))
+            using (Brush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
+            {
+                e.Graphics.FillPath(backgroundBrush, backgroundPath);
+            }
+
+            // Border with rounded corners
+            using (GraphicsPath borderPath = GetRoundedRectangle(ClientRectangle, 10))
+            using (Pen borderPen = new Pen(state.PaletteBorder.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
+            {
+                e.Graphics.DrawPath(borderPen, borderPath);
             }
 
             // Knob
             _knob = GetKnobRectangle();
-            Color knobColor = _isPressed
-                ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
-                : _isTracking
-                    ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
-                    : state.PaletteBack.GetBackColor2(PaletteState.Normal);
 
-            using (SolidBrush knobBrush = new SolidBrush(knobColor))
+            if (EnableKnobGradient)
             {
-                e.Graphics.FillEllipse(knobBrush, _knob);
+                // Fetch colors based on Checked state
+                Color startColor = Checked
+                    ? AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Checked), GradientStartIntensity) // Slightly darker
+                    : AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Normal), GradientStartIntensity);
+
+                Color endColor = Checked
+                    ? AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Checked), GradientEndIntensity) // More intense
+                    : AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Normal), GradientEndIntensity);
+
+                using (LinearGradientBrush knobBrush = new LinearGradientBrush(
+                           _knob,
+                           startColor,
+                           endColor,
+                           LinearGradientMode.ForwardDiagonal))
+                {
+                    e.Graphics.FillEllipse(knobBrush, _knob);
+                }
+            }
+            else
+            {
+                Color knobColor = _isPressed
+                    ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
+                    : _isTracking
+                        ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
+                        : state.PaletteBack.GetBackColor2(PaletteState.Normal);
+
+                using (SolidBrush knobBrush = new SolidBrush(knobColor))
+                {
+                    e.Graphics.FillEllipse(knobBrush, _knob);
+                }
             }
 
             // Text
@@ -318,6 +381,32 @@ namespace Krypton.Toolkit
             return path;
         }
 
+        private GraphicsPath GetRoundedRectangle(Rectangle bounds, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            int diameter = radius * 2;
+
+            // Top-left arc
+            path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+            // Top-right arc
+            path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+            // Bottom-right arc
+            path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+            // Bottom-left arc
+            path.AddArc(bounds.X, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
+        private Color AdjustBrightness(Color color, float factor)
+        {
+            int r = (int)(color.R * factor);
+            int g = (int)(color.G * factor);
+            int b = (int)(color.B * factor);
+
+            return Color.FromArgb(color.A, Math.Min(r, 255), Math.Min(g, 255), Math.Min(b, 255));
+        }
 
         private Rectangle AdjustForBorder(Rectangle bounds, float borderWidth)
         {
@@ -344,6 +433,19 @@ namespace Krypton.Toolkit
             }
         }
 
+
+        #endregion
+
+        #region Hidden Properties
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color BackColor { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Image BackgroundImage { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override string Text { get; set; }
 
         #endregion
     }
