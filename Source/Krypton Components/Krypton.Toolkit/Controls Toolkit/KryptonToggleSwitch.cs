@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
         public new Color ForeColor { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Font Font { get; set; }
+        public override Font Font { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Image BackgroundImage { get; set; }
