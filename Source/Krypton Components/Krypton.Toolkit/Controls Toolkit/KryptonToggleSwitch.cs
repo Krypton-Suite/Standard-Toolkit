@@ -33,16 +33,11 @@ namespace Krypton.Toolkit
 
         private readonly PaletteRedirect _paletteRedirect;
 
-        private IPaletteTriple _stateCommon;
-        private IPaletteTriple _stateDisabled;
-        private IPaletteTriple _stateNormal;
-        private IPaletteTriple _stateTracking;
-        private IPaletteTriple _statePressed;
-
         #endregion
 
         #region Events
 
+        /// <summary>Occurs when [checked changed].</summary>
         [Description("Occurs when the value of the Checked property changes.")]
         public event EventHandler CheckedChanged;
 
@@ -50,6 +45,8 @@ namespace Krypton.Toolkit
 
         #region Public Properties
 
+        /// <summary>Gets the state common.</summary>
+        /// <value>The state common.</value>
         [Category("Visuals")]
         [Description("Defines the common appearance settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -66,6 +63,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
+        /// <summary>Gets the state normal.</summary>
+        /// <value>The state normal.</value>
         [Category("Visuals")]
         [Description("Defines the normal appearance settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -73,6 +72,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
+        /// <summary>Gets the state pressed.</summary>
+        /// <value>The state pressed.</value>
         [Category("Visuals")]
         [Description("Defines the pressed appearance settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -80,6 +81,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
+        /// <summary>Gets the state tracking.</summary>
+        /// <value>The state tracking.</value>
         [Category("Visuals")]
         [Description("Defines the tracking appearance settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -87,8 +90,11 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
+        /// <summary>Gets or sets a value indicating whether this <see cref="KryptonToggleSwitch" /> is checked.</summary>
+        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         [Category("Behavior")]
         [Description("Indicates whether the toggle switch is checked.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Checked
         {
             get => _checked;
@@ -103,6 +109,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether [enable knob gradient].</summary>
+        /// <value><c>true</c> if [enable knob gradient]; otherwise, <c>false</c>.</value>
+        [Category("Appearance")]
+        [Description("Indicates whether the knob should have a gradient effect.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool EnableKnobGradient
         {
             get => _useGradient;
@@ -116,9 +127,12 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the gradient start intensity.</summary>
+        /// <value>The gradient start intensity.</value>
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
         [DefaultValue(0.8f)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float GradientStartIntensity
         {
             get => _gradientStartIntensity;
@@ -132,9 +146,12 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the gradient end intensity.</summary>
+        /// <value>The gradient end intensity.</value>
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
         [DefaultValue(0.6f)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float GradientEndIntensity
         {
             get => _gradientEndIntensity;
@@ -152,6 +169,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonToggleSwitch" /> class.</summary>
         public KryptonToggleSwitch()
         {
             DoubleBuffered = true;
@@ -198,7 +216,7 @@ namespace Krypton.Toolkit
             IPaletteTriple state = GetCurrentState();
 
             // Adjust the rectangle for border width
-            float borderWidth = state.PaletteBorder.GetBorderWidth(PaletteState.Normal);
+            float borderWidth = state.PaletteBorder!.GetBorderWidth(PaletteState.Normal);
             Rectangle adjustedBounds = AdjustForBorder(ClientRectangle, borderWidth);
 
             // Background with rounded corners
@@ -463,21 +481,23 @@ namespace Krypton.Toolkit
         #region Hidden Properties
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color BackColor { get; set; }
+        public new Color BackColor { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ForeColor { get; set; }
+        public new Color ForeColor { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font { get; set; }
+        public new Font Font { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Image BackgroundImage { get; set; }
+        public new Image BackgroundImage { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text { get; set; }
+        public new string Text { get; set; }
 
         #endregion
+
+        #region IContentValues
 
         public Image? GetImage(PaletteState state)
         {
@@ -498,5 +518,7 @@ namespace Krypton.Toolkit
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
