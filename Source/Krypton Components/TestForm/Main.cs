@@ -101,9 +101,7 @@ namespace TestForm
 
         private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
         {
-            var integratedToolBar = new ThemeTest();
-
-            integratedToolBar.Show();
+            
         }
 
         private void kryptonButton3_Click(object sender, EventArgs e)
@@ -132,9 +130,6 @@ namespace TestForm
 
         private void kbtnVisualStudio2010Theme_Click(object sender, EventArgs e)
         {
-            var vsTheme = new ThemeTest();
-
-            vsTheme.Show();
         }
 
         private void kryptonButton4_Click(object sender, EventArgs e)
@@ -395,6 +390,11 @@ namespace TestForm
             {
                 KryptonExceptionDialog.Show(ex);
             }
+        }
+
+        private void kryptonButton16_Click(object sender, EventArgs e)
+        {
+            new ToggleSwitchTest().ShowDialog();
         }
     }
 }
