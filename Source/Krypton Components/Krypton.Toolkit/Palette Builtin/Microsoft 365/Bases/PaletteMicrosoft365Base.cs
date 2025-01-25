@@ -627,7 +627,7 @@ namespace Krypton.Toolkit
                                                         ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]
                                                         : _buttonBackColors[6],
                         PaletteState.Tracking => _buttonBackColors[2],
-                        PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
+                        PaletteState.Pressed or PaletteState.Checked or PaletteState.CheckedPressed => _buttonBackColors[4],
                         PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl
                                                         ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack1]
                                                         : _buttonBackColors[8],

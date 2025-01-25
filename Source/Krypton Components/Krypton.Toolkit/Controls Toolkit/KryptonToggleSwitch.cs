@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2025 - 2025. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Toolkit
 {
-    public class KryptonToggleSwitch : Control
+    public class KryptonToggleSwitch : Control, IContentValues
     {
         #region Instance Fields
 
@@ -22,6 +28,10 @@ namespace Krypton.Toolkit
         private int _padding;
 
         private RectangleF _knob;
+
+        private PaletteBase? _palette;
+
+        private readonly PaletteRedirect _paletteRedirect;
 
         private IPaletteTriple _stateCommon;
         private IPaletteTriple _stateDisabled;
@@ -42,63 +52,40 @@ namespace Krypton.Toolkit
 
         [Category("Visuals")]
         [Description("Defines the common appearance settings.")]
-        public IPaletteTriple StateCommon
-        {
-            get => _stateCommon;
-            set
-            {
-                _stateCommon = value; 
-                Invalidate();
-            }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTripleRedirect StateCommon { get; }
+
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+        //private void ResetStateCommon() => StateCommon.Reset();
 
         [Category("Visuals")]
         [Description("Defines the disabled appearance settings.")]
-        public IPaletteTriple StateDisabled
-        {
-            get => _stateDisabled;
-            set
-            {
-                _stateDisabled = value;
-                Invalidate();
-            }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateDisabled { get; }
+
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         [Category("Visuals")]
         [Description("Defines the normal appearance settings.")]
-        public IPaletteTriple StateNormal
-        {
-            get => _stateNormal;
-            set
-            {
-                _stateNormal = value;
-                Invalidate();
-            }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateNormal { get; }
+
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         [Category("Visuals")]
         [Description("Defines the pressed appearance settings.")]
-        public IPaletteTriple StatePressed
-        {
-            get => _statePressed;
-            set
-            {
-                _statePressed = value;
-                Invalidate();
-            }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StatePressed { get; }
+
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         [Category("Visuals")]
         [Description("Defines the tracking appearance settings.")]
-        public IPaletteTriple StateTracking
-        {
-            get => _stateTracking;
-            set
-            {
-                _stateTracking = value;
-                Invalidate();
-            }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateTracking { get; }
+
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         [Category("Behavior")]
         [Description("Indicates whether the toggle switch is checked.")]
@@ -119,13 +106,11 @@ namespace Krypton.Toolkit
         public bool EnableKnobGradient
         {
             get => _useGradient;
-
             set
             {
                 if (_useGradient != value)
                 {
                     _useGradient = value;
-
                     Invalidate();
                 }
             }
@@ -133,14 +118,35 @@ namespace Krypton.Toolkit
 
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
-        public float GradientStartIntensity { get; set; } = 0.8f;
+        [DefaultValue(0.8f)]
+        public float GradientStartIntensity
+        {
+            get => _gradientStartIntensity;
+            set
+            {
+                if (_gradientStartIntensity != value)
+                {
+                    _gradientStartIntensity = value;
+                    Invalidate();
+                }
+            }
+        }
 
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
-        public float GradientEndIntensity { get; set; } = 0.6f;
-
-        /*[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ToggleSwitchValues ToggleSwitchValues { get; }*/
+        [DefaultValue(0.6f)]
+        public float GradientEndIntensity
+        {
+            get => _gradientEndIntensity;
+            set
+            {
+                if (_gradientEndIntensity != value)
+                {
+                    _gradientEndIntensity = value;
+                    Invalidate();
+                }
+            }
+        }
 
         #endregion
 
@@ -160,15 +166,20 @@ namespace Krypton.Toolkit
             _padding = 4;
             Size = new Size(50, _knobSize + _padding * 2);
 
+            _gradientStartIntensity = 0.8f;
+            _gradientEndIntensity = 0.6f;
+
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+
             // Initialize PaletteRedirect with a default context
             PaletteRedirect redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
 
             // Default state configuration
             StateCommon = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
-            StateDisabled = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
-            StateNormal = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
-            StatePressed = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
-            StateTracking = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
+            StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
+            StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
+            StatePressed = new PaletteTriple(StateCommon, OnNeedPaintHandler);
+            StateTracking = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         }
 
         #endregion
@@ -178,38 +189,17 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            e.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
             IPaletteTriple state = GetCurrentState();
 
             // Adjust the rectangle for border width
             float borderWidth = state.PaletteBorder.GetBorderWidth(PaletteState.Normal);
             Rectangle adjustedBounds = AdjustForBorder(ClientRectangle, borderWidth);
-
-            /*// Background
-            using (SolidBrush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
-            {
-                using (GraphicsPath roundedPath = GetRoundedRectanglePath(adjustedBounds, Height / 2))
-                {
-                    e.Graphics.FillPath(backgroundBrush, roundedPath);
-                }
-            }
-
-            // Border
-            using (Pen borderPen = new Pen(state.PaletteBorder.GetBorderColor1(PaletteState.Normal), borderWidth))
-            {
-                borderPen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
-                using (GraphicsPath borderPath = GetRoundedRectanglePath(adjustedBounds, Height / 2))
-                {
-                    e.Graphics.DrawPath(borderPen, borderPath);
-                }
-            }*/
 
             // Background with rounded corners
             using (GraphicsPath backgroundPath = GetRoundedRectangle(ClientRectangle, 10))
@@ -330,7 +320,6 @@ namespace Krypton.Toolkit
             }
         }
 
-
         #endregion
 
         #region Private Methods
@@ -433,6 +422,41 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void OnNeedPaintHandler(object? sender, NeedLayoutEventArgs e)
+        {
+            if (e.NeedLayout)
+            {
+                Invalidate(true);
+            }
+            else
+            {
+                Invalidate(e.InvalidRect);
+            }
+        }
+
+        private void OnGlobalPaletteChanged(object? sender, EventArgs e)
+        {
+            // Unhook events from old palette
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+            }
+
+            // Cache the new PaletteBase that is the global palette
+            _palette = KryptonManager.CurrentGlobalPalette;
+            _paletteRedirect.Target = _palette;
+
+            // Hook into events for the new palette
+            if (_palette != null)
+            {
+                _palette.PalettePaint += OnPalettePaint;
+            }
+
+            // Change of palette means we should repaint to show any changes
+            Invalidate();
+        }
+
+        private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
 
@@ -442,11 +466,37 @@ namespace Krypton.Toolkit
         public override Color BackColor { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color ForeColor { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Font Font { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image BackgroundImage { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override string Text { get; set; }
 
         #endregion
+
+        public Image? GetImage(PaletteState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Color GetImageTransparentColor(PaletteState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetShortText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLongText()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
