@@ -40,7 +40,6 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonToggleSwitch1 = new Krypton.Toolkit.KryptonToggleSwitch();
             this.kbtnExceptionDialog = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton15 = new Krypton.Toolkit.KryptonButton();
             this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
@@ -145,7 +144,6 @@ namespace TestForm
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonButton16);
-            this.kryptonPanel1.Controls.Add(this.kryptonToggleSwitch1);
             this.kryptonPanel1.Controls.Add(this.kbtnExceptionDialog);
             this.kryptonPanel1.Controls.Add(this.kryptonButton15);
             this.kryptonPanel1.Controls.Add(this.kryptonRichTextBox1);
@@ -205,16 +203,6 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1268, 687);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kryptonToggleSwitch1
-            // 
-            this.kryptonToggleSwitch1.BackColor = System.Drawing.Color.Transparent;
-            this.kryptonToggleSwitch1.Checked = false;
-            this.kryptonToggleSwitch1.Location = new System.Drawing.Point(163, 430);
-            this.kryptonToggleSwitch1.Name = "kryptonToggleSwitch1";
-            this.kryptonToggleSwitch1.Size = new System.Drawing.Size(65, 29);
-            this.kryptonToggleSwitch1.TabIndex = 76;
-            this.kryptonToggleSwitch1.Text = "kryptonToggleSwitch1";
             // 
             // kbtnExceptionDialog
             // 
@@ -1068,7 +1056,6 @@ namespace TestForm
         private KryptonButton kryptonButton15;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private KryptonButton kbtnExceptionDialog;
-        private KryptonToggleSwitch kryptonToggleSwitch1;
         private KryptonButton kryptonButton16;
     }
 }
