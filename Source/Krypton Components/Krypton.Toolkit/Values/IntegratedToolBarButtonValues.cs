@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Converts to string.</summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+        public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         #endregion
 

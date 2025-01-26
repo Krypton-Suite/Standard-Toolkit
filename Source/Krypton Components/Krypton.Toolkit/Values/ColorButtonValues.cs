@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private readonly string _defaultText = KryptonManager.Strings.ColorStrings.Color;
-        private static readonly string _defaultExtraText = string.Empty;
+        private static readonly string _defaultExtraText = GlobalStaticValues.DEFAULT_EMPTY_STRING;
         private static readonly Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
         #endregion
 
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public string Text
         {
-            get => _text ?? string.Empty;
+            get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
             set
             {

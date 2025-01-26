@@ -622,6 +622,9 @@ namespace Krypton.Toolkit
             //throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
+        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+
         #endregion
 
         #region Implementation

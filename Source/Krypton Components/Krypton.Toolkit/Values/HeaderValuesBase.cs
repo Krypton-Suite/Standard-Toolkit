@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public virtual string Heading
         {
-            get => _heading ?? string.Empty;
+            get => _heading ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
             set
             {

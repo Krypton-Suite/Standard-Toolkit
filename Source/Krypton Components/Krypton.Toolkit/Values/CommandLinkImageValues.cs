@@ -179,10 +179,10 @@ namespace Krypton.Toolkit
         public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
         /// <inheritdoc />
-        public string GetShortText() => string.Empty;
+        public string GetShortText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         /// <inheritdoc />
-        public string GetLongText() => string.Empty;
+        public string GetLongText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         /// <summary>Shows the uac shield.</summary>
         /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
