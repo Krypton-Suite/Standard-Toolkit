@@ -220,72 +220,10 @@ namespace Krypton.Toolkit
             float borderWidth = state.PaletteBorder!.GetBorderWidth(PaletteState.Normal);
             Rectangle adjustedBounds = AdjustForBorder(ClientRectangle, borderWidth);
 
-            // Emboss effect
-            if (ToggleSwitchValues.EnableEmbossEffect)
-            {
-                Color embossColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Disabled);
-                using (GraphicsPath embossPath = GetRoundedRectangle(ClientRectangle, ToggleSwitchValues.CornerRadius))
-                using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
-                {
-                    e.Graphics.TranslateTransform(2, 2); // Offset for emboss effect
-                    e.Graphics.FillPath(embossBrush, embossPath);
-                    e.Graphics.TranslateTransform(-2, -2); // Reset transform
-                }
-            }
-
-            // Background with rounded corners
-            using (GraphicsPath backgroundPath = GetRoundedRectangle(ClientRectangle, ToggleSwitchValues.CornerRadius))
-            using (Brush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
-            {
-                e.Graphics.FillPath(backgroundBrush, backgroundPath);
-            }
-
-            // Border with rounded corners
-            using (GraphicsPath borderPath = GetRoundedRectangle(ClientRectangle, ToggleSwitchValues.CornerRadius))
-            using (Pen borderPen = new Pen(state.PaletteBorder.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
-            {
-                e.Graphics.DrawPath(borderPen, borderPath);
-            }
-
-            // Knob
-            _knob = GetKnobRectangle();
-
-            if (ToggleSwitchValues.EnableKnobGradient)
-            {
-                // Fetch colors based on Checked state
-                Color startColor = Checked
-                    ? AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Checked), ToggleSwitchValues.GradientStartIntensity) // Slightly darker
-                    : AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Normal), ToggleSwitchValues.GradientStartIntensity);
-
-                Color endColor = Checked
-                    ? AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Checked), ToggleSwitchValues.GradientEndIntensity) // More intense
-                    : AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Normal), ToggleSwitchValues.GradientEndIntensity);
-
-                using (LinearGradientBrush knobBrush = new LinearGradientBrush(
-                           _knob,
-                           startColor,
-                           endColor,
-                           LinearGradientMode.ForwardDiagonal))
-                {
-                    e.Graphics.FillEllipse(knobBrush, _knob);
-                }
-            }
-            else
-            {
-                Color knobColor = _isPressed
-                    ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
-                    : _isTracking
-                        ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
-                        : state.PaletteBack.GetBackColor2(PaletteState.Normal);
-
-                using (SolidBrush knobBrush = new SolidBrush(knobColor))
-                {
-                    e.Graphics.FillEllipse(knobBrush, _knob);
-                }
-            }
-
-            // Text
-            DrawOnOffText(e.Graphics, GetCurrentState());
+            DrawBackground(e.Graphics, state, adjustedBounds);
+            DrawBorder(e.Graphics, state, adjustedBounds);
+            DrawKnob(e.Graphics, state);
+            DrawOnOffText(e.Graphics, state);
 
             e.Graphics.ResetClip();
         }
@@ -375,6 +313,28 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
+            {
+                if (e.KeyCode == Keys.Space)
+                {
+                    Checked = !Checked;
+                }
+                else if (e.KeyCode == Keys.Left)
+                {
+                    Checked = false;
+                }
+                else if (e.KeyCode == Keys.Right)
+                {
+                    Checked = true;
+                }
+
+                e.Handled = true;
+            }
+        }
 
         /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.Resize">Resize</see> event.</summary>
         /// <param name="e">An <see cref="T:System.EventArgs">EventArgs</see> that contains the event data.</param>
@@ -415,6 +375,11 @@ namespace Krypton.Toolkit
             {
                 _animationTimer.Dispose();
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+                if (_toggleSwitchValues != null)
+                {
+                    _toggleSwitchValues.PropertyChanged -= OnToggleSwitchValuesChanged;
+                }
             }
 
             base.Dispose(disposing);
@@ -528,6 +493,78 @@ namespace Krypton.Toolkit
             );
         }
 
+        private void DrawBackground(Graphics graphics, IPaletteTriple state, Rectangle bounds)
+        {
+            // Emboss effect
+            if (ToggleSwitchValues.EnableEmbossEffect)
+            {
+                Color embossColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Disabled);
+                using (GraphicsPath embossPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
+                using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
+                {
+                    graphics.TranslateTransform(2, 2); // Offset for emboss effect
+                    graphics.FillPath(embossBrush, embossPath);
+                    graphics.TranslateTransform(-2, -2); // Reset transform
+                }
+            }
+
+            // Background with rounded corners
+            using (GraphicsPath backgroundPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
+            using (Brush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
+            {
+                graphics.FillPath(backgroundBrush, backgroundPath);
+            }
+        }
+
+        private void DrawBorder(Graphics graphics, IPaletteTriple state, Rectangle bounds)
+        {
+            // Border with rounded corners
+            using (GraphicsPath borderPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
+            using (Pen borderPen = new Pen(state.PaletteBorder.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
+            {
+                graphics.DrawPath(borderPen, borderPath);
+            }
+        }
+
+        private void DrawKnob(Graphics graphics, IPaletteTriple state)
+        {
+            _knob = GetKnobRectangle();
+
+            if (ToggleSwitchValues.EnableKnobGradient)
+            {
+                // Fetch colors based on Checked state
+                Color startColor = Checked
+                    ? AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Checked), ToggleSwitchValues.GradientStartIntensity) // Slightly darker
+                    : AdjustBrightness(state.PaletteBack.GetBackColor1(PaletteState.Normal), ToggleSwitchValues.GradientStartIntensity);
+
+                Color endColor = Checked
+                    ? AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Checked), ToggleSwitchValues.GradientEndIntensity) // More intense
+                    : AdjustBrightness(state.PaletteBack.GetBackColor2(PaletteState.Normal), ToggleSwitchValues.GradientEndIntensity);
+
+                using (LinearGradientBrush knobBrush = new LinearGradientBrush(
+                           _knob,
+                           startColor,
+                           endColor,
+                           LinearGradientMode.ForwardDiagonal))
+                {
+                    graphics.FillEllipse(knobBrush, _knob);
+                }
+            }
+            else
+            {
+                Color knobColor = _isPressed
+                    ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
+                    : _isTracking
+                        ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
+                        : state.PaletteBack.GetBackColor2(PaletteState.Normal);
+
+                using (SolidBrush knobBrush = new SolidBrush(knobColor))
+                {
+                    graphics.FillEllipse(knobBrush, _knob);
+                }
+            }
+        }
+
         /// <summary>Draws the on off text.</summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="state">The state.</param>
@@ -552,19 +589,19 @@ namespace Krypton.Toolkit
             using (Brush textBrush = new SolidBrush(textColor))
             {
                 SizeF textSize = graphics.MeasureString(text, font);
-                float x = Checked ? Width - _padding - _knobSize - textSize.Width : _padding + _knobSize;
+                float x = Checked ? Width - _padding - _knobSize - textSize.Width - 5 : _padding + _knobSize + 5;
                 float y = (Height - textSize.Height) / 2f;
 
                 // Set text rendering hint for smoother text
                 graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
+                // Draw the text
                 graphics.DrawString(text, font, textBrush, new PointF(x, y));
 
                 // Reset text rendering hint to default
                 graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
             }
         }
-
 
         /// <summary>Called when [need paint handler].</summary>
         /// <param name="sender">The sender.</param>
