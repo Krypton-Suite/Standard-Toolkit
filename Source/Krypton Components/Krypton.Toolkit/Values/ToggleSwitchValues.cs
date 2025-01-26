@@ -13,14 +13,19 @@
 namespace Krypton.Toolkit
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class ToggleSwitchValues : GlobalId
+    public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     {
         #region Instance Fields
 
-        //private bool _useGradient;
-
-        //private float _gradientStartIntensity;
-        //private float _gradientEndIntensity;
+        private bool _enableEmbossEffect;
+        private bool _enableKnobGradient;
+        private float _gradientStartIntensity;
+        private float _gradientEndIntensity;
+        private LinearGradientMode _gradientDirection;
+        private Color _onColor;
+        private Color _offColor;
+        private int _cornerRadius;
+        private bool _useThemeColors;
 
         #endregion
 
@@ -29,128 +34,234 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="ToggleSwitchValues" /> class.</summary>
         public ToggleSwitchValues()
         {
-            Reset();
+            _enableEmbossEffect = false;
+            _enableKnobGradient = false;
+            _gradientStartIntensity = 0.8f;
+            _gradientEndIntensity = 0.6f;
+            _gradientDirection = LinearGradientMode.ForwardDiagonal;
+            _onColor = Color.Green;
+            _offColor = Color.Red;
+            _cornerRadius = 10;
+            _useThemeColors = true;
         }
-
-        /// <inheritdoc />
-        public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         #endregion
 
-        #region IsDefault
+        #region Event
 
-        /// <summary>Gets a value indicating whether this instance is default.</summary>
-        /// <value>
-        ///   <c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
-        [Browsable(false)]
-        public bool IsDefault => AnimateToggle.Equals(true) &&
-                                 EnableKnobGradient.Equals(false) &&
-                                 GradientStartIntensity.Equals(0.8f) &&
-                                 GradientEndIntensity.Equals(0.6f) &&
-                                 ShowText.Equals(true) &&
-                                 GradientDirection.Equals(LinearGradientMode.ForwardDiagonal) &&
-                                 OffColor.Equals(Color.Red) &&
-                                 OnColor.Equals(Color.Green) && 
-                                 CornerRadius.Equals(10);
+        /// <summary>Occurs when a property value changes.</summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        #endregion
+
+        #region Event Handler
+
+        /// <summary>Called when [property changed].</summary>
+        /// <param name="propertyName">Name of the property.</param>
+        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
 
         #region Public
 
-        public void Reset()
-        {
-            AnimateToggle = true;
-
-            EnableKnobGradient = false;
-
-            GradientStartIntensity = 0.8f;
-
-            GradientEndIntensity = 0.6f;
-
-            GradientDirection = LinearGradientMode.ForwardDiagonal;
-
-            ShowText = true;
-
-            OffColor = Color.Red;
-
-            OnColor = Color.Green;
-
-            CornerRadius = 10;
-        }
-
-        /// <summary>Gets or sets a value indicating whether [animate toggle].</summary>
-        /// <value><c>true</c> if [animate toggle]; otherwise, <c>false</c>.</value>
+        /// <summary>Gets or sets a value indicating whether [enable emboss effect].</summary>
+        /// <value><c>true</c> if [enable emboss effect]; otherwise, <c>false</c>.</value>
         [Category("Appearance")]
-        [Description("Use animation when toggling.")]
-        [DefaultValue(true)]
+        [Description("Indicates whether the emboss effect should be applied.")]
+        [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool AnimateToggle { get; set; }
+        public bool EnableEmbossEffect
+        {
+            get => _enableEmbossEffect;
+            set
+            {
+                if (_enableEmbossEffect != value)
+                {
+                    _enableEmbossEffect = value;
+                    OnPropertyChanged(nameof(EnableEmbossEffect));
+                }
+            }
+        }
 
         /// <summary>Gets or sets a value indicating whether [enable knob gradient].</summary>
         /// <value><c>true</c> if [enable knob gradient]; otherwise, <c>false</c>.</value>
         [Category("Appearance")]
         [Description("Indicates whether the knob should have a gradient effect.")]
         [DefaultValue(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool EnableKnobGradient { get; set; }
-
-        [Category("Appearance")]
-        [Description("Specifies the color of the knob.")]
-        [DefaultValue(typeof(Color), "Color.Red")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Color OffColor { get; set; }
-
-        [Category("Appearance")]
-        [Description("Specifies the color of the knob.")]
-        [DefaultValue(typeof(Color), "Color.Green")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Color OnColor { get; set; }
+        public bool EnableKnobGradient
+        {
+            get => _enableKnobGradient;
+            set
+            {
+                if (_enableKnobGradient != value)
+                {
+                    _enableKnobGradient = value;
+                    OnPropertyChanged(nameof(EnableKnobGradient));
+                }
+            }
+        }
 
         /// <summary>Gets or sets the gradient start intensity.</summary>
         /// <value>The gradient start intensity.</value>
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
         [DefaultValue(0.8f)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public float GradientStartIntensity { get; set; }
+        public float GradientStartIntensity
+        {
+            get => _gradientStartIntensity;
+            set
+            {
+                if (_gradientStartIntensity != value)
+                {
+                    _gradientStartIntensity = value;
+                    OnPropertyChanged(nameof(GradientStartIntensity));
+                }
+            }
+        }
 
         /// <summary>Gets or sets the gradient end intensity.</summary>
         /// <value>The gradient end intensity.</value>
         [Category("Appearance")]
         [Description("Specifies the gradient intensity for the knob.")]
         [DefaultValue(0.6f)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public float GradientEndIntensity { get; set; }
-
-        /// <summary>Gets or sets a value indicating whether [show text].</summary>
-        /// <value>
-        ///   <c>true</c> if [show text]; otherwise, <c>false</c>.</value>
-        [Category("Appearance")]
-        [Description("Specifies whether the text should be displayed.")]
-        [DefaultValue(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool ShowText { get; set; }
+        public float GradientEndIntensity
+        {
+            get => _gradientEndIntensity;
+            set
+            {
+                if (_gradientEndIntensity != value)
+                {
+                    _gradientEndIntensity = value;
+                    OnPropertyChanged(nameof(GradientEndIntensity));
+                }
+            }
+        }
 
         /// <summary>Gets or sets the gradient direction.</summary>
         /// <value>The gradient direction.</value>
         [Category("Appearance")]
         [Description("Specifies the direction of the gradient.")]
         [DefaultValue(LinearGradientMode.ForwardDiagonal)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public LinearGradientMode GradientDirection { get; set; }
+        public LinearGradientMode GradientDirection
+        {
+            get => _gradientDirection;
+            set
+            {
+                if (_gradientDirection != value)
+                {
+                    _gradientDirection = value;
+                    OnPropertyChanged(nameof(GradientDirection));
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the color when on.</summary>
+        /// <value>The color when on.</value>
+        [Category("Appearance")]
+        [Description("Specifies the color when the switch is on.")]
+        [DefaultValue(typeof(Color), "Green")]
+        public Color OnColor
+        {
+            get => _onColor;
+            set
+            {
+                if (_onColor != value)
+                {
+                    _onColor = value;
+                    OnPropertyChanged(nameof(OnColor));
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the color when off.</summary>
+        /// <value>The color when off.</value>
+        [Category("Appearance")]
+        [Description("Specifies the color when the switch is off.")]
+        [DefaultValue(typeof(Color), "Red")]
+        public Color OffColor
+        {
+            get => _offColor;
+            set
+            {
+                if (_offColor != value)
+                {
+                    _offColor = value;
+                    OnPropertyChanged(nameof(OffColor));
+                }
+            }
+        }
 
         [Category("Appearance")]
-        [Description("Specifies the color of the knob.")]
-        [DefaultValue(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool UseThemeColors { get; set; }
-
-        [Category("Visuals")]
-        [Description("Defines the corner radius of the toggle switch.")]
+        [Description("Specifies the corner radius of the switch.")]
         [DefaultValue(10)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int CornerRadius { get; set; }
+        public int CornerRadius
+        {
+            get => _cornerRadius;
+            set
+            {
+                if (value < 1)
+                {
+                    value = 1;
+                }
+
+                if (_cornerRadius != value)
+                {
+                    _cornerRadius = value;
+                    OnPropertyChanged(nameof(CornerRadius));
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [Description("Indicates whether to use theme colors.")]
+        [DefaultValue(true)]
+        public bool UseThemeColors
+        {
+            get => _useThemeColors;
+            set
+            {
+                if (_useThemeColors != value)
+                {
+                    _useThemeColors = value;
+                    OnPropertyChanged(nameof(UseThemeColors));
+                }
+            }
+        }
 
         #endregion
+
+        #region IsDefault
+
+        /// <summary>Gets a value indicating whether this instance is default.</summary>
+        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        [Browsable(false)]
+        public bool IsDefault => !_enableEmbossEffect && !_enableKnobGradient && _gradientStartIntensity.Equals(0.8f) &&
+                                 _gradientEndIntensity.Equals(0.6f) &&
+                                 _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
+                                 _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors;
+
+        #endregion
+
+        #region Reset
+
+        /// <summary>Resets the values.</summary>
+        public void Reset()
+        {
+            EnableEmbossEffect = false;
+            EnableKnobGradient = false;
+            GradientStartIntensity = 0.8f;
+            GradientEndIntensity = 0.6f;
+            GradientDirection = LinearGradientMode.ForwardDiagonal;
+            OnColor = Color.Green;
+            OffColor = Color.Red;
+            CornerRadius = 10;
+            UseThemeColors = true;
+        }
+
+        #endregion
+
+        /// <inheritdoc />
+        public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
     }
+
 }

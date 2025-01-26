@@ -13,6 +13,8 @@
 namespace Krypton.Toolkit
 {
     [EditorBrowsable(EditorBrowsableState.Never), ToolboxItem(false)]
+    [DesignerCategory("code")]
+    [Description("Enables you to group collections of controls.")]
     public class KryptonButtonPanel : UserControl
     {
         private KryptonPanel kpnlContainer;

@@ -14,6 +14,12 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
+    /// <summary></summary>
+    [ToolboxItem(true)]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Checked))]
+    [DesignerCategory("code")]
+    [Description("A toggle switch control.")]
     public class KryptonToggleSwitch : Control, IContentValues
     {
         #region Instance Fields
@@ -125,12 +131,22 @@ namespace Krypton.Toolkit
         public ToggleSwitchValues ToggleSwitchValues
         {
             get => _toggleSwitchValues;
-
             set
             {
                 if (_toggleSwitchValues != value)
                 {
+                    if (_toggleSwitchValues != null)
+                    {
+                        _toggleSwitchValues.PropertyChanged -= OnToggleSwitchValuesChanged;
+                    }
+
                     _toggleSwitchValues = value;
+
+                    if (_toggleSwitchValues != null)
+                    {
+                        _toggleSwitchValues.PropertyChanged += OnToggleSwitchValuesChanged;
+                    }
+
                     Invalidate();
                 }
             }
@@ -203,6 +219,19 @@ namespace Krypton.Toolkit
             // Adjust the rectangle for border width
             float borderWidth = state.PaletteBorder!.GetBorderWidth(PaletteState.Normal);
             Rectangle adjustedBounds = AdjustForBorder(ClientRectangle, borderWidth);
+
+            // Emboss effect
+            if (ToggleSwitchValues.EnableEmbossEffect)
+            {
+                Color embossColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Disabled);
+                using (GraphicsPath embossPath = GetRoundedRectangle(ClientRectangle, ToggleSwitchValues.CornerRadius))
+                using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
+                {
+                    e.Graphics.TranslateTransform(2, 2); // Offset for emboss effect
+                    e.Graphics.FillPath(embossBrush, embossPath);
+                    e.Graphics.TranslateTransform(-2, -2); // Reset transform
+                }
+            }
 
             // Background with rounded corners
             using (GraphicsPath backgroundPath = GetRoundedRectangle(ClientRectangle, ToggleSwitchValues.CornerRadius))
@@ -526,9 +555,16 @@ namespace Krypton.Toolkit
                 float x = Checked ? Width - _padding - _knobSize - textSize.Width : _padding + _knobSize;
                 float y = (Height - textSize.Height) / 2f;
 
+                // Set text rendering hint for smoother text
+                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
                 graphics.DrawString(text, font, textBrush, new PointF(x, y));
+
+                // Reset text rendering hint to default
+                graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
             }
         }
+
 
         /// <summary>Called when [need paint handler].</summary>
         /// <param name="sender">The sender.</param>
@@ -581,18 +617,22 @@ namespace Krypton.Toolkit
         private void OnAnimationTimerTick(object? sender, EventArgs e)
         {
             float targetPosition = Checked ? Width - _knobSize - _padding : _padding;
+            float step = 0.1f; // Adjust this value for smoother or faster animation
 
-            _animationPosition = Math.Abs(_animationPosition - targetPosition) < 1
-                ? targetPosition
-                : _animationPosition + (Checked ? 2 : -2);
+            _animationPosition = Lerp(_animationPosition, targetPosition, step);
 
-            if (_animationPosition == targetPosition)
+            if (Math.Abs(_animationPosition - targetPosition) < 0.5f)
             {
+                _animationPosition = targetPosition;
                 _animationTimer.Stop();
             }
 
             Invalidate(Rectangle.Ceiling(_knob));
         }
+
+        private float Lerp(float start, float end, float amount) => start + (end - start) * amount;
+
+        private void OnToggleSwitchValuesChanged(object? sender, PropertyChangedEventArgs e) => Invalidate();
 
         #endregion
 
