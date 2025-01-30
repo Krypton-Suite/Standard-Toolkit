@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         {
             return base.ToString() is string s
                 ? s
-                : string.Empty;
+                : GlobalStaticValues.DEFAULT_EMPTY_STRING;
         }
 
         #endregion

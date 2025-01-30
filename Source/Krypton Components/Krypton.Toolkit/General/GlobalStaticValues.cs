@@ -18,6 +18,12 @@ namespace Krypton.Toolkit
     {
         internal const bool DEFAULT_USE_STACK_TRACE = true;
 
+        internal const bool DEFAULT_USE_EXCEPTION_MESSAGE = true;
+
+        internal const bool DEFAULT_USE_INNER_EXCEPTION = true;
+
+        internal const int DEFAULT_TOGGLE_SWITCH_ANIMATION_SPEED = 10;
+
         /// <summary>The default date and time value</summary>
         public static DateTime DEFAULT_DATE_TIME_VALUE = DateTime.Now;
 
