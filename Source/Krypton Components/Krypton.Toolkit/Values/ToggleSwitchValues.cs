@@ -18,6 +18,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _enableEmbossEffect;
+        private bool _animateGradientEffect;
         private bool _enableKnobGradient;
         private float _gradientStartIntensity;
         private float _gradientEndIntensity;
@@ -35,6 +36,7 @@ namespace Krypton.Toolkit
         public ToggleSwitchValues()
         {
             _enableEmbossEffect = false;
+            _animateGradientEffect = false;
             _enableKnobGradient = false;
             _gradientStartIntensity = 0.8f;
             _gradientEndIntensity = 0.6f;
@@ -79,6 +81,22 @@ namespace Krypton.Toolkit
                 {
                     _enableEmbossEffect = value;
                     OnPropertyChanged(nameof(EnableEmbossEffect));
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [Description("Indicates whether the gradient effect should be animated.")]
+        [DefaultValue(false)]
+        public bool AnimateGradientEffect
+        {
+            get => _animateGradientEffect;
+            set
+            {
+                if (_animateGradientEffect != value)
+                {
+                    _animateGradientEffect = value;
+                    OnPropertyChanged(nameof(AnimateGradientEffect));
                 }
             }
         }
@@ -248,6 +266,7 @@ namespace Krypton.Toolkit
         public void Reset()
         {
             EnableEmbossEffect = false;
+            AnimateGradientEffect = false;
             EnableKnobGradient = false;
             GradientStartIntensity = 0.8f;
             GradientEndIntensity = 0.6f;
