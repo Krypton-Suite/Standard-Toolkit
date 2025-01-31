@@ -126,7 +126,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        [Category("Appearance")]
+        /// <summary>Gets or sets the toggle switch values.</summary>
+        /// <value>The toggle switch values.</value>
+        [Category("Visuals")]
         [Description("Indicates whether the knob should have a gradient effect.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ToggleSwitchValues ToggleSwitchValues
@@ -820,8 +822,12 @@ namespace Krypton.Toolkit
         public override string Text { get; set; }
 
         /// <summary>Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.</summary>
+        [Browsable(false)]
         [Category("Behavior")]
         [Description("Indicates whether the control should support RightToLeft layouts.")]
+        [DefaultValue(typeof(RightToLeft), "Inherit")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override RightToLeft RightToLeft
         {
             get => base.RightToLeft;
@@ -834,27 +840,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-
-        /*/// <summary>Gets or sets the background color for the control.</summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color BackColor { get; set; }
-
-        /// <summary>Gets or sets the foreground color of the control.</summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Color ForeColor { get; set; }
-
-        /// <summary>Gets or sets the font of the text displayed by the control.</summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font { get; set; }
-
-        /// <summary>Gets or sets the background image displayed in the control.</summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Image BackgroundImage { get; set; }
-
-        /// <summary>Gets or sets the text associated with this control.</summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new string Text { get; set; }*/
 
         #endregion
 

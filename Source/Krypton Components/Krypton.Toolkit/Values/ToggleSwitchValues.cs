@@ -241,6 +241,11 @@ namespace Krypton.Toolkit
                     value = 1;
                 }
 
+                if (value > 130)
+                {
+                    value = 130;
+                }
+
                 if (_cornerRadius != value)
                 {
                     _cornerRadius = value;
