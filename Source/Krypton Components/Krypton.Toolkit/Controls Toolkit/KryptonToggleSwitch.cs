@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
             else
             {
                 Color knobColor; // = _isPressed
-                if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+                if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null && !ToggleSwitchValues.OnlyShowColorOnKnob)
                 {
                     knobColor = Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
                         : _isTracking

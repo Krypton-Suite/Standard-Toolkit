@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
         private bool _enableEmbossEffect;
         private bool _animateGradientEffect;
         private bool _enableKnobGradient;
+        private bool _onlyShowColorOnKnob;
         private float _gradientStartIntensity;
         private float _gradientEndIntensity;
         private LinearGradientMode _gradientDirection;
@@ -38,6 +39,7 @@ namespace Krypton.Toolkit
             _enableEmbossEffect = false;
             _animateGradientEffect = false;
             _enableKnobGradient = false;
+            _onlyShowColorOnKnob = true;
             _gradientStartIntensity = 0.8f;
             _gradientEndIntensity = 0.6f;
             _gradientDirection = LinearGradientMode.ForwardDiagonal;
@@ -115,6 +117,23 @@ namespace Krypton.Toolkit
                 {
                     _enableKnobGradient = value;
                     OnPropertyChanged(nameof(EnableKnobGradient));
+                }
+            }
+        }
+
+        /// <summary>Gets or sets a value indicating whether [show color only on knob].</summary>
+        [Category("Appearance")]
+        [Description("Indicates whether the color should be only shown on the knob.")]
+        [DefaultValue(true)]
+        public bool OnlyShowColorOnKnob
+        {
+            get => _onlyShowColorOnKnob;
+            set
+            {
+                if (_onlyShowColorOnKnob != value)
+                {
+                    _onlyShowColorOnKnob = value;
+                    OnPropertyChanged(nameof(OnlyShowColorOnKnob));
                 }
             }
         }
@@ -268,6 +287,7 @@ namespace Krypton.Toolkit
             EnableEmbossEffect = false;
             AnimateGradientEffect = false;
             EnableKnobGradient = false;
+            OnlyShowColorOnKnob = true;
             GradientStartIntensity = 0.8f;
             GradientEndIntensity = 0.6f;
             GradientDirection = LinearGradientMode.ForwardDiagonal;
