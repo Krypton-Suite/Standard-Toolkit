@@ -3,6 +3,7 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Implemented [#1116](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1116), Toggle switch/button
 * Implemented [#667](https://github.com/Krypton-Suite/Standard-Toolkit/issues/667), Adds the AutoSize property and functionality to `KryptonNumericUpDown` and `KryptonDomainUpDown`
 * Obsolete [#2022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2022), Remove obsolete method `ThemeManager.SetTheme()`. Use `ThemeManager.ApplyTheme(...)` instead.
 * Implemented [#1623](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1623), Settings custom themes only available through ThemeManager from V110 onward. Adds Obsolete warnings so the move can be prepared from V100.
