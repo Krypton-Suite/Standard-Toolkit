@@ -21,6 +21,7 @@ namespace Krypton.Toolkit
         private bool _animateGradientEffect;
         private bool _enableKnobGradient;
         private bool _onlyShowColorOnKnob;
+        private bool _showText;
         private float _gradientStartIntensity;
         private float _gradientEndIntensity;
         private LinearGradientMode _gradientDirection;
@@ -40,6 +41,7 @@ namespace Krypton.Toolkit
             _animateGradientEffect = false;
             _enableKnobGradient = false;
             _onlyShowColorOnKnob = true;
+            _showText = true;
             _gradientStartIntensity = 0.8f;
             _gradientEndIntensity = 0.6f;
             _gradientDirection = LinearGradientMode.ForwardDiagonal;
@@ -134,6 +136,23 @@ namespace Krypton.Toolkit
                 {
                     _onlyShowColorOnKnob = value;
                     OnPropertyChanged(nameof(OnlyShowColorOnKnob));
+                }
+            }
+        }
+
+        /// <summary>Gets or sets a value indicating whether [show text].</summary>
+        [Category("Appearance")]
+        [Description("Indicates whether the text should be shown.")]
+        [DefaultValue(true)]
+        public bool ShowText
+        {
+            get => _showText;
+            set
+            {
+                if (_showText != value)
+                {
+                    _showText = value;
+                    OnPropertyChanged(nameof(ShowText));
                 }
             }
         }
@@ -293,6 +312,7 @@ namespace Krypton.Toolkit
             AnimateGradientEffect = false;
             EnableKnobGradient = false;
             OnlyShowColorOnKnob = true;
+            ShowText = true;
             GradientStartIntensity = 0.8f;
             GradientEndIntensity = 0.6f;
             GradientDirection = LinearGradientMode.ForwardDiagonal;

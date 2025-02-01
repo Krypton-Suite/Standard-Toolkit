@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         private float _dragOffset;
         private float _gradientAnimationProgress = 0f; // Tracks transition from 0 (Off) to 1 (On)
 
-        private ToggleSwitchValues _toggleSwitchValues;
+        private ToggleSwitchValues? _toggleSwitchValues;
 
         #endregion
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ToggleSwitchValues ToggleSwitchValues
         {
-            get => _toggleSwitchValues;
+            get => _toggleSwitchValues ??= new ToggleSwitchValues(); // Ensure it never returns null
             set
             {
                 if (_toggleSwitchValues != value)
@@ -143,17 +143,16 @@ namespace Krypton.Toolkit
                         _toggleSwitchValues.PropertyChanged -= OnToggleSwitchValuesChanged;
                     }
 
-                    _toggleSwitchValues = value;
+                    _toggleSwitchValues = value ?? new ToggleSwitchValues(); // Ensure it's never null
 
-                    if (_toggleSwitchValues != null)
-                    {
-                        _toggleSwitchValues.PropertyChanged += OnToggleSwitchValuesChanged;
-                    }
+                    _toggleSwitchValues.PropertyChanged += OnToggleSwitchValuesChanged;
 
                     Invalidate();
                 }
             }
         }
+
+
 
         private bool ShouldSerializeToggleSwitchValues() => !ToggleSwitchValues.IsDefault;
 
@@ -178,6 +177,8 @@ namespace Krypton.Toolkit
             Font = new Font("Segoe UI", 9f, FontStyle.Bold);
 
             RightToLeft = RightToLeft.Inherit;
+
+            TabStop = true;
 
             _knobSize = 20;
             _padding = 4;
@@ -263,26 +264,8 @@ namespace Krypton.Toolkit
 
             if (e.Button == MouseButtons.Left)
             {
-                if (_knob.Contains(e.Location))
-                {
-                    // Allow dragging the knob
-                    _isPressed = true;
-                    _isDragging = true;
-                    _dragStartX = e.X;
-                    _dragOffset = _animationPosition;
-                }
-                else
-                {
-                    // Adjust toggle behavior for RTL
-                    if (RightToLeft == RightToLeft.Yes)
-                    {
-                        Checked = e.X < Width / 2; // Click on left → "On", Click on right → "Off"
-                    }
-                    else
-                    {
-                        Checked = e.X > Width / 2; // Click on right → "On", Click on left → "Off"
-                    }
-                }
+                // Toggle regardless of where the user clicks
+                Checked = !Checked;
             }
 
             Invalidate();
@@ -336,41 +319,13 @@ namespace Krypton.Toolkit
 
             bool stateChanged = false;
 
-            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab ||
+                e.KeyCode == Keys.Add || e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Home ||
+                e.KeyCode == Keys.End || e.KeyCode == Keys.PageUp || e.KeyCode == Keys.PageDown ||
+                e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
             {
                 Checked = !Checked;
                 stateChanged = true;
-            }
-            else if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
-            {
-                if (RightToLeft == RightToLeft.Yes)
-                {
-                    // RTL: Left arrow turns it ON, Right arrow turns it OFF
-                    if (e.KeyCode == Keys.Left && !Checked)
-                    {
-                        Checked = true;
-                        stateChanged = true;
-                    }
-                    else if (e.KeyCode == Keys.Right && Checked)
-                    {
-                        Checked = false;
-                        stateChanged = true;
-                    }
-                }
-                else
-                {
-                    // LTR: Right arrow turns it ON, Left arrow turns it OFF
-                    if (e.KeyCode == Keys.Right && !Checked)
-                    {
-                        Checked = true;
-                        stateChanged = true;
-                    }
-                    else if (e.KeyCode == Keys.Left && Checked)
-                    {
-                        Checked = false;
-                        stateChanged = true;
-                    }
-                }
             }
 
             if (stateChanged)
@@ -378,6 +333,19 @@ namespace Krypton.Toolkit
                 StartAnimation(); // Smooth animation for keyboard changes
                 Invalidate();
             }
+        }
+
+        /// <summary>Determines whether the specified key is a regular input key or a special key that requires preprocessing.</summary>
+        /// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys">Keys</see> values.</param>
+        /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
+        protected override bool IsInputKey(Keys keyData)
+        {
+            if (keyData == Keys.Tab)
+            {
+                return true;
+            }
+
+            return base.IsInputKey(keyData);
         }
 
 
@@ -392,9 +360,9 @@ namespace Krypton.Toolkit
                 Region = new Region(roundedPath);
             }
 
-            _knobSize = Math.Min(Height - _padding * 2, Width / 3);
-
-            _padding = Height / 10;
+            _knobSize = Math.Max(10, Math.Min(Height - _padding * 2, Width / 3));
+            
+            _padding = Math.Max(2, Height / 8);
 
             Invalidate();
         }
@@ -405,11 +373,14 @@ namespace Krypton.Toolkit
         {
             base.OnSizeChanged(e);
 
-            if (Width < 50 || Height < 20)
-            {
-                Width = Math.Max(50, Width);
-                Height = Math.Max(20, Height);
-            }
+            Width = Math.Max(50, Width);
+            Height = Math.Max(20, Height);
+
+            // Ensure elements scale properly
+            _knobSize = Math.Max(10, Math.Min(Height - _padding * 2, Width / 3));
+            _padding = Math.Max(2, Height / 8);
+
+            Invalidate(); // Force redraw
         }
 
         /// <summary>Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control">Control</see> and its child controls and optionally releases the managed resources.</summary>
@@ -418,12 +389,21 @@ namespace Krypton.Toolkit
         {
             if (disposing)
             {
-                _animationTimer.Dispose();
+                _animationTimer?.Dispose();
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 
                 if (_toggleSwitchValues != null)
                 {
                     _toggleSwitchValues.PropertyChanged -= OnToggleSwitchValuesChanged;
+
+                    _toggleSwitchValues = null;
+                }
+
+                if (_palette != null)
+                {
+                    _palette.PalettePaint -= OnPalettePaint;
+
+                    _palette = null;
                 }
             }
 
@@ -444,22 +424,10 @@ namespace Krypton.Toolkit
         /// <summary>Gets the state of the current.</summary>
         private IPaletteTriple GetCurrentState()
         {
-            if (!Enabled)
-            {
-                return StateDisabled;
-            }
-
-            if (_isPressed)
-            {
-                return StatePressed;
-            }
-
-            if (_isTracking)
-            {
-                return StateTracking;
-            }
-
-            return StateNormal;
+            return !Enabled ? StateDisabled :
+                _isPressed ? StatePressed :
+                _isTracking ? StateTracking :
+                (StateNormal != null ? StateNormal : StateCommon);
         }
 
         /// <summary>Gets the knob rectangle.</summary>
@@ -468,9 +436,7 @@ namespace Krypton.Toolkit
             float knobDiameter = _knobSize;
 
             // Adjust x-position based on RTL
-            float x = (RightToLeft == RightToLeft.Yes)
-                ? (Checked ? _padding : Width - knobDiameter - _padding)  // RTL: "On" is left, "Off" is right
-                : (Checked ? Width - knobDiameter - _padding : _padding); // LTR: "On" is right, "Off" is left
+            float x = Checked ? Width - knobDiameter - _padding : _padding;
 
             float y = (Height - knobDiameter) / 2f;
 
@@ -547,20 +513,25 @@ namespace Krypton.Toolkit
             if (ToggleSwitchValues.EnableEmbossEffect)
             {
                 Color embossColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Disabled);
+                
                 using (GraphicsPath embossPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
-                using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
                 {
-                    graphics.TranslateTransform(2, 2); // Offset for emboss effect
-                    graphics.FillPath(embossBrush, embossPath);
-                    graphics.TranslateTransform(-2, -2); // Reset transform
+                    using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
+                    {
+                        graphics.TranslateTransform(2, 2); // Offset for emboss effect
+                        graphics.FillPath(embossBrush, embossPath);
+                        graphics.TranslateTransform(-2, -2); // Reset transform
+                    }
                 }
             }
 
             // Background with rounded corners
             using (GraphicsPath backgroundPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
-            using (Brush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
             {
-                graphics.FillPath(backgroundBrush, backgroundPath);
+                using (Brush backgroundBrush = new SolidBrush(state.PaletteBack.GetBackColor1(PaletteState.Normal)))
+                {
+                    graphics.FillPath(backgroundBrush, backgroundPath);
+                }
             }
         }
 
@@ -568,9 +539,11 @@ namespace Krypton.Toolkit
         {
             // Border with rounded corners
             using (GraphicsPath borderPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
-            using (Pen borderPen = new Pen(state.PaletteBorder!.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
             {
-                graphics.DrawPath(borderPen, borderPath);
+                using (Pen borderPen = new Pen(state.PaletteBorder!.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
+                {
+                    graphics.DrawPath(borderPen, borderPath);
+                }
             }
         }
 
@@ -601,15 +574,14 @@ namespace Krypton.Toolkit
                     endColor = InterpolateColor(Color.Red, Color.Green, _gradientAnimationProgress);
                 }
 
-                using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, startColor, endColor, LinearGradientMode.Vertical))
+                using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, startColor, endColor, ToggleSwitchValues.GradientDirection))
                 {
                     graphics.FillEllipse(knobBrush, _knob);
                 }
-
             }
             else
             {
-                Color knobColor; // = _isPressed
+                Color knobColor;
                 if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null && !ToggleSwitchValues.OnlyShowColorOnKnob)
                 {
                     knobColor = Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
@@ -638,6 +610,7 @@ namespace Krypton.Toolkit
         }
 
 
+
         /// <summary>Draws the on off text.</summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="state">The state.</param>
@@ -662,50 +635,34 @@ namespace Krypton.Toolkit
             // Define font and measure text size
             float fontSize = Height / 3f;
             using (Font font = new Font(Font.FontFamily, fontSize, FontStyle.Bold))
-            using (Brush textBrush = new SolidBrush(textColor))
             {
-                SizeF textSize = graphics.MeasureString(text, font);
-
-                // Adjust text position based on RightToLeft setting and knob position
-                float textX;
-                float knobEdge = _animationPosition + _knobSize; // Position of the knob's right edge
-                float textPadding = _padding * 2; // Space between text and knob
-
-                if (RightToLeft == RightToLeft.Yes)
+                using (Brush textBrush = new SolidBrush(textColor))
                 {
-                    // RTL Fix: Ensure "Off" text is not pushed out of bounds
-                    if (Checked)
+                    SizeF textSize = graphics.MeasureString(text, font);
+
+                    float textX;
+                    float textPadding = Math.Max(4, _knobSize / 4); // Ensure a minimum padding
+
+                    // Position knob's right edge
+                    float knobEdge = _animationPosition + _knobSize + textPadding;
+
+                    // Ensure text remains within bounds
+                   textX = Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
+                   
+                    float textY = (Height - textSize.Height) / 2f; // Center text vertically
+
+                    // Enable better text rendering for smooth appearance
+                    graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+                    if (ToggleSwitchValues.ShowText)
                     {
-                        textX = Width - textSize.Width - textPadding; // "On" appears on the left side
-                    }
-                    else
-                    {
-                        textX = Math.Max(_padding, knobEdge + textPadding); // Ensure "Off" stays visible
+                        // Draw the text
+                        graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
+
+                        // Reset text rendering hint
+                        graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
                     }
                 }
-                else
-                {
-                    // LTR: Normal positioning
-                    if (Checked)
-                    {
-                        textX = _padding; // "On" appears on the left side
-                    }
-                    else
-                    {
-                        textX = Width - textSize.Width - textPadding; // "Off" appears on the right side
-                    }
-                }
-
-                float textY = (Height - textSize.Height) / 2f; // Center text vertically
-
-                // Enable better text rendering for smooth appearance
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-                // Draw the text
-                graphics.DrawString(text, font, textBrush, new PointF(textX, textY));
-
-                // Reset text rendering hint
-                graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
             }
         }
 
@@ -760,9 +717,7 @@ namespace Krypton.Toolkit
         private void OnAnimationTimerTick(object? sender, EventArgs e)
         {
             // Determine the correct position for animation
-            float targetPosition = (RightToLeft == RightToLeft.Yes)
-                ? (Checked ? _padding : Width - _knobSize - _padding)  // RTL: "On" moves to left
-                : (Checked ? Width - _knobSize - _padding : _padding); // LTR: "On" moves to right
+            float targetPosition = Checked ? Width - _knobSize - _padding : _padding;
 
             float step = 0.1f; // Adjust for smoothness
 
@@ -841,7 +796,24 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the Input Method Editor (IME) mode of the control.</summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ImeMode ImeMode
+        {
+            get => base.ImeMode;
+            set => base.ImeMode = value;
+        }
+
+        /// <summary>Gets or sets the background image layout as defined in the <see cref="ImageLayout" /> enumeration.</summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override ImageLayout BackgroundImageLayout { get; set; }
+
         #endregion
+
 
         #region IContentValues
 
