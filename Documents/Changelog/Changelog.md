@@ -2,7 +2,8 @@
 
 =======
 
-## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+# 2025-02-25 - Build 2502 (Patch 5) - February 2025
+* Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values
 * Resolved [#2047](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2047), `KryptonForm` based MDI child windows do not respond to LayoutMDI calls
 * Resolved [#2037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2037) `KryptonDataGridView` Several bug fixes and improvements to the `KryptonDataGridView` and its components have been made. See this ticket for a complete overview.
 * Resolved [#2023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2023), `KryptonDataGridView` IconSpecs do not get a repaint when changed at run-time.

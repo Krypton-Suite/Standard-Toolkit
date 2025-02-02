@@ -232,6 +232,8 @@ namespace Krypton.Toolkit
         private readonly IntPtr _screenDC;
         private bool _alwaysActive;
         private bool _forcedLayout;
+        private KryptonContextMenuItem _resetMenuItem;
+
         #endregion
 
         #region Events
@@ -290,8 +292,20 @@ namespace Krypton.Toolkit
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
+
+            // Create a new KryptonContextMenu
+            KryptonContextMenu = new KryptonContextMenu();
+
+            KryptonContextMenuItems menuItems = new KryptonContextMenuItems();
+
+            _resetMenuItem = new KryptonContextMenuItem("Reset", OnResetClick);
+
+            menuItems.Items.Add(_resetMenuItem);
+
+            KryptonContextMenu.Items.Add(menuItems);
+
+            _propertyGrid.MouseDown += PropertyGrid_MouseDown;
         }
-        private void OnPropertyGridClick(object? sender, EventArgs e) => OnClick(e);
 
         /// <summary>
         /// Clean up any resources being used.
@@ -881,6 +895,56 @@ namespace Krypton.Toolkit
         /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
+
+        private void PropertyGrid_MouseDown(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && _propertyGrid.SelectedGridItem != null)
+            {
+                // Check if the selected property can be reset
+                if (_propertyGrid.SelectedGridItem is GridItem selectedGridItem &&
+                    selectedGridItem.PropertyDescriptor != null)
+                {
+                    PropertyDescriptor prop = selectedGridItem.PropertyDescriptor;
+
+                    // Ensure _propertyGrid.SelectedObject is not null before calling CanResetValue
+                    bool canReset = (prop.Attributes[typeof(DefaultValueAttribute)] != null ||
+                                     (_propertyGrid.SelectedObject != null && prop.CanResetValue(_propertyGrid.SelectedObject)));
+
+                    _resetMenuItem.Enabled = canReset; // Disable if it cannot be reset
+                }
+                else
+                {
+                    _resetMenuItem.Enabled = false; // Disable if no valid property is selected
+                }
+
+                // Show the KryptonContextMenu
+                KryptonContextMenu?.Show(this, PointToScreen(e.Location));
+            }
+        }
+
+        private void OnPropertyGridClick(object? sender, EventArgs e) => OnClick(e);
+
+        private void OnResetClick(object? sender, EventArgs e)
+        {
+            if (_propertyGrid.SelectedGridItem is GridItem selectedGridItem && selectedGridItem.PropertyDescriptor != null)
+            {
+                PropertyDescriptor descriptor = selectedGridItem.PropertyDescriptor;
+
+                DefaultValueAttribute? defaultValueAttribute = descriptor.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+
+                if (defaultValueAttribute != null)
+                {
+                    descriptor.SetValue(_propertyGrid.SelectedObject, defaultValueAttribute.Value);
+                }
+                else if (_propertyGrid.SelectedObject != null && descriptor.CanResetValue(_propertyGrid.SelectedObject))
+                {
+                    descriptor.ResetValue(_propertyGrid.SelectedObject);
+                }
+
+                _propertyGrid.Refresh();
+            }
+        }
+
 
         #endregion
     }
