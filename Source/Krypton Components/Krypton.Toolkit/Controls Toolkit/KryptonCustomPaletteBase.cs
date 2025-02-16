@@ -36,9 +36,6 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _openConversionLogFileOnCompletion;
-        private BackgroundWorker _conversionWorker;
-
         private int _suspendCount;
         private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
@@ -46,10 +43,6 @@ namespace Krypton.Toolkit
         //private PaletteMode _basePaletteMode;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
-
-        private string _conversionLogPath;
-
-        private string[] _originalPaletteFiles;
 
         #endregion
 
