@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonPalette class.
+        /// Initialize a new instance of the KryptonCustomPaletteBase class.
         /// </summary>
         public KryptonCustomPaletteBase()
         {
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialize a new instance of the KryptonPalette class.
+        /// Initialize a new instance of the KryptonCustomPaletteBase class.
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
         public KryptonCustomPaletteBase([DisallowNull] IContainer container)
