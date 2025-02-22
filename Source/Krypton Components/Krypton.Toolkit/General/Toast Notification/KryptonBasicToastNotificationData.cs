@@ -17,6 +17,10 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        /// <summary>Gets or sets the application icon.</summary>
+        /// <value>The application icon.</value>
+        public Icon ApplicationIcon { get; set; }
+
         /// <summary>Gets or sets the use fade.</summary>
         /// <value>The use fade.</value>
         public bool UseFade { get; set; }
@@ -117,6 +121,14 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
+        /// <summary>Gets or sets the size of the notification icon.</summary>
+        /// <value>The size of the notification icon.</value>
+        public ToastNotificationIconSize? NotificationIconSize { get; set; }
+
+        /// <summary>Gets or sets the size of the custom notification icon.</summary>
+        /// <value>The size of the custom notification icon.</value>
+        public int? CustomNotificationIconSize { get; set; }
+
         #endregion
 
         #region Identity
@@ -154,6 +166,10 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
+
+            NotificationIconSize = ToastNotificationIconSize.Small;
+
+            CustomNotificationIconSize = 32;
         }
 
         #endregion

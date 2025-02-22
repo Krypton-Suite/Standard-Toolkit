@@ -106,74 +106,91 @@ namespace Krypton.Toolkit
 
         private void UpdateIcon()
         {
+            int scaledImageSize = _basicToastNotificationData.NotificationIconSize == ToastNotificationIconSize.Small
+                ? (_basicToastNotificationData.CustomNotificationIconSize ?? 32)
+                : (int)_basicToastNotificationData.NotificationIconSize!;
+
             switch (_basicToastNotificationData.NotificationIcon)
             {
                 case KryptonToastNotificationIcon.None:
                     SetIcon(null);
                     break;
                 case KryptonToastNotificationIcon.Hand:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Hand_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Hand_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.SystemHand:
-#if NET8_0_OR_GREATER
-                    //SetIcon(GraphicsExtensions.ScaleImage());
-#else
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128, 128));
-#endif
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), scaledImageSize, scaledImageSize));
                     break;
                 case KryptonToastNotificationIcon.Question:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Question_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Question_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.SystemQuestion:
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Question.ToBitmap(), scaledImageSize, scaledImageSize));
                     break;
                 case KryptonToastNotificationIcon.Exclamation:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.SystemExclamation:
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Exclamation.ToBitmap(), scaledImageSize, scaledImageSize));
                     break;
                 case KryptonToastNotificationIcon.Asterisk:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.SystemAsterisk:
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), scaledImageSize, scaledImageSize));
                     break;
                 case KryptonToastNotificationIcon.Stop:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Stop_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Stop_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.Error:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Critical_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Critical_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.Warning:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.Information:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Information_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.Shield:
                     if (OSUtilities.IsAtLeastWindowsEleven)
                     {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
+                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     }
                     else if (OSUtilities.IsWindowsTen)
                     {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128);
+                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     }
                     else
                     {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128);
+                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     }
                     break;
                 case KryptonToastNotificationIcon.WindowsLogo:
+                    if (OSUtilities.IsAtLeastWindowsEleven)
+                    {
+                        SetIcon(GraphicsExtensions.ScaleImage(WindowsLogoImageResources.Windows_11_128_128, new Size(scaledImageSize, scaledImageSize)));
+                    }
+                    else if (OSUtilities.IsWindowsEight || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsTen)
+                    {
+                        SetIcon(GraphicsExtensions.ScaleImage(WindowsLogoImageResources.Windows_8_81_10_128_128, new Size(scaledImageSize, scaledImageSize)));
+                    }
+                    else
+                    {
+                        SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.WinLogo.ToBitmap(), new Size(scaledImageSize, scaledImageSize)));
+                    }
                     break;
                 case KryptonToastNotificationIcon.Application:
+                    SetIcon(GraphicsExtensions.ScaleImage(_basicToastNotificationData.ApplicationIcon.ToBitmap(), new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.SystemApplication:
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), scaledImageSize, scaledImageSize));
                     break;
                 case KryptonToastNotificationIcon.Ok:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128);
+                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128, new Size(scaledImageSize, scaledImageSize)));
                     break;
                 case KryptonToastNotificationIcon.Custom:
                     SetIcon(_basicToastNotificationData.CustomImage != null
-                        ? new Bitmap(_basicToastNotificationData.CustomImage)
+                        ? GraphicsExtensions.ScaleImage(new Bitmap(_basicToastNotificationData.CustomImage), new Size(scaledImageSize, scaledImageSize))
                         : null);
                     break;
                 case null:
