@@ -44,6 +44,11 @@ namespace TestForm
             }
 
             kcmbToastIcon.SelectedIndex = 0;
+
+            foreach (var value in Enum.GetValues(typeof(ToastNotificationIconSize)))
+            {
+                kcbIconSize.Items.Add(value.ToString());
+            }
         }
 
         private void kbtnShow_Click(object sender, EventArgs e)
@@ -64,7 +69,9 @@ namespace TestForm
                 NotificationIcon = GetNotificationIcon(),
                 NotificationContentFont = null,
                 //UserInputItemCollection = new ComboBox.ObjectCollection()
-                UserInputList = TemporaryArrayList()
+                UserInputList = TemporaryArrayList(),
+                NotificationIconSize = (ToastNotificationIconSize)Enum.Parse(typeof(ToastNotificationIconSize), kcbIconSize.Text),
+                NotificationInputAreaType = (KryptonToastNotificationInputAreaType)Enum.Parse(typeof(KryptonToastNotificationInputAreaType), kcmbUserInputType.Text),
             };
 
             if (_useProgressBar)
@@ -175,6 +182,11 @@ namespace TestForm
             }
 
             return tempList;
+        }
+
+        private void UserInputToastNotificationTest_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
