@@ -3087,4 +3087,17 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum ToastNotificationIconSize
+
+    public enum ToastNotificationIconSize
+    {
+        ExtraSmall = 16,
+        Small = 32,
+        Medium = 48,
+        Large = 64,
+        ExtraLarge = 128,
+        Custom = 0
+    }
+
+    #endregion
 }
