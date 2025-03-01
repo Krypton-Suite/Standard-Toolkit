@@ -1723,7 +1723,7 @@ namespace Krypton.Toolkit
 
                         designerHost?.DestroyComponent(currentColumn);
                     }
-                    else if (currentColumn is DataGridViewCheckBoxColumn && currentColumn.DataPropertyName.Length > 0)
+                    else if (currentColumn is DataGridViewCheckBoxColumn)
                     {
                         var newColumn = this.DesignMode
                             ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn
@@ -1740,7 +1740,7 @@ namespace Krypton.Toolkit
 
                         designerHost?.DestroyComponent(currentColumn);
                     }
-                    else if (currentColumn is DataGridViewImageColumn && currentColumn.DataPropertyName.Length > 0)
+                    else if (currentColumn is DataGridViewImageColumn)
                     {
                         var newColumn = this.DesignMode
                             ? designerHost?.CreateComponent(typeof(KryptonDataGridViewImageColumn)) as KryptonDataGridViewImageColumn
