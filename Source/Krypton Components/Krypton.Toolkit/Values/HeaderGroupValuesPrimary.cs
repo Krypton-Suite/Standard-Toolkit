@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault() => string.Empty;
+        protected override string GetDescriptionDefault() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
         #endregion
 

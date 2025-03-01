@@ -1098,6 +1098,7 @@ namespace Krypton.Toolkit
             {
                 ToolTipStyle = LabelStyle.SuperTip
             };
+
             // Create storage properties
             ButtonSpecs = new ComboBoxButtonSpecCollection(this);
 
@@ -1119,6 +1120,7 @@ namespace Krypton.Toolkit
 
             // Create the internal combo box used for containing content
             _comboBox = new InternalComboBox(this);
+            _comboBox.IntegralHeight = true;
             _comboBox.DrawItem += OnComboBoxDrawItem;
             _comboBox.MeasureItem += OnComboBoxMeasureItem;
             _comboBox.TrackMouseEnter += OnComboBoxMouseChange;
@@ -1640,7 +1642,6 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-
                         // #1697 Work-around
                         // If the controls is disabled, record the change in DropDownStyle
                         _deferredComboBoxStyle = value;
@@ -2561,9 +2562,6 @@ namespace Krypton.Toolkit
             {
                 AttachEditControl();
 
-                // Update to match the new palette settings
-                Height = PreferredHeight;
-
                 // Let base class calculate fill rectangle
                 base.OnLayout(levent);
 
@@ -2571,19 +2569,20 @@ namespace Krypton.Toolkit
                 {
                     // Only use layout logic if control is fully initialized or if being forced
                     // to allow a relayout or if in design mode.
-                    if (_forcedLayout || (DesignMode && (_comboHolder != null)))
+                    if ((_forcedLayout || (DesignMode && (_comboHolder != null)))
+                        && _layoutFill.FillRect is { Height: > 0, Width: > 0 } fillRect
+                        && fillRect != _comboHolder.Bounds)
                     {
-                        // Only need to relayout if there is something that would be visible
-                        if (_layoutFill.FillRect is { Height: > 0, Width: > 0 })
-                        {
-                            // Only update the bounds if they have changed
-                            Rectangle fillRect = _layoutFill.FillRect;
-                            if (fillRect != _comboHolder.Bounds)
-                            {
-                                _comboHolder.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
-                                _comboBox.SetBounds(-(1 + _layoutPadding.Left), -(1 + _layoutPadding.Top), fillRect.Width + 2 + _layoutPadding.Right, fillRect.Height + 2 + _layoutPadding.Bottom);
-                            }
-                        }
+                        _comboHolder.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                        _comboBox.SetBounds(-(1 + _layoutPadding.Left), -1, fillRect.Width + 2 + _layoutPadding.Right, fillRect.Height);
+
+                        // Always center the combo vertically
+                        _comboBox.Top = fillRect.Height / 2 - _comboBox.Height / 2;
+
+                        // IntegralHeight does not always work as it should when set to true (possibly in this case).
+                        // Toggling it corrects the chopped off text and shows the item in full
+                        IntegralHeight = !IntegralHeight;
+                        IntegralHeight = !IntegralHeight;
                     }
                 }
                 catch

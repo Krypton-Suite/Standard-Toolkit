@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the FixedContentValue class.
         /// </summary>
         public FixedContentValue()
-            : this(string.Empty, string.Empty, null, GlobalStaticValues.EMPTY_COLOR)
+            : this(GlobalStaticValues.DEFAULT_EMPTY_STRING, GlobalStaticValues.DEFAULT_EMPTY_STRING, null, GlobalStaticValues.EMPTY_COLOR)
         {
         }
 

@@ -36,6 +36,8 @@ namespace Krypton.Toolkit
         private const string DEFAULT_SYSTEM_INFORMATION = "S&ystem Information";
         private const string DEFAULT_CURRENT_THEME = @"Current Theme";
         private const string DEFAULT_DO_NOT_SHOW_AGAIN = @"&Do not show again";
+        private const string DEFAULT_TOGGLE_SWITCH_ON = @"On";
+        private const string DEFAULT_TOGGLE_SWITCH_OFF = @"Off";
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -84,7 +86,9 @@ namespace Krypton.Toolkit
                                  OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
                                  Reset.Equals(DEFAULT_RESET) &&
                                  SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
-                                 CurrentTheme.Equals(DEFAULT_CURRENT_THEME);
+                                 CurrentTheme.Equals(DEFAULT_CURRENT_THEME) &&
+                                 On.Equals(DEFAULT_TOGGLE_SWITCH_ON) &&
+                                 Off.Equals(DEFAULT_TOGGLE_SWITCH_OFF);
 
         /// <summary>Resets the values.</summary>
         public void ResetValues()
@@ -110,6 +114,8 @@ namespace Krypton.Toolkit
             Reset = DEFAULT_RESET;
             SystemInformation = DEFAULT_SYSTEM_INFORMATION;
             CurrentTheme = DEFAULT_CURRENT_THEME;
+            On = DEFAULT_TOGGLE_SWITCH_ON;
+            Off = DEFAULT_TOGGLE_SWITCH_OFF;
         }
 
         /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
@@ -281,6 +287,22 @@ namespace Krypton.Toolkit
         [Description(@"Current theme string used for custom situations.")]
         [DefaultValue(DEFAULT_CURRENT_THEME)]
         public string CurrentTheme { get; set; }
+
+        /// <summary>Gets or sets the on.</summary>
+        /// <value>The on.</value>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"'On' string used for custom situations.")]
+        [DefaultValue(DEFAULT_TOGGLE_SWITCH_ON)]
+        public string On { get; set; }
+
+        /// <summary>Gets or sets the off.</summary>
+        /// <value>The off.</value>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"'Off' string used for custom situations.")]
+        [DefaultValue(DEFAULT_TOGGLE_SWITCH_OFF)]
+        public string Off { get; set; }
 
         #endregion
     }

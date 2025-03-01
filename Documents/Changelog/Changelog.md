@@ -3,6 +3,9 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#1832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1832), `KryptonComboBox` now will always vertically center the inner ComboBox. The `IntegralHeight` property now is true by default.
+* Implemented [#1116](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1116), Toggle switch/button
+* Implemented [#667](https://github.com/Krypton-Suite/Standard-Toolkit/issues/667), Adds the AutoSize property and functionality to `KryptonNumericUpDown` and `KryptonDomainUpDown`
 * Obsolete [#2022](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2022), Remove obsolete method `ThemeManager.SetTheme()`. Use `ThemeManager.ApplyTheme(...)` instead.
 * Implemented [#1623](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1623), Settings custom themes only available through ThemeManager from V110 onward. Adds Obsolete warnings so the move can be prepared from V100.
 * Resolved [#2053](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2053), `KryptonRichTextBox` Designer Issues
@@ -248,7 +251,8 @@
 
 =======
 
-# 2025-02-01 - Build 2502 (Patch 5) - February 2025
+# 2025-02-25 - Build 2502 (Patch 5) - February 2025
+* Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values
 * Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
 * Resolved [#560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/560), CheckBox Images are not scaled with dpi Awareness

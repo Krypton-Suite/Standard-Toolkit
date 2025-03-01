@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         private const string DEFAULT_TEXT = nameof(Label);
-        private static readonly string _defaultExtraText = string.Empty;
+        private static readonly string _defaultExtraText = GlobalStaticValues.DEFAULT_EMPTY_STRING;
         #endregion
 
         #region Instance Fields
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         [AllowNull]
         public string Text
         {
-            get => _text ?? string.Empty;
+            get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
 
             set
             {
