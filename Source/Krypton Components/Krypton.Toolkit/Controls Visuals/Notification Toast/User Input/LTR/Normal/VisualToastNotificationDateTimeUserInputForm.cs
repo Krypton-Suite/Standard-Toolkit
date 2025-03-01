@@ -74,130 +74,15 @@ namespace Krypton.Toolkit
             kdtpUserInput.MinDate = _data.MinimumDateTimeValue ?? DateTime.MinValue;
         }
 
-        private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
-
-        private void UpdateLocation()
-        {
-            //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-            Location = _data.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-                Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
-        }
-
-        private void UpdateIcon()
-        {
-            int scaledImageSize = _data.NotificationIconSize == ToastNotificationIconSize.Small
-                ? (_data.CustomNotificationIconSize ?? 32)
-                : (int)_data.NotificationIconSize!;
-
-            switch (_data.NotificationIcon)
-            {
-                case KryptonToastNotificationIcon.None:
-                    SetIcon(null);
-                    break;
-                case KryptonToastNotificationIcon.Hand:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Hand_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.SystemHand:
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), scaledImageSize, scaledImageSize));
-                    break;
-                case KryptonToastNotificationIcon.Question:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Question_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.SystemQuestion:
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Question.ToBitmap(), scaledImageSize, scaledImageSize));
-                    break;
-                case KryptonToastNotificationIcon.Exclamation:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.SystemExclamation:
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Exclamation.ToBitmap(), scaledImageSize, scaledImageSize));
-                    break;
-                case KryptonToastNotificationIcon.Asterisk:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.SystemAsterisk:
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), scaledImageSize, scaledImageSize));
-                    break;
-                case KryptonToastNotificationIcon.Stop:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Stop_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.Error:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Critical_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.Warning:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.Information:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Information_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsAtLeastWindowsEleven)
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    else if (OSUtilities.IsWindowsTen)
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    else
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    break;
-                case KryptonToastNotificationIcon.WindowsLogo:
-                    if (OSUtilities.IsAtLeastWindowsEleven)
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(WindowsLogoImageResources.Windows_11_128_128, new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    else if (OSUtilities.IsWindowsEight || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsTen)
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(WindowsLogoImageResources.Windows_8_81_10_128_128, new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    else
-                    {
-                        SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.WinLogo.ToBitmap(), new Size(scaledImageSize, scaledImageSize)));
-                    }
-                    break;
-                case KryptonToastNotificationIcon.Application:
-                    SetIcon(GraphicsExtensions.ScaleImage(_data.ApplicationIcon.ToBitmap(), new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.SystemApplication:
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), scaledImageSize, scaledImageSize));
-                    break;
-                case KryptonToastNotificationIcon.Ok:
-                    SetIcon(GraphicsExtensions.ScaleImage(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128, new Size(scaledImageSize, scaledImageSize)));
-                    break;
-                case KryptonToastNotificationIcon.Custom:
-                    SetIcon(_data.CustomImage != null
-                        ? GraphicsExtensions.ScaleImage(new Bitmap(_data.CustomImage), new Size(scaledImageSize, scaledImageSize))
-                        : null);
-                    break;
-                case null:
-                    SetIcon(null);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private void VisualToastNotificationDateTimeUserInputForm_Load(object sender, EventArgs e)
         {
-            UpdateIcon();
+            CommonToastNotificationFunctions.UpdateUserInputToastIcon(pbxNotificationIcon);
 
-            UpdateLocation();
+            CommonToastNotificationFunctions.UpdateLocation(this);
 
-            ShowCloseButton();
+            CommonToastNotificationFunctions.ShowCloseButton(this);
 
             _timer.Start();
-        }
-
-        private void ShowCloseButton()
-        {
-            CloseBox = _data.ShowCloseBox ?? false;
-
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-            ControlBox = _data.ShowCloseBox ?? false;
         }
 
         private void itbDismiss_Click(object sender, EventArgs e) => Close();
@@ -208,11 +93,11 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            UpdateIcon();
+            CommonToastNotificationFunctions.UpdateUserInputToastIcon(pbxNotificationIcon);
 
             UpdateInitialValues();
 
-            UpdateLocation();
+            CommonToastNotificationFunctions.UpdateLocation(this);
 
             if (_data.CountDownSeconds != 0)
             {
@@ -250,7 +135,7 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            UpdateIcon();
+            CommonToastNotificationFunctions.UpdateUserInputToastIcon(pbxNotificationIcon);
 
             UpdateInitialValues();
 

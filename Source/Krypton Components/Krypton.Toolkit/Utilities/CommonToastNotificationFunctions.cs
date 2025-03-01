@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Xml.Linq;
-
 namespace Krypton.Toolkit
 {
     internal class CommonToastNotificationFunctions
@@ -43,9 +41,10 @@ namespace Krypton.Toolkit
 
         public static void UpdateIcon(PictureBox iconArea)
         {
-            int scaledImageSize = _basicToastNotificationData.NotificationIconSize == ToastNotificationIconSize.Small
+            int scaledImageSize = _basicToastNotificationData.NotificationIconSize.HasValue && _basicToastNotificationData.NotificationIconSize == ToastNotificationIconSize.Small
                 ? (_basicToastNotificationData.CustomNotificationIconSize ?? 32)
-                : (int)_basicToastNotificationData.NotificationIconSize!;
+                : (int)_basicToastNotificationData.NotificationIconSize.GetValueOrDefault(ToastNotificationIconSize.Small);
+
 
             switch (_basicToastNotificationData.NotificationIcon)
             {

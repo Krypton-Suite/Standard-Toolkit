@@ -73,7 +73,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(874, 470);
+            this.kryptonPanel1.Size = new System.Drawing.Size(876, 464);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonButton5
@@ -82,6 +82,7 @@ namespace TestForm
             this.kryptonButton5.Name = "kryptonButton5";
             this.kryptonButton5.Size = new System.Drawing.Size(273, 25);
             this.kryptonButton5.TabIndex = 12;
+            this.kryptonButton5.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton5.Values.Text = "DateTime Notificaton";
             // 
             // kbtnTextBoxNotificaton
@@ -90,6 +91,7 @@ namespace TestForm
             this.kbtnTextBoxNotificaton.Name = "kbtnTextBoxNotificaton";
             this.kbtnTextBoxNotificaton.Size = new System.Drawing.Size(288, 25);
             this.kbtnTextBoxNotificaton.TabIndex = 11;
+            this.kbtnTextBoxNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTextBoxNotificaton.Values.Text = "TextBox Notificaton";
             this.kbtnTextBoxNotificaton.Click += new System.EventHandler(this.kbtnTextBoxNotificaton_Click);
             // 
@@ -99,6 +101,7 @@ namespace TestForm
             this.kbtnNumericUpDownNotificaton.Name = "kbtnNumericUpDownNotificaton";
             this.kbtnNumericUpDownNotificaton.Size = new System.Drawing.Size(273, 25);
             this.kbtnNumericUpDownNotificaton.TabIndex = 10;
+            this.kbtnNumericUpDownNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnNumericUpDownNotificaton.Values.Text = "NumericUpDown Notificaton";
             this.kbtnNumericUpDownNotificaton.Click += new System.EventHandler(this.kbtnNumericUpDownNotificaton_Click);
             // 
@@ -108,6 +111,7 @@ namespace TestForm
             this.kbtnMaskedTextBoxNotificaton.Name = "kbtnMaskedTextBoxNotificaton";
             this.kbtnMaskedTextBoxNotificaton.Size = new System.Drawing.Size(273, 25);
             this.kbtnMaskedTextBoxNotificaton.TabIndex = 9;
+            this.kbtnMaskedTextBoxNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnMaskedTextBoxNotificaton.Values.Text = "Masked TextBox Notificaton";
             this.kbtnMaskedTextBoxNotificaton.Click += new System.EventHandler(this.kbtnMaskedTextBoxNotificaton_Click);
             // 
@@ -117,6 +121,7 @@ namespace TestForm
             this.kbtnDomainUpDownNotificaton.Name = "kbtnDomainUpDownNotificaton";
             this.kbtnDomainUpDownNotificaton.Size = new System.Drawing.Size(288, 25);
             this.kbtnDomainUpDownNotificaton.TabIndex = 8;
+            this.kbtnDomainUpDownNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDomainUpDownNotificaton.Values.Text = "DomainUpDown Notificaton";
             this.kbtnDomainUpDownNotificaton.Click += new System.EventHandler(this.kbtnDomainUpDownNotificaton_Click);
             // 
@@ -126,6 +131,7 @@ namespace TestForm
             this.kbtnDateTimeNotificaton.Name = "kbtnDateTimeNotificaton";
             this.kbtnDateTimeNotificaton.Size = new System.Drawing.Size(273, 25);
             this.kbtnDateTimeNotificaton.TabIndex = 7;
+            this.kbtnDateTimeNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDateTimeNotificaton.Values.Text = "DateTime Notificaton";
             this.kbtnDateTimeNotificaton.Click += new System.EventHandler(this.kbtnDateTimeNotificaton_Click);
             // 
@@ -135,6 +141,7 @@ namespace TestForm
             this.kbtnComboBoxNotificaton.Name = "kbtnComboBoxNotificaton";
             this.kbtnComboBoxNotificaton.Size = new System.Drawing.Size(273, 25);
             this.kbtnComboBoxNotificaton.TabIndex = 6;
+            this.kbtnComboBoxNotificaton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnComboBoxNotificaton.Values.Text = "ComboBox Notificaton";
             this.kbtnComboBoxNotificaton.Click += new System.EventHandler(this.kbtnComboBoxNotificaton_Click);
             // 
@@ -144,6 +151,7 @@ namespace TestForm
             this.kbtnBasicNotificationWithProgressBarCheckState.Name = "kbtnBasicNotificationWithProgressBarCheckState";
             this.kbtnBasicNotificationWithProgressBarCheckState.Size = new System.Drawing.Size(288, 25);
             this.kbtnBasicNotificationWithProgressBarCheckState.TabIndex = 5;
+            this.kbtnBasicNotificationWithProgressBarCheckState.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotificationWithProgressBarCheckState.Values.Text = "Basic Notification with ProgressBar (CheckState)";
             this.kbtnBasicNotificationWithProgressBarCheckState.Click += new System.EventHandler(this.kbtnBasicNotificationWithProgressBarCheckState_Click);
             // 
@@ -153,6 +161,7 @@ namespace TestForm
             this.kbtnBasicNotificationWithProgressBarChecked.Name = "kbtnBasicNotificationWithProgressBarChecked";
             this.kbtnBasicNotificationWithProgressBarChecked.Size = new System.Drawing.Size(273, 25);
             this.kbtnBasicNotificationWithProgressBarChecked.TabIndex = 4;
+            this.kbtnBasicNotificationWithProgressBarChecked.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotificationWithProgressBarChecked.Values.Text = "Basic Notification with ProgressBar (Checked)";
             this.kbtnBasicNotificationWithProgressBarChecked.Click += new System.EventHandler(this.kbtnBasicNotificationWithProgressBarChecked_Click);
             // 
@@ -162,6 +171,7 @@ namespace TestForm
             this.kbtnBasicNotificationWithProgressBar.Name = "kbtnBasicNotificationWithProgressBar";
             this.kbtnBasicNotificationWithProgressBar.Size = new System.Drawing.Size(273, 25);
             this.kbtnBasicNotificationWithProgressBar.TabIndex = 3;
+            this.kbtnBasicNotificationWithProgressBar.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotificationWithProgressBar.Values.Text = "Basic Notification with ProgressBar";
             this.kbtnBasicNotificationWithProgressBar.Click += new System.EventHandler(this.kbtnBasicNotificationWithProgressBar_Click);
             // 
@@ -171,6 +181,7 @@ namespace TestForm
             this.kbtnBasicNotificationCheckState.Name = "kbtnBasicNotificationCheckState";
             this.kbtnBasicNotificationCheckState.Size = new System.Drawing.Size(288, 25);
             this.kbtnBasicNotificationCheckState.TabIndex = 2;
+            this.kbtnBasicNotificationCheckState.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotificationCheckState.Values.Text = "Basic Notification (CheckState)";
             this.kbtnBasicNotificationCheckState.Click += new System.EventHandler(this.kbtnBasicNotificationCheckState_Click);
             // 
@@ -180,6 +191,7 @@ namespace TestForm
             this.kbtnBasicNotificationChecked.Name = "kbtnBasicNotificationChecked";
             this.kbtnBasicNotificationChecked.Size = new System.Drawing.Size(273, 25);
             this.kbtnBasicNotificationChecked.TabIndex = 1;
+            this.kbtnBasicNotificationChecked.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotificationChecked.Values.Text = "Basic Notification (Checked)";
             this.kbtnBasicNotificationChecked.Click += new System.EventHandler(this.kbtnBasicNotificationChecked_Click);
             // 
@@ -189,6 +201,7 @@ namespace TestForm
             this.kbtnBasicNotification.Name = "kbtnBasicNotification";
             this.kbtnBasicNotification.Size = new System.Drawing.Size(273, 25);
             this.kbtnBasicNotification.TabIndex = 0;
+            this.kbtnBasicNotification.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotification.Values.Text = "Basic Notification";
             this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
             // 
@@ -196,7 +209,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 470);
+            this.ClientSize = new System.Drawing.Size(876, 464);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "ToastNotificationQuickTestForm";
             this.Text = "ToastNotificationQuickTestForm";
