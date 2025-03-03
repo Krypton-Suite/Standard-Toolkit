@@ -36,6 +36,7 @@
 	
 	<Target Name="PackAll">
 		<ItemGroup>
+			<ProjectReference Include="..\..\..\..\Krypton-Palettes\Source\Krypton Palettes\Krypton.Base.Palettes\Krypton.Base.Palettes 2022.csproj" />
 			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<ItemGroup>

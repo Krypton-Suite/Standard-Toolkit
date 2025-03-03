@@ -879,6 +879,9 @@
   <ItemGroup>
     <Folder Include="Storage\Images\Generic\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Krypton-Palettes\Source\Krypton Palettes\Krypton.Base.Palettes\Krypton.Base.Palettes 2022.csproj" />
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">
     <Optimize>True</Optimize>
