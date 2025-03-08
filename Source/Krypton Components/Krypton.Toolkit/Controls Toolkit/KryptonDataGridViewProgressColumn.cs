@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// The progress features only function within a KryptonDataGridView.<br/>
     /// The connected field must have a value from 0.0 to 1 or DBNull. 
     /// </summary>
-    [ToolboxBitmap(typeof(KryptonProgressBar), "ToolboxBitmaps.KryptonProgressBar.bmp")]
+    [ToolboxBitmap(typeof(KryptonDataGridViewProgressColumn), "ToolboxBitmaps.KryptonProgressBar.bmp")]
     public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
     {
         #region Fields
