@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             theme.DisplayName = displayNameNode?.InnerText ?? theme.BasePaletteMode;
 
             // Extract Colors
-            XmlNodeList colorNodes = root.SelectNodes("Resources/Colors/Color");
+            XmlNodeList? colorNodes = root.SelectNodes("Resources/Colors/Color");
             foreach (XmlNode colorNode in colorNodes)
             {
                 string key = colorNode.Attributes["key"].Value;
@@ -93,10 +93,10 @@ namespace Krypton.Toolkit
             }
 
             // Extract Images
-            XmlNodeList imageNodes = root.SelectNodes("Resources/Images/Image");
+            XmlNodeList? imageNodes = root.SelectNodes("Resources/Images/Image");
             foreach (XmlNode imageNode in imageNodes)
             {
-                string key = imageNode.Attributes["key"].Value;
+                string key = imageNode.Attributes["key"]!.Value;
                 byte[] imageData = Convert.FromBase64String(imageNode.InnerText);
                 using (MemoryStream ms = new MemoryStream(imageData))
                 {
