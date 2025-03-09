@@ -9,8 +9,15 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Provides functionality to load embedded Krypton themes from the Krypton.Base.Themes.dll assembly.
+    /// </summary>
     public static class KryptonThemeLoader
     {
+        /// <summary>
+        /// Retrieves a list of available embedded themes.
+        /// </summary>
+        /// <returns>List of theme names found in the embedded resources.</returns>
         public static List<string> GetAvailableThemes()
         {
             Assembly assembly = Assembly.Load("Krypton.Base.Palettes");
@@ -28,6 +35,12 @@ namespace Krypton.Toolkit
             return themes;
         }
 
+        /// <summary>
+        /// Loads an embedded theme from the Krypton.Base.Themes.dll assembly.
+        /// </summary>
+        /// <param name="themeName">The name of the theme to load.</param>
+        /// <returns>A KryptonTheme object representing the loaded theme.</returns>
+        /// <exception cref="FileNotFoundException">Thrown when the specified theme cannot be found.</exception>
         public static KryptonTheme LoadEmbeddedTheme(string themeName)
         {
             Assembly assembly = Assembly.Load("Krypton.Base.Palettes");
@@ -46,6 +59,12 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Parses an XML document to create a KryptonTheme object.
+        /// </summary>
+        /// <param name="doc">The XML document representing the theme.</param>
+        /// <returns>A KryptonTheme object with parsed properties.</returns>
+        /// <exception cref="Exception">Thrown if the XML format is invalid.</exception>
         private static KryptonTheme ParseTheme(XmlDocument doc)
         {
             KryptonTheme theme = new KryptonTheme();
