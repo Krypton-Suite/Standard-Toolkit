@@ -113,6 +113,16 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
+        /// <summary>Gets or sets the size of the notification icon.</summary>
+        /// <value>The size of the notification icon.</value>
+        public ToastNotificationIconSize? NotificationIconSize { get; set; }
+
+        /// <summary>Gets or sets the custom size of the notification icon.</summary>
+        /// <value>The custom size of the notification icon.</value>
+        public int? CustomNotificationIconSize { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether [show count down progress bar].</summary>
+        /// <value><c>true</c> if [show count down progress bar]; otherwise, <c>false</c>.</value>
         public bool ShowCountDownProgressBar { get; set; }
 
         #endregion
@@ -149,6 +159,10 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
+
+            NotificationIconSize = ToastNotificationIconSize.Small;
+
+            CustomNotificationIconSize = 32;
         }
 
         #endregion
