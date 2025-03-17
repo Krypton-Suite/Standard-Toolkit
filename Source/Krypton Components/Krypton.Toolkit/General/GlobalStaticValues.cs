@@ -98,6 +98,8 @@ namespace Krypton.Toolkit
         /// <summary>The default ribbon application button text color</summary>
         public static readonly Color DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR = Color.White;
 
+        public const string EMBEDDED_THEME_NAMESPACE = "Krypton.Base.Palettes.Resources.Themes";
+
         #region Arrays
 
         #region Images

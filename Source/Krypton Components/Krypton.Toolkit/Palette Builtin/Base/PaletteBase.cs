@@ -1785,13 +1785,13 @@ namespace Krypton.Toolkit
         /// <value>The name of the theme.</value>
         [Description(@"Gets or sets the name of the theme.")]
         [DisallowNull]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BasePaletteType BasePaletteType { get; set; }
 
         #endregion
@@ -2067,6 +2067,15 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
+        #endregion
+
+        #region GetPaletteTextHotkeyPrefix
+
+        /// <summary>Gets the palette text hot key prefix.</summary>
+        /// <returns></returns>
+        public virtual PaletteTextHotkeyPrefix GetPaletteTextHotKeyPrefix() =>
+            GetContentShortTextPrefix(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
 
         #endregion
     }

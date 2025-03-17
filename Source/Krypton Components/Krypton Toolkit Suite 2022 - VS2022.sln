@@ -119,6 +119,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChangeLog", "ChangeLog", "{
 		..\..\Documents\Changelog\Changelog.md = ..\..\Documents\Changelog\Changelog.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Base.Palettes 2022", "..\..\..\Krypton-Palettes\Source\Krypton Palettes\Krypton.Base.Palettes\Krypton.Base.Palettes 2022.csproj", "{801EB893-710D-3DC5-C201-262C86001ED9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -188,6 +192,16 @@ Global
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.Build.0 = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{801EB893-710D-3DC5-C201-262C86001ED9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,6 +227,8 @@ Global
 		{FB5BC976-FCC7-4729-9331-C2420DE7ADB6} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
 		{40B83627-BD68-488E-ACB0-5B83D0A8B69C} = {FB5BC976-FCC7-4729-9331-C2420DE7ADB6}
 		{F0BC3940-BAC0-40B9-AECB-2FC752486AD5} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{801EB893-710D-3DC5-C201-262C86001ED9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {950EE50E-C0E8-4A28-96D3-4735F5313610}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}
