@@ -85,41 +85,32 @@ namespace Krypton.Toolkit
 
             // Extract Colors
             XmlNodeList? colorNodes = root.SelectNodes("Resources/Colors/Color");
-            if (colorNodes != null)
+            foreach (XmlNode colorNode in colorNodes)
             {
-                foreach (XmlNode colorNode in colorNodes)
-                {
-                    string? key = colorNode.Attributes?["key"]?.Value;
-                    Color value = ColorTranslator.FromHtml((colorNode.Attributes?["value"] != null ? colorNode.Attributes?["value"]?.Value : null)!);
-                    theme.Colors[key!] = value;
-                }
+                string key = colorNode.Attributes["key"].Value;
+                Color value = ColorTranslator.FromHtml(colorNode.Attributes["value"].Value);
+                theme.Colors[key] = value;
             }
 
             // Extract Images
             XmlNodeList? imageNodes = root.SelectNodes("Resources/Images/Image");
-            if (imageNodes != null)
+            foreach (XmlNode imageNode in imageNodes)
             {
-                foreach (XmlNode imageNode in imageNodes)
+                string key = imageNode.Attributes["key"]!.Value;
+                byte[] imageData = Convert.FromBase64String(imageNode.InnerText);
+                using (MemoryStream ms = new MemoryStream(imageData))
                 {
-                    string? key = imageNode.Attributes?["key"]!.Value;
-                    byte[] imageData = Convert.FromBase64String(imageNode.InnerText);
-                    using (MemoryStream ms = new MemoryStream(imageData))
-                    {
-                        theme.Images[key!] = Image.FromStream(ms);
-                    }
+                    theme.Images[key] = Image.FromStream(ms);
                 }
             }
 
             // Extract Fonts
-            XmlNodeList? fontNodes = root.SelectNodes("Resources/Fonts/Font");
-            if (fontNodes != null)
+            XmlNodeList fontNodes = root.SelectNodes("Resources/Fonts/Font");
+            foreach (XmlNode fontNode in fontNodes)
             {
-                foreach (XmlNode fontNode in fontNodes)
-                {
-                    string? key = fontNode.Attributes?["key"]?.Value;
-                    byte[] fontData = Convert.FromBase64String(fontNode.InnerText);
-                    theme.Fonts[key!] = fontData;
-                }
+                string key = fontNode.Attributes["key"].Value;
+                byte[] fontData = Convert.FromBase64String(fontNode.InnerText);
+                theme.Fonts[key] = fontData;
             }
 
             return theme;
