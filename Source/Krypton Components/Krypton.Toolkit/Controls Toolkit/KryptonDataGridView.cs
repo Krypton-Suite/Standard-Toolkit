@@ -1700,46 +1700,64 @@ namespace Krypton.Toolkit
                 currentColumn = Columns[i];
 
                 /* 
-                 * Auto generated columns are always of type System.Windows.Forms.DataGridViewTextBoxColumn.
-                 * Only columns that are of type DataGridViewTextBoxColumn and have the DataPropertyName set will be converted to krypton Columns.
+                 * Auto generated columns are always of DataGridViewTextBoxColumn, DataGridViewCheckBoxBoxColumn or DataGridViewImageColumn
                  */
-                if (currentColumn is DataGridViewTextBoxColumn && currentColumn.DataPropertyName.Length > 0)
+                if (currentColumn.DataPropertyName.Length > 0)
                 {
                     index = currentColumn.Index;
 
-                    var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn 
-                        : new KryptonDataGridViewTextBoxColumn();
+                    if (currentColumn is DataGridViewTextBoxColumn)
+                    {
+                        var newColumn = this.DesignMode
+                            ? designerHost?.CreateComponent(typeof(KryptonDataGridViewTextBoxColumn)) as KryptonDataGridViewTextBoxColumn
+                            : new KryptonDataGridViewTextBoxColumn();
 
-                    newColumn!.Name = currentColumn.Name;
-                    newColumn.DataPropertyName = currentColumn.DataPropertyName;
-                    newColumn.HeaderText = currentColumn.HeaderText;
-                    newColumn.Width = currentColumn.Width;
-                    newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        newColumn!.Name = currentColumn.Name;
+                        newColumn.DataPropertyName = currentColumn.DataPropertyName;
+                        newColumn.HeaderText = currentColumn.HeaderText;
+                        newColumn.Width = currentColumn.Width;
+                        newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
-                    Columns.RemoveAt(index);
-                    Columns.Insert(index, newColumn);
+                        Columns.RemoveAt(index);
+                        Columns.Insert(index, newColumn);
 
-                    designerHost?.DestroyComponent(currentColumn);
-                }
-                else if (currentColumn is DataGridViewCheckBoxColumn && currentColumn.DataPropertyName.Length > 0)
-                {
-                    index = currentColumn.Index;
+                        designerHost?.DestroyComponent(currentColumn);
+                    }
+                    else if (currentColumn is DataGridViewCheckBoxColumn)
+                    {
+                        var newColumn = this.DesignMode
+                            ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn
+                            : new KryptonDataGridViewCheckBoxColumn();
 
-                    var newColumn = this.DesignMode
-                        ? designerHost?.CreateComponent(typeof(KryptonDataGridViewCheckBoxColumn)) as KryptonDataGridViewCheckBoxColumn 
-                        : new KryptonDataGridViewCheckBoxColumn();
+                        newColumn!.Name = currentColumn.Name;
+                        newColumn.DataPropertyName = currentColumn.DataPropertyName;
+                        newColumn.HeaderText = currentColumn.HeaderText;
+                        newColumn.Width = currentColumn.Width;
+                        newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
-                    newColumn!.Name = currentColumn.Name;
-                    newColumn.DataPropertyName = currentColumn.DataPropertyName;
-                    newColumn.HeaderText = currentColumn.HeaderText;
-                    newColumn.Width = currentColumn.Width;
-                    newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        Columns.RemoveAt(index);
+                        Columns.Insert(index, newColumn);
 
-                    Columns.RemoveAt(index);
-                    Columns.Insert(index, newColumn);
+                        designerHost?.DestroyComponent(currentColumn);
+                    }
+                    else if (currentColumn is DataGridViewImageColumn)
+                    {
+                        var newColumn = this.DesignMode
+                            ? designerHost?.CreateComponent(typeof(KryptonDataGridViewImageColumn)) as KryptonDataGridViewImageColumn
+                            : new KryptonDataGridViewImageColumn();
 
-                    designerHost?.DestroyComponent(currentColumn);
+                        newColumn!.Name = currentColumn.Name;
+                        newColumn.DataPropertyName = currentColumn.DataPropertyName;
+                        newColumn.HeaderText = currentColumn.HeaderText;
+                        newColumn.Width = currentColumn.Width;
+                        newColumn.ImageLayout = (currentColumn as DataGridViewImageColumn)!.ImageLayout;
+                        newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+
+                        Columns.RemoveAt(index);
+                        Columns.Insert(index, newColumn);
+
+                        designerHost?.DestroyComponent(currentColumn);
+                    }
                 }
             }
 
