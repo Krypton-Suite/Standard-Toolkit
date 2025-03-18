@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Base.Palettes</RootNamespace>
+		<AssemblyName>Krypton.Base.Palettes</AssemblyName>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Themes\*.ktheme" />
+	</ItemGroup>
+
+</Project>

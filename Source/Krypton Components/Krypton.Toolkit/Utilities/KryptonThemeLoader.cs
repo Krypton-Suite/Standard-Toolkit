@@ -25,9 +25,9 @@ namespace Krypton.Toolkit
 
             foreach (var resource in assembly.GetManifestResourceNames())
             {
-                if (resource.EndsWith(".ktheme"))
+                if (resource.EndsWith(@".ktheme"))
                 {
-                    string themeName = resource.Replace($"{GlobalStaticValues.EMBEDDED_THEME_NAMESPACE}.", "").Replace(".ktheme", "");
+                    string themeName = resource.Replace($@"{GlobalStaticValues.EMBEDDED_THEME_NAMESPACE}.", @"").Replace(@".ktheme", @"");
                     themes.Add(themeName);
                 }
             }
@@ -43,14 +43,14 @@ namespace Krypton.Toolkit
         /// <exception cref="FileNotFoundException">Thrown when the specified theme cannot be found.</exception>
         public static KryptonTheme LoadEmbeddedTheme(string themeName)
         {
-            Assembly assembly = Assembly.Load("Krypton.Base.Palettes");
-            string resourceName = $"{GlobalStaticValues.EMBEDDED_THEME_NAMESPACE}.{themeName}.ktheme";
+            Assembly assembly = Assembly.Load(@"Krypton.Base.Palettes");
+            string resourceName = $@"{GlobalStaticValues.EMBEDDED_THEME_NAMESPACE}.{themeName}.ktheme";
 
             using (Stream? stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream == null)
                 {
-                    throw new FileNotFoundException($"Theme {themeName} not found in Krypton.Base.Palettes.dll");
+                    throw new FileNotFoundException($@"Theme {themeName} not found in Krypton.Base.Palettes.dll");
                 }
 
                 XmlDocument doc = new XmlDocument();
@@ -72,45 +72,67 @@ namespace Krypton.Toolkit
 
             if (root == null)
             {
-                throw new Exception("Invalid theme format.");
+                throw new Exception(@"Invalid theme format.");
             }
 
             // Extract BasePaletteMode
-            XmlNode? basePaletteNode = root.SelectSingleNode("BasePaletteMode");
-            theme.BasePaletteMode = basePaletteNode?.Attributes?["Value"]?.Value ?? "Unknown";
+            XmlNode? basePaletteNode = root.SelectSingleNode(@"BasePaletteMode");
+            theme.BasePaletteMode = basePaletteNode?.Attributes?[@"Value"]?.Value ?? @"Unknown";
 
             // Extract Display Name
-            XmlNode? displayNameNode = root.SelectSingleNode("DisplayName");
+            XmlNode? displayNameNode = root.SelectSingleNode(@"DisplayName");
             theme.DisplayName = displayNameNode?.InnerText ?? theme.BasePaletteMode;
 
             // Extract Colors
-            XmlNodeList? colorNodes = root.SelectNodes("Resources/Colors/Color");
-            foreach (XmlNode colorNode in colorNodes)
+            XmlNodeList? colorNodes = root.SelectNodes(@"Resources/Colors/Color");
+            if (colorNodes != null)
             {
-                string key = colorNode.Attributes["key"].Value;
-                Color value = ColorTranslator.FromHtml(colorNode.Attributes["value"].Value);
-                theme.Colors[key] = value;
+                foreach (XmlNode colorNode in colorNodes)
+                {
+                    string? key = colorNode.Attributes?[@"key"]?.Value;
+                    var htmlColor = colorNode.Attributes?[@"value"]?.Value;
+                    if (htmlColor != null)
+                    {
+                        Color value = ColorTranslator.FromHtml(htmlColor);
+                        if (key != null)
+                        {
+                            theme.Colors[key] = value;
+                        }
+                    }
+                }
             }
 
             // Extract Images
-            XmlNodeList? imageNodes = root.SelectNodes("Resources/Images/Image");
-            foreach (XmlNode imageNode in imageNodes)
+            XmlNodeList? imageNodes = root.SelectNodes(@"Resources/Images/Image");
+            if (imageNodes != null)
             {
-                string key = imageNode.Attributes["key"]!.Value;
-                byte[] imageData = Convert.FromBase64String(imageNode.InnerText);
-                using (MemoryStream ms = new MemoryStream(imageData))
+                foreach (XmlNode imageNode in imageNodes)
                 {
-                    theme.Images[key] = Image.FromStream(ms);
+                    string? key = imageNode.Attributes?[@"key"]?.Value;
+                    byte[] imageData = Convert.FromBase64String(imageNode.InnerText);
+                    using (MemoryStream ms = new MemoryStream(imageData))
+                    {
+                        if (key != null)
+                        {
+                            theme.Images[key] = Image.FromStream(ms);
+                        }
+                    }
                 }
             }
 
             // Extract Fonts
-            XmlNodeList fontNodes = root.SelectNodes("Resources/Fonts/Font");
-            foreach (XmlNode fontNode in fontNodes)
+            XmlNodeList? fontNodes = root.SelectNodes(@"Resources/Fonts/Font");
+            if (fontNodes != null)
             {
-                string key = fontNode.Attributes["key"].Value;
-                byte[] fontData = Convert.FromBase64String(fontNode.InnerText);
-                theme.Fonts[key] = fontData;
+                foreach (XmlNode fontNode in fontNodes)
+                {
+                    string? key = fontNode.Attributes?[@"key"]?.Value;
+                    string fontString = fontNode.InnerText;
+                    if (key != null)
+                    {
+                        theme.Fonts[key] = Encoding.UTF8.GetBytes(fontString);
+                    }
+                }
             }
 
             return theme;

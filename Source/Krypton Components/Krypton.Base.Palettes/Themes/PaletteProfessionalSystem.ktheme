@@ -1,0 +1,77 @@
+<KryptonPalette Version="20" Generated="2025-02-28T18:19:58.4724619Z">
+  <BasePaletteMode Type="PaletteMode" Value="PaletteProfessionalSystem" />
+  <Prefix Type="PaletteTextHotkeyPrefix" Value="Palette Professional System" />
+  <Resources>
+    <Colors>
+      <Color key="Header1Begin" value="" />
+      <Color key="Header1End" value="" />
+      <Color key="MenuItemText" value="menutext" />
+      <Color key="MenuStripText" value="menutext" />
+      <Color key="ToolStripText" value="menutext" />
+      <Color key="StatusStripText" value="menutext" />
+      <Color key="ButtonSelectedHighlight" value="#B5D7F3" />
+      <Color key="ButtonSelectedHighlightBorder" value="highlight" />
+      <Color key="ButtonPressedHighlight" value="#7EBAEA" />
+      <Color key="ButtonPressedHighlightBorder" value="highlight" />
+      <Color key="ButtonCheckedHighlight" value="#B5D7F3" />
+      <Color key="ButtonCheckedHighlightBorder" value="highlight" />
+      <Color key="ButtonPressedBorder" value="highlight" />
+      <Color key="ButtonSelectedBorder" value="highlight" />
+      <Color key="ButtonCheckedGradientBegin" value="" />
+      <Color key="ButtonCheckedGradientMiddle" value="" />
+      <Color key="ButtonCheckedGradientEnd" value="" />
+      <Color key="ButtonSelectedGradientBegin" value="#B3D7F3" />
+      <Color key="ButtonSelectedGradientMiddle" value="#B3D7F3" />
+      <Color key="ButtonSelectedGradientEnd" value="#B3D7F3" />
+      <Color key="ButtonPressedGradientBegin" value="#80BCEB" />
+      <Color key="ButtonPressedGradientMiddle" value="#80BCEB" />
+      <Color key="ButtonPressedGradientEnd" value="#80BCEB" />
+      <Color key="CheckBackground" value="highlight" />
+      <Color key="CheckSelectedBackground" value="#80BCEB" />
+      <Color key="CheckPressedBackground" value="#80BCEB" />
+      <Color key="GripDark" value="#B8B8B8" />
+      <Color key="GripLight" value="window" />
+      <Color key="ImageMarginGradientBegin" value="#FCFCFC" />
+      <Color key="ImageMarginGradientMiddle" value="#F8F8F8" />
+      <Color key="ImageMarginGradientEnd" value="buttonface" />
+      <Color key="ImageMarginRevealedGradientBegin" value="#F9F9F9" />
+      <Color key="ImageMarginRevealedGradientMiddle" value="#F5F5F5" />
+      <Color key="ImageMarginRevealedGradientEnd" value="#F2F2F2" />
+      <Color key="MenuStripGradientBegin" value="" />
+      <Color key="MenuStripGradientEnd" value="#FCFCFC" />
+      <Color key="MenuItemSelected" value="window" />
+      <Color key="MenuItemBorder" value="highlight" />
+      <Color key="MenuBorder" value="#808080" />
+      <Color key="MenuItemSelectedGradientBegin" value="#B3D7F3" />
+      <Color key="MenuItemSelectedGradientEnd" value="#B3D7F3" />
+      <Color key="MenuItemPressedGradientBegin" value="#FCFCFC" />
+      <Color key="MenuItemPressedGradientMiddle" value="#F5F5F5" />
+      <Color key="MenuItemPressedGradientEnd" value="#F8F8F8" />
+      <Color key="RaftingContainerGradientBegin" value="" />
+      <Color key="RaftingContainerGradientEnd" value="#FCFCFC" />
+      <Color key="SeparatorDark" value="#BDBDBD" />
+      <Color key="SeparatorLight" value="" />
+      <Color key="StatusStripBorder" value="" />
+      <Color key="StatusStripGradientBegin" value="" />
+      <Color key="StatusStripGradientEnd" value="#FCFCFC" />
+      <Color key="ToolStripBorder" value="#F2F2F2" />
+      <Color key="ToolStripDropDownBackground" value="#FDFDFD" />
+      <Color key="ToolStripGradientBegin" value="#FCFCFC" />
+      <Color key="ToolStripGradientMiddle" value="#F8F8F8" />
+      <Color key="ToolStripGradientEnd" value="" />
+      <Color key="ToolStripContentPanelGradientBegin" value="" />
+      <Color key="ToolStripContentPanelGradientEnd" value="#FCFCFC" />
+      <Color key="ToolStripPanelGradientBegin" value="" />
+      <Color key="ToolStripPanelGradientEnd" value="#FCFCFC" />
+      <Color key="OverflowButtonGradientBegin" value="#F5F5F5" />
+      <Color key="OverflowButtonGradientMiddle" value="#F2F2F2" />
+      <Color key="OverflowButtonGradientEnd" value="" />
+    </Colors>
+    <Images />
+    <Fonts>
+      <Font key="MenuStripFont">U2Vnb2UgVUk7MTI7UmVndWxhcg==</Font>
+      <Font key="ToolStripFont">U2Vnb2UgVUk7MTI7UmVndWxhcg==</Font>
+      <Font key="StatusStripFont">U2Vnb2UgVUk7MTI7UmVndWxhcg==</Font>
+    </Fonts>
+  </Resources>
+</KryptonPalette>
