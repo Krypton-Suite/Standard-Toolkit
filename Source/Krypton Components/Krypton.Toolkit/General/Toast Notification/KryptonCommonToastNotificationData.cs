@@ -115,11 +115,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the size of the notification icon.</summary>
         /// <value>The size of the notification icon.</value>
-        public ToastNotificationIconSize? NotificationIconSize { get; set; }
+        public ToastNotificationIconSize NotificationIconSize { get; set; }
 
         /// <summary>Gets or sets the custom size of the notification icon.</summary>
         /// <value>The custom size of the notification icon.</value>
-        public int? CustomNotificationIconSize { get; set; }
+        public int CustomNotificationIconSize { get; set; }
 
         /// <summary>Gets or sets a value indicating whether [show count down progress bar].</summary>
         /// <value><c>true</c> if [show count down progress bar]; otherwise, <c>false</c>.</value>

@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
 
         private readonly KryptonBasicToastNotificationData _basicToastNotificationData;
 
+        private readonly KryptonCommonToastNotificationData _commonData;
+
         #endregion
 
         #region Identity
@@ -119,7 +121,16 @@ namespace Krypton.Toolkit
             Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
 
-        private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+        private void ReportToastLocation() => klblToastLocation.Text = _commonData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+
+        private void UpdateIcon() => SetIcon(CommonToastNotificationFunctions.GetIcon(_commonData.NotificationIcon, _commonData, _commonData.NotificationIconSize, _commonData.CustomNotificationIconSize));
+
+        private void SetIcon(Bitmap? bitmap)
+        {
+            pbxIcon.Image = bitmap;
+
+            pbxIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+        }
 
         private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
@@ -205,7 +216,7 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            CommonToastNotificationFunctions.UpdateIcon(pbxIcon);
+            UpdateIcon();
 
             if (_basicToastNotificationData.CountDownSeconds != 0)
             {
@@ -244,7 +255,7 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            CommonToastNotificationFunctions.UpdateIcon(pbxIcon);
+            UpdateIcon();
 
             if (_basicToastNotificationData.IsDoNotShowAgainOptionChecked)
             {
