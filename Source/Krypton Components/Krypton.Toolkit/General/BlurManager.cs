@@ -33,7 +33,12 @@ namespace Krypton.Toolkit
             _parentForm = kryptonForm;
             _blurValues = blurValues;
 
+#if NET10_0_OR_GREATER
+            _parentForm.FormClosing += KryptonFormOnClosing;
+#else
             _parentForm.Closing += KryptonFormOnClosing;
+#endif
+
             _detectIsActiveTimer = new System.Windows.Forms.Timer { Enabled = false, Interval = 200 };
             _detectIsActiveTimer.Tick += DetectIsTopMost;
 
@@ -61,7 +66,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        #endregion Identity
+#endregion Identity
 
         private void KryptonFormOnClosing(object? sender, /*Cancel*/EventArgs e) => RemoveBlur();
 
