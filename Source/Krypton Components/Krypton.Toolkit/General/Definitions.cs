@@ -2903,9 +2903,12 @@ namespace Krypton.Toolkit
 
     #region Enum RightToLeftLayout
 
+    /// <summary>Defines the layout of the user interface.</summary>
     public enum RightToLeftLayout
     {
+        /// <summary>Use the left to right layout.</summary>
         LeftToRight = 0,
+        /// <summary>Use the right to left layout.</summary>
         RightToLeft = 1
     }
 
@@ -3087,4 +3090,24 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum ToastNotificationIconSize
+
+    /// <summary>Defines the notification icon size.</summary>
+    public enum ToastNotificationIconSize
+    {
+        /// <summary>The extra small size option.</summary>
+        ExtraSmall = 16,
+        /// <summary>The small size option.</summary>
+        Small = 32,
+        /// <summary>The medium size option.</summary>
+        Medium = 48,
+        /// <summary>The large size option.</summary>
+        Large = 64,
+        /// <summary>The extra large size option.</summary>
+        ExtraLarge = 128,
+        /// <summary>The custom size option.</summary>
+        Custom = 0
+    }
+
+    #endregion
 }

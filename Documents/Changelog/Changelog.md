@@ -66,7 +66,7 @@
 
 =======
 
-## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+## 2025-02-24 - Build 2502 (Version 95 - Patch 1) - February 2025
 * Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled

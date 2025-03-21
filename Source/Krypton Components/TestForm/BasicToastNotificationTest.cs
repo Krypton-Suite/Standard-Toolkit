@@ -57,7 +57,8 @@ namespace TestForm
                 ReportToastLocation = _reportToastLocation,
                 BorderColor1 = _borderColor1,
                 BorderColor2 = _borderColor2,
-                UseRtlReading = _useRtlReading
+                UseRtlReading = _useRtlReading,
+                NotificationIconSize = (ToastNotificationIconSize)Enum.Parse(typeof(ToastNotificationIconSize), kcmbIconSize.Text),
             };
 
             var notificationDataWithLocation = new KryptonBasicToastNotificationData()
@@ -123,9 +124,16 @@ namespace TestForm
                 kcmbToastTitleAlignmentV.Items.Add(value);
             }
 
+            foreach (var value in Enum.GetValues(typeof(ToastNotificationIconSize)))
+            {
+                kcmbIconSize.Items.Add(value);
+            }
+
             kcmbToastTitleAlignmentH.SelectedIndex = 1;
 
             kcmbToastTitleAlignmentV.SelectedIndex = 1;
+
+            kcmbIconSize.SelectedIndex = 1;
 
             knudStartLocationX.Maximum = GraphicsExtensions.GetWorkingArea().Width;
 

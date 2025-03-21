@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV) & Giduac et al. 2024 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -67,13 +67,12 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
+            kwlblNotificationContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
-            klblHeader.Text = _basicToastNotificationData.NotificationTitle;
+            kwlblNotificationTitle.Text = _basicToastNotificationData.NotificationTitle;
 
-            klblHeader.StateCommon.ShortText.TextH = _basicToastNotificationData.NotificationTitleAlignmentH ?? PaletteRelativeAlign.Center;
-
-            klblHeader.StateCommon.ShortText.TextV = _basicToastNotificationData.NotificationTitleAlignmentV ?? PaletteRelativeAlign.Center;
+            kwlblNotificationTitle.TextAlign =
+                _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
         }
 
         private void UpdateBorderColors()
@@ -89,99 +88,19 @@ namespace Krypton.Toolkit
 
         private void UpdateFonts()
         {
-            krtbNotificationContentText.StateCommon.Content.Font = _basicToastNotificationData.NotificationContentFont ??
-                                                                   KryptonManager.CurrentGlobalPalette.BaseFont;
+            kwlblNotificationContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
+                                            KryptonManager.CurrentGlobalPalette.BaseFont;
 
             if (_basicToastNotificationData.NotificationTitleFont != null)
             {
-                krtbNotificationContentText.InputControlStyle = InputControlStyle.PanelClient;
+                kwlblNotificationContent.LabelStyle = LabelStyle.NormalControl;
 
-                klblHeader.StateCommon.ShortText.Font =
+                kwlblNotificationTitle.StateCommon.Font =
                     _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {
-                klblHeader.LabelStyle = LabelStyle.TitleControl;
-            }
-        }
-
-        private void UpdateIcon()
-        {
-            switch (_basicToastNotificationData.NotificationIcon)
-            {
-                case KryptonToastNotificationIcon.None:
-                    SetIcon(null);
-                    break;
-                case KryptonToastNotificationIcon.Hand:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Hand_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.SystemHand:
-#if NET8_0_OR_GREATER
-                    //SetIcon(GraphicsExtensions.ScaleImage());
-#else
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128, 128));
-#endif
-                    break;
-                case KryptonToastNotificationIcon.Question:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Question_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.SystemQuestion:
-                    break;
-                case KryptonToastNotificationIcon.Exclamation:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115);
-                    break;
-                case KryptonToastNotificationIcon.SystemExclamation:
-                    break;
-                case KryptonToastNotificationIcon.Asterisk:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Asterisk_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.SystemAsterisk:
-                    break;
-                case KryptonToastNotificationIcon.Stop:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Stop_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.Error:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Critical_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.Warning:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Warning_128_x_115);
-                    break;
-                case KryptonToastNotificationIcon.Information:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Information_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.Shield:
-                    if (OSUtilities.IsAtLeastWindowsEleven)
-                    {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_11_128_x_128);
-                    }
-                    else if (OSUtilities.IsWindowsTen)
-                    {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_10_128_x_128);
-                    }
-                    else
-                    {
-                        SetIcon(ToastNotificationImageResources.Toast_Notification_UAC_Shield_Windows_7_and_8_128_x_128);
-                    }
-                    break;
-                case KryptonToastNotificationIcon.WindowsLogo:
-                    break;
-                case KryptonToastNotificationIcon.Application:
-                    break;
-                case KryptonToastNotificationIcon.SystemApplication:
-                    break;
-                case KryptonToastNotificationIcon.Ok:
-                    SetIcon(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128);
-                    break;
-                case KryptonToastNotificationIcon.Custom:
-                    SetIcon(_basicToastNotificationData.CustomImage != null
-                        ? new Bitmap(_basicToastNotificationData.CustomImage)
-                        : null);
-                    break;
-                case null:
-                    SetIcon(null);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                kwlblNotificationTitle.LabelStyle = LabelStyle.TitleControl;
             }
         }
 
@@ -191,8 +110,6 @@ namespace Krypton.Toolkit
         private void UpdateDoNotShowAgainOptionCheckState() =>
             kchkDoNotShowAgain.CheckState =
                 _basicToastNotificationData.DoNotShowAgainOptionCheckState ?? CheckState.Unchecked;
-
-        private void SetIcon(Bitmap? image) => pbxImage.Image = image;
 
         private void UpdateLocation()
         {
@@ -253,7 +170,7 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            UpdateIcon();
+            CommonToastNotificationFunctions.UpdateIcon(pbxImage);
 
             if (_basicToastNotificationData.CountDownSeconds != 0)
             {
@@ -296,7 +213,7 @@ namespace Krypton.Toolkit
 
             UpdateText();
 
-            UpdateIcon();
+            CommonToastNotificationFunctions.UpdateIcon(pbxImage);
 
             if (_basicToastNotificationData.IsDoNotShowAgainOptionChecked)
             {

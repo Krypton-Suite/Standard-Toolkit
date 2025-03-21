@@ -31,11 +31,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the show do not show again option.</summary>
         /// <value>The show do not show again option.</value>
-        public bool? ShowDoNotShowAgainOption { get; set; }
+        public bool ShowDoNotShowAgainOption { get; set; }
 
         /// <summary>Gets or sets the state of the use do not show again option three.</summary>
         /// <value>The state of the use do not show again option three.</value>
-        public bool? UseDoNotShowAgainOptionThreeState { get; set; }
+        public bool UseDoNotShowAgainOptionThreeState { get; set; }
 
         /// <summary>Gets or sets the do not show again option checked value.</summary>
         /// <value>The do not show again option checked value.</value>
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the state of the do not show again option CheckBox.</summary>
         /// <value>The state of the do not show again option CheckBox.</value>
-        public CheckState? DoNotShowAgainOptionCheckState { get; set; }
+        public CheckState DoNotShowAgainOptionCheckState { get; set; }
 
         /// <summary>Gets or sets the notification title alignment.</summary>
         /// <value>The notification title alignment.</value>
@@ -113,6 +113,18 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
+        /// <summary>Gets or sets the size of the notification icon.</summary>
+        /// <value>The size of the notification icon.</value>
+        public ToastNotificationIconSize NotificationIconSize { get; set; }
+
+        /// <summary>Gets or sets the custom size of the notification icon.</summary>
+        /// <value>The custom size of the notification icon.</value>
+        public int CustomNotificationIconSize { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether [show count down progress bar].</summary>
+        /// <value><c>true</c> if [show count down progress bar]; otherwise, <c>false</c>.</value>
+        public bool ShowCountDownProgressBar { get; set; }
+
         #endregion
 
         #region Identity
@@ -147,6 +159,10 @@ namespace Krypton.Toolkit
             ToastHost = null;
 
             RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
+
+            NotificationIconSize = ToastNotificationIconSize.Small;
+
+            CustomNotificationIconSize = 32;
         }
 
         #endregion
