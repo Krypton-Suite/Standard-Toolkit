@@ -31,7 +31,12 @@ namespace Krypton.Toolkit
             _parentForm = kryptonForm;
             _shadowValues = shadowValues;
 
+#if NET10_0_OR_GREATER
+            _parentForm.FormClosing += KryptonFormOnClosing;
+#else
             _parentForm.Closing += KryptonFormOnClosing;
+#endif
+
             _parentForm.Load += FormLoaded;
 
             shadowValues.EnableShadowsChanged += ShadowValues_EnableShadowsChanged;
@@ -60,7 +65,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        #endregion
+#endregion
 
         private void InitialiseShadowForms()
         {
@@ -381,7 +386,12 @@ namespace Krypton.Toolkit
                 // hold the handle here to unregister it without depending on the form
                 var handle = f.Handle;
                 _forms[handle] = f;
+
+#if NET10_0_OR_GREATER
+                f.FormClosing += delegate { Unregister(handle); };
+#else
                 f.Closing += delegate { Unregister(handle); };
+#endif
             }
 
             if (f.Handle == IntPtr.Zero)

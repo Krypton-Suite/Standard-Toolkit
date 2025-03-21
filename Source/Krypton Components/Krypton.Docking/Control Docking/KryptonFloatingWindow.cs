@@ -12,9 +12,7 @@
 
 namespace Krypton.Docking
 {
-    /// <summary>
-    /// Extends the KryptonForm to act as a floating window within the docking framework.
-    /// </summary>
+    /// <summary>Extends the KryptonForm to act as a floating window within the docking framework.</summary>
     [ToolboxItem(false)]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
@@ -160,6 +158,25 @@ namespace Krypton.Docking
             base.OnLoad(e);
         }
 
+#if NET10_0_OR_GREATER
+        /// <summary>Raises the Form Closing event.</summary>
+        /// <param name="e">An FormClosingEventArgs that contains the event data.</param>
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Prevent user from closing by using the close button or close method
+            e.Cancel = true;
+
+            // Generate event so handlers to perform appropriate processing
+            var uniqueNames = VisibleCloseableUniqueNames();
+            
+            if (uniqueNames.Any())
+            {
+                OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
+            }
+
+            base.OnFormClosing(e);
+        }
+#else
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
@@ -178,6 +195,7 @@ namespace Krypton.Docking
 
             base.OnClosing(e);
         }
+#endif
 
         /// <summary>
         /// Raises the Activated event.
@@ -198,7 +216,7 @@ namespace Krypton.Docking
             CommonHelper.ActiveFloatingWindow = null;
             base.OnDeactivate(e);
         }
-        #endregion
+#endregion
 
         #region Internal
         /// <summary>
