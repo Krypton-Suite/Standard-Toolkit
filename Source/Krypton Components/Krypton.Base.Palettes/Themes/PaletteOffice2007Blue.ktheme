@@ -1,0 +1,75 @@
+<KryptonPalette Version="20" Generated="2025-02-28T18:19:58.4849880Z">
+  <BasePaletteMode Type="PaletteMode" Value="PaletteOffice2007Blue" />
+  <Prefix Type="PaletteTextHotkeyPrefix" Value="Palette Office 2007 Blue" />
+  <Resources>
+    <Colors>
+      <Color key="ButtonPressedBorder" value="#7999C2" />
+      <Color key="ButtonPressedGradientBegin" value="#FDA461" />
+      <Color key="ButtonPressedGradientMiddle" value="#FDA461" />
+      <Color key="ButtonPressedGradientEnd" value="#FC8F3D" />
+      <Color key="ButtonPressedHighlight" value="#FDA461" />
+      <Color key="ButtonPressedHighlightBorder" value="#7999C2" />
+      <Color key="ButtonSelectedBorder" value="#7999C2" />
+      <Color key="ButtonSelectedGradientBegin" value="#FFEBA6" />
+      <Color key="ButtonSelectedGradientMiddle" value="#FFEBA6" />
+      <Color key="ButtonSelectedGradientEnd" value="#FFD567" />
+      <Color key="ButtonSelectedHighlight" value="#FFEBA6" />
+      <Color key="ButtonSelectedHighlightBorder" value="#7999C2" />
+      <Color key="ButtonCheckedGradientBegin" value="#FCB464" />
+      <Color key="ButtonCheckedGradientMiddle" value="#FCB464" />
+      <Color key="ButtonCheckedGradientEnd" value="#FCA136" />
+      <Color key="ButtonCheckedHighlight" value="#FCB464" />
+      <Color key="ButtonCheckedHighlightBorder" value="#7999C2" />
+      <Color key="CheckBackground" value="#FFE395" />
+      <Color key="CheckPressedBackground" value="#FFE395" />
+      <Color key="CheckSelectedBackground" value="#FFE395" />
+      <Color key="GripLight" value="#F8F8F8" />
+      <Color key="GripDark" value="#7298CC" />
+      <Color key="ImageMarginGradientBegin" value="#E9EEEE" />
+      <Color key="ImageMarginGradientMiddle" value="#E9EEEE" />
+      <Color key="ImageMarginGradientEnd" value="#E9EEEE" />
+      <Color key="ImageMarginRevealedGradientBegin" value="#E9EEEE" />
+      <Color key="ImageMarginRevealedGradientMiddle" value="#E9EEEE" />
+      <Color key="ImageMarginRevealedGradientEnd" value="#E9EEEE" />
+      <Color key="MenuBorder" value="#868686" />
+      <Color key="MenuItemBorder" value="#868686" />
+      <Color key="MenuItemSelected" value="#7999C2" />
+      <Color key="MenuItemPressedGradientBegin" value="#E3EFFF" />
+      <Color key="MenuItemPressedGradientEnd" value="#98BAE6" />
+      <Color key="MenuItemPressedGradientMiddle" value="#DEECFF" />
+      <Color key="MenuItemSelectedGradientBegin" value="#FFD567" />
+      <Color key="MenuItemSelectedGradientEnd" value="#FFE491" />
+      <Color key="MenuStripGradientBegin" value="#BFDBFF" />
+      <Color key="MenuStripGradientEnd" value="#BFDBFF" />
+      <Color key="OverflowButtonGradientBegin" value="#A7CCFB" />
+      <Color key="OverflowButtonGradientEnd" value="#6593CF" />
+      <Color key="OverflowButtonGradientMiddle" value="#A7CCFB" />
+      <Color key="RaftingContainerGradientBegin" value="#BFDBFF" />
+      <Color key="RaftingContainerGradientEnd" value="#BFDBFF" />
+      <Color key="SeparatorLight" value="#FFFFFF" />
+      <Color key="SeparatorDark" value="#9AC6FF" />
+      <Color key="StatusStripGradientBegin" value="#D7E5F7" />
+      <Color key="StatusStripGradientEnd" value="#ACC9EE" />
+      <Color key="MenuItemText" value="#15428B" />
+      <Color key="MenuStripText" value="#15428B" />
+      <Color key="ToolStripText" value="#15428B" />
+      <Color key="StatusStripText" value="#15428B" />
+      <Color key="ToolStripBorder" value="#6F9DD9" />
+      <Color key="ToolStripContentPanelGradientBegin" value="#BFDBFF" />
+      <Color key="ToolStripContentPanelGradientEnd" value="#BFDBFF" />
+      <Color key="ToolStripDropDownBackground" value="#FAFAFA" />
+      <Color key="ToolStripGradientBegin" value="#E3EFFF" />
+      <Color key="ToolStripGradientEnd" value="#98BAE6" />
+      <Color key="ToolStripGradientMiddle" value="#DEECFF" />
+      <Color key="ToolStripPanelGradientBegin" value="#BFDBFF" />
+      <Color key="ToolStripPanelGradientEnd" value="#BFDBFF" />
+      <Color key="StatusStripBorder" value="" />
+    </Colors>
+    <Images />
+    <Fonts>
+      <Font key="MenuStripFont">U2Vnb2UgVUk7OTtSZWd1bGFy</Font>
+      <Font key="ToolStripFont">U2Vnb2UgVUk7OTtSZWd1bGFy</Font>
+      <Font key="StatusStripFont">U2Vnb2UgVUk7OTtSZWd1bGFy</Font>
+    </Fonts>
+  </Resources>
+</KryptonPalette>

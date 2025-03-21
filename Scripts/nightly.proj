@@ -39,6 +39,7 @@
 	<Target Name="PackAll">
 		<ItemGroup>
 			<Projects Include="..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<ProjectReference Include="..\..\..\..\Krypton-Palettes\Source\Krypton Palettes\Krypton.Base.Palettes\Krypton.Base.Palettes 2022.csproj" />
 		</ItemGroup>
 		<ItemGroup>
 			<NugetAssets Include="..\Source\Krypton Components\Krypton.*\obj\*.json" />
