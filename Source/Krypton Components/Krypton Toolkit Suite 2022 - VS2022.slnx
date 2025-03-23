@@ -1,0 +1,92 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Canary" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Installer" />
+    <BuildType Name="Nightly" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/Build System/">
+    <File Path="../.editorconfig" />
+  </Folder>
+  <Folder Name="/Solution Items/Build System/CMD Files/" />
+  <Folder Name="/Solution Items/Build System/CMD Files/Build Scripts/">
+    <File Path="../../Scripts/build-canary-2022.cmd" />
+    <File Path="../../Scripts/build-installer-2022.cmd" />
+    <File Path="../../Scripts/build-nightly-2022.cmd" />
+    <File Path="../../Scripts/build-stable-2022.cmd" />
+  </Folder>
+  <Folder Name="/Solution Items/Build System/CMD Files/Miscellaneous Scripts/">
+    <File Path="../../debug.cmd" />
+    <File Path="../../publish.cmd" />
+    <File Path="../../purge.cmd" />
+    <File Path="../../run.cmd" />
+    <File Path="../../Scripts/update-nuget.cmd" />
+  </Folder>
+  <Folder Name="/Solution Items/Build System/Configuration Files/">
+    <File Path="../../Directory.Build.props" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/Solution Items/Build System/PROJ Files/">
+    <File Path="../../Scripts/build.proj" />
+    <File Path="../../Scripts/canary.proj" />
+    <File Path="../../Scripts/debug.proj" />
+    <File Path="../../Scripts/installer.proj" />
+    <File Path="../../Scripts/nightly.proj" />
+  </Folder>
+  <Folder Name="/Solution Items/Configuration/">
+    <File Path="../../.gitattributes" />
+    <File Path="../../.gitignore" />
+    <File Path="../.editorconfig" />
+    <File Path="Krypton Toolkit Suite 2022 - VS2022.sln.DotSettings" />
+  </Folder>
+  <Folder Name="/Solution Items/dictionary-en-gb/">
+    <File Path="../../dictionary-en-gb/index.aff" />
+    <File Path="../../dictionary-en-gb/index.d.ts" />
+    <File Path="../../dictionary-en-gb/index.dic" />
+    <File Path="../../dictionary-en-gb/index.js" />
+    <File Path="../../dictionary-en-gb/license.txt" />
+    <File Path="../../dictionary-en-gb/package.json" />
+    <File Path="../../dictionary-en-gb/readme.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/">
+    <File Path="../../README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/ChangeLog/">
+    <File Path="../../Documents/Changelog/Changelog.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/Development/">
+    <File Path="../../Documents/Development/Development-Workflow.md" />
+    <File Path="../../Documents/Development/How to Manage Using Statements.md" />
+    <File Path="../../Documents/Development/How-to-Build.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/GitHub/" />
+  <Folder Name="/Solution Items/Documentation/GitHub/Issue Templates/">
+    <File Path="../../.github/ISSUE_TEMPLATE/bug_report.md" />
+    <File Path="../../.github/ISSUE_TEMPLATE/feature_request.md" />
+    <File Path="../../.github/ISSUE_TEMPLATE/other-issues.md" />
+    <File Path="../../.github/ISSUE_TEMPLATE/post-a-question.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/Help/">
+    <File Path="../../Documents/Help/Designer-Fix.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Documentation/Licenses/">
+    <File Path="../../Documents/License/License.md" />
+    <File Path="../../LICENSE" />
+  </Folder>
+  <Folder Name="/Source/">
+    <Project Path="Krypton.Docking/Krypton.Docking 2022.csproj" />
+    <Project Path="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+    <Project Path="Krypton.Ribbon/Krypton.Ribbon 2022.csproj" />
+    <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
+    <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
+  </Folder>
+  <Project Path="TestForm/TestForm.csproj">
+    <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+    <BuildType Solution="Canary|*" Project="Debug" />
+    <BuildType Solution="Installer|*" Project="Debug" />
+    <BuildType Solution="Nightly|*" Project="Debug" />
+  </Project>
+</Solution>
