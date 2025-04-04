@@ -36,6 +36,7 @@
             this.kryptonBreadCrumbItem2 = new Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem3 = new Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem4 = new Krypton.Toolkit.KryptonBreadCrumbItem();
+            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).BeginInit();
@@ -47,6 +48,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel1.Controls.Add(this.kryptonSplitContainer1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonBreadCrumb1);
@@ -108,6 +110,17 @@
             // 
             this.kryptonBreadCrumbItem4.ShortText = "ListItem";
             // 
+            // kryptonPropertyGrid1
+            // 
+            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(431, 13);
+            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
+            this.kryptonPropertyGrid1.SelectedObject = this;
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(559, 511);
+            this.kryptonPropertyGrid1.TabIndex = 3;
+            this.kryptonPropertyGrid1.Text = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.kryptonPropertyGrid1_PropertyValueChanged);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,5 +150,6 @@
         private Krypton.Toolkit.KryptonBreadCrumb kryptonBreadCrumb1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
         private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
+        private Krypton.Toolkit.KryptonPropertyGrid kryptonPropertyGrid1;
     }
 }
