@@ -5,7 +5,7 @@
 # 2025-04-25 - Build 2504 (Patch 6) - April 2025
 * Resolved [#2137](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2137), NuGet version `90.25.2.55` should be `95.25.xx.xxx`
 * Resolved [#2035](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2035), Removes the designer attributes from all `KrpytonDataGridView` Columns. Using the default WinForms Column Designers
-* Resolved [#2165]((https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
+* Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
 
 =======
 
