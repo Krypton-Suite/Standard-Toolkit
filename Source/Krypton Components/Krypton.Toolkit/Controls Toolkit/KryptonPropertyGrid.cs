@@ -237,12 +237,20 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Events
+        
+        public new event PreviewKeyDownEventHandler? PreviewKeyDown;
 
-        // TODO: 
+        public event EventHandler? PropertySortChanged;
+
+        public event PropertyTabChangedEventHandler? PropertyTabChanged;
+
+        //public event PropertyChangingEventHandler? PropertyChanging;
+
+        public event PropertyValueChangedEventHandler? PropertyValueChanged;
+
         #endregion
 
-
-        #region Constructor
+        #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonPropertyGrid" /> class.</summary>
         public KryptonPropertyGrid()
@@ -266,6 +274,11 @@ namespace Krypton.Toolkit
             _propertyGrid.Click += OnPropertyGridClick; // SKC: make sure that the default click is also routed.
             _propertyGrid.GotFocus += OnPropertyGridGotFocus;
             _propertyGrid.LostFocus += OnPropertyGridLostFocus;
+            _propertyGrid.PreviewKeyDown += OnPreviewKeyDown;
+            _propertyGrid.PropertySortChanged += OnPropertySortChanged;
+            _propertyGrid.PropertyTabChanged += OnPropertyTabChanged;
+            //_propertyGrid.PropertyChanging += OnPropertyChanging;
+            _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
 
             _layoutFill = new ViewLayoutFill(_propertyGrid)
             {
@@ -879,6 +892,14 @@ namespace Krypton.Toolkit
             PerformNeedPaint(false);
             _propertyGrid.Invalidate();
         }
+
+        private void OnPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(sender, e);
+
+        private void OnPropertySortChanged(object? sender, EventArgs e) => PropertySortChanged?.Invoke(sender, e);
+
+        private void OnPropertyTabChanged(object? sender, PropertyTabChangedEventArgs e) => PropertyTabChanged?.Invoke(sender, e);
+
+        private void OnPropertyValueChanged(object? sender, PropertyValueChangedEventArgs e) => PropertyValueChanged?.Invoke(sender, e);
 
         /// <inheritdoc />
         protected override void OnEnabledChanged(EventArgs e)
