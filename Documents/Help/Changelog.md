@@ -2,6 +2,11 @@
 
 =======
 
+## 2025-04-21 - Build 2504 (Patch 6) - April 2025
+* Resolved [#2165]((https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
+
+=======
+
 # 2025-02-25 - Build 2502 (Patch 5) - February 2025
 * Resolved [#1832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1832), `KryptonComboBox` now will always vertically center the inner ComboBox. The `IntegralHeight` property now defaults to true.
 * Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values

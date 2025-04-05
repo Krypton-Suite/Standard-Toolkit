@@ -8,5 +8,10 @@ namespace TestForm
         {
             InitializeComponent();
         }
+
+        private void kryptonPropertyGrid1_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
+        {
+            KryptonMessageBox.Show("Event fired");
+        }
     }
 }
