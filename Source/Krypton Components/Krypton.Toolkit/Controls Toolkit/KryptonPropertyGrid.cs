@@ -237,8 +237,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Events
-
-        public event PreviewKeyDownEventHandler? PreviewKeyDown;
+        
+        public new event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         public event EventHandler? PropertySortChanged;
 
