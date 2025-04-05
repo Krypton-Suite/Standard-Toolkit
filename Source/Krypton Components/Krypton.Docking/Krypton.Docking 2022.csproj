@@ -109,7 +109,7 @@
 		<NoWarn>1701;1702</NoWarn>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-		<PackageLicenseFile>License.md</PackageLicenseFile>
+		<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
