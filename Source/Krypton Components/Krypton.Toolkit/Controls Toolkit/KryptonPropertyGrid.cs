@@ -232,20 +232,22 @@ namespace Krypton.Toolkit
         private readonly IntPtr _screenDC;
         private bool _alwaysActive;
         private bool _forcedLayout;
-        private KryptonContextMenuItem _resetMenuItem;
+        private readonly KryptonContextMenuItem _resetMenuItem;
 
-        #endregion
-
-        #region Events
-        
+        /// <summary>Occurs before a key is pressed while the control has focus.</summary>
+        [Description(@"Occurs before a key is pressed while the control has focus.")]
         public new event PreviewKeyDownEventHandler? PreviewKeyDown;
 
+        /// <summary>Occurs when the property sort changes.</summary>
+        [Description(@"Occurs when the property sort changes.")]
         public event EventHandler? PropertySortChanged;
 
+        /// <summary>Occurs when the property tab changes.</summary>
+        [Description(@"Occurs when the property tab changes.")]
         public event PropertyTabChangedEventHandler? PropertyTabChanged;
 
-        //public event PropertyChangingEventHandler? PropertyChanging;
-
+        /// <summary>Occurs when the property value changes.</summary>
+        [Description(@"Occurs when the property value changes.")]
         public event PropertyValueChangedEventHandler? PropertyValueChanged;
 
         #endregion
