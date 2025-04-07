@@ -7,8 +7,11 @@
 
 namespace Krypton.Toolkit
 {
-    ///<summary>A property grid control that supports the Krypton render.</summary>
-    /// /// <seealso cref="PropertyGrid" />
+    /// <summary>
+    /// A property grid control that supports the Krypton render.
+    /// </summary>
+    /// <seealso cref="Krypton.Toolkit.VisualControlBase" />
+    /// <seealso cref="Krypton.Toolkit.IContainedInputControl" />
     [Description(@"A property grid control that supports the Krypton render.")]
     [Designer(typeof(KryptonPropertyGridDesigner))]
     [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
@@ -228,20 +231,26 @@ namespace Krypton.Toolkit
         private readonly IntPtr _screenDC;
         private bool _alwaysActive;
         private bool _forcedLayout;
-        private KryptonContextMenuItem _resetMenuItem;
+        private readonly KryptonContextMenuItem _resetMenuItem;
 
         #endregion
 
         #region Events
 
-        public event PreviewKeyDownEventHandler? PreviewKeyDown;
+        /// <summary>Occurs when a key is pressed while the control has focus.</summary>
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        public new event PreviewKeyDownEventHandler? PreviewKeyDown;
 
+        /// <summary>Occurs when the property sort changes.</summary>
+        [Description(@"Occurs when the property sort changes.")]
         public event EventHandler? PropertySortChanged;
 
+        /// <summary>Occurs when the property tab changes.</summary>
+        [Description(@"Occurs when the property tab changes.")]
         public event PropertyTabChangedEventHandler? PropertyTabChanged;
 
-        //public event PropertyChangingEventHandler? PropertyChanging;
-
+        /// <summary>Occurs when the value of a property changes.</summary>
+        [Description(@"Occurs when the value of a property changes.")]
         public event PropertyValueChangedEventHandler? PropertyValueChanged;
 
         #endregion

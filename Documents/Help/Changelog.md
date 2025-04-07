@@ -3,7 +3,8 @@
 =======
 
 ## 2025-04-21 - Build 2504 (Patch 6) - April 2025
-* Resolved [#2165]((https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
+* Resolved [#2138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2138), NuGet License type is not being detected in projects that use `PackageLicenseExpression`
+* Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
 
 =======
 
