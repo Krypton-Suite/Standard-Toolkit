@@ -951,6 +951,8 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
+        private readonly CheckedListBox _checkedListBox;
+
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
@@ -974,6 +976,10 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private object? _dataSource;
+        private string _displayMember;
+        private string _valueMember;
+
         #endregion
 
         #region Events
@@ -1108,6 +1114,7 @@ namespace Krypton.Toolkit
             _alwaysActive = true;
             _style = ButtonStyle.ListItem;
             _lastSelectedIndex = -1;
+            _checkedListBox = new CheckedListBox();
             base.Padding = new Padding(1);
 
             // Create the palette storage
@@ -1888,6 +1895,101 @@ namespace Krypton.Toolkit
         /// Activates the control.
         /// </summary>
         public new void Select() => ListBox.Select();
+
+        /// <summary>Gets or sets the data source.</summary>
+        /// <value>The data source.</value>
+        [Category("Data")]
+        [Description("Indicates the list that this control will use to get its items.")]
+        [DefaultValue(null)]
+        [AttributeProvider(typeof(IListSource))]
+        public object? DataSource
+        {
+            get => _dataSource;
+            set
+            {
+                if (_dataSource != value)
+                {
+                    _dataSource = value;
+                    RefreshItems();
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the display member.</summary>
+        /// <value>The display member.</value>
+        [Category("Data")]
+        [Description("Indicates the property to display for the items in the control.")]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
+        [DefaultValue("")]
+        public string DisplayMember
+        {
+            get => _displayMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            set
+            {
+                if (_displayMember != value)
+                {
+                    _displayMember = value;
+                    RefreshItems();
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the value member.</summary>
+        /// <value>The value member.</value>
+        [Category("Data")]
+        [Description("Indicates the property to use as the actual value of items in the control.")]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
+        [DefaultValue("")]
+        public string ValueMember
+        {
+            get => _valueMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            set => _valueMember = value;
+        }
+
+        /// <summary>
+        /// Gets a list of value members (or raw items) for all currently checked items.
+        /// This is useful for data binding scenarios where the control is bound to a data source
+        /// and the selected values need to be retrieved based on the ValueMember property.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<object> CheckedItemList
+        {
+            get
+            {
+                List<object> resultListObjects = new List<object>();
+
+                foreach (var item in _checkedListBox.CheckedItems)
+                {
+                    if (!string.IsNullOrEmpty(_valueMember))
+                    {
+                        PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(item)[_valueMember];
+
+                        if (descriptor != null)
+                        {
+                            var value = descriptor.GetValue(item);
+                            if (value != null)
+                            {
+                                resultListObjects.Add(value);
+                            }
+                        }
+                        else if (item != null)
+                        {
+                            resultListObjects.Add(item);
+                        }
+
+                    }
+
+                    if (item != null)
+                    {
+                        resultListObjects.Add(item);
+                    }
+                }
+
+                return resultListObjects;
+            }
+        }
+
         #endregion
 
         #region Protected
@@ -2157,6 +2259,18 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size DefaultSize => new Size(120, 96);
 
+        /// <summary>
+        /// Raises the <see cref="E:BindingContextChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <returns></returns>
+        protected override void OnBindingContextChanged(EventArgs e)
+        {
+            base.OnBindingContextChanged(e);
+
+            RefreshItems();
+        }
+
         #endregion
 
         #region Implementation
@@ -2402,6 +2516,53 @@ namespace Krypton.Toolkit
                     OnTrackMouseLeave(EventArgs.Empty);
                     OnMouseLeave(e);
                 }
+            }
+        }
+
+        private void RefreshItems()
+        {
+            _checkedListBox.BeginUpdate();
+
+            _checkedListBox.Items.Clear();
+
+            if (_dataSource != null)
+            {
+                if (BindingContext != null && BindingContext[_dataSource] is CurrencyManager cm)
+                {
+                    for (int i = 0; i < cm!.Count; i++)
+                    {
+                        object? item = cm!.List[i];
+
+                        if (!string.IsNullOrEmpty(_displayMember))
+                        {
+                            PropertyDescriptor? descriptor = cm.GetItemProperties().Find(_displayMember, true);
+
+                            if (descriptor != null)
+                            {
+                                object? value = descriptor.GetValue(item);
+
+                                if (value != null)
+                                {
+                                    _checkedListBox.Items.Add(value);
+                                }
+                                else if (item != null)
+                                {
+                                    _checkedListBox.Items.Add(item);
+                                }
+
+                            }
+                            else
+                            {
+                                if (item != null)
+                                {
+                                    _checkedListBox.Items.Add(item);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                _checkedListBox.EndUpdate();
             }
         }
         #endregion
