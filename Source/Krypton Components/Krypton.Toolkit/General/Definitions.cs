@@ -3087,4 +3087,29 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Struct HELPINFO
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct HELPINFO
+    {
+        public int cbSize;
+        public int iContextType;
+        public int iCtrlId;
+        public IntPtr hItemHandle;
+        public IntPtr dwContextId;
+        public POINT MousePos;
+    }
+
+    #endregion
+
+    #region Struct POINT
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct POINT
+    {
+        public int X;
+        public int Y;
+    }
+
+    #endregion
 }
