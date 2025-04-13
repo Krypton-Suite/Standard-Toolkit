@@ -4147,6 +4147,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion Static Comdlg32
 
         #region Structures
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct LVFINDINFO
         {
@@ -4573,6 +4574,24 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public RECT rcMaximizeButton;
             public RECT rcHelpButton;
             public RECT rcCloseButton;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct HELPINFO
+        {
+            public int cbSize;
+            public int iContextType;
+            public int iCtrlId;
+            public IntPtr hItemHandle;
+            public IntPtr dwContextId;
+            public WINDOWLOCATION MousePos;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WINDOWLOCATION
+        {
+            public int X;
+            public int Y;
         }
 
         #region For Acrylic
