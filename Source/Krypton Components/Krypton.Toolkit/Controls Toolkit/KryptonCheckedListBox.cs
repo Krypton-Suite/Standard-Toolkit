@@ -1216,6 +1216,8 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
+
+            HandleCreated += OnHandleCreated;
         }
 
         private void OnCheckedListClick(object? sender, EventArgs e) =>
@@ -2519,7 +2521,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void RefreshItems()
+        /*private void RefreshItems()
         {
             _checkedListBox.BeginUpdate();
 
@@ -2564,7 +2566,50 @@ namespace Krypton.Toolkit
 
                 _checkedListBox.EndUpdate();
             }
+        }*/
+
+        private void RefreshItems()
+        {
+            if (!IsHandleCreated || _dataSource == null || string.IsNullOrWhiteSpace(_displayMember))
+                return;
+
+            try
+            {
+                if (BindingContext != null)
+                {
+                    CurrencyManager? cm = BindingContext[_dataSource] as CurrencyManager;
+                    if (cm == null) return;
+
+                    BeginUpdate();
+                    Items.Clear();
+
+                    for (int i = 0; i < cm.Count; i++)
+                    {
+                        object? dataItem = cm.List[i];
+                        if (dataItem != null)
+                        {
+                            PropertyDescriptor? prop = cm.GetItemProperties().Find(_displayMember, true);
+                            object displayValue = prop?.GetValue(dataItem) ?? dataItem;
+                            Items.Add(displayValue);
+                        }
+                    }
+                }
+
+                EndUpdate();
+            }
+            catch (Exception ex)
+            {
+                // Handle cases where BindingContext is not ready or properties don't exist
+                KryptonExceptionHandler.CaptureException(ex);
+            }
         }
+
+        private void OnHandleCreated(object? sender, EventArgs e) => RefreshItems();
+
+        /// <summary>Refreshes the bound items.</summary>
+        /// <returns></returns>
+        public void RefreshBoundItems() => RefreshItems();
+
         #endregion
     }
 }
