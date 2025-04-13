@@ -2571,25 +2571,30 @@ namespace Krypton.Toolkit
         private void RefreshItems()
         {
             if (!IsHandleCreated || _dataSource == null || string.IsNullOrWhiteSpace(_displayMember))
+            {
                 return;
+            }
 
             try
             {
                 if (BindingContext != null)
                 {
-                    CurrencyManager? cm = BindingContext[_dataSource] as CurrencyManager;
-                    if (cm == null) return;
+                    var cm = BindingContext[_dataSource] as CurrencyManager;
+                    if (cm == null)
+                    {
+                        return;
+                    }
 
                     BeginUpdate();
                     Items.Clear();
 
-                    for (int i = 0; i < cm.Count; i++)
+                    for (var i = 0; i < cm.Count; i++)
                     {
-                        object? dataItem = cm.List[i];
+                        var dataItem = cm.List[i];
                         if (dataItem != null)
                         {
-                            PropertyDescriptor? prop = cm.GetItemProperties().Find(_displayMember, true);
-                            object displayValue = prop?.GetValue(dataItem) ?? dataItem;
+                            var prop = cm.GetItemProperties().Find(_displayMember, true);
+                            var displayValue = prop?.GetValue(dataItem) ?? dataItem;
                             Items.Add(displayValue);
                         }
                     }
