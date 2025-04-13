@@ -47,10 +47,10 @@
             this.kryptonPanel1.Controls.Add(this.kbtnGetChecked);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 501);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 497);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(806, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(812, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnGetChecked
@@ -69,7 +69,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(806, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(812, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
@@ -78,7 +78,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(806, 501);
+            this.kryptonPanel2.Size = new System.Drawing.Size(812, 497);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -94,16 +94,16 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(806, 501);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(812, 497);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // klblNotification
             // 
             this.klblNotification.Dock = System.Windows.Forms.DockStyle.Fill;
             this.klblNotification.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.klblNotification.Location = new System.Drawing.Point(3, 496);
+            this.klblNotification.Location = new System.Drawing.Point(3, 492);
             this.klblNotification.Name = "klblNotification";
-            this.klblNotification.Size = new System.Drawing.Size(800, 2);
+            this.klblNotification.Size = new System.Drawing.Size(806, 2);
             this.klblNotification.TabIndex = 0;
             this.klblNotification.Values.Text = "";
             // 
@@ -112,16 +112,18 @@
             this.kryptonCheckedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonCheckedListBox1.Location = new System.Drawing.Point(3, 3);
             this.kryptonCheckedListBox1.Name = "kryptonCheckedListBox1";
-            this.kryptonCheckedListBox1.Size = new System.Drawing.Size(800, 487);
+            this.kryptonCheckedListBox1.Size = new System.Drawing.Size(806, 483);
             this.kryptonCheckedListBox1.TabIndex = 1;
             // 
             // CheckedListBoxDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 551);
+            this.ClientSize = new System.Drawing.Size(812, 547);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "CheckedListBoxDemo";
             this.Text = "CheckedListBoxDemo";
             this.Load += new System.EventHandler(this.CheckedListBoxDemo_Load);
