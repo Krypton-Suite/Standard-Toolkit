@@ -29,5 +29,10 @@ namespace TestForm
 
             bug833Test.Show();
         }
+
+        private void kryptonButton17_Click(object sender, EventArgs e)
+        {
+            new CheckedListBoxDemo().ShowDialog();
+        }
     }
 }

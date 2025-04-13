@@ -1959,36 +1959,26 @@ namespace Krypton.Toolkit
         {
             get
             {
-                List<object> resultListObjects = new List<object>();
+                List<object> results = new();
 
-                foreach (var item in _checkedListBox.CheckedItems)
+                foreach (var item in CheckedItems)
                 {
-                    if (!string.IsNullOrEmpty(_valueMember))
+                    if (!string.IsNullOrWhiteSpace(ValueMember))
                     {
-                        PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(item)[_valueMember];
-
-                        if (descriptor != null)
+                        var prop = TypeDescriptor.GetProperties(item)[ValueMember];
+                        if (prop != null)
                         {
-                            var value = descriptor.GetValue(item);
-                            if (value != null)
-                            {
-                                resultListObjects.Add(value);
-                            }
+                            var val = prop.GetValue(item);
+                            if (val != null)
+                                results.Add(val);
+                            continue;
                         }
-                        else if (item != null)
-                        {
-                            resultListObjects.Add(item);
-                        }
-
                     }
 
-                    if (item != null)
-                    {
-                        resultListObjects.Add(item);
-                    }
+                    results.Add(item);
                 }
 
-                return resultListObjects;
+                return results;
             }
         }
 
@@ -2521,53 +2511,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /*private void RefreshItems()
-        {
-            _checkedListBox.BeginUpdate();
-
-            _checkedListBox.Items.Clear();
-
-            if (_dataSource != null)
-            {
-                if (BindingContext != null && BindingContext[_dataSource] is CurrencyManager cm)
-                {
-                    for (int i = 0; i < cm!.Count; i++)
-                    {
-                        object? item = cm!.List[i];
-
-                        if (!string.IsNullOrEmpty(_displayMember))
-                        {
-                            PropertyDescriptor? descriptor = cm.GetItemProperties().Find(_displayMember, true);
-
-                            if (descriptor != null)
-                            {
-                                object? value = descriptor.GetValue(item);
-
-                                if (value != null)
-                                {
-                                    _checkedListBox.Items.Add(value);
-                                }
-                                else if (item != null)
-                                {
-                                    _checkedListBox.Items.Add(item);
-                                }
-
-                            }
-                            else
-                            {
-                                if (item != null)
-                                {
-                                    _checkedListBox.Items.Add(item);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                _checkedListBox.EndUpdate();
-            }
-        }*/
-
         private void RefreshItems()
         {
             if (!IsHandleCreated || _dataSource == null || string.IsNullOrWhiteSpace(_displayMember))
@@ -2577,37 +2520,33 @@ namespace Krypton.Toolkit
 
             try
             {
-                if (BindingContext != null)
+                CurrencyManager? cm = BindingContext[_dataSource] as CurrencyManager;
+                if (cm == null)
                 {
-                    var cm = BindingContext[_dataSource] as CurrencyManager;
-                    if (cm == null)
-                    {
-                        return;
-                    }
-
-                    BeginUpdate();
-                    Items.Clear();
-
-                    for (var i = 0; i < cm.Count; i++)
-                    {
-                        var dataItem = cm.List[i];
-                        if (dataItem != null)
-                        {
-                            var prop = cm.GetItemProperties().Find(_displayMember, true);
-                            var displayValue = prop?.GetValue(dataItem) ?? dataItem;
-                            Items.Add(displayValue);
-                        }
-                    }
+                    return;
                 }
 
-                EndUpdate();
+                Items.Clear();
+
+                PropertyDescriptor? descriptor = cm.GetItemProperties()?.Find(_displayMember, true);
+                if (descriptor == null)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < cm.Count; i++)
+                {
+                    object dataItem = cm.List[i];
+                    object displayValue = descriptor.GetValue(dataItem) ?? string.Empty;
+                    Items.Add(dataItem); // IMPORTANT: add the full object, not just the display string
+                }
             }
             catch (Exception ex)
             {
-                // Handle cases where BindingContext is not ready or properties don't exist
-                KryptonExceptionHandler.CaptureException(ex);
+                Debug.WriteLine($"[KryptonCheckedListBox] Data binding failed: {ex.Message}");
             }
         }
+
 
         private void OnHandleCreated(object? sender, EventArgs e) => RefreshItems();
 
