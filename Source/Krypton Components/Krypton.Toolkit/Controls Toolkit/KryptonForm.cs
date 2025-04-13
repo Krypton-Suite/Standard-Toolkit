@@ -1160,7 +1160,7 @@ namespace Krypton.Toolkit
 
             if (m.Msg == WM_HELP)
             {
-                var helpInfo = Marshal.PtrToStructure<HELPINFO>(m.LParam);
+                var helpInfo = Marshal.PtrToStructure<PI.HELPINFO>(m.LParam);
 
                 Point screenPos = new Point(helpInfo.MousePos.X, helpInfo.MousePos.Y);
                 Point clientPos = PointToClient(screenPos);
