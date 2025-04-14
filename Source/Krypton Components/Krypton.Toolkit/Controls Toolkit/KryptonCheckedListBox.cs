@@ -2520,7 +2520,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                CurrencyManager? cm = BindingContext[_dataSource] as CurrencyManager;
+                CurrencyManager? cm = BindingContext![_dataSource] as CurrencyManager;
                 if (cm == null)
                 {
                     return;
@@ -2536,7 +2536,13 @@ namespace Krypton.Toolkit
 
                 for (int i = 0; i < cm.Count; i++)
                 {
-                    object dataItem = cm.List[i];
+                    object? dataItem = cm.List[i];
+
+                    if (dataItem is null)
+                    {
+                        continue; // Skip null items to avoid issues
+                    }
+
                     object displayValue = descriptor.GetValue(dataItem) ?? string.Empty;
                     Items.Add(dataItem); // IMPORTANT: add the full object, not just the display string
                 }
