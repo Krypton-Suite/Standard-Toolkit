@@ -939,6 +939,35 @@ namespace Krypton.Toolkit
             // Test if we need to change the custom chrome usage
             UpdateUseThemeFormChromeBorderWidthDecision();
 
+        /// <inheritdoc />
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_HELP = 0x0053;
+
+            if (m.Msg == WM_HELP)
+            {
+                var helpInfo = Marshal.PtrToStructure<PI.HELPINFO>(m.LParam);
+
+                Point screenPos = new Point(helpInfo.MousePos.X, helpInfo.MousePos.Y);
+                Point clientPos = PointToClient(screenPos);
+
+                Control? targetControl = GetChildAtPoint(clientPos, GetChildAtPointSkip.Invisible | GetChildAtPointSkip.Disabled) ?? this;
+
+                // Try to find a HelpProvider attached to this control
+                HelpProvider? provider = FindHelpProvider(targetControl);
+
+                if (provider != null)
+                {
+                    Help.ShowHelp(targetControl, provider.HelpNamespace, provider.GetHelpNavigator(targetControl), provider.GetHelpKeyword(targetControl));
+                }
+
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
         #endregion
 
         #region Protected Chrome
@@ -1663,6 +1692,33 @@ namespace Krypton.Toolkit
                     break;
             }
         }
+
+        /// <summary>Finds the help provider.</summary>
+        /// <param name="control">The control.</param>
+        /// <returns>The help provider of the control.</returns>
+        private HelpProvider? FindHelpProvider(Control? control)
+        {
+            while (control != null)
+            {
+                var components = control.Site?.Container?.Components;
+
+                if (components != null)
+                {
+                    foreach (Component component in components)
+                    {
+                        if (component is HelpProvider provider && provider.GetShowHelp(control))
+                        {
+                            return provider;
+                        }
+                    }
+                }
+
+                control = control.Parent ?? throw new InvalidOperationException("Parent control is null.");
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Drop Shadow Methods

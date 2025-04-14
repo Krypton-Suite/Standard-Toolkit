@@ -3,6 +3,7 @@
 =======
 
 # 2025-04-25 - Build 2504 (Patch 6) - April 2025
+* Resolved [#868](https://github.com/Krypton-Suite/Standard-Toolkit/issues/868), `KryptonForm` Does not route `WM_HELP` request
 * Resolved [#2138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2138), NuGet License type is not being detected in projects that use `PackageLicenseExpression`
 * Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
 * Resolved [#2137](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2137), NuGet version `90.25.2.55` should be `95.25.xx.xxx`
