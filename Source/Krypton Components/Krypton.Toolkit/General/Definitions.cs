@@ -3074,7 +3074,7 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region KryptonUseRTLLayout
+    #region Enum KryptonUseRTLLayout
 
     /// <summary>Use RTL to display the controls and UI.</summary>
     public enum KryptonUseRTLLayout
@@ -3086,5 +3086,4 @@ namespace Krypton.Toolkit
     }
 
     #endregion
-
 }
