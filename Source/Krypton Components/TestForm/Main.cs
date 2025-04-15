@@ -396,5 +396,10 @@ namespace TestForm
         {
             new ToggleSwitchTest().ShowDialog();
         }
+
+        private void kryptonButton17_Click(object sender, EventArgs e)
+        {
+            new CheckedListBoxDemo().ShowDialog();
+        }
     }
 }
