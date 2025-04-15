@@ -1715,7 +1715,11 @@ namespace Krypton.Toolkit
                     newColumn.DataPropertyName = currentColumn.DataPropertyName;
                     newColumn.HeaderText = currentColumn.HeaderText;
                     newColumn.Width = currentColumn.Width;
-                    newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    newColumn.AutoSizeMode = currentColumn.AutoSizeMode;
+                    newColumn.DefaultCellStyle.Format = currentColumn.DefaultCellStyle.Format;
+                    newColumn.DefaultCellStyle.Alignment = currentColumn.DefaultCellStyle.Alignment;
+                    newColumn.Visible = currentColumn.Visible;
+                    newColumn.HeaderCell.Style.Alignment= currentColumn.HeaderCell.Style.Alignment;
 
                     Columns.RemoveAt(index);
                     Columns.Insert(index, newColumn);
@@ -1734,7 +1738,11 @@ namespace Krypton.Toolkit
                     newColumn.DataPropertyName = currentColumn.DataPropertyName;
                     newColumn.HeaderText = currentColumn.HeaderText;
                     newColumn.Width = currentColumn.Width;
-                    newColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    newColumn.AutoSizeMode = currentColumn.AutoSizeMode;
+                    newColumn.DefaultCellStyle.Format = currentColumn.DefaultCellStyle.Format;
+                    newColumn.DefaultCellStyle.Alignment = currentColumn.DefaultCellStyle.Alignment;
+                    newColumn.Visible = currentColumn.Visible;
+                    newColumn.HeaderCell.Style.Alignment= currentColumn.HeaderCell.Style.Alignment;
 
                     Columns.RemoveAt(index);
                     Columns.Insert(index, newColumn);
