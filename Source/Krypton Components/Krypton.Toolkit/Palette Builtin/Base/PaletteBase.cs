@@ -1760,6 +1760,15 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region GetPaletteTextHotkeyPrefix
+
+        /// <summary>Gets the palette text hot key prefix.</summary>
+        /// <returns>The palette text hot key prefix.</returns>
+        public virtual PaletteTextHotkeyPrefix GetPaletteTextHotKeyPrefix() =>
+            GetContentShortTextPrefix(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+
+        #endregion
+
         #region Public
 
         /// <summary>Gets or sets the base palette font.</summary>
