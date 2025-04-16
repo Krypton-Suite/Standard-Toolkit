@@ -3,6 +3,7 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogenation is enabled.
 * Implemented [#119](https://github.com/Krypton-Suite/Standard-Toolkit/issues/119), `KryptonCheckedListBox` with `DataSource`, `DisplayMember` and `ValueMember` property
 * Implemented [#2134](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2134), Implement a way of getting a way to show keyboard shortcuts
 * Resolved [#868](https://github.com/Krypton-Suite/Standard-Toolkit/issues/868), `KryptonForm` Does not route `WM_HELP` request

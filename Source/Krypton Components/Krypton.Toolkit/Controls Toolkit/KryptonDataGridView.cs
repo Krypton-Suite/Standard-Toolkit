@@ -226,6 +226,35 @@ namespace Krypton.Toolkit
 
         #region Public New
         /// <summary>
+        /// Gets or sets the number of columns displayed in the KryptonDataGridView.
+        /// </summary>
+        /// <returns>The number of columns displayed in the KryptonDataGridView.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">The specified value when setting this property is less than 0.</exception>
+        /// <exception cref="System.InvalidOperationException">When setting this property, the System.Windows.Forms.DataGridView.DataSource property has been set.</exception>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(0)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public new int ColumnCount {
+            // base.ColumnCount is a non virtual property.
+            get => base.ColumnCount;
+
+            set
+            {
+                // Let the base do its work
+                base.ColumnCount = value;
+
+                // If there is a count and AutoGenerate is enabled convert them to Krypton columns
+                if (base.ColumnCount > 0
+                    && AutoGenerateColumns
+                    && AutoGenerateKryptonColumns)
+                {
+                    ReplaceDefaultColumsWithKryptonColumns(true);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the background color of the DataGridView.
         /// </summary>
         [Browsable(false)]
@@ -1681,7 +1710,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Handles the auto generation of Krypton columns<br/>
         /// </summary>
-        private void ReplaceDefaultColumsWithKryptonColumns()
+        /// <param name="convertOnEmptyDataPropertyName">When true, even if the DataPropertyName has not been set columns will be converted. 
+        /// When true the DataPropertyName is mandatory.</param>
+        private void ReplaceDefaultColumsWithKryptonColumns(bool convertOnEmptyDataPropertyName = false)
         {
             DataGridViewColumn currentColumn;
             int index;
@@ -1702,7 +1733,7 @@ namespace Krypton.Toolkit
                 /* 
                  * Auto generated columns are always of DataGridViewTextBoxColumn, DataGridViewCheckBoxBoxColumn or DataGridViewImageColumn
                  */
-                if (currentColumn.DataPropertyName.Length > 0)
+                if (currentColumn.DataPropertyName.Length > 0 || convertOnEmptyDataPropertyName)
                 {
                     index = currentColumn.Index;
 
@@ -2840,5 +2871,6 @@ namespace Krypton.Toolkit
             base.WndProc(ref m);
         }
         #endregion menus
+      
     }
 }
