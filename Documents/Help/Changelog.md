@@ -3,6 +3,7 @@
 =======
 
 ## 2025-04-21 - Build 2504 (Patch 6) - April 2025
+* Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogeneration is enabled.
 * Resolved [#2138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2138), NuGet License type is not being detected in projects that use `PackageLicenseExpression`
 * Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
 * Resolved [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), Adjusted `.Width` and adds `.HeaderCell.Alignment`, `.DefaultCellStyle.Alignment`, `.Visible`, `.AutoSizeMode` and `.DefaultCellStyle.Format` in `ReplaceDefaultColumsWithKryptonColumns`.
