@@ -235,7 +235,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(0)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public new int ColumnCount {
+        public new int ColumnCount 
+        {
             // base.ColumnCount is a non virtual property.
             get => base.ColumnCount;
 
