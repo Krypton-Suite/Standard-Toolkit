@@ -98,6 +98,7 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private StatusStrip? _statusStrip;
+        private bool _mdiTransferred;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private Control? _activeControl;
@@ -388,8 +389,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public void SetInheritedControlOverride()
         {
+            if (_mdiTransferred)
+            {
+                return;
+            }
+
             _internalPanelState = InheritBool.True;
             _foundRibbonOffset = 0;
+            _mdiTransferred = true;
         }
 
         /// <inheritdoc cref="Form" />
@@ -450,14 +457,13 @@ namespace Krypton.Toolkit
                 {
                     _internalKryptonPanel.ClientSize = ClientSize;
                 }
-                // Deal with adding after the `InitializeComponent` has completed
-                return _foundRibbonOffset == -1 
-                    ? _internalKryptonPanel.Controls 
-                    : base.Controls;
+
+                // Route to base.Controls when MDI is enabled
+                return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
             }
         }
 
-#endregion
+        #endregion
 
         #region Public
         /// <summary>
@@ -1182,6 +1188,25 @@ namespace Krypton.Toolkit
             }
 
             base.WndProc(ref m);
+        }
+
+        /// <summary>Ensures MDI logic runs correctly after form creation.</summary>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            if (IsMdiContainer && !_mdiTransferred)
+            {
+                SetInheritedControlOverride();
+
+                Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
+
+                for (var i = checkForRibbon.Count - 1; i >= 0; i--)
+                {
+                    base.Controls.Add(checkForRibbon[i]);
+                }
+
+            }
         }
 
         #endregion
