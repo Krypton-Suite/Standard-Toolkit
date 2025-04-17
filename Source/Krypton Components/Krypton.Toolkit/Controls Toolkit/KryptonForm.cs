@@ -98,8 +98,10 @@ namespace Krypton.Toolkit
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
+        private bool _mdiTransferred;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
+
         #endregion
 
         #region Identity
@@ -648,6 +650,30 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether the form is a container for multiple-document interface (MDI) child forms.</summary>
+        [Category(@"Behavior")]
+        [DefaultValue(false)]
+        [Description(@"Indicates if the form is a container for multiple-document interface (MDI) child forms.")]
+        public new bool IsMdiContainer
+        {
+            get => base.IsMdiContainer;
+            set
+            {
+                if (base.IsMdiContainer != value)
+                {
+                    base.IsMdiContainer = value;
+
+                    if (value)
+                    {
+                        // Ensure layout when enabling MDI
+                        RecalcNonClient();
+                        PerformLayout();
+                        Invalidate();
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Public Chrome
@@ -966,6 +992,21 @@ namespace Krypton.Toolkit
             }
 
             base.WndProc(ref m);
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            if (IsMdiContainer && !_mdiTransferred)
+            {
+                // Force a refresh of layout so MDI client window renders correctly
+                RecalcNonClient();
+                PerformLayout();
+                Invalidate();
+
+                _mdiTransferred = true;
+            }
         }
 
         #endregion
