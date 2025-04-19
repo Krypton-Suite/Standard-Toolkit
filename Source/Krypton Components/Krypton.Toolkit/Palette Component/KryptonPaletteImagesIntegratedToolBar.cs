@@ -12,6 +12,7 @@ namespace Krypton.Toolkit
     /// <summary>Storage for palette integrated toolbar images.</summary>
     public class KryptonPaletteImagesIntegratedToolBar : Storage
     {
+
         #region Instance Fields
 
         private PaletteRedirect? _redirect;
@@ -492,6 +493,14 @@ namespace Krypton.Toolkit
             }
         }
 
+        #endregion
+
+        #region Public override
+        // Overrides ToString() since this normally displays the text "Modified" in the property grid.
+        public override string ToString()
+        {
+            return string.Empty;
+        }
         #endregion
     }
 }

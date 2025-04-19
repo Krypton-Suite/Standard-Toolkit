@@ -3,8 +3,16 @@
 =======
 
 ## 2025-11-xx - Build 2511 - November 2025
+* Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
+* Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogenation is enabled.
+* Implemented [#119](https://github.com/Krypton-Suite/Standard-Toolkit/issues/119), `KryptonCheckedListBox` with `DataSource`, `DisplayMember` and `ValueMember` property
+* Implemented [#2134](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2134), Implement a way of getting a way to show keyboard shortcuts
+* Resolved [#868](https://github.com/Krypton-Suite/Standard-Toolkit/issues/868), `KryptonForm` Does not route `WM_HELP` request
+* Resolved [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), Adjusted `.Width` and adds `.HeaderCell.Alignment`, `.DefaultCellStyle.Alignment`, `.Visible`, `.AutoSizeMode` and `.DefaultCellStyle.Format` in `ReplaceDefaultColumsWithKryptonColumns`
+* Resolved [#2138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2138), NuGet License type is not being detected in projects that use `PackageLicenseExpression`
+* Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
 * Implemented [#2145](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2145), Support the new `slnx` format
-* Resolved [#2035](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2035), Removes the designer attributes from all `KrpytonDataGridView` Columns. Using the default Winforms Column Designers
+* Resolved [#2035](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2035), Removes the designer attributes from all `KrpytonDataGridView` Columns. Using the default WinForms Column Designers
 * Implemented [#2026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2026), Adds the `KryptonDataGridViewImageColumn` to the `KrpytonDataGridView` column collection
 * Implemented [#2026](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2026), Adds the `KryptonDataGridViewProgressColumn` to the `KrpytonDataGridView` column collection
 * Resolved [#1832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1832), `KryptonComboBox` now will always vertically center the inner ComboBox. The `IntegralHeight` property now is true by default.
@@ -168,7 +176,7 @@
 * Resolved [#1461](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1461), Remove designer visibility of MouseDoubleClick and DoubleClick Events for the KryptonComboxBox
 * Resolved [#1478](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1478), Wrongly assigned designers to `KryptonListview` and `KryptonProgressBar` corrected. DesignerActionLists code updated.
 * Resolved [#1475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1475), Build Scripts will run when no suitable environment is detected. Add 'BinLog' option to `build-*.cmd`
-* Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **[Breaking Change]** Take KMB back to the Winform override (Remove Checkbox etc)
+* Implemented [#1435](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1435), **[Breaking Change]** Take KMB back to the WinForm override (Remove Checkbox etc)
 * Implemented [#1432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1432), Copy `KryptonMessageBox` to `KryptonMessageBoxDep`
 * Resolved [#1424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1424), **[Breaking Change]** `KryptonMessageBox` does not obey tab characters like `MessageBox`
 * Resolved [#1381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1381), **[Regression]** Docking Persistence broken since build ##.23.10.303

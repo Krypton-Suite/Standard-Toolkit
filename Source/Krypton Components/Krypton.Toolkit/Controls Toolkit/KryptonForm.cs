@@ -98,6 +98,7 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private StatusStrip? _statusStrip;
+        private bool _mdiTransferred;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private Control? _activeControl;
@@ -388,8 +389,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public void SetInheritedControlOverride()
         {
+            if (_mdiTransferred)
+            {
+                return;
+            }
+
             _internalPanelState = InheritBool.True;
             _foundRibbonOffset = 0;
+            _mdiTransferred = true;
         }
 
         /// <inheritdoc cref="Form" />
@@ -450,14 +457,13 @@ namespace Krypton.Toolkit
                 {
                     _internalKryptonPanel.ClientSize = ClientSize;
                 }
-                // Deal with adding after the `InitializeComponent` has completed
-                return _foundRibbonOffset == -1 
-                    ? _internalKryptonPanel.Controls 
-                    : base.Controls;
+
+                // Route to base.Controls when MDI is enabled
+                return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
             }
         }
 
-#endregion
+        #endregion
 
         #region Public
         /// <summary>
@@ -1152,6 +1158,56 @@ namespace Krypton.Toolkit
         protected override void OnUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e) =>
             // Test if we need to change the custom chrome usage
             UpdateUseThemeFormChromeBorderWidthDecision();
+
+        /// <inheritdoc />
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_HELP = 0x0053;
+
+            if (m.Msg == WM_HELP)
+            {
+                var helpInfo = Marshal.PtrToStructure<PI.HELPINFO>(m.LParam);
+
+                Point screenPos = new Point(helpInfo.MousePos.X, helpInfo.MousePos.Y);
+                Point clientPos = PointToClient(screenPos);
+
+                Control? targetControl =
+                    GetChildAtPoint(clientPos, GetChildAtPointSkip.Invisible | GetChildAtPointSkip.Disabled) ?? this;
+
+                // Try to find a HelpProvider attached to this control
+                HelpProvider? provider = FindHelpProvider(targetControl);
+
+                if (provider != null)
+                {
+                    Help.ShowHelp(targetControl, provider.HelpNamespace, provider.GetHelpNavigator(targetControl),
+                        provider.GetHelpKeyword(targetControl));
+                }
+
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        /// <summary>Ensures MDI logic runs correctly after form creation.</summary>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            if (IsMdiContainer && !_mdiTransferred)
+            {
+                SetInheritedControlOverride();
+
+                Control.ControlCollection checkForRibbon = _internalKryptonPanel.Controls;
+
+                for (var i = checkForRibbon.Count - 1; i >= 0; i--)
+                {
+                    base.Controls.Add(checkForRibbon[i]);
+                }
+
+            }
+        }
 
         #endregion
 
@@ -1874,6 +1930,33 @@ namespace Krypton.Toolkit
                     break;
             }
         }
+
+        /// <summary>Finds the help provider.</summary>
+        /// <param name="control">The control.</param>
+        /// <returns>The help provider of the control.</returns>
+        private HelpProvider? FindHelpProvider(Control? control)
+        {
+            while (control != null)
+            {
+                var components = control.Site?.Container?.Components;
+
+                if (components != null)
+                {
+                    foreach (Component component in components)
+                    {
+                        if (component is HelpProvider provider && provider.GetShowHelp(control))
+                        {
+                            return provider;
+                        }
+                    }
+                }
+
+                control = control.Parent ?? throw new InvalidOperationException("Parent control is null.");
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Drop Shadow Methods
