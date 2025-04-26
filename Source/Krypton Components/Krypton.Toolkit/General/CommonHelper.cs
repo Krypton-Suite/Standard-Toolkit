@@ -1262,53 +1262,63 @@ namespace Krypton.Toolkit
                 {   // Need to breakout when the form is closing
                     return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
                 }
-                // Set the values determined by the formBorder.BorderWidths etc.
-                rect.left = -xOffset;
-                rect.right = xOffset;
-                rect.bottom = yOffset;
 
-                PaletteDrawBorders borders = CommonHelper.IsFormMaximized(form!)
-                    ? PaletteDrawBorders.Top
-                    : form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal);
-                switch (borders)
+                if (!CommonHelper.IsFormMaximized(form!))
                 {
-                    case PaletteDrawBorders.Top:
-                    case PaletteDrawBorders.None:
-                        rect.left = 0;
-                        rect.right = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.Bottom:
-                    case PaletteDrawBorders.TopBottom:
-                        rect.left = 0;
-                        rect.right = 0;
-                        break;
-                    case PaletteDrawBorders.Left:
-                    case PaletteDrawBorders.TopLeft:
-                        rect.right = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.BottomLeft:
-                    case PaletteDrawBorders.TopBottomLeft:
-                        rect.right = 0;
-                        break;
-                    case PaletteDrawBorders.Right:
-                    case PaletteDrawBorders.TopRight:
-                        rect.left = 0;
-                        rect.bottom = 0;
-                        break;
-                    case PaletteDrawBorders.BottomRight:
-                    case PaletteDrawBorders.TopBottomRight:
-                        rect.left = 0;
-                        break;
-                    case PaletteDrawBorders.LeftRight:
-                    case PaletteDrawBorders.TopLeftRight:
-                        rect.bottom = 0;
-                        break;
-                    //case PaletteDrawBorders.BottomLeftRight:
-                    //case PaletteDrawBorders.All:
-                    default:
-                        break;
+                    // Set the values determined by the formBorder.BorderWidths etc.
+                    rect.left = -xOffset;
+                    rect.right = xOffset;
+                    rect.bottom = yOffset;
+                    switch (form!.StateCommon!.Border.GetBorderDrawBorders(PaletteState.Normal))
+                    {
+                        case PaletteDrawBorders.None:
+                            rect.left = 0;
+                            rect.right = 0;
+                            rect.bottom = 0;
+                            break;
+                        case PaletteDrawBorders.Bottom:
+                        case PaletteDrawBorders.TopBottom:
+                            rect.left = 0;
+                            rect.right = 0;
+                            break;
+                        case PaletteDrawBorders.Left:
+                        case PaletteDrawBorders.TopLeft:
+                            rect.right = 0;
+                            rect.bottom = 0;
+                            break;
+                        case PaletteDrawBorders.BottomLeft:
+                        case PaletteDrawBorders.TopBottomLeft:
+                            rect.right = 0;
+                            break;
+                        case PaletteDrawBorders.Right:
+                        case PaletteDrawBorders.TopRight:
+                            rect.left = 0;
+                            rect.bottom = 0;
+                            break;
+                        case PaletteDrawBorders.BottomRight:
+                        case PaletteDrawBorders.TopBottomRight:
+                            rect.left = 0;
+                            break;
+                        case PaletteDrawBorders.LeftRight:
+                        case PaletteDrawBorders.TopLeftRight:
+                            rect.bottom = 0;
+                            break;
+                        //case PaletteDrawBorders.Inherit:
+                        //case PaletteDrawBorders.BottomLeftRight:
+                        //case PaletteDrawBorders.All:
+                        default:
+                            break;
+                    }
+                }
+                else if (form?.IsMdiChild ?? false)
+                {
+                    rect.top = 0;
+                    rect.bottom = 0;
+                }
+                else
+                {
+                    rect.bottom -= yOffset;
+                    rect.top -= rect.bottom;
                 }
             }
 
