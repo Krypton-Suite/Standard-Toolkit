@@ -1,8 +1,9 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-=======
+==== 
 
-## 2025-11-xx - Build 2511 - November 2025
+## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
 * Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
 * Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogenation is enabled.
 * Implemented [#119](https://github.com/Krypton-Suite/Standard-Toolkit/issues/119), `KryptonCheckedListBox` with `DataSource`, `DisplayMember` and `ValueMember` property
@@ -74,9 +75,33 @@
 
 =======
 
-## 2025-02-01 - Build 2502 (Version 95 - Patch 1) - February 2025
+# 2025-0#-## - Build 250# (Version 95 - Patch #) - #### 2025
+* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
+
+====
+
+# 2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025
+* Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
+* Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogeneration is enabled.
+* Resolved [#868](https://github.com/Krypton-Suite/Standard-Toolkit/issues/868), `KryptonForm` Does not route `WM_HELP` request
+* Resolved [#2138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2138), NuGet License type is not being detected in projects that use `PackageLicenseExpression`
+* Resolved [#2165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2165), `KryptonPropertyGrid` lacks the `PropertyValueChanged` event handler
+* Resolved [#2137](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2137), NuGet version `90.25.2.55` should be `95.25.xx.xxx`
+* Resolved [#2035](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2035), Removes the designer attributes from all `KrpytonDataGridView` Columns. Using the default WinForms Column Designers
+* Resolved [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), Adjusted `.Width` and adds `.HeaderCell.Alignment`, `.DefaultCellStyle.Alignment`, `.Visible`, `.AutoSizeMode` and `.DefaultCellStyle.Format` in `ReplaceDefaultColumsWithKryptonColumns`.
+
+=======
+
+# 2025-02-25 - Build 2502 (Version 95 - Patch 5) - February 2025
+* Implemented [#2125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2125), Adding NotificationIcon Size in ToastNotification
+* Resolved [#1832](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1832), `KryptonComboBox` now will always vertically center the inner ComboBox. The `IntegralHeight` property now defaults to true.
+* Resolved [#2108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2108), `KryptonPropertyGrid` needs to support 'resetting' of values
+* Resolved [#2047](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2047), `KryptonForm` based MDI child windows do not respond to LayoutMDI calls
+* Resolved [#2037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2037) `KryptonDataGridView` Several bug fixes and improvements to the `KryptonDataGridView` and its components have been made. See this ticket for a complete overview.
+* Resolved [#2023](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2023), `KryptonDataGridView` IconSpecs do not get a repaint when changed at run-time.
 * Resolved [#561](https://github.com/Krypton-Suite/Standard-Toolkit/issues/561), MenuItem images are not scaled with dpi Awareness
 * Resolved [#2009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2009), `KryptonCombBox` does not display the `CueHint`
+* Resolved [#1784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1784), `KryptonDataGridView` Auto generation of columns is not serialized correctly.
 * Resolved [#1964](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1964), `KryptonTreeView` Node crosses are not Dpi Scaled
 * Resolved [#560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/560), CheckBox Images are not scaled with dpi Awareness
 * Resolved [#565](https://github.com/Krypton-Suite/Standard-Toolkit/issues/565), GroupBox icons are not scaled for dpi awareness
@@ -84,10 +109,12 @@
 * Resolved [#1946](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1946), ButtonSpecs do not scale anymore!
 * Resolved [#1940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1940), In V95 KContextMenuItem no longer stores the Text value in the designer !!
 * Resolved [#1938](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1938), `KryptonTextBox` CueHint Text
+* Implemented [#519](https://github.com/Krypton-Suite/Standard-Toolkit/issues/519), `PaletteDataGridViewAll` does not expose the border value of the `private readonly PaletteDouble _background`
 * Resolved [#1905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1905), `Sparkle` Themes have an issue with the Background
 * Resolved [#980](https://github.com/Krypton-Suite/Standard-Toolkit/issues/980), `KryptonDockableNavigator` with pages without `AllowConfigSave` flag are incorrectly saved
+* Resolved [#1909](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1909), `KryptonDataGridViewComboBoxCell` displays an empty drop-down list on the first new row.
 * Resolved [#1910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1910), `Workspace Persistence` -> "Save to array" Causes an exception in `Toolkit.XmlHelper.Image.Save`
-* Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1900), Obsolete `KryptonMessageBoxDep` in V95 code base
+* Resolved [#1900](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), **Deprecate** -Remove `KryptonMessageBoxDep` from V100 code base
 * Resolved [#1211](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1211), Button 'drop down' arrows should use palette text colour 
 * Resolved [#1212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1212), **[Breaking Change]** `KColorButton` 'drop-down' arrow should be drawn
 	- Create Scaled Drop Glyph and use for colour button and comboDrops
@@ -96,15 +123,17 @@
 	- **Breaking Change**: Remove `DropDownButtonImages` from designers 
 * Resolved [#1887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1887), If `KryptonPropertyGrid` has focus on groupName and loses mouse over, then it is all filled in black
 * Resolved [#1878](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1878), `KryptonListView` is missing key events
-* Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
-* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
+* Resolved [#1843](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), `ButtonSpec` position is off due to an incorrect padding when style is set to "List Item".
 * Resolved [#1865](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1865), Outlook Mockup Error (thanks to [AngeloCresta](https://github.com/AngeloCresta))
 * Resolved [#1862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1862), `VisualPanel.PaintTransparentBackground()` throws a null reference exception
 * Resolved [#1399](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1399), Hard coded colour setting removed from the `KryptonRibbonTab`.
 * Resolved [#1837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1837), `KryptonMessageBoxDefaultButton.Button2` doesn't work
+* Resolved [#1877](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), HeaderGroups are 'clipped' after upgrade to 90.24.11.317
+* Resolved [#1783](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1843), KForm borders incorrect
 * Resolved [#1807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1807), `ChromeBorderWidth` and Padding
 * Resolved [#1842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1842), `KryptonTextBox` height collapses when MultiLine is enabled.
 * Resolved [#1241](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1241), `KryptonDataGridViewComboBoxColumn` ignores `ValueMember` in data binding. 
+
 
 =======
 
