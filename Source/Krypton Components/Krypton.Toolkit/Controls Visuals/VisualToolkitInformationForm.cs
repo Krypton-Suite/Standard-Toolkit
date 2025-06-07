@@ -15,6 +15,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private ToolkitType _toolkitType;
+        private string _path;
 
         #endregion
 
@@ -36,6 +37,15 @@ namespace Krypton.Toolkit
 
         private void VisualToolkitInformationForm_Load(object sender, EventArgs e)
         {
+            _path = $"{Application.ExecutablePath}\\{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}";
+
+            if (File.Exists(_path))
+            {
+                var fileInfo = FileVersionInfo.GetVersionInfo(_path);
+
+                klblToolkitVersion.Text = $"{KryptonManager.Strings.ToolkitInformationBoxStrings.Version}: {fileInfo.FileVersion}";
+            }
+
             krtbLicense.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
 
             kbtnSystemInformation.Text = KryptonManager.Strings.MiscellaneousStrings.SystemInformationText;
@@ -65,12 +75,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void kbtnSystemInformation_Click(object sender, EventArgs e)
-        {
-            var systemInformation = new VisualSystemInformationForm();
-
-            systemInformation.Show();
-        }
+        private void kbtnSystemInformation_Click(object sender, EventArgs e) => Process.Start(@"msinfo32.exe");
 
         private void kbtnMoreDetails_Click(object sender, EventArgs e)
         {

@@ -170,10 +170,10 @@
             this.kpnlButtons.Controls.Add(this.tableLayoutPanel1);
             this.kpnlButtons.Controls.Add(this.kryptonBorderEdge1);
             this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpnlButtons.Location = new System.Drawing.Point(0, 388);
+            this.kpnlButtons.Location = new System.Drawing.Point(0, 384);
             this.kpnlButtons.Name = "kpnlButtons";
             this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kpnlButtons.Size = new System.Drawing.Size(828, 50);
+            this.kpnlButtons.Size = new System.Drawing.Size(834, 50);
             this.kpnlButtons.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -190,13 +190,13 @@
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(828, 49);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(834, 49);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // kbtnOk
             // 
             this.kbtnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.kbtnOk.Location = new System.Drawing.Point(728, 12);
+            this.kbtnOk.Location = new System.Drawing.Point(734, 12);
             this.kbtnOk.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
@@ -208,7 +208,7 @@
             // kbtnSystemInformation
             // 
             this.kbtnSystemInformation.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.kbtnSystemInformation.Location = new System.Drawing.Point(547, 12);
+            this.kbtnSystemInformation.Location = new System.Drawing.Point(553, 12);
             this.kbtnSystemInformation.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnSystemInformation.Name = "kbtnSystemInformation";
             this.kbtnSystemInformation.Size = new System.Drawing.Size(161, 25);
@@ -223,7 +223,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(828, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(834, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kpnlMain
@@ -232,7 +232,7 @@
             this.kpnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlMain.Location = new System.Drawing.Point(0, 0);
             this.kpnlMain.Name = "kpnlMain";
-            this.kpnlMain.Size = new System.Drawing.Size(828, 388);
+            this.kpnlMain.Size = new System.Drawing.Size(834, 384);
             this.kpnlMain.TabIndex = 1;
             // 
             // khgMain
@@ -1034,7 +1034,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 438);
+            this.ClientSize = new System.Drawing.Size(834, 434);
             this.Controls.Add(this.kpnlMain);
             this.Controls.Add(this.kpnlButtons);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

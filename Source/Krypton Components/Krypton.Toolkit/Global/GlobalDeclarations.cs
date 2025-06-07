@@ -27,7 +27,6 @@ global using System.Drawing.Printing;
 global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
-global using System.Management;
 global using System.Resources;
 global using System.Runtime.InteropServices.ComTypes;
 global using System.Linq;
