@@ -515,20 +515,15 @@ namespace Krypton.Docking
             //    We have an associated auto hidden group control that is not disposed  AND
             //    We are not disposed
             if ((parentForm != null)
-                && ((parentForm == Form.ActiveForm)
-                    || ((parentMdi != null)
-                        && (parentMdi.ActiveMdiChild == parentForm)
-                    )
-                )
-                && parentForm.ContainsFocus
-                && (_state != DockingAutoHiddenShowState.Hidden)
-                && _group is { IsDisposed: false } && !IsDisposed
-               )
+        && ((parentForm == ActiveFormTracker.ActiveForm)
+            || (parentMdi != null && parentMdi.ActiveMdiChild == parentForm))
+        && parentForm.ContainsFocus
+        && (_state != DockingAutoHiddenShowState.Hidden)
+        && _group is { IsDisposed: false } && !IsDisposed)
             {
                 switch (msg.Msg)
                 {
                     case PI.WM_.KEYDOWN:
-                        // Pressing escape removes the auto hidden window
                         if ((int)msg.WParam == PI.VK_ESCAPE)
                         {
                             MakeHidden();
@@ -537,9 +532,6 @@ namespace Krypton.Docking
                         break;
 
                     case PI.WM_.MOUSELEAVE:
-                        // If the mouse is leaving a control then we start the dismiss timer so that a mouse move is required
-                        // to cancel the mouse move and prevent the actual dismissal occurring. The exception to this is if the
-                        // slide out dockspace has the focus, in which case we do nothing.
                         if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                         {
                             _dismissTimer.Stop();
@@ -549,39 +541,27 @@ namespace Krypton.Docking
                         break;
 
                     case PI.WM_.MOUSEMOVE:
-                        // Convert the mouse position into a screen location
                         Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(msg);
 
-                        // Is the mouse over ourselves or over the associated auto hidden group
                         if (RectangleToScreen(ClientRectangle).Contains(screenPt)
-                            || _group.RectangleToScreen(_group.ClientRectangle).Contains(screenPt)
-                           )
+                            || _group.RectangleToScreen(_group.ClientRectangle).Contains(screenPt))
                         {
-                            // We do not dismiss while the mouse is over ourselves
                             if (_dismissRunning)
                             {
                                 _dismissTimer.Stop();
                                 _dismissRunning = false;
                             }
                         }
-                        else
+                        else if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                         {
-                            // When mouse not over a relevant area we need to start the dismiss process 
-                            // unless the slide out dockspace has the focus, in which case we do nothing.
-                            if (!_dismissRunning && !DockspaceControl.ContainsFocus)
-                            {
-                                _dismissTimer.Stop();
-                                _dismissTimer.Start();
-                                _dismissRunning = true;
-                            }
+                            _dismissTimer.Stop();
+                            _dismissTimer.Start();
+                            _dismissRunning = true;
                         }
 
-                        // If first message for this window then need to track to get the mouse leave
                         if (_mouseTrackWindow != msg.HWnd)
                         {
                             _mouseTrackWindow = msg.HWnd;
-
-                            // This structure needs to know its own size in bytes
                             var tme = new PI.TRACKMOUSEEVENTS
                             {
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
@@ -589,8 +569,6 @@ namespace Krypton.Docking
                                 dwFlags = PI.TME_LEAVE,
                                 hWnd = Handle
                             };
-
-                            // Call Win32 API to start tracking
                             PI.TrackMouseEvent(ref tme);
                         }
                         break;
@@ -598,6 +576,95 @@ namespace Krypton.Docking
             }
 
             return false;
+
+            #region Old Code
+
+            //if ((parentForm != null)
+            //    && ((parentForm == Form.ActiveForm)
+            //        || ((parentMdi != null)
+            //            && (parentMdi.ActiveMdiChild == parentForm)
+            //        )
+            //    )
+            //    && parentForm.ContainsFocus
+            //    && (_state != DockingAutoHiddenShowState.Hidden)
+            //    && _group is { IsDisposed: false } && !IsDisposed
+            //   )
+            //{
+            //    switch (msg.Msg)
+            //    {
+            //        case PI.WM_.KEYDOWN:
+            //            // Pressing escape removes the auto hidden window
+            //            if ((int)msg.WParam == PI.VK_ESCAPE)
+            //            {
+            //                MakeHidden();
+            //                return true;
+            //            }
+            //            break;
+
+            //        case PI.WM_.MOUSELEAVE:
+            //            // If the mouse is leaving a control then we start the dismiss timer so that a mouse move is required
+            //            // to cancel the mouse move and prevent the actual dismissal occurring. The exception to this is if the
+            //            // slide out dockspace has the focus, in which case we do nothing.
+            //            if (!_dismissRunning && !DockspaceControl.ContainsFocus)
+            //            {
+            //                _dismissTimer.Stop();
+            //                _dismissTimer.Start();
+            //                _dismissRunning = true;
+            //            }
+            //            break;
+
+            //        case PI.WM_.MOUSEMOVE:
+            //            // Convert the mouse position into a screen location
+            //            Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(msg);
+
+            //            // Is the mouse over ourselves or over the associated auto hidden group
+            //            if (RectangleToScreen(ClientRectangle).Contains(screenPt)
+            //                || _group.RectangleToScreen(_group.ClientRectangle).Contains(screenPt)
+            //               )
+            //            {
+            //                // We do not dismiss while the mouse is over ourselves
+            //                if (_dismissRunning)
+            //                {
+            //                    _dismissTimer.Stop();
+            //                    _dismissRunning = false;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                // When mouse not over a relevant area we need to start the dismiss process 
+            //                // unless the slide out dockspace has the focus, in which case we do nothing.
+            //                if (!_dismissRunning && !DockspaceControl.ContainsFocus)
+            //                {
+            //                    _dismissTimer.Stop();
+            //                    _dismissTimer.Start();
+            //                    _dismissRunning = true;
+            //                }
+            //            }
+
+            //            // If first message for this window then need to track to get the mouse leave
+            //            if (_mouseTrackWindow != msg.HWnd)
+            //            {
+            //                _mouseTrackWindow = msg.HWnd;
+
+            //                // This structure needs to know its own size in bytes
+            //                var tme = new PI.TRACKMOUSEEVENTS
+            //                {
+            //                    cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
+            //                    dwHoverTime = 100,
+            //                    dwFlags = PI.TME_LEAVE,
+            //                    hWnd = Handle
+            //                };
+
+            //                // Call Win32 API to start tracking
+            //                PI.TrackMouseEvent(ref tme);
+            //            }
+            //            break;
+            //    }
+            //}
+
+            //return false;
+
+            #endregion
         }
 
         #endregion

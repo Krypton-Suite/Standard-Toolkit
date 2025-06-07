@@ -1,8 +1,13 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit - ChangeLog
 
-==== 
+====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), Excessive Polling in Krypton Docking Component
+	- **Note:** When using the `Krypton.Docking` module, place the following code in your `Program.cs` file to disable the excessive polling:
+	```csharp
+		ActiveFormTracker.StartAutomaticTracking();
+	```
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey
 * Resolved [#2180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2180), `KryptonTextBox` does not store the TabStop property in the designer source when needed.
 * Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
