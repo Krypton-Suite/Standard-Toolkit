@@ -165,19 +165,19 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 255, 255), // HeaderSecondaryBack1
             Color.FromArgb(255, 255, 255), // HeaderSecondaryBack2-n
             Color.FromArgb(59, 59, 59), // HeaderText
-            Color.FromArgb(255, 255, 255), // StatusStripText
+            Color.FromArgb(59, 59, 59), // StatusStripText & ToolStrip Control text
             Color.FromArgb(236, 199, 87), // ButtonBorder
             Color.FromArgb(247, 250, 252), // SeparatorLight
             Color.FromArgb(119, 123, 127), // SeparatorDark
             Color.FromArgb(191, 191, 191), // GripLight
             Color.FromArgb(191, 191, 191), // GripDark
             Color.FromArgb(227, 230, 232), // ToolStripBack
-            Color.FromArgb(0, 114, 198), // StatusStripLight
-            Color.FromArgb(0, 114, 198), // StatusStripDark
+            Color.FromArgb(202, 204, 206), // StatusStripLight
+            Color.FromArgb(202, 204, 206), // StatusStripDark
             Color.White, // ImageMargin
-            Color.FromArgb(255, 255, 255), // ToolStripBegin
-            Color.FromArgb(255, 255, 255), // ToolStripMiddle
-            Color.FromArgb(255, 255, 255), // ToolStripEnd
+            Color.FromArgb(202, 204, 206), // ToolStripBegin
+            Color.FromArgb(202, 204, 206), // ToolStripMiddle
+            Color.FromArgb(202, 204, 206), // ToolStripEnd
             Color.FromArgb(147, 154, 163), // OverflowBegin
             Color.FromArgb(147, 154, 163), // OverflowMiddle
             Color.FromArgb(147, 154, 163), // OverflowEnd
