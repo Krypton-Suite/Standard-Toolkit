@@ -8,6 +8,7 @@
 	```csharp
 		ActiveFormTracker.StartAutomaticTracking();
 	```
+* Resolved [#2213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2213), `KryptonToolStrip` & `KryptonStatusBar` controls text unreadable on Microsoft 365 White theme.
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey
 * Resolved [#2180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2180), `KryptonTextBox` does not store the TabStop property in the designer source when needed.
 * Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
