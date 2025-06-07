@@ -32,28 +32,28 @@
             this.tmrAutoClose = new System.Windows.Forms.Timer(this.components);
             this.tlpBase = new System.Windows.Forms.TableLayoutPanel();
             this._panelContent = new Krypton.Toolkit.KryptonPanel();
-            this._panelFooter = new Krypton.Toolkit.KryptonPanel();
             this.tlpContent = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._checkBox = new Krypton.Toolkit.KryptonCheckBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this._panelButtons = new Krypton.Toolkit.KryptonPanel();
-            this._borderEdge = new Krypton.Toolkit.KryptonBorderEdge();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
             this.kwlblMessageText = new Krypton.Toolkit.KryptonWrapLabel();
             this.klwlblMessageText = new Krypton.Toolkit.KryptonLinkWrapLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this._panelFooter = new Krypton.Toolkit.KryptonPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._panelButtons = new Krypton.Toolkit.KryptonPanel();
+            this._borderEdge = new Krypton.Toolkit.KryptonBorderEdge();
+            this._checkBox = new Krypton.Toolkit.KryptonCheckBox();
             this.tlpBase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._panelContent)).BeginInit();
             this._panelContent.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelFooter)).BeginInit();
-            this._panelFooter.SuspendLayout();
             this.tlpContent.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
-            this._panelButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).BeginInit();
             this.kpnlContentArea.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._panelFooter)).BeginInit();
+            this._panelFooter.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
+            this._panelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpBase
@@ -69,7 +69,7 @@
             this.tlpBase.RowCount = 2;
             this.tlpBase.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpBase.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpBase.Size = new System.Drawing.Size(267, 163);
+            this.tlpBase.Size = new System.Drawing.Size(271, 151);
             this.tlpBase.TabIndex = 0;
             // 
             // _panelContent
@@ -79,18 +79,8 @@
             this._panelContent.Location = new System.Drawing.Point(0, 0);
             this._panelContent.Margin = new System.Windows.Forms.Padding(0);
             this._panelContent.Name = "_panelContent";
-            this._panelContent.Size = new System.Drawing.Size(267, 98);
+            this._panelContent.Size = new System.Drawing.Size(271, 86);
             this._panelContent.TabIndex = 3;
-            // 
-            // _panelFooter
-            // 
-            this._panelFooter.Controls.Add(this.tableLayoutPanel1);
-            this._panelFooter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelFooter.Location = new System.Drawing.Point(0, 98);
-            this._panelFooter.Margin = new System.Windows.Forms.Padding(0);
-            this._panelFooter.Name = "_panelFooter";
-            this._panelFooter.Size = new System.Drawing.Size(267, 65);
-            this._panelFooter.TabIndex = 4;
             // 
             // tlpContent
             // 
@@ -104,8 +94,61 @@
             this.tlpContent.Name = "tlpContent";
             this.tlpContent.RowCount = 1;
             this.tlpContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpContent.Size = new System.Drawing.Size(267, 98);
+            this.tlpContent.Size = new System.Drawing.Size(271, 86);
             this.tlpContent.TabIndex = 0;
+            // 
+            // kpnlContentArea
+            // 
+            this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
+            this.kpnlContentArea.Controls.Add(this.klwlblMessageText);
+            this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpnlContentArea.Location = new System.Drawing.Point(61, 3);
+            this.kpnlContentArea.Name = "kpnlContentArea";
+            this.kpnlContentArea.Size = new System.Drawing.Size(207, 80);
+            this.kpnlContentArea.TabIndex = 2;
+            // 
+            // kwlblMessageText
+            // 
+            this.kwlblMessageText.AutoSize = false;
+            this.kwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
+            this.kwlblMessageText.Name = "kwlblMessageText";
+            this.kwlblMessageText.Size = new System.Drawing.Size(207, 80);
+            this.kwlblMessageText.Text = "Message Text";
+            this.kwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // klwlblMessageText
+            // 
+            this.klwlblMessageText.AutoSize = false;
+            this.klwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.klwlblMessageText.Location = new System.Drawing.Point(0, 0);
+            this.klwlblMessageText.Name = "klwlblMessageText";
+            this.klwlblMessageText.Size = new System.Drawing.Size(207, 80);
+            this.klwlblMessageText.Text = "Message Text";
+            this.klwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 76);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // _panelFooter
+            // 
+            this._panelFooter.Controls.Add(this.tableLayoutPanel1);
+            this._panelFooter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._panelFooter.Location = new System.Drawing.Point(0, 86);
+            this._panelFooter.Margin = new System.Windows.Forms.Padding(0);
+            this._panelFooter.Name = "_panelFooter";
+            this._panelFooter.Size = new System.Drawing.Size(271, 65);
+            this._panelFooter.TabIndex = 4;
             // 
             // tableLayoutPanel1
             // 
@@ -119,28 +162,8 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(267, 65);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(271, 65);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // _checkBox
-            // 
-            this._checkBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._checkBox.Location = new System.Drawing.Point(3, 3);
-            this._checkBox.Name = "_checkBox";
-            this._checkBox.Size = new System.Drawing.Size(261, 20);
-            this._checkBox.TabIndex = 1;
-            this._checkBox.Values.Text = "checkBox";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 88);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // _panelButtons
             // 
@@ -151,7 +174,7 @@
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(267, 39);
+            this._panelButtons.Size = new System.Drawing.Size(271, 39);
             this._panelButtons.TabIndex = 2;
             // 
             // _borderEdge
@@ -161,50 +184,23 @@
             this._borderEdge.Location = new System.Drawing.Point(0, 0);
             this._borderEdge.Margin = new System.Windows.Forms.Padding(2);
             this._borderEdge.Name = "_borderEdge";
-            this._borderEdge.Size = new System.Drawing.Size(267, 1);
+            this._borderEdge.Size = new System.Drawing.Size(271, 1);
             this._borderEdge.Text = "kryptonBorderEdge1";
             // 
-            // kpnlContentArea
+            // _checkBox
             // 
-            this.kpnlContentArea.Controls.Add(this.kwlblMessageText);
-            this.kpnlContentArea.Controls.Add(this.klwlblMessageText);
-            this.kpnlContentArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kpnlContentArea.Location = new System.Drawing.Point(61, 3);
-            this.kpnlContentArea.Name = "kpnlContentArea";
-            this.kpnlContentArea.Size = new System.Drawing.Size(203, 92);
-            this.kpnlContentArea.TabIndex = 2;
-            // 
-            // kwlblMessageText
-            // 
-            this.kwlblMessageText.AutoSize = false;
-            this.kwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlblMessageText.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kwlblMessageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblMessageText.Location = new System.Drawing.Point(0, 0);
-            this.kwlblMessageText.Name = "kwlblMessageText";
-            this.kwlblMessageText.Size = new System.Drawing.Size(203, 92);
-            this.kwlblMessageText.Text = "Message Text";
-            this.kwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // klwlblMessageText
-            // 
-            this.klwlblMessageText.AutoSize = false;
-            this.klwlblMessageText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klwlblMessageText.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.klwlblMessageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.klwlblMessageText.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.klwlblMessageText.Location = new System.Drawing.Point(0, 0);
-            this.klwlblMessageText.Name = "klwlblMessageText";
-            this.klwlblMessageText.Size = new System.Drawing.Size(203, 92);
-            this.klwlblMessageText.Text = "Message Text";
-            this.klwlblMessageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._checkBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._checkBox.Location = new System.Drawing.Point(3, 3);
+            this._checkBox.Name = "_checkBox";
+            this._checkBox.Size = new System.Drawing.Size(265, 20);
+            this._checkBox.TabIndex = 1;
+            this._checkBox.Values.Text = "checkBox";
             // 
             // VisualInformationBoxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 163);
+            this.ClientSize = new System.Drawing.Size(271, 151);
             this.Controls.Add(this.tlpBase);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
@@ -217,17 +213,17 @@
             this.tlpBase.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._panelContent)).EndInit();
             this._panelContent.ResumeLayout(false);
+            this.tlpContent.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
+            this.kpnlContentArea.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelFooter)).EndInit();
             this._panelFooter.ResumeLayout(false);
-            this.tlpContent.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
             this._panelButtons.ResumeLayout(false);
             this._panelButtons.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlContentArea)).EndInit();
-            this.kpnlContentArea.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

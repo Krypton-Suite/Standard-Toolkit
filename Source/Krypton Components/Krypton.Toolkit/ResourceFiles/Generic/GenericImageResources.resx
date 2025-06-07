@@ -247,6 +247,9 @@
   <data name="table_conditional_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\table_conditional_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="This PC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\This PC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Transparent_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Transparent 16 x 16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

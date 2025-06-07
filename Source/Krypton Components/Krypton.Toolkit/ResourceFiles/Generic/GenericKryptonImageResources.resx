@@ -328,4 +328,13 @@
   <data name="KryptonWrapLabel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\KryptonWrapLabel.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Krypton_Canary_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Krypton_Canary_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Krypton_Nightly_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Krypton_Nightly_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Krypton_Stable_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Krypton_Stable_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

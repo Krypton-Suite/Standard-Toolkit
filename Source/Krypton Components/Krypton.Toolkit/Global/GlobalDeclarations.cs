@@ -10,6 +10,7 @@
 #region WinForms Libraries
 
 global using System;
+global using System.CodeDom;
 global using System.Collections;
 global using System.Collections.Generic;
 global using System.Collections.ObjectModel;
@@ -26,6 +27,9 @@ global using System.Drawing.Printing;
 global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
+global using System.Management;
+global using System.Resources;
+global using System.Runtime.InteropServices.ComTypes;
 global using System.Linq;
 #if NETCOREAPP3_0_OR_GREATER
 global using System.Text.Json.Nodes;

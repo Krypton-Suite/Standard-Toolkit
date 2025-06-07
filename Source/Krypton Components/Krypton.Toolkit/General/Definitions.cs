@@ -2282,7 +2282,8 @@ namespace Krypton.Toolkit
     {
         Canary = 0,
         Nightly = 1,
-        Stable = 2
+        Stable = 2,
+        LongTermSupport = 3
     }
 
     #endregion

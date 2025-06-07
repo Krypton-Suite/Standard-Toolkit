@@ -179,6 +179,11 @@ namespace Krypton.Toolkit
         public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
         new KryptonMiscellaneousThemeStrings();
 
+        /// <summary>Gets the krypton miscellaneous strings.</summary>
+        /// <value>The krypton miscellaneous strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonMiscellaneousStrings KryptonMiscellaneousStrings { get; } = new KryptonMiscellaneousStrings();
+
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -504,6 +509,17 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeMiscellaneousThemeStrings() => !KryptonMiscellaneousThemeStrings.IsDefault;
         private void ResetMiscellaneousThemeStrings() => KryptonMiscellaneousThemeStrings.Reset();
 
+        [Category(@"Visuals")]
+        [Description(@"Collection of miscellaneous strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonMiscellaneousStrings MiscellaneousStrings => KryptonMiscellaneousStrings;
+
+        private bool ShouldSerializeMiscellaneousStrings() => !KryptonMiscellaneousStrings.IsDefault;
+
+        private void ResetMiscellaneousStrings() => KryptonMiscellaneousStrings.Reset();
+
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
         [Category(@"Visuals")]
@@ -652,7 +668,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializePaletteImageStyleStrings() || ShouldSerializePaletteModeStrings() ||
                                    ShouldSerializePaletteTextTrimStrings() || ShouldSerializePlacementModeStrings() ||
                                    ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
-                                   ShouldSerializeToastNotificationIconStrings() ||
+                                   ShouldSerializeToastNotificationIconStrings() || ShouldSerializeMiscellaneousStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
                                    ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMessageBoxStringsStrings());
@@ -696,6 +712,7 @@ namespace Krypton.Toolkit
             ResetToolBarStrings();
             ResetSplashScreenStringsStrings();
             ResetMessageBoxStrings();
+            ResetMiscellaneousStrings();
         }
 
         #endregion

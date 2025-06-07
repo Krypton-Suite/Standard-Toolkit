@@ -63,6 +63,36 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Krypton_Canary_Button {
+            get {
+                object obj = ResourceManager.GetObject("Krypton_Canary_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Krypton_Nightly_Button {
+            get {
+                object obj = ResourceManager.GetObject("Krypton_Nightly_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Krypton_Stable_Button {
+            get {
+                object obj = ResourceManager.GetObject("Krypton_Stable_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap KryptonBorderEdge {
             get {
                 object obj = ResourceManager.GetObject("KryptonBorderEdge", resourceCulture);
