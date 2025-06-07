@@ -521,6 +521,7 @@ namespace Krypton.Docking
                 && (_state != DockingAutoHiddenShowState.Hidden)
                 && _group is { IsDisposed: false } && !IsDisposed)
             {
+                // If we are not in the hidden state, then we can process messages
                 switch (msg.Msg)
                 {
                     case PI.WM_.KEYDOWN:
