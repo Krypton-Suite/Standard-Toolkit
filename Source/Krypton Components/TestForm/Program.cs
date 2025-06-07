@@ -7,6 +7,8 @@
  */
 #endregion
 
+using Krypton.Docking;
+
 namespace TestForm
 {
     internal static class Program
@@ -24,6 +26,10 @@ namespace TestForm
 #if NET6_0_OR_GREATER
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
+
+            // Start automatic tracking of all Forms
+            ActiveFormTracker.StartAutomaticTracking();
+
             Application.Run(new StartScreen());
         }
     }
