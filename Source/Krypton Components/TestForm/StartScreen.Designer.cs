@@ -56,7 +56,7 @@ namespace TestForm
             this.kbtnWorkspace = new Krypton.Toolkit.KryptonButton();
             this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
+            this.kbtnExceptionDialog = new Krypton.Toolkit.KryptonButton();
             this.btnColourTestimonials = new Krypton.Toolkit.KryptonButton();
             this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
@@ -96,7 +96,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnWorkspace);
             this.kryptonPanel1.Controls.Add(this.kbtnCalendar);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
-            this.kryptonPanel1.Controls.Add(this.kbtnOutlookGrid);
+            this.kryptonPanel1.Controls.Add(this.kbtnExceptionDialog);
             this.kryptonPanel1.Controls.Add(this.btnColourTestimonials);
             this.kryptonPanel1.Controls.Add(this.kbtnTreeView);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
@@ -117,13 +117,13 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(390, 464);
+            this.kryptonPanel1.Size = new System.Drawing.Size(382, 440);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnSplashScreen
             // 
             this.kbtnSplashScreen.Location = new System.Drawing.Point(12, 335);
-            this.kbtnSplashScreen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnSplashScreen.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnSplashScreen.Name = "kbtnSplashScreen";
             this.kbtnSplashScreen.Size = new System.Drawing.Size(153, 20);
             this.kbtnSplashScreen.TabIndex = 31;
@@ -134,7 +134,7 @@ namespace TestForm
             // kbtnControlStyles
             // 
             this.kbtnControlStyles.Location = new System.Drawing.Point(12, 120);
-            this.kbtnControlStyles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnControlStyles.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnControlStyles.Name = "kbtnControlStyles";
             this.kbtnControlStyles.Size = new System.Drawing.Size(153, 20);
             this.kbtnControlStyles.TabIndex = 30;
@@ -145,7 +145,7 @@ namespace TestForm
             // kbtnDateTime
             // 
             this.kbtnDateTime.Location = new System.Drawing.Point(12, 147);
-            this.kbtnDateTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnDateTime.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnDateTime.Name = "kbtnDateTime";
             this.kbtnDateTime.Size = new System.Drawing.Size(153, 20);
             this.kbtnDateTime.TabIndex = 29;
@@ -156,7 +156,7 @@ namespace TestForm
             // kbtnPropertyGrid
             // 
             this.kbtnPropertyGrid.Location = new System.Drawing.Point(223, 281);
-            this.kbtnPropertyGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnPropertyGrid.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnPropertyGrid.Name = "kbtnPropertyGrid";
             this.kbtnPropertyGrid.Size = new System.Drawing.Size(153, 20);
             this.kbtnPropertyGrid.TabIndex = 28;
@@ -167,7 +167,7 @@ namespace TestForm
             // kbtnRibbonNavigatorWorkspace
             // 
             this.kbtnRibbonNavigatorWorkspace.Location = new System.Drawing.Point(12, 308);
-            this.kbtnRibbonNavigatorWorkspace.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnRibbonNavigatorWorkspace.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnRibbonNavigatorWorkspace.Name = "kbtnRibbonNavigatorWorkspace";
             this.kbtnRibbonNavigatorWorkspace.Size = new System.Drawing.Size(153, 20);
             this.kbtnRibbonNavigatorWorkspace.TabIndex = 27;
@@ -189,7 +189,7 @@ namespace TestForm
             // kbtnInputBox
             // 
             this.kbtnInputBox.Location = new System.Drawing.Point(223, 201);
-            this.kbtnInputBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnInputBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnInputBox.Name = "kbtnInputBox";
             this.kbtnInputBox.Size = new System.Drawing.Size(153, 20);
             this.kbtnInputBox.TabIndex = 25;
@@ -200,7 +200,7 @@ namespace TestForm
             // kbtnHeaderExamples
             // 
             this.kbtnHeaderExamples.Location = new System.Drawing.Point(12, 201);
-            this.kbtnHeaderExamples.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnHeaderExamples.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnHeaderExamples.Name = "kbtnHeaderExamples";
             this.kbtnHeaderExamples.Size = new System.Drawing.Size(153, 20);
             this.kbtnHeaderExamples.TabIndex = 24;
@@ -211,7 +211,7 @@ namespace TestForm
             // kbtnDataGrid
             // 
             this.kbtnDataGrid.Location = new System.Drawing.Point(223, 120);
-            this.kbtnDataGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnDataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnDataGrid.Name = "kbtnDataGrid";
             this.kbtnDataGrid.Size = new System.Drawing.Size(153, 20);
             this.kbtnDataGrid.TabIndex = 23;
@@ -231,7 +231,7 @@ namespace TestForm
             // kbtnThemeControls
             // 
             this.kbtnThemeControls.Location = new System.Drawing.Point(12, 362);
-            this.kbtnThemeControls.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnThemeControls.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnThemeControls.Name = "kbtnThemeControls";
             this.kbtnThemeControls.Size = new System.Drawing.Size(153, 20);
             this.kbtnThemeControls.TabIndex = 21;
@@ -242,7 +242,7 @@ namespace TestForm
             // kbtnWorkspace
             // 
             this.kbtnWorkspace.Location = new System.Drawing.Point(12, 415);
-            this.kbtnWorkspace.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnWorkspace.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnWorkspace.Name = "kbtnWorkspace";
             this.kbtnWorkspace.Size = new System.Drawing.Size(153, 20);
             this.kbtnWorkspace.TabIndex = 20;
@@ -272,20 +272,21 @@ namespace TestForm
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 18;
             // 
-            // kbtnOutlookGrid
+            // kbtnExceptionDialog
             // 
-            this.kbtnOutlookGrid.Location = new System.Drawing.Point(12, 254);
-            this.kbtnOutlookGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
-            this.kbtnOutlookGrid.Size = new System.Drawing.Size(153, 20);
-            this.kbtnOutlookGrid.TabIndex = 17;
-            this.kbtnOutlookGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
+            this.kbtnExceptionDialog.Location = new System.Drawing.Point(12, 254);
+            this.kbtnExceptionDialog.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnExceptionDialog.Name = "kbtnExceptionDialog";
+            this.kbtnExceptionDialog.Size = new System.Drawing.Size(153, 20);
+            this.kbtnExceptionDialog.TabIndex = 17;
+            this.kbtnExceptionDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnExceptionDialog.Values.Text = "Exception Dialog";
+            this.kbtnExceptionDialog.Click += new System.EventHandler(this.kbtnExceptionDialog_Click);
             // 
             // btnColourTestimonials
             // 
             this.btnColourTestimonials.Location = new System.Drawing.Point(223, 415);
-            this.btnColourTestimonials.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnColourTestimonials.Margin = new System.Windows.Forms.Padding(2);
             this.btnColourTestimonials.Name = "btnColourTestimonials";
             this.btnColourTestimonials.Size = new System.Drawing.Size(153, 20);
             this.btnColourTestimonials.TabIndex = 16;
@@ -296,7 +297,7 @@ namespace TestForm
             // kbtnTreeView
             // 
             this.kbtnTreeView.Location = new System.Drawing.Point(223, 388);
-            this.kbtnTreeView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnTreeView.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTreeView.Name = "kbtnTreeView";
             this.kbtnTreeView.Size = new System.Drawing.Size(153, 20);
             this.kbtnTreeView.TabIndex = 16;
@@ -308,7 +309,7 @@ namespace TestForm
             // 
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnExit.Location = new System.Drawing.Point(12, 442);
-            this.kbtnExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(153, 20);
             this.kbtnExit.TabIndex = 15;
@@ -319,7 +320,7 @@ namespace TestForm
             // kbtnFormBorder
             // 
             this.kbtnFormBorder.Location = new System.Drawing.Point(12, 174);
-            this.kbtnFormBorder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnFormBorder.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnFormBorder.Name = "kbtnFormBorder";
             this.kbtnFormBorder.Size = new System.Drawing.Size(153, 20);
             this.kbtnFormBorder.TabIndex = 14;
@@ -330,7 +331,7 @@ namespace TestForm
             // kbtnToast
             // 
             this.kbtnToast.Location = new System.Drawing.Point(12, 388);
-            this.kbtnToast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnToast.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnToast.Name = "kbtnToast";
             this.kbtnToast.Size = new System.Drawing.Size(153, 20);
             this.kbtnToast.TabIndex = 13;
@@ -341,7 +342,7 @@ namespace TestForm
             // kbtnTheme
             // 
             this.kbtnTheme.Location = new System.Drawing.Point(223, 362);
-            this.kbtnTheme.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnTheme.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTheme.Name = "kbtnTheme";
             this.kbtnTheme.Size = new System.Drawing.Size(153, 20);
             this.kbtnTheme.TabIndex = 12;
@@ -352,7 +353,7 @@ namespace TestForm
             // kbtnTextBox
             // 
             this.kbtnTextBox.Location = new System.Drawing.Point(223, 335);
-            this.kbtnTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTextBox.Name = "kbtnTextBox";
             this.kbtnTextBox.Size = new System.Drawing.Size(153, 20);
             this.kbtnTextBox.TabIndex = 11;
@@ -363,7 +364,7 @@ namespace TestForm
             // kbtnRibbon
             // 
             this.kbtnRibbon.Location = new System.Drawing.Point(223, 308);
-            this.kbtnRibbon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnRibbon.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnRibbon.Name = "kbtnRibbon";
             this.kbtnRibbon.Size = new System.Drawing.Size(153, 20);
             this.kbtnRibbon.TabIndex = 10;
@@ -374,7 +375,7 @@ namespace TestForm
             // kbtnProgressBar
             // 
             this.kbtnProgressBar.Location = new System.Drawing.Point(12, 281);
-            this.kbtnProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnProgressBar.Name = "kbtnProgressBar";
             this.kbtnProgressBar.Size = new System.Drawing.Size(153, 20);
             this.kbtnProgressBar.TabIndex = 9;
@@ -395,7 +396,7 @@ namespace TestForm
             // kbtnAboutBox
             // 
             this.kbtnAboutBox.Location = new System.Drawing.Point(223, 254);
-            this.kbtnAboutBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnAboutBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnAboutBox.Name = "kbtnAboutBox";
             this.kbtnAboutBox.Size = new System.Drawing.Size(153, 20);
             this.kbtnAboutBox.TabIndex = 7;
@@ -406,7 +407,7 @@ namespace TestForm
             // kbtnMessageBox
             // 
             this.kbtnMessageBox.Location = new System.Drawing.Point(223, 228);
-            this.kbtnMessageBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnMessageBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnMessageBox.Name = "kbtnMessageBox";
             this.kbtnMessageBox.Size = new System.Drawing.Size(153, 20);
             this.kbtnMessageBox.TabIndex = 6;
@@ -417,7 +418,7 @@ namespace TestForm
             // kbtnMenuToolStatusStrips
             // 
             this.kbtnMenuToolStatusStrips.Location = new System.Drawing.Point(12, 228);
-            this.kbtnMenuToolStatusStrips.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnMenuToolStatusStrips.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnMenuToolStatusStrips.Name = "kbtnMenuToolStatusStrips";
             this.kbtnMenuToolStatusStrips.Size = new System.Drawing.Size(153, 20);
             this.kbtnMenuToolStatusStrips.TabIndex = 5;
@@ -428,7 +429,7 @@ namespace TestForm
             // kbtnGroupBox
             // 
             this.kbtnGroupBox.Location = new System.Drawing.Point(223, 174);
-            this.kbtnGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnGroupBox.Name = "kbtnGroupBox";
             this.kbtnGroupBox.Size = new System.Drawing.Size(153, 20);
             this.kbtnGroupBox.TabIndex = 4;
@@ -439,7 +440,7 @@ namespace TestForm
             // kbtnFadeForm
             // 
             this.kbtnFadeForm.Location = new System.Drawing.Point(223, 147);
-            this.kbtnFadeForm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kbtnFadeForm.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnFadeForm.Name = "kbtnFadeForm";
             this.kbtnFadeForm.Size = new System.Drawing.Size(153, 20);
             this.kbtnFadeForm.TabIndex = 3;
@@ -479,7 +480,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(390, 464);
+            this.ClientSize = new System.Drawing.Size(382, 440);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -518,7 +519,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnToast;
         private Krypton.Toolkit.KryptonButton kbtnExit;
         private Krypton.Toolkit.KryptonButton kbtnTreeView;
-        private Krypton.Toolkit.KryptonButton kbtnOutlookGrid;
+        private Krypton.Toolkit.KryptonButton kbtnExceptionDialog;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonButton kbtnCalendar;
         private KryptonManager kryptonManager1;

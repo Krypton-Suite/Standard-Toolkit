@@ -15,6 +15,8 @@ namespace Krypton.Toolkit
 
         private readonly bool? _showCopyButton;
 
+        private readonly bool? _showSearchBox;
+
         private readonly Exception? _exception;
 
         #endregion
@@ -23,12 +25,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="VisualExceptionDialogForm" /> class.</summary>
         /// <param name="showCopyButton">The show copy button.</param>
+        /// <param name="showSearchBox">Shows the search box.</param>
         /// <param name="exception">The exception.</param>
-        public VisualExceptionDialogForm(bool? showCopyButton, Exception? exception)
+        public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Exception? exception)
         {
             SetInheritedControlOverride();
             InitializeComponent();
             _showCopyButton = showCopyButton;
+            _showSearchBox = showSearchBox;
             _exception = exception;
 
             SetupUI();
@@ -51,6 +55,8 @@ namespace Krypton.Toolkit
             kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
             kbtnCopy.Visible = _showCopyButton ?? true;
+
+            ktxtSearchBox.Visible = _showSearchBox ?? true;
 
             if (_exception is not null)
             {
@@ -113,17 +119,45 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void ktxtSearchBox_TextChanged(object sender, EventArgs e)
+        {
+            string searchQueryText = ktxtSearchBox.Text.Trim().ToLowerInvariant();
+
+            foreach (TreeNode node in etvExceptionOutline.Nodes)
+            {
+                FilterNode(node, searchQueryText);
+            }
+        }
+
+        private bool FilterNode(TreeNode node, string searchQueryText)
+        {
+            bool match = string.IsNullOrEmpty(searchQueryText) || node.Text.ToLowerInvariant().Contains(searchQueryText);
+            
+            foreach (TreeNode child in node.Nodes)
+            {
+                match |= FilterNode(child, searchQueryText);
+            }
+
+            node.BackColor = match ? SystemColors.Window : Color.LightGray;
+            node.ForeColor = match ? SystemColors.ControlText : Color.Gray;
+            node.EnsureVisible(); // Optional: expands the matched nodes
+
+            return match;
+        }
+
         #endregion
 
         #region Show
 
-        internal static void Show(Exception exception, bool? showCopyButton)
+        internal static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox)
         {
-            using var ved = new VisualExceptionDialogForm(showCopyButton, exception);
+            using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, exception);
 
             ved.ShowDialog();
         }
-    }
 
-    #endregion
+        #endregion
+
+        private void bsaClear_Click(object sender, EventArgs e) => ktxtSearchBox.Clear();
+    }
 }

@@ -16,6 +16,7 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_POWERED_BY_TEXT = @"&Powered By";
         private const string DEFAULT_SYSTEM_INFORMATION_TEXT = @"S&ystem Information";
+        private const string DEFAULT_SEARCH_HINT_TEXT = @"Search...";
 
         #endregion
 
@@ -47,19 +48,30 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_SYSTEM_INFORMATION_TEXT)]
         public string SystemInformationText { get; set; }
 
+        /// <summary>Gets or sets the search hint text.</summary>
+        /// <value>The search hint text.</value>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The search hint text.")]
+        [DefaultValue(DEFAULT_SEARCH_HINT_TEXT)]
+        public string SearchHintText { get; set; }
+
         #endregion
 
         #region Implementation
 
         [Browsable(false)]
         public bool IsDefault => PoweredByText.Equals(DEFAULT_POWERED_BY_TEXT) &&
-                                 SystemInformationText.Equals(DEFAULT_SYSTEM_INFORMATION_TEXT);
+                                 SystemInformationText.Equals(DEFAULT_SYSTEM_INFORMATION_TEXT) &&
+                                 SearchHintText.Equals(DEFAULT_SEARCH_HINT_TEXT);
 
         public void Reset()
         {
             PoweredByText = DEFAULT_POWERED_BY_TEXT;
 
             SystemInformationText = DEFAULT_SYSTEM_INFORMATION_TEXT;
+
+            SearchHintText = DEFAULT_SEARCH_HINT_TEXT;
         }
 
         #endregion

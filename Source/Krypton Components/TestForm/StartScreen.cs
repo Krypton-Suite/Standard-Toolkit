@@ -207,5 +207,17 @@ namespace TestForm
         {
             new SplashScreenExample().Show();
         }
+
+        private void kbtnExceptionDialog_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            catch (Exception ex)
+            {
+                KryptonExceptionDialog.Show(ex, true, true);
+            }
+        }
     }
 }
