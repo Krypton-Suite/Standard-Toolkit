@@ -515,11 +515,11 @@ namespace Krypton.Docking
             //    We have an associated auto hidden group control that is not disposed  AND
             //    We are not disposed
             if ((parentForm != null)
-        && ((parentForm == ActiveFormTracker.ActiveForm)
-            || (parentMdi != null && parentMdi.ActiveMdiChild == parentForm))
-        && parentForm.ContainsFocus
-        && (_state != DockingAutoHiddenShowState.Hidden)
-        && _group is { IsDisposed: false } && !IsDisposed)
+                && ((parentForm == ActiveFormTracker.ActiveForm)
+                || (parentMdi != null && parentMdi.ActiveMdiChild == parentForm))
+                && parentForm.ContainsFocus
+                && (_state != DockingAutoHiddenShowState.Hidden)
+                && _group is { IsDisposed: false } && !IsDisposed)
             {
                 switch (msg.Msg)
                 {
