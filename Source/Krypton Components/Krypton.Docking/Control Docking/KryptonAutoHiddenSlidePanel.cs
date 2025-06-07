@@ -524,6 +524,7 @@ namespace Krypton.Docking
                 switch (msg.Msg)
                 {
                     case PI.WM_.KEYDOWN:
+                        // Pressing escape removes the auto hidden window
                         if ((int)msg.WParam == PI.VK_ESCAPE)
                         {
                             MakeHidden();
@@ -532,6 +533,9 @@ namespace Krypton.Docking
                         break;
 
                     case PI.WM_.MOUSELEAVE:
+                        // If the mouse is leaving a control then we start the dismiss timer so that a mouse move is required
+                        // to cancel the mouse move and prevent the actual dismissal occurring. The exception to this is if the
+                        // slide out dockspace has the focus, in which case we do nothing.
                         if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                         {
                             _dismissTimer.Stop();
@@ -541,17 +545,23 @@ namespace Krypton.Docking
                         break;
 
                     case PI.WM_.MOUSEMOVE:
+                        // Convert the mouse position into a screen location
                         Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(msg);
 
+                        // Is the mouse over ourselves or over the associated auto hidden group
                         if (RectangleToScreen(ClientRectangle).Contains(screenPt)
                             || _group.RectangleToScreen(_group.ClientRectangle).Contains(screenPt))
                         {
+
+                            // We do not dismiss while the mouse is over ourselves
                             if (_dismissRunning)
                             {
                                 _dismissTimer.Stop();
                                 _dismissRunning = false;
                             }
                         }
+                        // When mouse not over a relevant area we need to start the dismiss process 
+                        // unless the slide out dockspace has the focus, in which case we do nothing.
                         else if (!_dismissRunning && !DockspaceControl.ContainsFocus)
                         {
                             _dismissTimer.Stop();
@@ -559,9 +569,13 @@ namespace Krypton.Docking
                             _dismissRunning = true;
                         }
 
+                        // If first message for this window then need to track to get the mouse leave
                         if (_mouseTrackWindow != msg.HWnd)
                         {
+                            // Store the window handle so we do not track it again until next message
                             _mouseTrackWindow = msg.HWnd;
+
+                            // This structure needs to know its own size in bytes
                             var tme = new PI.TRACKMOUSEEVENTS
                             {
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
@@ -569,6 +583,8 @@ namespace Krypton.Docking
                                 dwFlags = PI.TME_LEAVE,
                                 hWnd = Handle
                             };
+
+                            // Call Win32 API to start tracking
                             PI.TrackMouseEvent(ref tme);
                         }
                         break;
