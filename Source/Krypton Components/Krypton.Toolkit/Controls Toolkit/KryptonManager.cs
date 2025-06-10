@@ -208,6 +208,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeGlobalCustomPalette() ||
+                                   ShouldSerializeToolkitColors() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
                                    ShouldSerializeGlobalUseThemeFormChromeBorderWidth() ||
                                    ShouldSerializeToolkitStrings() ||
@@ -221,6 +222,7 @@ namespace Krypton.Toolkit
         public void Reset()
         {
             ResetGlobalCustomPalette();
+            ResetToolkitColors();
             ResetGlobalApplyToolstrips();
             ResetGlobalUseThemeFormChromeBorderWidth();
             ResetToolkitStrings();
@@ -388,6 +390,18 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
         private void ResetToolkitStrings() => Strings.Reset();
 
+        /// <summary>Gets the toolkit colors.</summary>
+        /// <value>The toolkit colors.</value>
+        [Category(@"Data")]
+        [Description(@"A collection of global toolkit colors.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonColorStorage ToolkitColors => Colors;
+
+        private bool ShouldSerializeToolkitColors() => !Colors.IsDefault;
+
+        private void ResetToolkitColors() => Colors.Reset();
+
         #endregion
 
         #region Static Properties
@@ -399,6 +413,10 @@ namespace Krypton.Toolkit
         /// <summary>Gets the images.</summary>
         /// <value>The images.</value>
         public static KryptonImageStorage Images { get; } = new KryptonImageStorage();
+
+        /// <summary>Gets the colors.</summary>
+        /// <value>The colors.</value>
+        public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
 
         #endregion
 

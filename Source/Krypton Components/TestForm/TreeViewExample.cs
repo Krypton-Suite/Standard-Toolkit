@@ -108,5 +108,12 @@ namespace TestForm
         {
             Close();
         }
+
+        private void kbtnTreeViewTest_Click(object sender, EventArgs e)
+        {
+            var treeViewTest = new TreeViewTestForm();
+
+            treeViewTest.ShowDialog(this);
+        }
     }
 }

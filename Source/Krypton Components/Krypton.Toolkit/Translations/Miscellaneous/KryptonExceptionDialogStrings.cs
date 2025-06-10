@@ -27,6 +27,13 @@ namespace Krypton.Toolkit
         private const string DEFAULT_EXCEPTION_DIALOG_NONE = @"None";
         private const string DEFAULT_EXCEPTION_DIALOG_DATA = @"Data";
         private const string DEFAULT_EXCEPTION_DIALOG_LINE = @"Line";
+        private const string DEFAULT_EXCEPTION_DIALOG_SEARCH = @"Search...";
+        private const string DEFAULT_EXCEPTION_DIALOG_NO_RESULTS_FOUND = @"No results found";
+        private const string DEFAULT_EXCEPTION_DIALOG_RESULT = @"result";
+        private const string DEFAULT_EXCEPTION_DIALOG_RESULTS_APPENDAGE = @"s";
+        private const string DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE = @"found";
+        private const string DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND = @"No matches found.";
+        private const string DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH = @"Type to search...";
 
         #endregion
 
@@ -61,7 +68,14 @@ namespace Krypton.Toolkit
                                  StackTrace.Equals(DEFAULT_EXCEPTION_DIALOG_STACK_TRACE) &&
                                  None.Equals(DEFAULT_EXCEPTION_DIALOG_NONE) &&
                                  Data.Equals(DEFAULT_EXCEPTION_DIALOG_DATA) &&
-                                 Line.Equals(DEFAULT_EXCEPTION_DIALOG_LINE);
+                                 Line.Equals(DEFAULT_EXCEPTION_DIALOG_LINE) &&
+                                 SearchBoxCueText.Equals(DEFAULT_EXCEPTION_DIALOG_SEARCH) &&
+                                 NoResultsFound.Equals(DEFAULT_EXCEPTION_DIALOG_NO_RESULTS_FOUND) &&
+                                 Result.Equals(DEFAULT_EXCEPTION_DIALOG_RESULT) &&
+                                 ResultsAppendage.Equals(DEFAULT_EXCEPTION_DIALOG_RESULTS_APPENDAGE) &&
+                                 ResultsFoundAppendage.Equals(DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE) &&
+                                 NoMatchesFound.Equals(DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND) &&
+                                 TypeToSearch.Equals(DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH);
 
         #endregion
 
@@ -121,6 +135,8 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string InnerException { get; set; }
 
+        /// <summary>Gets or sets the message text.</summary>
+        /// <value>The message text.</value>
         [Localizable(true)]
         [Category(@"Values")]
         [Description(@"The exception outline header for the exception dialog.")]
@@ -146,6 +162,8 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string None { get; set; }
 
+        /// <summary>Gets or sets the data text.</summary>
+        /// <value>The data text.</value>
         [Localizable(true)]
         [Category(@"Values")]
         [Description(@"The exception outline header for the exception dialog.")]
@@ -161,6 +179,69 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_EXCEPTION_DIALOG_LINE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Line { get; set; }
+
+        /// <summary>Gets or sets the search box cue text.</summary>
+        /// <value>The search box cue text.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The search box cue text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_SEARCH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string SearchBoxCueText { get; set; }
+
+        /// <summary>Gets or sets the no results found.</summary>
+        /// <value>The no results found.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The no results found text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_NO_RESULTS_FOUND)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NoResultsFound { get; set; }
+
+        /// <summary>Gets or sets the result.</summary>
+        /// <value>The result.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The result text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_RESULT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Result { get; set; }
+
+        /// <summary>Gets or sets the results appendage.</summary>
+        /// <value>The results appendage.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The results appendage text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_RESULTS_APPENDAGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ResultsAppendage { get; set; }
+
+        /// <summary>Gets or sets the results found appendage.</summary>
+        /// <value>The results found appendage.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The results found appendage text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ResultsFoundAppendage { get; set; }
+
+        /// <summary>Gets or sets the no matches found.</summary>
+        /// <value>The no matches found.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The no matches found text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NoMatchesFound { get; set; }
+
+        /// <summary>Gets or sets the type to search.</summary>
+        /// <value>The type to search.</value>
+        [Localizable(true)]
+        [Category(@"Values")]
+        [Description(@"The type to search text for the exception dialog.")]
+        [DefaultValue(DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TypeToSearch { get; set; }
 
         #endregion
 
@@ -190,6 +271,20 @@ namespace Krypton.Toolkit
             Data = DEFAULT_EXCEPTION_DIALOG_DATA;
 
             Line = DEFAULT_EXCEPTION_DIALOG_LINE;
+
+            SearchBoxCueText = DEFAULT_EXCEPTION_DIALOG_SEARCH;
+
+            NoResultsFound = DEFAULT_EXCEPTION_DIALOG_NO_RESULTS_FOUND;
+
+            Result = DEFAULT_EXCEPTION_DIALOG_RESULT;
+
+            ResultsAppendage = DEFAULT_EXCEPTION_DIALOG_RESULTS_APPENDAGE;
+
+            ResultsFoundAppendage = DEFAULT_EXCEPTION_DIALOG_RESULTS_FOUND_APPENDAGE;
+
+            NoMatchesFound = DEFAULT_EXCEPTION_DIALOG_NO_MATCHES_FOUND;
+
+            TypeToSearch = DEFAULT_EXCEPTION_DIALOG_TYPE_TO_SEARCH;
         }
 
         #endregion

@@ -52,6 +52,7 @@ namespace TestForm
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonCustomPaletteBase1 = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.kbtnTreeViewTest = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -59,6 +60,7 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnTreeViewTest);
             this.kryptonPanel1.Controls.Add(this.kbtnClose);
             this.kryptonPanel1.Controls.Add(this.buttonAppend);
             this.kryptonPanel1.Controls.Add(this.buttonInsert);
@@ -71,14 +73,14 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(730, 637);
+            this.kryptonPanel1.Size = new System.Drawing.Size(742, 629);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnClose
             // 
             this.kbtnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnClose.Location = new System.Drawing.Point(584, 603);
+            this.kbtnClose.Location = new System.Drawing.Point(596, 595);
             this.kbtnClose.Name = "kbtnClose";
             this.kbtnClose.Size = new System.Drawing.Size(138, 25);
             this.kbtnClose.TabIndex = 8;
@@ -188,21 +190,33 @@ namespace TestForm
             // 
             // kryptonCustomPaletteBase1
             // 
-            this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
-            this.kryptonCustomPaletteBase1.ThemeName = null;
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // kryptonManager1
             // 
+            this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.GlobalCustomPalette = this.kryptonCustomPaletteBase1;
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Custom;
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
+            // 
+            // kbtnTreeViewTest
+            // 
+            this.kbtnTreeViewTest.Location = new System.Drawing.Point(334, 461);
+            this.kbtnTreeViewTest.Name = "kbtnTreeViewTest";
+            this.kbtnTreeViewTest.Size = new System.Drawing.Size(377, 25);
+            this.kbtnTreeViewTest.TabIndex = 9;
+            this.kbtnTreeViewTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnTreeViewTest.Values.Text = "TreeView Test";
+            this.kbtnTreeViewTest.Click += new System.EventHandler(this.kbtnTreeViewTest_Click);
             // 
             // TreeViewExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnClose;
-            this.ClientSize = new System.Drawing.Size(730, 637);
+            this.ClientSize = new System.Drawing.Size(742, 629);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -232,5 +246,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnClose;
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
+        private KryptonButton kbtnTreeViewTest;
     }
 }
