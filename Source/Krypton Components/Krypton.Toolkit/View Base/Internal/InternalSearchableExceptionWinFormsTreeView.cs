@@ -122,9 +122,18 @@ namespace Krypton.Toolkit
             etvExceptionOutline.EndUpdate();
 
             // Update label
-            kwlblResults.Text = matchCount == 0
-                ? KryptonManager.Strings.ExceptionDialogStrings.NoMatchesFound
-                : $"{matchCount} {KryptonManager.Strings.ExceptionDialogStrings.Result}{(matchCount == 1 ? "" : $"{KryptonManager.Strings.ExceptionDialogStrings.ResultsAppendage}")} {KryptonManager.Strings.ExceptionDialogStrings.ResultsFoundAppendage}";
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                kwlblResults.Text = KryptonManager.Strings.ExceptionDialogStrings.TypeToSearch;
+            }
+            else if (matchCount == 0)
+            {
+                kwlblResults.Text = KryptonManager.Strings.ExceptionDialogStrings.NoMatchesFound;
+            }
+            else
+            {
+                kwlblResults.Text = $@"{matchCount} {KryptonManager.Strings.ExceptionDialogStrings.Result}{(matchCount == 1 ? "" : $"{KryptonManager.Strings.ExceptionDialogStrings.ResultsAppendage}")} {KryptonManager.Strings.ExceptionDialogStrings.ResultsFoundAppendage}";
+            }
 
             kwlblResults.StateCommon.TextColor = SystemColors.ControlText;
 
