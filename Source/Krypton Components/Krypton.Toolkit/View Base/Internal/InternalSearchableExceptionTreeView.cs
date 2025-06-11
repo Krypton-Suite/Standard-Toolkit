@@ -58,6 +58,10 @@ namespace Krypton.Toolkit
             InitializeComponent();
 
             kwlblSearchResults.Text = KryptonManager.Strings.ExceptionDialogStrings.TypeToSearch;
+
+            bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTip;
+
+            bsaClearSearch.ToolTipBody = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTipDescription;
         }
 
         #endregion
