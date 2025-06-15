@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Shows the specified exception.</summary>
         /// <param name="exception">The exception.</param>
-        public static void Show(Exception exception) => ShowCore(exception, null, null);
+        public static void Show(Exception exception) => Show(exception, null, null);
 
         /// <summary>Shows the specified exception.</summary>
         /// <param name="exception">The exception.</param>
