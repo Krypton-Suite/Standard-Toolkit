@@ -37,17 +37,20 @@ namespace Krypton.Toolkit
         /// <param name="callerMethod">The calling method.</param>
         /// <param name="showStackTrace">Show the stack trace.</param>
         /// <param name="useExceptionDialog">Use a <see cref="KryptonExceptionDialog"/> to display the exception. Set to true by default.</param>
+        /// <param name="showExceptionDialogCopyButton">Show the copy button in the <see cref="KryptonExceptionDialog"/>. Set to false by default.</param>
+        /// <param name="showExceptionDialogSearchBox">Show the search box in the <see cref="KryptonExceptionDialog"/>. Set to false by default.</param>
         public static void CaptureException(
             Exception exception, 
             string title = "Exception Caught",
             [CallerFilePath] string callerFilePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string callerMethod = "", 
-            bool showStackTrace = false, bool? useExceptionDialog = true)
+            bool showStackTrace = false, bool? useExceptionDialog = true,
+            bool? showExceptionDialogCopyButton = false, bool? showExceptionDialogSearchBox = false)
         {
             if (useExceptionDialog is not null or true)
             {
-                KryptonExceptionDialog.Show(exception);
+                KryptonExceptionDialog.Show(exception, showExceptionDialogCopyButton, showExceptionDialogSearchBox);
             }
             else
             {
