@@ -189,6 +189,7 @@ namespace Krypton.Toolkit
             private DictItemBase _beforeItems;
             private readonly KryptonContextMenuCollectionEditor _editor;
             private Button _buttonOk;
+            private Button _buttonCancel;
             private TreeView _treeView;
             private Label _label1;
             private Label _label2;
@@ -234,6 +235,7 @@ namespace Krypton.Toolkit
             {
                 components = new Container();
                 _buttonOk = new Button();
+                _buttonCancel = new();
                 _treeView = new TreeView();
                 _imageList = new ImageList(components);
                 _label1 = new Label();
@@ -272,11 +274,21 @@ namespace Krypton.Toolkit
                 _buttonOk.UseVisualStyleBackColor = true;
                 _buttonOk.Click += buttonOK_Click;
                 // 
+                // buttonCancel
+                // 
+                _buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+                _buttonCancel.DialogResult = DialogResult.Cancel;
+                _buttonCancel.Location = new Point(10, 675);
+                _buttonCancel.Name = nameof(_buttonCancel);
+                _buttonCancel.Size = new Size(75, 33);
+                _buttonCancel.TabIndex = 17;
+                _buttonCancel.Text = @"Cancel";
+                _buttonCancel.UseVisualStyleBackColor = true;
+                _buttonCancel.Click += buttonCancel_Click;
+                // 
                 // treeView
                 // 
-                _treeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-                                   | AnchorStyles.Left
-                                  | AnchorStyles.Right;
+                _treeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
                 _treeView.HideSelection = false;
                 _treeView.ImageIndex = 0;
                 _treeView.ImageList = _imageList;
@@ -588,6 +600,7 @@ namespace Krypton.Toolkit
                 _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
                 _tableLayoutPanel1.Controls.Add(_label1, 0, 0);
                 _tableLayoutPanel1.Controls.Add(_buttonOk, 2, 2);
+                _tableLayoutPanel1.Controls.Add(_buttonCancel, 0, 2);
                 _tableLayoutPanel1.Controls.Add(_label2, 2, 0);
                 _tableLayoutPanel1.Controls.Add(_treeView, 0, 1);
                 _tableLayoutPanel1.Controls.Add(_propertyGrid1, 2, 1);
@@ -628,6 +641,7 @@ namespace Krypton.Toolkit
                 // KryptonContextMenuCollectionForm
                 // 
                 AcceptButton = _buttonOk;
+                CancelButton = _buttonCancel;
                 AutoScaleMode = AutoScaleMode.None;
                 ClientSize = new Size(816, 724);
                 ControlBox = false;
@@ -684,6 +698,11 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
+
+            private void buttonCancel_Click(object? sender, EventArgs e)
+            {
+                _treeView.Nodes.Clear();
+            }
 
             private void buttonOK_Click(object? sender, EventArgs e)
             {
