@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
                 // buttonCancel
                 // 
                 _buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-                _buttonCancel.DialogResult = DialogResult.OK;
+                _buttonCancel.DialogResult = DialogResult.Cancel;
                 _buttonCancel.Location = new Point(10, 675);
                 _buttonCancel.Name = nameof(_buttonCancel);
                 _buttonCancel.Size = new Size(75, 33);
