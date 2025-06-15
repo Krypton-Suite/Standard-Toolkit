@@ -3,6 +3,7 @@
 ==== 
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
 * Resolved [#2101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2101), `KryptonContextMenu` items editor doesn't have a cancel button.
 * Resolved [#2213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2213), `KryptonToolStrip` & `KryptonStatusBar` controls text unreadable on Microsoft 365 White theme.
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey

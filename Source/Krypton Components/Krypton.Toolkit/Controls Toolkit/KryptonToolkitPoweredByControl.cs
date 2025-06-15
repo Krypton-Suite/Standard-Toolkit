@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         private bool _showThemeOption;
 
-        private ToolkitType _toolkitType;
+        private ToolkitSupportType _ToolkitSupportType;
 
         #endregion
 
@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the type of the toolkit.</summary>
         /// <value>The type of the toolkit.</value>
-        [DefaultValue(typeof(ToolkitType), @"ToolkitType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
-        public ToolkitType ToolkitType { get => _toolkitType; set { _toolkitType = value; SetLogo(value); } }
+        [DefaultValue(typeof(ToolkitSupportType), @"ToolkitSupportType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
+        public ToolkitSupportType ToolkitSupportType { get => _ToolkitSupportType; set { _ToolkitSupportType = value; SetLogo(value); } }
 
         #endregion
 
@@ -84,9 +84,9 @@ namespace Krypton.Toolkit
 
             kwlblWorkspaceVersion.Text = null;
 
-            _toolkitType = ToolkitType.Stable;
+            _ToolkitSupportType = ToolkitSupportType.Stable;
 
-            SetLogo(_toolkitType);
+            SetLogo(_ToolkitSupportType);
 
             Size = new Size(659, 122);
         }
@@ -95,21 +95,21 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void SetLogo(ToolkitType toolkitType)
+        private void SetLogo(ToolkitSupportType ToolkitSupportType)
         {
-            switch (toolkitType)
+            switch (ToolkitSupportType)
             {
-                case ToolkitType.Canary:
+                case ToolkitSupportType.Canary:
                     kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
                     break;
-                case ToolkitType.Nightly:
+                case ToolkitSupportType.Nightly:
                     kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
                     break;
-                case ToolkitType.Stable:
+                case ToolkitSupportType.Stable:
                     kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(toolkitType), toolkitType, null);
+                    throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null);
             }
         }
 
