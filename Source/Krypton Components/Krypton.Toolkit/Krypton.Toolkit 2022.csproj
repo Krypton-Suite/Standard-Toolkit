@@ -186,6 +186,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ProfessionalButtonSpecResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="ResourceFiles\Buttons\ButtonImageResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ButtonImageResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceFiles\CheckBoxes\CheckBoxStripResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -441,6 +446,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>VisualStudioToolbarImageResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="ResourceFiles\ToolkitLogos\ToolkitLogoResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToolkitLogoResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceFiles\TreeItems\TreeItemImageResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -652,6 +662,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ProfessionalButtonSpecResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="ResourceFiles\Buttons\ButtonImageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ButtonImageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="ResourceFiles\CheckBoxes\CheckBoxStripResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
@@ -855,6 +869,10 @@
     <EmbeddedResource Update="ResourceFiles\Toolbars\VisualStudioToolbarImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>VisualStudioToolbarImageResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceFiles\ToolkitLogos\ToolkitLogoResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolkitLogoResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceFiles\TreeItems\TreeItemImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -2276,13 +2276,29 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region Enum ToolkitType
+    #region Enum ToolkitSupportType
 
-    public enum ToolkitType
+    /// <summary>
+    /// Specifies the type of toolkit support.
+    /// </summary>
+    public enum ToolkitSupportType
     {
+        /// <summary>
+        /// The canary version is the latest development version, which may contain new features and bug fixes that are not yet available in the stable version.
+        /// </summary>
         Canary = 0,
+        /// <summary>
+        /// The nightly version is a pre-release version that is built every night and may contain new features and bug fixes that are not yet available in the stable version.
+        /// </summary>
         Nightly = 1,
-        Stable = 2
+        /// <summary>
+        /// The stable version is a tested and stable version that is suitable for production use.
+        /// </summary>
+        Stable = 2,
+        /// <summary>
+        /// The long-term support version is a version that is supported for an extended period of time, typically with security updates and critical bug fixes.
+        /// </summary>
+        LongTermSupport = 3
     }
 
     #endregion

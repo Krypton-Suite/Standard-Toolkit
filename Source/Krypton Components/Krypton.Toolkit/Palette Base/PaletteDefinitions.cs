@@ -4294,7 +4294,7 @@ namespace Krypton.Toolkit
     public enum PaletteDragFeedback
     {
         /// <summary>
-        /// Draw drag drop feedback as just blocks that are highlighted based on hot areas. 
+        /// Draw drag drop feedback as just blocks that are highlighted based on hot areas.
         /// </summary>
         Block,
 

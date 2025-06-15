@@ -56,6 +56,7 @@ global using System.Xml;
 
 global using Krypton.Toolkit.Properties;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
+global using Krypton.Toolkit.ResourceFiles.Buttons;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
 global using Krypton.Toolkit.ResourceFiles.CheckBoxes;
 global using Krypton.Toolkit.ResourceFiles.CommandLink;
@@ -80,6 +81,7 @@ global using Krypton.Toolkit.ResourceFiles.Sort;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
 global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
+global using Krypton.Toolkit.ResourceFiles.ToolkitLogos;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
 global using Krypton.Toolkit.ResourceFiles.VisualStudio;
