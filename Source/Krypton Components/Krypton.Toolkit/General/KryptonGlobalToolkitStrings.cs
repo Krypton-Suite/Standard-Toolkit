@@ -195,6 +195,11 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
 
+        /// <summary>Gets the krypton miscellaneous strings.</summary>
+        /// <value>The krypton miscellaneous strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonMiscellaneousStrings KryptonMiscellaneousStrings { get; } = new KryptonMiscellaneousStrings();
+
         /// <summary>Gets the krypton message box strings.</summary>
         /// <value>The krypton message box strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -603,6 +608,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton splash screen strings.</summary>
         public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
 
+        /// <summary>Gets the miscellaneous strings.</summary>
+        /// <value>The miscellaneous strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of miscellaneous strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonMiscellaneousStrings MiscellaneousStrings => KryptonMiscellaneousStrings;
+
+        private bool ShouldSerializeMiscellaneousStrings() => !KryptonMiscellaneousStrings.IsDefault;
+
+        public void ResetMiscellaneousStrings() => KryptonMiscellaneousStrings.Reset();
+
         /// <summary>Gets the message box strings.</summary>
         /// <value>The message box strings.</value>
         [Category(@"Visuals")]
@@ -674,8 +692,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMessageBoxStringsStrings() ||
-                                   ShouldSerializeSearchBoxStrings());
+                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() || ShouldSerializeMessageBoxStringsStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -715,6 +732,7 @@ namespace Krypton.Toolkit
             ResetToastNotificationStrings();
             ResetToolBarStrings();
             ResetSplashScreenStringsStrings();
+            ResetMiscellaneousStrings();
             ResetMessageBoxStrings();
             ResetSearchBoxStrings();
         }
