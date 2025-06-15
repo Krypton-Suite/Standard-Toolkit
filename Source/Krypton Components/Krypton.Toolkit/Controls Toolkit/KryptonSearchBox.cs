@@ -37,6 +37,10 @@ namespace Krypton.Toolkit
         {
             CueHint.CueHintText = KryptonManager.Strings.SearchBoxStrings.SearchBoxCueText;
 
+            ToolTipValues.Heading = KryptonManager.Strings.SearchBoxStrings.ToolTipHeadingText;
+
+            ToolTipValues.Description = KryptonManager.Strings.SearchBoxStrings.ToolTipBodyText;
+
             _clearButtonSpec = new ButtonSpecAny
             {
                 Type = PaletteButtonSpecStyle.Close,
