@@ -3436,7 +3436,19 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the quick print toolbar button specification.
         /// </summary>
-        QuickPrint
+        QuickPrint,
+        /// <summary>
+        /// Specifies the select all button specification.
+        /// </summary>
+        SelectAll,
+        /// <summary>
+        /// Specifies the select none button specification.
+        /// </summary>
+        SelectNone,
+        /// <summary>
+        /// Specifies the search button specification.
+        /// </summary>
+        Search,
     }
     #endregion
 
