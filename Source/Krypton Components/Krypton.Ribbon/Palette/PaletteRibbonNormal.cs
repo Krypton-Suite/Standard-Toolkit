@@ -51,11 +51,12 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => base.IsDefault &&
-                                            RibbonGroupCheckBoxText.IsDefault &&
-                                            RibbonGroupButtonText.IsDefault &&
-                                            RibbonGroupLabelText.IsDefault &&
-                                            RibbonGroupRadioButtonText.IsDefault;
+        public override bool IsDefault => base.IsDefault
+            && RibbonFileAppTab.IsDefault
+            && RibbonGroupCheckBoxText.IsDefault
+            && RibbonGroupButtonText.IsDefault
+            && RibbonGroupLabelText.IsDefault
+            && RibbonGroupRadioButtonText.IsDefault;
 
         #endregion
 

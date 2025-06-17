@@ -8,6 +8,7 @@
 	```csharp
 		ActiveFormTracker.StartAutomaticTracking();
 	```
+* Resolved [#2095](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2095), `KryptonRibbon` `StateNormal` & `StateCommon` do not write changes to `RibbonFileAppTab` to the designer source.
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
 * Resolved [#2101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2101), `KryptonContextMenu` items editor doesn't have a cancel button.
 * Resolved [#2213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2213), `KryptonToolStrip` & `KryptonStatusBar` controls text unreadable on Microsoft 365 White theme.
