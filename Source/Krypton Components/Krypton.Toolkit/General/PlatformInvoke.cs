@@ -3441,9 +3441,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             }
         }
 
+        #endregion
+
+        #region nt.dll
         [DllImport("ntdll.dll", SetLastError = true)]
         internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
-
         #endregion
 
         #region Static Gdi32
