@@ -15,6 +15,13 @@ namespace Krypton.Toolkit
     /// <summary>Gets access to specific information about the client operating system.</summary>
     public class OSUtilities
     {
+        #region Private static vars
+        // cache the result of RtlGetVersion
+        private static bool? _isWindowsTen = null;
+        // cache the result of RtlGetVersion
+        private static bool? _isAtLeastWindowsEleven = null;
+        #endregion
+
         #region Implementation
 
         // Note: Update these, once a new public upgrade becomes GA
@@ -33,11 +40,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets a value indicating whether the client version is Windows 10.</summary>
         /// <value><c>true</c> if the client version is Windows 10; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsTen => RtlGetVersion() is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
+        public static bool IsWindowsTen => _isWindowsTen ??= RtlGetVersion() is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
 
         /// <summary>Gets a value indicating whether the client version is Windows 11.</summary>
         /// <value><c>true</c> if the client version is Windows 11; otherwise, <c>false</c>.</value>
-        public static bool IsAtLeastWindowsEleven => RtlGetVersion() is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
+        public static bool IsAtLeastWindowsEleven => _isAtLeastWindowsEleven ??= RtlGetVersion() is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
 
         /// <summary>Gets a value indicating whether the client is a 64 bit operating system.</summary>
         /// <value><c>true</c> if the client is a 64 bit operating system; otherwise, <c>false</c>.</value>
