@@ -3604,6 +3604,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #endregion
 
+        #region nt.dll
+        [DllImport(Libraries.NtDll, SetLastError = true)]
+        internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
+        #endregion
+
         #region dwmapi
 
         public class Dwm
@@ -4592,6 +4597,28 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         {
             public int X;
             public int Y;
+        }
+
+        /// <summary>
+        /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier, 
+        /// and information about product suites and the latest Service Pack installed on the system. 
+        /// This structure is used with the RtlGetVersion, GetVersionEx and VerifyVersionInfo functions.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal struct OSVERSIONINFOEX
+        {
+            public uint dwOSVersionInfoSize;
+            public uint dwMajorVersion;
+            public uint dwMinorVersion;
+            public uint dwBuildNumber;
+            public uint dwPlatformId;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string szCSDVersion;
+            public ushort wServicePackMajor;
+            public ushort wServicePackMinor;
+            public ushort wSuiteMask;
+            public byte wProductType;
+            public byte wReserved;
         }
 
         #region For Acrylic
