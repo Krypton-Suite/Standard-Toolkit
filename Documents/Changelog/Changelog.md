@@ -3,6 +3,7 @@
 =======
 
 # 2025-0#-## - Build 250# (Patch #) - #### 2025
+* Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.
 * Resolved [#2101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2101), `KryptonContextMenu` items editor doesn't have a cancel button.
 * Resolved [#2213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2213), `KryptonToolStrip` & `KryptonStatusBar` controls text unreadable on Microsoft 365 White theme.
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey

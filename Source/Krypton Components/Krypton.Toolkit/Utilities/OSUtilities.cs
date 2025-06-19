@@ -33,15 +33,31 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets a value indicating whether the client version is Windows 10.</summary>
         /// <value><c>true</c> if the client version is Windows 10; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsTen => Environment.OSVersion.Version is { Major: 10, Build: <= 19045 };
+        public static bool IsWindowsTen => RtlGetVersion() is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
 
         /// <summary>Gets a value indicating whether the client version is Windows 11.</summary>
         /// <value><c>true</c> if the client version is Windows 11; otherwise, <c>false</c>.</value>
-        public static bool IsAtLeastWindowsEleven => Environment.OSVersion.Version is { Major: >= 10, Build: > 19045 };
+        public static bool IsAtLeastWindowsEleven => RtlGetVersion() is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
 
         /// <summary>Gets a value indicating whether the client is a 64 bit operating system.</summary>
         /// <value><c>true</c> if the client is a 64 bit operating system; otherwise, <c>false</c>.</value>
         public static bool Is64BitOperatingSystem => Environment.Is64BitOperatingSystem;
+
+        /// <summary>
+        /// Use is internal to this class only.
+        /// </summary>
+        /// <returns>PI.OSVERSIONINFOEX structure</returns>
+        private static PI.OSVERSIONINFOEX RtlGetVersion()
+        {
+            PI.OSVERSIONINFOEX osvi = new()
+            {
+                dwOSVersionInfoSize = (uint)Marshal.SizeOf(typeof(PI.OSVERSIONINFOEX))
+            };
+
+            PI.RtlGetVersion(ref osvi);
+
+            return osvi;
+        }
 
         #endregion
     }
