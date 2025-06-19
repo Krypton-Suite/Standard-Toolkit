@@ -388,7 +388,7 @@ namespace TestForm
             }
             catch (Exception ex)
             {
-                KryptonExceptionDialog.Show(ex);
+                //KryptonExceptionDialog.Show(ex);
             }
         }
 
