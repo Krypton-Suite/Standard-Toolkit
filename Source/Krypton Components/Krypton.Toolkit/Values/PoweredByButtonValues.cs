@@ -10,16 +10,8 @@
 namespace Krypton.Toolkit
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class PoweredByButtonValues : GlobalId
+    public class PoweredByButtonValues : GlobalId, INotifyPropertyChanged
     {
-        #region Instance Fields
-
-        //private bool _showChangeLogButton;
-
-        //private ToolkitSupportType _toolkitType;
-
-        #endregion
-
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="PoweredByButtonValues" /> class.</summary>
@@ -74,6 +66,41 @@ namespace Krypton.Toolkit
         {
             ShowChangeLogButton = false;
             ToolkitSupportType = ToolkitSupportType.Stable;
+        }
+
+        #endregion
+
+        #region Event
+
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region INotifyPropertyChanged Implementation
+
+        /// <summary>Called when [property changed].</summary>
+        /// <param name="propertyName">Name of the property.</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        /// <summary>Sets the field.</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="field">The field.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
 
         #endregion

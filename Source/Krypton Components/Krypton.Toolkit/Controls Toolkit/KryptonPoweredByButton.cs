@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         private ToolkitSupportType _toolkitType;
 
-        //private PoweredByButtonValues? _poweredByButtonValues;
+        private PoweredByButtonValues? _poweredByButtonValues;
 
         #endregion
 
@@ -57,23 +57,36 @@ namespace Krypton.Toolkit
             }
         }
 
-        /*[Category(@"Visuals")]
+        [Category(@"Visuals")]
         [Description(@"Gets or sets the values for the Powered By button.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(true)]
-        public PoweredByButtonValues PoweredByButtonValues
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden )]
+        public PoweredByButtonValues ButtonValues
         {
-            get => _poweredByButtonValues ??= new PoweredByButtonValues
-            {
-                ToolkitSupportType = _toolkitType
-            };
+            get => _poweredByButtonValues ??= new PoweredByButtonValues();
+
             set
             {
-                _poweredByButtonValues = value;
-                _toolkitType = value.ToolkitSupportType;
-                //Invalidate();
+                if (_poweredByButtonValues != value)
+                {
+                    if (_poweredByButtonValues != null)
+                    {
+                        _poweredByButtonValues.PropertyChanged -= OnPropertyChanged;
+                    }
+
+                    _poweredByButtonValues = value ?? new PoweredByButtonValues();
+
+                    _poweredByButtonValues.PropertyChanged += OnPropertyChanged;
+
+                    Invalidate();
+                }
             }
-        }*/
+        }
+
+        private bool ShouldSerializeButtonValues() => !ButtonValues.IsDefault;
+
+        public void ResetButtonValues() => ButtonValues.Reset();
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => Invalidate();
 
         #endregion
 

@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Krypton.Toolkit.PoweredByButtonValues poweredByButtonValues2 = new Krypton.Toolkit.PoweredByButtonValues();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoweredByButtonForm));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonPoweredByButton1 = new Krypton.Toolkit.KryptonPoweredByButton();
-            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
+            this.kryptonPoweredByButton1 = new Krypton.Toolkit.KryptonPoweredByButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -50,6 +51,18 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(584, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // kryptonButton1
+            // 
+            this.kryptonButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonButton1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.kryptonButton1.Location = new System.Drawing.Point(476, 17);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton1.TabIndex = 0;
+            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonButton1.Values.Text = "O&K";
+            this.kryptonButton1.Values.UseAsADialogButton = true;
+            // 
             // kryptonPanel2
             // 
             this.kryptonPanel2.Controls.Add(this.kryptonPropertyGrid1);
@@ -59,16 +72,6 @@
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(584, 368);
             this.kryptonPanel2.TabIndex = 1;
-            // 
-            // kryptonPoweredByButton1
-            // 
-            this.kryptonPoweredByButton1.Location = new System.Drawing.Point(13, 90);
-            this.kryptonPoweredByButton1.Name = "kryptonPoweredByButton1";
-            this.kryptonPoweredByButton1.Size = new System.Drawing.Size(153, 25);
-            this.kryptonPoweredByButton1.TabIndex = 0;
-            this.kryptonPoweredByButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonPoweredByButton1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonPoweredByButton1.Values.Image")));
-            this.kryptonPoweredByButton1.Values.Text = "&Powered By Krypton";
             // 
             // kryptonPropertyGrid1
             // 
@@ -80,23 +83,22 @@
             this.kryptonPropertyGrid1.TabIndex = 1;
             this.kryptonPropertyGrid1.Text = "kryptonPropertyGrid1";
             // 
-            // kryptonButton1
+            // kryptonPoweredByButton1
             // 
-            this.kryptonButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonButton1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonButton1.Location = new System.Drawing.Point(476, 17);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
-            this.kryptonButton1.TabIndex = 0;
-            this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton1.Values.Text = "kryptonButton1";
-            this.kryptonButton1.Values.UseAsADialogButton = true;
+            this.kryptonPoweredByButton1.ButtonValues = poweredByButtonValues2;
+            this.kryptonPoweredByButton1.Location = new System.Drawing.Point(13, 90);
+            this.kryptonPoweredByButton1.Name = "kryptonPoweredByButton1";
+            this.kryptonPoweredByButton1.Size = new System.Drawing.Size(153, 25);
+            this.kryptonPoweredByButton1.TabIndex = 0;
+            this.kryptonPoweredByButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kryptonPoweredByButton1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonPoweredByButton1.Values.Image")));
+            this.kryptonPoweredByButton1.Values.Text = "&Powered By Krypton";
             // 
             // PoweredByButtonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 422);
+            this.ClientSize = new System.Drawing.Size(584, 418);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
