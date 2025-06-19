@@ -14,9 +14,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _showChangeLogButton;
+        //private bool _showChangeLogButton;
 
-        private ToolkitSupportType _toolkitType;
+        //private ToolkitSupportType _toolkitType;
 
         #endregion
 
