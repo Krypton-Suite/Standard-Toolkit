@@ -21,6 +21,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_NIGHTLY_TEXT = @"Nightly";
         private const string DEFAULT_STABLE_TEXT = @"Stable";
         private const string DEFAULT_LONG_TERM_STABLE_TEXT = @"Long Term Stable";
+        private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
 
         #endregion
 
@@ -91,6 +92,14 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_LONG_TERM_STABLE_TEXT)]
         public string LongTermStableText { get; set; }
 
+        /// <summary>Gets or sets the change log text.</summary>
+        /// <value>The change log text.</value>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The changelog text.")]
+        [DefaultValue(DEFAULT_CHANGELOG_TEXT)]
+        public string ChangeLogText { get; set; }
+
         #endregion
 
         #region IsDefault
@@ -102,7 +111,8 @@ namespace Krypton.Toolkit
                                  CanaryText.Equals(DEFAULT_CANARY_TEXT) &&
                                  NightlyText.Equals(DEFAULT_NIGHTLY_TEXT) &&
                                  StableText.Equals(DEFAULT_STABLE_TEXT) &&
-                                 LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT);
+                                 LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT) &&
+                                 ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT);
 
         #endregion
 
@@ -123,6 +133,8 @@ namespace Krypton.Toolkit
             StableText = DEFAULT_STABLE_TEXT;
 
             LongTermStableText = DEFAULT_LONG_TERM_STABLE_TEXT;
+
+            ChangeLogText = DEFAULT_CHANGELOG_TEXT;
         }
 
         #endregion

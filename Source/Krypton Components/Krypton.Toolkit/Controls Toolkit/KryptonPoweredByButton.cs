@@ -24,9 +24,20 @@ namespace Krypton.Toolkit
 
         private ToolkitSupportType _toolkitType;
 
+        //private PoweredByButtonValues? _poweredByButtonValues;
+
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets a value indicating whether [show change log button].</summary>
+        /// <value>
+        ///   <c>true</c> if [show change log button]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the values for the Powered By button.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(false)]
+        public bool ShowChangeLogButton { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the toolkit.
@@ -42,9 +53,27 @@ namespace Krypton.Toolkit
             {
                 _toolkitType = value;
 
-                Invalidate();
+                SetIcon(value);
             }
         }
+
+        /*[Category(@"Visuals")]
+        [Description(@"Gets or sets the values for the Powered By button.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(true)]
+        public PoweredByButtonValues PoweredByButtonValues
+        {
+            get => _poweredByButtonValues ??= new PoweredByButtonValues
+            {
+                ToolkitSupportType = _toolkitType
+            };
+            set
+            {
+                _poweredByButtonValues = value;
+                _toolkitType = value.ToolkitSupportType;
+                //Invalidate();
+            }
+        }*/
 
         #endregion
 
@@ -76,7 +105,7 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnClick(EventArgs e)
         {
-            new VisualToolkitBinaryInformationForm(_toolkitType).ShowDialog();
+            new VisualToolkitBinaryInformationForm(_toolkitType, ShowChangeLogButton).ShowDialog();
 
             base.OnClick(e);
         }
@@ -85,8 +114,11 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs? e)
         {
             base.OnPaint(e);
+        }
 
-            switch (_toolkitType)
+        private void SetIcon(ToolkitSupportType toolkitType)
+        {
+            switch (toolkitType)
             {
                 case ToolkitSupportType.Canary:
                     Values.Image = ButtonImageResources.Krypton_Canary_Button;

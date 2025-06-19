@@ -56,7 +56,7 @@ namespace TestForm
             this.kbtnWorkspace = new Krypton.Toolkit.KryptonButton();
             this.kbtnCalendar = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
+            this.kbtnPoweredByButton = new Krypton.Toolkit.KryptonButton();
             this.btnColourTestimonials = new Krypton.Toolkit.KryptonButton();
             this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
@@ -96,7 +96,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnWorkspace);
             this.kryptonPanel1.Controls.Add(this.kbtnCalendar);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
-            this.kryptonPanel1.Controls.Add(this.kbtnOutlookGrid);
+            this.kryptonPanel1.Controls.Add(this.kbtnPoweredByButton);
             this.kryptonPanel1.Controls.Add(this.btnColourTestimonials);
             this.kryptonPanel1.Controls.Add(this.kbtnTreeView);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
@@ -117,7 +117,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(382, 473);
+            this.kryptonPanel1.Size = new System.Drawing.Size(374, 524);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnSplashScreen
@@ -272,15 +272,16 @@ namespace TestForm
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 18;
             // 
-            // kbtnOutlookGrid
+            // kbtnPoweredByButton
             // 
-            this.kbtnOutlookGrid.Location = new System.Drawing.Point(12, 254);
-            this.kbtnOutlookGrid.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
-            this.kbtnOutlookGrid.Size = new System.Drawing.Size(153, 20);
-            this.kbtnOutlookGrid.TabIndex = 17;
-            this.kbtnOutlookGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
+            this.kbtnPoweredByButton.Location = new System.Drawing.Point(12, 254);
+            this.kbtnPoweredByButton.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnPoweredByButton.Name = "kbtnPoweredByButton";
+            this.kbtnPoweredByButton.Size = new System.Drawing.Size(153, 20);
+            this.kbtnPoweredByButton.TabIndex = 17;
+            this.kbtnPoweredByButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPoweredByButton.Values.Text = "Powered by Button";
+            this.kbtnPoweredByButton.Click += new System.EventHandler(this.kbtnPoweredByButton_Click);
             // 
             // btnColourTestimonials
             // 
@@ -307,7 +308,7 @@ namespace TestForm
             // kbtnExit
             // 
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(12, 442);
+            this.kbtnExit.Location = new System.Drawing.Point(12, 493);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(153, 20);
@@ -479,7 +480,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(382, 473);
+            this.ClientSize = new System.Drawing.Size(374, 524);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -518,7 +519,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnToast;
         private Krypton.Toolkit.KryptonButton kbtnExit;
         private Krypton.Toolkit.KryptonButton kbtnTreeView;
-        private Krypton.Toolkit.KryptonButton kbtnOutlookGrid;
+        private Krypton.Toolkit.KryptonButton kbtnPoweredByButton;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonButton kbtnCalendar;
         private KryptonManager kryptonManager1;
