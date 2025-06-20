@@ -15,59 +15,51 @@ namespace Krypton.Toolkit
     /// <summary>Gets access to specific information about the client operating system.</summary>
     public class OSUtilities
     {
-        #region Identity
-
-        /// <summary>Initializes a new instance of the <see cref="OSUtilities" /> class.</summary>
-        public OSUtilities()
+        #region Static Identity
+        static OSUtilities()
         {
+            PI.OSVERSIONINFOEX osvi = new()
+            {
+                dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
+            };
+            PI.RtlGetVersion(ref osvi);
 
+            // evaluate and initialize once at startup
+            IsWindowsSeven = Environment.OSVersion.Version is { Major: 6, Minor: 1 };
+            IsWindowsEight = Environment.OSVersion.Version is { Major: 6, Minor: 2 };
+            IsWindowsEightPointOne = Environment.OSVersion.Version is { Major: 6, Minor: 3 };
+            IsWindowsTen = osvi is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
+            IsWindowsEleven = osvi is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
+            Is64BitOperatingSystem = Environment.Is64BitOperatingSystem;
         }
-
         #endregion
 
         #region Implementation
-
         // Note: Update these, once a new public upgrade becomes GA
 
         /// <summary>Gets a value indicating whether the client version is Windows 7.</summary>
         /// <value><c>true</c> if the client version is Windows 7; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsSeven => Environment.OSVersion.Version is { Major: >= 6, Minor: >= 1 };
+        public static bool IsWindowsSeven { get; }
 
         /// <summary>Gets a value indicating whether the client version is Windows 8.</summary>
         /// <value><c>true</c> if the client version is Windows 8; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsEight => Environment.OSVersion.Version is { Major: >= 6, Minor: >= 2 };
+        public static bool IsWindowsEight { get; }
 
         /// <summary>Gets a value indicating whether the client version is Windows 8.1.</summary>
         /// <value><c>true</c> if the client version is Windows 8.1; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsEightPointOne => Environment.OSVersion.Version is { Major: >= 6, Minor: >= 3 };
+        public static bool IsWindowsEightPointOne { get; }
 
         /// <summary>Gets a value indicating whether the client version is Windows 10.</summary>
         /// <value><c>true</c> if the client version is Windows 10; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsTen => RtlGetVersion() is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
+        public static bool IsWindowsTen { get; }
 
         /// <summary>Gets a value indicating whether the client version is Windows 11.</summary>
         /// <value><c>true</c> if the client version is Windows 11; otherwise, <c>false</c>.</value>
-        public static bool IsWindowsEleven => RtlGetVersion() is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
+        public static bool IsWindowsEleven { get; }
 
         /// <summary>Gets a value indicating whether the client is a 64 bit operating system.</summary>
         /// <value><c>true</c> if the client is a 64 bit operating system; otherwise, <c>false</c>.</value>
-        public static bool Is64BitOperatingSystem => Environment.Is64BitOperatingSystem;
-
-        /// <summary>
-        /// Use is internal to this class only.
-        /// </summary>
-        /// <returns>PI.OSVERSIONINFOEX structure</returns>
-        private static PI.OSVERSIONINFOEX RtlGetVersion()
-        {
-            PI.OSVERSIONINFOEX osvi = new()
-            {
-                dwOSVersionInfoSize = (uint)Marshal.SizeOf(typeof(PI.OSVERSIONINFOEX))
-            };
-
-            PI.RtlGetVersion(ref osvi);
-
-            return osvi;
-        }
+        public static bool Is64BitOperatingSystem { get; }
         #endregion
     }
 }
