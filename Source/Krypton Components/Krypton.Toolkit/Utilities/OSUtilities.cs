@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         {
             PI.OSVERSIONINFOEX osvi = new()
             {
-                dwOSVersionInfoSize = (uint)Marshal.SizeOf(typeof(PI.OSVERSIONINFOEX))
+                dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
             };
             PI.RtlGetVersion(ref osvi);
 
