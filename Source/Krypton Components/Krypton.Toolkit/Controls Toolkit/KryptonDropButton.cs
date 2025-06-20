@@ -673,7 +673,7 @@ namespace Krypton.Toolkit
                 // Does the button primary text contain the mnemonic?
                 if (IsMnemonic(charCode, Values.Text))
                 {
-                    if (!Splitter)
+                    if (Splitter)
                     {
                         PerformDropDown();
                     }

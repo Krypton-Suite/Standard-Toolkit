@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
 
             ShowSystemInformationButton(aboutToolkitData.ShowSystemInformationButton);
 
-            SwitchIcon(aboutToolkitData.ToolkitType);
+            SwitchIcon(aboutToolkitData.ToolkitSupportType);
 
             ConcatanateGeneralInformationText(aboutToolkitData.GeneralInformationWelcomeText, aboutToolkitData.GeneralInformationLicenseText, aboutToolkitData.GeneralInformationLearnMoreText);
 
@@ -434,18 +434,21 @@ namespace Krypton.Toolkit
             SetLogoSpan(value);
         }
 
-        private void SwitchIcon(ToolkitType value)
+        private void SwitchIcon(ToolkitSupportType value)
         {
             switch (value)
             {
-                case ToolkitType.Canary:
+                case ToolkitSupportType.Canary:
                     pbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
                     break;
-                case ToolkitType.Nightly:
+                case ToolkitSupportType.Nightly:
                     pbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
                     break;
-                case ToolkitType.Stable:
+                case ToolkitSupportType.Stable:
                     pbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
+                    break;
+                case ToolkitSupportType.LongTermSupport:
+                    //pbxLogo.Image = ToolkitLogoImageResources.Krypton_LTS;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);

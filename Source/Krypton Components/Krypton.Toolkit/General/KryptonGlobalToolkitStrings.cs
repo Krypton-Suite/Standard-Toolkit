@@ -195,10 +195,20 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static SplashScreenStrings KryptonSplashScreenStrings { get; } = new SplashScreenStrings();
 
+        /// <summary>Gets the krypton miscellaneous strings.</summary>
+        /// <value>The krypton miscellaneous strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonMiscellaneousStrings KryptonMiscellaneousStrings { get; } = new KryptonMiscellaneousStrings();
+
         /// <summary>Gets the krypton message box strings.</summary>
         /// <value>The krypton message box strings.</value>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static MessageBoxStrings KryptonMessageBoxStrings { get; } = new MessageBoxStrings();
+
+        /// <summary>Gets the krypton search box strings.</summary>
+        /// <value>The krypton search box strings.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public static KryptonSearchBoxStrings KryptonSearchBoxStrings { get; } = new KryptonSearchBoxStrings();
 
         #endregion
 
@@ -598,6 +608,19 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton splash screen strings.</summary>
         public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
 
+        /// <summary>Gets the miscellaneous strings.</summary>
+        /// <value>The miscellaneous strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of miscellaneous strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonMiscellaneousStrings MiscellaneousStrings => KryptonMiscellaneousStrings;
+
+        private bool ShouldSerializeMiscellaneousStrings() => !KryptonMiscellaneousStrings.IsDefault;
+
+        public void ResetMiscellaneousStrings() => KryptonMiscellaneousStrings.Reset();
+
         /// <summary>Gets the message box strings.</summary>
         /// <value>The message box strings.</value>
         [Category(@"Visuals")]
@@ -611,6 +634,20 @@ namespace Krypton.Toolkit
 
         /// <summary>Resets the krypton message box strings.</summary>
         public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
+
+        /// <summary>Gets the krypton search box strings.</summary>
+        /// <value>The krypton search box strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of search box strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonSearchBoxStrings SearchBoxStrings => KryptonSearchBoxStrings;
+
+        private bool ShouldSerializeSearchBoxStrings() => !KryptonSearchBoxStrings.IsDefault;
+
+        /// <summary>Resets the krypton search box strings.</summary>
+        public void ResetSearchBoxStrings() => KryptonSearchBoxStrings.Reset();
 
         #endregion
 
@@ -655,7 +692,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeToastNotificationIconStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMessageBoxStringsStrings());
+                                   ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() || ShouldSerializeMessageBoxStringsStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -695,7 +732,9 @@ namespace Krypton.Toolkit
             ResetToastNotificationStrings();
             ResetToolBarStrings();
             ResetSplashScreenStringsStrings();
+            ResetMiscellaneousStrings();
             ResetMessageBoxStrings();
+            ResetSearchBoxStrings();
         }
 
         #endregion

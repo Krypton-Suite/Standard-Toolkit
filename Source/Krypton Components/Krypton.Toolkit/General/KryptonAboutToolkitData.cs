@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         //public Font HeaderFont;
 
         /// <summary>The toolkit type.</summary>
-        public ToolkitType ToolkitType { get; set; } = ToolkitType.Stable;
+        public ToolkitSupportType ToolkitSupportType { get; set; } = ToolkitSupportType.Stable;
 
         /// <summary>The header text.</summary>
         public string HeaderText { get; set; } = DEFAULT_HEADER_TEXT;
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
 
             ShowBuildDate = true;
 
-            ToolkitType = ToolkitType.Stable;
+            ToolkitSupportType = ToolkitSupportType.Stable;
 
             BuildOnText = DEFAULT_BUILT_ON_TEXT;
 
