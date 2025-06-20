@@ -1063,6 +1063,12 @@ namespace Krypton.Toolkit
                 ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
                 IMouseController? controller = viewBase?.FindMouseController();
 
+                // Display snap layouts on Windows 11
+                if (OSUtilities.IsAtLeastWindowsEleven && _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
+                {
+                    return new IntPtr(PI.HT.MAXBUTTON);
+                }
+
                 // Ensure the button shows as 'normal' state when mouse not over and pressed
                 if (controller is ButtonController buttonController)
                 {
