@@ -32,9 +32,9 @@ namespace Krypton.Toolkit
             IsAtLeastWindowsEleven = osvi is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
             Is64BitOperatingSystem = Environment.Is64BitOperatingSystem;
         }
+        #endregion
 
         #region Implementation
-
         // Note: Update these, once a new public upgrade becomes GA
 
         /// <summary>Gets a value indicating whether the client version is Windows 7.</summary>
