@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
 
         private static void DeactivateMdiChild(object? sender, EventArgs e)
         {
-            if (sender is Form mdiChild && IsActiveMiChild(mdiChild))
+            if (sender is Form mdiChild && IsActiveMdiChild(mdiChild))
             {
                 _activeMdiChild = null;
             }
