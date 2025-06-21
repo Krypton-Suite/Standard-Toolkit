@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// Subscribes the form to the tracker.<br/>
-        /// KryptonForm object automatically subscribe to the tracker on instantiation<br/>
+        /// KryptonForm objects automatically subscribe to the tracker on instantiation.<br/>
         /// When using a WinForms form in combination with the Krypton Docking module add the following code to each form definition.<br/><br/>
         /// <code>
         /// protected override void OnHandleCreated(EventArgs e)
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                // This an MDI child
+                // This is an MDI child
                 form.Activated += ActivatedMdiChild;
                 form.Deactivate += DeactivateMdiChild;
                 form.HandleDestroyed += HandleDestroyedMdiChild;
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="mdiChild">ChildForm to check if it's active.</param>
         /// <returns>True if the given childform is equal to the active form, otherwise false.</returns>
-        public static bool IsActiveMiChild(Form mdiChild)
+        public static bool IsActiveMdiChild(Form mdiChild)
         {
             return mdiChild.Equals(_activeMdiChild);
         }
