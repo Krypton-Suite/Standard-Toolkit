@@ -1,0 +1,180 @@
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2024. All rights reserved.
+ *  
+ */
+#endregion
+
+namespace Krypton.Toolkit
+{
+    /// <summary>
+    /// Static class that tracks the active form within a WinForms application in a event drive way.<br/>
+    /// It removes the need for the use of Form.ActiveForm which relies on GetForeGroundWindow().
+    /// </summary>
+    public static class ActiveFormTracker
+    {
+        #region Private static values
+        private static volatile Form? _activeForm;
+        private static volatile Form? _activeMdiChild;
+        #endregion
+
+        #region Static Identity
+        static ActiveFormTracker()
+        {
+            _activeForm = null;
+            _activeMdiChild = null;
+        }
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// The currently active form
+        /// </summary>
+        public static Form? ActiveForm 
+        {
+            get => _activeForm;
+        }
+
+        /// <summary>
+        /// The currently active mdi child form
+        /// </summary>
+        public static Form? ActiveMdiChild 
+        {
+            get => _activeMdiChild;
+        }
+
+        /// <summary>
+        /// Subscribes the form to the tracker.<br/>
+        /// KryptonForm object automatically subscribe to the tracker on instantiation<br/>
+        /// When using a WinForms form in combination with the Krypton Docking module add the following code to each form definition.<br/><br/>
+        /// <code>
+        /// protected override void OnHandleCreated(EventArgs e)
+        /// {
+        ///     base.OnHandleCreated(e);
+        ///     Tracker.Subscribe(this);
+        /// }
+        /// </code><br/><br/>
+        /// When the form is destroyed it will automatically be unsubscribed from the tracker.
+        /// </summary>
+        /// <param name="form">The form to subscribe.</param>
+        public static void Attach(Form form)
+        {
+            if (form.MdiParent is null)
+            {
+                // An MDI Container can be handled the same as any "non mdi child" form
+                form.Activated += Activated;
+                form.Deactivate += Deactivate;
+                form.HandleDestroyed += HandleDestroyed;
+            }
+            else
+            {
+                // This an MDI child
+                form.Activated += ActivatedMdiChild;
+                form.Deactivate += DeactivateMdiChild;
+                form.HandleDestroyed += HandleDestroyedMdiChild;
+            }
+
+            // The new form isn't always the top form,
+            // so to get started use Form.ActiveForm once, which uses GetForegroundWindow().
+            _activeForm = Form.ActiveForm;
+
+            // If the active form is the same as the form being subscribed.
+            // Check if is has an active mdi child set
+            if (form.Equals(_activeForm) && form.ActiveMdiChild is not null)
+            {
+                ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Return if the given form is the active form.
+        /// </summary>
+        /// <param name="form">Form to check if it's active.</param>
+        /// <returns>True if the given form is equal to the active form, otherwise false.</returns>
+        public static bool IsActiveForm(Form form)
+        {
+            return form.Equals(_activeForm);
+        }
+
+        /// <summary>
+        /// Return if the given form is the active mdi child form.
+        /// </summary>
+        /// <param name="mdiChild">ChildForm to check if it's active.</param>
+        /// <returns>True if the given childform is equal to the active form, otherwise false.</returns>
+        public static bool IsActiveMiChild(Form mdiChild)
+        {
+            return mdiChild.Equals(_activeMdiChild);
+        }
+        #endregion
+
+        #region Private
+        private static void ActivatedMdiChild(object? sender, EventArgs e)
+        {
+            if (sender is Form form)
+            {
+                _activeMdiChild = form;
+            }
+        }
+
+        private static void Activated(object? sender, EventArgs e)
+        {
+            if (sender is Form form)
+            {
+                _activeForm = form;
+
+                if (form.ActiveMdiChild is not null)
+                {
+                    _activeMdiChild = form.ActiveMdiChild;
+                }
+            }
+        }
+
+        private static void Deactivate(object? sender, EventArgs e)
+        {
+            if (sender is Form form && IsActiveForm(form))
+            {
+                _activeForm = null;
+
+                // If a mdi container becomes inactive the child form in the tracker needs te be set to inactive
+                if (_activeMdiChild is not null)
+                {
+                    _activeMdiChild = null;
+                }
+            }
+        }
+
+        private static void DeactivateMdiChild(object? sender, EventArgs e)
+        {
+            if (sender is Form mdiChild && IsActiveMiChild(mdiChild))
+            {
+                _activeMdiChild = null;
+            }
+        }
+
+        private static void HandleDestroyed(object? sender, EventArgs e)
+        {
+            if (sender is Form form)
+            {
+                form.HandleDestroyed -= HandleDestroyed;
+                form.Deactivate -= Deactivate;
+                form.Activated -= Activated;
+            }
+        }
+
+        private static void HandleDestroyedMdiChild(object? sender, EventArgs e)
+        {
+            if (sender is Form form)
+            {
+                form.HandleDestroyed -= HandleDestroyed;
+                form.Deactivate -= DeactivateMdiChild;
+                form.Activated -= ActivatedMdiChild;
+            }
+        }
+        #endregion
+    }
+}
