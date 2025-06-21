@@ -207,5 +207,10 @@ namespace TestForm
         {
             new SplashScreenExample().Show();
         }
+
+        private void kbtnPoweredByButton_Click(object sender, EventArgs e)
+        {
+            new PoweredByButtonForm().Show();
+        }
     }
 }
