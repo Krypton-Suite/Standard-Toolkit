@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// protected override void OnHandleCreated(EventArgs e)
         /// {
         ///     base.OnHandleCreated(e);
-        ///     Tracker.Subscribe(this);
+        ///     Tracker.Attach(this);
         /// }
         /// </code><br/><br/>
         /// When the form is destroyed it will automatically be unsubscribed from the tracker.
