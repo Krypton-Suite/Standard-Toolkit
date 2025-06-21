@@ -126,11 +126,7 @@ namespace Krypton.Toolkit
             if (sender is Form form)
             {
                 _activeForm = form;
-
-                if (form.ActiveMdiChild is not null)
-                {
-                    _activeMdiChild = form.ActiveMdiChild;
-                }
+                ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
             }
         }
 
