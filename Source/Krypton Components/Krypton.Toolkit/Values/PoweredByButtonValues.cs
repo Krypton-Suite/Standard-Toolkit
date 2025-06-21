@@ -12,11 +12,23 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PoweredByButtonValues : GlobalId, INotifyPropertyChanged
     {
+        #region Instance Fields
+
+        private ToolkitSupportType _supportType;
+
+        private readonly KryptonPoweredByButton _poweredByButton;
+
+        #endregion
+
         #region Identity
 
+
         /// <summary>Initializes a new instance of the <see cref="PoweredByButtonValues" /> class.</summary>
-        public PoweredByButtonValues()
+        /// <param name="poweredByButton">The powered by button.</param>
+        public PoweredByButtonValues(KryptonPoweredByButton poweredByButton)
         {
+            _poweredByButton = poweredByButton;
+
             Reset();
         }
 
@@ -41,7 +53,17 @@ namespace Krypton.Toolkit
         [Description("Gets or sets the type of the toolkit.")]
         [DefaultValue(ToolkitSupportType.Stable)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public ToolkitSupportType ToolkitSupportType { get; set; }
+        public ToolkitSupportType ToolkitSupportType
+        {
+            get => _supportType;
+
+            set
+            {
+                _supportType = value;
+
+                SetIcon(value);
+            }
+        }
 
         #endregion
 
@@ -68,12 +90,32 @@ namespace Krypton.Toolkit
             ToolkitSupportType = ToolkitSupportType.Stable;
         }
 
+        private void SetIcon(ToolkitSupportType toolkitSupportType)
+        {
+            switch (toolkitSupportType)
+            {
+                case ToolkitSupportType.Canary:
+                    _poweredByButton.Values.Image = ButtonImageResources.Krypton_Canary_Button;
+                    break;
+                case ToolkitSupportType.Nightly:
+                    _poweredByButton.Values.Image = ButtonImageResources.Krypton_Nightly_Button;
+                    break;
+                case ToolkitSupportType.LongTermSupport:
+                    _poweredByButton.Values.Image = ButtonImageResources.Krypton_Long_Term_Stable_Button;
+                    break;
+                case ToolkitSupportType.Stable:
+                default:
+                    _poweredByButton.Values.Image = ButtonImageResources.Krypton_Stable_Button;
+                    break;
+            }
+        }
+
         #endregion
 
         #region Event
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         #endregion
 

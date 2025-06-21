@@ -22,47 +22,20 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private ToolkitSupportType _toolkitType;
-
         private PoweredByButtonValues? _poweredByButtonValues;
 
         #endregion
 
         #region Public
 
-        /// <summary>Gets or sets a value indicating whether [show change log button].</summary>
-        /// <value>
-        ///   <c>true</c> if [show change log button]; otherwise, <c>false</c>.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the values for the Powered By button.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(false)]
-        public bool ShowChangeLogButton { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the toolkit.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the type of the toolkit.")]
-        [DefaultValue(typeof(ToolkitSupportType), "Stable")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToolkitSupportType ToolkitSupportType
-        {
-            get => _toolkitType;
-            set
-            {
-                _toolkitType = value;
-
-                SetIcon(value);
-            }
-        }
-
+        /// <summary>Gets or sets the button values.</summary>
+        /// <value>The button values.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the values for the Powered By button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden )]
         public PoweredByButtonValues ButtonValues
         {
-            get => _poweredByButtonValues ??= new PoweredByButtonValues();
+            get => _poweredByButtonValues ??= new PoweredByButtonValues(this);
 
             set
             {
@@ -73,7 +46,7 @@ namespace Krypton.Toolkit
                         _poweredByButtonValues.PropertyChanged -= OnPropertyChanged;
                     }
 
-                    _poweredByButtonValues = value ?? new PoweredByButtonValues();
+                    _poweredByButtonValues = value ?? new PoweredByButtonValues(this);
 
                     _poweredByButtonValues.PropertyChanged += OnPropertyChanged;
 
@@ -86,8 +59,6 @@ namespace Krypton.Toolkit
 
         public void ResetButtonValues() => ButtonValues.Reset();
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) => Invalidate();
-
         #endregion
 
         #region Identity
@@ -95,8 +66,6 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonPoweredByButton" /> class.</summary>
         public KryptonPoweredByButton()
         {
-            _toolkitType = ToolkitSupportType.Stable;
-
             Values.Text = @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
 
             Values.Image = ButtonImageResources.Krypton_Stable_Button;
@@ -118,35 +87,9 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnClick(EventArgs e)
         {
-            new VisualToolkitBinaryInformationForm(_toolkitType, ShowChangeLogButton).ShowDialog();
+            new VisualToolkitBinaryInformationForm(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton).ShowDialog();
 
             base.OnClick(e);
-        }
-
-        /// <inheritdoc />
-        protected override void OnPaint(PaintEventArgs? e)
-        {
-            base.OnPaint(e);
-        }
-
-        private void SetIcon(ToolkitSupportType toolkitType)
-        {
-            switch (toolkitType)
-            {
-                case ToolkitSupportType.Canary:
-                    Values.Image = ButtonImageResources.Krypton_Canary_Button;
-                    break;
-                case ToolkitSupportType.Nightly:
-                    Values.Image = ButtonImageResources.Krypton_Nightly_Button;
-                    break;
-                case ToolkitSupportType.LongTermSupport:
-                    Values.Image = ButtonImageResources.Krypton_Long_Term_Stable_Button;
-                    break;
-                case ToolkitSupportType.Stable:
-                default:
-                    Values.Image = ButtonImageResources.Krypton_Stable_Button;
-                    break;
-            }
         }
 
         #endregion
@@ -161,6 +104,12 @@ namespace Krypton.Toolkit
             add { base.Click += value; }
             remove { base.Click -= value; }
         }
+
+        #endregion
+
+        #region Implementation
+
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) => Invalidate();
 
         #endregion
     }
