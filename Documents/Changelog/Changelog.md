@@ -85,8 +85,8 @@
 
 =======
 
-# 2025-0#-## - Build 250# (Version 95 - Patch #) - #### 2025
-* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
+# 2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025
+* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
 
 ====
 
