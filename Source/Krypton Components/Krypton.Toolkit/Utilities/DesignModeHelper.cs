@@ -11,18 +11,12 @@ namespace Krypton.Toolkit
 {
     internal class DesignModeHelper
     {
-        #region Instance Fields
-
-        private static readonly bool _isInDesignMode;
-
-        #endregion
-
         #region Public
 
         /// <summary>
         /// Gets a value indicating whether the application is running inside the Visual Studio designer.
         /// </summary>
-        public static bool IsInDesignMode => _isInDesignMode;
+        public static bool IsInDesignMode { get; }
 
         #endregion
 
@@ -33,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         static DesignModeHelper()
         {
-            _isInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime &&
+            IsInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime &&
                               Process.GetCurrentProcess().ProcessName == "devenv";
         }
 
