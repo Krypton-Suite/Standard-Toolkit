@@ -173,12 +173,13 @@ namespace Krypton.Toolkit
             if (!_blurValues.BlurWhenFocusLost
                 || _parentForm.IsDisposed
                 || _parentForm.Disposing
-                || DesignModeHelper.IsInDesignMode()
+                || DesignModeHelper.IsInDesignMode
                 )
             {
                 // Has blur been turned off ?
                 return;
             }
+
             _visualBlur = new VisualBlur(_blurValues);
             Rectangle clientRectangle = CommonHelper.RealClientRectangle(_parentForm.Handle);
             _visualBlur.SetTargetRect(_parentForm.DesktopLocation, clientRectangle);
