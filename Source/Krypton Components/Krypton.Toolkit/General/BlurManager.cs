@@ -167,6 +167,7 @@ namespace Krypton.Toolkit
             if (!_blurValues.BlurWhenFocusLost
                 || _parentForm.IsDisposed
                 || _parentForm.Disposing
+                || DesignModeHelper.IsInDesignMode
                 )
             {
                 // Has blur been turned off ?

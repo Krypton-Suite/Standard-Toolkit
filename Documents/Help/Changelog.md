@@ -2,9 +2,14 @@
 
 =======
 
-## 2025-04-21 - Build 2504 (Patch 6) - April 2025
+# 2025-06-23 - Build 2506 (Patch 7) - June 2025
+* Resolved [#2049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2049), BlurValues do not work as expected
 * Implemented [#1190](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1190), Enables Windows 11 snap layouts.
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.
+
+=======
+
+## 2025-04-21 - Build 2504 (Patch 6) - April 2025
 * Resolved [#2101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2101), `KryptonContextMenu` items editor doesn't have a cancel button.
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey
 * Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogeneration is enabled.
