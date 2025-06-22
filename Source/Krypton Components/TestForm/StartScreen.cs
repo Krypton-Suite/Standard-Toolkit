@@ -212,5 +212,10 @@ namespace TestForm
         {
             new PoweredByButtonForm().Show();
         }
+
+        private void kbtnBlurredForm_Click(object sender, EventArgs e)
+        {
+            new BlurExampleForm().Show();
+        }
     }
 }
