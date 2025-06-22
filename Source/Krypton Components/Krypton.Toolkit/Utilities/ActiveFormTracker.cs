@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Static class that tracks the active form within a WinForms application in a event drive way.<br/>
+    /// Static class that tracks the active form within a WinForms application in an event drive way.<br/>
     /// It removes the need for the use of Form.ActiveForm which relies on GetForeGroundWindow().
     /// </summary>
     public static class ActiveFormTracker
@@ -113,6 +113,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
+        /// <summary>
+        /// Is executed when the child form is activated.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void ActivatedMdiChild(object? sender, EventArgs e)
         {
             if (sender is Form form)
@@ -121,6 +126,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Is executed when the form is activated.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void Activated(object? sender, EventArgs e)
         {
             if (sender is Form form)
@@ -130,6 +140,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Is executed when the form is deactivated.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void Deactivate(object? sender, EventArgs e)
         {
             if (sender is Form form && IsActiveForm(form))
@@ -144,6 +159,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Is executed when the child form is deactivated.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void DeactivateMdiChild(object? sender, EventArgs e)
         {
             if (sender is Form mdiChild && IsActiveMdiChild(mdiChild))
@@ -152,6 +172,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Unsubscribes from the form events.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void HandleDestroyed(object? sender, EventArgs e)
         {
             if (sender is Form form)
@@ -162,6 +187,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Unsubscribes from the child form events.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Not used.</param>
         private static void HandleDestroyedMdiChild(object? sender, EventArgs e)
         {
             if (sender is Form form)
