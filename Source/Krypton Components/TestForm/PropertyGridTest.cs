@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class PropertyGridTest : KryptonForm
 {
-    public partial class PropertyGridTest : KryptonForm
+    public PropertyGridTest()
     {
-        public PropertyGridTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

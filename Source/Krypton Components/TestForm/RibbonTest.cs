@@ -7,18 +7,17 @@
  */
 #endregion
 
-namespace TestForm
-{
-    public partial class RibbonTest : KryptonForm
-    {
-        public RibbonTest()
-        {
-            InitializeComponent();
-        }
+namespace TestForm;
 
-        private void krgbtnTest1715_Click(object sender, EventArgs e)
-        {
-            kryptonRibbon.SelectedTab!.ContextName = @"Testing";
-        }
+public partial class RibbonTest : KryptonForm
+{
+    public RibbonTest()
+    {
+        InitializeComponent();
+    }
+
+    private void krgbtnTest1715_Click(object sender, EventArgs e)
+    {
+        kryptonRibbon.SelectedTab!.ContextName = @"Testing";
     }
 }

@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class Bug833Test : KryptonForm
 {
-    public partial class Bug833Test : KryptonForm
+    public Bug833Test()
     {
-        public Bug833Test()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

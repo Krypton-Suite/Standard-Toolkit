@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that TabBorderStyle values appear as neat text at design time.
-    /// </summary>
-    internal class TabBorderStyleConverter : StringLookupConverter<TabBorderStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<TabBorderStyle, string> _pairs = new BiDictionary<TabBorderStyle, string>(
-            new Dictionary<TabBorderStyle, string>
+/// <summary>
+/// Custom type converter so that TabBorderStyle values appear as neat text at design time.
+/// </summary>
+internal class TabBorderStyleConverter : StringLookupConverter<TabBorderStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<TabBorderStyle, string> _pairs = new BiDictionary<TabBorderStyle, string>(
+        new Dictionary<TabBorderStyle, string>
         {
             {TabBorderStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ONE_NOTE},
             {TabBorderStyle.SquareEqualSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_SMALL},
@@ -48,16 +48,15 @@ namespace Krypton.Toolkit
             {TabBorderStyle.DockOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_OUTSIZE}
         });
 
-        #endregion  
+    #endregion  
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, TabBorderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, TabBorderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

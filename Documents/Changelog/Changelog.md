@@ -3,6 +3,7 @@
 ==== 
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Implemented [#2231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2231), Use `filescoped` namespaces
 * Resolved [#2049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2049), BlurValues do not work as expected
 * Implemented [#1190](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1190), Enables Windows 11 snap layouts.
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.
@@ -12,7 +13,7 @@
 * Resolved [#2213](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2213), `KryptonToolStrip` & `KryptonStatusBar` controls text unreadable on Microsoft 365 White theme.
 * Resolved [#2209](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2209), `KryptonDropButton` does process shortcutkey
 * Resolved [#2180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2180), `KryptonTextBox` does not store the TabStop property in the designer source when needed.
-* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), [Bug]: Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
+* Resolved [#2166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2166), Form with Krypton Ribbon, when maximized, cuts off the right, left and bottom edges.
 * Resolved [#2112](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2112), MdiContainer and KForm
 * Implemented [#2164](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2164), `KryptonDataGridView.ColumnCount` when set, now converts basic columns to `KryptonDataGridViewTextBoxColumns` when Autogenation is enabled.
 * Implemented [#119](https://github.com/Krypton-Suite/Standard-Toolkit/issues/119), `KryptonCheckedListBox` with `DataSource`, `DisplayMember` and `ValueMember` property

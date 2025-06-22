@@ -7,29 +7,28 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>The public interface to the <see cref="VisualExceptionDialogForm"/> class.</summary>
+[ToolboxItem(false)] 
+[DesignerCategory(@"code")]
+public static class KryptonExceptionDialog
 {
-    /// <summary>The public interface to the <see cref="VisualExceptionDialogForm"/> class.</summary>
-    [ToolboxItem(false)] 
-    [DesignerCategory(@"code")]
-    public static class KryptonExceptionDialog
-    {
-        #region Public
+    #region Public
 
-        /// <summary>Shows the specified exception.</summary>
-        /// <param name="exception">The exception.</param>
-        /// <param name="showCopyButton">Shows the copy button.</param>
-        /// <param name="showSearchBox">Shows the search box.</param>
-        public static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
-            ShowCore(exception, showCopyButton, showSearchBox);
+    /// <summary>Shows the specified exception.</summary>
+    /// <param name="exception">The exception.</param>
+    /// <param name="showCopyButton">Shows the copy button.</param>
+    /// <param name="showSearchBox">Shows the search box.</param>
+    public static void Show(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
+        ShowCore(exception, showCopyButton, showSearchBox);
 
-        #endregion
+    #endregion
 
-        #region Implementation
+    #region Implementation
 
-        private static void ShowCore(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
-            VisualExceptionDialogForm.Show(exception, showCopyButton, showSearchBox);
+    private static void ShowCore(Exception exception, bool? showCopyButton, bool? showSearchBox) =>
+        VisualExceptionDialogForm.Show(exception, showCopyButton, showSearchBox);
 
-        #endregion
-    }
+    #endregion
 }

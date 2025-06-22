@@ -12,30 +12,29 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Specialise the generic collection with type specific rules for tab item accessor.
+/// </summary>
+public class KryptonRibbonTabCollection : TypedCollection<KryptonRibbonTab>
 {
+    #region Public
     /// <summary>
-    /// Specialise the generic collection with type specific rules for tab item accessor.
+    /// Gets the item with the provided unique name.
     /// </summary>
-    public class KryptonRibbonTabCollection : TypedCollection<KryptonRibbonTab>
-    {
-        #region Public
-        /// <summary>
-        /// Gets the item with the provided unique name.
-        /// </summary>
-        /// <param name="name">Name of the ribbon tab instance.</param>
-        /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonTab? this[string name] 
+    /// <param name="name">Name of the ribbon tab instance.</param>
+    /// <returns>Item at specified index.</returns>
+    public override KryptonRibbonTab? this[string name] 
+    { 
+        get 
         { 
-            get 
+            foreach (KryptonRibbonTab tab in this.Where(tab => tab.Text == name)) 
             { 
-                foreach (KryptonRibbonTab tab in this.Where(tab => tab.Text == name)) 
-                { 
-                    return tab; 
-                } 
-                return base[name]; 
+                return tab; 
             } 
-        }
-        #endregion
+            return base[name]; 
+        } 
     }
+    #endregion
 }

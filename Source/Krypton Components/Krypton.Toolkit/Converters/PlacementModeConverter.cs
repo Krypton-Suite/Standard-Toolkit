@@ -10,15 +10,15 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PlacementMode, string> _pairs = new BiDictionary<PlacementMode, string>(
-            new Dictionary<PlacementMode, string>
+internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PlacementMode, string> _pairs = new BiDictionary<PlacementMode, string>(
+        new Dictionary<PlacementMode, string>
         {
             {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},
             {PlacementMode.AbsolutePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT},
@@ -33,13 +33,12 @@ namespace Krypton.Toolkit
             {PlacementMode.Top, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_TOP}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, PlacementMode /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, PlacementMode /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

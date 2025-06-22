@@ -7,18 +7,17 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+public class ButtonSpecNavFormMinimize : ButtonSpecNavFixed
 {
-    public class ButtonSpecNavFormMinimize : ButtonSpecNavFixed
+    public ButtonSpecNavFormMinimize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMin)
     {
-        public ButtonSpecNavFormMinimize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMin)
-        {
-        }
-
-        public override bool GetVisible(PaletteBase palette) => throw new NotImplementedException();
-
-        public override ButtonCheckState GetChecked(PaletteBase? palette) => throw new NotImplementedException();
-
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => throw new NotImplementedException();
     }
+
+    public override bool GetVisible(PaletteBase palette) => throw new NotImplementedException();
+
+    public override ButtonCheckState GetChecked(PaletteBase? palette) => throw new NotImplementedException();
+
+    public override ButtonEnabled GetEnabled(PaletteBase palette) => throw new NotImplementedException();
 }

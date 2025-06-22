@@ -10,44 +10,43 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+internal class NavigatorPageCollectionEditor : CollectionEditor
 {
-    internal class NavigatorPageCollectionEditor : CollectionEditor
+    /// <summary>
+    /// Initialize a new instance of the NavigatorPageCollectionEditor class.
+    /// </summary>
+    public NavigatorPageCollectionEditor()
+        : base(typeof(KryptonPageCollection))
     {
-        /// <summary>
-        /// Initialize a new instance of the NavigatorPageCollectionEditor class.
-        /// </summary>
-        public NavigatorPageCollectionEditor()
-            : base(typeof(KryptonPageCollection))
-        {
-        }
+    }
 
-        /// <summary>
-        /// Gets the data types that this collection editor can contain. 
-        /// </summary>
-        /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonPage) };
+    /// <summary>
+    /// Gets the data types that this collection editor can contain. 
+    /// </summary>
+    /// <returns>An array of data types that this collection can contain.</returns>
+    protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonPage) };
 
-        /// <summary>
-        /// Sets the specified array as the items of the collection.
-        /// </summary>
-        /// <param name="editValue">The collection to edit.</param>
-        /// <param name="value">An array of objects to set as the collection items.</param>
-        /// <returns>The newly created collection object.</returns>
-        protected override object? SetItems(object? editValue, object[]? value)
-        {
-            // Cast the context into the expected control type
-            var navigator = Context!.Instance as KryptonNavigator;
+    /// <summary>
+    /// Sets the specified array as the items of the collection.
+    /// </summary>
+    /// <param name="editValue">The collection to edit.</param>
+    /// <param name="value">An array of objects to set as the collection items.</param>
+    /// <returns>The newly created collection object.</returns>
+    protected override object? SetItems(object? editValue, object[]? value)
+    {
+        // Cast the context into the expected control type
+        var navigator = Context!.Instance as KryptonNavigator;
 
-            // Suspend changes until collection has been updated
-            navigator?.SuspendLayout();
+        // Suspend changes until collection has been updated
+        navigator?.SuspendLayout();
 
-            // Let base class update the collection
-            var ret = base.SetItems(editValue, value);
+        // Let base class update the collection
+        var ret = base.SetItems(editValue, value);
 
-            navigator?.ResumeLayout(true);
+        navigator?.ResumeLayout(true);
 
-            return ret;
-        }
+        return ret;
     }
 }

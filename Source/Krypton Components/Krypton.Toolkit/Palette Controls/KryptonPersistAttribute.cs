@@ -10,63 +10,62 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Attribute that marks properties for persistence inside the Krypton palette.
+/// </summary>
+[Serializable]
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class KryptonPersistAttribute : Attribute
 {
+    // Instance fields
+    private bool _navigate;
+    private bool _populate;
+
     /// <summary>
-    /// Attribute that marks properties for persistence inside the Krypton palette.
+    /// Initialize a new instance of the KryptonPersistAttribute class.
     /// </summary>
-    [Serializable]
-    [AttributeUsage(AttributeTargets.Property)]
-    public sealed class KryptonPersistAttribute : Attribute
+    public KryptonPersistAttribute()
+        : this(true, true)
     {
-        // Instance fields
-        private bool _navigate;
-        private bool _populate;
+    }
 
-        /// <summary>
-        /// Initialize a new instance of the KryptonPersistAttribute class.
-        /// </summary>
-        public KryptonPersistAttribute()
-            : this(true, true)
-        {
-        }
+    /// <summary>
+    /// Initialize a new instance of the KryptonPersistAttribute class.
+    /// </summary>
+    /// <param name="navigate">Should persistence navigate down the property.</param>
+    public KryptonPersistAttribute(bool navigate)
+        : this(navigate, true)
+    {
+    }
 
-        /// <summary>
-        /// Initialize a new instance of the KryptonPersistAttribute class.
-        /// </summary>
-        /// <param name="navigate">Should persistence navigate down the property.</param>
-        public KryptonPersistAttribute(bool navigate)
-            : this(navigate, true)
-        {
-        }
+    /// <summary>
+    /// Initialize a new instance of the KryptonPersistAttribute class.
+    /// </summary>
+    /// <param name="navigate">Should persistence navigate down the property.</param>
+    /// <param name="populate">Should property be reset as part of a populate operation.</param>
+    public KryptonPersistAttribute(bool navigate, bool populate)
+    {
+        _navigate = navigate;
+        _populate = populate;
+    }
 
-        /// <summary>
-        /// Initialize a new instance of the KryptonPersistAttribute class.
-        /// </summary>
-        /// <param name="navigate">Should persistence navigate down the property.</param>
-        /// <param name="populate">Should property be reset as part of a populate operation.</param>
-        public KryptonPersistAttribute(bool navigate, bool populate)
-        {
-            _navigate = navigate;
-            _populate = populate;
-        }
+    /// <summary>
+    /// Gets and sets a value indicating if the persistence should navigate the property.
+    /// </summary>
+    public bool Navigate
+    {
+        get => _navigate;
+        set => _navigate = value;
+    }
 
-        /// <summary>
-        /// Gets and sets a value indicating if the persistence should navigate the property.
-        /// </summary>
-        public bool Navigate
-        {
-            get => _navigate;
-            set => _navigate = value;
-        }
-
-        /// <summary>
-        /// Gets and sets a value indicating if the property should be reset as part of a populate operation.
-        /// </summary>
-        public bool Populate
-        {
-            get => _populate;
-            set => _populate = value;
-        }
+    /// <summary>
+    /// Gets and sets a value indicating if the property should be reset as part of a populate operation.
+    /// </summary>
+    public bool Populate
+    {
+        get => _populate;
+        set => _populate = value;
     }
 }

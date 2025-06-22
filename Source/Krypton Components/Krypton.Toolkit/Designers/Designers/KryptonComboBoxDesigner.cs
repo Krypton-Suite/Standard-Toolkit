@@ -10,199 +10,198 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonComboBoxDesigner : ControlDesigner
 {
-    internal class KryptonComboBoxDesigner : ControlDesigner
+    #region Instance Fields
+    private bool _lastHitTest;
+    private KryptonComboBox? _comboBox;
+    private IDesignerHost? _designerHost;
+    private IComponentChangeService? _changeService;
+    private ISelectionService? _selectionService;
+    #endregion
+
+    #region Public Overrides
+    /// <summary>
+    /// Initializes the designer with the specified component.
+    /// </summary>
+    /// <param name="component">The IComponent to associate the designer with.</param>
+    public override void Initialize([DisallowNull] IComponent component)
     {
-        #region Instance Fields
-        private bool _lastHitTest;
-        private KryptonComboBox? _comboBox;
-        private IDesignerHost? _designerHost;
-        private IComponentChangeService? _changeService;
-        private ISelectionService? _selectionService;
-        #endregion
+        // Let base class do standard stuff
+        base.Initialize(component);
 
-        #region Public Overrides
-        /// <summary>
-        /// Initializes the designer with the specified component.
-        /// </summary>
-        /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        Debug.Assert(component != null);
+
+        // The resizing handles around the control need to change depending on the
+        // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
+        // do not get the resizing handles, otherwise you do.
+        AutoResizeHandles = true;
+
+        // Cast to correct type
+        _comboBox = component as KryptonComboBox;
+
+        if (_comboBox != null)
         {
-            // Let base class do standard stuff
-            base.Initialize(component);
-
-            Debug.Assert(component != null);
-
-            // The resizing handles around the control need to change depending on the
-            // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
-            // do not get the resizing handles, otherwise you do.
-            AutoResizeHandles = true;
-
-            // Cast to correct type
-            _comboBox = component as KryptonComboBox;
-
-            if (_comboBox != null)
-            {
-                // Hook into combobox events
-                _comboBox.GetViewManager()!.MouseUpProcessed += OnComboBoxMouseUp;
-                _comboBox.GetViewManager()!.DoubleClickProcessed += OnComboBoxDoubleClick;
-            }
-
-            // Get access to the design services
-            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
-            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
-
-            // We need to know when we are being removed
-            _changeService!.ComponentRemoving += OnComponentRemoving;
+            // Hook into combobox events
+            _comboBox.GetViewManager()!.MouseUpProcessed += OnComboBoxMouseUp;
+            _comboBox.GetViewManager()!.DoubleClickProcessed += OnComboBoxDoubleClick;
         }
 
-        /// <summary>
-        /// Gets the collection of components associated with the component managed by the designer.
-        /// </summary>
-        public override ICollection AssociatedComponents =>
-            _comboBox?.ButtonSpecs ?? base.AssociatedComponents;
+        // Get access to the design services
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+        _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
 
-        /// <summary>
-        /// Gets the selection rules that indicate the movement capabilities of a component.
-        /// </summary>
-        public override SelectionRules SelectionRules
+        // We need to know when we are being removed
+        _changeService!.ComponentRemoving += OnComponentRemoving;
+    }
+
+    /// <summary>
+    /// Gets the collection of components associated with the component managed by the designer.
+    /// </summary>
+    public override ICollection AssociatedComponents =>
+        _comboBox?.ButtonSpecs ?? base.AssociatedComponents;
+
+    /// <summary>
+    /// Gets the selection rules that indicate the movement capabilities of a component.
+    /// </summary>
+    public override SelectionRules SelectionRules
+    {
+        get
         {
-            get
-            {
-                // Start with all edges being sizeable
-                var rules = base.SelectionRules;
-                rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
-                return rules;
-            }
+            // Start with all edges being sizeable
+            var rules = base.SelectionRules;
+            rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
+            return rules;
         }
+    }
 
-        /// <summary>
-        ///  Gets the design-time action lists supported by the component associated with the designer.
-        /// </summary>
-        public override DesignerActionListCollection ActionLists
+    /// <summary>
+    ///  Gets the design-time action lists supported by the component associated with the designer.
+    /// </summary>
+    public override DesignerActionListCollection ActionLists
+    {
+        get
         {
-            get
+            // Create a collection of action lists
+            var actionLists = new DesignerActionListCollection
             {
-                // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the label specific list
-                    new KryptonComboBoxActionList(this)
-                };
+                // Add the label specific list
+                new KryptonComboBoxActionList(this)
+            };
 
-                return actionLists;
-            }
+            return actionLists;
         }
+    }
 
-        /// <summary>
-        /// Indicates whether a mouse click at the specified point should be handled by the control.
-        /// </summary>
-        /// <param name="point">A Point indicating the position at which the mouse was clicked, in screen coordinates.</param>
-        /// <returns>true if a click at the specified point is to be handled by the control; otherwise, false.</returns>
-        protected override bool GetHitTest(Point point)
+    /// <summary>
+    /// Indicates whether a mouse click at the specified point should be handled by the control.
+    /// </summary>
+    /// <param name="point">A Point indicating the position at which the mouse was clicked, in screen coordinates.</param>
+    /// <returns>true if a click at the specified point is to be handled by the control; otherwise, false.</returns>
+    protected override bool GetHitTest(Point point)
+    {
+        if (_comboBox != null)
         {
-            if (_comboBox != null)
+            // Ask the control if it wants to process the point
+            var ret = _comboBox.DesignerGetHitTest(_comboBox.PointToClient(point));
+
+            // If the navigator does not want the mouse point then make sure the 
+            // tracking element is informed that the mouse has left the control
+            if (!ret && _lastHitTest)
             {
-                // Ask the control if it wants to process the point
-                var ret = _comboBox.DesignerGetHitTest(_comboBox.PointToClient(point));
-
-                // If the navigator does not want the mouse point then make sure the 
-                // tracking element is informed that the mouse has left the control
-                if (!ret && _lastHitTest)
-                {
-                    _comboBox.DesignerMouseLeave();
-                }
-
-                // Cache the last answer recovered
-                _lastHitTest = ret;
-
-                return ret;
+                _comboBox.DesignerMouseLeave();
             }
-            else
-            {
-                return false;
-            }
+
+            // Cache the last answer recovered
+            _lastHitTest = ret;
+
+            return ret;
         }
-
-        /// <summary>
-        /// Receives a call when the mouse leaves the control. 
-        /// </summary>
-        protected override void OnMouseLeave()
+        else
         {
-            _comboBox?.DesignerMouseLeave();
-
-            base.OnMouseLeave();
+            return false;
         }
-        #endregion
+    }
 
-        #region Implementation
-        private void OnComboBoxMouseUp(object? sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                // Get any component associated with the current mouse position
-                var component = _comboBox?.DesignerComponentFromPoint(new Point(e.X, e.Y));
+    /// <summary>
+    /// Receives a call when the mouse leaves the control. 
+    /// </summary>
+    protected override void OnMouseLeave()
+    {
+        _comboBox?.DesignerMouseLeave();
 
-                if (component != null)
-                {
-                    // Force the layout to be update for any change in selection
-                    _comboBox!.PerformLayout();
+        base.OnMouseLeave();
+    }
+    #endregion
 
-                    // Select the component
-                    var selectionList = new ArrayList
-                    {
-                        component
-                    };
-                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
-                }
-            }
-        }
-
-        private void OnComboBoxDoubleClick(object sender, Point pt)
+    #region Implementation
+    private void OnComboBoxMouseUp(object? sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
         {
             // Get any component associated with the current mouse position
-            var component = _comboBox?.DesignerComponentFromPoint(pt);
+            var component = _comboBox?.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
             if (component != null)
             {
-                // Get the designer for the component
-                var designer = _designerHost?.GetDesigner(component);
+                // Force the layout to be update for any change in selection
+                _comboBox!.PerformLayout();
 
-                // Request code for the default event be generated
-                designer?.DoDefaultAction();
-            }
-        }
-
-        private void OnComponentRemoving(object? sender, ComponentEventArgs e)
-        {
-            // If our control is being removed
-            if ((_comboBox != null) && (Equals(e.Component, _comboBox)))
-            {
-                // Need access to host in order to delete a component
-                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
-
-                // We need to remove all the button spec instances
-                for (var i = _comboBox.ButtonSpecs.Count - 1; i >= 0; i--)
+                // Select the component
+                var selectionList = new ArrayList
                 {
-                    // Get access to the indexed button spec
-                    ButtonSpec spec = _comboBox.ButtonSpecs[i];
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanging(_comboBox, null);
-
-                    // Perform actual removal of button spec from combobox
-                    _comboBox.ButtonSpecs.Remove(spec);
-
-                    // Get host to remove it from design time
-                    host?.DestroyComponent(spec);
-
-                    // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanged(_comboBox, null, null, null);
-                }
+                    component
+                };
+                _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
             }
         }
-        #endregion
     }
+
+    private void OnComboBoxDoubleClick(object sender, Point pt)
+    {
+        // Get any component associated with the current mouse position
+        var component = _comboBox?.DesignerComponentFromPoint(pt);
+
+        if (component != null)
+        {
+            // Get the designer for the component
+            var designer = _designerHost?.GetDesigner(component);
+
+            // Request code for the default event be generated
+            designer?.DoDefaultAction();
+        }
+    }
+
+    private void OnComponentRemoving(object? sender, ComponentEventArgs e)
+    {
+        // If our control is being removed
+        if ((_comboBox != null) && (Equals(e.Component, _comboBox)))
+        {
+            // Need access to host in order to delete a component
+            var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+
+            // We need to remove all the button spec instances
+            for (var i = _comboBox.ButtonSpecs.Count - 1; i >= 0; i--)
+            {
+                // Get access to the indexed button spec
+                ButtonSpec spec = _comboBox.ButtonSpecs[i];
+
+                // Must wrap button spec removal in change notifications
+                _changeService?.OnComponentChanging(_comboBox, null);
+
+                // Perform actual removal of button spec from combobox
+                _comboBox.ButtonSpecs.Remove(spec);
+
+                // Get host to remove it from design time
+                host?.DestroyComponent(spec);
+
+                // Must wrap button spec removal in change notifications
+                _changeService?.OnComponentChanged(_comboBox, null, null, null);
+            }
+        }
+    }
+    #endregion
 }

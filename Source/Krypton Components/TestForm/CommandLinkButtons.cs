@@ -7,15 +7,14 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class CommandLinkButtons : KryptonForm
 {
-    public partial class CommandLinkButtons : KryptonForm
+    public CommandLinkButtons()
     {
-        public CommandLinkButtons()
-        {
-            InitializeComponent();
-            //StateCommon.Border.Draw = InheritBool.False;
-            //StateCommon.Border.DrawBorders = PaletteDrawBorders.Top;
-        }
+        InitializeComponent();
+        //StateCommon.Border.Draw = InheritBool.False;
+        //StateCommon.Border.DrawBorders = PaletteDrawBorders.Top;
     }
 }

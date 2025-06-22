@@ -10,137 +10,136 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonRichTextBoxDesigner : ControlDesigner
 {
-    internal class KryptonRichTextBoxDesigner : ControlDesigner
+    #region Instance Fields
+    private KryptonRichTextBox? _richTextBox;
+    private IDesignerHost? _designerHost;
+    private ISelectionService? _selectionService;
+    #endregion
+
+    #region Public Overrides
+    /// <summary>
+    /// Initializes the designer with the specified component.
+    /// </summary>
+    /// <param name="component">The IComponent to associate the designer with.</param>
+    public override void Initialize([DisallowNull] IComponent component)
     {
-        #region Instance Fields
-        private KryptonRichTextBox? _richTextBox;
-        private IDesignerHost? _designerHost;
-        private ISelectionService? _selectionService;
-        #endregion
+        // Let base class do standard stuff
+        base.Initialize(component);
 
-        #region Public Overrides
-        /// <summary>
-        /// Initializes the designer with the specified component.
-        /// </summary>
-        /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        Debug.Assert(component != null);
+
+        // The resizing handles around the control need to change depending on the
+        // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
+        // do not get the resizing handles, otherwise you do.
+        AutoResizeHandles = true;
+
+        // Cast to correct type
+        _richTextBox = component as KryptonRichTextBox;
+
+        if (_richTextBox != null)
         {
-            // Let base class do standard stuff
-            base.Initialize(component);
+            // Hook into rich textbox events
+            _richTextBox.GetViewManager()!.MouseUpProcessed += OnTextBoxMouseUp;
+            _richTextBox.GetViewManager()!.DoubleClickProcessed += OnTextBoxDoubleClick;
+        }
 
-            Debug.Assert(component != null);
+        // Get access to the design services
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+        _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
+    }
 
-            // The resizing handles around the control need to change depending on the
-            // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
-            // do not get the resizing handles, otherwise you do.
-            AutoResizeHandles = true;
+    /// <summary>
+    /// Gets the selection rules that indicate the movement capabilities of a component.
+    /// </summary>
+    public override SelectionRules SelectionRules
+    {
+        get
+        {
+            // Start with all edges being sizeable
+            SelectionRules rules = base.SelectionRules;
 
-            // Cast to correct type
-            _richTextBox = component as KryptonRichTextBox;
+            // Get access to the actual control instance
+            var richTextBox = (KryptonRichTextBox)Component;
 
-            if (_richTextBox != null)
+            // With multiline and auto-size we prevent the user changing the height
+            if (richTextBox is { Multiline: false, AutoSize: true })
             {
-                // Hook into rich textbox events
-                _richTextBox.GetViewManager()!.MouseUpProcessed += OnTextBoxMouseUp;
-                _richTextBox.GetViewManager()!.DoubleClickProcessed += OnTextBoxDoubleClick;
+                rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
             }
 
-            // Get access to the design services
-            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
-            _selectionService = GetService(typeof(ISelectionService)) as ISelectionService;
+            return rules;
         }
+    }
 
-        /// <summary>
-        /// Gets the selection rules that indicate the movement capabilities of a component.
-        /// </summary>
-        public override SelectionRules SelectionRules
+    /// <summary>
+    ///  Gets the design-time action lists supported by the component associated with the designer.
+    /// </summary>
+    public override DesignerActionListCollection ActionLists
+    {
+        get
         {
-            get
+            // Create a collection of action lists
+            var actionLists = new DesignerActionListCollection
             {
-                // Start with all edges being sizeable
-                SelectionRules rules = base.SelectionRules;
+                // Add the label specific list
+                new KryptonRichTextBoxActionList(this)
+            };
 
-                // Get access to the actual control instance
-                var richTextBox = (KryptonRichTextBox)Component;
-
-                // With multiline and auto-size we prevent the user changing the height
-                if (richTextBox is { Multiline: false, AutoSize: true })
-                {
-                    rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
-                }
-
-                return rules;
-            }
+            return actionLists;
         }
+    }
 
-        /// <summary>
-        ///  Gets the design-time action lists supported by the component associated with the designer.
-        /// </summary>
-        public override DesignerActionListCollection ActionLists
-        {
-            get
-            {
-                // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the label specific list
-                    new KryptonRichTextBoxActionList(this)
-                };
+    /// <summary>
+    /// Receives a call when the mouse leaves the control. 
+    /// </summary>
+    protected override void OnMouseLeave()
+    {
+        _richTextBox?.DesignerMouseLeave();
 
-                return actionLists;
-            }
-        }
+        base.OnMouseLeave();
+    }
+    #endregion
 
-        /// <summary>
-        /// Receives a call when the mouse leaves the control. 
-        /// </summary>
-        protected override void OnMouseLeave()
-        {
-            _richTextBox?.DesignerMouseLeave();
-
-            base.OnMouseLeave();
-        }
-        #endregion
-
-        #region Implementation
-        private void OnTextBoxMouseUp(object? sender, MouseEventArgs e)
-        {
-            if ((_richTextBox != null) && (e.Button == MouseButtons.Left))
-            {
-                // Get any component associated with the current mouse position
-                Component? component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
-
-                if (component != null)
-                {
-                    // Force the layout to be updated for any change in selection
-                    _richTextBox.PerformLayout();
-
-                    // Select the component
-                    var selectionList = new ArrayList
-                    {
-                        component
-                    };
-                    _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
-                }
-            }
-        }
-
-        private void OnTextBoxDoubleClick(object sender, Point pt)
+    #region Implementation
+    private void OnTextBoxMouseUp(object? sender, MouseEventArgs e)
+    {
+        if ((_richTextBox != null) && (e.Button == MouseButtons.Left))
         {
             // Get any component associated with the current mouse position
-            Component? component = _richTextBox?.DesignerComponentFromPoint(pt);
+            Component? component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
             if (component != null)
             {
-                // Get the designer for the component
-                IDesigner? designer = _designerHost?.GetDesigner(component);
+                // Force the layout to be updated for any change in selection
+                _richTextBox.PerformLayout();
 
-                // Request code for the default event be generated
-                designer?.DoDefaultAction();
+                // Select the component
+                var selectionList = new ArrayList
+                {
+                    component
+                };
+                _selectionService?.SetSelectedComponents(selectionList, SelectionTypes.Auto);
             }
         }
-        #endregion
     }
+
+    private void OnTextBoxDoubleClick(object sender, Point pt)
+    {
+        // Get any component associated with the current mouse position
+        Component? component = _richTextBox?.DesignerComponentFromPoint(pt);
+
+        if (component != null)
+        {
+            // Get the designer for the component
+            IDesigner? designer = _designerHost?.GetDesigner(component);
+
+            // Request code for the default event be generated
+            designer?.DoDefaultAction();
+        }
+    }
+    #endregion
 }

@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class MenuToolBarStatusStripTest : KryptonForm
 {
-    public partial class MenuToolBarStatusStripTest : KryptonForm
+    public MenuToolBarStatusStripTest()
     {
-        public MenuToolBarStatusStripTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

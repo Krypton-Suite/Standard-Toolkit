@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that DataGridViewStyle values appear as neat text at design time.
-    /// </summary>
-    internal class DataGridViewStyleConverter : StringLookupConverter<DataGridViewStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<DataGridViewStyle, string> _pairs = new BiDictionary<DataGridViewStyle, string>( 
-            new Dictionary<DataGridViewStyle, string>
+/// <summary>
+/// Custom type converter so that DataGridViewStyle values appear as neat text at design time.
+/// </summary>
+internal class DataGridViewStyleConverter : StringLookupConverter<DataGridViewStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<DataGridViewStyle, string> _pairs = new BiDictionary<DataGridViewStyle, string>( 
+        new Dictionary<DataGridViewStyle, string>
         {
             {DataGridViewStyle.List, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_LIST},
             {DataGridViewStyle.Sheet, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_SHEET},
@@ -31,16 +31,15 @@ namespace Krypton.Toolkit
             {DataGridViewStyle.Mixed, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_MIXED}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<DataGridViewStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, DataGridViewStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<DataGridViewStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, DataGridViewStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

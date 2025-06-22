@@ -10,25 +10,24 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class ShortTextValue : NullContentValues
 {
-    internal class ShortTextValue : NullContentValues
-    {
-        #region Identity
-        /// <summary>
-        /// Gets and sets the short text value to use.
-        /// </summary>
-        public string? ShortText { get; set; }
+    #region Identity
+    /// <summary>
+    /// Gets and sets the short text value to use.
+    /// </summary>
+    public string? ShortText { get; set; }
 
-        #endregion
+    #endregion
 
-        #region IContentValues
-        /// <summary>
-        /// Gets the content short text.
-        /// </summary>
-        /// <returns>String value.</returns>
-        public override string GetShortText() => ShortText!;
+    #region IContentValues
+    /// <summary>
+    /// Gets the content short text.
+    /// </summary>
+    /// <returns>String value.</returns>
+    public override string GetShortText() => ShortText!;
 
-        #endregion
-    }
+    #endregion
 }

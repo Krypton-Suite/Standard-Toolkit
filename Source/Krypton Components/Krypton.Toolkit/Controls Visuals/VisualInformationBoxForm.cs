@@ -7,14 +7,13 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal partial class VisualInformationBoxForm : KryptonForm
 {
-    internal partial class VisualInformationBoxForm : KryptonForm
+    public VisualInformationBoxForm()
     {
-        public VisualInformationBoxForm()
-        {
-            SetInheritedControlOverride();
-            InitializeComponent();
-        }
+        SetInheritedControlOverride();
+        InitializeComponent();
     }
 }

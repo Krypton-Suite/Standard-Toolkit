@@ -12,69 +12,68 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Extends the ViewLayoutDocker by drawing the ribbon application button inner background.
+/// </summary>
+internal class ViewDrawRibbonAppMenuInner : ViewLayoutDocker
 {
+    #region Instance Fields
+    private readonly KryptonRibbon _ribbon;
+    private IDisposable? _memento;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Extends the ViewLayoutDocker by drawing the ribbon application button inner background.
+    /// Initialize a new instance of the ViewDrawRibbonAppMenuInner class.
     /// </summary>
-    internal class ViewDrawRibbonAppMenuInner : ViewLayoutDocker
+    /// <param name="ribbon">Reference to owning ribbon instance.</param>
+    public ViewDrawRibbonAppMenuInner(KryptonRibbon ribbon) => _ribbon = ribbon;
+
+    /// <summary>
+    /// Obtains the String representation of this instance.
+    /// </summary>
+    /// <returns>User readable name of the instance.</returns>
+    public override string ToString() =>
+        // Return the class name and instance identifier
+        $@"ViewDrawRibbonAppMenuInner:{Id}";
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        private IDisposable? _memento;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawRibbonAppMenuInner class.
-        /// </summary>
-        /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public ViewDrawRibbonAppMenuInner(KryptonRibbon ribbon) => _ribbon = ribbon;
-
-        /// <summary>
-        /// Obtains the String representation of this instance.
-        /// </summary>
-        /// <returns>User readable name of the instance.</returns>
-        public override string ToString() =>
-            // Return the class name and instance identifier
-            $@"ViewDrawRibbonAppMenuInner:{Id}";
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        if (disposing)
         {
-            if (disposing)
+            if (_memento != null)
             {
-                if (_memento != null)
-                {
-                    _memento.Dispose();
-                    _memento = null;
-                }
+                _memento.Dispose();
+                _memento = null;
             }
-
-            base.Dispose(disposing);
         }
-        #endregion
 
-        #region Paint
-        /// <summary>
-        /// Perform rendering before child elements are rendered.
-        /// </summary>
-        /// <param name="context">Rendering context.</param>
-        public override void RenderBefore([DisallowNull] RenderContext context)
-        {
-            if (context.Renderer is null)
-            {
-                throw new ArgumentNullException(nameof(context.Renderer));
-            }
-
-            // Draw the application menu outer background
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
-                                                                    _ribbon.StateCommon.RibbonAppMenuInner,
-                                                                    VisualOrientation.Top, _memento);
-        }
-        #endregion
+        base.Dispose(disposing);
     }
+    #endregion
+
+    #region Paint
+    /// <summary>
+    /// Perform rendering before child elements are rendered.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderBefore([DisallowNull] RenderContext context)
+    {
+        if (context.Renderer is null)
+        {
+            throw new ArgumentNullException(nameof(context.Renderer));
+        }
+
+        // Draw the application menu outer background
+        _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
+            _ribbon.StateCommon.RibbonAppMenuInner,
+            VisualOrientation.Top, _memento);
+    }
+    #endregion
 }

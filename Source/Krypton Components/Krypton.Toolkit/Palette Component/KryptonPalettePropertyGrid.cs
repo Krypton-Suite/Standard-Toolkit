@@ -10,18 +10,17 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// 
+/// </summary>
+public class KryptonPalettePropertyGrid : Storage
 {
     /// <summary>
     /// 
     /// </summary>
-    public class KryptonPalettePropertyGrid : Storage
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => throw new NotImplementedException();
-    }
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => throw new NotImplementedException();
 }

@@ -7,18 +7,17 @@
  */
 #endregion
 
-namespace TestForm
-{
-    public partial class CalendarTest : KryptonForm
-    {
-        public CalendarTest()
-        {
-            InitializeComponent();
-        }
+namespace TestForm;
 
-        private void kryptonMonthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
-        {
-            KryptonMessageBox.Show($"{kryptonDateTimePicker1.Value}");
-        }
+public partial class CalendarTest : KryptonForm
+{
+    public CalendarTest()
+    {
+        InitializeComponent();
+    }
+
+    private void kryptonMonthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+    {
+        KryptonMessageBox.Show($"{kryptonDateTimePicker1.Value}");
     }
 }

@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// Details for control tabbing events.
+/// </summary>
+public class CtrlTabCancelEventArgs : CancelEventArgs
 {
+    #region Identity
     /// <summary>
-    /// Details for control tabbing events.
+    /// Initialize a new instance of the CtrlTabCancelEventArgs class.
     /// </summary>
-    public class CtrlTabCancelEventArgs : CancelEventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the CtrlTabCancelEventArgs class.
-        /// </summary>
-        /// <param name="forward">Tabbing in forward or backwards direction.</param>
-        public CtrlTabCancelEventArgs(bool forward) => Forward = forward;
+    /// <param name="forward">Tabbing in forward or backwards direction.</param>
+    public CtrlTabCancelEventArgs(bool forward) => Forward = forward;
 
-        #endregion
+    #endregion
 
-        #region Forward
-        /// <summary>
-        /// Gets a value indicating if control tabbing forward.
-        /// </summary>
-        public bool Forward { get; }
+    #region Forward
+    /// <summary>
+    /// Gets a value indicating if control tabbing forward.
+    /// </summary>
+    public bool Forward { get; }
 
-        #endregion
-    }
+    #endregion
 }

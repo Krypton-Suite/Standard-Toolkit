@@ -7,9 +7,8 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonToastNotificationManager), @"ToolboxBitmaps.KryptonInputBox.bmp")]
-    public class KryptonToastNotificationManager : Component;
-}
+namespace Krypton.Toolkit;
+
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonToastNotificationManager), @"ToolboxBitmaps.KryptonInputBox.bmp")]
+public class KryptonToastNotificationManager : Component;

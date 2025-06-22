@@ -10,78 +10,77 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Implement storage for palette border edge details.
+/// </summary>
+public class PaletteBorderEdge : PaletteBack
 {
+    #region Instance Fields
+    private readonly PaletteBorderEdgeRedirect _inherit;
+    private int _borderWidth;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Implement storage for palette border edge details.
+    /// Initialize a new instance of the PaletteBorderEdge class.
     /// </summary>
-    public class PaletteBorderEdge : PaletteBack
+    /// <param name="inherit">Source for inheriting defaulted values.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    public PaletteBorderEdge([DisallowNull] PaletteBorderEdgeRedirect inherit,
+        NeedPaintHandler? needPaint)
+        : base(inherit, needPaint)
     {
-        #region Instance Fields
-        private readonly PaletteBorderEdgeRedirect _inherit;
-        private int _borderWidth;
-        #endregion
+        Debug.Assert(inherit != null);
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteBorderEdge class.
-        /// </summary>
-        /// <param name="inherit">Source for inheriting defaulted values.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorderEdge([DisallowNull] PaletteBorderEdgeRedirect inherit,
-                                 NeedPaintHandler? needPaint)
-            : base(inherit, needPaint)
+        // Remember inheritance
+        _inherit = inherit!;
+
+        // Default properties
+        _borderWidth = -1;
+    }
+    #endregion
+
+    #region IsDefault
+    /// <summary>
+    /// Gets a value indicating if all values are default.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => (_borderWidth == -1) && base.IsDefault;
+
+    #endregion
+
+    #region Width
+    /// <summary>
+    /// Gets and sets the border width.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Border width.")]
+    [DefaultValue(-1)]
+    [RefreshProperties(RefreshProperties.All)]
+    public int Width
+    {
+        get => _borderWidth;
+
+        set
         {
-            Debug.Assert(inherit != null);
-
-            // Remember inheritance
-            _inherit = inherit!;
-
-            // Default properties
-            _borderWidth = -1;
-        }
-        #endregion
-
-        #region IsDefault
-        /// <summary>
-        /// Gets a value indicating if all values are default.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => (_borderWidth == -1) && base.IsDefault;
-
-        #endregion
-
-        #region Width
-        /// <summary>
-        /// Gets and sets the border width.
-        /// </summary>
-        [KryptonPersist(false)]
-        [Category(@"Visuals")]
-        [Description(@"Border width.")]
-        [DefaultValue(-1)]
-        [RefreshProperties(RefreshProperties.All)]
-        public int Width
-        {
-            get => _borderWidth;
-
-            set
+            if (value != _borderWidth)
             {
-                if (value != _borderWidth)
-                {
-                    _borderWidth = value;
-                    PerformNeedPaint(true);
-                }
+                _borderWidth = value;
+                PerformNeedPaint(true);
             }
         }
-
-        /// <summary>
-        /// Gets the border width.
-        /// </summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Border width.</returns>
-        public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
-
-        #endregion
     }
+
+    /// <summary>
+    /// Gets the border width.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Border width.</returns>
+    public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
+
+    #endregion
 }

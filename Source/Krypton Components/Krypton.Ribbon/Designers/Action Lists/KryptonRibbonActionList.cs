@@ -12,82 +12,81 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+internal class KryptonRibbonActionList : DesignerActionList
 {
-    internal class KryptonRibbonActionList : DesignerActionList
+    #region Instance Fields
+    private readonly KryptonRibbon _ribbon;
+    private readonly IComponentChangeService? _service;
+    #endregion
+
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the KryptonRibbonActionList class.
+    /// </summary>
+    /// <param name="owner">Designer that owns this action list instance.</param>
+    public KryptonRibbonActionList(KryptonRibbonDesigner owner)
+        : base(owner.Component)
     {
-        #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        private readonly IComponentChangeService? _service;
-        #endregion
+        // Remember the ribbon instance
+        _ribbon = (owner.Component as KryptonRibbon)!;
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonRibbonActionList class.
-        /// </summary>
-        /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonRibbonActionList(KryptonRibbonDesigner owner)
-            : base(owner.Component)
-        {
-            // Remember the ribbon instance
-            _ribbon = (owner.Component as KryptonRibbon)!;
-
-            // Cache service used to notify when a property has changed
-            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-        }
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Gets and sets use of design time helpers.
-        /// </summary>
-        public bool InDesignHelperMode
-        {
-            get => _ribbon.InDesignHelperMode;
-            set => _ribbon.InDesignHelperMode = value;
-        }
-
-        /// <summary>
-        /// Gets and sets the palette mode.
-        /// </summary>
-        public PaletteMode PaletteMode
-        {
-            get => _ribbon.PaletteMode;
-
-            set
-            {
-                if (_ribbon.PaletteMode != value)
-                {
-                    _service?.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
-                    _ribbon.PaletteMode = value;
-                }
-            }
-        }
-        #endregion
-
-        #region Public Override
-        /// <summary>
-        /// Returns the collection of DesignerActionItem objects contained in the list.
-        /// </summary>
-        /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
-        public override DesignerActionItemCollection GetSortedActionItems()
-        {
-            // Create a new collection for holding the single item we want to create
-            var actions = new DesignerActionItemCollection();
-
-            // This can be null when deleting a control instance at design time
-            if (_ribbon != null)
-            {
-                // Add the list of button specific actions
-                actions.Add(new DesignerActionHeaderItem("Design"));
-                actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
-            }
-
-            return actions;
-        }
-        #endregion
+        // Cache service used to notify when a property has changed
+        _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// Gets and sets use of design time helpers.
+    /// </summary>
+    public bool InDesignHelperMode
+    {
+        get => _ribbon.InDesignHelperMode;
+        set => _ribbon.InDesignHelperMode = value;
+    }
+
+    /// <summary>
+    /// Gets and sets the palette mode.
+    /// </summary>
+    public PaletteMode PaletteMode
+    {
+        get => _ribbon.PaletteMode;
+
+        set
+        {
+            if (_ribbon.PaletteMode != value)
+            {
+                _service?.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
+                _ribbon.PaletteMode = value;
+            }
+        }
+    }
+    #endregion
+
+    #region Public Override
+    /// <summary>
+    /// Returns the collection of DesignerActionItem objects contained in the list.
+    /// </summary>
+    /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
+    public override DesignerActionItemCollection GetSortedActionItems()
+    {
+        // Create a new collection for holding the single item we want to create
+        var actions = new DesignerActionItemCollection();
+
+        // This can be null when deleting a control instance at design time
+        if (_ribbon != null)
+        {
+            // Add the list of button specific actions
+            actions.Add(new DesignerActionHeaderItem("Design"));
+            actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
+            actions.Add(new DesignerActionHeaderItem("Visuals"));
+            actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
+        }
+
+        return actions;
+    }
+    #endregion
 }

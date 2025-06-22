@@ -10,43 +10,42 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public interface IGlobalId
 {
-    public interface IGlobalId
-    {
-        #region Id
-        /// <summary>
-        /// Gets the unique identifier of the object.
-        /// </summary>
-        int Id { get; }
-        #endregion
-    }
-
+    #region Id
     /// <summary>
-    /// Contains a global identifier that is unique among objects.
+    /// Gets the unique identifier of the object.
     /// </summary>
-    public class GlobalId : ExpandableObjectConverter, IGlobalId
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the GlobalId class.
-        /// </summary>
-        [DebuggerStepThrough]
-        public GlobalId() =>
-            // Assign the next global identifier
-            Id = CommonHelper.NextId;
+    int Id { get; }
+    #endregion
+}
 
-        #endregion
+/// <summary>
+/// Contains a global identifier that is unique among objects.
+/// </summary>
+public class GlobalId : ExpandableObjectConverter, IGlobalId
+{
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the GlobalId class.
+    /// </summary>
+    [DebuggerStepThrough]
+    public GlobalId() =>
+        // Assign the next global identifier
+        Id = CommonHelper.NextId;
 
-        #region Id
-        /// <summary>
-        /// Gets the unique identifier of the object.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int Id { get; }
+    #endregion
 
-        #endregion
-    }
+    #region Id
+    /// <summary>
+    /// Gets the unique identifier of the object.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public int Id { get; }
+
+    #endregion
 }

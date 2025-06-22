@@ -7,34 +7,33 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ToastNotificationTestChoice : KryptonForm
 {
-    public partial class ToastNotificationTestChoice : KryptonForm
+    public ToastNotificationTestChoice()
     {
-        public ToastNotificationTestChoice()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void kbtnBasicNotification_Click(object sender, EventArgs e)
-        {
-            BasicToastNotificationTest basicToastNotification = new BasicToastNotificationTest();
+    private void kbtnBasicNotification_Click(object sender, EventArgs e)
+    {
+        BasicToastNotificationTest basicToastNotification = new BasicToastNotificationTest();
 
-            basicToastNotification.Show();
-        }
+        basicToastNotification.Show();
+    }
 
-        private void kbtnUserInputNotification_Click(object sender, EventArgs e)
-        {
-            UserInputToastNotificationTest inputToastNotification = new UserInputToastNotificationTest();
+    private void kbtnUserInputNotification_Click(object sender, EventArgs e)
+    {
+        UserInputToastNotificationTest inputToastNotification = new UserInputToastNotificationTest();
 
-            inputToastNotification.Show();
-        }
+        inputToastNotification.Show();
+    }
 
-        private void kbtnQuickNotificationTest_Click(object sender, EventArgs e)
-        {
-            ToastNotificationQuickTestForm quickToastNotification = new ToastNotificationQuickTestForm();
+    private void kbtnQuickNotificationTest_Click(object sender, EventArgs e)
+    {
+        ToastNotificationQuickTestForm quickToastNotification = new ToastNotificationQuickTestForm();
 
-            quickToastNotification.Show();
-        }
+        quickToastNotification.Show();
     }
 }

@@ -12,67 +12,66 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Allocate a spacer for the right side of a window that prevents layout over the min/max/close buttons.
+/// </summary>
+internal class ViewDrawRibbonCompoRightBorder : ViewLeaf
 {
+    #region Instance Fields
+
+    // Note: Do we need _width?
+    // private int _width;
+    private readonly int _spacingGap; // = 10;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Allocate a spacer for the right side of a window that prevents layout over the min/max/close buttons.
+    /// Initialize a new instance of the ViewDrawRibbonCompoRightBorder class.
     /// </summary>
-    internal class ViewDrawRibbonCompoRightBorder : ViewLeaf
+    public ViewDrawRibbonCompoRightBorder() => _spacingGap = (int)(10 * FactorDpiX);
+
+    /// <summary>
+    /// Obtains the String representation of this instance.
+    /// </summary>
+    /// <returns>User readable name of the instance.</returns>
+    public override string ToString() =>
+        // Return the class name and instance identifier
+        $@"ViewDrawRibbonCompoRightBorder:{Id}";
+
+    #endregion
+
+    #region CompOwnerForm
+    /// <summary>
+    /// Gets and sets the owner form to use when compositing.
+    /// </summary>
+    public VisualForm CompOwnerForm { get; set; }
+
+    #endregion
+
+    #region Layout
+    /// <summary>
+    /// Discover the preferred size of the element.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override Size GetPreferredSize(ViewLayoutContext context)
     {
-        #region Instance Fields
+        var preferredSize = Size.Empty;
 
-        // Note: Do we need _width?
-        // private int _width;
-        private readonly int _spacingGap; // = 10;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawRibbonCompoRightBorder class.
-        /// </summary>
-        public ViewDrawRibbonCompoRightBorder() => _spacingGap = (int)(10 * FactorDpiX);
-
-        /// <summary>
-        /// Obtains the String representation of this instance.
-        /// </summary>
-        /// <returns>User readable name of the instance.</returns>
-        public override string ToString() =>
-            // Return the class name and instance identifier
-            $@"ViewDrawRibbonCompoRightBorder:{Id}";
-
-        #endregion
-
-        #region CompOwnerForm
-        /// <summary>
-        /// Gets and sets the owner form to use when compositing.
-        /// </summary>
-        public VisualForm CompOwnerForm { get; set; }
-
-        #endregion
-
-        #region Layout
-        /// <summary>
-        /// Discover the preferred size of the element.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            var preferredSize = Size.Empty;
-
-            return preferredSize;
-        }
-
-        /// <summary>
-        /// Perform a layout of the elements.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
-        {
-            Debug.Assert(context != null);
-
-            // Start with all the provided space
-            ClientRectangle = context!.DisplayRectangle;
-        }
-        #endregion
+        return preferredSize;
     }
+
+    /// <summary>
+    /// Perform a layout of the elements.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override void Layout([DisallowNull] ViewLayoutContext context)
+    {
+        Debug.Assert(context != null);
+
+        // Start with all the provided space
+        ClientRectangle = context!.DisplayRectangle;
+    }
+    #endregion
 }

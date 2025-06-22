@@ -12,80 +12,79 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Extends the ViewLayoutRibbonQATContents by providing the definitions that are overflowing the original source.
+/// </summary>
+internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
 {
+    #region Instance Fields
+
+    private readonly ViewLayoutRibbonQATContents _contents;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Extends the ViewLayoutRibbonQATContents by providing the definitions that are overflowing the original source.
+    /// Initialize a new instance of the ViewLayoutRibbonQATFromOverflow class.
     /// </summary>
-    internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
+    /// <param name="parentControl">Owning control used to find screen positions.</param>
+    /// <param name="ribbon">Owning ribbon control instance.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="showExtraButton">Should the extra button be shown.</param>
+    /// <param name="contents">Source for finding buttons that are overflowing.</param>
+    public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control? parentControl,
+        [DisallowNull] KryptonRibbon? ribbon,
+        [DisallowNull] NeedPaintHandler? needPaint,
+        bool showExtraButton,
+        [DisallowNull] ViewLayoutRibbonQATContents? contents)
+        : base(ribbon, needPaint, showExtraButton)
     {
-        #region Instance Fields
-
-        private readonly ViewLayoutRibbonQATContents _contents;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewLayoutRibbonQATFromOverflow class.
-        /// </summary>
-        /// <param name="parentControl">Owning control used to find screen positions.</param>
-        /// <param name="ribbon">Owning ribbon control instance.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        /// <param name="showExtraButton">Should the extra button be shown.</param>
-        /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control? parentControl,
-                                               [DisallowNull] KryptonRibbon? ribbon,
-                                               [DisallowNull] NeedPaintHandler? needPaint,
-                                               bool showExtraButton,
-                                               [DisallowNull] ViewLayoutRibbonQATContents? contents)
-            : base(ribbon, needPaint, showExtraButton)
-        {
-            Debug.Assert(parentControl is not null);
-            Debug.Assert(contents is not null);
+        Debug.Assert(parentControl is not null);
+        Debug.Assert(contents is not null);
             
-            _contents = contents ?? throw new ArgumentNullException(nameof(contents));
-            ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
-        }
-        #endregion
+        _contents = contents ?? throw new ArgumentNullException(nameof(contents));
+        ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
+    }
+    #endregion
 
-        #region DisplayButtons
-        /// <summary>
-        /// Returns a collection of all the quick access toolbar definitions.
-        /// </summary>
-        public override IQuickAccessToolbarButton[] QATButtons 
-        { 
-            get 
+    #region DisplayButtons
+    /// <summary>
+    /// Returns a collection of all the quick access toolbar definitions.
+    /// </summary>
+    public override IQuickAccessToolbarButton[] QATButtons 
+    { 
+        get 
+        {
+            var qatOverflow = new List<IQuickAccessToolbarButton>();
+
+            // Scan all the defined buttons for ones to show as overflowing
+            foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)
             {
-                var qatOverflow = new List<IQuickAccessToolbarButton>();
-
-                // Scan all the defined buttons for ones to show as overflowing
-                foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)
+                // If the button requests to be shown...
+                if (qatButton.GetVisible())
                 {
-                    // If the button requests to be shown...
-                    if (qatButton.GetVisible())
-                    {
-                        ViewBase? qatView = _contents.ViewForButton(qatButton);
+                    ViewBase? qatView = _contents.ViewForButton(qatButton);
 
-                        //...but the view is not displayed, then show on overflow
-                        if (qatView is { Visible: false })
-                        {
-                            qatOverflow.Add(qatButton);
-                        }
+                    //...but the view is not displayed, then show on overflow
+                    if (qatView is { Visible: false })
+                    {
+                        qatOverflow.Add(qatButton);
                     }
                 }
-
-                return qatOverflow.ToArray();
             }
+
+            return qatOverflow.ToArray();
         }
-        #endregion
-
-        #region ParentControl
-        /// <summary>
-        /// Gets a reference to the owning control of this element.
-        /// </summary>
-        /// <returns>Control reference.</returns>
-        public override Control ParentControl { get; }
-
-        #endregion
     }
+    #endregion
+
+    #region ParentControl
+    /// <summary>
+    /// Gets a reference to the owning control of this element.
+    /// </summary>
+    /// <returns>Control reference.</returns>
+    public override Control ParentControl { get; }
+
+    #endregion
 }

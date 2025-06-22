@@ -8,13 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TestForm
+namespace TestForm;
+
+public partial class BlurExampleForm : KryptonForm
 {
-    public partial class BlurExampleForm : KryptonForm
+    public BlurExampleForm()
     {
-        public BlurExampleForm()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

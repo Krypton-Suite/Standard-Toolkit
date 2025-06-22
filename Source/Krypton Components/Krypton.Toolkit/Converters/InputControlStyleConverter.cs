@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that InputControl values appear as neat text at design time.
-    /// </summary>
-    internal class InputControlStyleConverter : StringLookupConverter<InputControlStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<InputControlStyle, string> _pairs = new BiDictionary<InputControlStyle, string>(
-            new Dictionary<InputControlStyle, string>
+/// <summary>
+/// Custom type converter so that InputControl values appear as neat text at design time.
+/// </summary>
+internal class InputControlStyleConverter : StringLookupConverter<InputControlStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<InputControlStyle, string> _pairs = new BiDictionary<InputControlStyle, string>(
+        new Dictionary<InputControlStyle, string>
         {
             {InputControlStyle.Standalone, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_STANDALONE},
             {InputControlStyle.Ribbon, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_RIBBON},
@@ -33,15 +33,14 @@ namespace Krypton.Toolkit
             // new(InputControlStyle.Disabled, "Disabled")
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, InputControlStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, InputControlStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

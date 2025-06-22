@@ -8,23 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ToggleSwitchTest : KryptonForm
 {
-    public partial class ToggleSwitchTest : KryptonForm
+    public ToggleSwitchTest()
     {
-        public ToggleSwitchTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void ToggleSwitchTest_Load(object sender, EventArgs e)
-        {
-            kryptonWrapLabel1.Text = $@"Is toggle switch checked: {ktsTest.Checked}";
-        }
+    private void ToggleSwitchTest_Load(object sender, EventArgs e)
+    {
+        kryptonWrapLabel1.Text = $@"Is toggle switch checked: {ktsTest.Checked}";
+    }
 
-        private void ktsTest_CheckedChanged(object sender, EventArgs e)
-        {
-            kryptonWrapLabel1.Text = $@"Is toggle switch checked: {ktsTest.Checked}";
-        }
+    private void ktsTest_CheckedChanged(object sender, EventArgs e)
+    {
+        kryptonWrapLabel1.Text = $@"Is toggle switch checked: {ktsTest.Checked}";
     }
 }

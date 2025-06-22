@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that MapKryptonPageImage values appear as neat text at design time.
-    /// </summary>
-    public class MapKryptonPageImageConverter : StringLookupConverter<MapKryptonPageImage>
-    {
-        #region Static Fields
+namespace Krypton.Navigator;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<MapKryptonPageImage, string> _pairs = new BiDictionary<MapKryptonPageImage, string>(
-            new Dictionary<MapKryptonPageImage, string>
+/// <summary>
+/// Custom type converter so that MapKryptonPageImage values appear as neat text at design time.
+/// </summary>
+public class MapKryptonPageImageConverter : StringLookupConverter<MapKryptonPageImage>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<MapKryptonPageImage, string> _pairs = new BiDictionary<MapKryptonPageImage, string>(
+        new Dictionary<MapKryptonPageImage, string>
         {
             {MapKryptonPageImage.None, @"None (Null image)"},
             {MapKryptonPageImage.Small, @"Small"},
@@ -35,14 +35,13 @@ namespace Krypton.Navigator
             {MapKryptonPageImage.LargeMediumSmall, @"Large - Medium - Small"},
             {MapKryptonPageImage.ToolTip, nameof(ToolTip)}
         });
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageImage /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<MapKryptonPageImage /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageImage /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<MapKryptonPageImage /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

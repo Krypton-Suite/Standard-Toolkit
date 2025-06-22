@@ -10,38 +10,37 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// CollectionEditor used for a KryptonContextMenuItemCollection instance.
+/// </summary>
+public class KryptonContextMenuItemCollectionEditor : CollectionEditor
 {
     /// <summary>
-    /// CollectionEditor used for a KryptonContextMenuItemCollection instance.
+    /// Initialize a new instance of the KryptonContextMenuItemCollectionEditor class.
     /// </summary>
-    public class KryptonContextMenuItemCollectionEditor : CollectionEditor
+    public KryptonContextMenuItemCollectionEditor()
+        : base(typeof(KryptonContextMenuItemCollection))
     {
-        /// <summary>
-        /// Initialize a new instance of the KryptonContextMenuItemCollectionEditor class.
-        /// </summary>
-        public KryptonContextMenuItemCollectionEditor()
-            : base(typeof(KryptonContextMenuItemCollection))
-        {
-        }
-
-        /// <summary>
-        /// Gets the data types that this collection editor can contain. 
-        /// </summary>
-        /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() =>
-        [
-            typeof(KryptonContextMenuItems),
-            typeof(KryptonContextMenuItem),
-            typeof(KryptonContextMenuSeparator),
-            typeof(KryptonContextMenuHeading),
-            typeof(KryptonContextMenuLinkLabel),
-            typeof(KryptonContextMenuCheckBox),
-            typeof(KryptonContextMenuCheckButton),
-            typeof(KryptonContextMenuRadioButton),
-            typeof(KryptonContextMenuColorColumns),
-            typeof(KryptonContextMenuMonthCalendar),
-            typeof(KryptonContextMenuImageSelect)
-        ];
     }
+
+    /// <summary>
+    /// Gets the data types that this collection editor can contain. 
+    /// </summary>
+    /// <returns>An array of data types that this collection can contain.</returns>
+    protected override Type[] CreateNewItemTypes() =>
+    [
+        typeof(KryptonContextMenuItems),
+        typeof(KryptonContextMenuItem),
+        typeof(KryptonContextMenuSeparator),
+        typeof(KryptonContextMenuHeading),
+        typeof(KryptonContextMenuLinkLabel),
+        typeof(KryptonContextMenuCheckBox),
+        typeof(KryptonContextMenuCheckButton),
+        typeof(KryptonContextMenuRadioButton),
+        typeof(KryptonContextMenuColorColumns),
+        typeof(KryptonContextMenuMonthCalendar),
+        typeof(KryptonContextMenuImageSelect)
+    ];
 }

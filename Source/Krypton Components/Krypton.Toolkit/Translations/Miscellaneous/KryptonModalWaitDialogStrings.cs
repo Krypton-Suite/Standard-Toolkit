@@ -7,17 +7,16 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class KryptonModalWaitDialogStrings : GlobalId
 {
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class KryptonModalWaitDialogStrings : GlobalId
-    {
-        #region Static Strings
+    #region Static Strings
 
-        private const string DEFAULT_TITLE = @"Processing";
+    private const string DEFAULT_TITLE = @"Processing";
 
-        private const string DEFAULT_TEXT = @"Please wait for operation to complete...";
+    private const string DEFAULT_TEXT = @"Please wait for operation to complete...";
 
-        #endregion
-    }
+    #endregion
 }

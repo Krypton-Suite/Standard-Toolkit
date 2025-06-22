@@ -7,38 +7,37 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ControlStyles : KryptonForm
 {
-    public partial class ControlStyles : KryptonForm
+    public ControlStyles()
     {
-        public ControlStyles()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void kbtnButtonStyles_Click(object sender, EventArgs e)
-        {
-            new ButtonStyleExamples().Show();
-        }
+    private void kbtnButtonStyles_Click(object sender, EventArgs e)
+    {
+        new ButtonStyleExamples().Show();
+    }
 
-        private void kbtnCheckBoxStyles_Click(object sender, EventArgs e)
-        {
-            new CheckBoxStyleExamples().Show();
-        }
+    private void kbtnCheckBoxStyles_Click(object sender, EventArgs e)
+    {
+        new CheckBoxStyleExamples().Show();
+    }
 
-        private void kbtnRadioButtonStyles_Click(object sender, EventArgs e)
-        {
-            new RadioButtonStyleExamples().Show();
-        }
+    private void kbtnRadioButtonStyles_Click(object sender, EventArgs e)
+    {
+        new RadioButtonStyleExamples().Show();
+    }
 
-        private void kbtnPanelStyles_Click(object sender, EventArgs e)
-        {
-            new PanelStyleExamples().Show();
-        }
+    private void kbtnPanelStyles_Click(object sender, EventArgs e)
+    {
+        new PanelStyleExamples().Show();
+    }
 
-        private void kbtnLabelStyles_Click(object sender, EventArgs e)
-        {
-            new LabelStyleExamples().Show();
-        }
+    private void kbtnLabelStyles_Click(object sender, EventArgs e)
+    {
+        new LabelStyleExamples().Show();
     }
 }

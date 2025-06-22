@@ -10,122 +10,121 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Controller for a VisualContextMenu popup.
+/// </summary>
+public class ContextMenuController : GlobalId,
+    IKeyController
 {
+    #region Instance Fields
+    private readonly ViewContextMenuManager? _viewManager;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Controller for a VisualContextMenu popup.
+    /// Initialize a new instance of the ContextMenuController class.
     /// </summary>
-    public class ContextMenuController : GlobalId,
-                                         IKeyController
+    /// <param name="viewManager">Owning view manager instance.</param>
+    public ContextMenuController(ViewContextMenuManager? viewManager) => _viewManager = viewManager;
+
+    #endregion
+
+    #region Key Notifications
+
+    /// <summary>
+    /// Key has been pressed down.
+    /// </summary>
+    /// <param name="c">Reference to the source control instance.</param>
+    /// <param name="e">A KeyEventArgs that contains the event data.</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
     {
-        #region Instance Fields
-        private readonly ViewContextMenuManager? _viewManager;
-        #endregion
+        Debug.Assert(c != null);
+        Debug.Assert(e != null);
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ContextMenuController class.
-        /// </summary>
-        /// <param name="viewManager">Owning view manager instance.</param>
-        public ContextMenuController(ViewContextMenuManager? viewManager) => _viewManager = viewManager;
-
-        #endregion
-
-        #region Key Notifications
-
-        /// <summary>
-        /// Key has been pressed down.
-        /// </summary>
-        /// <param name="c">Reference to the source control instance.</param>
-        /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        // Validate incoming references
+        if (c == null)
         {
-            Debug.Assert(c != null);
-            Debug.Assert(e != null);
-
-            // Validate incoming references
-            if (c == null)
-            {
-                throw new ArgumentNullException(nameof(c));
-            }
-
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            switch (e.KeyCode)
-            {
-                case Keys.Tab:
-                    _viewManager?.KeyTab(e.Shift);
-                    break;
-                case Keys.Home:
-                    _viewManager?.KeyHome();
-                    break;
-                case Keys.End:
-                    _viewManager?.KeyEnd();
-                    break;
-                case Keys.Up:
-                    _viewManager?.KeyUp();
-                    break;
-                case Keys.Down:
-                    _viewManager?.KeyDown();
-                    break;
-                case Keys.Left:
-                    _viewManager?.KeyLeft(false);
-                    break;
-                case Keys.Right:
-                    _viewManager?.KeyRight();
-                    break;
-            }
+            throw new ArgumentNullException(nameof(c));
         }
 
-        /// <summary>
-        /// Key has been pressed.
-        /// </summary>
-        /// <param name="c">Reference to the source control instance.</param>
-        /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
+        if (e == null)
         {
-            Debug.Assert(c != null);
-            Debug.Assert(e != null);
-
-            // Validate incoming references
-            if (c == null)
-            {
-                throw new ArgumentNullException(nameof(c));
-            }
-
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            _viewManager?.KeyMnemonic(e.KeyChar);
+            throw new ArgumentNullException(nameof(e));
         }
 
-        /// <summary>
-        /// Key has been released.
-        /// </summary>
-        /// <param name="c">Reference to the source control instance.</param>
-        /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        switch (e.KeyCode)
         {
-            Debug.Assert(c != null);
-            Debug.Assert(e != null);
-
-            // Validate incoming references
-            if (c == null)
-            {
-                throw new ArgumentNullException(nameof(c));
-            }
-
-            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
+            case Keys.Tab:
+                _viewManager?.KeyTab(e.Shift);
+                break;
+            case Keys.Home:
+                _viewManager?.KeyHome();
+                break;
+            case Keys.End:
+                _viewManager?.KeyEnd();
+                break;
+            case Keys.Up:
+                _viewManager?.KeyUp();
+                break;
+            case Keys.Down:
+                _viewManager?.KeyDown();
+                break;
+            case Keys.Left:
+                _viewManager?.KeyLeft(false);
+                break;
+            case Keys.Right:
+                _viewManager?.KeyRight();
+                break;
         }
-        #endregion
     }
+
+    /// <summary>
+    /// Key has been pressed.
+    /// </summary>
+    /// <param name="c">Reference to the source control instance.</param>
+    /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
+    {
+        Debug.Assert(c != null);
+        Debug.Assert(e != null);
+
+        // Validate incoming references
+        if (c == null)
+        {
+            throw new ArgumentNullException(nameof(c));
+        }
+
+        if (e == null)
+        {
+            throw new ArgumentNullException(nameof(e));
+        }
+
+        _viewManager?.KeyMnemonic(e.KeyChar);
+    }
+
+    /// <summary>
+    /// Key has been released.
+    /// </summary>
+    /// <param name="c">Reference to the source control instance.</param>
+    /// <param name="e">A KeyEventArgs that contains the event data.</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <returns>True if capturing input; otherwise false.</returns>
+    public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+    {
+        Debug.Assert(c != null);
+        Debug.Assert(e != null);
+
+        // Validate incoming references
+        if (c == null)
+        {
+            throw new ArgumentNullException(nameof(c));
+        }
+
+        return e == null ? throw new ArgumentNullException(nameof(e)) : false;
+    }
+    #endregion
 }

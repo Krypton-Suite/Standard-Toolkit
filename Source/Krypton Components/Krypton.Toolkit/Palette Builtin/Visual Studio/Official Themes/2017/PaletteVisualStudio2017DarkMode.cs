@@ -7,14 +7,13 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public abstract class PaletteVisualStudio2017DarkMode : PaletteVisualStudioBase
 {
-    public abstract class PaletteVisualStudio2017DarkMode : PaletteVisualStudioBase
+    protected PaletteVisualStudio2017DarkMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours)
+        : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
     {
-        protected PaletteVisualStudio2017DarkMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours)
-            : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
-        {
-            ThemeName = nameof(PaletteVisualStudio2017DarkMode);
-        }
+        ThemeName = nameof(PaletteVisualStudio2017DarkMode);
     }
 }

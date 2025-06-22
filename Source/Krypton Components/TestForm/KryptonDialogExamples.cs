@@ -7,34 +7,33 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class KryptonDialogExamples: KryptonForm
 {
-    public partial class KryptonDialogExamples: KryptonForm
+    public KryptonDialogExamples()
     {
-        public KryptonDialogExamples()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void kbtnColorDialog_Click(object sender, EventArgs e)
-        {
-            var kcd = new KryptonColorDialog();
+    private void kbtnColorDialog_Click(object sender, EventArgs e)
+    {
+        var kcd = new KryptonColorDialog();
 
-            kcd.ShowDialog();
-        }
+        kcd.ShowDialog();
+    }
 
-        private void kbtnFontDialog_Click(object sender, EventArgs e)
-        {
-            var kfd = new KryptonFontDialog();
+    private void kbtnFontDialog_Click(object sender, EventArgs e)
+    {
+        var kfd = new KryptonFontDialog();
 
-            kfd.ShowDialog();
-        }
+        kfd.ShowDialog();
+    }
 
-        private void kbtnPrintDialog_Click(object sender, EventArgs e)
-        {
-            var kpd = new KryptonPrintDialog();
+    private void kbtnPrintDialog_Click(object sender, EventArgs e)
+    {
+        var kpd = new KryptonPrintDialog();
 
-            kpd.ShowDialog();
-        }
+        kpd.ShowDialog();
     }
 }

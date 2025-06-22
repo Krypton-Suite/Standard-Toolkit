@@ -7,18 +7,17 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class ToolStripTest : KryptonForm
 {
-    public partial class ToolStripTest : KryptonForm
+    public ToolStripTest()
     {
-        public ToolStripTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void Form6_Load(object sender, EventArgs e)
-        {
+    private void Form6_Load(object sender, EventArgs e)
+    {
 
-        }
     }
 }

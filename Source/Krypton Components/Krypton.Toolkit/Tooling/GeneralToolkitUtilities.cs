@@ -12,69 +12,68 @@
 
 
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public class GeneralToolkitUtilities
 {
-    public class GeneralToolkitUtilities
+    #region Implementation
+
+    /// <summary>Gets the size of the current screen.</summary>
+    /// <returns></returns>
+    public static Point GetCurrentScreenSize()
     {
-        #region Implementation
+        var screenWidth = Screen.PrimaryScreen!.Bounds.Width;
 
-        /// <summary>Gets the size of the current screen.</summary>
-        /// <returns></returns>
-        public static Point GetCurrentScreenSize()
-        {
-            var screenWidth = Screen.PrimaryScreen!.Bounds.Width;
+        var screenHeight = Screen.PrimaryScreen!.Bounds.Height;
 
-            var screenHeight = Screen.PrimaryScreen!.Bounds.Height;
-
-            return new Point(screenWidth, screenHeight);
-        }
-
-        /// <summary>Adjusts the form dimensions.</summary>
-        /// <param name="owner">The owner.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        internal static void AdjustFormDimensions(KryptonForm owner, int width, int height) => owner.Size = new Size(width, height);
-
-        internal static void Start(string inputLocation)
-        {
-            try
-            {
-                Process.Start(inputLocation);
-            }
-            catch (Exception e)
-            {
-                KryptonExceptionHandler.CaptureException(e);
-            }
-        }
-
-        internal static void Start(string inputLocation, string arguments)
-        {
-            try
-            {
-                var processStartInfo = new ProcessStartInfo(inputLocation, arguments)
-                {
-                    UseShellExecute = true
-                };
-                Process.Start(processStartInfo);
-            }
-            catch (Exception e)
-            {
-                KryptonExceptionHandler.CaptureException(e);
-            }
-        }
-
-        internal static void Start(ProcessStartInfo processStartInfo)
-        {
-            try
-            {
-                Process.Start(processStartInfo);
-            }
-            catch (Exception e)
-            {
-                KryptonExceptionHandler.CaptureException(e);
-            }
-        }
-
-        #endregion
+        return new Point(screenWidth, screenHeight);
     }
+
+    /// <summary>Adjusts the form dimensions.</summary>
+    /// <param name="owner">The owner.</param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
+    internal static void AdjustFormDimensions(KryptonForm owner, int width, int height) => owner.Size = new Size(width, height);
+
+    internal static void Start(string inputLocation)
+    {
+        try
+        {
+            Process.Start(inputLocation);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e);
+        }
+    }
+
+    internal static void Start(string inputLocation, string arguments)
+    {
+        try
+        {
+            var processStartInfo = new ProcessStartInfo(inputLocation, arguments)
+            {
+                UseShellExecute = true
+            };
+            Process.Start(processStartInfo);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e);
+        }
+    }
+
+    internal static void Start(ProcessStartInfo processStartInfo)
+    {
+        try
+        {
+            Process.Start(processStartInfo);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e);
+        }
+    }
+
+    #endregion
 }

@@ -10,107 +10,106 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Implement storage for a track bar position only states.
+/// </summary>
+public class PaletteTrackBarPositionStatesOverride : GlobalId
 {
+    #region Identity
+
     /// <summary>
-    /// Implement storage for a track bar position only states.
+    /// Initialize a new instance of the PaletteTrackBarPositionStatesOverride class.
     /// </summary>
-    public class PaletteTrackBarPositionStatesOverride : GlobalId
+    /// <param name="normalStates">Normal state values.</param>
+    /// <param name="overrideStates">Override state values.</param>
+    /// <param name="overrideState">State to override.</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public PaletteTrackBarPositionStatesOverride([DisallowNull] PaletteTrackBarRedirect normalStates,
+        [DisallowNull] PaletteTrackBarPositionStates overrideStates,
+        PaletteState overrideState)
     {
-        #region Identity
+        Debug.Assert(normalStates != null);
+        Debug.Assert(overrideStates != null);
 
-        /// <summary>
-        /// Initialize a new instance of the PaletteTrackBarPositionStatesOverride class.
-        /// </summary>
-        /// <param name="normalStates">Normal state values.</param>
-        /// <param name="overrideStates">Override state values.</param>
-        /// <param name="overrideState">State to override.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public PaletteTrackBarPositionStatesOverride([DisallowNull] PaletteTrackBarRedirect normalStates,
-                                                     [DisallowNull] PaletteTrackBarPositionStates overrideStates,
-                                                     PaletteState overrideState)
+        // Validate incoming references
+        if (normalStates == null)
         {
-            Debug.Assert(normalStates != null);
-            Debug.Assert(overrideStates != null);
-
-            // Validate incoming references
-            if (normalStates == null)
-            {
-                throw new ArgumentNullException(nameof(normalStates));
-            }
-
-            if (overrideStates == null)
-            {
-                throw new ArgumentNullException(nameof(overrideStates));
-            }
-
-            // Create the override instance
-            Position = new PaletteElementColorInheritOverride(normalStates.Position, overrideStates.Position);
-
-            // Do not apply an override by default
-            Apply = false;
-
-            // Always override the state
-            Override = true;
-            OverrideState = overrideState;
+            throw new ArgumentNullException(nameof(normalStates));
         }
-        #endregion
 
-        #region SetPalettes
-        /// <summary>
-        /// Update the the normal and override palettes.
-        /// </summary>
-        /// <param name="normalStates">New normal palette.</param>
-        /// <param name="overrideStates">New override palette.</param>
-        public void SetPalettes(PaletteTrackBarRedirect normalStates,
-                                PaletteTrackBarPositionStates overrideStates) =>
-            Position.SetPalettes(normalStates.Position, overrideStates.Position);
-
-        #endregion
-
-        #region Apply
-        /// <summary>
-        /// Gets and sets a value indicating if override should be applied.
-        /// </summary>
-        public bool Apply
+        if (overrideStates == null)
         {
-            get => Position.Apply;
-            set => Position.Apply = value;
+            throw new ArgumentNullException(nameof(overrideStates));
         }
-        #endregion
 
-        #region Override
-        /// <summary>
-        /// Gets and sets a value indicating if override state should be applied.
-        /// </summary>
-        public bool Override
-        {
-            get => Position.Override;
-            set => Position.Override = value;
-        }
-        #endregion
+        // Create the override instance
+        Position = new PaletteElementColorInheritOverride(normalStates.Position, overrideStates.Position);
 
-        #region OverrideState
-        /// <summary>
-        /// Gets and sets the override palette state to use.
-        /// </summary>
-        public PaletteState OverrideState
-        {
-            get => Position.OverrideState;
-            set => Position.OverrideState = value;
-        }
-        #endregion
+        // Do not apply an override by default
+        Apply = false;
 
-        #region Position
-        /// <summary>
-        /// Gets access to the position appearance.
-        /// </summary>
-        [KryptonPersist]
-        [Category(@"Visuals")]
-        [Description(@"Overrides for defining position appearance.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteElementColorInheritOverride Position { get; }
-
-        #endregion
+        // Always override the state
+        Override = true;
+        OverrideState = overrideState;
     }
+    #endregion
+
+    #region SetPalettes
+    /// <summary>
+    /// Update the the normal and override palettes.
+    /// </summary>
+    /// <param name="normalStates">New normal palette.</param>
+    /// <param name="overrideStates">New override palette.</param>
+    public void SetPalettes(PaletteTrackBarRedirect normalStates,
+        PaletteTrackBarPositionStates overrideStates) =>
+        Position.SetPalettes(normalStates.Position, overrideStates.Position);
+
+    #endregion
+
+    #region Apply
+    /// <summary>
+    /// Gets and sets a value indicating if override should be applied.
+    /// </summary>
+    public bool Apply
+    {
+        get => Position.Apply;
+        set => Position.Apply = value;
+    }
+    #endregion
+
+    #region Override
+    /// <summary>
+    /// Gets and sets a value indicating if override state should be applied.
+    /// </summary>
+    public bool Override
+    {
+        get => Position.Override;
+        set => Position.Override = value;
+    }
+    #endregion
+
+    #region OverrideState
+    /// <summary>
+    /// Gets and sets the override palette state to use.
+    /// </summary>
+    public PaletteState OverrideState
+    {
+        get => Position.OverrideState;
+        set => Position.OverrideState = value;
+    }
+    #endregion
+
+    #region Position
+    /// <summary>
+    /// Gets access to the position appearance.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining position appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteElementColorInheritOverride Position { get; }
+
+    #endregion
 }

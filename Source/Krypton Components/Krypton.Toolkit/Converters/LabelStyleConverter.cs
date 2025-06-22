@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that LabelStyle values appear as neat text at design time.
-    /// </summary>
-    internal class LabelStyleConverter : StringLookupConverter<LabelStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
-            new Dictionary<LabelStyle, string>
+/// <summary>
+/// Custom type converter so that LabelStyle values appear as neat text at design time.
+/// </summary>
+internal class LabelStyleConverter : StringLookupConverter<LabelStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
+        new Dictionary<LabelStyle, string>
         {
             {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
@@ -42,16 +42,15 @@ namespace Krypton.Toolkit
             {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }
