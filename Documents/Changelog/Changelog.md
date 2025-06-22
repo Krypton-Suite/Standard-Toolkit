@@ -8,6 +8,9 @@
 	```csharp
 		ActiveFormTracker.StartAutomaticTracking();
 	```
+* Resolved [#2049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2049), BlurValues do not work as expected
+* Implemented [#1190](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1190), Enables Windows 11 snap layouts.
+* Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.
 * Resolved [#2095](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2095), `KryptonRibbon` `StateNormal` & `StateCommon` do not write changes to `RibbonFileAppTab` to the designer source.
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
 * Resolved [#2101](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2101), `KryptonContextMenu` items editor doesn't have a cancel button.

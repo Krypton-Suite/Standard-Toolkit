@@ -11,6 +11,7 @@
 #endregion
 
 
+
 namespace Krypton.Toolkit
 {
     public class GeneralToolkitUtilities
@@ -33,6 +34,46 @@ namespace Krypton.Toolkit
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         internal static void AdjustFormDimensions(KryptonForm owner, int width, int height) => owner.Size = new Size(width, height);
+
+        internal static void Start(string inputLocation)
+        {
+            try
+            {
+                Process.Start(inputLocation);
+            }
+            catch (Exception e)
+            {
+                KryptonExceptionHandler.CaptureException(e);
+            }
+        }
+
+        internal static void Start(string inputLocation, string arguments)
+        {
+            try
+            {
+                var processStartInfo = new ProcessStartInfo(inputLocation, arguments)
+                {
+                    UseShellExecute = true
+                };
+                Process.Start(processStartInfo);
+            }
+            catch (Exception e)
+            {
+                KryptonExceptionHandler.CaptureException(e);
+            }
+        }
+
+        internal static void Start(ProcessStartInfo processStartInfo)
+        {
+            try
+            {
+                Process.Start(processStartInfo);
+            }
+            catch (Exception e)
+            {
+                KryptonExceptionHandler.CaptureException(e);
+            }
+        }
 
         #endregion
     }
