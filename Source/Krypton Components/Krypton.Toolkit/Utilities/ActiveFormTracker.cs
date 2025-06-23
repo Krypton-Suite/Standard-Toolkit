@@ -70,6 +70,20 @@ public static class ActiveFormTracker
             form.Activated += Activated;
             form.Deactivate += Deactivate;
             form.HandleDestroyed += HandleDestroyed;
+
+            // The new form isn't always the top form,
+            // so to get started use Form.ActiveForm once, which uses GetForegroundWindow().
+            if (form.Equals(Form.ActiveForm))
+            {
+                _activeForm = form;
+
+                // If the active form is the same as the form being subscribed.
+                // Check if is has an active mdi child set
+                if (form.ActiveMdiChild is not null)
+                {
+                    ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+                }
+            }
         }
         else
         {
@@ -77,20 +91,16 @@ public static class ActiveFormTracker
             form.Activated += ActivatedMdiChild;
             form.Deactivate += DeactivateMdiChild;
             form.HandleDestroyed += HandleDestroyedMdiChild;
-        }
 
-        // The new form isn't always the top form,
-        // so to get started use Form.ActiveForm once, which uses GetForegroundWindow().
-        if (form.Equals(Form.ActiveForm))
-        {
-            _activeForm = form;
-
-            // If the active form is the same as the form being subscribed.
-            // Check if is has an active mdi child set
-            if (form.ActiveMdiChild is not null)
+            // Only if the mdi parent is the active form we need to act
+            if (IsActiveForm(form.MdiParent))
             {
-                ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
-            } 
+                // Is form the active child
+                if (form.Equals(form.MdiParent!.ActiveMdiChild))
+                {
+                    ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+                }
+            }
         }
     }
 
@@ -99,9 +109,9 @@ public static class ActiveFormTracker
     /// </summary>
     /// <param name="form">Form to check if it's active.</param>
     /// <returns>True if the given form is equal to the active form, otherwise false.</returns>
-    public static bool IsActiveForm(Form form)
+    public static bool IsActiveForm(Form? form)
     {
-        return form != null && form.Equals(_activeForm);
+        return form is not null && form.Equals(_activeForm);
     }
 
     /// <summary>
@@ -109,9 +119,9 @@ public static class ActiveFormTracker
     /// </summary>
     /// <param name="mdiChild">ChildForm to check if it's active.</param>
     /// <returns>True if the given childform is equal to the active form, otherwise false.</returns>
-    public static bool IsActiveMdiChild(Form mdiChild)
+    public static bool IsActiveMdiChild(Form? mdiChild)
     {
-        return mdiChild != null && mdiChild.Equals(_activeMdiChild);
+        return mdiChild is not null && mdiChild.Equals(_activeMdiChild);
     }
     #endregion
 
