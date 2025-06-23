@@ -81,13 +81,16 @@ public static class ActiveFormTracker
 
         // The new form isn't always the top form,
         // so to get started use Form.ActiveForm once, which uses GetForegroundWindow().
-        _activeForm = Form.ActiveForm;
-
-        // If the active form is the same as the form being subscribed.
-        // Check if is has an active mdi child set
-        if (form.Equals(_activeForm) && form.ActiveMdiChild is not null)
+        if (form.Equals(Form.ActiveForm))
         {
-            ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+            _activeForm = form;
+
+            // If the active form is the same as the form being subscribed.
+            // Check if is has an active mdi child set
+            if (form.ActiveMdiChild is not null)
+            {
+                ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+            } 
         }
     }
 
