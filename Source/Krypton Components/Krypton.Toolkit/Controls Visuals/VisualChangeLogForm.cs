@@ -7,42 +7,41 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal partial class VisualChangeLogForm : KryptonForm
 {
-    internal partial class VisualChangeLogForm : KryptonForm
+    #region Instance Fields
+
+    private ToolkitSupportType _toolkitType;
+
+    #endregion
+
+    #region Identity
+
+    public VisualChangeLogForm(ToolkitSupportType toolkitType)
     {
-        #region Instance Fields
+        InitializeComponent();
 
-        private ToolkitSupportType _toolkitType;
+        _toolkitType = toolkitType;
+    }
 
-        #endregion
+    #endregion
 
-        #region Identity
-
-        public VisualChangeLogForm(ToolkitSupportType toolkitType)
+    private void VisualChangeLogForm_Load(object sender, EventArgs e)
+    {
+        switch (_toolkitType)
         {
-            InitializeComponent();
-
-            _toolkitType = toolkitType;
-        }
-
-        #endregion
-
-        private void VisualChangeLogForm_Load(object sender, EventArgs e)
-        {
-            switch (_toolkitType)
-            {
-                case ToolkitSupportType.Canary:
-                    break;
-                case ToolkitSupportType.Nightly:
-                    break;
-                case ToolkitSupportType.LongTermSupport:
-                    break;
-                case ToolkitSupportType.Stable:
-                default:
-                    kwbChangeLog.Navigate(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md");
-                    break;
-            }
+            case ToolkitSupportType.Canary:
+                break;
+            case ToolkitSupportType.Nightly:
+                break;
+            case ToolkitSupportType.LongTermSupport:
+                break;
+            case ToolkitSupportType.Stable:
+            default:
+                kwbChangeLog.Navigate(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md");
+                break;
         }
     }
 }

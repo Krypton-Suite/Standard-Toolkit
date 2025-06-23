@@ -12,105 +12,104 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Implementation for the expand ribbon button.
+/// </summary>
+public class ButtonSpecExpandRibbon : ButtonSpec
 {
+    #region Instance Fields
+    private readonly KryptonRibbon _ribbon;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Implementation for the expand ribbon button.
+    /// Initialize a new instance of the ButtonSpecExpandRibbon class.
     /// </summary>
-    public class ButtonSpecExpandRibbon : ButtonSpec
+    /// <param name="ribbon">Reference to owning ribbon control.</param>
+    public ButtonSpecExpandRibbon([DisallowNull] KryptonRibbon ribbon)
     {
-        #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ButtonSpecExpandRibbon class.
-        /// </summary>
-        /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecExpandRibbon([DisallowNull] KryptonRibbon ribbon)
-        {
-            Debug.Assert(ribbon is not null);
+        Debug.Assert(ribbon is not null);
             
-            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
 
-            // Fix the type
-            ProtectedType = PaletteButtonSpecStyle.RibbonExpand;
-        }
-        #endregion
+        // Fix the type
+        ProtectedType = PaletteButtonSpecStyle.RibbonExpand;
+    }
+    #endregion
 
-        #region AllowComponent
-        /// <summary>
-        /// Gets a value indicating if the component is allowed to be selected at design time.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool AllowComponent => false;
+    #region AllowComponent
+    /// <summary>
+    /// Gets a value indicating if the component is allowed to be selected at design time.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override bool AllowComponent => false;
 
-        #endregion
+    #endregion
 
-        #region ButtonSpecStype
-        /// <summary>
-        /// Gets and sets the actual type of the button.
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public PaletteButtonSpecStyle ButtonSpecType
+    #region ButtonSpecStype
+    /// <summary>
+    /// Gets and sets the actual type of the button.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public PaletteButtonSpecStyle ButtonSpecType
+    {
+        get => ProtectedType;
+        set => ProtectedType = value;
+    }
+    #endregion
+
+    #region IButtonSpecValues
+    /// <summary>
+    /// Gets the button visible value.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Button visibility.</returns>
+    public override bool GetVisible(PaletteBase palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: true };
+
+    /// <summary>
+    /// Gets the button enabled state.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Button enabled state.</returns>
+    public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
+
+    /// <summary>
+    /// Gets the button checked state.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Button checked state.</returns>
+    public override ButtonCheckState GetChecked(PaletteBase? palette) =>
+        // Close button is never shown as checked
+        ButtonCheckState.NotCheckButton;
+
+    /// <summary>
+    /// Gets the button style.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Button style.</returns>
+    public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
+
+    #endregion    
+
+    #region Protected Overrides
+
+    /// <summary>
+    /// Raises the Click event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnClick(EventArgs e)
+    {
+        // Only if associated view is enabled to we perform an action
+        if (GetViewEnabled())
         {
-            get => ProtectedType;
-            set => ProtectedType = value;
-        }
-        #endregion
-
-        #region IButtonSpecValues
-        /// <summary>
-        /// Gets the button visible value.
-        /// </summary>
-        /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: true };
-
-        /// <summary>
-        /// Gets the button enabled state.
-        /// </summary>
-        /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
-
-        /// <summary>
-        /// Gets the button checked state.
-        /// </summary>
-        /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(PaletteBase? palette) =>
-            // Close button is never shown as checked
-            ButtonCheckState.NotCheckButton;
-
-        /// <summary>
-        /// Gets the button style.
-        /// </summary>
-        /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
-
-        #endregion    
-
-        #region Protected Overrides
-
-        /// <summary>
-        /// Raises the Click event.
-        /// </summary>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnClick(EventArgs e)
-        {
-            // Only if associated view is enabled to we perform an action
-            if (GetViewEnabled())
+            if (!_ribbon.InDesignMode)
             {
-                if (!_ribbon.InDesignMode)
-                {
-                    _ribbon.MinimizedMode = false;
-                }
+                _ribbon.MinimizedMode = false;
             }
         }
-        #endregion
     }
+    #endregion
 }

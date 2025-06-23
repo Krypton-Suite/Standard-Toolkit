@@ -10,32 +10,31 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that PopupPageAllow values appear as neat text at design time.
-    /// </summary>
-    public class PopupPageAllowConverter : StringLookupConverter<PopupPageAllow>
-    {
-        #region Static Fields
+namespace Krypton.Navigator;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<PopupPageAllow, string> _pairs = new BiDictionary<PopupPageAllow, string>(
-            new Dictionary<PopupPageAllow, string>
+/// <summary>
+/// Custom type converter so that PopupPageAllow values appear as neat text at design time.
+/// </summary>
+public class PopupPageAllowConverter : StringLookupConverter<PopupPageAllow>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<PopupPageAllow, string> _pairs = new BiDictionary<PopupPageAllow, string>(
+        new Dictionary<PopupPageAllow, string>
         {
             {PopupPageAllow.Never, @"Never"},
             {PopupPageAllow.OnlyCompatibleModes, @"Only Compatible Modes"},
             {PopupPageAllow.OnlyOutlookMiniMode, @"Only Outlook Mini Mode"}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, PopupPageAllow /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, PopupPageAllow /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

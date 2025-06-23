@@ -10,97 +10,96 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Explicit helpers for XML Data export and import
+/// </summary>
+public static class XmlHelper
 {
     /// <summary>
-    /// Explicit helpers for XML Data export and import
+    /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
     /// </summary>
-    public static class XmlHelper
+    /// <param name="xmlWriter">Xml writer to save information into.</param>
+    /// <param name="name">Attribute name.</param>
+    /// <param name="value">Attribute value.</param>
+    /// <param name="defaultValue">Default value.</param>
+    public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string? value, string defaultValue = @"")
     {
-        /// <summary>
-        /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="value">Attribute value.</param>
-        /// <param name="defaultValue">Default value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string? value, string defaultValue = @"")
+        if (!string.IsNullOrEmpty(value) && (value != defaultValue))
         {
-            if (!string.IsNullOrEmpty(value) && (value != defaultValue))
-            {
-                xmlWriter.WriteAttributeString(name, value);
-            }
+            xmlWriter.WriteAttributeString(name, value);
         }
+    }
 
-        /// <summary>
-        /// Read the named attribute value but if no attribute is found then return the provided default.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="defaultValue">Default value.</param>
-        /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
+    /// <summary>
+    /// Read the named attribute value but if no attribute is found then return the provided default.
+    /// </summary>
+    /// <param name="xmlReader">Xml reader to load information from.</param>
+    /// <param name="name">Attribute name.</param>
+    /// <param name="defaultValue">Default value.</param>
+    /// <returns></returns>
+    public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
+    {
+        try
         {
-            try
-            {
-                var ret = xmlReader.GetAttribute(name) ?? defaultValue;
+            var ret = xmlReader.GetAttribute(name) ?? defaultValue;
 
-                return ret;
-            }
-            catch
-            {
-                return defaultValue;
-            }
+            return ret;
         }
-
-
-        /// <summary>
-        /// Convert a Image to a culture invariant string value.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Name of image to save.</param>
-        /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap? image)
+        catch
         {
-            // Only store if we have an actual image to persist
-            if (image != null)
-            {
-                // Convert the Image into base64 so it can be used in xml
-                using var memory = new MemoryStream();
-                image.Save(memory, ImageFormat.Png);
-                memory.Position = 0;
-                var base64 = Convert.ToBase64String(memory.ToArray());
-
-                // Store the base64 Hex as a CDATA inside the element
-                xmlWriter.WriteStartElement(name);
-                xmlWriter.WriteCData(base64);
-                xmlWriter.WriteEndElement();
-            }
+            return defaultValue;
         }
+    }
 
-        /// <summary>
-        /// Convert a culture invariant string value into an Image.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <returns>Image that was recreated.</returns>
-        public static Bitmap? XmlCDataToImage(XmlReader xmlReader)
+
+    /// <summary>
+    /// Convert a Image to a culture invariant string value.
+    /// </summary>
+    /// <param name="xmlWriter">Xml writer to save information into.</param>
+    /// <param name="name">Name of image to save.</param>
+    /// <param name="image">Image to persist.</param>
+    public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap? image)
+    {
+        // Only store if we have an actual image to persist
+        if (image != null)
         {
-            try
-            {
-                // Convert the content of the element into base64
-                var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
+            // Convert the Image into base64 so it can be used in xml
+            using var memory = new MemoryStream();
+            image.Save(memory, ImageFormat.Png);
+            memory.Position = 0;
+            var base64 = Convert.ToBase64String(memory.ToArray());
 
-                // Convert the bytes back into an Image
-                using var memory = new MemoryStream(bytes);
+            // Store the base64 Hex as a CDATA inside the element
+            xmlWriter.WriteStartElement(name);
+            xmlWriter.WriteCData(base64);
+            xmlWriter.WriteEndElement();
+        }
+    }
 
-                return new Bitmap(memory);
-            }
-            catch (Exception e)
-            {
-                KryptonExceptionHandler.CaptureException(e);
+    /// <summary>
+    /// Convert a culture invariant string value into an Image.
+    /// </summary>
+    /// <param name="xmlReader">Xml reader to load information from.</param>
+    /// <returns>Image that was recreated.</returns>
+    public static Bitmap? XmlCDataToImage(XmlReader xmlReader)
+    {
+        try
+        {
+            // Convert the content of the element into base64
+            var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
 
-                return null;
-            }
+            // Convert the bytes back into an Image
+            using var memory = new MemoryStream(bytes);
+
+            return new Bitmap(memory);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e);
+
+            return null;
         }
     }
 }

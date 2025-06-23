@@ -7,33 +7,32 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonThemeBrowserDesigner : ComponentDesigner
 {
-    internal class KryptonThemeBrowserDesigner : ComponentDesigner
+
+    #region Public Overrides
+
+    public override void Initialize([DisallowNull] IComponent component)
     {
-
-        #region Public Overrides
-
-        public override void Initialize([DisallowNull] IComponent component)
-        {
-            base.Initialize(component);
-        }
-
-        public override DesignerActionListCollection ActionLists
-        {
-            get
-            {
-                var actionList = new DesignerActionListCollection
-                {
-                    new KryptonThemeBrowserActionList(this)
-                };
-
-                return actionList;
-            }
-        }
-
-        public override DesignerVerbCollection Verbs { get; }
-
-        #endregion
+        base.Initialize(component);
     }
+
+    public override DesignerActionListCollection ActionLists
+    {
+        get
+        {
+            var actionList = new DesignerActionListCollection
+            {
+                new KryptonThemeBrowserActionList(this)
+            };
+
+            return actionList;
+        }
+    }
+
+    public override DesignerVerbCollection Verbs { get; }
+
+    #endregion
 }

@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that MapKryptonPageText values appear as neat text at design time.
-    /// </summary>
-    public class MapKryptonPageTextConverter : StringLookupConverter<MapKryptonPageText>
-    {
-        #region Static Fields
+namespace Krypton.Navigator;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<MapKryptonPageText, string> _pairs = new BiDictionary<MapKryptonPageText, string>(
-            new Dictionary<MapKryptonPageText, string>
+/// <summary>
+/// Custom type converter so that MapKryptonPageText values appear as neat text at design time.
+/// </summary>
+public class MapKryptonPageTextConverter : StringLookupConverter<MapKryptonPageText>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<MapKryptonPageText, string> _pairs = new BiDictionary<MapKryptonPageText, string>(
+        new Dictionary<MapKryptonPageText, string>
         {
             {MapKryptonPageText.None, @"None (Empty string)"},
             {MapKryptonPageText.Text, @"Text"},
@@ -39,14 +39,13 @@ namespace Krypton.Navigator
             {MapKryptonPageText.ToolTipBody, @"ToolTipBody"}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageText /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageText /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

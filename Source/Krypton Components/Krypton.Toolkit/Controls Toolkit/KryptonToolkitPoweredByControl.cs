@@ -5,264 +5,263 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary></summary>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonToolkitPoweredByControl), @"ToolboxBitmaps.KryptonLogo.bmp")]
+[Description(@"")]
+public partial class KryptonToolkitPoweredByControl : UserControl
 {
-    /// <summary></summary>
-    [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonToolkitPoweredByControl), @"ToolboxBitmaps.KryptonLogo.bmp")]
-    [Description(@"")]
-    public partial class KryptonToolkitPoweredByControl : UserControl
+    #region Instance Fields
+
+    private bool _showDockingVersion;
+
+    private bool _showNavigatorVersion;
+
+    private bool _showRibbonVersion;
+
+    private bool _showToolkitVersion;
+
+    private bool _showWorkspaceVersion;
+
+    private bool _showThemeOption;
+
+    private ToolkitSupportType _ToolkitSupportType;
+
+    #endregion
+
+    #region Public
+
+    //public bool ShowDockingVersion { get => _showDockingVersion; set { _showDockingVersion = value; Invalidate(); } }
+
+    //public bool ShowNavigatorVersion { get => _showNavigatorVersion; set { _showNavigatorVersion = value; Invalidate(); } }
+
+    //public bool ShowRibbonVersion { get => _showRibbonVersion; set { _showRibbonVersion = value; Invalidate(); } }
+
+    //public bool ShowToolkitVersion { get => _showToolkitVersion; set { _showToolkitVersion = value; Invalidate(); } }
+
+    //public bool ShowWorkspaceVersion { get => _showWorkspaceVersion; set { _showWorkspaceVersion = value; Invalidate(); } }
+
+    /// <summary>Gets or sets a value indicating whether [show theme option].</summary>
+    /// <value><c>true</c> if [show theme option]; otherwise, <c>false</c>.</value>
+    [DefaultValue(false), Description(@"Allows the user to change the theme.")]
+    public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); SetLogoSpan(value); } }
+
+    /// <summary>Gets or sets the type of the toolkit.</summary>
+    /// <value>The type of the toolkit.</value>
+    [DefaultValue(typeof(ToolkitSupportType), @"ToolkitSupportType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
+    public ToolkitSupportType ToolkitSupportType { get => _ToolkitSupportType; set { _ToolkitSupportType = value; SetLogo(value); } }
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="KryptonToolkitPoweredByControl" /> class.</summary>
+    public KryptonToolkitPoweredByControl()
     {
-        #region Instance Fields
+        InitializeComponent();
 
-        private bool _showDockingVersion;
+        _showDockingVersion = false;
 
-        private bool _showNavigatorVersion;
+        _showNavigatorVersion = false;
 
-        private bool _showRibbonVersion;
+        _showRibbonVersion = false;
 
-        private bool _showToolkitVersion;
+        _showToolkitVersion = false;
 
-        private bool _showWorkspaceVersion;
+        _showWorkspaceVersion = false;
 
-        private bool _showThemeOption;
+        _showThemeOption = false;
 
-        private ToolkitSupportType _ToolkitSupportType;
+        kwlblDockingVersion.Text = null;
 
-        #endregion
+        kwlblNavigatorVersion.Text = null;
 
-        #region Public
+        kwlblRibbonVersion.Text = null;
 
-        //public bool ShowDockingVersion { get => _showDockingVersion; set { _showDockingVersion = value; Invalidate(); } }
+        kwlblToolkitVersion.Text = null;
 
-        //public bool ShowNavigatorVersion { get => _showNavigatorVersion; set { _showNavigatorVersion = value; Invalidate(); } }
+        kwlblWorkspaceVersion.Text = null;
 
-        //public bool ShowRibbonVersion { get => _showRibbonVersion; set { _showRibbonVersion = value; Invalidate(); } }
+        _ToolkitSupportType = ToolkitSupportType.Stable;
 
-        //public bool ShowToolkitVersion { get => _showToolkitVersion; set { _showToolkitVersion = value; Invalidate(); } }
+        SetLogo(_ToolkitSupportType);
 
-        //public bool ShowWorkspaceVersion { get => _showWorkspaceVersion; set { _showWorkspaceVersion = value; Invalidate(); } }
+        Size = new Size(659, 122);
+    }
 
-        /// <summary>Gets or sets a value indicating whether [show theme option].</summary>
-        /// <value><c>true</c> if [show theme option]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Allows the user to change the theme.")]
-        public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); SetLogoSpan(value); } }
+    #endregion
 
-        /// <summary>Gets or sets the type of the toolkit.</summary>
-        /// <value>The type of the toolkit.</value>
-        [DefaultValue(typeof(ToolkitSupportType), @"ToolkitSupportType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
-        public ToolkitSupportType ToolkitSupportType { get => _ToolkitSupportType; set { _ToolkitSupportType = value; SetLogo(value); } }
+    #region Implementation
 
-        #endregion
-
-        #region Identity
-
-        /// <summary>Initializes a new instance of the <see cref="KryptonToolkitPoweredByControl" /> class.</summary>
-        public KryptonToolkitPoweredByControl()
+    private void SetLogo(ToolkitSupportType ToolkitSupportType)
+    {
+        switch (ToolkitSupportType)
         {
-            InitializeComponent();
+            case ToolkitSupportType.Canary:
+                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
+                break;
+            case ToolkitSupportType.Nightly:
+                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
+                break;
+            case ToolkitSupportType.Stable:
+                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null);
+        }
+    }
 
-            _showDockingVersion = false;
+    private void klwlblDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        try
+        {
+            Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit");
+        }
+        catch (Exception exception)
+        {
+            KryptonExceptionHandler.CaptureException(exception, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+        }
+    }
 
-            _showNavigatorVersion = false;
+    private void GetVersions()
+    {
+        string dockingLocation =
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_DOCKING_FILE}";
 
-            _showRibbonVersion = false;
+        string navigatorLocation =
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_NAVIGATOR_FILE}";
 
-            _showToolkitVersion = false;
+        string ribbonLocation =
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_RIBBON_FILE}";
 
-            _showWorkspaceVersion = false;
+        string toolkitLocation =
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}";
 
-            _showThemeOption = false;
+        string workspaceLocation =
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}";
 
-            kwlblDockingVersion.Text = null;
+        FileVersionInfo dockingFileVersionInfo = FileVersionInfo.GetVersionInfo(dockingLocation);
 
-            kwlblNavigatorVersion.Text = null;
+        FileVersionInfo navigatorFileVersionInfo = FileVersionInfo.GetVersionInfo(navigatorLocation);
 
-            kwlblRibbonVersion.Text = null;
+        FileVersionInfo ribbonFileVersionInfo = FileVersionInfo.GetVersionInfo(ribbonLocation);
 
-            kwlblToolkitVersion.Text = null;
+        FileVersionInfo toolkitFileVersionInfo = FileVersionInfo.GetVersionInfo(toolkitLocation);
 
-            kwlblWorkspaceVersion.Text = null;
+        FileVersionInfo workspaceFileVersionInfo = FileVersionInfo.GetVersionInfo(workspaceLocation);
 
-            _ToolkitSupportType = ToolkitSupportType.Stable;
+        if (File.Exists(dockingLocation))
+        {
+            kwlblDockingVersion.Text = string.Format(kwlblDockingVersion.Text, dockingFileVersionInfo.FileVersion);
+        }
+        else
+        {
+            kwlblDockingVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_DOCKING_FILE}'";
+        }
 
-            SetLogo(_ToolkitSupportType);
+        if (File.Exists(navigatorLocation))
+        {
+            kwlblNavigatorVersion.Text = string.Format(kwlblNavigatorVersion.Text, navigatorFileVersionInfo.FileVersion);
+        }
+        else
+        {
+            kwlblNavigatorVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+        }
+
+        if (File.Exists(ribbonLocation))
+        {
+            kwlblRibbonVersion.Text = string.Format(kwlblRibbonVersion.Text, ribbonFileVersionInfo.FileVersion);
+        }
+        else
+        {
+            kwlblRibbonVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_RIBBON_FILE}'";
+        }
+
+        if (File.Exists(toolkitLocation))
+        {
+            kwlblToolkitVersion.Text = string.Format(kwlblToolkitVersion.Text, toolkitFileVersionInfo.FileVersion);
+        }
+        else
+        {
+            kwlblToolkitVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}'";
+        }
+
+        if (File.Exists(workspaceLocation))
+        {
+            kwlblWorkspaceVersion.Text = string.Format(kwlblWorkspaceVersion.Text, workspaceFileVersionInfo.FileVersion);
+        }
+        else
+        {
+            kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+        }
+    }
+
+    private void SetLogoSpan(bool showThemeOption)
+    {
+        if (showThemeOption)
+        {
+            tlpnlContent.SetRowSpan(kpbxLogo, 10);
+
+            TableLayoutPanelCellPosition currentThemeLabelCellPosition =
+                tlpnlContent.GetCellPosition(kwlblCurrentTheme);
+
+            TableLayoutPanelCellPosition currentThemeCellPosition = tlpnlContent.GetCellPosition(ktcmbCurrentTheme);
+
+            int labelRowHeight = tlpnlContent.GetRowHeights()[currentThemeLabelCellPosition.Row];
+
+            int comboBoxRowHeight = tlpnlContent.GetRowHeights()[currentThemeCellPosition.Row];
+
+            int addedHeight = labelRowHeight + comboBoxRowHeight;
+
+            Size = new Size(659, addedHeight);
+        }
+        else
+        {
+            tlpnlContent.SetRowSpan(kpbxLogo, 1);
 
             Size = new Size(659, 122);
         }
-
-        #endregion
-
-        #region Implementation
-
-        private void SetLogo(ToolkitSupportType ToolkitSupportType)
-        {
-            switch (ToolkitSupportType)
-            {
-                case ToolkitSupportType.Canary:
-                    kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
-                    break;
-                case ToolkitSupportType.Nightly:
-                    kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
-                    break;
-                case ToolkitSupportType.Stable:
-                    kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null);
-            }
-        }
-
-        private void klwlblDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            try
-            {
-                Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit");
-            }
-            catch (Exception exception)
-            {
-                KryptonExceptionHandler.CaptureException(exception, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-            }
-        }
-
-        private void GetVersions()
-        {
-            string dockingLocation =
-                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_DOCKING_FILE}";
-
-            string navigatorLocation =
-                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_NAVIGATOR_FILE}";
-
-            string ribbonLocation =
-                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_RIBBON_FILE}";
-
-            string toolkitLocation =
-                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}";
-
-            string workspaceLocation =
-                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}";
-
-            FileVersionInfo dockingFileVersionInfo = FileVersionInfo.GetVersionInfo(dockingLocation);
-
-            FileVersionInfo navigatorFileVersionInfo = FileVersionInfo.GetVersionInfo(navigatorLocation);
-
-            FileVersionInfo ribbonFileVersionInfo = FileVersionInfo.GetVersionInfo(ribbonLocation);
-
-            FileVersionInfo toolkitFileVersionInfo = FileVersionInfo.GetVersionInfo(toolkitLocation);
-
-            FileVersionInfo workspaceFileVersionInfo = FileVersionInfo.GetVersionInfo(workspaceLocation);
-
-            if (File.Exists(dockingLocation))
-            {
-                kwlblDockingVersion.Text = string.Format(kwlblDockingVersion.Text, dockingFileVersionInfo.FileVersion);
-            }
-            else
-            {
-                kwlblDockingVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_DOCKING_FILE}'";
-            }
-
-            if (File.Exists(navigatorLocation))
-            {
-                kwlblNavigatorVersion.Text = string.Format(kwlblNavigatorVersion.Text, navigatorFileVersionInfo.FileVersion);
-            }
-            else
-            {
-                kwlblNavigatorVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
-            }
-
-            if (File.Exists(ribbonLocation))
-            {
-                kwlblRibbonVersion.Text = string.Format(kwlblRibbonVersion.Text, ribbonFileVersionInfo.FileVersion);
-            }
-            else
-            {
-                kwlblRibbonVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_RIBBON_FILE}'";
-            }
-
-            if (File.Exists(toolkitLocation))
-            {
-                kwlblToolkitVersion.Text = string.Format(kwlblToolkitVersion.Text, toolkitFileVersionInfo.FileVersion);
-            }
-            else
-            {
-                kwlblToolkitVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}'";
-            }
-
-            if (File.Exists(workspaceLocation))
-            {
-                kwlblWorkspaceVersion.Text = string.Format(kwlblWorkspaceVersion.Text, workspaceFileVersionInfo.FileVersion);
-            }
-            else
-            {
-                kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
-            }
-        }
-
-        private void SetLogoSpan(bool showThemeOption)
-        {
-            if (showThemeOption)
-            {
-                tlpnlContent.SetRowSpan(kpbxLogo, 10);
-
-                TableLayoutPanelCellPosition currentThemeLabelCellPosition =
-                    tlpnlContent.GetCellPosition(kwlblCurrentTheme);
-
-                TableLayoutPanelCellPosition currentThemeCellPosition = tlpnlContent.GetCellPosition(ktcmbCurrentTheme);
-
-                int labelRowHeight = tlpnlContent.GetRowHeights()[currentThemeLabelCellPosition.Row];
-
-                int comboBoxRowHeight = tlpnlContent.GetRowHeights()[currentThemeCellPosition.Row];
-
-                int addedHeight = labelRowHeight + comboBoxRowHeight;
-
-                Size = new Size(659, addedHeight);
-            }
-            else
-            {
-                tlpnlContent.SetRowSpan(kpbxLogo, 1);
-
-                Size = new Size(659, 122);
-            }
-        }
-
-        #endregion
-
-        #region Protected Overrides
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            kwlblDockingVersion.Visible = _showDockingVersion;
-
-            kwlblNavigatorVersion.Visible = _showNavigatorVersion;
-
-            kwlblRibbonVersion.Visible = _showRibbonVersion;
-
-            kwlblToolkitVersion.Visible = _showToolkitVersion;
-
-            kwlblWorkspaceVersion.Visible = _showWorkspaceVersion;
-
-            kwlblCurrentTheme.Visible = _showThemeOption;
-
-            ktcmbCurrentTheme.Visible = _showThemeOption;
-
-            base.OnPaint(e);
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            //GetVersions();
-
-            base.OnLoad(e);
-        }
-
-        #endregion
-
-        #region Removed Designer Visibility
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color BackColor { get; set; }
-
-        #endregion
     }
+
+    #endregion
+
+    #region Protected Overrides
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        kwlblDockingVersion.Visible = _showDockingVersion;
+
+        kwlblNavigatorVersion.Visible = _showNavigatorVersion;
+
+        kwlblRibbonVersion.Visible = _showRibbonVersion;
+
+        kwlblToolkitVersion.Visible = _showToolkitVersion;
+
+        kwlblWorkspaceVersion.Visible = _showWorkspaceVersion;
+
+        kwlblCurrentTheme.Visible = _showThemeOption;
+
+        ktcmbCurrentTheme.Visible = _showThemeOption;
+
+        base.OnPaint(e);
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        //GetVersions();
+
+        base.OnLoad(e);
+    }
+
+    #endregion
+
+    #region Removed Designer Visibility
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color BackColor { get; set; }
+
+    #endregion
 }

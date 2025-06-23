@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Color event data.
+/// </summary>
+public class ColorEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Color event data.
+    /// Initialize a new instance of the ColorEventArgs class.
     /// </summary>
-    public class ColorEventArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ColorEventArgs class.
-        /// </summary>
-        /// <param name="color">Color associated with the event.</param>
-        public ColorEventArgs(Color color) => Color = color;
+    /// <param name="color">Color associated with the event.</param>
+    public ColorEventArgs(Color color) => Color = color;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets the color.
-        /// </summary>
-        public Color Color { get; }
+    #region Public
+    /// <summary>
+    /// Gets the color.
+    /// </summary>
+    public Color Color { get; }
 
-        #endregion
-    }
+    #endregion
 }

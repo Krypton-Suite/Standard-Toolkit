@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class BreadCrumbTest : KryptonForm
 {
-    public partial class BreadCrumbTest : KryptonForm
+    public BreadCrumbTest()
     {
-        public BreadCrumbTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

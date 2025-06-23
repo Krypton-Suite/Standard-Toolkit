@@ -6,42 +6,42 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[ToolboxBitmap(typeof(KryptonComboBox))]
+[ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All)]
+//[DefaultEvent(nameof(SelectedIndexChanged))]
+//[DefaultProperty(nameof(Text))]
+public class KryptonToolStripComboBox : ToolStripControlHostFixed
 {
-    [ToolboxBitmap(typeof(KryptonComboBox))]
-    [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All)]
-    //[DefaultEvent(nameof(SelectedIndexChanged))]
-    //[DefaultProperty(nameof(Text))]
-    public class KryptonToolStripComboBox : ToolStripControlHostFixed
-    {
-        #region Instance Fields
+    #region Instance Fields
 
 
 
-        #endregion
+    #endregion
 
-        #region Host Control
+    #region Host Control
 
-        /// <summary>Gets access to the krypton ComboBox control.</summary>
-        /// <value>The krypton ComboBox control.</value>
-        [RefreshProperties(RefreshProperties.All)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Description(@"Access to the hosted KryptonComboBox.")]
-        public KryptonComboBox? KryptonComboBoxControl => Control as KryptonComboBox;
+    /// <summary>Gets access to the krypton ComboBox control.</summary>
+    /// <value>The krypton ComboBox control.</value>
+    [RefreshProperties(RefreshProperties.All)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Description(@"Access to the hosted KryptonComboBox.")]
+    public KryptonComboBox? KryptonComboBoxControl => Control as KryptonComboBox;
 
-        #endregion
+    #endregion
 
-        #region Public
+    #region Public
 
-        /// <inheritdoc />
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color BackColor { get; set; }
+    /// <inheritdoc />
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color BackColor { get; set; }
 
-        /// <inheritdoc />
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ForeColor { get; set; }
+    /// <inheritdoc />
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Color ForeColor { get; set; }
 
 #if NET8_0_OR_GREATER
         /// <inheritdoc />
@@ -49,38 +49,37 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Image? BackgroundImage { get; set; }
 #else
-        /// <inheritdoc />
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Image BackgroundImage { get; set; }
+    /// <inheritdoc />
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Image BackgroundImage { get; set; }
 #endif
 
-        #endregion
+    #endregion
 
-        #region Identity
+    #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonToolStripComboBox" /> class.</summary>
-        public KryptonToolStripComboBox() : base(new KryptonComboBox())
-        {
-            AutoSize = false;
-        }
-
-        #endregion
-
-        #region Protected Overrides
-
-        /// <inheritdoc />
-        protected override void OnSubscribeControlEvents(Control? control)
-        {
-            base.OnSubscribeControlEvents(control);
-        }
-
-        /// <inheritdoc />
-        protected override void OnUnsubscribeControlEvents(Control? control)
-        {
-            base.OnUnsubscribeControlEvents(control);
-        }
-
-        #endregion
+    /// <summary>Initializes a new instance of the <see cref="KryptonToolStripComboBox" /> class.</summary>
+    public KryptonToolStripComboBox() : base(new KryptonComboBox())
+    {
+        AutoSize = false;
     }
+
+    #endregion
+
+    #region Protected Overrides
+
+    /// <inheritdoc />
+    protected override void OnSubscribeControlEvents(Control? control)
+    {
+        base.OnSubscribeControlEvents(control);
+    }
+
+    /// <inheritdoc />
+    protected override void OnUnsubscribeControlEvents(Control? control)
+    {
+        base.OnUnsubscribeControlEvents(control);
+    }
+
+    #endregion
 }

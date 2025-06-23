@@ -10,51 +10,50 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Apply a requested text rendering hint to a graphics instance.
+/// </summary>
+public class GraphicsTextHint : GlobalId,
+    IDisposable
 {
+    #region Instance Fields
+    private readonly Graphics _graphics;
+    private readonly TextRenderingHint _oldTextHint;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Apply a requested text rendering hint to a graphics instance.
+    /// Initialize a new instance of the GraphicsSmooth class.
     /// </summary>
-    public class GraphicsTextHint : GlobalId,
-                                    IDisposable
+    /// <param name="graphics">Graphics context.</param>
+    /// <param name="newTextHint">Temporary text rendering hint to apply.</param>
+    public GraphicsTextHint(Graphics graphics, TextRenderingHint newTextHint)
     {
-        #region Instance Fields
-        private readonly Graphics _graphics;
-        private readonly TextRenderingHint _oldTextHint;
-        #endregion
+        // Cache graphics instance
+        _graphics = graphics;
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the GraphicsSmooth class.
-        /// </summary>
-        /// <param name="graphics">Graphics context.</param>
-        /// <param name="newTextHint">Temporary text rendering hint to apply.</param>
-        public GraphicsTextHint(Graphics graphics, TextRenderingHint newTextHint)
-        {
-            // Cache graphics instance
-            _graphics = graphics;
+        // Remember current text hint
+        _oldTextHint = _graphics.TextRenderingHint;
 
-            // Remember current text hint
-            _oldTextHint = _graphics.TextRenderingHint;
-
-            // Apply new text hint
-            _graphics.TextRenderingHint = newTextHint;
-        }
-
-        /// <summary>
-        /// Reverse the text hint change.
-        /// </summary>
-        public void Dispose()
-        {
-            try
-            {
-                // Put back to the original text hint
-                _graphics.TextRenderingHint = _oldTextHint;
-            }
-            catch { }
-
-            GC.SuppressFinalize(this);
-        }
-        #endregion
+        // Apply new text hint
+        _graphics.TextRenderingHint = newTextHint;
     }
+
+    /// <summary>
+    /// Reverse the text hint change.
+    /// </summary>
+    public void Dispose()
+    {
+        try
+        {
+            // Put back to the original text hint
+            _graphics.TextRenderingHint = _oldTextHint;
+        }
+        catch { }
+
+        GC.SuppressFinalize(this);
+    }
+    #endregion
 }

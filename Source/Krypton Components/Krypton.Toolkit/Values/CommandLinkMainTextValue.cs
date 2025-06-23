@@ -7,24 +7,23 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+public class CommandLinkMainTextValue : NullContentValues
 {
-    public class CommandLinkMainTextValue : NullContentValues
-    {
-        #region Public
+    #region Public
 
-        /// <summary>Gets or sets the short text.</summary>
-        /// <value>The short text.</value>
-        public string ShortText { get; set; }
+    /// <summary>Gets or sets the short text.</summary>
+    /// <value>The short text.</value>
+    public string ShortText { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Implementation
+    #region Implementation
 
-        /// <summary>Gets the content short text.</summary>
-        /// <returns>String value.</returns>
-        public override string GetShortText() => ShortText;
+    /// <summary>Gets the content short text.</summary>
+    /// <returns>String value.</returns>
+    public override string GetShortText() => ShortText;
 
-        #endregion
-    }
+    #endregion
 }

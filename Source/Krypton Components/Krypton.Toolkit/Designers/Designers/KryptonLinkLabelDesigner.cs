@@ -10,40 +10,39 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonLinkLabelDesigner : ControlDesigner
 {
-    internal class KryptonLinkLabelDesigner : ControlDesigner
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the KryptonLabelDesigner class.
+    /// </summary>
+    public KryptonLinkLabelDesigner() =>
+        // The resizing handles around the control need to change depending on the
+        // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
+        // do not get the resizing handles, otherwise you do.
+        AutoResizeHandles = true;
+
+    #endregion
+
+    #region Public Overrides
+    /// <summary>
+    ///  Gets the design-time action lists supported by the component associated with the designer.
+    /// </summary>
+    public override DesignerActionListCollection ActionLists
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonLabelDesigner class.
-        /// </summary>
-        public KryptonLinkLabelDesigner() =>
-            // The resizing handles around the control need to change depending on the
-            // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
-            // do not get the resizing handles, otherwise you do.
-            AutoResizeHandles = true;
-
-        #endregion
-
-        #region Public Overrides
-        /// <summary>
-        ///  Gets the design-time action lists supported by the component associated with the designer.
-        /// </summary>
-        public override DesignerActionListCollection ActionLists
+        get
         {
-            get
+            // Create a collection of action lists
+            var actionLists = new DesignerActionListCollection
             {
-                // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the label specific list
-                    new KryptonLinkLabelActionList(this)
-                };
+                // Add the label specific list
+                new KryptonLinkLabelActionList(this)
+            };
 
-                return actionLists;
-            }
+            return actionLists;
         }
-        #endregion
     }
+    #endregion
 }

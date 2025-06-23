@@ -6,36 +6,35 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>Public API to display the <see cref="VisualThemeBrowserForm"/>.</summary>
+public class KryptonThemeBrowser
 {
-    /// <summary>Public API to display the <see cref="VisualThemeBrowserForm"/>.</summary>
-    public class KryptonThemeBrowser
+    #region Public
+
+    public static void Show(KryptonThemeBrowserData themeBrowserData, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(themeBrowserData, rightToLeftLayout);
+
+    #endregion
+
+    #region Implementation
+
+    private static void ShowCore(KryptonThemeBrowserData themeBrowserData,
+        RightToLeftLayout? layout)
     {
-        #region Public
-
-        public static void Show(KryptonThemeBrowserData themeBrowserData, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(themeBrowserData, rightToLeftLayout);
-
-        #endregion
-
-        #region Implementation
-
-        private static void ShowCore(KryptonThemeBrowserData themeBrowserData,
-                                     RightToLeftLayout? layout)
+        if (layout == RightToLeftLayout.LeftToRight)
         {
-            if (layout == RightToLeftLayout.LeftToRight)
-            {
-                using var ktb = new VisualThemeBrowserForm(themeBrowserData);
+            using var ktb = new VisualThemeBrowserForm(themeBrowserData);
 
-                ktb.ShowDialog();
-            }
-            else
-            {
-                using var ktbRTL = new VisualThemeBrowserFormRtlAware(themeBrowserData);
-
-                ktbRTL.ShowDialog();
-            }
+            ktb.ShowDialog();
         }
+        else
+        {
+            using var ktbRTL = new VisualThemeBrowserFormRtlAware(themeBrowserData);
 
-        #endregion
+            ktbRTL.ShowDialog();
+        }
     }
+
+    #endregion
 }

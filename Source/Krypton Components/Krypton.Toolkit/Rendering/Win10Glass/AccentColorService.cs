@@ -12,32 +12,31 @@
 
 //https://github.com/File-New-Project/EarTrumpet/blob/master/EarTrumpet/Services/AccentColorService.cs
 //Seb add
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Gets the Windows accent color
+/// </summary>
+public static class AccentColorService
 {
-    /// <summary>
-    /// Gets the Windows accent color
-    /// </summary>
-    public static class AccentColorService
+    internal static Color GetColorByTypeName(string name)
     {
-        internal static Color GetColorByTypeName(string name)
-        {
-            var colorSet = PI.GetImmersiveUserColorSetPreference(false, false);
-            var colorType = PI.GetImmersiveColorTypeFromName(name);
+        var colorSet = PI.GetImmersiveUserColorSetPreference(false, false);
+        var colorType = PI.GetImmersiveColorTypeFromName(name);
             
-            var rawColor = PI.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
+        var rawColor = PI.GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
 
-            return FromABGR((int)rawColor);
-        }
+        return FromABGR((int)rawColor);
+    }
 
-        private static Color FromABGR(int abgrValue)
-        {
-            var colorBytes = new byte[4];
-            colorBytes[0] = (byte)((0xFF000000 & abgrValue) >> 24);    // A
-            colorBytes[1] = (byte)((0x00FF0000 & abgrValue) >> 16);    // B
-            colorBytes[2] = (byte)((0x0000FF00 & abgrValue) >> 8);    // G
-            colorBytes[3] = (byte)(0x000000FF & abgrValue);            // R
+    private static Color FromABGR(int abgrValue)
+    {
+        var colorBytes = new byte[4];
+        colorBytes[0] = (byte)((0xFF000000 & abgrValue) >> 24);    // A
+        colorBytes[1] = (byte)((0x00FF0000 & abgrValue) >> 16);    // B
+        colorBytes[2] = (byte)((0x0000FF00 & abgrValue) >> 8);    // G
+        colorBytes[3] = (byte)(0x000000FF & abgrValue);            // R
 
-            return Color.FromArgb(colorBytes[0], colorBytes[3], colorBytes[2], colorBytes[1]);
-        }
+        return Color.FromArgb(colorBytes[0], colorBytes[3], colorBytes[2], colorBytes[1]);
     }
 }

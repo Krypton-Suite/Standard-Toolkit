@@ -7,10 +7,9 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public static class StaticInfos
 {
-    public static class StaticInfos
-    {
-        public const int _GRIDCONFIG_VERSION = 1;
-    }
+    public const int _GRIDCONFIG_VERSION = 1;
 }

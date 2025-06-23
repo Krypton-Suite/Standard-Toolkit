@@ -10,51 +10,50 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Implement redirected storage for common bread crumb appearance.
+/// </summary>
+public class PaletteBreadCrumbRedirect : PaletteDoubleMetricRedirect
 {
+    #region Identity
     /// <summary>
-    /// Implement redirected storage for common bread crumb appearance.
+    /// Initialize a new instance of the PaletteBreadCrumbRedirect class.
     /// </summary>
-    public class PaletteBreadCrumbRedirect : PaletteDoubleMetricRedirect
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteBreadCrumbRedirect class.
-        /// </summary>
-        /// <param name="redirect">inheritance redirection for bread crumb level.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBreadCrumbRedirect(PaletteRedirect redirect,
-                                         NeedPaintHandler needPaint)
-            : base(redirect, PaletteBackStyle.PanelAlternate, PaletteBorderStyle.ControlClient) =>
-            BreadCrumb = new PaletteTripleRedirect(redirect, 
-                PaletteBackStyle.ButtonBreadCrumb,
-                PaletteBorderStyle.ButtonBreadCrumb,
-                PaletteContentStyle.ButtonBreadCrumb, 
-                needPaint);
+    /// <param name="redirect">inheritance redirection for bread crumb level.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    public PaletteBreadCrumbRedirect(PaletteRedirect redirect,
+        NeedPaintHandler needPaint)
+        : base(redirect, PaletteBackStyle.PanelAlternate, PaletteBorderStyle.ControlClient) =>
+        BreadCrumb = new PaletteTripleRedirect(redirect, 
+            PaletteBackStyle.ButtonBreadCrumb,
+            PaletteBorderStyle.ButtonBreadCrumb,
+            PaletteContentStyle.ButtonBreadCrumb, 
+            needPaint);
 
-        #endregion
+    #endregion
 
-        #region IsDefault
-        /// <summary>
-        /// Gets a value indicating if all values are default.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => base.IsDefault && BreadCrumb.IsDefault;
+    #region IsDefault
+    /// <summary>
+    /// Gets a value indicating if all values are default.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => base.IsDefault && BreadCrumb.IsDefault;
 
-        #endregion
+    #endregion
 
-        #region BreadCrumb
-        /// <summary>
-        /// Gets access to the bread crumb appearance entries.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Overrides for defining bread crumb appearance entries.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect BreadCrumb { get; }
+    #region BreadCrumb
+    /// <summary>
+    /// Gets access to the bread crumb appearance entries.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining bread crumb appearance entries.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteTripleRedirect BreadCrumb { get; }
 
-        private bool ShouldSerializeBreadCrumb() => !BreadCrumb.IsDefault;
+    private bool ShouldSerializeBreadCrumb() => !BreadCrumb.IsDefault;
 
-        #endregion  
-    }
+    #endregion  
 }

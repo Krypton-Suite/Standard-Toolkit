@@ -8,44 +8,43 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+#region Class: AssemblyUtilities
+
+public class AssemblyUtilities
 {
-    #region Class: AssemblyUtilities
-
-    public class AssemblyUtilities
+    //https://www.meziantou.net/getting-the-date-of-build-of-a-dotnet-assembly-at-runtime.htm
+    public static DateTime GetLinkerTimestampUTC(Assembly assembly)
     {
-        //https://www.meziantou.net/getting-the-date-of-build-of-a-dotnet-assembly-at-runtime.htm
-        public static DateTime GetLinkerTimestampUTC(Assembly assembly)
-        {
-            var location = assembly.Location;
+        var location = assembly.Location;
 
-            return GetLinkerTimestampUTC(location);
-        }
-
-        public static DateTime GetLinkerTimestampUTC(string filePath)
-        {
-            const int PE_HEADER_OFFSET = 60;
-
-            const int LINKER_TIMESTAMP_OFFSET = 8;
-
-            var byteBuffer = new byte[2048];
-
-            using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                var read = file.Read(byteBuffer, 0, byteBuffer.Length);
-
-                Console.WriteLine(read);
-            }
-
-            var headerPosition = BitConverter.ToInt32(byteBuffer, PE_HEADER_OFFSET);
-
-            var secondsSinceUNIXTimeStart = BitConverter.ToInt32(byteBuffer, headerPosition + LINKER_TIMESTAMP_OFFSET);
-
-            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-            return dateTime.AddSeconds(secondsSinceUNIXTimeStart);
-        }
+        return GetLinkerTimestampUTC(location);
     }
 
-    #endregion
+    public static DateTime GetLinkerTimestampUTC(string filePath)
+    {
+        const int PE_HEADER_OFFSET = 60;
+
+        const int LINKER_TIMESTAMP_OFFSET = 8;
+
+        var byteBuffer = new byte[2048];
+
+        using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            var read = file.Read(byteBuffer, 0, byteBuffer.Length);
+
+            Console.WriteLine(read);
+        }
+
+        var headerPosition = BitConverter.ToInt32(byteBuffer, PE_HEADER_OFFSET);
+
+        var secondsSinceUNIXTimeStart = BitConverter.ToInt32(byteBuffer, headerPosition + LINKER_TIMESTAMP_OFFSET);
+
+        var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        return dateTime.AddSeconds(secondsSinceUNIXTimeStart);
+    }
 }
+
+#endregion

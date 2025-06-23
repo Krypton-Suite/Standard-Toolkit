@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class CustomPaletteTest : KryptonForm
 {
-    public partial class CustomPaletteTest : KryptonForm
+    public CustomPaletteTest()
     {
-        public CustomPaletteTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

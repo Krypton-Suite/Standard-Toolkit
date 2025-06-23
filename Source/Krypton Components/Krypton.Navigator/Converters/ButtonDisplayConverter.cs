@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Navigator
-{
-    /// <summary>
-    /// Custom type converter so that ButtonDisplay values appear as neat text at design time.
-    /// </summary>
-    public class ButtonDisplayConverter : StringLookupConverter<ButtonDisplay>
-    {
-        private static readonly BiDictionary<ButtonDisplay, string> _pairs = new BiDictionary<ButtonDisplay, string>(
-            new Dictionary<ButtonDisplay, string>
-            {
-                {ButtonDisplay.Hide, @"Hide"},
-                {ButtonDisplay.ShowDisabled, @"Show Disabled"},
-                {ButtonDisplay.ShowEnabled, @"Show Enabled"},
-                {ButtonDisplay.Logic, @"Logic"}
-            });
+namespace Krypton.Navigator;
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, ButtonDisplay /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<ButtonDisplay /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+/// <summary>
+/// Custom type converter so that ButtonDisplay values appear as neat text at design time.
+/// </summary>
+public class ButtonDisplayConverter : StringLookupConverter<ButtonDisplay>
+{
+    private static readonly BiDictionary<ButtonDisplay, string> _pairs = new BiDictionary<ButtonDisplay, string>(
+        new Dictionary<ButtonDisplay, string>
+        {
+            {ButtonDisplay.Hide, @"Hide"},
+            {ButtonDisplay.ShowDisabled, @"Show Disabled"},
+            {ButtonDisplay.ShowEnabled, @"Show Enabled"},
+            {ButtonDisplay.Logic, @"Logic"}
+        });
+
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, ButtonDisplay /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<ButtonDisplay /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

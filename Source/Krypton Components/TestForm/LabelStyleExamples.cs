@@ -7,31 +7,30 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class LabelStyleExamples : KryptonForm
 {
-    public partial class LabelStyleExamples : KryptonForm
+    public LabelStyleExamples()
     {
-        public LabelStyleExamples()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void LabelStyleExamples_Load(object sender, EventArgs e)
-        {
-            kryptonLabel1.Text = $"Label styles for theme: {kryptonThemeComboBox1.Text}";
+    private void LabelStyleExamples_Load(object sender, EventArgs e)
+    {
+        kryptonLabel1.Text = $"Label styles for theme: {kryptonThemeComboBox1.Text}";
 
-            // Labels fixed states
-            label1Disabled.SetFixedState(PaletteState.Disabled);
-            label1Normal.SetFixedState(PaletteState.Normal);
-            label1LinkDisabled.SetFixedState(PaletteState.Disabled);
-            label1Visited.SetFixedState(PaletteState.Normal);
-            label1NotVisited.SetFixedState(PaletteState.Normal);
-            label1Pressed.SetFixedState(PaletteState.Pressed);
-        }
+        // Labels fixed states
+        label1Disabled.SetFixedState(PaletteState.Disabled);
+        label1Normal.SetFixedState(PaletteState.Normal);
+        label1LinkDisabled.SetFixedState(PaletteState.Disabled);
+        label1Visited.SetFixedState(PaletteState.Normal);
+        label1NotVisited.SetFixedState(PaletteState.Normal);
+        label1Pressed.SetFixedState(PaletteState.Pressed);
+    }
 
-        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            kryptonLabel1.Text = $"Label styles for theme: {kryptonThemeComboBox1.Text}";
-        }
+    private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        kryptonLabel1.Text = $"Label styles for theme: {kryptonThemeComboBox1.Text}";
     }
 }

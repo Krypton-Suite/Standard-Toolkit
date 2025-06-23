@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class WorkspaceTest : KryptonForm
 {
-    public partial class WorkspaceTest : KryptonForm
+    public WorkspaceTest()
     {
-        public WorkspaceTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

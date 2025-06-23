@@ -12,57 +12,56 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// View element that draws nothing and takes up all given space.
+/// </summary>
+internal class ViewLayoutRibbonTabsSpare : ViewLeaf
 {
+    #region Identity
     /// <summary>
-    /// View element that draws nothing and takes up all given space.
+    /// Initialize a new instance of the ViewLayoutRibbonTabsSpare class.
     /// </summary>
-    internal class ViewLayoutRibbonTabsSpare : ViewLeaf
+    public ViewLayoutRibbonTabsSpare()
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ViewLayoutRibbonTabsSpare class.
-        /// </summary>
-        public ViewLayoutRibbonTabsSpare()
-        {
-        }
-
-        /// <summary>
-        /// Obtains the String representation of this instance.
-        /// </summary>
-        /// <returns>User readable name of the instance.</returns>
-        public override string ToString() =>
-            // Return the class name and instance identifier
-            $"ViewLayoutRibbonTabsSpare:{Id}";
-
-        #endregion
-
-        #region Layout
-        /// <summary>
-        /// Discover the preferred size of the element.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) =>
-            // Preferred size is calculated by parent for us
-            Size.Empty;
-
-        /// <summary>
-        /// Perform a layout of the elements.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
-        {
-            Debug.Assert(context != null);
-
-            // Validate incoming reference
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// Obtains the String representation of this instance.
+    /// </summary>
+    /// <returns>User readable name of the instance.</returns>
+    public override string ToString() =>
+        // Return the class name and instance identifier
+        $"ViewLayoutRibbonTabsSpare:{Id}";
+
+    #endregion
+
+    #region Layout
+    /// <summary>
+    /// Discover the preferred size of the element.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override Size GetPreferredSize(ViewLayoutContext context) =>
+        // Preferred size is calculated by parent for us
+        Size.Empty;
+
+    /// <summary>
+    /// Perform a layout of the elements.
+    /// </summary>
+    /// <param name="context">Layout context.</param>
+    public override void Layout([DisallowNull] ViewLayoutContext context)
+    {
+        Debug.Assert(context != null);
+
+        // Validate incoming reference
+        if (context == null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        // We take on all the available display area
+        ClientRectangle = context.DisplayRectangle;
+    }
+    #endregion
 }

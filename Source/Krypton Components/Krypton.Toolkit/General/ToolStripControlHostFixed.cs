@@ -5,28 +5,27 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary></summary>
+[Category(@"code")]
+[ToolboxItem(false)]
+public class ToolStripControlHostFixed : ToolStripControlHost
 {
-    /// <summary></summary>
-    [Category(@"code")]
-    [ToolboxItem(false)]
-    public class ToolStripControlHostFixed : ToolStripControlHost
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="ToolStripControlHostFixed" /> class.</summary>
+    /// <param name="childControl">The child control.</param>
+    public ToolStripControlHostFixed(Control childControl) : base(childControl)
     {
-        #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="ToolStripControlHostFixed" /> class.</summary>
-        /// <param name="childControl">The child control.</param>
-        public ToolStripControlHostFixed(Control childControl) : base(childControl)
-        {
-
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="ToolStripControlHostFixed" /> class.</summary>
-        public ToolStripControlHostFixed() : base(new Control())
-        {
-
-        }
-
-        #endregion
     }
+
+    /// <summary>Initializes a new instance of the <see cref="ToolStripControlHostFixed" /> class.</summary>
+    public ToolStripControlHostFixed() : base(new Control())
+    {
+
+    }
+
+    #endregion
 }

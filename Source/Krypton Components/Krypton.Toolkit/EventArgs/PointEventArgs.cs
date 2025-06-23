@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Details for an event that provides a Point value.
+/// </summary>
+public class PointEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Details for an event that provides a Point value.
+    /// Initialize a new instance of the PointEventArgs class.
     /// </summary>
-    public class PointEventArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PointEventArgs class.
-        /// </summary>
-        /// <param name="point">Point associated with event.</param>
-        public PointEventArgs(Point point) => Point = point;
+    /// <param name="point">Point associated with event.</param>
+    public PointEventArgs(Point point) => Point = point;
 
-        #endregion
+    #endregion
 
-        #region Point
-        /// <summary>
-        /// Gets and sets the point.
-        /// </summary>
-        public Point Point { get; set; }
+    #region Point
+    /// <summary>
+    /// Gets and sets the point.
+    /// </summary>
+    public Point Point { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

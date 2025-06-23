@@ -10,46 +10,45 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Set the SmoothingMode=AntiAlias until instance disposed.
+/// </summary>
+public class AntiAlias : GlobalId,
+    IDisposable
 {
+    #region Instance Fields
+    private readonly Graphics? _g;
+    private readonly SmoothingMode _old;
+    #endregion
+
+    #region Identity
     /// <summary>
-    /// Set the SmoothingMode=AntiAlias until instance disposed.
+    /// Initialize a new instance of the UseAntiAlias class.
     /// </summary>
-    public class AntiAlias : GlobalId,
-                             IDisposable
+    /// <param name="g">Graphics instance.</param>
+    public AntiAlias(Graphics? g)
     {
-        #region Instance Fields
-        private readonly Graphics? _g;
-        private readonly SmoothingMode _old;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the UseAntiAlias class.
-        /// </summary>
-        /// <param name="g">Graphics instance.</param>
-        public AntiAlias(Graphics? g)
-        {
-            _g = g;
-            _old = _g!.SmoothingMode;
-            _g.SmoothingMode = SmoothingMode.AntiAlias;
-        }
-
-        /// <summary>
-        /// Revert the SmoothingMode back to original setting.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_g != null)
-            {
-                try
-                {
-                    _g.SmoothingMode = _old;
-                }
-                catch { }
-            }
-            GC.SuppressFinalize(this);
-        }
-        #endregion
+        _g = g;
+        _old = _g!.SmoothingMode;
+        _g.SmoothingMode = SmoothingMode.AntiAlias;
     }
+
+    /// <summary>
+    /// Revert the SmoothingMode back to original setting.
+    /// </summary>
+    public void Dispose()
+    {
+        if (_g != null)
+        {
+            try
+            {
+                _g.SmoothingMode = _old;
+            }
+            catch { }
+        }
+        GC.SuppressFinalize(this);
+    }
+    #endregion
 }

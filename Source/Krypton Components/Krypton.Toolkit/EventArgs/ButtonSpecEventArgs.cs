@@ -10,41 +10,40 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Details for button specification related events.
+/// </summary>
+public class ButtonSpecEventArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Details for button specification related events.
+    /// Initialize a new instance of the ButtonSpecEventArgs class.
     /// </summary>
-    public class ButtonSpecEventArgs : EventArgs
+    /// <param name="spec">Button spec effected by event.</param>
+    /// <param name="index">Index of page in the owning collection.</param>
+    public ButtonSpecEventArgs([DisallowNull] ButtonSpec spec, int index)
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ButtonSpecEventArgs class.
-        /// </summary>
-        /// <param name="spec">Button spec effected by event.</param>
-        /// <param name="index">Index of page in the owning collection.</param>
-        public ButtonSpecEventArgs([DisallowNull] ButtonSpec spec, int index)
-        {
-            Debug.Assert(spec != null);
-            Debug.Assert(index >= 0);
+        Debug.Assert(spec != null);
+        Debug.Assert(index >= 0);
 
-            // Remember parameter details
-            ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(spec)));
-            Index = index;
-        }
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// Gets the navigator button spec associated with the event.
-        /// </summary>
-        public ButtonSpec ButtonSpec { get; }
-
-        /// <summary>
-        /// Gets the index of ButtonSpec associated with the event.
-        /// </summary>
-        public int Index { get; }
-
-        #endregion
+        // Remember parameter details
+        ButtonSpec = spec ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(spec)));
+        Index = index;
     }
+    #endregion
+
+    #region Public
+    /// <summary>
+    /// Gets the navigator button spec associated with the event.
+    /// </summary>
+    public ButtonSpec ButtonSpec { get; }
+
+    /// <summary>
+    /// Gets the index of ButtonSpec associated with the event.
+    /// </summary>
+    public int Index { get; }
+
+    #endregion
 }

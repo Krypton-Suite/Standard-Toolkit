@@ -10,64 +10,63 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Extend storage for the split container with background and border information combined with separator information.
+/// </summary>
+public class PaletteSplitContainer : PaletteDouble
 {
+    #region Identity
     /// <summary>
-    /// Extend storage for the split container with background and border information combined with separator information.
+    /// Initialize a new instance of the PaletteSplitContainer class.
     /// </summary>
-    public class PaletteSplitContainer : PaletteDouble
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteSplitContainer class.
-        /// </summary>
-        /// <param name="inheritSplitContainer">Source for inheriting back/border defaulted values.</param>
-        /// <param name="inheritSeparator">Source for inheriting separator defaulted values.</param>
-        /// <param name="inheritMetric">Source for inheriting separator metric values.</param>
-        /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSplitContainer(IPaletteDouble inheritSplitContainer,
-                                     IPaletteDouble? inheritSeparator,
-                                     IPaletteMetric? inheritMetric,
-                                     NeedPaintHandler needPaint)
-            : base(inheritSplitContainer, needPaint) =>
-            // Create the embedded separator palette information
-            Separator = new PaletteSeparatorPadding(inheritSeparator!, inheritMetric!, needPaint);
+    /// <param name="inheritSplitContainer">Source for inheriting back/border defaulted values.</param>
+    /// <param name="inheritSeparator">Source for inheriting separator defaulted values.</param>
+    /// <param name="inheritMetric">Source for inheriting separator metric values.</param>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    public PaletteSplitContainer(IPaletteDouble inheritSplitContainer,
+        IPaletteDouble? inheritSeparator,
+        IPaletteMetric? inheritMetric,
+        NeedPaintHandler needPaint)
+        : base(inheritSplitContainer, needPaint) =>
+        // Create the embedded separator palette information
+        Separator = new PaletteSeparatorPadding(inheritSeparator!, inheritMetric!, needPaint);
 
-        #endregion
+    #endregion
 
-        #region IsDefault
-        /// <summary>
-        /// Gets a value indicating if all values are default.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override bool IsDefault => base.IsDefault &&
-                                            Separator!.IsDefault;
+    #region IsDefault
+    /// <summary>
+    /// Gets a value indicating if all values are default.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => base.IsDefault &&
+                                      Separator!.IsDefault;
 
-        #endregion
+    #endregion
 
-        #region Border
-        /// <summary>
-        /// Gets access to the border palette details.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBorder Border => base.Border;
+    #region Border
+    /// <summary>
+    /// Gets access to the border palette details.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new PaletteBorder Border => base.Border;
 
-        #endregion
+    #endregion
 
-        #region Separator
-        /// <summary>
-        /// Get access to the overrides for defining separator appearance.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Overrides for defining separator appearance.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? Separator { get; }
+    #region Separator
+    /// <summary>
+    /// Get access to the overrides for defining separator appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining separator appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteSeparatorPadding? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator!.IsDefault;
+    private bool ShouldSerializeSeparator() => !Separator!.IsDefault;
 
-        #endregion
-    }
+    #endregion
 }

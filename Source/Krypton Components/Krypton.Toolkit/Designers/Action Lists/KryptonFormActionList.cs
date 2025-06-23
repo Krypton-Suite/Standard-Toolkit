@@ -10,16 +10,15 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonFormActionList : DesignerActionList
 {
-    internal class KryptonFormActionList : DesignerActionList
+    #region Identity
+
+    public KryptonFormActionList(KryptonFormDesigner owner) : base(owner.Component)
     {
-        #region Identity
-
-        public KryptonFormActionList(KryptonFormDesigner owner) : base(owner.Component)
-        {
-        }
-
-        #endregion
     }
+
+    #endregion
 }

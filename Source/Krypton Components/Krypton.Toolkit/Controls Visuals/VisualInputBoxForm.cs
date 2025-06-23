@@ -10,109 +10,108 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// 
+/// </summary>
+public partial class VisualInputBoxForm : KryptonForm
 {
+    #region Instance Fields
+
+    private readonly KryptonInputBoxData _inputBoxData;
+
+    #endregion
+
+    #region Identity
+
     /// <summary>
     /// 
     /// </summary>
-    public partial class VisualInputBoxForm : KryptonForm
+    public VisualInputBoxForm()
     {
-        #region Instance Fields
-
-        private readonly KryptonInputBoxData _inputBoxData;
-
-        #endregion
-
-        #region Identity
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public VisualInputBoxForm()
-        {
-            SetInheritedControlOverride();
-            InitializeComponent();
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="VisualInputBoxForm" /> class.</summary>
-        /// <param name="inputBoxData">The input box data.</param>
-        public VisualInputBoxForm(KryptonInputBoxData inputBoxData)
-        {
-            SetInheritedControlOverride();
-            InitializeComponent();
-
-            _inputBoxData = inputBoxData;
-
-            // Update contents to match requirements
-            UpdateText();
-
-            UpdateCue();
-
-            UpdateButtons();
-        }
-
-        #endregion
-
-        #region Implementation
-
-        internal static string InternalShow(KryptonInputBoxData inputBoxData)
-        {
-            // If do not have an owner passed in then get the active window and use that instead
-            IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
-
-            // Show input box window as a modal dialog and then dispose of it afterwards
-            using var ib = new VisualInputBoxForm(inputBoxData);
-            ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
-
-            return ib.ShowDialog(showOwner) == DialogResult.OK
-                ? ib.InputResponse
-                : string.Empty;
-        }
-
-        internal string InputResponse => _textBoxResponse.Text;
-
-        private void UpdateText()
-        {
-            Text = _inputBoxData.Caption;
-            _labelPrompt.Text = _inputBoxData.Prompt;
-            _textBoxResponse.Text = _inputBoxData.DefaultResponse;
-            _textBoxResponse.UseSystemPasswordChar = _inputBoxData.UsePasswordOption ?? false;
-        }
-
-        private void UpdateCue()
-        {
-            _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
-
-            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
-            {
-                _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
-            }
-
-            if (_inputBoxData.CueTypeface != null)
-            {
-                _textBoxResponse.CueHint.Font = _inputBoxData.CueTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
-            }
-        }
-
-        private void UpdateButtons()
-        {
-            _buttonOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-            _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
-        }
-
-        private void Response_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Enter:
-                    _buttonOk.PerformClick();
-                    break;
-                case Keys.Escape:
-                    _buttonCancel.PerformClick();
-                    break;
-            }
-        }
-
-        #endregion
+        SetInheritedControlOverride();
+        InitializeComponent();
     }
+
+    /// <summary>Initializes a new instance of the <see cref="VisualInputBoxForm" /> class.</summary>
+    /// <param name="inputBoxData">The input box data.</param>
+    public VisualInputBoxForm(KryptonInputBoxData inputBoxData)
+    {
+        SetInheritedControlOverride();
+        InitializeComponent();
+
+        _inputBoxData = inputBoxData;
+
+        // Update contents to match requirements
+        UpdateText();
+
+        UpdateCue();
+
+        UpdateButtons();
+    }
+
+    #endregion
+
+    #region Implementation
+
+    internal static string InternalShow(KryptonInputBoxData inputBoxData)
+    {
+        // If do not have an owner passed in then get the active window and use that instead
+        IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
+
+        // Show input box window as a modal dialog and then dispose of it afterwards
+        using var ib = new VisualInputBoxForm(inputBoxData);
+        ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        return ib.ShowDialog(showOwner) == DialogResult.OK
+            ? ib.InputResponse
+            : string.Empty;
+    }
+
+    internal string InputResponse => _textBoxResponse.Text;
+
+    private void UpdateText()
+    {
+        Text = _inputBoxData.Caption;
+        _labelPrompt.Text = _inputBoxData.Prompt;
+        _textBoxResponse.Text = _inputBoxData.DefaultResponse;
+        _textBoxResponse.UseSystemPasswordChar = _inputBoxData.UsePasswordOption ?? false;
+    }
+
+    private void UpdateCue()
+    {
+        _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
+
+        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
+        {
+            _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
+        }
+
+        if (_inputBoxData.CueTypeface != null)
+        {
+            _textBoxResponse.CueHint.Font = _inputBoxData.CueTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+        }
+    }
+
+    private void UpdateButtons()
+    {
+        _buttonOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+        _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
+    private void Response_KeyDown(object sender, KeyEventArgs e)
+    {
+        switch (e.KeyCode)
+        {
+            case Keys.Enter:
+                _buttonOk.PerformClick();
+                break;
+            case Keys.Escape:
+                _buttonCancel.PerformClick();
+                break;
+        }
+    }
+
+    #endregion
 }

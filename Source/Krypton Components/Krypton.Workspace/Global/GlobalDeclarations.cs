@@ -18,6 +18,7 @@ global using System.Drawing;
 global using System.Drawing.Design;
 global using System.Globalization;
 global using System.IO;
+global using System.Linq;
 global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Threading;

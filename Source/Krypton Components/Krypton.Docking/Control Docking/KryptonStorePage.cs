@@ -10,50 +10,49 @@
  */
 #endregion
 
-namespace Krypton.Docking
+namespace Krypton.Docking;
+
+/// <summary>
+/// Acts as a placeholder for a KryptonPage so that it can be restored to this location at a later time.
+/// </summary>
+[ToolboxItem(false)]
+[DesignerCategory("code")]
+[DesignTimeVisible(false)]
+public class KryptonStorePage : KryptonPage
 {
+    #region Identity
     /// <summary>
-    /// Acts as a placeholder for a KryptonPage so that it can be restored to this location at a later time.
+    /// Initialize a new instance of the KryptonStorePage class.
     /// </summary>
-    [ToolboxItem(false)]
-    [DesignerCategory("code")]
-    [DesignTimeVisible(false)]
-    public class KryptonStorePage : KryptonPage
+    /// <param name="uniqueName">UniqueName of the page this is placeholding.</param>
+    /// <param name="storeName">Storage name associated with this page location.</param>
+    public KryptonStorePage([DisallowNull] string uniqueName, string storeName)
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonStorePage class.
-        /// </summary>
-        /// <param name="uniqueName">UniqueName of the page this is placeholding.</param>
-        /// <param name="storeName">Storage name associated with this page location.</param>
-        public KryptonStorePage([DisallowNull] string uniqueName, string storeName)
-        {
-            Visible = false;
-            UniqueName = uniqueName;
-            StoreName = storeName;
-        }
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// As a placeholder this page is never visible.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public override bool LastVisibleSet
-        {
-            get => false;
-            set { }
-        }
-
-        /// <summary>
-        /// Gets the storage name associated with this page.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string StoreName { get; }
-
-        #endregion
+        Visible = false;
+        UniqueName = uniqueName;
+        StoreName = storeName;
     }
+    #endregion
+
+    #region Public
+    /// <summary>
+    /// As a placeholder this page is never visible.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override bool LastVisibleSet
+    {
+        get => false;
+        set { }
+    }
+
+    /// <summary>
+    /// Gets the storage name associated with this page.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public string StoreName { get; }
+
+    #endregion
 }

@@ -10,94 +10,93 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[ToolboxItem(false)]
+internal partial class PaletteDrawBordersSelector : UserControl
 {
-    [ToolboxItem(false)]
-    internal partial class PaletteDrawBordersSelector : UserControl
+    /// <summary>
+    /// Initialize a new instance of the PaletteDrawBordersSelector class.
+    /// </summary>
+    public PaletteDrawBordersSelector()
     {
-        /// <summary>
-        /// Initialize a new instance of the PaletteDrawBordersSelector class.
-        /// </summary>
-        public PaletteDrawBordersSelector()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        /// <summary>
-        /// Gets and sets the value being edited.
-        /// </summary>
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Content )]
-        public PaletteDrawBorders Value
+    /// <summary>
+    /// Gets and sets the value being edited.
+    /// </summary>
+    [DesignerSerializationVisibility( DesignerSerializationVisibility.Content )]
+    public PaletteDrawBorders Value
+    {
+        get
         {
-            get
+            var ret = PaletteDrawBorders.None;
+
+            if (checkBoxInherit.Checked)
             {
-                var ret = PaletteDrawBorders.None;
-
-                if (checkBoxInherit.Checked)
+                ret = PaletteDrawBorders.Inherit;
+            }
+            else
+            {
+                if (checkBoxTop.Checked)
                 {
-                    ret = PaletteDrawBorders.Inherit;
-                }
-                else
-                {
-                    if (checkBoxTop.Checked)
-                    {
-                        ret |= PaletteDrawBorders.Top;
-                    }
-
-                    if (checkBoxBottom.Checked)
-                    {
-                        ret |= PaletteDrawBorders.Bottom;
-                    }
-
-                    if (checkBoxLeft.Checked)
-                    {
-                        ret |= PaletteDrawBorders.Left;
-                    }
-
-                    if (checkBoxRight.Checked)
-                    {
-                        ret |= PaletteDrawBorders.Right;
-                    }
+                    ret |= PaletteDrawBorders.Top;
                 }
 
-                return ret;
+                if (checkBoxBottom.Checked)
+                {
+                    ret |= PaletteDrawBorders.Bottom;
+                }
+
+                if (checkBoxLeft.Checked)
+                {
+                    ret |= PaletteDrawBorders.Left;
+                }
+
+                if (checkBoxRight.Checked)
+                {
+                    ret |= PaletteDrawBorders.Right;
+                }
             }
 
-            set
+            return ret;
+        }
+
+        set
+        {
+            if ((value & PaletteDrawBorders.Inherit) == PaletteDrawBorders.Inherit)
             {
-                if ((value & PaletteDrawBorders.Inherit) == PaletteDrawBorders.Inherit)
+                checkBoxInherit.Checked = true;
+            }
+            else
+            {
+                if ((value & PaletteDrawBorders.Top) == PaletteDrawBorders.Top)
                 {
-                    checkBoxInherit.Checked = true;
+                    checkBoxTop.Checked = true;
                 }
-                else
+
+                if ((value & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom)
                 {
-                    if ((value & PaletteDrawBorders.Top) == PaletteDrawBorders.Top)
-                    {
-                        checkBoxTop.Checked = true;
-                    }
+                    checkBoxBottom.Checked = true;
+                }
 
-                    if ((value & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom)
-                    {
-                        checkBoxBottom.Checked = true;
-                    }
+                if ((value & PaletteDrawBorders.Left) == PaletteDrawBorders.Left)
+                {
+                    checkBoxLeft.Checked = true;
+                }
 
-                    if ((value & PaletteDrawBorders.Left) == PaletteDrawBorders.Left)
-                    {
-                        checkBoxLeft.Checked = true;
-                    }
-
-                    if ((value & PaletteDrawBorders.Right) == PaletteDrawBorders.Right)
-                    {
-                        checkBoxRight.Checked = true;
-                    }
+                if ((value & PaletteDrawBorders.Right) == PaletteDrawBorders.Right)
+                {
+                    checkBoxRight.Checked = true;
                 }
             }
         }
+    }
 
-        private void checkBoxInherit_CheckedChanged(object sender, EventArgs e)
-        {
-            checkBoxTop.Enabled = checkBoxBottom.Enabled = !checkBoxInherit.Checked;
-            checkBoxLeft.Enabled = checkBoxRight.Enabled = !checkBoxInherit.Checked;
-        }
+    private void checkBoxInherit_CheckedChanged(object sender, EventArgs e)
+    {
+        checkBoxTop.Enabled = checkBoxBottom.Enabled = !checkBoxInherit.Checked;
+        checkBoxLeft.Enabled = checkBoxRight.Enabled = !checkBoxInherit.Checked;
     }
 }

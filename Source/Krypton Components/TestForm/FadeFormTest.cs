@@ -9,69 +9,68 @@
 
 using System.Threading;
 
-namespace TestForm
+namespace TestForm;
+
+public partial class FadeFormTest : KryptonForm
 {
-    public partial class FadeFormTest : KryptonForm
+    public FadeFormTest()
     {
-        public FadeFormTest()
+        InitializeComponent();
+        cbtnShowImage.Checked = true;
+    }
+
+    private void FadeFormTest_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        e.Cancel = false;
+    }
+
+    private void btnFadeOut_Click(object sender, EventArgs e)
+    {
+
+        KryptonForm owner = this;
+        double fraction = (double)nudOpacityFraction.Value / 100;
+        int delay = (int)nudSleepDelay.Value;
+
+        while (owner.Opacity > 0.0)
         {
-            InitializeComponent();
-            cbtnShowImage.Checked = true;
+            Thread.Sleep(delay);
+
+            owner.Opacity -= fraction;
+            lblOpacity.Text = owner.Opacity.ToString();
+            owner.Refresh();
         }
 
-        private void FadeFormTest_FormClosing(object sender, FormClosingEventArgs e)
+        MessageBox.Show("Done");
+
+        owner.Opacity = 1;
+
+    }
+
+    private void btnFadeIn_Click(object sender, EventArgs e)
+    {
+
+        KryptonForm owner = this;
+        owner.Opacity = 0;
+
+        double fraction = (double)nudOpacityFraction.Value / 100;
+        int delay = (int)nudSleepDelay.Value;
+
+        while (owner.Opacity < 1)
         {
-            e.Cancel = false;
-        }
+            Thread.Sleep(delay);
 
-        private void btnFadeOut_Click(object sender, EventArgs e)
-        {
-
-            KryptonForm owner = this;
-            double fraction = (double)nudOpacityFraction.Value / 100;
-            int delay = (int)nudSleepDelay.Value;
-
-            while (owner.Opacity > 0.0)
-            {
-                Thread.Sleep(delay);
-
-                owner.Opacity -= fraction;
-                lblOpacity.Text = owner.Opacity.ToString();
-                owner.Refresh();
-            }
-
-            MessageBox.Show("Done");
-
-            owner.Opacity = 1;
+            owner.Opacity += fraction;
+            lblOpacity.Text = owner.Opacity.ToString();
+            owner.Refresh();
 
         }
+        MessageBox.Show("Done1");
 
-        private void btnFadeIn_Click(object sender, EventArgs e)
-        {
+        owner.Opacity = 1;
+    }
 
-            KryptonForm owner = this;
-            owner.Opacity = 0;
-
-            double fraction = (double)nudOpacityFraction.Value / 100;
-            int delay = (int)nudSleepDelay.Value;
-
-            while (owner.Opacity < 1)
-            {
-                Thread.Sleep(delay);
-
-                owner.Opacity += fraction;
-                lblOpacity.Text = owner.Opacity.ToString();
-                owner.Refresh();
-
-            }
-            MessageBox.Show("Done1");
-
-            owner.Opacity = 1;
-        }
-
-        private void cbtnShowImage_Click(object sender, EventArgs e)
-        {
-            kryptonPictureBox1.Visible = cbtnShowImage.Checked;
-        }
-    } 
+    private void cbtnShowImage_Click(object sender, EventArgs e)
+    {
+        kryptonPictureBox1.Visible = cbtnShowImage.Checked;
+    }
 }

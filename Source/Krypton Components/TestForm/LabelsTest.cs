@@ -7,13 +7,12 @@
  */
 #endregion
 
-namespace TestForm
+namespace TestForm;
+
+public partial class LabelsTest : KryptonForm
 {
-    public partial class LabelsTest : KryptonForm
+    public LabelsTest()
     {
-        public LabelsTest()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

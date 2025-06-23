@@ -8,77 +8,76 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+internal class FileApplicationTabToContent : RibbonToContent
 {
-    internal class FileApplicationTabToContent : RibbonToContent
-    {
-        #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
-        #endregion
+    #region Instance Fields
+    private readonly KryptonRibbon _ribbon;
+    #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ApplicationTabToContent class.
-        /// </summary>
-        /// <param name="ribbon">Reference to owning ribbon control..</param>
-        /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
-        public FileApplicationTabToContent(KryptonRibbon ribbon,
-                                       PaletteRibbonGeneral ribbonGeneral)
-            : base(ribbonGeneral) =>
-            _ribbon = ribbon;
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the ApplicationTabToContent class.
+    /// </summary>
+    /// <param name="ribbon">Reference to owning ribbon control..</param>
+    /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
+    public FileApplicationTabToContent(KryptonRibbon ribbon,
+        PaletteRibbonGeneral ribbonGeneral)
+        : base(ribbonGeneral) =>
+        _ribbon = ribbon;
 
-        #endregion
+    #endregion
         
-        #region IPaletteContent
-        /// <summary>
-        /// Gets the first color for the short text.
-        /// </summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state) => RibbonFileAppTabTextColor(state);
+    #region IPaletteContent
+    /// <summary>
+    /// Gets the first color for the short text.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Color value.</returns>
+    public override Color GetContentShortTextColor1(PaletteState state) => RibbonFileAppTabTextColor(state);
 
-        /// <summary>
-        /// Gets the second color for the short text.
-        /// </summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state) => RibbonFileAppTabTextColor(state);
+    /// <summary>
+    /// Gets the second color for the short text.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Color value.</returns>
+    public override Color GetContentShortTextColor2(PaletteState state) => RibbonFileAppTabTextColor(state);
 
-        private Color RibbonFileAppTabTextColor(PaletteState state)
+    private Color RibbonFileAppTabTextColor(PaletteState state)
+    {
+        PaletteRibbonFileAppTab palette;
+
+        // Find the correct palette to use that matches the button state
+        switch (state)
         {
-            PaletteRibbonFileAppTab palette;
-
-            // Find the correct palette to use that matches the button state
-            switch (state)
-            {
-                default:
-                case PaletteState.Normal:
-                    palette = _ribbon.StateNormal.RibbonFileAppTab;
-                    break;
-                case PaletteState.Tracking:
-                    palette = _ribbon.StateNormal.RibbonFileAppTab;
-                    break;
-                case PaletteState.Pressed:
-                    palette = _ribbon.StateNormal.RibbonFileAppTab;
-                    break;
-            }
-            return palette.GetRibbonFileAppTabTextColor(state);
+            default:
+            case PaletteState.Normal:
+                palette = _ribbon.StateNormal.RibbonFileAppTab;
+                break;
+            case PaletteState.Tracking:
+                palette = _ribbon.StateNormal.RibbonFileAppTab;
+                break;
+            case PaletteState.Pressed:
+                palette = _ribbon.StateNormal.RibbonFileAppTab;
+                break;
         }
-
-        /// <summary>
-        /// Gets the first color for the long text.
-        /// </summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteState state) => RibbonFileAppTabTextColor(state);
-
-        /// <summary>
-        /// Gets the second color for the long text.
-        /// </summary>
-        /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteState state) => RibbonFileAppTabTextColor(state);
-
-        #endregion
+        return palette.GetRibbonFileAppTabTextColor(state);
     }
+
+    /// <summary>
+    /// Gets the first color for the long text.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Color value.</returns>
+    public override Color GetContentLongTextColor1(PaletteState state) => RibbonFileAppTabTextColor(state);
+
+    /// <summary>
+    /// Gets the second color for the long text.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Color value.</returns>
+    public override Color GetContentLongTextColor2(PaletteState state) => RibbonFileAppTabTextColor(state);
+
+    #endregion
 }

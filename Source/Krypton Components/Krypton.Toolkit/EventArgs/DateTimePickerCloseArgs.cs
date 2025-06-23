@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Details about the context menu that has been closed up on a KryptonDateTimePicker.
+/// </summary>
+public class DateTimePickerCloseArgs : EventArgs
 {
+    #region Identity
     /// <summary>
-    /// Details about the context menu that has been closed up on a KryptonDateTimePicker.
+    /// Initialize a new instance of the DateTimePickerCloseArgs class.
     /// </summary>
-    public class DateTimePickerCloseArgs : EventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the DateTimePickerCloseArgs class.
-        /// </summary>
-        /// <param name="kcm">KryptonContextMenu that can be examined.</param>
-        public DateTimePickerCloseArgs(KryptonContextMenu kcm) => KryptonContextMenu = kcm;
+    /// <param name="kcm">KryptonContextMenu that can be examined.</param>
+    public DateTimePickerCloseArgs(KryptonContextMenu kcm) => KryptonContextMenu = kcm;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets access to the KryptonContextMenu instance.
-        /// </summary>
-        public KryptonContextMenu? KryptonContextMenu { get; }
+    #region Public
+    /// <summary>
+    /// Gets access to the KryptonContextMenu instance.
+    /// </summary>
+    public KryptonContextMenu? KryptonContextMenu { get; }
 
-        #endregion
-    }
+    #endregion
 }

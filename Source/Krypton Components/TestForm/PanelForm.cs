@@ -1,10 +1,9 @@
-﻿namespace TestForm
+﻿namespace TestForm;
+
+public partial class PanelForm : KryptonForm
 {
-    public partial class PanelForm : KryptonForm
+    public PanelForm()
     {
-        public PanelForm()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

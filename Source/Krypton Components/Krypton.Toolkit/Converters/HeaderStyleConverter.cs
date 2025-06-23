@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that HeaderStyle values appear as neat text at design time.
-    /// </summary>
-    internal class HeaderStyleConverter : StringLookupConverter<HeaderStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<HeaderStyle, string> _pairs = new BiDictionary<HeaderStyle, string>(
-            new Dictionary<HeaderStyle, string>
+/// <summary>
+/// Custom type converter so that HeaderStyle values appear as neat text at design time.
+/// </summary>
+internal class HeaderStyleConverter : StringLookupConverter<HeaderStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<HeaderStyle, string> _pairs = new BiDictionary<HeaderStyle, string>(
+        new Dictionary<HeaderStyle, string>
         {
             {HeaderStyle.Primary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_PRIMARY},
             {HeaderStyle.Secondary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_SECONDARY},
@@ -34,15 +34,14 @@ namespace Krypton.Toolkit
             {HeaderStyle.Custom3, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_THREE}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<HeaderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, HeaderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<HeaderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, HeaderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

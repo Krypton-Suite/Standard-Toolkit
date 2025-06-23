@@ -10,16 +10,16 @@
  */
 #endregion
 
-namespace Krypton.Navigator
+namespace Krypton.Navigator;
+
+/// <summary>
+/// Custom type converter so that BarItemSizing values appear as neat text at design time.
+/// </summary>
+public class BarItemSizingConverter : StringLookupConverter<BarItemSizing>
 {
-    /// <summary>
-    /// Custom type converter so that BarItemSizing values appear as neat text at design time.
-    /// </summary>
-    public class BarItemSizingConverter : StringLookupConverter<BarItemSizing>
-    {
-        [Localizable(true)]
-        private static readonly BiDictionary<BarItemSizing, string> _pairs = new BiDictionary<BarItemSizing, string>(
-            new Dictionary<BarItemSizing, string>
+    [Localizable(true)]
+    private static readonly BiDictionary<BarItemSizing, string> _pairs = new BiDictionary<BarItemSizing, string>(
+        new Dictionary<BarItemSizing, string>
         {
             {BarItemSizing.Individual, @"Individual Sizing"},
             {BarItemSizing.SameHeight, @"All Same Height"},
@@ -27,12 +27,11 @@ namespace Krypton.Navigator
             {BarItemSizing.SameWidthAndHeight, @"All Same Width & Height"}
         });
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<string /*Display*/, BarItemSizing /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
-        protected override IReadOnlyDictionary<BarItemSizing /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        #endregion
-    }
+    #region Protected
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<string /*Display*/, BarItemSizing /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+    protected override IReadOnlyDictionary<BarItemSizing /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    #endregion
 }

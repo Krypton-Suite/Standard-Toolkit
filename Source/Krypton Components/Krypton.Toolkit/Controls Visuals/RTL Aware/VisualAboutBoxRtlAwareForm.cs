@@ -7,14 +7,13 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal partial class VisualAboutBoxRtlAwareForm : KryptonForm
 {
-    internal partial class VisualAboutBoxRtlAwareForm : KryptonForm
+    public VisualAboutBoxRtlAwareForm()
     {
-        public VisualAboutBoxRtlAwareForm()
-        {
-            SetInheritedControlOverride();
-            InitializeComponent();
-        }
+        SetInheritedControlOverride();
+        InitializeComponent();
     }
 }

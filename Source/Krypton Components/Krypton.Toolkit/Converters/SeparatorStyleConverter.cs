@@ -10,18 +10,18 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    /// <summary>
-    /// Custom type converter so that SeparatorStyle values appear as neat text at design time.
-    /// </summary>
-    internal class SeparatorStyleConverter : StringLookupConverter<SeparatorStyle>
-    {
-        #region Static Fields
+namespace Krypton.Toolkit;
 
-        [Localizable(true)]
-        private static readonly BiDictionary<SeparatorStyle, string> _pairs = new BiDictionary<SeparatorStyle, string>(
-            new Dictionary<SeparatorStyle, string>
+/// <summary>
+/// Custom type converter so that SeparatorStyle values appear as neat text at design time.
+/// </summary>
+internal class SeparatorStyleConverter : StringLookupConverter<SeparatorStyle>
+{
+    #region Static Fields
+
+    [Localizable(true)]
+    private static readonly BiDictionary<SeparatorStyle, string> _pairs = new BiDictionary<SeparatorStyle, string>(
+        new Dictionary<SeparatorStyle, string>
         {
             {SeparatorStyle.LowProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_LOW_PROFILE},
             {SeparatorStyle.HighProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_HIGH_PROFILE},
@@ -31,16 +31,15 @@ namespace Krypton.Toolkit
             {SeparatorStyle.Custom3, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM3}
         });
 
-        #endregion
+    #endregion
 
-        #region Protected
+    #region Protected
 
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override IReadOnlyDictionary<SeparatorStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
-        protected override IReadOnlyDictionary<string /*Display*/, SeparatorStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+    /// <summary>
+    /// Gets an array of lookup pairs.
+    /// </summary>
+    protected override IReadOnlyDictionary<SeparatorStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+    protected override IReadOnlyDictionary<string /*Display*/, SeparatorStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
-        #endregion
-    }
+    #endregion
 }

@@ -10,28 +10,27 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    internal class KryptonCheckButtonDesigner : KryptonButtonDesigner
-    {
-        #region Public Overrides
-        /// <summary>
-        ///  Gets the design-time action lists supported by the component associated with the designer.
-        /// </summary>
-        public override DesignerActionListCollection ActionLists
-        {
-            get
-            {
-                // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the check button specific list
-                    new KryptonCheckButtonActionList(this)
-                };
+namespace Krypton.Toolkit;
 
-                return actionLists;
-            }
+internal class KryptonCheckButtonDesigner : KryptonButtonDesigner
+{
+    #region Public Overrides
+    /// <summary>
+    ///  Gets the design-time action lists supported by the component associated with the designer.
+    /// </summary>
+    public override DesignerActionListCollection ActionLists
+    {
+        get
+        {
+            // Create a collection of action lists
+            var actionLists = new DesignerActionListCollection
+            {
+                // Add the check button specific list
+                new KryptonCheckButtonActionList(this)
+            };
+
+            return actionLists;
         }
-        #endregion
     }
+    #endregion
 }

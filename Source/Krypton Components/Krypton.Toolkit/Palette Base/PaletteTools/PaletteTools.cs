@@ -10,46 +10,45 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
-{
-    //public class PaletteTools
-    //{
-    //    #region Properties
-    //    /// <summary>Gets the theme list.</summary>
-    //    /// <value>The theme list.</value>
-    //    public static List<string?> ThemeList1 => ThemeManager.SupportedInternalThemeNames.ToList();
+namespace Krypton.Toolkit;
 
-    //    #endregion
+//public class PaletteTools
+//{
+//    #region Properties
+//    /// <summary>Gets the theme list.</summary>
+//    /// <value>The theme list.</value>
+//    public static List<string?> ThemeList1 => ThemeManager.SupportedInternalThemeNames.ToList();
 
-    //    #region Methods
-    //    /// <summary>Links the type of the palette to the correct theme style.</summary>
-    //    /// <param name="themeName">Name of the theme.</param>
-    //    /// <returns></returns>
-    //    public PaletteMode LinkPaletteType1(string themeName)
-    //    {
-    //        var cnvtr = new PaletteModeConverter();
-    //        return (PaletteMode)cnvtr.ConvertFromString(themeName);
-    //    }
+//    #endregion
 
-    //    /// <summary>Applies the theme.</summary>
-    //    /// <param name="manager">The manager.</param>
-    //    /// <param name="paletteMode">The palette mode.</param>
-    //    /// <param name="customThemePath">The custom theme path.</param>
-    //    public static void ApplyTheme(KryptonManager manager, PaletteMode paletteMode = PaletteMode.Microsoft365Blue, string customThemePath = "")
-    //    {
-    //        manager.GlobalPaletteMode = paletteMode;
+//    #region Methods
+//    /// <summary>Links the type of the palette to the correct theme style.</summary>
+//    /// <param name="themeName">Name of the theme.</param>
+//    /// <returns></returns>
+//    public PaletteMode LinkPaletteType1(string themeName)
+//    {
+//        var cnvtr = new PaletteModeConverter();
+//        return (PaletteMode)cnvtr.ConvertFromString(themeName);
+//    }
 
-    //        if (!string.IsNullOrWhiteSpace(customThemePath))
-    //        {
-    //            var palette = new KryptonCustomPaletteBase();
+//    /// <summary>Applies the theme.</summary>
+//    /// <param name="manager">The manager.</param>
+//    /// <param name="paletteMode">The palette mode.</param>
+//    /// <param name="customThemePath">The custom theme path.</param>
+//    public static void ApplyTheme(KryptonManager manager, PaletteMode paletteMode = PaletteMode.Microsoft365Blue, string customThemePath = "")
+//    {
+//        manager.GlobalPaletteMode = paletteMode;
 
-    //            palette.Import(customThemePath);
+//        if (!string.IsNullOrWhiteSpace(customThemePath))
+//        {
+//            var palette = new KryptonCustomPaletteBase();
 
-    //            manager.GlobalPalette = palette;
+//            palette.Import(customThemePath);
 
-    //            manager.GlobalPaletteMode = PaletteMode.Custom;
-    //        }
-    //    }
-    //    #endregion
-    //}
-}
+//            manager.GlobalPalette = palette;
+
+//            manager.GlobalPaletteMode = PaletteMode.Custom;
+//        }
+//    }
+//    #endregion
+//}

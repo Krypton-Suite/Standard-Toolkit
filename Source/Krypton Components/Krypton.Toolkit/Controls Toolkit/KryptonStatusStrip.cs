@@ -10,39 +10,38 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[ToolboxBitmap(typeof(StatusStrip)), Description(@"A Krypton based status strip."), ToolboxItem(true)]
+public class KryptonStatusStrip : StatusStrip
 {
-    [ToolboxBitmap(typeof(StatusStrip)), Description(@"A Krypton based status strip."), ToolboxItem(true)]
-    public class KryptonStatusStrip : StatusStrip
+    #region Properties
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public ToolStripProgressBar[] ProgressBars { get; set; }
+    #endregion
+
+    #region Constructor
+    public KryptonStatusStrip() =>
+        // Use Krypton
+        RenderMode = ToolStripRenderMode.ManagerRenderMode;
+
+    #endregion
+
+    #region Overrides
+    protected override void OnRendererChanged(EventArgs e)
     {
-        #region Properties
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public ToolStripProgressBar[] ProgressBars { get; set; }
-        #endregion
-
-        #region Constructor
-        public KryptonStatusStrip() =>
-            // Use Krypton
-            RenderMode = ToolStripRenderMode.ManagerRenderMode;
-
-        #endregion
-
-        #region Overrides
-        protected override void OnRendererChanged(EventArgs e)
+        if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
         {
-            if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
+            if (ProgressBars != null)
             {
-                if (ProgressBars != null)
+                foreach (ToolStripProgressBar progressBar in ProgressBars)
                 {
-                    foreach (ToolStripProgressBar progressBar in ProgressBars)
-                    {
-                        progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
-                    }
+                    progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
                 }
             }
-
-            base.OnRendererChanged(e);
         }
-        #endregion
+
+        base.OnRendererChanged(e);
     }
+    #endregion
 }

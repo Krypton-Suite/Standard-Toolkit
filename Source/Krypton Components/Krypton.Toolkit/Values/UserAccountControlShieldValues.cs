@@ -5,46 +5,45 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class UserAccountControlShieldValues : NullContentValues
 {
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class UserAccountControlShieldValues : NullContentValues
+    #region Instance Fields
+
+    private bool _useAsUACShieldButton;
+
+    private bool _useOSStyleImage;
+
+    private UACShieldIconSize _iconSize;
+
+    private Size _customImageSize;
+
+    #endregion
+
+    #region Identity
+
+    public UserAccountControlShieldValues()
     {
-        #region Instance Fields
+        _useAsUACShieldButton = false;
 
-        private bool _useAsUACShieldButton;
+        _useOSStyleImage = true;
 
-        private bool _useOSStyleImage;
-
-        private UACShieldIconSize _iconSize;
-
-        private Size _customImageSize;
-
-        #endregion
-
-        #region Identity
-
-        public UserAccountControlShieldValues()
-        {
-            _useAsUACShieldButton = false;
-
-            _useOSStyleImage = true;
-
-            _iconSize = UACShieldIconSize.Small;
-        }
-
-        #endregion
-
-        #region Public
-
-        public bool UseAsUACShieldButton { get => _useAsUACShieldButton; set => _useAsUACShieldButton = value; }
-
-        public bool UseOSStyleImage { get => _useOSStyleImage; set => _useOSStyleImage = value; }
-
-        public UACShieldIconSize ShieldIconSize { get => _iconSize; set => _iconSize = value; }
-
-        public Size CustomImageSize { get => _customImageSize; set => _customImageSize = value; }
-
-        #endregion
+        _iconSize = UACShieldIconSize.Small;
     }
+
+    #endregion
+
+    #region Public
+
+    public bool UseAsUACShieldButton { get => _useAsUACShieldButton; set => _useAsUACShieldButton = value; }
+
+    public bool UseOSStyleImage { get => _useOSStyleImage; set => _useOSStyleImage = value; }
+
+    public UACShieldIconSize ShieldIconSize { get => _iconSize; set => _iconSize = value; }
+
+    public Size CustomImageSize { get => _customImageSize; set => _customImageSize = value; }
+
+    #endregion
 }

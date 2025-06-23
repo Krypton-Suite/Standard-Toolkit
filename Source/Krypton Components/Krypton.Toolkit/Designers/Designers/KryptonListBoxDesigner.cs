@@ -10,45 +10,44 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+internal class KryptonListBoxDesigner : ControlDesigner
 {
-    internal class KryptonListBoxDesigner : ControlDesigner
+    #region Public Overrides
+    /// <summary>
+    /// Initializes the designer with the specified component.
+    /// </summary>
+    /// <param name="component">The IComponent to associate the designer with.</param>
+    public override void Initialize([DisallowNull] IComponent component)
     {
-        #region Public Overrides
-        /// <summary>
-        /// Initializes the designer with the specified component.
-        /// </summary>
-        /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
-        {
-            // Let base class do standard stuff
-            base.Initialize(component);
+        // Let base class do standard stuff
+        base.Initialize(component);
 
-            Debug.Assert(component != null);
+        Debug.Assert(component != null);
 
-            // The resizing handles around the control need to change depending on the
-            // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
-            // do not get the resizing handles, otherwise you do.
-            AutoResizeHandles = true;
-        }
-
-        /// <summary>
-        ///  Gets the design-time action lists supported by the component associated with the designer.
-        /// </summary>
-        public override DesignerActionListCollection ActionLists
-        {
-            get
-            {
-                // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the label specific list
-                    new KryptonListBoxActionList(this)
-                };
-
-                return actionLists;
-            }
-        }
-        #endregion
+        // The resizing handles around the control need to change depending on the
+        // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
+        // do not get the resizing handles, otherwise you do.
+        AutoResizeHandles = true;
     }
+
+    /// <summary>
+    ///  Gets the design-time action lists supported by the component associated with the designer.
+    /// </summary>
+    public override DesignerActionListCollection ActionLists
+    {
+        get
+        {
+            // Create a collection of action lists
+            var actionLists = new DesignerActionListCollection
+            {
+                // Add the label specific list
+                new KryptonListBoxActionList(this)
+            };
+
+            return actionLists;
+        }
+    }
+    #endregion
 }

@@ -10,63 +10,62 @@
  */
 #endregion
 
-namespace Krypton.Toolkit
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// The designer for the <see cref="KryptonScrollBar"/> control.
+/// </summary>
+internal class ScrollBarControlDesigner : ControlDesigner
 {
     /// <summary>
-    /// The designer for the <see cref="KryptonScrollBar"/> control.
+    /// Gets the <see cref="SelectionRules"/> for the control.
     /// </summary>
-    internal class ScrollBarControlDesigner : ControlDesigner
+    public override SelectionRules SelectionRules
     {
-        /// <summary>
-        /// Gets the <see cref="SelectionRules"/> for the control.
-        /// </summary>
-        public override SelectionRules SelectionRules
+        get
         {
-            get
+            // gets the property descriptor for the property "Orientation"
+            var propDescriptor = TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
+
+            // if not null - we can read the current orientation of the scroll bar
+            if (propDescriptor is not null)
             {
-                // gets the property descriptor for the property "Orientation"
-                var propDescriptor = TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
+                // get the current orientation
+                var orientation = (ScrollBarOrientation?)propDescriptor.GetValue(Component);
 
-                // if not null - we can read the current orientation of the scroll bar
-                if (propDescriptor is not null)
-                {
-                    // get the current orientation
-                    var orientation = (ScrollBarOrientation?)propDescriptor.GetValue(Component);
-
-                    // if vertical orientation
-                    return orientation == ScrollBarOrientation.Vertical
-                        ? SelectionRules.Visible
-                           | SelectionRules.Moveable
-                           | SelectionRules.BottomSizeable
-                           | SelectionRules.TopSizeable
-                        : SelectionRules.Visible 
-                            | SelectionRules.Moveable
-                            | SelectionRules.LeftSizeable 
-                            | SelectionRules.RightSizeable;
-                }
-
-                return base.SelectionRules;
+                // if vertical orientation
+                return orientation == ScrollBarOrientation.Vertical
+                    ? SelectionRules.Visible
+                      | SelectionRules.Moveable
+                      | SelectionRules.BottomSizeable
+                      | SelectionRules.TopSizeable
+                    : SelectionRules.Visible 
+                      | SelectionRules.Moveable
+                      | SelectionRules.LeftSizeable 
+                      | SelectionRules.RightSizeable;
             }
-        }
 
-        /// <summary>
-        /// Prefilters the properties so that unnecessary properties are hidden
-        /// in the property browser of Visual Studio.
-        /// </summary>
-        /// <param name="properties">The property dictionary.</param>
-        protected override void PreFilterProperties(IDictionary properties)
-        {
-            properties.Remove(@"Text");
-            properties.Remove(@"BackgroundImage");
-            properties.Remove(@"ForeColor");
-            properties.Remove(nameof(ImeMode));
-            properties.Remove(nameof(Padding));
-            properties.Remove(@"BackgroundImageLayout");
-            properties.Remove(@"BackColor");
-            properties.Remove(nameof(Font));
-            properties.Remove(nameof(RightToLeft));
-
-            base.PreFilterProperties(properties);
+            return base.SelectionRules;
         }
+    }
+
+    /// <summary>
+    /// Prefilters the properties so that unnecessary properties are hidden
+    /// in the property browser of Visual Studio.
+    /// </summary>
+    /// <param name="properties">The property dictionary.</param>
+    protected override void PreFilterProperties(IDictionary properties)
+    {
+        properties.Remove(@"Text");
+        properties.Remove(@"BackgroundImage");
+        properties.Remove(@"ForeColor");
+        properties.Remove(nameof(ImeMode));
+        properties.Remove(nameof(Padding));
+        properties.Remove(@"BackgroundImageLayout");
+        properties.Remove(@"BackColor");
+        properties.Remove(nameof(Font));
+        properties.Remove(nameof(RightToLeft));
+
+        base.PreFilterProperties(properties);
     }
 }

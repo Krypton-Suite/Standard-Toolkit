@@ -12,28 +12,27 @@
  */
 #endregion
 
-namespace Krypton.Ribbon
+namespace Krypton.Ribbon;
+
+/// <summary>
+/// Event arguments for the drop-down menu of a gallery.
+/// </summary>
+public class GalleryDropMenuEventArgs : CancelEventArgs
 {
+    #region Identity
     /// <summary>
-    /// Event arguments for the drop-down menu of a gallery.
+    /// Initialize a new instance of the GalleryDropMenuEventArgs class.
     /// </summary>
-    public class GalleryDropMenuEventArgs : CancelEventArgs
-    {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the GalleryDropMenuEventArgs class.
-        /// </summary>
-        /// <param name="contextMenu">Context menu.</param>
-        public GalleryDropMenuEventArgs(KryptonContextMenu contextMenu) => KryptonContextMenu = contextMenu;
+    /// <param name="contextMenu">Context menu.</param>
+    public GalleryDropMenuEventArgs(KryptonContextMenu contextMenu) => KryptonContextMenu = contextMenu;
 
-        #endregion
+    #endregion
 
-        #region Public
-        /// <summary>
-        /// KryptonContextMenu for display.
-        /// </summary>
-        public KryptonContextMenu? KryptonContextMenu { get; }
+    #region Public
+    /// <summary>
+    /// KryptonContextMenu for display.
+    /// </summary>
+    public KryptonContextMenu? KryptonContextMenu { get; }
 
-        #endregion
-    }
+    #endregion
 }
