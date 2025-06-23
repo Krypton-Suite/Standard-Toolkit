@@ -64,9 +64,9 @@ namespace Krypton.Toolkit
         /// <param name="form">The form to subscribe.</param>
         public static void Attach(Form form)
         {
-            if (form.MdiParent is null)
+            if (!form.IsMdiChild)
             {
-                // An MDI Container can be handled the same as any "non mdi child" form
+                // An MDI Container can be handled the same as any "non mdi container" form
                 form.Activated += Activated;
                 form.Deactivate += Deactivate;
                 form.HandleDestroyed += HandleDestroyed;
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// <returns>True if the given form is equal to the active form, otherwise false.</returns>
         public static bool IsActiveForm(Form form)
         {
-            return form.Equals(_activeForm);
+            return form != null && form.Equals(_activeForm);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <returns>True if the given childform is equal to the active form, otherwise false.</returns>
         public static bool IsActiveMdiChild(Form mdiChild)
         {
-            return mdiChild.Equals(_activeMdiChild);
+            return mdiChild != null && mdiChild.Equals(_activeMdiChild);
         }
         #endregion
 
@@ -136,7 +136,12 @@ namespace Krypton.Toolkit
             if (sender is Form form)
             {
                 _activeForm = form;
-                ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+
+                // When a non mdi child form is activated, _activeMdiChild can always be set to null
+                // since it may have been activated before by an mdi child.
+                // When a form is not an mdi container Form.ActiveMdiChild is null
+                // So in any situation Form.ActiveMdiChild will always reflect the correct state.
+                _activeMdiChild = form.ActiveMdiChild;
             }
         }
 
