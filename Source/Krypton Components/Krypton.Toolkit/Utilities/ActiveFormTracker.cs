@@ -86,13 +86,10 @@ public static class ActiveFormTracker
             form.HandleDestroyed += HandleDestroyedMdiChild;
 
             // Only if the mdi parent is the active form we need to act
-            if (IsActiveForm(form.MdiParent))
+            // Is form the active child
+            if (IsActiveForm(form.MdiParent) && form.Equals(form.MdiParent!.ActiveMdiChild))
             {
-                // Is form the active child
-                if (form.Equals(form.MdiParent!.ActiveMdiChild))
-                {
-                    ActivatedMdiChild(form, EventArgs.Empty);
-                }
+                ActivatedMdiChild(form, EventArgs.Empty);
             }
         }
     }
