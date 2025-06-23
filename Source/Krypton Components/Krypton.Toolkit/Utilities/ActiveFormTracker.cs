@@ -98,7 +98,7 @@ public static class ActiveFormTracker
                 // Is form the active child
                 if (form.Equals(form.MdiParent!.ActiveMdiChild))
                 {
-                    ActivatedMdiChild(form.ActiveMdiChild, EventArgs.Empty);
+                    ActivatedMdiChild(form, EventArgs.Empty);
                 }
             }
         }
