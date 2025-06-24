@@ -3,7 +3,7 @@
 =======
 
 # 2025-06-23 - Build 2506 (Patch 7) - June 2025
-* Implemented [#2251](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2251), Implements the `ActiveFormTracker` static class and integrates the tracker into the `KryptonForm`.
+* Implemented [#2251](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2251), Implements the `ActiveFormTracker` static class.
 * Resolved [#2049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2049), BlurValues do not work as expected
 * Implemented [#1190](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1190), Enables Windows 11 snap layouts.
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.

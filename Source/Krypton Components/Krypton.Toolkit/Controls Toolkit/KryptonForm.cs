@@ -1007,9 +1007,6 @@ namespace Krypton.Toolkit
 
                 _mdiTransferred = true;
             }
-
-            // Register with the ActiveFormTracker
-            ActiveFormTracker.Attach(this);
         }
 
         #endregion
