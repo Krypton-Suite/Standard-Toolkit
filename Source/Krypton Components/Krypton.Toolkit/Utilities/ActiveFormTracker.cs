@@ -66,7 +66,7 @@ public static class ActiveFormTracker
     {
         if (!form.IsMdiChild)
         {
-            // An MDI Container can be handled the same as any "non mdi container" form
+            // A MDI Container can be handled the same as any "non mdi container" form
             form.Activated += Activated;
             form.Deactivate += Deactivate;
             form.HandleDestroyed += HandleDestroyed;
@@ -80,7 +80,7 @@ public static class ActiveFormTracker
         }
         else
         {
-            // This is an MDI child
+            // This is a MDI child
             form.Activated += ActivatedMdiChild;
             form.Deactivate += DeactivateMdiChild;
             form.HandleDestroyed += HandleDestroyedMdiChild;
@@ -142,7 +142,7 @@ public static class ActiveFormTracker
 
             // When a non mdi child form is activated, _activeMdiChild can always be set to null
             // since it may have been activated before by an mdi child.
-            // When a form is not an mdi container Form.ActiveMdiChild is null
+            // When a form is not a mdi container Form.ActiveMdiChild is null
             // So in any situation Form.ActiveMdiChild will always reflect the correct state.
             _activeMdiChild = form.ActiveMdiChild;
         }
