@@ -138,17 +138,4 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
 
-	<!--Custom pre-processor directives-->
-	<PropertyGroup Condition="'$(Configuration)' == 'Nightly'">
-		<DefineConstants>$(DefineConstants);NIGHTLY</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Canary'">
-		<DefineConstants>$(DefineConstants);CANARY</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
-		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
-	</PropertyGroup>
-
 </Project>

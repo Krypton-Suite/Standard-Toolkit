@@ -52,19 +52,6 @@
 	</Reference>
   </ItemGroup>
 
-	<!--Custom pre-processor directives-->
-	<PropertyGroup Condition="'$(Configuration)' == 'Nightly'">
-		<DefineConstants>$(DefineConstants);NIGHTLY</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Canary'">
-		<DefineConstants>$(DefineConstants);CANARY</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
-		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
-	</PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Nightly|net48|AnyCPU'">
 	<Optimize>True</Optimize>
   </PropertyGroup>
