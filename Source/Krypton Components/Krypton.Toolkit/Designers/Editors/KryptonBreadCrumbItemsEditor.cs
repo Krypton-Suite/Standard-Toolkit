@@ -233,12 +233,13 @@ namespace Krypton.Toolkit
             private readonly KryptonBreadCrumbItemsEditor _editor;
             private DictItemBase _beforeItems;
             private readonly Button buttonOK;
+            private readonly Button buttonCancel;
             private readonly TreeView treeView1;
             private readonly Button buttonMoveUp;
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
-            private readonly /*PropertyGrid*/ KryptonPropertyGrid propertyGrid1;
+            private readonly PropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;
             private readonly Button buttonAddChild;
@@ -254,12 +255,13 @@ namespace Krypton.Toolkit
                 _editor = editor;
 
                 buttonOK = new Button();
+                buttonCancel = new Button();
                 treeView1 = new TreeView();
                 buttonMoveUp = new Button();
                 buttonMoveDown = new Button();
                 buttonAddItem = new Button();
                 buttonDelete = new Button();
-                propertyGrid1 = new /*PropertyGrid()*/ KryptonPropertyGrid();
+                propertyGrid1 = new PropertyGrid();
                 label1 = new Label();
                 label2 = new Label();
                 buttonAddChild = new Button();
@@ -272,16 +274,26 @@ namespace Krypton.Toolkit
                 buttonOK.Location = new Point(547, 382);
                 buttonOK.Name = nameof(buttonOK);
                 buttonOK.Size = new Size(75, 23);
-                buttonOK.TabIndex = 8;
+                buttonOK.TabIndex = 9;
                 buttonOK.Text = "OK";
                 buttonOK.UseVisualStyleBackColor = true;
                 buttonOK.Click += buttonOK_Click;
                 // 
+                // buttonCancel
+                // 
+                buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+                buttonCancel.DialogResult = DialogResult.Cancel;
+                buttonCancel.Location = new Point(12, 382);
+                buttonCancel.Name = nameof(buttonCancel);
+                buttonCancel.Size = new Size(75, 23);
+                buttonCancel.TabIndex = 8;
+                buttonCancel.Text = "Cancel";
+                buttonCancel.UseVisualStyleBackColor = true;
+                buttonCancel.Click += buttonCancel_Click;
+                // 
                 // treeView1
                 // 
-                treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-                                    | AnchorStyles.Left
-                                   | AnchorStyles.Right;
+                treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
                 treeView1.Location = new Point(12, 32);
                 treeView1.Name = nameof(treeView1);
                 treeView1.Size = new Size(254, 339);
@@ -342,7 +354,7 @@ namespace Krypton.Toolkit
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = nameof(buttonDelete);
                 buttonDelete.Size = new Size(95, 28);
-                buttonDelete.TabIndex = 5;
+                buttonDelete.TabIndex = 6;
                 buttonDelete.Text = "Delete Item";
                 buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -367,7 +379,7 @@ namespace Krypton.Toolkit
                 label1.Location = new Point(370, 13);
                 label1.Name = nameof(label1);
                 label1.Size = new Size(81, 13);
-                label1.TabIndex = 6;
+                label1.TabStop = false;
                 label1.Text = "Item Properties";
                 // 
                 // label2
@@ -376,7 +388,7 @@ namespace Krypton.Toolkit
                 label2.Location = new Point(12, 13);
                 label2.Name = nameof(label2);
                 label2.Size = new Size(142, 13);
-                label2.TabIndex = 0;
+                label2.TabStop = false;
                 label2.Text = "BreadCrumbItems Collection";
                 // 
                 // buttonAddChild
@@ -387,7 +399,7 @@ namespace Krypton.Toolkit
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = nameof(buttonAddChild);
                 buttonAddChild.Size = new Size(95, 28);
-                buttonAddChild.TabIndex = 9;
+                buttonAddChild.TabIndex = 5;
                 buttonAddChild.Text = "Add Child";
                 buttonAddChild.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -397,6 +409,7 @@ namespace Krypton.Toolkit
                 // KryptonBreadCrumbCollectionForm
                 // 
                 AcceptButton = buttonOK;
+                CancelButton = buttonCancel;
                 AutoScaleDimensions = new SizeF(6F, 13F);
                 AutoScaleMode = AutoScaleMode.Font;
                 ClientSize = new Size(634, 414);
@@ -410,9 +423,10 @@ namespace Krypton.Toolkit
                 Controls.Add(buttonMoveDown);
                 Controls.Add(buttonMoveUp);
                 Controls.Add(treeView1);
+                Controls.Add(buttonCancel);
                 Controls.Add(buttonOK);
                 Font = new Font(@"Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-                MinimumSize = new Size(501, 296);
+                MinimumSize = new Size(634, 414);
                 Name = "KryptonBreadCrumbCollectionForm";
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = "BreadCrumbItem Collection Editor";
@@ -459,6 +473,12 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
+            private void buttonCancel_Click(object? sender, EventArgs e)
+            {
+                treeView1.Nodes.Clear();
+                this.Close();
+            }
+
             private void buttonOK_Click(object? sender, EventArgs e)
             {
                 // Create an array with all the root items
