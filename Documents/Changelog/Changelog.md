@@ -5,6 +5,7 @@
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
 * Resolved [#2260](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2260), `KryptonBreadCrumb` Items designer lacks the cancel button.
 * Implemented [#1263](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1263), Is it possible to create custom pre-processor directives
+* Implemented [#2231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2231), Use `filescoped` namespaces
 * Resolved [#2049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2049), BlurValues do not work as expected
 * Implemented [#1190](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1190), Enables Windows 11 snap layouts.
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` corrects Windows 10 & 11 detection.
