@@ -13,7 +13,9 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
 {
     #region Instance Fields
 
-    private bool? _showChangeLogButton;
+    private readonly bool? _showChangeLogButton;
+
+    private readonly bool? _showReadmeButton;
 
     private Dictionary<string, FileVersionInfo> _fileVersionInfos = new Dictionary<string, FileVersionInfo>();
 
@@ -27,7 +29,11 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
 
     #region Identity
 
-    public VisualToolkitBinaryInformationForm(ToolkitSupportType toolkitType, bool? showChangeLogButton)
+    /// <summary>Initializes a new instance of the <see cref="VisualToolkitBinaryInformationForm" /> class.</summary>
+    /// <param name="toolkitType">Type of the toolkit.</param>
+    /// <param name="showChangeLogButton">The show change log button.</param>
+    /// <param name="showReadmeButton">The show readme button.</param>
+    public VisualToolkitBinaryInformationForm(ToolkitSupportType toolkitType, bool? showChangeLogButton, bool? showReadmeButton)
     {
         //SetInheritedControlOverride();
 
@@ -36,6 +42,7 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
         _toolkitType = toolkitType;
 
         _showChangeLogButton = showChangeLogButton;
+        _showReadmeButton = showReadmeButton;
     }
 
     #endregion
@@ -46,7 +53,11 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
     {
         kbtnChangelog.Visible = _showChangeLogButton ?? false;
 
+        kbtnReadme.Visible = _showReadmeButton ?? false;
+
         kbtnChangelog.Text = KryptonManager.Strings.MiscellaneousStrings.ChangeLogText;
+
+        kbtnReadme.Text = KryptonManager.Strings.MiscellaneousStrings.ReadmeText;
 
         PopulateBinaryInformation(_toolkitType);
     }
@@ -143,6 +154,26 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
             case ToolkitSupportType.Stable:
             default:
                 GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md");
+                break;
+        }
+    }
+
+    private void kbtnReadme_Click(object sender, EventArgs e)
+    {
+        switch (_toolkitType)
+        {
+            case ToolkitSupportType.Canary:
+                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/README.md");
+                break;
+            case ToolkitSupportType.Nightly:
+                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/README.md");
+                break;
+            case ToolkitSupportType.LongTermSupport:
+                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/README.md");
+                break;
+            case ToolkitSupportType.Stable:
+            default:
+                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/README.md");
                 break;
         }
     }
