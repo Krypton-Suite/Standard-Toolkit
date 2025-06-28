@@ -498,31 +498,6 @@ namespace Krypton.Docking
             }
         }
 
-        /*
-        public bool PreFilterMessage(ref Message msg)
-        {
-            Form? parentForm = FindForm();
-            Form? parentMdi = (parentForm?.MdiParent);
-
-            // Only interested in snooping messages if....
-            //    The Form we are inside is the active form                             AND
-            //    If an MDI Child Form then we must be the active MDI Child Form        AND
-            //    We are not in the hidden state                                        AND
-            //    We have an associated auto hidden group control that is not disposed  AND
-            //    We are not disposed
-            if ((parentForm != null)
-                && ((parentForm == Form.ActiveForm)
-                    || ((parentMdi != null)
-                        && (parentMdi.ActiveMdiChild == parentForm)
-                    )
-                )
-                && parentForm.ContainsFocus
-                && (_state != DockingAutoHiddenShowState.Hidden)
-                && _group is { IsDisposed: false } && !IsDisposed
-               )
-            {         
-         */
-
         /// <summary>
         /// Filters out a message before it is dispatched.
         /// </summary>
@@ -532,7 +507,7 @@ namespace Krypton.Docking
         {
             // The form this component is situated on
             // This can also be a mdi child form
-            if ( FindForm() is Form parentForm)
+            if (FindForm() is Form parentForm)
             {
                 bool isActiveForm = 
                     // The parent form is active and is not a mdi container
