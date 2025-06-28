@@ -1207,6 +1207,9 @@ public class KryptonForm : VisualForm,
             }
 
         }
+
+        // Register with the ActiveFormTracker
+        ActiveFormTracker.Attach(this);
     }
 
     #endregion
