@@ -3,6 +3,7 @@
 ==== 
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), `KryptonAutoHiddenSlidePanel.PreFilterMessage` will now use the ActiveFormTracker.
 * Implemented [#2251](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2251), Implements the `ActiveFormTracker` static class and integrates the tracker into the `KryptonForm`.
 * Resolved [#2260](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2260), `KryptonBreadCrumb` Items designer lacks the cancel button.
 * Implemented [#1263](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1263), Is it possible to create custom pre-processor directives
