@@ -845,19 +845,41 @@ public enum SchemeExtraColors
 
 #region Enumeration: SchemeToolTipColors
 
+/// <summary>
+/// Defines color roles used for rendering tooltips.
+/// Each value represents a specific color usage within a tooltip.
+/// </summary>
 public enum SchemeToolTipColors
 {
+    /// <summary>
+    /// Bottom color of a tooltip, typically used for gradient backgrounds.
+    /// </summary>
     ToolTipBottom = 0
 }
 
 #endregion
 
 #region Enumeration: SchemeContextMenuColors
-// Note: Add these to SchemeBaseColors
+
+/// <summary>
+/// Defines color roles used for rendering context menus.
+/// Each value represents a specific color usage for context menu items or background areas.
+/// </summary>
 internal enum SchemeContextMenuColors
 {
+    /// <summary>
+    /// Text color for items within a context menu.
+    /// </summary>
     MenuItemText = 1,
+
+    /// <summary>
+    /// Color for the margin area of a context menu.
+    /// </summary>
     ContextMenuMargin = 2,
+
+    /// <summary>
+    /// Color for the inner background area of a context menu.
+    /// </summary>
     ContextMenuInner = 3
 }
 
@@ -865,12 +887,35 @@ internal enum SchemeContextMenuColors
 
 #region Enumeration: SchemeMenuStripColors
 
+/// <summary>
+/// Defines color roles used for rendering menu strips and their items.
+/// Each value represents a specific color usage for menu item text or menu margin gradients.
+/// </summary>
 internal enum SchemeMenuStripColors
 {
+    /// <summary>
+    /// Text color for menu items in a menu strip.
+    /// </summary>
     MenuItemText = 1,
+
+    /// <summary>
+    /// Gradient start color for the margin area of a menu strip.
+    /// </summary>
     MenuMarginGradientStart = 2,
+
+    /// <summary>
+    /// Gradient middle color for the margin area of a menu strip.
+    /// </summary>
     MenuMarginGradientMiddle = 3,
+
+    /// <summary>
+    /// Gradient end color for the margin area of a menu strip.
+    /// </summary>
     MenuMarginGradientEnd = 4,
+
+    /// <summary>
+    /// Text color for disabled menu items in a menu strip.
+    /// </summary>
     DisabledMenuItemText = 5
 }
 
@@ -878,17 +923,61 @@ internal enum SchemeMenuStripColors
 
 #region Enumeration: SchemeTrackingColors
 
+/// <summary>
+/// Defines color roles for tracking (hover, selected, pressed, or checked) states
+/// in menus and buttons. Each value represents a specific color usage for visual feedback
+/// during user interaction, such as highlighting menu items or button states.
+/// </summary>
 public enum SchemeTrackingColors
 {
+    /// <summary>
+    /// Gradient start color for a selected menu item (e.g., when hovered).
+    /// </summary>
     MenuItemSelectedBegin = 0,
+
+    /// <summary>
+    /// Gradient end color for a selected menu item (e.g., when hovered).
+    /// </summary>
     MenuItemSelectedEnd = 1,
+
+    /// <summary>
+    /// Background color for the context menu in a tracking (hover) state.
+    /// </summary>
     ContextMenuBackground = 2,
+
+    /// <summary>
+    /// Background color for a check mark or checked item in a menu during tracking.
+    /// </summary>
     CheckBackground = 3,
+
+    /// <summary>
+    /// Gradient start color for a button in the selected (hovered) state.
+    /// </summary>
     ButtonSelectedBegin = 4,
+
+    /// <summary>
+    /// Gradient end color for a button in the selected (hovered) state.
+    /// </summary>
     ButtonSelectedEnd = 5,
+
+    /// <summary>
+    /// Gradient start color for a button in the pressed state.
+    /// </summary>
     ButtonPressedBegin = 6,
+
+    /// <summary>
+    /// Gradient end color for a button in the pressed state.
+    /// </summary>
     ButtonPressedEnd = 7,
+
+    /// <summary>
+    /// Gradient start color for a button in the checked state.
+    /// </summary>
     ButtonCheckedBegin = 8,
+
+    /// <summary>
+    /// Gradient end color for a button in the checked state.
+    /// </summary>
     ButtonCheckedEnd = 9
 }
 
