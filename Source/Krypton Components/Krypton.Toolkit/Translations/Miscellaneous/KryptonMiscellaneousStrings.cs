@@ -22,6 +22,7 @@ public class KryptonMiscellaneousStrings
     private const string DEFAULT_STABLE_TEXT = @"Stable";
     private const string DEFAULT_LONG_TERM_STABLE_TEXT = @"Long Term Stable";
     private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
+    private const string DEFAULT_README_TEXT = @"&Readme";
 
     #endregion
 
@@ -100,6 +101,14 @@ public class KryptonMiscellaneousStrings
     [DefaultValue(DEFAULT_CHANGELOG_TEXT)]
     public string ChangeLogText { get; set; }
 
+    /// <summary>Gets or sets the readme text.</summary>
+    /// <value>The readme text.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The readme text.")]
+    [DefaultValue(DEFAULT_README_TEXT)]
+    public string ReadmeText { get; set; }
+
     #endregion
 
     #region IsDefault
@@ -112,8 +121,8 @@ public class KryptonMiscellaneousStrings
                              NightlyText.Equals(DEFAULT_NIGHTLY_TEXT) &&
                              StableText.Equals(DEFAULT_STABLE_TEXT) &&
                              LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT) &&
-                             ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT);
-
+                             ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT) &&
+                             ReadmeText.Equals(DEFAULT_README_TEXT);
     #endregion
 
     #region Implementation
@@ -135,6 +144,8 @@ public class KryptonMiscellaneousStrings
         LongTermStableText = DEFAULT_LONG_TERM_STABLE_TEXT;
 
         ChangeLogText = DEFAULT_CHANGELOG_TEXT;
+
+        ReadmeText = DEFAULT_README_TEXT;
     }
 
     #endregion

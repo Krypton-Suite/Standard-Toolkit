@@ -46,6 +46,16 @@ public class PoweredByButtonValues : GlobalId, INotifyPropertyChanged
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool ShowChangeLogButton { get; set; }
 
+    /// <summary>Gets or sets a value indicating whether [show readme button].</summary>
+    /// <value>
+    ///   <c>true</c> if [show readme button]; otherwise, <c>false</c>.</value>
+    [Category("Visuals")]
+    [Description("Gets or sets a value indicating whether to show the readme button.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowReadmeButton { get; set; }
+
     /// <summary>
     /// Gets or sets the type of the toolkit.
     /// </summary>
@@ -78,6 +88,7 @@ public class PoweredByButtonValues : GlobalId, INotifyPropertyChanged
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => ShowChangeLogButton == false &&
+                             ShowReadmeButton == false &&
                              ToolkitSupportType == ToolkitSupportType.Stable;
 
     #endregion
@@ -87,6 +98,9 @@ public class PoweredByButtonValues : GlobalId, INotifyPropertyChanged
     public void Reset()
     {
         ShowChangeLogButton = false;
+
+        ShowReadmeButton = false;
+
         ToolkitSupportType = ToolkitSupportType.Stable;
     }
 

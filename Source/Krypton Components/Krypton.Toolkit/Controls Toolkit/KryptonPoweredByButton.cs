@@ -87,7 +87,7 @@ public class KryptonPoweredByButton : KryptonButton
     /// <inheritdoc />
     protected override void OnClick(EventArgs e)
     {
-        new VisualToolkitBinaryInformationForm(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton).ShowDialog();
+        new VisualToolkitBinaryInformationForm(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton, ButtonValues.ShowReadmeButton).ShowDialog();
 
         base.OnClick(e);
     }
