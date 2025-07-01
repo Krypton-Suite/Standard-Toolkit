@@ -89,7 +89,7 @@ public class PaletteOffice2010White : PaletteOffice2010Base
         Color.FromArgb(64, Color.White),    // Outside position
         Color.FromArgb(80, 81, 82)          // Border (normal) position
     ];
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb( 59,  59,  59),    // TextLabelControl
         Color.FromArgb( 59,  59,  59),    // TextButtonNormal
@@ -355,7 +355,7 @@ public class PaletteOffice2010White : PaletteOffice2010Base
     /// Initialize a new instance of the PaletteOffice2010White class.
     /// </summary>
     public PaletteOffice2010White()
-        : base(_schemeOfficeColors,
+        : base(_schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,
@@ -425,7 +425,7 @@ public class PaletteOffice2010White : PaletteOffice2010Base
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable2010White(_schemeOfficeColors, InheritBool.True, this);
+    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable2010White(_schemeBaseColors, InheritBool.True, this);
 
     #endregion
 

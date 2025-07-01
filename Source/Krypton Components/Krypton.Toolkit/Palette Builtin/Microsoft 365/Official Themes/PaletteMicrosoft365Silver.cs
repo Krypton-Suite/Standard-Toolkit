@@ -148,7 +148,7 @@ public class PaletteMicrosoft365Silver : PaletteMicrosoft365Base
     ];
 
 
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb(59, 59, 59), // TextLabelControl
         Color.FromArgb(59, 59, 59), // TextButtonNormal
@@ -421,7 +421,7 @@ public class PaletteMicrosoft365Silver : PaletteMicrosoft365Base
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteMicrosoft365Silver"/> class.
     /// </summary>
-    public PaletteMicrosoft365Silver() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+    public PaletteMicrosoft365Silver() : base(_schemeBaseColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
     {
 
     }

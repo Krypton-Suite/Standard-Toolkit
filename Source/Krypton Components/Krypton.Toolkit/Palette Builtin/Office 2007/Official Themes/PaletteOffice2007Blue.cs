@@ -70,7 +70,7 @@ public class PaletteOffice2007Blue : PaletteOffice2007Base
         Color.FromArgb(64, Color.White),    // Outside position
         Color.FromArgb(63, 101, 152)        // Border (normal) position
     ];
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb( 21,  66, 139),    // TextLabelControl
         Color.FromArgb( 21,  66, 139),    // TextButtonNormal
@@ -325,7 +325,7 @@ public class PaletteOffice2007Blue : PaletteOffice2007Base
     /// </summary>
     public PaletteOffice2007Blue()
         : base("Office 2007 - Blue",
-            _schemeOfficeColors,
+            _schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,
