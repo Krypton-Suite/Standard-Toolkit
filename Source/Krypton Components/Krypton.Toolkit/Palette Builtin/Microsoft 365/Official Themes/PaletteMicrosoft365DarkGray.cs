@@ -139,7 +139,7 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
         Color.FromArgb(80, 81, 82) // Border (normal) position
     ];
 
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb(139, 136, 134), // TextLabelControl
         Color.FromArgb(139, 136, 134), // TextButtonNormal
@@ -404,7 +404,7 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
     /// Initialize a new instance of the PaletteMicrosoft365DarkGray class.
     /// </summary>
     public PaletteMicrosoft365DarkGray()
-        : base(_schemeOfficeColors,
+        : base(_schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,

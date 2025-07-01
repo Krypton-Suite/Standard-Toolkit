@@ -145,7 +145,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
     ];
 
 
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb(30, 57, 91), // TextLabelControl
         Color.FromArgb(30, 57, 91), // TextButtonNormal
@@ -418,7 +418,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
     /// <summary>
     /// Initializes a new instance of the PaletteMicrosoft365Blue class.
     /// </summary>
-    public PaletteMicrosoft365Blue() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+    public PaletteMicrosoft365Blue() : base(_schemeBaseColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
     {
 
     }

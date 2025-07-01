@@ -90,7 +90,7 @@ public class PaletteOffice2010Blue : PaletteOffice2010Base
         Color.FromArgb(63, 101, 152)        // Border (normal) position
     ];
 
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb(30, 57, 91), // TextLabelControl
         Color.FromArgb(30, 57, 91), // TextButtonNormal
@@ -362,7 +362,7 @@ public class PaletteOffice2010Blue : PaletteOffice2010Base
     /// Initialize a new instance of the PaletteOffice2010Blue class.
     /// </summary>
     public PaletteOffice2010Blue()
-        : base(_schemeOfficeColors,
+        : base(_schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,

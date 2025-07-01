@@ -70,7 +70,7 @@ public class PaletteOffice2007Silver : PaletteOffice2007Base
         Color.FromArgb(64, Color.White),    // Outside position
         Color.FromArgb(80, 81, 82)          // Border (normal) position
     ];
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb( 56,  63,  70),    // TextLabelControl
         Color.FromArgb( 56,  63,  70),    // TextButtonNormal
@@ -325,7 +325,7 @@ public class PaletteOffice2007Silver : PaletteOffice2007Base
     /// </summary>
     public PaletteOffice2007Silver()
         : base("Office 2007 - Silver",
-            _schemeOfficeColors,
+            _schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,

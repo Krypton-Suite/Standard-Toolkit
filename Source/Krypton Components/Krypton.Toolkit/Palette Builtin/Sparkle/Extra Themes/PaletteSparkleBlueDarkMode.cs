@@ -997,9 +997,9 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ControlRibbon:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
             case PaletteBackStyle.ControlRibbonAppMenu:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonBack1];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonBack1];
             default:
                 throw DebugTools.NotImplemented(style.ToString());
         }
@@ -1220,7 +1220,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal => _colorWhite220,
-                    PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive],
+                    PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeBaseColors.FormHeaderShortActive],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorWhite238,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
@@ -1229,16 +1229,16 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.CheckedNormal => _colorWhite220,
-                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.FormHeaderShortActive],
+                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.FormHeaderShortActive],
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ContextMenuItemSplit:
                 return state == PaletteState.Disabled ? _colorWhite240 : _colorWhite255;
 
             case PaletteBackStyle.ControlRibbon:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
             case PaletteBackStyle.ControlRibbonAppMenu:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonBack2];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonBack2];
             case PaletteBackStyle.ControlToolTip:
                 return _toolTipBack2;
             default:
@@ -1586,8 +1586,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
-            PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5],
-            PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
+            PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5],
+            PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder],
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
@@ -1659,8 +1659,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
-            PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5],
-            PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
+            PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5],
+            PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder],
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
@@ -2244,21 +2244,21 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl => state switch
                 {
                     PaletteState.LinkNotVisitedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkNotVisitedOverrideControl],
+                        (int)SchemeBaseColors.LinkNotVisitedOverrideControl],
                     PaletteState.LinkVisitedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkVisitedOverrideControl],
+                        (int)SchemeBaseColors.LinkVisitedOverrideControl],
                     PaletteState.LinkPressedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkPressedOverrideControl],
+                        (int)SchemeBaseColors.LinkPressedOverrideControl],
                     _ => GlobalStaticValues.EMPTY_COLOR
                 },
                 PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => state switch
                 {
                     PaletteState.LinkNotVisitedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkNotVisitedOverridePanel],
+                        (int)SchemeBaseColors.LinkNotVisitedOverridePanel],
                     PaletteState.LinkVisitedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkVisitedOverridePanel],
+                        (int)SchemeBaseColors.LinkVisitedOverridePanel],
                     PaletteState.LinkPressedOverride => _ribbonColors[
-                        (int)SchemeOfficeColors.LinkPressedOverridePanel],
+                        (int)SchemeBaseColors.LinkPressedOverridePanel],
                     _ => GlobalStaticValues.EMPTY_COLOR
                 },
                 _ => GlobalStaticValues.EMPTY_COLOR
@@ -3517,7 +3517,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Font value.</returns>
-    public override Color GetRibbonContextTextColor(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextNormal];
+    public override Color GetRibbonContextTextColor(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal];
 
     /// <summary>
     /// Gets the dark disabled color used for ribbon glyphs.
@@ -3538,63 +3538,63 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
+    public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogLight];
 
     /// <summary>
     /// Gets the color for the drop arrow dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
+    public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogDark];
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
+    public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogDark];
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
+    public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupDialogLight];
 
     /// <summary>
     /// Gets the color for the group separator dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorDark];
+    public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupSeparatorDark];
 
     /// <summary>
     /// Gets the color for the group separator light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorLight];
+    public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonGroupSeparatorLight];
 
     /// <summary>
     /// Gets the color for the minimize bar dark.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarDark];
+    public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonMinimizeBarDark];
 
     /// <summary>
     /// Gets the color for the minimize bar light.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarLight];
+    public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonMinimizeBarLight];
 
     /// <summary>
     /// Gets the color for the tab separator.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonTabSeparatorColor];
+    public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonTabSeparatorColor];
 
     /// <summary>
     /// Gets the color for the tab context separators.
@@ -3622,14 +3622,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonDark];
+    public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonQATButtonDark];
 
     /// <summary>
     /// Gets the color for the extra QAT button light content color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonLight];
+    public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColors[(int)SchemeBaseColors.RibbonQATButtonLight];
 
     #endregion
 
@@ -3784,36 +3784,36 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBorder]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGalleryBorder]
                 };
             case PaletteRibbonBackStyle.RibbonAppMenuDocs:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonMenuDocsBack];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonMenuDocsBack];
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonInner1];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonInner1];
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter1];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter1];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini1]
-                    : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini1I];
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini1]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini1I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar1];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar1];
             case PaletteRibbonBackStyle.RibbonQATOverflow:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonQATOverflow1];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATOverflow1];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
                 return state switch
                 {
                     PaletteState.Tracking or PaletteState.Pressed => _sparkleColors[30],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameBorder1]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameBorder1]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorder1];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorderT1];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBorderContext[0];
                     case PaletteState.ContextTracking:
@@ -3831,15 +3831,15 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.ContextNormal or PaletteState.ContextTracking => _contextGroupFrameTop,
                     PaletteState.Tracking or PaletteState.Pressed => _sparkleColors[32],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside1]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside1]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBack1];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBackT1];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBackContext[0];
                     case PaletteState.ContextTracking:
@@ -3855,12 +3855,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitle1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitle1];
                     case PaletteState.ContextNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleContext1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitleContext1];
                     case PaletteState.Tracking:
                     case PaletteState.ContextTracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleTracking1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitleTracking1];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -3873,10 +3873,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     case PaletteState.Normal:
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorder1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder1];
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorderContext1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorderContext1];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -3901,20 +3901,20 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea5];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
                     case PaletteState.ContextTracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking1];
                     case PaletteState.CheckedNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected1];
                     case PaletteState.CheckedTracking:
                         return _colorDark00;
                     case PaletteState.CheckedPressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight1];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabHighlight1];
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
                     case PaletteState.FocusOverride:
@@ -3949,31 +3949,31 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonAppMenuInner:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonInner2];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonInner2];
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter2];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter2];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini2]
-                    : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini2I];
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini2]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini2I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar2];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar2];
             case PaletteRibbonBackStyle.RibbonQATOverflow:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonQATOverflow2];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATOverflow2];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedFrameBorder:
                 return state switch
                 {
                     PaletteState.Tracking or PaletteState.Pressed => _sparkleColors[31],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameBorder2]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameBorder2]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorder2];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorderT2];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBorderContext[1];
                     case PaletteState.ContextTracking:
@@ -3991,15 +3991,15 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.ContextNormal or PaletteState.ContextTracking => _contextGroupFrameBottom,
                     PaletteState.Tracking or PaletteState.Pressed => _sparkleColors[33],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside2]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside2]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBack2];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBackT2];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBackContext[1];
                     case PaletteState.ContextTracking:
@@ -4015,12 +4015,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitle2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitle2];
                     case PaletteState.ContextNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleContext2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitleContext2];
                     case PaletteState.Tracking:
                     case PaletteState.ContextTracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupTitleTracking2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupTitleTracking2];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4033,10 +4033,10 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     case PaletteState.Normal:
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorder2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorder2];
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupBorderContext2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupBorderContext2];
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -4061,19 +4061,19 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea4];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea4];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                         return _sparkleColors[35];
                     case PaletteState.Pressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.CheckedNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected2];
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabHighlight2];
                     case PaletteState.ContextCheckedTracking:
                         return _sparkleColors[36];
                     case PaletteState.FocusOverride:
@@ -4115,21 +4115,21 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonAppMenuOuter:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonOuter3];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonOuter3];
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini3]
-                    : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini3I];
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini3]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini3I];
 
             case PaletteRibbonBackStyle.RibbonQATFullbar:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonQATFullbar3];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonQATFullbar3];
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorder3];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorderT3];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBorderContext[2];
                     case PaletteState.ContextTracking:
@@ -4147,15 +4147,15 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.ContextNormal or PaletteState.ContextTracking => GlobalStaticValues.EMPTY_COLOR,
                     PaletteState.Tracking or PaletteState.Pressed => _sparkleColors[34],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside3]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside3]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBack3];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBackT3];
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
                         return GlobalStaticValues.EMPTY_COLOR;
@@ -4192,18 +4192,18 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea3];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea3];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.CheckedNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected3];
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight3];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabHighlight3];
                     case PaletteState.ContextTracking:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
@@ -4239,16 +4239,16 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         {
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini4]
-                    : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini4I];
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini4]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini4I];
 
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBorder:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorder4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorder4];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBorderT4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBorderT4];
                     case PaletteState.ContextNormal:
                         return _ribbonGroupCollapsedBorderContext[3];
                     case PaletteState.ContextTracking:
@@ -4266,15 +4266,15 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.ContextNormal or PaletteState.ContextTracking => GlobalStaticValues.EMPTY_COLOR,
                     PaletteState.Tracking or PaletteState.Pressed => _ribbonFrameBack4,
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupFrameInside4]
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonGroupFrameInside4]
                 };
             case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBack4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBack4];
                     case PaletteState.Tracking:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedBackT4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedBackT4];
                     case PaletteState.ContextNormal:
                     case PaletteState.ContextTracking:
                         return GlobalStaticValues.EMPTY_COLOR;
@@ -4313,18 +4313,18 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea2];
+                return _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea2];
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.CheckedNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight4];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabHighlight4];
                     case PaletteState.ContextTracking:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
@@ -4374,8 +4374,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return GlobalStaticValues.EMPTY_COLOR;
             case PaletteRibbonBackStyle.RibbonQATMinibar:
                 return state == PaletteState.Normal
-                    ? _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini5]
-                    : _ribbonColors[(int)SchemeOfficeColors.RibbonQATMini5I];
+                    ? _ribbonColors[(int)SchemeBaseColors.RibbonQATMini5]
+                    : _ribbonColors[(int)SchemeBaseColors.RibbonQATMini5I];
 
             case PaletteRibbonBackStyle.RibbonAppButton:
                 switch (state)
@@ -4394,7 +4394,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                return state == PaletteState.ContextCheckedNormal ? GlobalStaticValues.EMPTY_COLOR : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1];
+                return state == PaletteState.ContextCheckedNormal ? GlobalStaticValues.EMPTY_COLOR : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea1];
 
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
@@ -4403,12 +4403,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                         return _disabledText;
                     case PaletteState.Tracking:
                     case PaletteState.Pressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabTracking2];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabTracking2];
                     case PaletteState.CheckedNormal:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSelected5];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected5];
                     case PaletteState.CheckedTracking:
                     case PaletteState.CheckedPressed:
-                        return _ribbonColors[(int)SchemeOfficeColors.RibbonTabHighlight5];
+                        return _ribbonColors[(int)SchemeBaseColors.RibbonTabHighlight5];
                     case PaletteState.ContextTracking:
                     case PaletteState.ContextCheckedNormal:
                     case PaletteState.ContextCheckedTracking:
@@ -4446,14 +4446,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         {
             case PaletteRibbonTextStyle.RibbonAppMenuDocsTitle:
             case PaletteRibbonTextStyle.RibbonAppMenuDocsEntry:
-                return _ribbonColors[(int)SchemeOfficeColors.AppButtonMenuDocsText];
+                return _ribbonColors[(int)SchemeBaseColors.AppButtonMenuDocsText];
             case PaletteRibbonTextStyle.RibbonTab:
                 return state switch
                 {
                     PaletteState.Disabled => _disabledText,
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorWhite255,
-                    PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextChecked],
-                    _ => _ribbonColors[(int)SchemeOfficeColors.RibbonTabTextNormal]
+                    PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextChecked],
+                    _ => _ribbonColors[(int)SchemeBaseColors.RibbonTabTextNormal]
                 };
             case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
@@ -4461,7 +4461,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteRibbonTextStyle.RibbonGroupLabelText:
             case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
             case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
+                return state == PaletteState.Disabled ? _disabledText : _ribbonColors[(int)SchemeBaseColors.RibbonGroupCollapsedText];
 
             default:
                 // Should never happen!

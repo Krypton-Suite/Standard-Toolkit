@@ -73,7 +73,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
         Color.FromArgb(35, 35, 35) // Border (normal) position
     ];
 
-    private static readonly Color[] _schemeOfficeColors =
+    private static readonly Color[] _schemeBaseColors =
     [
         Color.FromArgb(70, 70, 70),  // (76, 83, 92), // TextLabelControl
         Color.FromArgb(70, 70, 70), // TextButtonNormal
@@ -335,7 +335,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
     /// </summary>
     public PaletteOffice2007Black()
         : base("Office 2007 - Black",
-            _schemeOfficeColors,
+            _schemeBaseColors,
             _checkBoxList,
             _galleryButtonList,
             _radioButtonArray,
@@ -376,7 +376,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _schemeOfficeColors[(int)SchemeOfficeColors.HeaderPrimaryBack1];
+                        return _schemeBaseColors[(int)SchemeBaseColors.HeaderPrimaryBack1];
                 }
                 break;
         }
@@ -400,7 +400,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
+                        return _schemeBaseColors[(int)SchemeBaseColors.ControlBorder];
                 }
                 break;
         }
@@ -422,7 +422,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
                 switch (state)
                 {
                     case PaletteState.Normal:
-                        return _schemeOfficeColors[(int)SchemeOfficeColors.ControlBorder];
+                        return _schemeBaseColors[(int)SchemeBaseColors.ControlBorder];
                 }
                 break;
         }
@@ -446,7 +446,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
             {
                 case PaletteState.FocusOverride:
                 case PaletteState.CheckedNormal:
-                    return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                    return _schemeBaseColors[(int)SchemeBaseColors.TextButtonFormPressed];
             }
         }
 
@@ -467,7 +467,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
             {
                 case PaletteState.FocusOverride:
                 case PaletteState.CheckedNormal:
-                    return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                    return _schemeBaseColors[(int)SchemeBaseColors.TextButtonFormPressed];
             }
         }
 
@@ -488,7 +488,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
             {
                 case PaletteState.FocusOverride:
                 case PaletteState.CheckedNormal:
-                    return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                    return _schemeBaseColors[(int)SchemeBaseColors.TextButtonFormPressed];
             }
         }
 
@@ -509,7 +509,7 @@ public class PaletteOffice2007Black : PaletteOffice2007Base
             {
                 case PaletteState.FocusOverride:
                 case PaletteState.CheckedNormal:
-                    return _schemeOfficeColors[(int)SchemeOfficeColors.TextButtonFormPressed];
+                    return _schemeBaseColors[(int)SchemeBaseColors.TextButtonFormPressed];
             }
         }
 
