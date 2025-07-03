@@ -2,6 +2,11 @@
 
 =======
 
+# 2025-08-25 - Build 2508 (Patch 8) - August 2025
+* Resolved [#2264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2264), Implementation of style: `PaletteBackStyle.Control`, `PaletteContentStyle.LabelAlternateControl` and `PaletteContentStyle.LabelAlternatePanel` in all themes.
+
+=======
+
 # 2025-06-23 - Build 2506 (Patch 7) - June 2025
 * Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), `KryptonAutoHiddenSlidePanel.PreFilterMessage` will now use the ActiveFormTracker.
 * Resolved [#2260](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2260), `KryptonBreadCrumb` Items designer lacks the cancel button.
