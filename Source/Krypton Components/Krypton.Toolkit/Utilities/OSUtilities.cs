@@ -15,47 +15,10 @@ namespace Krypton.Toolkit;
 /// <summary>Gets access to specific information about the client operating system.</summary>
 public class OSUtilities
 {
-    #region Classes
-    /// <summary>
-    /// Version data obtained via the RtlGetVersion API call.
-    /// </summary>
-    public class OsVersionInfoData
-    {
-        // Call refresh before first use / after instantiation.
-        public void Refresh()
-        {
-            PI.OSVERSIONINFOEX osvi = new()
-            {
-                dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
-            };
-            PI.RtlGetVersion(ref osvi);
-
-            MajorVersion = ((int)osvi.dwMajorVersion);
-            MinorVersion = ((int)osvi.dwMinorVersion);
-            BuildNumber = ((int)osvi.dwBuildNumber);
-            PlatformId = ((int)osvi.dwPlatformId);
-            CSDVersion = osvi.szCSDVersion;
-            ServicePackMajor = ((short)osvi.wServicePackMajor);
-            ServicePackMinor = ((short)osvi.wServicePackMinor);
-            SuiteMask = ((short)osvi.wSuiteMask);
-            ProductType = osvi.wProductType;
-        }
-
-        public int MajorVersion { get; private set; }
-        public int MinorVersion { get; private set; }
-        public int BuildNumber { get; private set; }
-        public int PlatformId { get; private set; }
-        public string CSDVersion { get; private set; }
-        public short ServicePackMajor { get; private set; }
-        public short ServicePackMinor { get; private set; }
-        public short SuiteMask { get; private set; }
-        public byte ProductType { get; private set; }
-    }
-    #endregion
-
     #region Static Identity
     static OSUtilities()
     {
+        OsVersionInfo = new OsVersionInfo();
         Refresh();
     }
     #endregion
@@ -92,24 +55,59 @@ public class OSUtilities
     public static bool Is64BitOperatingSystem { get; private set; }
 
     /// <summary>OSVersionInfo data obtained from the Windows Api call RtlGetVersion.</summary>
-    public static OsVersionInfoData OsVersionInfo { get; private set; }
+    public static OsVersionInfo OsVersionInfo { get; private set; }
 
     /// <summary> Rereads the version info. </summary>
     public static void Refresh()
     {
         // First update OsVersionEx data
-        OsVersionInfo ??= new OsVersionInfoData();
         OsVersionInfo.Refresh();
 
         // Set the properties
         IsWindowsSeven = Environment.OSVersion.Version is { Major: 6, Minor: 1 };
         IsWindowsEight = Environment.OSVersion.Version is { Major: 6, Minor: 2 };
         IsWindowsEightPointOne = Environment.OSVersion.Version is { Major: 6, Minor: 3 };
-        IsWindowsTen = OsVersionInfo is { MajorVersion: 10, BuildNumber: <= 19045 }; // needs an update when the next release comes out.
+        IsWindowsTen = OsVersionInfo is { MajorVersion: 10, BuildNumber: <= 19045 }; 
         IsWindowsEleven = OsVersionInfo is { MajorVersion: 10, BuildNumber: > 19045 }; // needs an update when the next release comes out.
-        IsAtLeastWindowsEleven = OsVersionInfo is { MajorVersion: >= 10, BuildNumber: > 19045 };
+        IsAtLeastWindowsEleven = OsVersionInfo is { MajorVersion: >= 10, BuildNumber: > 19045 }; // needs an update when the next release comes out.
         Is64BitOperatingSystem = Environment.Is64BitOperatingSystem;
     }
-
     #endregion
+}
+
+/// <summary>
+/// Version data obtained via the RtlGetVersion API call.<br/>
+/// Used by static class OSUtilities
+/// </summary>
+public class OsVersionInfo
+{
+    // Call refresh before first use / after instantiation.
+    public void Refresh()
+    {
+        PI.OSVERSIONINFOEX osvi = new()
+        {
+            dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
+        };
+        PI.RtlGetVersion(ref osvi);
+
+        MajorVersion = ((int)osvi.dwMajorVersion);
+        MinorVersion = ((int)osvi.dwMinorVersion);
+        BuildNumber = ((int)osvi.dwBuildNumber);
+        PlatformId = ((int)osvi.dwPlatformId);
+        CSDVersion = osvi.szCSDVersion;
+        ServicePackMajor = ((short)osvi.wServicePackMajor);
+        ServicePackMinor = ((short)osvi.wServicePackMinor);
+        SuiteMask = ((short)osvi.wSuiteMask);
+        ProductType = osvi.wProductType;
+    }
+
+    public int MajorVersion { get; private set; }
+    public int MinorVersion { get; private set; }
+    public int BuildNumber { get; private set; }
+    public int PlatformId { get; private set; }
+    public string CSDVersion { get; private set; }
+    public short ServicePackMajor { get; private set; }
+    public short ServicePackMinor { get; private set; }
+    public short SuiteMask { get; private set; }
+    public byte ProductType { get; private set; }
 }

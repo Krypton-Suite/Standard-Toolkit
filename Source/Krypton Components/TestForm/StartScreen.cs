@@ -180,7 +180,7 @@ public partial class StartScreen : KryptonForm
 
     private void btnColourTestimonials_Click(object sender, EventArgs e)
     {
-        new ColorTestimonials().Show();
+        new PanelForm().Show();
     }
 
     private void kbtnRibbonNavigatorWorkspace_Click(object sender, EventArgs e)
