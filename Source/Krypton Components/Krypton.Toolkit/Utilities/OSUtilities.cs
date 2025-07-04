@@ -22,7 +22,7 @@ public class OSUtilities
     public class OsVersionInfoData
     {
         // Call refresh before first use / after instantiation.
-        internal void Refresh()
+        public void Refresh()
         {
             PI.OSVERSIONINFOEX osvi = new()
             {
