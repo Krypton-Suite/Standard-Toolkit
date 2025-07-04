@@ -15,22 +15,48 @@ namespace Krypton.Toolkit;
 /// <summary>Gets access to specific information about the client operating system.</summary>
 public class OSUtilities
 {
+    #region Classes
+    /// <summary>
+    /// Version data obtained via the RtlGetVersion API call.
+    /// </summary>
+    public class OsVersionInfoData
+    {
+        // Call refresh before first use / after instantiation.
+        internal void Refresh()
+        {
+            PI.OSVERSIONINFOEX osvi = new()
+            {
+                dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
+            };
+            PI.RtlGetVersion(ref osvi);
+
+            MajorVersion = ((int)osvi.dwMajorVersion);
+            MinorVersion = ((int)osvi.dwMinorVersion);
+            BuildNumber = ((int)osvi.dwBuildNumber);
+            PlatformId = ((int)osvi.dwPlatformId);
+            CSDVersion = osvi.szCSDVersion;
+            ServicePackMajor = ((short)osvi.wServicePackMajor);
+            ServicePackMinor = ((short)osvi.wServicePackMinor);
+            SuiteMask = ((short)osvi.wSuiteMask);
+            ProductType = osvi.wProductType;
+        }
+
+        public int MajorVersion { get; private set; }
+        public int MinorVersion { get; private set; }
+        public int BuildNumber { get; private set; }
+        public int PlatformId { get; private set; }
+        public string CSDVersion { get; private set; }
+        public short ServicePackMajor { get; private set; }
+        public short ServicePackMinor { get; private set; }
+        public short SuiteMask { get; private set; }
+        public byte ProductType { get; private set; }
+    }
+    #endregion
+
     #region Static Identity
     static OSUtilities()
     {
-        PI.OSVERSIONINFOEX osvi = new()
-        {
-            dwOSVersionInfoSize = (uint)Marshal.SizeOf<PI.OSVERSIONINFOEX>()
-        };
-        PI.RtlGetVersion(ref osvi);
-
-        // evaluate and initialize once at startup
-        IsWindowsSeven = Environment.OSVersion.Version is { Major: 6, Minor: 1 };
-        IsWindowsEight = Environment.OSVersion.Version is { Major: 6, Minor: 2 };
-        IsWindowsEightPointOne = Environment.OSVersion.Version is { Major: 6, Minor: 3 };
-        IsWindowsTen = osvi is { dwMajorVersion: 10, dwBuildNumber: <= 19045 };
-        IsAtLeastWindowsEleven = osvi is { dwMajorVersion: >= 10, dwBuildNumber: > 19045 };
-        Is64BitOperatingSystem = Environment.Is64BitOperatingSystem;
+        Refresh();
     }
     #endregion
 
@@ -39,26 +65,51 @@ public class OSUtilities
 
     /// <summary>Gets a value indicating whether the client version is Windows 7.</summary>
     /// <value><c>true</c> if the client version is Windows 7; otherwise, <c>false</c>.</value>
-    public static bool IsWindowsSeven { get; }
+    public static bool IsWindowsSeven { get; private set; }
 
     /// <summary>Gets a value indicating whether the client version is Windows 8.</summary>
     /// <value><c>true</c> if the client version is Windows 8; otherwise, <c>false</c>.</value>
-    public static bool IsWindowsEight { get; }
+    public static bool IsWindowsEight { get; private set; }
 
     /// <summary>Gets a value indicating whether the client version is Windows 8.1.</summary>
     /// <value><c>true</c> if the client version is Windows 8.1; otherwise, <c>false</c>.</value>
-    public static bool IsWindowsEightPointOne { get; }
+    public static bool IsWindowsEightPointOne { get; private set; }
 
     /// <summary>Gets a value indicating whether the client version is Windows 10.</summary>
     /// <value><c>true</c> if the client version is Windows 10; otherwise, <c>false</c>.</value>
-    public static bool IsWindowsTen { get; }
+    public static bool IsWindowsTen { get; private set; }
 
     /// <summary>Gets a value indicating whether the client version is Windows 11.</summary>
     /// <value><c>true</c> if the client version is Windows 11; otherwise, <c>false</c>.</value>
-    public static bool IsAtLeastWindowsEleven { get; }
+    public static bool IsWindowsEleven { get; private set; }
+
+    /// <summary>Gets a value indicating whether the client version is Windows 11.</summary>
+    /// <value><c>true</c> if the client version is Windows 11; otherwise, <c>false</c>.</value>
+    public static bool IsAtLeastWindowsEleven { get; private set; }
 
     /// <summary>Gets a value indicating whether the client is a 64 bit operating system.</summary>
     /// <value><c>true</c> if the client is a 64 bit operating system; otherwise, <c>false</c>.</value>
-    public static bool Is64BitOperatingSystem { get; }
+    public static bool Is64BitOperatingSystem { get; private set; }
+
+    /// <summary>OSVersionInfo data obtained from the Windows Api call RtlGetVersion.</summary>
+    public static OsVersionInfoData OsVersionInfo { get; private set; }
+
+    /// <summary> Rereads the version info. </summary>
+    public static void Refresh()
+    {
+        // First update OsVersionEx data
+        OsVersionInfo ??= new OsVersionInfoData();
+        OsVersionInfo.Refresh();
+
+        // Set the properties
+        IsWindowsSeven = Environment.OSVersion.Version is { Major: 6, Minor: 1 };
+        IsWindowsEight = Environment.OSVersion.Version is { Major: 6, Minor: 2 };
+        IsWindowsEightPointOne = Environment.OSVersion.Version is { Major: 6, Minor: 3 };
+        IsWindowsTen = OsVersionInfo is { MajorVersion: 10, BuildNumber: <= 19045 }; // needs an update when the next release comes out.
+        IsWindowsEleven = OsVersionInfo is { MajorVersion: 10, BuildNumber: > 19045 }; // needs an update when the next release comes out.
+        IsAtLeastWindowsEleven = OsVersionInfo is { MajorVersion: >= 10, BuildNumber: > 19045 };
+        Is64BitOperatingSystem = Environment.Is64BitOperatingSystem;
+    }
+
     #endregion
 }
