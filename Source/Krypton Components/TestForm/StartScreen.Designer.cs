@@ -42,6 +42,7 @@ namespace TestForm
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnBlurredForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnSplashScreen = new Krypton.Toolkit.KryptonButton();
             this.kbtnControlStyles = new Krypton.Toolkit.KryptonButton();
             this.kbtnDateTime = new Krypton.Toolkit.KryptonButton();
@@ -75,7 +76,6 @@ namespace TestForm
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnBlurredForm = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -119,8 +119,19 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(366, 500);
+            this.kryptonPanel1.Size = new System.Drawing.Size(358, 476);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnBlurredForm
+            // 
+            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 439);
+            this.kbtnBlurredForm.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnBlurredForm.Name = "kbtnBlurredForm";
+            this.kbtnBlurredForm.Size = new System.Drawing.Size(153, 20);
+            this.kbtnBlurredForm.TabIndex = 32;
+            this.kbtnBlurredForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnBlurredForm.Values.Text = "Blurred Form";
+            this.kbtnBlurredForm.Click += new System.EventHandler(this.kbtnBlurredForm_Click);
             // 
             // kbtnSplashScreen
             // 
@@ -476,24 +487,13 @@ namespace TestForm
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
-            // kbtnBlurredForm
-            // 
-            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 439);
-            this.kbtnBlurredForm.Margin = new System.Windows.Forms.Padding(2);
-            this.kbtnBlurredForm.Name = "kbtnBlurredForm";
-            this.kbtnBlurredForm.Size = new System.Drawing.Size(153, 20);
-            this.kbtnBlurredForm.TabIndex = 32;
-            this.kbtnBlurredForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnBlurredForm.Values.Text = "Blurred Form";
-            this.kbtnBlurredForm.Click += new System.EventHandler(this.kbtnBlurredForm_Click);
-            // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(366, 500);
+            this.ClientSize = new System.Drawing.Size(358, 476);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

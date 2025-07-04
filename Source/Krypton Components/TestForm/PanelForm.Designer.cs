@@ -54,6 +54,7 @@
             this.kryptonButton1.TabIndex = 0;
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "kryptonButton1";
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // dataGridView1
             // 
@@ -70,7 +71,7 @@
             this.Column9,
             this.Column10,
             this.Column11});
-            this.dataGridView1.Location = new System.Drawing.Point(512, 150);
+            this.dataGridView1.Location = new System.Drawing.Point(106, 162);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 2;
@@ -144,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1262, 636);
+            this.ClientSize = new System.Drawing.Size(1266, 624);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.kryptonButton1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
