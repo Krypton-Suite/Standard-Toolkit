@@ -272,7 +272,6 @@ namespace Krypton.Toolkit
             Color.FromArgb(240, 241, 242), // RibbonGalleryBackTracking
             Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
             Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
-            Color.Empty, // RibbonTabTracking1
             Color.Empty, // RibbonTabTracking3
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
