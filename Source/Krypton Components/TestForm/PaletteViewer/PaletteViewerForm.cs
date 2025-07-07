@@ -1005,7 +1005,6 @@ namespace TestForm
         }
 
         private void SaveCsv_Click(object sender, EventArgs e) => SaveGrid("csv");
-        private void SaveJson_Click(object sender, EventArgs e) => SaveGrid("json");
         private void SaveXml_Click(object sender, EventArgs e) => SaveGrid("xml");
 
         private void SaveGrid(string format)
@@ -1026,9 +1025,6 @@ namespace TestForm
                         case "csv":
                             File.WriteAllText(sfd.FileName, ExportCsv());
                             break;
-                        case "json":
-                            File.WriteAllText(sfd.FileName, ExportJson());
-                            break;
                         case "xml":
                             ExportXml(sfd.FileName);
                             break;
@@ -1043,8 +1039,6 @@ namespace TestForm
         }
 
         private string ExportCsv() => Classes.Exporter.ToCsv(this.dataGridViewPalette);
-
-        private string ExportJson() => Classes.Exporter.ToJson(this.dataGridViewPalette);
 
         private void ExportXml(string fileName) => Classes.Exporter.ToXml(this.dataGridViewPalette, fileName);
 

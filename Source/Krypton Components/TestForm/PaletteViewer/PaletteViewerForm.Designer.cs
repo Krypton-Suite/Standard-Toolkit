@@ -151,7 +151,6 @@ namespace TestForm
             this.comboSaveFormat.DropDownWidth = 100;
             this.comboSaveFormat.Items.AddRange(new object[] {
             "CSV",
-            "JSON",
             "XML"});
             this.comboSaveFormat.Location = new System.Drawing.Point(935, 8);
             this.comboSaveFormat.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
