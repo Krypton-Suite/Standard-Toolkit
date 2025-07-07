@@ -106,14 +106,31 @@ namespace TestForm
             UpdateStatus("Ready");
 
             UpdateUIState();
-
-            // Arrange toolbar controls dynamically to prevent overlap
-            //this.panelTop.Layout += PanelTop_Layout;
         }
 
         public void AttachKryptonManager(Krypton.Toolkit.KryptonManager manager)
         {
             kryptonManager1 = manager;
+            UpdateThemeSwitcher();
+        }
+
+        private void UpdateThemeSwitcher()
+        {
+            if (kryptonManager1 == null || kryptonThemeComboBox == null)
+            {
+                return;
+            }
+
+            if (kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom && EnumToDisplay.TryGetValue(kryptonManager1.GlobalPaletteMode, out string disp))
+            {
+                kryptonThemeComboBox.SelectedItem = disp;
+            }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            UpdateThemeSwitcher();
         }
 
         private void LoadApiCalls()
@@ -200,6 +217,7 @@ namespace TestForm
             colApi.MinimumWidth = 150;
             colApi.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             colApi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            colApi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewPalette.Columns.Add(colApi);
 
             if (_enumValues == null)
@@ -220,7 +238,10 @@ namespace TestForm
             this.dataGridViewPalette.AutoResizeColumns(System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells);
             foreach (System.Windows.Forms.DataGridViewColumn col in this.dataGridViewPalette.Columns)
             {
-                col.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+                if (col.Name != "colApi")
+                {
+                    col.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+                }
             }
 
             UpdateUIState();
@@ -228,10 +249,23 @@ namespace TestForm
 
         private void AdjustRowHeights()
         {
-            // Enable automatic row height adjustment so that each row expands
-            // to fit its full content without an artificial two-line limit.
-            this.dataGridViewPalette.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridViewPalette.AutoResizeRows(System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells);
+            const int padding = 4;
+
+            int singleLineHeight = 22;
+
+            foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                var cell = row.Cells.Count > 2 ? row.Cells[2] : null; // API column
+                int lineCount = 1;
+                if (cell?.Value is string txt && txt.Length > 0)
+                {
+                    lineCount = txt.Split('\n').Length;
+                }
+
+                row.Height = (singleLineHeight * lineCount) + padding;
+            }
         }
 
         private void BuildMethodEnumMapping(Krypton.Toolkit.PaletteBase palette)
@@ -387,7 +421,7 @@ namespace TestForm
                     var enName = _enumValues[i].ToString();
                     if (enumMethodMap.TryGetValue(enName, out var mlist))
                     {
-                        var joined = string.Join(" ", mlist);
+                        var joined = string.Join("\n", mlist);
                         var apiCell = this.dataGridViewPalette.Rows[i].Cells[2];
                         apiCell.Value = joined;
                         apiCell.Tag = mlist.Count > 1;
@@ -716,10 +750,6 @@ namespace TestForm
             {
                 this.comboTheme.SelectedItem = preferredDisplay;
             }
-            else if (kryptonManager1 != null && kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom && EnumToDisplay.TryGetValue(kryptonManager1.GlobalPaletteMode, out string disp))
-            {
-                this.comboTheme.SelectedItem = disp;
-            }
         }
 
         private void ComboTheme_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -879,6 +909,8 @@ namespace TestForm
             this._palettes.Clear();
             _baselineColors = null;
             _baselinePaletteName = null;
+            _processedBases.Clear();
+            _methodEnumMapping = null;
 
             BuildBaseRows();
 
@@ -1103,6 +1135,42 @@ namespace TestForm
                 return;
             }
 
+            // Custom draw for API column (#2)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 2)
+            {
+                // Draw background + border first to preserve gridlines
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
+
+                if (e.Value is string s && s.Length > 0)
+                {
+                    var font = e.CellStyle.Font ?? this.Font;
+                    var fore = e.CellStyle.ForeColor;
+                    int y = e.CellBounds.Y + 2;
+                    foreach (var line in s.Split('\n'))
+                    {
+                        TextRenderer.DrawText(e.Graphics, line, font,
+                            new System.Drawing.Rectangle(e.CellBounds.X + 2, y, e.CellBounds.Width - 4, font.Height),
+                            fore, TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.NoPadding | TextFormatFlags.EndEllipsis);
+                        y += font.Height + 2;
+                    }
+                }
+
+                // Highlight current cell border in red
+                if (this.dataGridViewPalette.CurrentCell != null && e.RowIndex == this.dataGridViewPalette.CurrentCell.RowIndex && e.ColumnIndex == this.dataGridViewPalette.CurrentCell.ColumnIndex)
+                {
+                    using (var pen = new System.Drawing.Pen(System.Drawing.Color.Red, 2))
+                    {
+                        var rect = e.CellBounds;
+                        rect.Width -= 1;
+                        rect.Height -= 1;
+                        e.Graphics.DrawRectangle(pen, rect);
+                    }
+                }
+
+                e.Handled = true;
+                return;
+            }
+
             if (this.dataGridViewPalette.CurrentCell != null && e.RowIndex == this.dataGridViewPalette.CurrentCell.RowIndex && e.ColumnIndex == this.dataGridViewPalette.CurrentCell.ColumnIndex)
             {
                 // Let default paint
@@ -1197,73 +1265,6 @@ namespace TestForm
                 {
                     _methodEnumMapping[kv.Key] = kv.Value;
                 }
-            }
-        }
-
-        private void PanelTop_Layout(object sender, LayoutEventArgs e)
-        {
-            if (this.panelTop == null)
-            {
-                return;
-            }
-
-            int leftPad = this.panelTop.Padding.Left + 3;
-            int rightPad = this.panelTop.Padding.Right;
-
-            // Ordered toolbar controls
-            Control[] order =
-            {
-                this.labelSourceTitle,
-                this.textSourcePath,
-                this.buttonBrowseSource,
-                this.comboTheme,
-                this.buttonAddPalette,
-                this.buttonRemovePalette,
-                this.buttonAddAll,
-                this.buttonClear,
-                this.comboSaveFormat,
-                this.buttonSave,
-                this.buttonCancel
-            };
-
-            // Gather visible controls and compute total width
-            var visibleList = new System.Collections.Generic.List<Control>();
-            int totalControlsWidth = 0;
-            foreach (var c in order)
-            {
-                if (c != null && c.Visible)
-                {
-                    visibleList.Add(c);
-                    totalControlsWidth += c.Width;
-                }
-            }
-
-            // Minimum gap between items
-            const int MinGap = 4;
-            int gap = MinGap;
-            if (visibleList.Count > 1)
-            {
-                int available = this.panelTop.Width - leftPad - rightPad - totalControlsWidth;
-                gap = System.Math.Max(MinGap, available / (visibleList.Count - 1));
-            }
-
-            int x = leftPad;
-            foreach (var ctrl in order)
-            {
-                if (ctrl == null)
-                {
-                    continue;
-                }
-
-                if (!ctrl.Visible)
-                {
-                    // Position invisible controls at current x but do not advance
-                    ctrl.Location = new System.Drawing.Point(x, ctrl.Location.Y);
-                    continue;
-                }
-
-                ctrl.Location = new System.Drawing.Point(x, (this.panelTop.Height - ctrl.Height) / 2);
-                x += ctrl.Width + gap;
             }
         }
 

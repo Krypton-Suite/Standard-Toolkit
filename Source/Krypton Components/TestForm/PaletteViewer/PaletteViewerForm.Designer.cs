@@ -19,6 +19,8 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel labelSourceTitle;
         private Krypton.Toolkit.KryptonTextBox textSourcePath;
         private Krypton.Toolkit.KryptonButton buttonBrowseSource;
+        private Krypton.Toolkit.KryptonLabel labelSwitchTheme;
+        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox;
 
         private void InitializeComponent()
         {
@@ -37,11 +39,14 @@ namespace TestForm
             this.labelSourceTitle = new Krypton.Toolkit.KryptonLabel();
             this.textSourcePath = new Krypton.Toolkit.KryptonTextBox();
             this.buttonBrowseSource = new Krypton.Toolkit.KryptonButton();
+            this.labelSwitchTheme = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonThemeComboBox = new Krypton.Toolkit.KryptonThemeComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboTheme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelTop)).BeginInit();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboSaveFormat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox)).BeginInit();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             //
@@ -114,6 +119,8 @@ namespace TestForm
             this.panelTop.Controls.Add(this.comboSaveFormat);
             this.panelTop.Controls.Add(this.buttonSave);
             this.panelTop.Controls.Add(this.buttonCancel);
+            this.panelTop.Controls.Add(this.labelSwitchTheme);
+            this.panelTop.Controls.Add(this.kryptonThemeComboBox);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
@@ -228,6 +235,27 @@ namespace TestForm
             this.buttonBrowseSource.Values.Text = "Browse Source";
             this.buttonBrowseSource.Click += new System.EventHandler(this.BtnBrowseSource_Click);
             //
+            // labelSwitchTheme
+            //
+            this.labelSwitchTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSwitchTheme.AutoSize = true;
+            this.labelSwitchTheme.Location = new System.Drawing.Point(834, 36);
+            this.labelSwitchTheme.Name = "labelSwitchTheme";
+            this.labelSwitchTheme.Size = new System.Drawing.Size(95, 18);
+            this.labelSwitchTheme.TabIndex = 11;
+            this.labelSwitchTheme.Values.Text = "Switch Theme:";
+            //
+            // kryptonThemeComboBox
+            //
+            this.kryptonThemeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonThemeComboBox.DropDownWidth = 200;
+            this.kryptonThemeComboBox.IntegralHeight = false;
+            this.kryptonThemeComboBox.Location = new System.Drawing.Point(935, 36);
+            this.kryptonThemeComboBox.Name = "kryptonThemeComboBox";
+            this.kryptonThemeComboBox.Size = new System.Drawing.Size(200, 22);
+            this.kryptonThemeComboBox.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox.TabIndex = 12;
+            //
             // MainForm
             //
             this.ClientSize = new System.Drawing.Size(1157, 626);
@@ -243,6 +271,7 @@ namespace TestForm
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboSaveFormat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
