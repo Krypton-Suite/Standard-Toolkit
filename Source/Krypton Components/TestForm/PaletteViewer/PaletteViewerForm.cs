@@ -218,6 +218,7 @@ namespace TestForm
             colApi.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             colApi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             colApi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            colApi.Frozen = true;
             this.dataGridViewPalette.Columns.Add(colApi);
 
             if (_enumValues == null)
@@ -863,6 +864,10 @@ namespace TestForm
             if (e.Column.Index != 2)
             {
                 e.Column.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            }
+            else
+            {
+                e.Column.Frozen = true;
             }
             e.Column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
         }

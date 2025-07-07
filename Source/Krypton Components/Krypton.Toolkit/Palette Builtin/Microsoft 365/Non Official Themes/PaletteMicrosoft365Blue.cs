@@ -274,7 +274,6 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
         Color.FromArgb(30, 57, 91),     // RibbonGroupCollapsedText
-        Color.FromArgb(30, 57, 91),     // RibbonGroupButtonText
         Color.FromArgb(118, 153, 200), // AlternatePressedBack1
         Color.FromArgb(184, 215, 253), // AlternatePressedBack2
         Color.FromArgb(135, 156, 175), // AlternatePressedBorder1
