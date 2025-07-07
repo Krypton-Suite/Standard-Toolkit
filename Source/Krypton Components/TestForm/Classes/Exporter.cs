@@ -1,6 +1,5 @@
 using System.Text;
 using System.Xml;
-using Newtonsoft.Json;
 
 namespace Classes
 {
@@ -30,24 +29,6 @@ namespace Classes
             }
 
             return sb.ToString();
-        }
-
-        public static string ToJson(DataGridView grid)
-        {
-            var root = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>>();
-            for (int c = 3; c < grid.Columns.Count; c++)
-            {
-                var theme = GetPaletteName(grid.Columns[c]);
-                var dict = new System.Collections.Generic.Dictionary<string, string>();
-                for (int r = 0; r < grid.Rows.Count; r++)
-                {
-                    var idx = grid.Rows[r].Cells[0].Value?.ToString() ?? r.ToString();
-                    var val = grid.Rows[r].Cells[c].Value?.ToString() ?? string.Empty;
-                    dict[idx] = val;
-                }
-                root[theme] = dict;
-            }
-            return JsonConvert.SerializeObject(root);
         }
 
         public static void ToXml(DataGridView grid, string fileName)

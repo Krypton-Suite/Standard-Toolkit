@@ -228,24 +228,10 @@ namespace TestForm
 
         private void AdjustRowHeights()
         {
-            int baseHeight = this.dataGridViewPalette.RowTemplate.Height;
-            int apiColIndex = this.dataGridViewPalette.Columns.Contains("colApi") ? this.dataGridViewPalette.Columns["colApi"].Index : -1;
-            foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
-            {
-                if (row.IsNewRow)
-                {
-                    continue;
-                }
-
-                bool multi = false;
-                if (apiColIndex >= 0 && apiColIndex < row.Cells.Count)
-                {
-                    var tag = row.Cells[apiColIndex].Tag;
-                    multi = tag is bool b && b;
-                }
-
-                row.Height = multi ? baseHeight * 2 : baseHeight;
-            }
+            // Enable automatic row height adjustment so that each row expands
+            // to fit its full content without an artificial two-line limit.
+            this.dataGridViewPalette.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewPalette.AutoResizeRows(System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells);
         }
 
         private void BuildMethodEnumMapping(Krypton.Toolkit.PaletteBase palette)
