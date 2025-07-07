@@ -27,7 +27,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonInputControl = new Padding(0);

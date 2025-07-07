@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -195,8 +195,8 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         Color.FromArgb(162, 173, 185), // FormBorderHeaderInactive
         Color.FromArgb(193, 212, 236), // FormBorderHeaderActive1
         Color.FromArgb(187, 206, 230), // FormBorderHeaderActive2
-        Color.FromArgb(223, 235, 247), // FormBorderHeaderInctive1
-        Color.FromArgb(223, 235, 247), // FormBorderHeaderInctive2
+        Color.FromArgb(223, 235, 247), // FormBorderHeaderInactive1
+        Color.FromArgb(223, 235, 247), // FormBorderHeaderInactive2
         Color.FromArgb(30, 57, 91), // FormHeaderShortActive
         Color.FromArgb(106, 128, 168), // FormHeaderShortInactive
         Color.FromArgb(30, 57, 91), // FormHeaderLongActive
@@ -267,13 +267,14 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT2
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT3
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupCollapsedBackT4
-        Color.FromArgb(189, 203, 218), // RibbonGroupFrameBorder1
-        Color.FromArgb(184, 199, 216), // RibbonGroupFrameBorder2
-        Color.FromArgb(233, 241, 250), // RibbonGroupFrameInside1
-        Color.FromArgb(222, 233, 246), // RibbonGroupFrameInside2
+        Color.FromArgb(189, 203, 218),  // RibbonGroupFrameBorder1
+        Color.FromArgb(184, 199, 216),  // RibbonGroupFrameBorder2
+        Color.FromArgb(233, 241, 250),  // RibbonGroupFrameInside1
+        Color.FromArgb(222, 233, 246),  // RibbonGroupFrameInside2
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
         GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
-        Color.FromArgb(30, 57, 91), // RibbonGroupCollapsedText
+        Color.FromArgb(30, 57, 91),     // RibbonGroupCollapsedText
+        Color.FromArgb(30, 57, 91),     // RibbonGroupButtonText
         Color.FromArgb(118, 153, 200), // AlternatePressedBack1
         Color.FromArgb(184, 215, 253), // AlternatePressedBack2
         Color.FromArgb(135, 156, 175), // AlternatePressedBorder1
@@ -287,44 +288,38 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         Color.FromArgb(219, 231, 247), // RibbonQATMini2
         Color.FromArgb(195, 213, 236), // RibbonQATMini3
         Color.FromArgb(128, Color.White), // RibbonQATMini4
-        Color.FromArgb(72, Color.White), // RibbonQATMini5                                                       
+        Color.FromArgb(72, Color.White), // RibbonQATMini5
         Color.FromArgb(153, 176, 206), // RibbonQATMini1I
         Color.FromArgb(226, 233, 241), // RibbonQATMini2I
         Color.FromArgb(198, 210, 226), // RibbonQATMini3I
         Color.FromArgb(128, Color.White), // RibbonQATMini4I
-        Color.FromArgb(72, Color.White), // RibbonQATMini5I                                                      
-        Color.FromArgb(213, 232, 254), // RibbonQATFullbar1                                                      
-        Color.FromArgb(205, 223, 245), // RibbonQATFullbar2                                                      
-        Color.FromArgb(114, 142, 173), // RibbonQATFullbar3                                                      
-        Color.FromArgb(90, 90, 90), // RibbonQATButtonDark                                                      
-        Color.FromArgb(207, 214, 224), // RibbonQATButtonLight                                                      
-        Color.FromArgb(222, 236, 252), // RibbonQATOverflow1                                                      
-        Color.FromArgb(123, 139, 156), // RibbonQATOverflow2                                                      
-        Color.FromArgb(145, 166,
-            194), // RibbonGroupSeparatorDark                                                      
-        Color.FromArgb(239, 245,
-            250), // RibbonGroupSeparatorLight                                                      
-        Color.FromArgb(192, 212,
-            241), // ButtonClusterButtonBack1                                                      
-        Color.FromArgb(200, 219,
-            238), // ButtonClusterButtonBack2                                                      
-        Color.FromArgb(155, 183,
-            224), // ButtonClusterButtonBorder1                                                      
-        Color.FromArgb(117, 150,
-            191), // ButtonClusterButtonBorder2                                                      
-        Color.FromArgb(213, 228, 242), // NavigatorMiniBackColor                                                    
-        Color.FromArgb(244, 249, 255), // GridListNormal1                                                    
-        Color.FromArgb(218, 231, 245), // GridListNormal2                                                    
-        Color.FromArgb(198, 211, 225), // GridListPressed1                                                    
-        Color.FromArgb(244, 249, 255), // GridListPressed2                                                    
-        Color.FromArgb(160, 185, 230), // GridListSelected                                                    
-        Color.FromArgb(233, 246, 255), // GridSheetColNormal1                                                    
-        Color.FromArgb(213, 226, 240), // GridSheetColNormal2                                                    
-        Color.FromArgb(255, 223, 107), // GridSheetColPressed1                                                    
-        Color.FromArgb(255, 252, 230), // GridSheetColPressed2                                                    
+        Color.FromArgb(72, Color.White), // RibbonQATMini5I
+        Color.FromArgb(213, 232, 254), // RibbonQATFullbar1
+        Color.FromArgb(205, 223, 245), // RibbonQATFullbar2
+        Color.FromArgb(114, 142, 173), // RibbonQATFullbar3
+        Color.FromArgb(90,   90,  90), // RibbonQATButtonDark
+        Color.FromArgb(207, 214, 224), // RibbonQATButtonLight
+        Color.FromArgb(222, 236, 252), // RibbonQATOverflow1
+        Color.FromArgb(123, 139, 156), // RibbonQATOverflow2
+        Color.FromArgb(145, 166, 194), // RibbonGroupSeparatorDark
+        Color.FromArgb(239, 245, 250), // RibbonGroupSeparatorLight
+        Color.FromArgb(192, 212, 241), // ButtonClusterButtonBack1
+        Color.FromArgb(200, 219, 238), // ButtonClusterButtonBack2
+        Color.FromArgb(155, 183, 224), // ButtonClusterButtonBorder1
+        Color.FromArgb(117, 150, 191), // ButtonClusterButtonBorder2
+        Color.FromArgb(213, 228, 242), // NavigatorMiniBackColor
+        Color.FromArgb(244, 249, 255), // GridListNormal1
+        Color.FromArgb(218, 231, 245), // GridListNormal2
+        Color.FromArgb(198, 211, 225), // GridListPressed1
+        Color.FromArgb(244, 249, 255), // GridListPressed2
+        Color.FromArgb(160, 185, 230), // GridListSelected
+        Color.FromArgb(233, 246, 255), // GridSheetColNormal1
+        Color.FromArgb(213, 226, 240), // GridSheetColNormal2
+        Color.FromArgb(255, 223, 107), // GridSheetColPressed1
+        Color.FromArgb(255, 252, 230), // GridSheetColPressed2
         Color.FromArgb(255, 211, 89), // GridSheetColSelected1
         Color.FromArgb(255, 239, 113), // GridSheetColSelected2
-        Color.FromArgb(218, 231, 245), // GridSheetRowNormal                                                   
+        Color.FromArgb(218, 231, 245), // GridSheetRowNormal
         Color.FromArgb(255, 223, 107), // GridSheetRowPressed
         Color.FromArgb(245, 210, 87), // GridSheetRowSelected
         Color.FromArgb(218, 220, 221), // GridDataCellBorder
@@ -351,7 +346,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         Color.FromArgb(195, 212, 235), // AppButtonOuter3
         GlobalStaticValues.EMPTY_COLOR, // AppButtonInner1
         Color.FromArgb(114, 142, 173), // AppButtonInner2
-        Color.White, // AppButtonMenuDocs
+        Color.White, // AppButtonMenuDocsBack
         Color.Black, // AppButtonMenuDocsText
         Color.FromArgb(239, 245, 255), // SeparatorHighInternalBorder1
         Color.FromArgb(200, 217, 239), // SeparatorHighInternalBorder2
@@ -378,8 +373,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
         Color.FromArgb(198, 214, 231), // ButtonNavigatorPressed2
         Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
         Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
-        Color.FromArgb(201, 217,
-            239) // ToolTipBottom                                                                      
+        Color.FromArgb(201, 217, 239)  // ToolTipBottom
     ];
 
     #endregion
@@ -424,7 +418,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
     }
     #endregion
 
-    #region Images        
+    #region Images
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.
     /// </summary>
@@ -435,7 +429,7 @@ public class PaletteMicrosoft365Blue : PaletteMicrosoft365Base
 
     #endregion
 
-    #region ButtonSpec        
+    #region ButtonSpec
     /// <summary>
     /// Gets the image to display for the button.
     /// </summary>
