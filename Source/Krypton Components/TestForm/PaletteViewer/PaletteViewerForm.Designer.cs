@@ -159,7 +159,7 @@ namespace TestForm
             this.comboSaveFormat.Items.AddRange(new object[] {
             "CSV",
             "XML"});
-            this.comboSaveFormat.Location = new System.Drawing.Point(935, 8);
+            this.comboSaveFormat.Location = new System.Drawing.Point(735, 8);
             this.comboSaveFormat.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
             this.comboSaveFormat.Name = "comboSaveFormat";
             this.comboSaveFormat.Size = new System.Drawing.Size(63, 22);
@@ -171,7 +171,7 @@ namespace TestForm
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.AutoSize = true;
             this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(1003, 8);
+            this.buttonSave.Location = new System.Drawing.Point(805, 8);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(60, 26);
             this.buttonSave.TabIndex = 6;
@@ -239,7 +239,7 @@ namespace TestForm
             //
             this.labelSwitchTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSwitchTheme.AutoSize = true;
-            this.labelSwitchTheme.Location = new System.Drawing.Point(834, 36);
+            this.labelSwitchTheme.Location = new System.Drawing.Point(634, 36);
             this.labelSwitchTheme.Name = "labelSwitchTheme";
             this.labelSwitchTheme.Size = new System.Drawing.Size(95, 18);
             this.labelSwitchTheme.TabIndex = 11;
@@ -250,9 +250,9 @@ namespace TestForm
             this.kryptonThemeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonThemeComboBox.DropDownWidth = 200;
             this.kryptonThemeComboBox.IntegralHeight = false;
-            this.kryptonThemeComboBox.Location = new System.Drawing.Point(935, 36);
+            this.kryptonThemeComboBox.Location = new System.Drawing.Point(735, 36);
             this.kryptonThemeComboBox.Name = "kryptonThemeComboBox";
-            this.kryptonThemeComboBox.Size = new System.Drawing.Size(200, 22);
+            this.kryptonThemeComboBox.Size = new System.Drawing.Size(400, 22);
             this.kryptonThemeComboBox.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox.TabIndex = 12;
             //

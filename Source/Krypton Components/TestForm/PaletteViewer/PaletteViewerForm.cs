@@ -860,8 +860,10 @@ namespace TestForm
             int preferred = e.Column.GetPreferredWidth(System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells, true);
             preferred = System.Math.Max(MinColumnWidth, System.Math.Min(preferred, 300));
             e.Column.Width = preferred;
-            e.Column.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-
+            if (e.Column.Index != 2)
+            {
+                e.Column.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            }
             e.Column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
         }
 
