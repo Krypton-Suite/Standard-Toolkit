@@ -572,10 +572,6 @@ namespace TestForm
 
             // Update column header with summary
             var colHeader = baseHeader;
-            if (isBaseline)
-            {
-                colHeader += "\n(baseline)";
-            }
 
             if (sparsePalette)
             {
@@ -1172,23 +1168,11 @@ namespace TestForm
 
         private static System.Type GetRibbonColorsOwner(System.Type t)
         {
-            while (t != null && t != typeof(object))
-            {
-                var fi = t.GetField("_ribbonColors", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-                if (fi != null && fi.FieldType == typeof(System.Drawing.Color[]))
-                {
-                    return t;
-                }
-                t = t.BaseType;
-            }
-            return null;
+            return t?.BaseType;
         }
 
         /// <summary>
-        /// Safely extracts the ribbon color array from a palette without invoking code paths that may throw for missing indices.
-        /// Order of attempts:
-        /// 1. Directly read the private <c>_ribbonColors</c> field on the owning class.
-        /// 2. Fallback to <c>ColorTable.Colors/Colours</c> reflection – wrapped to ignore IndexOutOfRange.
+        /// Extracts the colour array from a palette via <c>ColorTable.Colors</c> (or <c>Colours</c>).
         /// </summary>
         private static System.Drawing.Color[] TryGetPaletteColors(Krypton.Toolkit.PaletteBase palette)
         {
@@ -1197,21 +1181,6 @@ namespace TestForm
                 return null;
             }
 
-            // Attempt direct field first (fast & safe)
-            var owner = GetRibbonColorsOwner(palette.GetType());
-            if (owner != null)
-            {
-                var fi = owner.GetField("_ribbonColors", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-                if (fi != null && fi.FieldType == typeof(System.Drawing.Color[]))
-                {
-                    if (fi.GetValue(palette) is System.Drawing.Color[] arr && arr.Length > 0)
-                    {
-                        return arr;
-                    }
-                }
-            }
-
-            // Fallback to ColorTable reflection (may throw for bad palettes)
             try
             {
                 var ct = palette.ColorTable;
@@ -1228,7 +1197,7 @@ namespace TestForm
             }
             catch (System.IndexOutOfRangeException)
             {
-                // Ignore and return null – caller treats palette as sparse/incompatible
+                // Ignore faulty palettes; caller treats palette as sparse/incompatible.
             }
 
             return null;

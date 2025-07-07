@@ -126,7 +126,7 @@ namespace TestForm
             //
             // kbtnBlurredForm
             //
-            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 439);
+            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 442);
             this.kbtnBlurredForm.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnBlurredForm.Name = "kbtnBlurredForm";
             this.kbtnBlurredForm.Size = new System.Drawing.Size(153, 20);
@@ -311,7 +311,7 @@ namespace TestForm
             //
             // kbtnPaletteViewer
             //
-            this.kbtnPaletteViewer.Location = new System.Drawing.Point(223, 439);
+            this.kbtnPaletteViewer.Location = new System.Drawing.Point(223, 442);
             this.kbtnPaletteViewer.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnPaletteViewer.Name = "kbtnPaletteViewer";
             this.kbtnPaletteViewer.Size = new System.Drawing.Size(153, 20);
