@@ -31,6 +31,24 @@ Click in any colour cell to be able to copy its hex string to the clipboard; hov
 
 ---
 
+## Source Path Requirement
+
+**Important**: PaletteViewer requires the source path to the Krypton Toolkit sources to be configured for full palette analysis functionality. Without this path configured:
+
+* All palette operation controls (Add Palette, Add All, Remove, etc.) will remain **disabled**
+* The application can only display basic palette information but cannot perform comprehensive analysis
+* Advanced diagnostics like unlabelled entries, out-of-order values, and extra colours beyond enum length will not be available
+
+To configure the source path:
+1. Use the **Browse** button in the toolbar to select the root folder of your Krypton Toolkit source code
+2. The path should point to the folder containing the "Source" folder
+3. Once a valid path is set, all palette controls will become enabled
+4. Use the **Clear** button to remove the source path setting if needed
+
+The source path setting is essential because PaletteViewer needs access to the actual palette implementation files to perform static source analysis and provide the complete diagnostic information that makes this tool valuable for palette development and maintenance.
+
+---
+
 ## Under the hood
 
 PaletteViewer discovers and renders palette information at runtime; nothing is hard-coded.  The workflow for **Add Palette** is roughly:
