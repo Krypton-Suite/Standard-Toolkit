@@ -7,27 +7,31 @@
  */
 #endregion
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Threading;
 
 namespace TestForm;
 
 internal static class Program
 {
-    [DllImport("user32.dll")]
-    static extern bool SetProcessDPIAware();
-
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
-    {
-        // Enable High-DPI support for Windows Forms
-        if (Environment.OSVersion.Version.Major >= 6)
+#if NET48 || NET481 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
+        [DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
+#endif
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        private static void Main()
         {
-            SetProcessDPIAware();
-        }
+            // Enable High-DPI support for Windows Forms
+#if NET48 || NET481 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                SetProcessDPIAware();
+            }
+#else
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+#endif
 
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
