@@ -16,6 +16,7 @@ namespace TestForm
         private System.Drawing.Color[] _baselineColors;
         private string _baselinePaletteName;
         private string _sourcePath;
+        private bool _isSourceValid;
         private System.Threading.CancellationTokenSource _addAllCts;
         private int _highlightRowIndex = -1;
         private bool _bulkUpdating;
@@ -74,6 +75,7 @@ namespace TestForm
             PopulateThemeCombo(_winInfo?.LastTheme);
 
             _sourcePath = _winInfo?.SourcePath;
+            _isSourceValid = IsValidSourcePath(_sourcePath);
             if (this.textSourcePath != null)
             {
                 this.textSourcePath.Text = _sourcePath ?? string.Empty;
@@ -106,6 +108,41 @@ namespace TestForm
             UpdateStatus("Ready");
 
             UpdateUIState();
+        }
+
+        /// <summary>
+        /// Determines whether the provided toolkit root path is structurally valid.
+        /// </summary>
+        private static bool IsValidSourcePath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            {
+                return false;
+            }
+
+            // Must contain top-level "Source" folder.
+            var sourceDir = Path.Combine(path, "Source");
+            if (!Directory.Exists(sourceDir))
+            {
+                return false;
+            }
+
+            // Required Enumerations folder and Microsoft 365 folder.
+            var enumDir = Path.Combine(sourceDir, "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Enumerations");
+            var m365Dir = Path.Combine(sourceDir, "Krypton Components", "Krypton.Toolkit", "Palette Builtin", "Microsoft 365");
+            if (!Directory.Exists(enumDir) || !Directory.Exists(m365Dir))
+            {
+                return false;
+            }
+
+            // Required file PaletteEnumerations.cs inside Enumerations folder.
+            var enumFile = Path.Combine(enumDir, "PaletteEnumerations.cs");
+            if (!File.Exists(enumFile))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void AttachKryptonManager(Krypton.Toolkit.KryptonManager manager)
@@ -694,8 +731,8 @@ namespace TestForm
             {
                 UpdateStatus("Ready");
                 this.Cursor = System.Windows.Forms.Cursors.Default;
-                this.buttonAddPalette.Enabled = true;
-                this.buttonRemovePalette.Enabled = true;
+                // State recalculated based on current validity
+                UpdateUIState();
             }
         }
 
@@ -836,6 +873,8 @@ namespace TestForm
                 _addAllCts = null;
 
                 UpdateStatus("Ready");
+
+                UpdateUIState();
             }
         }
 
@@ -1069,6 +1108,8 @@ namespace TestForm
 
         private void UpdateUIState()
         {
+            bool validSource = _isSourceValid;
+
             bool hasData = this.dataGridViewPalette.Columns.Count > 3 && this.dataGridViewPalette.Rows.Count > 0;
             this.buttonSave.Enabled = hasData;
 
@@ -1084,7 +1125,7 @@ namespace TestForm
             }
 
             this.buttonRemovePalette.Enabled = canRemove;
-            this.buttonAddPalette.Enabled = canAdd;
+            this.buttonAddPalette.Enabled = canAdd && validSource;
             this.buttonClear.Enabled = hasPalettes;
 
             // AddAll button if exists
@@ -1104,7 +1145,18 @@ namespace TestForm
                         break;
                     }
                 }
-                this.buttonAddAll.Enabled = anyRemaining;
+                this.buttonAddAll.Enabled = validSource && anyRemaining;
+            }
+
+            if (this.buttonClearSource != null)
+            {
+                this.buttonClearSource.Enabled = !string.IsNullOrWhiteSpace(_sourcePath);
+            }
+
+            // Update source-required hint visibility
+            if (this.labelSourceRequired != null)
+            {
+                this.labelSourceRequired.Visible = !validSource;
             }
         }
 
@@ -1304,6 +1356,7 @@ namespace TestForm
             }
 
             _sourcePath = path;
+            _isSourceValid = IsValidSourcePath(_sourcePath);
             if (this.textSourcePath != null)
             {
                 this.textSourcePath.Text = path;
@@ -1321,6 +1374,8 @@ namespace TestForm
             _winStore.Save(ws);
 
             RecheckAllPalettes();
+
+            UpdateUIState();
         }
 
         private void RecheckAllPalettes()
@@ -1397,6 +1452,35 @@ namespace TestForm
             }
 
             this.dataGridViewPalette.Refresh();
+        }
+
+        private void BtnClearSource_Click(object sender, System.EventArgs e)
+        {
+            ClearSourcePath();
+        }
+
+        private void ClearSourcePath()
+        {
+            _sourcePath = null;
+            _isSourceValid = false;
+
+            if (this.textSourcePath != null)
+            {
+                this.textSourcePath.Text = string.Empty;
+            }
+
+            // Persist cleared setting
+            var ws = _winInfo ?? new WindowStateInfo();
+            ws.SourcePath = null;
+            ws.Left = this.Left;
+            ws.Top = this.Top;
+            ws.Width = this.Width;
+            ws.Height = this.Height;
+            ws.State = this.WindowState;
+            ws.LastTheme = comboTheme.SelectedItem as string;
+            _winStore.Save(ws);
+
+            UpdateUIState();
         }
     }
 }

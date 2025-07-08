@@ -19,7 +19,8 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel labelSourceTitle;
         private Krypton.Toolkit.KryptonTextBox textSourcePath;
         private Krypton.Toolkit.KryptonButton buttonBrowseSource;
-        private Krypton.Toolkit.KryptonLabel labelSwitchTheme;
+        private Krypton.Toolkit.KryptonButton buttonClearSource;
+        private Krypton.Toolkit.KryptonLabel labelSourceRequired;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox;
 
         private void InitializeComponent()
@@ -39,7 +40,8 @@ namespace TestForm
             this.labelSourceTitle = new Krypton.Toolkit.KryptonLabel();
             this.textSourcePath = new Krypton.Toolkit.KryptonTextBox();
             this.buttonBrowseSource = new Krypton.Toolkit.KryptonButton();
-            this.labelSwitchTheme = new Krypton.Toolkit.KryptonLabel();
+            this.buttonClearSource = new Krypton.Toolkit.KryptonButton();
+            this.labelSourceRequired = new Krypton.Toolkit.KryptonLabel();
             this.kryptonThemeComboBox = new Krypton.Toolkit.KryptonThemeComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboTheme)).BeginInit();
@@ -112,6 +114,8 @@ namespace TestForm
             this.panelTop.Controls.Add(this.labelSourceTitle);
             this.panelTop.Controls.Add(this.textSourcePath);
             this.panelTop.Controls.Add(this.buttonBrowseSource);
+            this.panelTop.Controls.Add(this.buttonClearSource);
+            this.panelTop.Controls.Add(this.labelSourceRequired);
             this.panelTop.Controls.Add(this.buttonAddPalette);
             this.panelTop.Controls.Add(this.buttonRemovePalette);
             this.panelTop.Controls.Add(this.buttonAddAll);
@@ -119,7 +123,6 @@ namespace TestForm
             this.panelTop.Controls.Add(this.comboSaveFormat);
             this.panelTop.Controls.Add(this.buttonSave);
             this.panelTop.Controls.Add(this.buttonCancel);
-            this.panelTop.Controls.Add(this.labelSwitchTheme);
             this.panelTop.Controls.Add(this.kryptonThemeComboBox);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
@@ -136,48 +139,20 @@ namespace TestForm
             this.buttonAddAll.Size = new System.Drawing.Size(66, 26);
             this.buttonAddAll.TabIndex = 3;
             this.buttonAddAll.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.buttonAddAll.Values.Text = "Add ALL";
+            this.buttonAddAll.Values.Text = " Add ALL ";
             this.buttonAddAll.Click += new System.EventHandler(this.BtnAddAll_Click);
             //
             // buttonClear
             //
             this.buttonClear.AutoSize = true;
-            this.buttonClear.Location = new System.Drawing.Point(700, 8);
+            this.buttonClear.Location = new System.Drawing.Point(695, 8);
             this.buttonClear.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(58, 26);
             this.buttonClear.TabIndex = 4;
             this.buttonClear.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.buttonClear.Values.Text = "Clear";
+            this.buttonClear.Values.Text = " Clear ";
             this.buttonClear.Click += new System.EventHandler(this.BtnClear_Click);
-            //
-            // comboSaveFormat
-            //
-            this.comboSaveFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboSaveFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboSaveFormat.DropDownWidth = 100;
-            this.comboSaveFormat.Items.AddRange(new object[] {
-            "CSV",
-            "XML"});
-            this.comboSaveFormat.Location = new System.Drawing.Point(735, 8);
-            this.comboSaveFormat.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
-            this.comboSaveFormat.Name = "comboSaveFormat";
-            this.comboSaveFormat.Size = new System.Drawing.Size(63, 22);
-            this.comboSaveFormat.TabIndex = 5;
-            this.comboSaveFormat.Text = "CSV";
-            //
-            // buttonSave
-            //
-            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.AutoSize = true;
-            this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(805, 8);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(60, 26);
-            this.buttonSave.TabIndex = 6;
-            this.buttonSave.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.buttonSave.Values.Text = "Save";
-            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             //
             // buttonCancel
             //
@@ -188,7 +163,7 @@ namespace TestForm
             this.buttonCancel.Size = new System.Drawing.Size(63, 26);
             this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.buttonCancel.Values.Text = "Cancel";
+            this.buttonCancel.Values.Text = " Cancel ";
             this.buttonCancel.Visible = false;
             this.buttonCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             //
@@ -209,16 +184,16 @@ namespace TestForm
             //
             // labelSourceTitle
             //
-            this.labelSourceTitle.AutoSize = true;
-            this.labelSourceTitle.Location = new System.Drawing.Point(7, 36);
+            this.labelSourceTitle.AutoSize = false;
+            this.labelSourceTitle.Location = new System.Drawing.Point(5, 43);
             this.labelSourceTitle.Name = "labelSourceTitle";
-            this.labelSourceTitle.Size = new System.Drawing.Size(90, 18);
+            this.labelSourceTitle.Size = new System.Drawing.Size(100, 20);
             this.labelSourceTitle.TabIndex = 8;
             this.labelSourceTitle.Values.Text = "Source path:";
             //
             // textSourcePath
             //
-            this.textSourcePath.Location = new System.Drawing.Point(110, 36);
+            this.textSourcePath.Location = new System.Drawing.Point(110, 40);
             this.textSourcePath.Name = "textSourcePath";
             this.textSourcePath.Size = new System.Drawing.Size(400, 24);
             this.textSourcePath.TabIndex = 9;
@@ -226,35 +201,74 @@ namespace TestForm
             //
             // buttonBrowseSource
             //
-            this.buttonBrowseSource.AutoSize = true;
-            this.buttonBrowseSource.Location = new System.Drawing.Point(520, 36);
+            this.buttonBrowseSource.AutoSize = false;
+            this.buttonBrowseSource.Location = new System.Drawing.Point(550, 40);
             this.buttonBrowseSource.Name = "buttonBrowseSource";
-            this.buttonBrowseSource.Size = new System.Drawing.Size(116, 26);
-            this.buttonBrowseSource.TabIndex = 10;
+            this.buttonBrowseSource.Size = new System.Drawing.Size(116, 24);
+            this.buttonBrowseSource.TabIndex = 12;
             this.buttonBrowseSource.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonBrowseSource.Values.Text = "Browse Source";
             this.buttonBrowseSource.Click += new System.EventHandler(this.BtnBrowseSource_Click);
             //
-            // labelSwitchTheme
+            // buttonClearSource
             //
-            this.labelSwitchTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSwitchTheme.AutoSize = true;
-            this.labelSwitchTheme.Location = new System.Drawing.Point(634, 36);
-            this.labelSwitchTheme.Name = "labelSwitchTheme";
-            this.labelSwitchTheme.Size = new System.Drawing.Size(95, 18);
-            this.labelSwitchTheme.TabIndex = 11;
-            this.labelSwitchTheme.Values.Text = "Switch Theme:";
+            this.buttonClearSource.AutoSize = false;
+            this.buttonClearSource.Location = new System.Drawing.Point(515, 40);
+            this.buttonClearSource.Name = "buttonClearSource";
+            this.buttonClearSource.Size = new System.Drawing.Size(26, 24);
+            this.buttonClearSource.TabIndex = 10;
+            this.buttonClearSource.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.buttonClearSource.Values.Text = "X";
+            this.buttonClearSource.Click += new System.EventHandler(this.BtnClearSource_Click);
+            //
+            // labelSourceRequired
+            //
+            this.labelSourceRequired.AutoSize = false;
+            this.labelSourceRequired.Location = new System.Drawing.Point(672, 43);
+            this.labelSourceRequired.Name = "labelSourceRequired";
+            this.labelSourceRequired.Size = new System.Drawing.Size(90, 20);
+            this.labelSourceRequired.TabIndex = 13;
+            this.labelSourceRequired.StateCommon.ShortText.Color1 = System.Drawing.Color.Red;
+            this.labelSourceRequired.Values.Text = "Required";
+            //
+            // comboSaveFormat
+            //
+            this.comboSaveFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboSaveFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSaveFormat.DropDownWidth = 100;
+            this.comboSaveFormat.Items.AddRange(new object[] {
+                "CSV",
+                "XML"});
+            this.comboSaveFormat.Location = new System.Drawing.Point(785, 8);
+            this.comboSaveFormat.Margin = new System.Windows.Forms.Padding(16, 2, 2, 2);
+            this.comboSaveFormat.Name = "comboSaveFormat";
+            this.comboSaveFormat.Size = new System.Drawing.Size(63, 22);
+            this.comboSaveFormat.TabIndex = 5;
+            this.comboSaveFormat.Text = "CSV";
+            //
+            // buttonSave
+            //
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.AutoSize = true;
+            this.buttonSave.Enabled = false;
+            this.buttonSave.Location = new System.Drawing.Point(855, 8);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(60, 26);
+            this.buttonSave.TabIndex = 6;
+            this.buttonSave.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.buttonSave.Values.Text = "Save";
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             //
             // kryptonThemeComboBox
             //
             this.kryptonThemeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonThemeComboBox.DropDownWidth = 200;
             this.kryptonThemeComboBox.IntegralHeight = false;
-            this.kryptonThemeComboBox.Location = new System.Drawing.Point(735, 36);
+            this.kryptonThemeComboBox.Location = new System.Drawing.Point(785, 40);
             this.kryptonThemeComboBox.Name = "kryptonThemeComboBox";
-            this.kryptonThemeComboBox.Size = new System.Drawing.Size(400, 22);
+            this.kryptonThemeComboBox.Size = new System.Drawing.Size(350, 24);
             this.kryptonThemeComboBox.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox.TabIndex = 12;
+            this.kryptonThemeComboBox.TabIndex = 15;
             //
             // MainForm
             //
@@ -262,6 +276,7 @@ namespace TestForm
             this.Controls.Add(this.dataGridViewPalette);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.statusStrip);
+            this.MinimumSize = new System.Drawing.Size(1150, 200);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PaletteViewer";
