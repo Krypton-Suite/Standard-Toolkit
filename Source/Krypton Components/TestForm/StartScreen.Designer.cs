@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -75,14 +75,15 @@ namespace TestForm
             this.kbtnFadeForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
+            this.kbtnPaletteViewer = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // kryptonPanel1
-            // 
+            //
             this.kryptonPanel1.Controls.Add(this.kbtnBlurredForm);
             this.kryptonPanel1.Controls.Add(this.kbtnSplashScreen);
             this.kryptonPanel1.Controls.Add(this.kbtnControlStyles);
@@ -100,6 +101,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kbtnPoweredByButton);
             this.kryptonPanel1.Controls.Add(this.btnColourTestimonials);
+            this.kryptonPanel1.Controls.Add(this.kbtnPaletteViewer);
             this.kryptonPanel1.Controls.Add(this.kbtnTreeView);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
             this.kryptonPanel1.Controls.Add(this.kbtnFormBorder);
@@ -121,10 +123,10 @@ namespace TestForm
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(358, 476);
             this.kryptonPanel1.TabIndex = 0;
-            // 
+            //
             // kbtnBlurredForm
-            // 
-            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 439);
+            //
+            this.kbtnBlurredForm.Location = new System.Drawing.Point(13, 442);
             this.kbtnBlurredForm.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnBlurredForm.Name = "kbtnBlurredForm";
             this.kbtnBlurredForm.Size = new System.Drawing.Size(153, 20);
@@ -132,9 +134,9 @@ namespace TestForm
             this.kbtnBlurredForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBlurredForm.Values.Text = "Blurred Form";
             this.kbtnBlurredForm.Click += new System.EventHandler(this.kbtnBlurredForm_Click);
-            // 
+            //
             // kbtnSplashScreen
-            // 
+            //
             this.kbtnSplashScreen.Location = new System.Drawing.Point(12, 335);
             this.kbtnSplashScreen.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnSplashScreen.Name = "kbtnSplashScreen";
@@ -143,9 +145,9 @@ namespace TestForm
             this.kbtnSplashScreen.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnSplashScreen.Values.Text = "Splash Screen";
             this.kbtnSplashScreen.Click += new System.EventHandler(this.kbtnSplashScreen_Click);
-            // 
+            //
             // kbtnControlStyles
-            // 
+            //
             this.kbtnControlStyles.Location = new System.Drawing.Point(12, 120);
             this.kbtnControlStyles.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnControlStyles.Name = "kbtnControlStyles";
@@ -154,9 +156,9 @@ namespace TestForm
             this.kbtnControlStyles.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnControlStyles.Values.Text = "Control Styles";
             this.kbtnControlStyles.Click += new System.EventHandler(this.kbtnControlStyles_Click);
-            // 
+            //
             // kbtnDateTime
-            // 
+            //
             this.kbtnDateTime.Location = new System.Drawing.Point(12, 147);
             this.kbtnDateTime.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnDateTime.Name = "kbtnDateTime";
@@ -165,9 +167,9 @@ namespace TestForm
             this.kbtnDateTime.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDateTime.Values.Text = "DateTime";
             this.kbtnDateTime.Click += new System.EventHandler(this.kbtnDateTime_Click);
-            // 
+            //
             // kbtnPropertyGrid
-            // 
+            //
             this.kbtnPropertyGrid.Location = new System.Drawing.Point(223, 281);
             this.kbtnPropertyGrid.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnPropertyGrid.Name = "kbtnPropertyGrid";
@@ -176,9 +178,9 @@ namespace TestForm
             this.kbtnPropertyGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnPropertyGrid.Values.Text = "PropertyGrid";
             this.kbtnPropertyGrid.Click += new System.EventHandler(this.kbtnPropertyGrid_Click);
-            // 
+            //
             // kbtnRibbonNavigatorWorkspace
-            // 
+            //
             this.kbtnRibbonNavigatorWorkspace.Location = new System.Drawing.Point(12, 308);
             this.kbtnRibbonNavigatorWorkspace.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnRibbonNavigatorWorkspace.Name = "kbtnRibbonNavigatorWorkspace";
@@ -187,9 +189,9 @@ namespace TestForm
             this.kbtnRibbonNavigatorWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRibbonNavigatorWorkspace.Values.Text = "Ribbon/Navigator/Workspace";
             this.kbtnRibbonNavigatorWorkspace.Click += new System.EventHandler(this.kbtnRibbonNavigatorWorkspace_Click);
-            // 
+            //
             // kbtnAbout
-            // 
+            //
             this.kbtnAbout.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnAbout.Location = new System.Drawing.Point(12, 40);
             this.kbtnAbout.Name = "kbtnAbout";
@@ -198,9 +200,9 @@ namespace TestForm
             this.kbtnAbout.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnAbout.Values.Text = "About Box";
             this.kbtnAbout.Click += new System.EventHandler(this.kbtnAbout_Click);
-            // 
+            //
             // kbtnInputBox
-            // 
+            //
             this.kbtnInputBox.Location = new System.Drawing.Point(223, 201);
             this.kbtnInputBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnInputBox.Name = "kbtnInputBox";
@@ -209,9 +211,9 @@ namespace TestForm
             this.kbtnInputBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnInputBox.Values.Text = "Input Box";
             this.kbtnInputBox.Click += new System.EventHandler(this.kbtnInputBox_Click);
-            // 
+            //
             // kbtnHeaderExamples
-            // 
+            //
             this.kbtnHeaderExamples.Location = new System.Drawing.Point(12, 201);
             this.kbtnHeaderExamples.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnHeaderExamples.Name = "kbtnHeaderExamples";
@@ -220,9 +222,9 @@ namespace TestForm
             this.kbtnHeaderExamples.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnHeaderExamples.Values.Text = "Header Examples";
             this.kbtnHeaderExamples.Click += new System.EventHandler(this.kbtnHeaderExamples_Click);
-            // 
+            //
             // kbtnDataGrid
-            // 
+            //
             this.kbtnDataGrid.Location = new System.Drawing.Point(223, 120);
             this.kbtnDataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnDataGrid.Name = "kbtnDataGrid";
@@ -230,9 +232,9 @@ namespace TestForm
             this.kbtnDataGrid.TabIndex = 23;
             this.kbtnDataGrid.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnDataGrid.Values.Text = "DataGrid";
-            // 
+            //
             // kbtnControlsTest
-            // 
+            //
             this.kbtnControlsTest.Location = new System.Drawing.Point(223, 93);
             this.kbtnControlsTest.Name = "kbtnControlsTest";
             this.kbtnControlsTest.Size = new System.Drawing.Size(153, 20);
@@ -240,9 +242,9 @@ namespace TestForm
             this.kbtnControlsTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnControlsTest.Values.Text = "Controls Test";
             this.kbtnControlsTest.Click += new System.EventHandler(this.kbtnControlsTest_Click);
-            // 
+            //
             // kbtnThemeControls
-            // 
+            //
             this.kbtnThemeControls.Location = new System.Drawing.Point(12, 362);
             this.kbtnThemeControls.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnThemeControls.Name = "kbtnThemeControls";
@@ -251,9 +253,9 @@ namespace TestForm
             this.kbtnThemeControls.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnThemeControls.Values.Text = "Theme Controls";
             this.kbtnThemeControls.Click += new System.EventHandler(this.kbtnThemeControls_Click);
-            // 
+            //
             // kbtnWorkspace
-            // 
+            //
             this.kbtnWorkspace.Location = new System.Drawing.Point(12, 415);
             this.kbtnWorkspace.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnWorkspace.Name = "kbtnWorkspace";
@@ -262,9 +264,9 @@ namespace TestForm
             this.kbtnWorkspace.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnWorkspace.Values.Text = "Workspace";
             this.kbtnWorkspace.Click += new System.EventHandler(this.kbtnWorkspace_Click);
-            // 
+            //
             // kbtnCalendar
-            // 
+            //
             this.kbtnCalendar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnCalendar.Location = new System.Drawing.Point(223, 67);
             this.kbtnCalendar.Name = "kbtnCalendar";
@@ -273,9 +275,9 @@ namespace TestForm
             this.kbtnCalendar.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCalendar.Values.Text = "Calendar";
             this.kbtnCalendar.Click += new System.EventHandler(this.kbtnCalendar_Click);
-            // 
+            //
             // kryptonThemeComboBox1
-            // 
+            //
             this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 417;
             this.kryptonThemeComboBox1.IntegralHeight = false;
@@ -284,9 +286,9 @@ namespace TestForm
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(366, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 18;
-            // 
+            //
             // kbtnPoweredByButton
-            // 
+            //
             this.kbtnPoweredByButton.Location = new System.Drawing.Point(12, 254);
             this.kbtnPoweredByButton.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnPoweredByButton.Name = "kbtnPoweredByButton";
@@ -295,9 +297,9 @@ namespace TestForm
             this.kbtnPoweredByButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnPoweredByButton.Values.Text = "Powered by Button";
             this.kbtnPoweredByButton.Click += new System.EventHandler(this.kbtnPoweredByButton_Click);
-            // 
+            //
             // btnColourTestimonials
-            // 
+            //
             this.btnColourTestimonials.Location = new System.Drawing.Point(223, 415);
             this.btnColourTestimonials.Margin = new System.Windows.Forms.Padding(2);
             this.btnColourTestimonials.Name = "btnColourTestimonials";
@@ -306,9 +308,20 @@ namespace TestForm
             this.btnColourTestimonials.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnColourTestimonials.Values.Text = "Colour Testimonials";
             this.btnColourTestimonials.Click += new System.EventHandler(this.btnColourTestimonials_Click);
-            // 
+            //
+            // kbtnPaletteViewer
+            //
+            this.kbtnPaletteViewer.Location = new System.Drawing.Point(223, 442);
+            this.kbtnPaletteViewer.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnPaletteViewer.Name = "kbtnPaletteViewer";
+            this.kbtnPaletteViewer.Size = new System.Drawing.Size(153, 20);
+            this.kbtnPaletteViewer.TabIndex = 33;
+            this.kbtnPaletteViewer.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPaletteViewer.Values.Text = "Palette Viewer";
+            this.kbtnPaletteViewer.Click += new System.EventHandler(this.kbtnPaletteViewer_Click);
+            //
             // kbtnTreeView
-            // 
+            //
             this.kbtnTreeView.Location = new System.Drawing.Point(223, 388);
             this.kbtnTreeView.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTreeView.Name = "kbtnTreeView";
@@ -317,9 +330,9 @@ namespace TestForm
             this.kbtnTreeView.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTreeView.Values.Text = "TreeView";
             this.kbtnTreeView.Click += new System.EventHandler(this.kbtnTreeView_Click);
-            // 
+            //
             // kbtnExit
-            // 
+            //
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnExit.Location = new System.Drawing.Point(12, 493);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
@@ -329,9 +342,9 @@ namespace TestForm
             this.kbtnExit.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnExit.Values.Text = "Exit";
             this.kbtnExit.Click += new System.EventHandler(this.kbtnExit_Click);
-            // 
+            //
             // kbtnFormBorder
-            // 
+            //
             this.kbtnFormBorder.Location = new System.Drawing.Point(12, 174);
             this.kbtnFormBorder.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnFormBorder.Name = "kbtnFormBorder";
@@ -340,9 +353,9 @@ namespace TestForm
             this.kbtnFormBorder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnFormBorder.Values.Text = "Form Border";
             this.kbtnFormBorder.Click += new System.EventHandler(this.kbtnFormBorder_Click);
-            // 
+            //
             // kbtnToast
-            // 
+            //
             this.kbtnToast.Location = new System.Drawing.Point(12, 388);
             this.kbtnToast.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnToast.Name = "kbtnToast";
@@ -351,9 +364,9 @@ namespace TestForm
             this.kbtnToast.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnToast.Values.Text = "Toast";
             this.kbtnToast.Click += new System.EventHandler(this.kbtnToast_Click);
-            // 
+            //
             // kbtnTheme
-            // 
+            //
             this.kbtnTheme.Location = new System.Drawing.Point(223, 362);
             this.kbtnTheme.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTheme.Name = "kbtnTheme";
@@ -362,9 +375,9 @@ namespace TestForm
             this.kbtnTheme.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTheme.Values.Text = "Theme";
             this.kbtnTheme.Click += new System.EventHandler(this.kbtnTheme_Click);
-            // 
+            //
             // kbtnTextBox
-            // 
+            //
             this.kbtnTextBox.Location = new System.Drawing.Point(223, 335);
             this.kbtnTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnTextBox.Name = "kbtnTextBox";
@@ -373,9 +386,9 @@ namespace TestForm
             this.kbtnTextBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTextBox.Values.Text = "TextBox";
             this.kbtnTextBox.Click += new System.EventHandler(this.kbtnTextBox_Click);
-            // 
+            //
             // kbtnRibbon
-            // 
+            //
             this.kbtnRibbon.Location = new System.Drawing.Point(223, 308);
             this.kbtnRibbon.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnRibbon.Name = "kbtnRibbon";
@@ -384,9 +397,9 @@ namespace TestForm
             this.kbtnRibbon.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRibbon.Values.Text = "Ribbon";
             this.kbtnRibbon.Click += new System.EventHandler(this.kbtnRibbon_Click);
-            // 
+            //
             // kbtnProgressBar
-            // 
+            //
             this.kbtnProgressBar.Location = new System.Drawing.Point(12, 281);
             this.kbtnProgressBar.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnProgressBar.Name = "kbtnProgressBar";
@@ -395,9 +408,9 @@ namespace TestForm
             this.kbtnProgressBar.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnProgressBar.Values.Text = "ProgressBar";
             this.kbtnProgressBar.Click += new System.EventHandler(this.kbtnProgressBar_Click);
-            // 
+            //
             // kbtnButtons
-            // 
+            //
             this.kbtnButtons.Location = new System.Drawing.Point(13, 67);
             this.kbtnButtons.Name = "kbtnButtons";
             this.kbtnButtons.Size = new System.Drawing.Size(153, 20);
@@ -405,9 +418,9 @@ namespace TestForm
             this.kbtnButtons.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnButtons.Values.Text = "Buttons";
             this.kbtnButtons.Click += new System.EventHandler(this.kbtnButtons_Click);
-            // 
+            //
             // kbtnAboutBox
-            // 
+            //
             this.kbtnAboutBox.Location = new System.Drawing.Point(223, 254);
             this.kbtnAboutBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnAboutBox.Name = "kbtnAboutBox";
@@ -416,9 +429,9 @@ namespace TestForm
             this.kbtnAboutBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnAboutBox.Values.Text = "Old Style Main: \"Fullscreen\"";
             this.kbtnAboutBox.Click += new System.EventHandler(this.kbtnAboutBox_Click);
-            // 
+            //
             // kbtnMessageBox
-            // 
+            //
             this.kbtnMessageBox.Location = new System.Drawing.Point(223, 228);
             this.kbtnMessageBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnMessageBox.Name = "kbtnMessageBox";
@@ -427,9 +440,9 @@ namespace TestForm
             this.kbtnMessageBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnMessageBox.Values.Text = "MessageBox";
             this.kbtnMessageBox.Click += new System.EventHandler(this.kbtnMessageBox_Click);
-            // 
+            //
             // kbtnMenuToolStatusStrips
-            // 
+            //
             this.kbtnMenuToolStatusStrips.Location = new System.Drawing.Point(12, 228);
             this.kbtnMenuToolStatusStrips.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnMenuToolStatusStrips.Name = "kbtnMenuToolStatusStrips";
@@ -438,9 +451,9 @@ namespace TestForm
             this.kbtnMenuToolStatusStrips.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnMenuToolStatusStrips.Values.Text = "Menu/Tool/Status Strips";
             this.kbtnMenuToolStatusStrips.Click += new System.EventHandler(this.kbtnMenuToolStatusStrips_Click);
-            // 
+            //
             // kbtnGroupBox
-            // 
+            //
             this.kbtnGroupBox.Location = new System.Drawing.Point(223, 174);
             this.kbtnGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnGroupBox.Name = "kbtnGroupBox";
@@ -449,9 +462,9 @@ namespace TestForm
             this.kbtnGroupBox.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnGroupBox.Values.Text = "GroupBox";
             this.kbtnGroupBox.Click += new System.EventHandler(this.kbtnGroupBox_Click);
-            // 
+            //
             // kbtnFadeForm
-            // 
+            //
             this.kbtnFadeForm.Location = new System.Drawing.Point(223, 147);
             this.kbtnFadeForm.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnFadeForm.Name = "kbtnFadeForm";
@@ -460,9 +473,9 @@ namespace TestForm
             this.kbtnFadeForm.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnFadeForm.Values.Text = "Fade Form";
             this.kbtnFadeForm.Click += new System.EventHandler(this.kbtnFadeForm_Click);
-            // 
+            //
             // kbtnCommandLinkButtons
-            // 
+            //
             this.kbtnCommandLinkButtons.Location = new System.Drawing.Point(13, 93);
             this.kbtnCommandLinkButtons.Name = "kbtnCommandLinkButtons";
             this.kbtnCommandLinkButtons.Size = new System.Drawing.Size(153, 20);
@@ -470,9 +483,9 @@ namespace TestForm
             this.kbtnCommandLinkButtons.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCommandLinkButtons.Values.Text = "CommandLink Buttons";
             this.kbtnCommandLinkButtons.Click += new System.EventHandler(this.kbtnCommandLinkButtons_Click);
-            // 
+            //
             // kbtnBreadCrumb
-            // 
+            //
             this.kbtnBreadCrumb.Location = new System.Drawing.Point(223, 40);
             this.kbtnBreadCrumb.Name = "kbtnBreadCrumb";
             this.kbtnBreadCrumb.Size = new System.Drawing.Size(153, 20);
@@ -480,20 +493,20 @@ namespace TestForm
             this.kbtnBreadCrumb.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
-            // 
+            //
             // kryptonManager1
-            // 
+            //
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
-            // 
+            //
             // StartScreen
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(358, 476);
+            this.ClientSize = new System.Drawing.Size(390, 485);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -550,5 +563,6 @@ namespace TestForm
         private KryptonButton kbtnControlStyles;
         private KryptonButton kbtnSplashScreen;
         private KryptonButton kbtnBlurredForm;
+        private KryptonButton kbtnPaletteViewer;
     }
 }
