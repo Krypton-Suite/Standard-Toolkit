@@ -13,7 +13,7 @@ internal partial class VisualInformationBoxForm : KryptonForm
 {
     public VisualInformationBoxForm()
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
     }
 }
