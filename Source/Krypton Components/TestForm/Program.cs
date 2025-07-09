@@ -13,7 +13,7 @@ namespace TestForm;
 
 internal static class Program
 {
-#if NET48 || NET481 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
+#if NETFRAMEWORK
         [DllImport("user32.dll")]
         private static extern bool SetProcessDPIAware();
 #endif
@@ -24,7 +24,7 @@ internal static class Program
         private static void Main()
         {
             // Enable High-DPI support for Windows Forms
-#if NET48 || NET481 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
+#if NETFRAMEWORK
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 SetProcessDPIAware();
