@@ -42,14 +42,11 @@ namespace Classes
         /// <param name="paletteType">Type of the runtime palette (e.g., PaletteOffice2010Blue).</param>
         /// <param name="sourceRoot">Root folder that contains the Krypton Toolkit source tree.</param>
         /// <returns>PaletteArrayIssues; returns null if file could not be located or parsed.</returns>
-        public static PaletteArrayIssues GetIssues(Type paletteType, string sourceRoot)
+        public static PaletteArrayIssues? GetIssues(Type paletteType, string sourceRoot)
         {
-            if (paletteType == null || string.IsNullOrWhiteSpace(sourceRoot))
-            {
-                return null;
-            }
-
-            if (!Directory.Exists(sourceRoot))
+            if (paletteType == null 
+                || string.IsNullOrWhiteSpace(sourceRoot)
+                || !Directory.Exists(sourceRoot))
             {
                 return null; // invalid path – silently ignore
             }
@@ -71,13 +68,13 @@ namespace Classes
                 .Where(f => f.IndexOf(paletteBuiltinSegment, StringComparison.OrdinalIgnoreCase) >= 0)
                 .ToList();
 
-            string palettePath = matches.FirstOrDefault();
+            string? palettePath = matches.FirstOrDefault();
             if (palettePath == null)
             {
                 return null; // file not found
             }
 
-            List<string> arrayNames = null;
+            List<string>? arrayNames = null;
 
             // Attempt extraction using each known array variable name until one yields results.
             foreach (var arrayVar in TargetArrayNames)

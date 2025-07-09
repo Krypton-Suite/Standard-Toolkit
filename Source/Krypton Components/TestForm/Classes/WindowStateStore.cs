@@ -29,9 +29,13 @@ namespace TestForm
             _filePath = Path.Combine(dir, "windowstate.ini");
         }
 
-        public WindowStateInfo Load()
+        public WindowStateInfo? Load()
         {
-            if (!File.Exists(_filePath)) return null;
+            if (!File.Exists(_filePath))
+            {
+                return null;
+            }
+
             var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var line in File.ReadAllLines(_filePath))
             {
@@ -60,9 +64,9 @@ namespace TestForm
                 State = state,
                 SelectedTab = ParseInt("SelectedTab"),
                 ContentSplitterDistance = ParseInt("ContentSplitterDistance"),
-                LastWtsFolder = dict.TryGetValue("LastWtsFolder", out var l1) ? l1 : null,
-                LastTheme = dict.TryGetValue("LastTheme", out var l2) ? l2 : null,
-                SourcePath = dict.TryGetValue("SourcePath", out var l3) ? l3 : null
+                LastWtsFolder = dict.TryGetValue("LastWtsFolder", out var l1) ? l1 : string.Empty,
+                LastTheme = dict.TryGetValue("LastTheme", out var l2) ? l2 : string.Empty,
+                SourcePath = dict.TryGetValue("SourcePath", out var l3) ? l3 : string.Empty
             };
 
             return info;
