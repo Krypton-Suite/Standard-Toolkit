@@ -28,7 +28,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     public VisualMultilineStringEditorForm()
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         InitialSetup();
@@ -38,7 +38,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     public VisualMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _contents = contents ?? [string.Empty];

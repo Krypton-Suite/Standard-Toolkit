@@ -47,7 +47,7 @@ internal partial class VisualToastNotificationBaseForm : KryptonForm
     /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationBaseForm" /> class.</summary>
     public VisualToastNotificationBaseForm()
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _notificationResult = KryptonToastNotificationResult.None;

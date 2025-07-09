@@ -22,7 +22,7 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
     /// <param name="themeBrowserData">The data to create the <see cref="VisualThemeBrowserFormRtlAware"/> UI.</param>
     public VisualThemeBrowserFormRtlAware(KryptonThemeBrowserData themeBrowserData)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _themeBrowserData = themeBrowserData;

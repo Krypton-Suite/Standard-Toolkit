@@ -123,7 +123,7 @@ public class VisualTaskDialog : KryptonForm
     /// <exception cref="ArgumentNullException"></exception>
     public VisualTaskDialog(KryptonTaskDialog taskDialog)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Must provide a valid reference
 
         _taskDialog = taskDialog ??

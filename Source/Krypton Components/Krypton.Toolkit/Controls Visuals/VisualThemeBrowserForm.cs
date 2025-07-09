@@ -22,7 +22,7 @@ internal partial class VisualThemeBrowserForm : KryptonForm
     /// <param name="themeBrowserData">The data to provide to the <see cref="VisualThemeBrowserForm"/>.</param>
     public VisualThemeBrowserForm(KryptonThemeBrowserData themeBrowserData)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _themeBrowserData = themeBrowserData;

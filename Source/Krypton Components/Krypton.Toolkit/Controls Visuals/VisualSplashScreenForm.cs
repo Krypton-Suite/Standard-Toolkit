@@ -33,7 +33,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
     /// <param name="splashScreenData">The splash screen data.</param>
     public VisualSplashScreenForm(KryptonSplashScreenData splashScreenData)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _splashScreenData = splashScreenData;
@@ -47,7 +47,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
     /// <param name="nextWindow">The next window.</param>
     public VisualSplashScreenForm(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _entryAssembly = entryAssembly;

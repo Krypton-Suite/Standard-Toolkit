@@ -25,7 +25,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _aboutBoxData = aboutBoxData;
@@ -39,7 +39,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
         _showToolkitButton = aboutBoxData.ShowToolkitInformation ?? false;
