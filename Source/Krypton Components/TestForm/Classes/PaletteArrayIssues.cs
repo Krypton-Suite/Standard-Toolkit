@@ -12,14 +12,17 @@ namespace Classes
         public int OutOfOrderCount { get; set; }
         public int ExtraCount { get; set; }
 
-        public List<int> MissingIndices { get; } = new List<int>();
-        public List<int> UnlabelledIndices { get; } = new List<int>();
-        public List<int> OutOfOrderIndices { get; } = new List<int>();
-        public List<int> ExtraIndices { get; } = new List<int>();
+        public List<int> MissingIndices { get; } = [];
+        public List<int> UnlabelledIndices { get; } = [];
+        public List<int> OutOfOrderIndices { get; } = [];
+        public List<int> ExtraIndices { get; } = [];
 
         /// <summary>
         /// True when no discrepancies were found.
         /// </summary>
-        public bool IsClean => MissingCount == 0 && UnlabelledCount == 0 && OutOfOrderCount == 0 && ExtraCount == 0;
+        public bool IsClean => MissingCount == 0 
+            && UnlabelledCount == 0 
+            && OutOfOrderCount == 0 
+            && ExtraCount == 0;
     }
 }
