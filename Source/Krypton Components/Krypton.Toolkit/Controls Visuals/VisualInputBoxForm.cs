@@ -30,7 +30,7 @@ public partial class VisualInputBoxForm : KryptonForm
     /// </summary>
     public VisualInputBoxForm()
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
     }
 
@@ -38,7 +38,7 @@ public partial class VisualInputBoxForm : KryptonForm
     /// <param name="inputBoxData">The input box data.</param>
     public VisualInputBoxForm(KryptonInputBoxData inputBoxData)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
 
         _inputBoxData = inputBoxData;

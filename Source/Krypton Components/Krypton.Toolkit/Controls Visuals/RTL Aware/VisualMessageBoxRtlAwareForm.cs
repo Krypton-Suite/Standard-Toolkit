@@ -38,7 +38,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
     public VisualMessageBoxRtlAwareForm()
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
     }
 
@@ -50,7 +50,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         bool? showHelpButton,
         bool? showCloseButton)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         // Store incoming values
         _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
         _caption = caption;
@@ -93,8 +93,8 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
     private void UpdateText()
     {
-        Text = string.IsNullOrEmpty(_caption) 
-            ? string.Empty 
+        Text = string.IsNullOrEmpty(_caption)
+            ? string.Empty
             : _caption!.Split(Environment.NewLine.ToCharArray())[0];
         krtbMessageText.Text = _text;
     }
