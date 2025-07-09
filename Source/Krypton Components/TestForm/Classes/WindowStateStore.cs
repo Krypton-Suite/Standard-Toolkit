@@ -10,10 +10,7 @@ namespace TestForm
         public int Top { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public System.Windows.Forms.FormWindowState State { get; set; }
-        public int SelectedTab { get; set; }
-        public int ContentSplitterDistance { get; set; }
-        public string LastWtsFolder { get; set; }
+        public FormWindowState State { get; set; }
         public string LastTheme { get; set; }
         public string SourcePath { get; set; }
     }
@@ -47,7 +44,7 @@ namespace TestForm
                 dict[key] = value;
             }
 
-            System.Windows.Forms.FormWindowState state;
+            FormWindowState state;
             Enum.TryParse(dict.TryGetValue("State", out var s) ? s : null, out state);
 
             int ParseInt(string key)
@@ -62,9 +59,6 @@ namespace TestForm
                 Width = ParseInt("Width"),
                 Height = ParseInt("Height"),
                 State = state,
-                SelectedTab = ParseInt("SelectedTab"),
-                ContentSplitterDistance = ParseInt("ContentSplitterDistance"),
-                LastWtsFolder = dict.TryGetValue("LastWtsFolder", out var l1) ? l1 : string.Empty,
                 LastTheme = dict.TryGetValue("LastTheme", out var l2) ? l2 : string.Empty,
                 SourcePath = dict.TryGetValue("SourcePath", out var l3) ? l3 : string.Empty
             };
@@ -81,11 +75,8 @@ namespace TestForm
                 $"Width={info.Width}",
                 $"Height={info.Height}",
                 $"State={info.State}",
-                $"SelectedTab={info.SelectedTab}",
-                $"ContentSplitterDistance={info.ContentSplitterDistance}",
-                $"LastWtsFolder={info.LastWtsFolder ?? string.Empty}",
-                $"LastTheme={info.LastTheme ?? string.Empty}",
-                $"SourcePath={info.SourcePath ?? string.Empty}"
+                $"LastTheme={info.LastTheme}",
+                $"SourcePath={info.SourcePath}"
             };
             File.WriteAllLines(_filePath, lines);
         }
