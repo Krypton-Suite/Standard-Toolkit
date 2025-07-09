@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Reflection;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -297,6 +299,54 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         }
 
         DefineFonts();
+    }
+
+    /// <summary>
+    /// Overload that accepts an <see cref="ArrayBaseColorScheme" /> instance for convenience.
+    /// </summary>
+    protected PaletteMicrosoft365Base([DisallowNull] ArrayBaseColorScheme scheme,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColours)
+        : this(scheme?.Colors ?? throw new ArgumentNullException(nameof(scheme)),
+            checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+    {
+    }
+
+    /// <summary>
+    /// Overload that accepts any AbstractBaseColorScheme implementation.
+    /// Converts it to a Color[] and forwards to the main constructor.
+    /// </summary>
+    protected PaletteMicrosoft365Base(
+        AbstractBaseColorScheme scheme,
+        ImageList checkBoxList,
+        ImageList galleryButtonList,
+        Image?[]   radioButtonArray,
+        Color[]    trackBarColours)
+        : this(ConvertSchemeToArray(scheme),
+               checkBoxList,
+               galleryButtonList,
+               radioButtonArray,
+               trackBarColours)
+    {
+    }
+
+    private static Color[] ConvertSchemeToArray(AbstractBaseColorScheme scheme)
+    {
+        if (scheme == null) throw new ArgumentNullException(nameof(scheme));
+
+        var names   = Enum.GetNames(typeof(SchemeBaseColors));
+        var colors  = new Color[names.Length];
+        var type    = scheme.GetType();
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            var prop = type.GetProperty(names[i]);
+            colors[i] = prop is null
+                ? GlobalStaticValues.EMPTY_COLOR
+                : (Color)prop.GetValue(scheme)!;
+        }
+        return colors;
     }
     #endregion
 
