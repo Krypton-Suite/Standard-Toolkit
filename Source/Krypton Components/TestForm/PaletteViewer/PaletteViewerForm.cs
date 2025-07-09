@@ -11,13 +11,13 @@ namespace TestForm
     {
         private readonly System.Collections.Generic.List<Krypton.Toolkit.PaletteBase> _palettes = new System.Collections.Generic.List<Krypton.Toolkit.PaletteBase>();
         private System.Collections.Generic.List<System.Reflection.MethodInfo> _apiCalls;
-        private System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string> _methodEnumMapping;
+        private System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string>? _methodEnumMapping;
         private Krypton.Toolkit.SchemeBaseColors[] _enumValues;
-        private System.Drawing.Color[] _baselineColors;
-        private string _baselinePaletteName;
-        private string _sourcePath;
+        private System.Drawing.Color[]? _baselineColors;
+        private string? _baselinePaletteName;
+        private string? _sourcePath;
         private bool _isSourceValid;
-        private System.Threading.CancellationTokenSource _addAllCts;
+        private System.Threading.CancellationTokenSource? _cancellationToken;
         private int _highlightRowIndex = -1;
         private bool _bulkUpdating;
         private const int MinColumnWidth = 120;
@@ -25,15 +25,18 @@ namespace TestForm
         private readonly WindowStateInfo _winInfo;
         private static readonly IReadOnlyDictionary<string, Krypton.Toolkit.PaletteMode> DisplayToEnum = Krypton.Toolkit.PaletteModeStrings.SupportedThemesMap;
         private static readonly System.Collections.Generic.Dictionary<Krypton.Toolkit.PaletteMode, string> EnumToDisplay = new System.Collections.Generic.Dictionary<Krypton.Toolkit.PaletteMode, string>(System.Linq.Enumerable.ToDictionary(DisplayToEnum, kv => kv.Value, kv => kv.Key));
-        private static bool IsSparkleDisplay(string display) => display.StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
-        private static bool IsSparkleMode(Krypton.Toolkit.PaletteMode mode) => mode.ToString().StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
-        private static bool IsSparkleType(System.Type t) => t.Name.StartsWith("PaletteSparkle", System.StringComparison.OrdinalIgnoreCase);
+        private readonly System.Collections.Generic.HashSet<System.Type> _processedBases = new System.Collections.Generic.HashSet<System.Type>();
+        private Krypton.Toolkit.KryptonManager _kryptonManager1;
 
         private static readonly Krypton.Toolkit.PaletteMode[] LegacyProfessionalModes = new[]
         {
             Krypton.Toolkit.PaletteMode.ProfessionalSystem,
             Krypton.Toolkit.PaletteMode.ProfessionalOffice2003
         };
+
+        private static bool IsSparkleDisplay(string display) => display.StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
+        private static bool IsSparkleMode(Krypton.Toolkit.PaletteMode mode) => mode.ToString().StartsWith("Sparkle", System.StringComparison.OrdinalIgnoreCase);
+        private static bool IsSparkleType(System.Type t) => t.Name.StartsWith("PaletteSparkle", System.StringComparison.OrdinalIgnoreCase);
 
         private static bool IsLegacyProfessionalMode(Krypton.Toolkit.PaletteMode mode) => System.Array.IndexOf(LegacyProfessionalModes, mode) >= 0;
         private static bool IsLegacyProfessionalDisplay(string display) => DisplayToEnum.TryGetValue(display, out var m) && IsLegacyProfessionalMode(m);
@@ -61,27 +64,24 @@ namespace TestForm
             return false;
         }
 
-        private readonly System.Collections.Generic.HashSet<System.Type> _processedBases = new System.Collections.Generic.HashSet<System.Type>();
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
-
         public PaletteViewerForm()
         {
             InitializeComponent();
 
             // load persisted window state
             _winStore = new WindowStateStore();
-            _winInfo = _winStore.Load();
+            _winInfo = _winStore.Load()!;
 
-            PopulateThemeCombo(_winInfo?.LastTheme);
+            PopulateThemeCombo(_winInfo.LastTheme ?? string.Empty);
 
-            _sourcePath = _winInfo?.SourcePath;
+            _sourcePath = _winInfo.SourcePath ?? string.Empty;
             _isSourceValid = IsValidSourcePath(_sourcePath);
             if (this.textSourcePath != null)
             {
                 this.textSourcePath.Text = _sourcePath ?? string.Empty;
             }
 
-            var workArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
+            Rectangle workArea = System.Windows.Forms.Screen.PrimaryScreen!.WorkingArea;
 
             if (_winInfo != null)
             {
@@ -147,18 +147,17 @@ namespace TestForm
 
         public void AttachKryptonManager(Krypton.Toolkit.KryptonManager manager)
         {
-            kryptonManager1 = manager;
+            _kryptonManager1 = manager;
             UpdateThemeSwitcher();
         }
 
         private void UpdateThemeSwitcher()
         {
-            if (kryptonManager1 == null || kryptonThemeComboBox == null)
-            {
-                return;
-            }
-
-            if (kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom && EnumToDisplay.TryGetValue(kryptonManager1.GlobalPaletteMode, out string disp))
+            if (_kryptonManager1 is not null 
+                && kryptonThemeComboBox is not null
+                && _kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom 
+                && EnumToDisplay.TryGetValue(_kryptonManager1.GlobalPaletteMode, out string? disp)
+                && disp is not null)
             {
                 kryptonThemeComboBox.SelectedItem = disp;
             }
@@ -184,12 +183,9 @@ namespace TestForm
 
             foreach (var m in methods)
             {
-                if (m.IsSpecialName || IsProblematicBaseMethod(m))
-                {
-                    continue;
-                }
-
-                if (m.ReturnType != typeof(System.Drawing.Color))
+                if (m.IsSpecialName 
+                    || IsProblematicBaseMethod(m)
+                    || m.ReturnType != typeof(System.Drawing.Color))
                 {
                     continue;
                 }
@@ -255,6 +251,7 @@ namespace TestForm
             colApi.DefaultCellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             colApi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             colApi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            colApi.DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
             colApi.Frozen = true;
             this.dataGridViewPalette.Columns.Add(colApi);
 
@@ -315,7 +312,7 @@ namespace TestForm
 
             var mapping = new System.Collections.Generic.Dictionary<System.Reflection.MemberInfo, string>();
 
-            System.Drawing.Color[] colorArray = TryGetPaletteColors(palette);
+            System.Drawing.Color[] colorArray = TryGetPaletteColors(palette) ?? [];
 
             if (colorArray == null || colorArray.Length == 0)
             {
@@ -351,18 +348,18 @@ namespace TestForm
                 try
                 {
                     var parameters = m.GetParameters();
-                    object[] args = new object[parameters.Length];
+                    object?[] args = new object[parameters.Length];
                     // Use the first enum value or default struct instance as placeholder argument
                     for (int idx = 0; idx < parameters.Length; idx++)
                     {
                         var pt = parameters[idx].ParameterType;
                         if (pt.IsEnum)
                         {
-                            args[idx] = System.Enum.GetValues(pt).GetValue(0);
+                            args[idx] = System.Enum.GetValues(pt).GetValue(0)!;
                         }
                         else if (pt.IsValueType)
                         {
-                            args[idx] = System.Activator.CreateInstance(pt);
+                            args[idx] = System.Activator.CreateInstance(pt)!;
                         }
                         else
                         {
@@ -370,7 +367,7 @@ namespace TestForm
                         }
                     }
 
-                    resultColor = (System.Drawing.Color)m.Invoke(palette, args);
+                    resultColor = (System.Drawing.Color)m.Invoke(palette, args)!;
                 }
                 catch (System.Reflection.TargetInvocationException tie)
                 {
@@ -414,7 +411,7 @@ namespace TestForm
                     System.Drawing.Color c;
                     try
                     {
-                        c = (System.Drawing.Color)prop.GetValue(palette.ColorTable);
+                        c = (System.Drawing.Color)prop.GetValue(palette.ColorTable)!;
                     }
                     catch
                     {
@@ -511,15 +508,13 @@ namespace TestForm
             // populate enum rows with color values
 
             // fetch palette color array
-            System.Drawing.Color[] paletteColors = TryGetPaletteColors(palette);
+            System.Drawing.Color[] paletteColors = TryGetPaletteColors(palette) ?? [];
 
             // Assign baseline if not yet set
-            bool isBaseline = false;
             if (_baselineColors == null && paletteColors != null)
             {
                 _baselineColors = paletteColors;
                 _baselinePaletteName = palette.GetType().Name;
-                isBaseline = true;
             }
 
             int missingCount = 0;
@@ -530,9 +525,12 @@ namespace TestForm
             for (int i = 0; i < _enumValues.Length; i++)
             {
                 var row = this.dataGridViewPalette.Rows[i];
-
-                bool indexPresent = paletteColors != null && i < paletteColors.Length;
-                System.Drawing.Color color = indexPresent ? paletteColors[i] : System.Drawing.Color.Transparent;
+                bool indexPresent = paletteColors != null 
+                    && paletteColors.Length > 0
+                    && i >= 0 
+                    && i < paletteColors.Length;
+                
+                System.Drawing.Color color = indexPresent ? paletteColors![i] : System.Drawing.Color.Transparent;
                 if (!indexPresent)
                 {
                     // count missing only if palette is expected to support full scheme
@@ -569,7 +567,7 @@ namespace TestForm
             // Static source check for array vs enum
             if (!string.IsNullOrWhiteSpace(_sourcePath))
             {
-                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath);
+                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
                 if (issues != null && !issues.IsClean)
                 {
                     foreach (int idx in issues.MissingIndices)
@@ -578,7 +576,7 @@ namespace TestForm
                         {
                             var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                             if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Missing value";
-                            if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                            if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                             {
                                 c.ToolTipText += " : " + c.ErrorText;
                             }
@@ -591,7 +589,7 @@ namespace TestForm
                         {
                             var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                             if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Unmarked value";
-                            if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                            if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                             {
                                 c.ToolTipText += " : " + c.ErrorText;
                             }
@@ -604,7 +602,7 @@ namespace TestForm
                         {
                             var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                             if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Out-of-order";
-                            if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                            if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                             {
                                 c.ToolTipText += " : " + c.ErrorText;
                             }
@@ -617,7 +615,7 @@ namespace TestForm
                         {
                             var c = this.dataGridViewPalette.Rows[idx].Cells[paletteColumnIndex];
                             if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Extra entry";
-                            if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                            if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                             {
                                 c.ToolTipText += " : " + c.ErrorText;
                             }
@@ -753,7 +751,7 @@ namespace TestForm
             _palettes.Remove(palette);
 
             // find column
-            var column = this.dataGridViewPalette.Columns.GetColumnCount(DataGridViewElementStates.Visible) > 0 ? this.dataGridViewPalette.Columns[palette.GetType().FullName] : null;
+            var column = this.dataGridViewPalette.Columns.GetColumnCount(DataGridViewElementStates.Visible) > 0 ? this.dataGridViewPalette.Columns[palette.GetType().FullName!] : null;
             if (column != null)
             {
                 this.dataGridViewPalette.Columns.Remove(column);
@@ -800,13 +798,13 @@ namespace TestForm
             // Ensure base rows and enum array are ready
             this.LoadApiCalls();
 
-            if (_addAllCts != null)
+            if (_cancellationToken != null)
             {
                 return; // already running
             }
 
-            _addAllCts = new System.Threading.CancellationTokenSource();
-            var token = _addAllCts.Token;
+            _cancellationToken = new System.Threading.CancellationTokenSource();
+            var token = _cancellationToken.Token;
 
             this.buttonAddAll.Enabled = false;
             this.buttonAddPalette.Enabled = false;
@@ -815,6 +813,9 @@ namespace TestForm
             this.buttonCancel.Visible = true;
 
             UpdateStatus("Adding all palettes...");
+
+            // Force a gui refresh before the adding starts
+            this.Refresh();
 
             // Begin bulk update
             _bulkUpdating = true;
@@ -869,8 +870,8 @@ namespace TestForm
                 this.comboTheme.Enabled = true;
                 this.buttonCancel.Visible = false;
 
-                _addAllCts.Dispose();
-                _addAllCts = null;
+                _cancellationToken.Dispose();
+                _cancellationToken = null;
 
                 UpdateStatus("Ready");
 
@@ -880,7 +881,7 @@ namespace TestForm
 
         private void BtnCancel_Click(object sender, System.EventArgs e)
         {
-            _addAllCts?.Cancel();
+            _cancellationToken?.Cancel();
         }
 
         private void UpdateStatus(string message)
@@ -924,7 +925,7 @@ namespace TestForm
             // New guard: do not activate palettes that still have missing enum values
             if (palette != null && !string.IsNullOrWhiteSpace(_sourcePath))
             {
-                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath);
+                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
                 if (issues != null && issues.MissingCount > 0)
                 {
                     UpdateStatus($"Cannot activate {palette.GetType().Name}: {issues.MissingCount} missing enum colours");
@@ -937,12 +938,12 @@ namespace TestForm
                 var mode = Krypton.Toolkit.KryptonManager.GetModeForPalette(palette);
                 if (mode != Krypton.Toolkit.PaletteMode.Custom)
                 {
-                    kryptonManager1.GlobalPaletteMode = mode;
+                    _kryptonManager1.GlobalPaletteMode = mode;
                 }
                 else if (palette is Krypton.Toolkit.KryptonCustomPaletteBase cp)
                 {
-                    kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Custom;
-                    kryptonManager1.GlobalCustomPalette = cp;
+                    _kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Custom;
+                    _kryptonManager1.GlobalCustomPalette = cp;
                 }
 
                 string headerFlat = column.HeaderText.Replace("\n", " ").Replace("\r", " ");
@@ -989,14 +990,12 @@ namespace TestForm
 
         private string GetDisplayName(Krypton.Toolkit.PaletteMode mode)
         {
-            if (EnumToDisplay.TryGetValue(mode, out string display))
-            {
-                return display;
-            }
-            return mode.ToString();
+             return EnumToDisplay.TryGetValue(mode, out string? display)
+                ? display
+                : mode.ToString();
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             // determine bounds depending on state
             var stateForSave = this.WindowState;
@@ -1009,8 +1008,8 @@ namespace TestForm
                 Width = bounds.Width,
                 Height = bounds.Height,
                 State = stateForSave,
-                LastTheme = this.comboTheme.SelectedItem as string,
-                SourcePath = _sourcePath
+                LastTheme = (this.comboTheme.SelectedItem as string)!,
+                SourcePath = _sourcePath ?? string.Empty
             };
 
             _winStore.Save(ws);
@@ -1044,12 +1043,9 @@ namespace TestForm
 
         private void DataGridViewPalette_Paint(object sender, PaintEventArgs e)
         {
-            if (_bulkUpdating)
-            {
-                return;
-            }
-
-            if (_highlightRowIndex < 0 || _highlightRowIndex >= this.dataGridViewPalette.RowCount)
+            if (_bulkUpdating
+                || _highlightRowIndex < 0 
+                || _highlightRowIndex >= this.dataGridViewPalette.RowCount)
             {
                 return;
             }
@@ -1060,7 +1056,7 @@ namespace TestForm
                 return; // row not visible
             }
 
-            using (var pen = new System.Drawing.Pen(System.Drawing.Color.DarkOrange, 3))
+            using (var pen = new System.Drawing.Pen(System.Drawing.Color.DarkOrange, 1))
             {
                 rowRect.Width -= 1;
                 rowRect.Height -= 1;
@@ -1187,69 +1183,9 @@ namespace TestForm
             }
         }
 
-        private void DataGridViewPalette_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (_bulkUpdating)
-            {
-                return;
-            }
-
-            // Custom draw for API column (#2)
-            if (e.RowIndex >= 0 && e.ColumnIndex == 2)
-            {
-                // Draw background + border first to preserve gridlines
-                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
-
-                if (e.Value is string s && s.Length > 0)
-                {
-                    var font = e.CellStyle.Font ?? this.Font;
-                    var fore = e.CellStyle.ForeColor;
-                    int y = e.CellBounds.Y + 2;
-                    foreach (var line in s.Split('\n'))
-                    {
-                        TextRenderer.DrawText(e.Graphics, line, font,
-                            new System.Drawing.Rectangle(e.CellBounds.X + 2, y, e.CellBounds.Width - 4, font.Height),
-                            fore, TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.NoPadding | TextFormatFlags.EndEllipsis);
-                        y += font.Height + 2;
-                    }
-                }
-
-                // Highlight current cell border in red
-                if (this.dataGridViewPalette.CurrentCell != null && e.RowIndex == this.dataGridViewPalette.CurrentCell.RowIndex && e.ColumnIndex == this.dataGridViewPalette.CurrentCell.ColumnIndex)
-                {
-                    using (var pen = new System.Drawing.Pen(System.Drawing.Color.Red, 2))
-                    {
-                        var rect = e.CellBounds;
-                        rect.Width -= 1;
-                        rect.Height -= 1;
-                        e.Graphics.DrawRectangle(pen, rect);
-                    }
-                }
-
-                e.Handled = true;
-                return;
-            }
-
-            if (this.dataGridViewPalette.CurrentCell != null && e.RowIndex == this.dataGridViewPalette.CurrentCell.RowIndex && e.ColumnIndex == this.dataGridViewPalette.CurrentCell.ColumnIndex)
-            {
-                // Let default paint
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                using (var pen = new System.Drawing.Pen(System.Drawing.Color.Red, 2))
-                {
-                    var rect = e.CellBounds;
-                    rect.Width -= 1;
-                    rect.Height -= 1;
-                    e.Graphics.DrawRectangle(pen, rect);
-                }
-
-                e.Handled = true;
-            }
-        }
-
         private void DataGridViewPalette_Scroll(object sender, ScrollEventArgs e)
         {
-            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll && !_bulkUpdating)
+            if (!_bulkUpdating && e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
             {
                 dataGridViewPalette.Refresh();
             }
@@ -1273,7 +1209,7 @@ namespace TestForm
             }
         }
 
-        private static System.Type GetRibbonColorsOwner(System.Type t)
+        private static System.Type? GetRibbonColorsOwner(System.Type t)
         {
             return t?.BaseType;
         }
@@ -1281,7 +1217,7 @@ namespace TestForm
         /// <summary>
         /// Extracts the colour array from a palette via <c>ColorTable.Colors</c> (or <c>Colours</c>).
         /// </summary>
-        private static System.Drawing.Color[] TryGetPaletteColors(Krypton.Toolkit.PaletteBase palette)
+        private static System.Drawing.Color[]? TryGetPaletteColors(Krypton.Toolkit.PaletteBase palette)
         {
             if (palette == null)
             {
@@ -1298,7 +1234,7 @@ namespace TestForm
 
                     if (prop != null && prop.PropertyType == typeof(System.Drawing.Color[]))
                     {
-                        return prop.GetValue(ct) as System.Drawing.Color[];
+                        return (prop.GetValue(ct) as System.Drawing.Color[])!;
                     }
                 }
             }
@@ -1370,7 +1306,7 @@ namespace TestForm
             ws.Width = this.Width;
             ws.Height = this.Height;
             ws.State = this.WindowState;
-            ws.LastTheme = comboTheme.SelectedItem as string;
+            ws.LastTheme = comboTheme.SelectedItem as string ?? string.Empty;
             _winStore.Save(ws);
 
             RecheckAllPalettes();
@@ -1388,14 +1324,14 @@ namespace TestForm
             for (int p = 0; p < _palettes.Count; p++)
             {
                 var palette = _palettes[p];
-                var col = this.dataGridViewPalette.Columns[palette.GetType().FullName];
+                var col = this.dataGridViewPalette.Columns[palette.GetType().FullName!];
                 if (col == null)
                 {
                     continue;
                 }
                 int colIndex = col.Index;
 
-                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath);
+                var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath!);
                 if (issues == null || issues.IsClean)
                 {
                     continue;
@@ -1407,7 +1343,7 @@ namespace TestForm
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
                         if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Missing value";
-                        if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                        if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
                         }
@@ -1419,7 +1355,7 @@ namespace TestForm
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
                         if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Unmarked value";
-                        if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                        if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
                         }
@@ -1431,7 +1367,7 @@ namespace TestForm
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
                         if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Out-of-order";
-                        if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                        if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
                         }
@@ -1443,7 +1379,7 @@ namespace TestForm
                     {
                         var c = this.dataGridViewPalette.Rows[idx].Cells[colIndex];
                         if (string.IsNullOrEmpty(c.ErrorText)) c.ErrorText = "Extra entry";
-                        if (!string.IsNullOrEmpty(c.ErrorText) && (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText)))
+                        if (c.ToolTipText == null || !c.ToolTipText.Contains(c.ErrorText))
                         {
                             c.ToolTipText += " : " + c.ErrorText;
                         }
@@ -1471,13 +1407,13 @@ namespace TestForm
 
             // Persist cleared setting
             var ws = _winInfo ?? new WindowStateInfo();
-            ws.SourcePath = null;
+            ws.SourcePath = string.Empty;
             ws.Left = this.Left;
             ws.Top = this.Top;
             ws.Width = this.Width;
             ws.Height = this.Height;
             ws.State = this.WindowState;
-            ws.LastTheme = comboTheme.SelectedItem as string;
+            ws.LastTheme = (comboTheme.SelectedItem as string)!;
             _winStore.Save(ws);
 
             UpdateUIState();
