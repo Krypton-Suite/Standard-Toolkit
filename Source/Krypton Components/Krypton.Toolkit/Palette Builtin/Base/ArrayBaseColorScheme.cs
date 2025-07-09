@@ -23,7 +23,10 @@ public sealed class ArrayBaseColorScheme : AbstractBaseColorScheme
 
     public ArrayBaseColorScheme([DisallowNull] Color[] colors)
     {
-        Debug.Assert(colors != null);
+        if (colors == null)
+        {
+            throw new ArgumentNullException(nameof(colors));
+        }
 
         int requiredLength = Enum.GetValues(typeof(SchemeBaseColors)).Length;
 
