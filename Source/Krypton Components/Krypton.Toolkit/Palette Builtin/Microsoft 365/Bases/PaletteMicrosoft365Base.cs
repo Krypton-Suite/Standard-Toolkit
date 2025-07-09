@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Reflection;
-
 namespace Krypton.Toolkit;
 
 /// <summary>
