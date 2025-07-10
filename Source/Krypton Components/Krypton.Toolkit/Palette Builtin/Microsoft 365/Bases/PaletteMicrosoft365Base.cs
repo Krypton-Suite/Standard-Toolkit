@@ -300,18 +300,6 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     }
 
     /// <summary>
-    /// Overload that accepts an <see cref="ArrayBaseColorScheme" /> instance for convenience.
-    /// </summary>
-    protected PaletteMicrosoft365Base([DisallowNull] ArrayBaseColorScheme scheme,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColours)
-        : this(scheme?.Colors ?? throw new ArgumentNullException(nameof(scheme)),
-            checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
-    {
-    }
-
-    /// <summary>
     /// Overload that accepts any AbstractBaseColorScheme implementation.
     /// Converts it to a Color[] and forwards to the main constructor.
     /// </summary>

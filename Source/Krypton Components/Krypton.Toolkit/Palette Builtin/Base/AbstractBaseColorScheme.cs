@@ -11,237 +11,239 @@ namespace Krypton.Toolkit;
 
 public abstract class AbstractBaseColorScheme
 {
-    public abstract Color TextLabelControl { get; }
-    public abstract Color TextButtonNormal { get; }
-    public abstract Color TextButtonChecked { get; }
-    public abstract Color ButtonNormalBorder { get; }
-    public abstract Color ButtonNormalDefaultBorder { get; }
-    public abstract Color ButtonNormalBack1 { get; }
-    public abstract Color ButtonNormalBack2 { get; }
-    public abstract Color ButtonNormalDefaultBack1 { get; }
-    public abstract Color ButtonNormalDefaultBack2 { get; }
-    public abstract Color ButtonNormalNavigatorBack1 { get; }
-    public abstract Color ButtonNormalNavigatorBack2 { get; }
-    public abstract Color PanelClient { get; }
-    public abstract Color PanelAlternative { get; }
-    public abstract Color ControlBorder { get; }
-    public abstract Color SeparatorHighBorder1 { get; }
-    public abstract Color SeparatorHighBorder2 { get; }
-    public abstract Color HeaderPrimaryBack1 { get; }
-    public abstract Color HeaderPrimaryBack2 { get; }
-    public abstract Color HeaderSecondaryBack1 { get; }
-    public abstract Color HeaderSecondaryBack2 { get; }
-    public abstract Color HeaderText { get; }
-    public abstract Color StatusStripText { get; }
-    public abstract Color ButtonBorder { get; }
-    public abstract Color SeparatorLight { get; }
-    public abstract Color SeparatorDark { get; }
-    public abstract Color GripLight { get; }
-    public abstract Color GripDark { get; }
-    public abstract Color ToolStripBack { get; }
-    public abstract Color StatusStripLight { get; }
-    public abstract Color StatusStripDark { get; }
-    public abstract Color ImageMargin { get; }
-    public abstract Color ToolStripBegin { get; }
-    public abstract Color ToolStripMiddle { get; }
-    public abstract Color ToolStripEnd { get; }
-    public abstract Color OverflowBegin { get; }
-    public abstract Color OverflowMiddle { get; }
-    public abstract Color OverflowEnd { get; }
-    public abstract Color ToolStripBorder { get; }
-    public abstract Color FormBorderActive { get; }
-    public abstract Color FormBorderInactive { get; }
-    public abstract Color FormBorderActiveLight { get; }
-    public abstract Color FormBorderActiveDark { get; }
-    public abstract Color FormBorderInactiveLight { get; }
-    public abstract Color FormBorderInactiveDark { get; }
-    public abstract Color FormBorderHeaderActive { get; }
-    public abstract Color FormBorderHeaderInactive { get; }
-    public abstract Color FormBorderHeaderActive1 { get; }
-    public abstract Color FormBorderHeaderActive2 { get; }
-    public abstract Color FormBorderHeaderInactive1 { get; }
-    public abstract Color FormBorderHeaderInactive2 { get; }
-    public abstract Color FormHeaderShortActive { get; }
-    public abstract Color FormHeaderShortInactive { get; }
-    public abstract Color FormHeaderLongActive { get; }
-    public abstract Color FormHeaderLongInactive { get; }
-    public abstract Color FormButtonBorderTrack { get; }
-    public abstract Color FormButtonBack1Track { get; }
-    public abstract Color FormButtonBack2Track { get; }
-    public abstract Color FormButtonBorderPressed { get; }
-    public abstract Color FormButtonBack1Pressed { get; }
-    public abstract Color FormButtonBack2Pressed { get; }
-    public abstract Color TextButtonFormNormal { get; }
-    public abstract Color TextButtonFormTracking { get; }
-    public abstract Color TextButtonFormPressed { get; }
-    public abstract Color LinkNotVisitedOverrideControl { get; }
-    public abstract Color LinkVisitedOverrideControl { get; }
-    public abstract Color LinkPressedOverrideControl { get; }
-    public abstract Color LinkNotVisitedOverridePanel { get; }
-    public abstract Color LinkVisitedOverridePanel { get; }
-    public abstract Color LinkPressedOverridePanel { get; }
-    public abstract Color TextLabelPanel { get; }
-    public abstract Color RibbonTabTextNormal { get; }
-    public abstract Color RibbonTabTextChecked { get; }
-    public abstract Color RibbonTabSelected1 { get; }
-    public abstract Color RibbonTabSelected2 { get; }
-    public abstract Color RibbonTabSelected3 { get; }
-    public abstract Color RibbonTabSelected4 { get; }
-    public abstract Color RibbonTabSelected5 { get; }
-    public abstract Color RibbonTabTracking1 { get; }
-    public abstract Color RibbonTabTracking2 { get; }
-    public abstract Color RibbonTabHighlight1 { get; }
-    public abstract Color RibbonTabHighlight2 { get; }
-    public abstract Color RibbonTabHighlight3 { get; }
-    public abstract Color RibbonTabHighlight4 { get; }
-    public abstract Color RibbonTabHighlight5 { get; }
-    public abstract Color RibbonTabSeparatorColor { get; }
-    public abstract Color RibbonGroupsArea1 { get; }
-    public abstract Color RibbonGroupsArea2 { get; }
-    public abstract Color RibbonGroupsArea3 { get; }
-    public abstract Color RibbonGroupsArea4 { get; }
-    public abstract Color RibbonGroupsArea5 { get; }
-    public abstract Color RibbonGroupBorder1 { get; }
-    public abstract Color RibbonGroupBorder2 { get; }
-    public abstract Color RibbonGroupTitle1 { get; }
-    public abstract Color RibbonGroupTitle2 { get; }
-    public abstract Color RibbonGroupBorderContext1 { get; }
-    public abstract Color RibbonGroupBorderContext2 { get; }
-    public abstract Color RibbonGroupTitleContext1 { get; }
-    public abstract Color RibbonGroupTitleContext2 { get; }
-    public abstract Color RibbonGroupDialogDark { get; }
-    public abstract Color RibbonGroupDialogLight { get; }
-    public abstract Color RibbonGroupTitleTracking1 { get; }
-    public abstract Color RibbonGroupTitleTracking2 { get; }
-    public abstract Color RibbonMinimizeBarDark { get; }
-    public abstract Color RibbonMinimizeBarLight { get; }
-    public abstract Color RibbonGroupCollapsedBorder1 { get; }
-    public abstract Color RibbonGroupCollapsedBorder2 { get; }
-    public abstract Color RibbonGroupCollapsedBorder3 { get; }
-    public abstract Color RibbonGroupCollapsedBorder4 { get; }
-    public abstract Color RibbonGroupCollapsedBack1 { get; }
-    public abstract Color RibbonGroupCollapsedBack2 { get; }
-    public abstract Color RibbonGroupCollapsedBack3 { get; }
-    public abstract Color RibbonGroupCollapsedBack4 { get; }
-    public abstract Color RibbonGroupCollapsedBorderT1 { get; }
-    public abstract Color RibbonGroupCollapsedBorderT2 { get; }
-    public abstract Color RibbonGroupCollapsedBorderT3 { get; }
-    public abstract Color RibbonGroupCollapsedBorderT4 { get; }
-    public abstract Color RibbonGroupCollapsedBackT1 { get; }
-    public abstract Color RibbonGroupCollapsedBackT2 { get; }
-    public abstract Color RibbonGroupCollapsedBackT3 { get; }
-    public abstract Color RibbonGroupCollapsedBackT4 { get; }
-    public abstract Color RibbonGroupFrameBorder1 { get; }
-    public abstract Color RibbonGroupFrameBorder2 { get; }
-    public abstract Color RibbonGroupFrameInside1 { get; }
-    public abstract Color RibbonGroupFrameInside2 { get; }
-    public abstract Color RibbonGroupFrameInside3 { get; }
-    public abstract Color RibbonGroupFrameInside4 { get; }
-    public abstract Color RibbonGroupCollapsedText { get; }
-    public abstract Color RibbonGroupButtonText { get; }
-    public abstract Color AlternatePressedBack1 { get; }
-    public abstract Color AlternatePressedBack2 { get; }
-    public abstract Color AlternatePressedBorder1 { get; }
-    public abstract Color AlternatePressedBorder2 { get; }
-    public abstract Color FormButtonBack1Checked { get; }
-    public abstract Color FormButtonBack2Checked { get; }
-    public abstract Color FormButtonBorderCheck { get; }
-    public abstract Color FormButtonBack1CheckTrack { get; }
-    public abstract Color FormButtonBack2CheckTrack { get; }
-    public abstract Color RibbonQATMini1 { get; }
-    public abstract Color RibbonQATMini2 { get; }
-    public abstract Color RibbonQATMini3 { get; }
-    public abstract Color RibbonQATMini4 { get; }
-    public abstract Color RibbonQATMini5 { get; }
-    public abstract Color RibbonQATMini1I { get; }
-    public abstract Color RibbonQATMini2I { get; }
-    public abstract Color RibbonQATMini3I { get; }
-    public abstract Color RibbonQATMini4I { get; }
-    public abstract Color RibbonQATMini5I { get; }
-    public abstract Color RibbonQATFullbar1 { get; }
-    public abstract Color RibbonQATFullbar2 { get; }
-    public abstract Color RibbonQATFullbar3 { get; }
-    public abstract Color RibbonQATButtonDark { get; }
-    public abstract Color RibbonQATButtonLight { get; }
-    public abstract Color RibbonQATOverflow1 { get; }
-    public abstract Color RibbonQATOverflow2 { get; }
-    public abstract Color RibbonGroupSeparatorDark { get; }
-    public abstract Color RibbonGroupSeparatorLight { get; }
-    public abstract Color ButtonClusterButtonBack1 { get; }
-    public abstract Color ButtonClusterButtonBack2 { get; }
-    public abstract Color ButtonClusterButtonBorder1 { get; }
-    public abstract Color ButtonClusterButtonBorder2 { get; }
-    public abstract Color NavigatorMiniBackColor { get; }
-    public abstract Color GridListNormal1 { get; }
-    public abstract Color GridListNormal2 { get; }
-    public abstract Color GridListPressed1 { get; }
-    public abstract Color GridListPressed2 { get; }
-    public abstract Color GridListSelected { get; }
-    public abstract Color GridSheetColNormal1 { get; }
-    public abstract Color GridSheetColNormal2 { get; }
-    public abstract Color GridSheetColPressed1 { get; }
-    public abstract Color GridSheetColPressed2 { get; }
-    public abstract Color GridSheetColSelected1 { get; }
-    public abstract Color GridSheetColSelected2 { get; }
-    public abstract Color GridSheetRowNormal { get; }
-    public abstract Color GridSheetRowPressed { get; }
-    public abstract Color GridSheetRowSelected { get; }
-    public abstract Color GridDataCellBorder { get; }
-    public abstract Color GridDataCellSelected { get; }
-    public abstract Color InputControlTextNormal { get; }
-    public abstract Color InputControlTextDisabled { get; }
-    public abstract Color InputControlBorderNormal { get; }
-    public abstract Color InputControlBorderDisabled { get; }
-    public abstract Color InputControlBackNormal { get; }
-    public abstract Color InputControlBackDisabled { get; }
-    public abstract Color InputControlBackInactive { get; }
-    public abstract Color InputDropDownNormal1 { get; }
-    public abstract Color InputDropDownNormal2 { get; }
-    public abstract Color InputDropDownDisabled1 { get; }
-    public abstract Color InputDropDownDisabled2 { get; }
-    public abstract Color ContextMenuHeadingBack { get; }
-    public abstract Color ContextMenuHeadingText { get; }
-    public abstract Color ContextMenuImageColumn { get; }
-    public abstract Color AppButtonBack1 { get; }
-    public abstract Color AppButtonBack2 { get; }
-    public abstract Color AppButtonBorder { get; }
-    public abstract Color AppButtonOuter1 { get; }
-    public abstract Color AppButtonOuter2 { get; }
-    public abstract Color AppButtonOuter3 { get; }
-    public abstract Color AppButtonInner1 { get; }
-    public abstract Color AppButtonInner2 { get; }
-    public abstract Color AppButtonMenuDocsBack { get; }
-    public abstract Color AppButtonMenuDocsText { get; }
-    public abstract Color SeparatorHighInternalBorder1 { get; }
-    public abstract Color SeparatorHighInternalBorder2 { get; }
-    public abstract Color RibbonGalleryBorder { get; }
-    public abstract Color RibbonGalleryBackNormal { get; }
-    public abstract Color RibbonGalleryBackTracking { get; }
-    public abstract Color RibbonGalleryBack1 { get; }
-    public abstract Color RibbonGalleryBack2 { get; }
-    public abstract Color RibbonTabTracking3 { get; }
-    public abstract Color RibbonTabTracking4 { get; }
-    public abstract Color RibbonGroupBorder3 { get; }
-    public abstract Color RibbonGroupBorder4 { get; }
-    public abstract Color RibbonGroupBorder5 { get; }
-    public abstract Color RibbonGroupTitleText { get; }
-    public abstract Color RibbonDropArrowLight { get; }
-    public abstract Color RibbonDropArrowDark { get; }
-    public abstract Color HeaderDockInactiveBack1 { get; }
-    public abstract Color HeaderDockInactiveBack2 { get; }
-    public abstract Color ButtonNavigatorBorder { get; }
-    public abstract Color ButtonNavigatorText { get; }
-    public abstract Color ButtonNavigatorTrack1 { get; }
-    public abstract Color ButtonNavigatorTrack2 { get; }
-    public abstract Color ButtonNavigatorPressed1 { get; }
-    public abstract Color ButtonNavigatorPressed2 { get; }
-    public abstract Color ButtonNavigatorChecked1 { get; }
-    public abstract Color ButtonNavigatorChecked2 { get; }
-    public abstract Color ToolTipBottom { get; }
-    public abstract Color MenuItemText { get; }
-    public abstract Color MenuMarginGradientStart { get; }
-    public abstract Color MenuMarginGradientMiddle { get; }
-    public abstract Color MenuMarginGradientEnd { get; }
-    public abstract Color DisabledMenuItemText { get; }
-    public abstract Color MenuStripText { get; }
+    #region Variables
+    public abstract Color TextLabelControl                 { get; set; }
+    public abstract Color TextButtonNormal                 { get; set; }
+    public abstract Color TextButtonChecked                { get; set; }
+    public abstract Color ButtonNormalBorder               { get; set; }
+    public abstract Color ButtonNormalDefaultBorder        { get; set; }
+    public abstract Color ButtonNormalBack1                { get; set; }
+    public abstract Color ButtonNormalBack2                { get; set; }
+    public abstract Color ButtonNormalDefaultBack1         { get; set; }
+    public abstract Color ButtonNormalDefaultBack2         { get; set; }
+    public abstract Color ButtonNormalNavigatorBack1       { get; set; }
+    public abstract Color ButtonNormalNavigatorBack2       { get; set; }
+    public abstract Color PanelClient                      { get; set; }
+    public abstract Color PanelAlternative                 { get; set; }
+    public abstract Color ControlBorder                    { get; set; }
+    public abstract Color SeparatorHighBorder1             { get; set; }
+    public abstract Color SeparatorHighBorder2             { get; set; }
+    public abstract Color HeaderPrimaryBack1               { get; set; }
+    public abstract Color HeaderPrimaryBack2               { get; set; }
+    public abstract Color HeaderSecondaryBack1             { get; set; }
+    public abstract Color HeaderSecondaryBack2             { get; set; }
+    public abstract Color HeaderText                       { get; set; }
+    public abstract Color StatusStripText                  { get; set; }
+    public abstract Color ButtonBorder                     { get; set; }
+    public abstract Color SeparatorLight                   { get; set; }
+    public abstract Color SeparatorDark                    { get; set; }
+    public abstract Color GripLight                        { get; set; }
+    public abstract Color GripDark                         { get; set; }
+    public abstract Color ToolStripBack                    { get; set; }
+    public abstract Color StatusStripLight                 { get; set; }
+    public abstract Color StatusStripDark                  { get; set; }
+    public abstract Color ImageMargin                      { get; set; }
+    public abstract Color ToolStripBegin                   { get; set; }
+    public abstract Color ToolStripMiddle                  { get; set; }
+    public abstract Color ToolStripEnd                     { get; set; }
+    public abstract Color OverflowBegin                    { get; set; }
+    public abstract Color OverflowMiddle                   { get; set; }
+    public abstract Color OverflowEnd                      { get; set; }
+    public abstract Color ToolStripBorder                  { get; set; }
+    public abstract Color FormBorderActive                 { get; set; }
+    public abstract Color FormBorderInactive               { get; set; }
+    public abstract Color FormBorderActiveLight            { get; set; }
+    public abstract Color FormBorderActiveDark             { get; set; }
+    public abstract Color FormBorderInactiveLight          { get; set; }
+    public abstract Color FormBorderInactiveDark           { get; set; }
+    public abstract Color FormBorderHeaderActive           { get; set; }
+    public abstract Color FormBorderHeaderInactive         { get; set; }
+    public abstract Color FormBorderHeaderActive1          { get; set; }
+    public abstract Color FormBorderHeaderActive2          { get; set; }
+    public abstract Color FormBorderHeaderInactive1        { get; set; }
+    public abstract Color FormBorderHeaderInactive2        { get; set; }
+    public abstract Color FormHeaderShortActive            { get; set; }
+    public abstract Color FormHeaderShortInactive          { get; set; }
+    public abstract Color FormHeaderLongActive             { get; set; }
+    public abstract Color FormHeaderLongInactive           { get; set; }
+    public abstract Color FormButtonBorderTrack            { get; set; }
+    public abstract Color FormButtonBack1Track             { get; set; }
+    public abstract Color FormButtonBack2Track             { get; set; }
+    public abstract Color FormButtonBorderPressed          { get; set; }
+    public abstract Color FormButtonBack1Pressed           { get; set; }
+    public abstract Color FormButtonBack2Pressed           { get; set; }
+    public abstract Color TextButtonFormNormal             { get; set; }
+    public abstract Color TextButtonFormTracking           { get; set; }
+    public abstract Color TextButtonFormPressed            { get; set; }
+    public abstract Color LinkNotVisitedOverrideControl    { get; set; }
+    public abstract Color LinkVisitedOverrideControl       { get; set; }
+    public abstract Color LinkPressedOverrideControl       { get; set; }
+    public abstract Color LinkNotVisitedOverridePanel      { get; set; }
+    public abstract Color LinkVisitedOverridePanel         { get; set; }
+    public abstract Color LinkPressedOverridePanel         { get; set; }
+    public abstract Color TextLabelPanel                   { get; set; }
+    public abstract Color RibbonTabTextNormal              { get; set; }
+    public abstract Color RibbonTabTextChecked             { get; set; }
+    public abstract Color RibbonTabSelected1               { get; set; }
+    public abstract Color RibbonTabSelected2               { get; set; }
+    public abstract Color RibbonTabSelected3               { get; set; }
+    public abstract Color RibbonTabSelected4               { get; set; }
+    public abstract Color RibbonTabSelected5               { get; set; }
+    public abstract Color RibbonTabTracking1               { get; set; }
+    public abstract Color RibbonTabTracking2               { get; set; }
+    public abstract Color RibbonTabHighlight1              { get; set; }
+    public abstract Color RibbonTabHighlight2              { get; set; }
+    public abstract Color RibbonTabHighlight3              { get; set; }
+    public abstract Color RibbonTabHighlight4              { get; set; }
+    public abstract Color RibbonTabHighlight5              { get; set; }
+    public abstract Color RibbonTabSeparatorColor          { get; set; }
+    public abstract Color RibbonGroupsArea1                { get; set; }
+    public abstract Color RibbonGroupsArea2                { get; set; }
+    public abstract Color RibbonGroupsArea3                { get; set; }
+    public abstract Color RibbonGroupsArea4                { get; set; }
+    public abstract Color RibbonGroupsArea5                { get; set; }
+    public abstract Color RibbonGroupBorder1               { get; set; }
+    public abstract Color RibbonGroupBorder2               { get; set; }
+    public abstract Color RibbonGroupTitle1                { get; set; }
+    public abstract Color RibbonGroupTitle2                { get; set; }
+    public abstract Color RibbonGroupBorderContext1        { get; set; }
+    public abstract Color RibbonGroupBorderContext2        { get; set; }
+    public abstract Color RibbonGroupTitleContext1         { get; set; }
+    public abstract Color RibbonGroupTitleContext2         { get; set; }
+    public abstract Color RibbonGroupDialogDark            { get; set; }
+    public abstract Color RibbonGroupDialogLight           { get; set; }
+    public abstract Color RibbonGroupTitleTracking1        { get; set; }
+    public abstract Color RibbonGroupTitleTracking2        { get; set; }
+    public abstract Color RibbonMinimizeBarDark            { get; set; }
+    public abstract Color RibbonMinimizeBarLight           { get; set; }
+    public abstract Color RibbonGroupCollapsedBorder1      { get; set; }
+    public abstract Color RibbonGroupCollapsedBorder2      { get; set; }
+    public abstract Color RibbonGroupCollapsedBorder3      { get; set; }
+    public abstract Color RibbonGroupCollapsedBorder4      { get; set; }
+    public abstract Color RibbonGroupCollapsedBack1        { get; set; }
+    public abstract Color RibbonGroupCollapsedBack2        { get; set; }
+    public abstract Color RibbonGroupCollapsedBack3        { get; set; }
+    public abstract Color RibbonGroupCollapsedBack4        { get; set; }
+    public abstract Color RibbonGroupCollapsedBorderT1     { get; set; }
+    public abstract Color RibbonGroupCollapsedBorderT2     { get; set; }
+    public abstract Color RibbonGroupCollapsedBorderT3     { get; set; }
+    public abstract Color RibbonGroupCollapsedBorderT4     { get; set; }
+    public abstract Color RibbonGroupCollapsedBackT1       { get; set; }
+    public abstract Color RibbonGroupCollapsedBackT2       { get; set; }
+    public abstract Color RibbonGroupCollapsedBackT3       { get; set; }
+    public abstract Color RibbonGroupCollapsedBackT4       { get; set; }
+    public abstract Color RibbonGroupFrameBorder1          { get; set; }
+    public abstract Color RibbonGroupFrameBorder2          { get; set; }
+    public abstract Color RibbonGroupFrameInside1          { get; set; }
+    public abstract Color RibbonGroupFrameInside2          { get; set; }
+    public abstract Color RibbonGroupFrameInside3          { get; set; }
+    public abstract Color RibbonGroupFrameInside4          { get; set; }
+    public abstract Color RibbonGroupCollapsedText         { get; set; }
+    public abstract Color RibbonGroupButtonText            { get; set; }
+    public abstract Color AlternatePressedBack1            { get; set; }
+    public abstract Color AlternatePressedBack2            { get; set; }
+    public abstract Color AlternatePressedBorder1          { get; set; }
+    public abstract Color AlternatePressedBorder2          { get; set; }
+    public abstract Color FormButtonBack1Checked           { get; set; }
+    public abstract Color FormButtonBack2Checked           { get; set; }
+    public abstract Color FormButtonBorderCheck            { get; set; }
+    public abstract Color FormButtonBack1CheckTrack        { get; set; }
+    public abstract Color FormButtonBack2CheckTrack        { get; set; }
+    public abstract Color RibbonQATMini1                   { get; set; }
+    public abstract Color RibbonQATMini2                   { get; set; }
+    public abstract Color RibbonQATMini3                   { get; set; }
+    public abstract Color RibbonQATMini4                   { get; set; }
+    public abstract Color RibbonQATMini5                   { get; set; }
+    public abstract Color RibbonQATMini1I                  { get; set; }
+    public abstract Color RibbonQATMini2I                  { get; set; }
+    public abstract Color RibbonQATMini3I                  { get; set; }
+    public abstract Color RibbonQATMini4I                  { get; set; }
+    public abstract Color RibbonQATMini5I                  { get; set; }
+    public abstract Color RibbonQATFullbar1                { get; set; }
+    public abstract Color RibbonQATFullbar2                { get; set; }
+    public abstract Color RibbonQATFullbar3                { get; set; }
+    public abstract Color RibbonQATButtonDark              { get; set; }
+    public abstract Color RibbonQATButtonLight             { get; set; }
+    public abstract Color RibbonQATOverflow1               { get; set; }
+    public abstract Color RibbonQATOverflow2               { get; set; }
+    public abstract Color RibbonGroupSeparatorDark         { get; set; }
+    public abstract Color RibbonGroupSeparatorLight        { get; set; }
+    public abstract Color ButtonClusterButtonBack1         { get; set; }
+    public abstract Color ButtonClusterButtonBack2         { get; set; }
+    public abstract Color ButtonClusterButtonBorder1       { get; set; }
+    public abstract Color ButtonClusterButtonBorder2       { get; set; }
+    public abstract Color NavigatorMiniBackColor           { get; set; }
+    public abstract Color GridListNormal1                  { get; set; }
+    public abstract Color GridListNormal2                  { get; set; }
+    public abstract Color GridListPressed1                 { get; set; }
+    public abstract Color GridListPressed2                 { get; set; }
+    public abstract Color GridListSelected                 { get; set; }
+    public abstract Color GridSheetColNormal1              { get; set; }
+    public abstract Color GridSheetColNormal2              { get; set; }
+    public abstract Color GridSheetColPressed1             { get; set; }
+    public abstract Color GridSheetColPressed2             { get; set; }
+    public abstract Color GridSheetColSelected1            { get; set; }
+    public abstract Color GridSheetColSelected2            { get; set; }
+    public abstract Color GridSheetRowNormal               { get; set; }
+    public abstract Color GridSheetRowPressed              { get; set; }
+    public abstract Color GridSheetRowSelected             { get; set; }
+    public abstract Color GridDataCellBorder               { get; set; }
+    public abstract Color GridDataCellSelected             { get; set; }
+    public abstract Color InputControlTextNormal           { get; set; }
+    public abstract Color InputControlTextDisabled         { get; set; }
+    public abstract Color InputControlBorderNormal         { get; set; }
+    public abstract Color InputControlBorderDisabled       { get; set; }
+    public abstract Color InputControlBackNormal           { get; set; }
+    public abstract Color InputControlBackDisabled         { get; set; }
+    public abstract Color InputControlBackInactive         { get; set; }
+    public abstract Color InputDropDownNormal1             { get; set; }
+    public abstract Color InputDropDownNormal2             { get; set; }
+    public abstract Color InputDropDownDisabled1           { get; set; }
+    public abstract Color InputDropDownDisabled2           { get; set; }
+    public abstract Color ContextMenuHeadingBack           { get; set; }
+    public abstract Color ContextMenuHeadingText           { get; set; }
+    public abstract Color ContextMenuImageColumn           { get; set; }
+    public abstract Color AppButtonBack1                   { get; set; }
+    public abstract Color AppButtonBack2                   { get; set; }
+    public abstract Color AppButtonBorder                  { get; set; }
+    public abstract Color AppButtonOuter1                  { get; set; }
+    public abstract Color AppButtonOuter2                  { get; set; }
+    public abstract Color AppButtonOuter3                  { get; set; }
+    public abstract Color AppButtonInner1                  { get; set; }
+    public abstract Color AppButtonInner2                  { get; set; }
+    public abstract Color AppButtonMenuDocsBack            { get; set; }
+    public abstract Color AppButtonMenuDocsText            { get; set; }
+    public abstract Color SeparatorHighInternalBorder1     { get; set; }
+    public abstract Color SeparatorHighInternalBorder2     { get; set; }
+    public abstract Color RibbonGalleryBorder              { get; set; }
+    public abstract Color RibbonGalleryBackNormal          { get; set; }
+    public abstract Color RibbonGalleryBackTracking        { get; set; }
+    public abstract Color RibbonGalleryBack1               { get; set; }
+    public abstract Color RibbonGalleryBack2               { get; set; }
+    public abstract Color RibbonTabTracking3               { get; set; }
+    public abstract Color RibbonTabTracking4               { get; set; }
+    public abstract Color RibbonGroupBorder3               { get; set; }
+    public abstract Color RibbonGroupBorder4               { get; set; }
+    public abstract Color RibbonGroupBorder5               { get; set; }
+    public abstract Color RibbonGroupTitleText             { get; set; }
+    public abstract Color RibbonDropArrowLight             { get; set; }
+    public abstract Color RibbonDropArrowDark              { get; set; }
+    public abstract Color HeaderDockInactiveBack1          { get; set; }
+    public abstract Color HeaderDockInactiveBack2          { get; set; }
+    public abstract Color ButtonNavigatorBorder            { get; set; }
+    public abstract Color ButtonNavigatorText              { get; set; }
+    public abstract Color ButtonNavigatorTrack1            { get; set; }
+    public abstract Color ButtonNavigatorTrack2            { get; set; }
+    public abstract Color ButtonNavigatorPressed1          { get; set; }
+    public abstract Color ButtonNavigatorPressed2          { get; set; }
+    public abstract Color ButtonNavigatorChecked1          { get; set; }
+    public abstract Color ButtonNavigatorChecked2          { get; set; }
+    public abstract Color ToolTipBottom                    { get; set; }
+    public abstract Color MenuItemText                     { get; set; }
+    public abstract Color MenuMarginGradientStart          { get; set; }
+    public abstract Color MenuMarginGradientMiddle         { get; set; }
+    public abstract Color MenuMarginGradientEnd            { get; set; }
+    public abstract Color DisabledMenuItemText             { get; set; }
+    public abstract Color MenuStripText                    { get; set; }
+    #endregion
 }
