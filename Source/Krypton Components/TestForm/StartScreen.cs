@@ -217,4 +217,11 @@ public partial class StartScreen : KryptonForm
     {
         new BlurExampleForm().Show();
     }
+
+    // --- RTL TEST: Entry point for the RTL test form ---
+    // This button launches the RTLTestForm, which demonstrates and tests RTL mirroring in KryptonForm.
+    private void kbtnRTLTest_Click(object sender, EventArgs e)
+    {
+        new RTLTestForm().Show();
+    }
 }

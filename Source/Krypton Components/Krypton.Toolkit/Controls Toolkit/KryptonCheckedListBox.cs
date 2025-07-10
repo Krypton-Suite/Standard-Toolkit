@@ -1970,7 +1970,10 @@ public class KryptonCheckedListBox : VisualControlBase,
                     {
                         var val = prop.GetValue(item);
                         if (val != null)
+                        {
                             results.Add(val);
+                        }
+
                         continue;
                     }
                 }

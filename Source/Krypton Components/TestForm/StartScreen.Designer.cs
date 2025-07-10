@@ -75,6 +75,7 @@ namespace TestForm
             this.kbtnFadeForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
+            this.kbtnRTLTest = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -116,10 +117,11 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kbtnFadeForm);
             this.kryptonPanel1.Controls.Add(this.kbtnCommandLinkButtons);
             this.kryptonPanel1.Controls.Add(this.kbtnBreadCrumb);
+            this.kryptonPanel1.Controls.Add(this.kbtnRTLTest);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(358, 476);
+            this.kryptonPanel1.Size = new System.Drawing.Size(350, 452);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnBlurredForm
@@ -481,6 +483,17 @@ namespace TestForm
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
             // 
+            // kbtnRTLTest
+            // 
+            this.kbtnRTLTest.Location = new System.Drawing.Point(223, 440);
+            this.kbtnRTLTest.Margin = new System.Windows.Forms.Padding(2);
+            this.kbtnRTLTest.Name = "kbtnRTLTest";
+            this.kbtnRTLTest.Size = new System.Drawing.Size(153, 20);
+            this.kbtnRTLTest.TabIndex = 33;
+            this.kbtnRTLTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnRTLTest.Values.Text = "RTL Test";
+            this.kbtnRTLTest.Click += new System.EventHandler(this.kbtnRTLTest_Click);
+            // 
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -493,7 +506,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(358, 476);
+            this.ClientSize = new System.Drawing.Size(350, 452);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -550,5 +563,6 @@ namespace TestForm
         private KryptonButton kbtnControlStyles;
         private KryptonButton kbtnSplashScreen;
         private KryptonButton kbtnBlurredForm;
+        private KryptonButton kbtnRTLTest;
     }
 }

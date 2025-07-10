@@ -4090,6 +4090,7 @@ public class RenderStandard : RenderBase
                 {
                     borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom + 1);
                 }
+
                 break;
 
             case PaletteDrawBorders.TopLeft:
@@ -4313,6 +4314,7 @@ public class RenderStandard : RenderBase
                 borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
                 borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
                 borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+                borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
                 break;
             case PaletteDrawBorders.BottomLeftRight:
                 borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
@@ -5033,20 +5035,20 @@ public class RenderStandard : RenderBase
             case VisualOrientation.Left:
                 if (!forBorder)
                 {
-                    borderPath.AddLine(rect.Right, rect.Bottom, rect.Right, rect.Top);
+                    borderPath.AddLine(rect.Right, rect.Top, rect.Right, rect.Bottom);
                 }
 
-                borderPath.AddLine(rect.Right, rect.Top, rect.Right - 1, rect.Top);
+                borderPath.AddLine(rect.Right, rect.Bottom, rect.Right - 1, rect.Bottom);
                 borderPath.AddArc(rect.Left, rect.Top, x, x, -90f, -90f);
                 borderPath.AddLine(rect.Left, rect.Bottom - rpH, rect.Right, rect.Bottom);
                 break;
             case VisualOrientation.Right:
                 if (!forBorder)
                 {
-                    borderPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top);
+                    borderPath.AddLine(rect.Left, rect.Top, rect.Left, rect.Bottom);
                 }
 
-                borderPath.AddLine(rect.Left, rect.Top, rect.Left + 1, rect.Top);
+                borderPath.AddLine(rect.Left, rect.Bottom, rect.Left + 1, rect.Bottom);
                 borderPath.AddArc(rect.Right - x, rect.Top, x, x, -90f, 90f);
                 borderPath.AddLine(rect.Right, rect.Bottom - rpH, rect.Left, rect.Bottom);
                 break;
@@ -5694,8 +5696,22 @@ public class RenderStandard : RenderBase
 
             // How much border space to allocate per button edge
             var buttonBorder = (chromeBorders.Top - allocatedHeight - 10) / 2;
+            Padding result = buttonBorder > 0 ? new Padding(buttonBorder) : Padding.Empty;
 
-            return buttonBorder > 0 ? new Padding(buttonBorder) : Padding.Empty;
+            // RTL FIX: Add extra left padding in RTL mode so window buttons are not cut off
+            bool isRtl = kryptonForm.RightToLeft == RightToLeft.Yes && kryptonForm.RightToLeftLayout;
+            int extraPadding = 8; // Tune as needed for your button size/margin
+
+            if (isRtl)
+            {
+                result.Left += extraPadding;
+            }
+            else
+            {
+                result.Right += extraPadding;
+            }
+
+            return result;
         }
 
         return original;

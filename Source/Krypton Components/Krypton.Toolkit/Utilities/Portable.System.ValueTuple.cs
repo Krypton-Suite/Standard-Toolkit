@@ -468,12 +468,17 @@ namespace System
 
 		int IComparable.CompareTo(object? other)
 		{
-			if (other == null) return 1;
+			if (other == null)
+            {
+                return 1;
+            }
 
-			if (!(other is ValueTuple<T1,T2,T3,T4>))
-				throw new ArgumentException();
+            if (!(other is ValueTuple<T1,T2,T3,T4>))
+            {
+                throw new ArgumentException();
+            }
 
-			return CompareTo((ValueTuple<T1,T2,T3,T4>)other);
+            return CompareTo((ValueTuple<T1,T2,T3,T4>)other);
 		}
 
 		/// <summary>Compares this instance to a specified instance and returns an indication of their relative values.</summary>
@@ -488,18 +493,32 @@ namespace System
 		{
 			int c;
 
-			c = Comparer<T1>.Default.Compare(Item1, other.Item1); if (c != 0) return c;
-			c = Comparer<T2>.Default.Compare(Item2, other.Item2); if (c != 0) return c;
-			c = Comparer<T3>.Default.Compare(Item3, other.Item3); if (c != 0) return c;
+			c = Comparer<T1>.Default.Compare(Item1, other.Item1); if (c != 0)
+            {
+                return c;
+            }
 
-			return Comparer<T4>.Default.Compare(Item4, other.Item4);
+            c = Comparer<T2>.Default.Compare(Item2, other.Item2); if (c != 0)
+            {
+                return c;
+            }
+
+            c = Comparer<T3>.Default.Compare(Item3, other.Item3); if (c != 0)
+            {
+                return c;
+            }
+
+            return Comparer<T4>.Default.Compare(Item4, other.Item4);
 		}
 
 		bool IStructuralEquatable.Equals(object? other, IEqualityComparer comparer)
 		{
-			if (!(other is ValueTuple<T1, T2, T3, T4>)) return false;
+			if (!(other is ValueTuple<T1, T2, T3, T4>))
+            {
+                return false;
+            }
 
-			var objTuple = (ValueTuple<T1,T2,T3,T4>)other;
+            var objTuple = (ValueTuple<T1,T2,T3,T4>)other;
 
 			return
 				comparer.Equals(Item1, objTuple.Item1) &&
@@ -510,20 +529,36 @@ namespace System
 
 		int IStructuralComparable.CompareTo(object? other, IComparer comparer)
 		{
-			if (other == null) return 1;
+			if (other == null)
+            {
+                return 1;
+            }
 
-			if (!(other is ValueTuple<T1,T2,T3,T4>))
-				throw new ArgumentException();
+            if (!(other is ValueTuple<T1,T2,T3,T4>))
+            {
+                throw new ArgumentException();
+            }
 
-			var objTuple = (ValueTuple<T1,T2,T3,T4>)other;
+            var objTuple = (ValueTuple<T1,T2,T3,T4>)other;
 
 			int c;
 
-			c = comparer.Compare(Item1, objTuple.Item1); if (c != 0) return c;
-			c = comparer.Compare(Item2, objTuple.Item2); if (c != 0) return c;
-			c = comparer.Compare(Item3, objTuple.Item3); if (c != 0) return c;
+			c = comparer.Compare(Item1, objTuple.Item1); if (c != 0)
+            {
+                return c;
+            }
 
-			return comparer.Compare(Item4, objTuple.Item4);
+            c = comparer.Compare(Item2, objTuple.Item2); if (c != 0)
+            {
+                return c;
+            }
+
+            c = comparer.Compare(Item3, objTuple.Item3); if (c != 0)
+            {
+                return c;
+            }
+
+            return comparer.Compare(Item4, objTuple.Item4);
 		}
 
 		int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)

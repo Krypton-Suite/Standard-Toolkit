@@ -219,6 +219,9 @@ public class KryptonForm : VisualForm,
         // #1979 Temporary fix
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
+
+        // Rebuild the title bar layout for RTL changes
+        RebuildTitleBarForRtl();
     }
 
     private float GetDpiFactor()
@@ -1013,7 +1016,44 @@ public class KryptonForm : VisualForm,
             : base(palette) =>
             _kryptonForm = kryptonForm;
 
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
+        {
+            if (style is PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                PaletteRelativeAlign align = _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                    ? _kryptonForm._formTitleAlign
+                    : base.GetContentShortTextH(style, state);
+
+                // RTL FIX: Mirror Near/Far in RTL mode
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    if (align == PaletteRelativeAlign.Near)
+                    {
+                        return PaletteRelativeAlign.Far;
+                    }
+
+                    if (align == PaletteRelativeAlign.Far)
+                    {
+                        return PaletteRelativeAlign.Near;
+                    }
+                }
+                return align;
+            }
+            return base.GetContentShortTextH(style, state);
+        }
+
+        /// <summary>
+        /// Ensures the form icon is aligned to the right in RTL mode, and to the left in LTR.
+        /// This is critical for correct mirroring of the custom chrome.
+        /// </summary>
+        public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state) => style switch
         {
             PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.HeaderPrimary
@@ -1022,10 +1062,12 @@ public class KryptonForm : VisualForm,
                 or PaletteContentStyle.HeaderSecondary
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
-                    ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
+                or PaletteContentStyle.HeaderCustom3 => 
+                    // In RTL mode, align the icon to the right (Far), otherwise use default
+                    (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                        ? PaletteRelativeAlign.Far
+                        : base.GetContentImageH(style, state),
+            _ => base.GetContentImageH(style, state)
         };
     }
 
@@ -1210,6 +1252,56 @@ public class KryptonForm : VisualForm,
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
+    }
+
+    /// <summary>
+    /// Handles changes to the RightToLeft property at runtime.
+    /// Ensures the title bar is rebuilt and repainted for correct mirroring.
+    /// </summary>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        RebuildTitleBarForRtl(); // Rebuild for new RTL state
+        PerformNeedPaint(true);  // Force repaint
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Handles changes to the RightToLeftLayout property at runtime.
+    /// Ensures the title bar is rebuilt and repainted for correct mirroring.
+    /// </summary>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        RebuildTitleBarForRtl(); // Rebuild for new RTL layout
+        PerformNeedPaint(true);  // Force repaint
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the title bar layout to support RTL mirroring.
+    /// This method ensures that:
+    /// 1. Window buttons are placed on the correct side (left in RTL, right in LTR)
+    /// 2. The title bar content (text + icon) is properly positioned
+    /// 3. The layout is updated when RTL settings change
+    /// </summary>
+    /// <remarks>
+    /// This is called from the constructor, and whenever RightToLeft or RightToLeftLayout changes.
+    /// It is essential for correct mirroring of the custom form chrome in RTL mode.
+    /// </remarks>
+    private void RebuildTitleBarForRtl()
+    {
+        // Remove all children from the title bar container (heading)
+        _drawHeading.Clear();
+        
+        // Determine if we're in RTL mode (both must be set for true mirroring)
+        bool isRtl = RightToLeft == RightToLeft.Yes && RightToLeftLayout;
+        
+        // The content (text + icon) always fills the center.
+        // The button manager will handle window button placement (left in RTL, right in LTR)
+        _drawHeading.Add(_drawContent, ViewDockStyle.Fill);
+        
+        // Force the button manager to recreate window buttons with the new RTL setting
+        // This ensures the min/max/close buttons are docked to the correct side
+        _buttonManager.RecreateButtons();
     }
 
     #endregion

@@ -1325,7 +1325,16 @@ public static class CommonHelper
         }
 
         // Return the per side border values
-        return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+        Padding result = new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+
+        // RTL FIX: Add extra left border in RTL mode to prevent chrome clipping
+        if (form != null && form.RightToLeft == RightToLeft.Yes && form.RightToLeftLayout)
+        {
+            int extraRtlBorder = 24; // Increased for more space
+            result.Left += extraRtlBorder;
+        }
+
+        return result;
     }
 
     /// <summary>

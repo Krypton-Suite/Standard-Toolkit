@@ -151,6 +151,12 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
     /// <param name="dockStyle">Dock style for placement.</param>
     /// <param name="view">Actual view to add.</param>
     /// <param name="usingSpacers">Are view spacers being used.</param>
+    /// <remarks>
+    /// --- RTL SUPPORT ---
+    /// We use CalculateDock to ensure that in RTL mode, window buttons (min/max/close)
+    /// are docked to the left, and in LTR to the right, for proper mirroring.
+    /// This is essential for correct custom chrome behavior in RTL.
+    /// </remarks>
     protected override void AddViewToDocker(int i,
         ViewDockStyle dockStyle,
         ViewBase view,
@@ -158,6 +164,9 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
     {
         // Get the indexed docker
         ViewDrawDocker viewDocker = _viewDockers[i];
+
+        // --- RTL SUPPORT: Use CalculateDock for correct mirroring ---
+        ViewDockStyle adjustedDockStyle = viewDocker.CalculateDock(dockStyle, Control);
 
         // By default, add to the end of the children
         var insertIndex = viewDocker.Count;
@@ -176,7 +185,7 @@ public class ButtonSpecManagerDraw : ButtonSpecManagerBase
         }
 
         viewDocker.Insert(insertIndex, view);
-        viewDocker.SetDock(view, dockStyle);
+        viewDocker.SetDock(view, adjustedDockStyle);
     }
 
     /// <summary>

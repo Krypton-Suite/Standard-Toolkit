@@ -3,6 +3,7 @@
 ==== 
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL/LTR
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.
 * Resolved [#2264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2264), Implementation of style: `PaletteBackStyle.Control`, `PaletteContentStyle.LabelAlternateControl` and `PaletteContentStyle.LabelAlternatePanel` in all themes
 * Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), `KryptonAutoHiddenSlidePanel.PreFilterMessage` will now use the ActiveFormTracker.

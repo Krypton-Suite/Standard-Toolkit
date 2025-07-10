@@ -812,7 +812,7 @@ public class ViewDrawDocker : ViewDrawCanvas
     /// <param name="ds">Docking style.</param>
     /// <param name="control">Control for which the setting is needed.</param>
     /// <returns>Calculated docking to actual use.</returns>
-    protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
+    public ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
     {
         // Do we need to adjust to reflect right to left layout?
         if (CommonHelper.GetRightToLeftLayout(control!) && control!.RightToLeft == RightToLeft.Yes)
