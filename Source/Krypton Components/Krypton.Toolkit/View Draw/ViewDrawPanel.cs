@@ -160,6 +160,22 @@ public class ViewDrawPanel : ViewComposite
 
         ClientRectangle = context.DisplayRectangle;
 
+        // Check if we need to apply RTL layout adjustments
+        bool isRtl = context.Control!.RightToLeft == RightToLeft.Yes && 
+                     CommonHelper.GetRightToLeftLayout(context.Control);
+
+        if (isRtl && Count > 0)
+        {
+            // In RTL mode, we need to reverse the order of child elements
+            // This ensures proper mirroring of the layout
+            ReverseRenderOrder = true;
+        }
+        else
+        {
+            // In LTR mode, use normal rendering order
+            ReverseRenderOrder = false;
+        }
+
         // Let child elements layout
         base.Layout(context);
     }

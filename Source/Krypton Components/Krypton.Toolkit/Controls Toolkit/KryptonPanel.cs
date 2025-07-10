@@ -162,6 +162,19 @@ public class KryptonPanel : VisualPanel
         // Let base class fire standard event
         base.OnEnabledChanged(e);
     }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
     #endregion
 
     #region Implementation
@@ -172,6 +185,29 @@ public class KryptonPanel : VisualPanel
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, ViewDrawPanel);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that child controls are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The actual RTL layout logic is handled in ViewDrawPanel.Layout().
+    /// This method triggers the necessary layout and repaint updates.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // If we have child controls, we need to adjust their layout
+        if (Controls.Count > 0)
+        {
+            // Force a layout update to reflect RTL changes
+            // The ViewDrawPanel.Layout() method will handle the actual RTL logic
+            PerformNeedPaint(true);
+            
+            // Invalidate the control to trigger a repaint
+            Invalidate();
+        }
     }
     #endregion
 }
