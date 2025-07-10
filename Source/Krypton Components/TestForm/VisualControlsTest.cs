@@ -11,6 +11,7 @@ using System;
 using System.Reflection;
 using Krypton.Toolkit;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace TestForm
 {
@@ -137,6 +138,20 @@ namespace TestForm
             };
 
             ShowFormByName("VisualToastNotificationBasicForm", data);
+        }
+
+        private void kbtnModalWaitDialog_Click(object sender, EventArgs e)
+        {
+            using var waitDlg = new ModalWaitDialog(true, 0, 100);
+
+            for (int i = 0; i <= 100; i++)
+            {
+                waitDlg.UpdateProgressBarValue(i);
+                waitDlg.UpdateDialog();
+                Thread.Sleep(40);
+            }
+
+            waitDlg.Close();
         }
     }
 }
