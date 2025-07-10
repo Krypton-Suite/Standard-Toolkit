@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -17,7 +17,6 @@ namespace Krypton.Toolkit;
 
 internal partial class VisualMessageBoxForm : KryptonForm
 {
-
     #region Instance Fields
 
     private readonly bool _showHelpButton;
@@ -46,7 +45,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
 
     public VisualMessageBoxForm()
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
     }
 
@@ -58,7 +57,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
         bool? showHelpButton,
         bool? showCloseButton)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         // Store incoming values
         _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
         _caption = caption;
@@ -268,13 +267,13 @@ internal partial class VisualMessageBoxForm : KryptonForm
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.Shield:
-                    _messageIcon.Image = OSUtilities.IsWindowsTen 
-                        ? UACShieldIconResources.UAC_Shield_Windows_10 
+                    _messageIcon.Image = OSUtilities.IsWindowsTen
+                        ? UACShieldIconResources.UAC_Shield_Windows_10
                         : UACShieldIconResources.UAC_Shield_Windows_7;
                     break;
                 case KryptonMessageBoxIcon.WindowsLogo:
-                    _messageIcon.Image = OSUtilities.IsWindowsTen 
-                        ? MessageBoxImageResources.Windows_8_and_10_Logo 
+                    _messageIcon.Image = OSUtilities.IsWindowsTen
+                        ? MessageBoxImageResources.Windows_8_and_10_Logo
                         : SystemIcons.WinLogo.ToBitmap();
                     break;
                 case KryptonMessageBoxIcon.Application:
@@ -517,7 +516,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             Size scaledMonitorSize = screen.WorkingArea.Size;
             scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
             scaledMonitorSize.Height = (int)(scaledMonitorSize.Height * 0.95f);
-                
+
             Font textFont = krtbMessageText.StateCommon.Content.GetContentShortTextFont(PaletteState.Normal) ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
             Font captionFont = KryptonManager.CurrentGlobalPalette.BaseFont;
 
@@ -681,7 +680,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
 
 #region Types
 /// <summary>
-/// 
+///
 /// </summary>
 public class HelpInfo
 {

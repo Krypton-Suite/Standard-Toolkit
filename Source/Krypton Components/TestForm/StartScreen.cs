@@ -224,4 +224,11 @@ public partial class StartScreen : KryptonForm
     {
         new RTLTestForm().Show();
     }
+    
+    private void kbtnPaletteViewer_Click(object sender, EventArgs e)
+    {
+        var viewer = new PaletteViewerForm();
+        viewer.AttachKryptonManager(kryptonManager1);
+        viewer.Show();
+    }
 }

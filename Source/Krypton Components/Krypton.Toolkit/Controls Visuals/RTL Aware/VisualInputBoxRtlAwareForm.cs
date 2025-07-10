@@ -21,13 +21,13 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
 
     public VisualInputBoxRtlAwareForm()
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         InitializeComponent();
     }
 
     public VisualInputBoxRtlAwareForm(KryptonInputBoxData inputBoxData)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride();
         _inputBoxData = inputBoxData;
 
         InitializeComponent();
