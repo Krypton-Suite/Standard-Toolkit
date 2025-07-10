@@ -153,9 +153,9 @@ namespace TestForm
 
         private void UpdateThemeSwitcher()
         {
-            if (_kryptonManager1 is not null 
+            if (_kryptonManager1 is not null
                 && kryptonThemeComboBox is not null
-                && _kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom 
+                && _kryptonManager1.GlobalPaletteMode != Krypton.Toolkit.PaletteMode.Custom
                 && EnumToDisplay.TryGetValue(_kryptonManager1.GlobalPaletteMode, out string? disp)
                 && disp is not null)
             {
@@ -183,7 +183,7 @@ namespace TestForm
 
             foreach (var m in methods)
             {
-                if (m.IsSpecialName 
+                if (m.IsSpecialName
                     || IsProblematicBaseMethod(m)
                     || m.ReturnType != typeof(System.Drawing.Color))
                 {
@@ -525,11 +525,11 @@ namespace TestForm
             for (int i = 0; i < _enumValues.Length; i++)
             {
                 var row = this.dataGridViewPalette.Rows[i];
-                bool indexPresent = paletteColors != null 
+                bool indexPresent = paletteColors != null
                     && paletteColors.Length > 0
-                    && i >= 0 
+                    && i >= 0
                     && i < paletteColors.Length;
-                
+
                 System.Drawing.Color color = indexPresent ? paletteColors![i] : System.Drawing.Color.Transparent;
                 if (!indexPresent)
                 {
@@ -1044,7 +1044,7 @@ namespace TestForm
         private void DataGridViewPalette_Paint(object sender, PaintEventArgs e)
         {
             if (_bulkUpdating
-                || _highlightRowIndex < 0 
+                || _highlightRowIndex < 0
                 || _highlightRowIndex >= this.dataGridViewPalette.RowCount)
             {
                 return;
@@ -1180,6 +1180,18 @@ namespace TestForm
                 tb.BorderStyle = BorderStyle.None;
                 tb.BackColor = System.Drawing.SystemColors.Window;
                 // No need to capture or reset text – leaving it untouched avoids unwanted changes
+
+                tb.KeyDown -= EditingTextBox_KeyDown;
+                tb.KeyDown += EditingTextBox_KeyDown;
+            }
+        }
+
+        private void EditingTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F6)
+            {
+                e.Handled = true;
+                EditCurrentCellColor();
             }
         }
 
@@ -1417,6 +1429,74 @@ namespace TestForm
             _winStore.Save(ws);
 
             UpdateUIState();
+        }
+
+        private void EditCurrentCellColor()
+        {
+            if (this.dataGridViewPalette.CurrentCell == null)
+            {
+                return;
+            }
+
+            int colIndex = this.dataGridViewPalette.CurrentCell.ColumnIndex;
+            int rowIndex = this.dataGridViewPalette.CurrentCell.RowIndex;
+
+            if (colIndex <= 2 || rowIndex < 0 || rowIndex >= this._enumValues.Length)
+            {
+                return;
+            }
+
+            DataGridViewColumn col = this.dataGridViewPalette.Columns[colIndex];
+
+            if (col.Name != typeof(Krypton.Toolkit.PaletteMicrosoft365Black).FullName)
+            {
+                return;
+            }
+
+            PaletteMicrosoft365Black? palette = this._palettes.Find(p => p.GetType().FullName == col.Name) as PaletteMicrosoft365Black;
+
+            if (palette == null)
+            {
+                return;
+            }
+
+            SchemeBaseColors colorEnum = this._enumValues[rowIndex];
+
+            System.Drawing.Color currentColor = palette.GetSchemeColor(colorEnum);
+
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.Color = currentColor;
+                dialog.AllowFullOpen = true;
+                dialog.FullOpen = true;
+
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    palette.SetSchemeColor(colorEnum, dialog.Color);
+
+                    // Commit any pending edit before updating
+                    this.dataGridViewPalette.EndEdit();
+
+                    // Update cell visuals
+                    DataGridViewCell cell = this.dataGridViewPalette.CurrentCell;
+                    cell.Value = "#" + dialog.Color.R.ToString("X2") + dialog.Color.G.ToString("X2") + dialog.Color.B.ToString("X2");
+                    cell.Style.BackColor = dialog.Color;
+                    cell.Style.ForeColor = ContrastColor(dialog.Color);
+                    cell.Style.SelectionBackColor = AdjustSelectionBack(dialog.Color);
+                    cell.Style.SelectionForeColor = cell.Style.ForeColor;
+
+                    // Force the grid to refresh by moving focus
+                    this.dataGridViewPalette.CurrentCell = null;
+                    this.dataGridViewPalette.CurrentCell = cell;
+                    this.dataGridViewPalette.Refresh();
+
+                    // If this is the active palette, refresh the UI
+                    if (KryptonManager.CurrentGlobalPalette == palette)
+                    {
+                        this.Invalidate(true);
+                    }
+                }
+            }
         }
     }
 }

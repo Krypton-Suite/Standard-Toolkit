@@ -2,8 +2,8 @@
 
 ## Overview
 
-Historically each palette in the **Krypton Toolkit** defined a large
-`Color[]` (230+ entries) whose indexes had to match the `SchemeBaseColors` enumeration.
+Historically each palette in the **Krypton Toolkit** defined a large `Color[]`
+(230+ entries) whose indexes had to match the `SchemeBaseColors` enumeration.
 While compact, this approach was error-prone:
 
 * missing values → runtime exceptions or incorrect colours
@@ -17,8 +17,6 @@ enumerations:
 | Type | Role |
 |------|------|
 | `AbstractBaseColorScheme` | Declares one property per entry of `SchemeBaseColors` enum.  Implementations expose meaningful names instead of numeric indexes. |
-
-The class lives in this **`Base`** folder.
 
 ## `AbstractBaseColorScheme`
 
@@ -181,3 +179,78 @@ python Scripts/generate_scheme_classes.py \
 The tool will list discrepancies (missing, unlabelled, out-of-order or
 extra entries) for each palette, followed by an “**Ok!**” confirmation
 when no issues were found.
+
+## Runtime Color Modification
+
+`PaletteMicrosoft365Base` provides public methods to modify scheme colors at runtime.
+These changes are reflected immediately in the UI after forcing a color table regeneration.
+
+### Methods
+
+* `SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)`: Updates a single color and regenerates the color table.
+* `GetSchemeColor(SchemeBaseColors colorIndex)`: Retrieves the current value of a specific color.
+* `UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)`: Batch-updates multiple colors and regenerates the color table.
+* `ApplyScheme(AbstractBaseColorScheme newScheme)`: Replaces the entire scheme with a new one and regenerates the color table.
+
+Additionally, for direct access:
+
+* Indexer: `palette[SchemeBaseColors colorIndex]` to get/set individual colors (automatically regenerates table on set).
+* `SchemeColors`: Exposes the entire color array for advanced modifications (manual regeneration required by setting `Table = null`!).
+
+### Examples
+
+```csharp
+// Create an instance of the black palette
+var blackPalette = new PaletteMicrosoft365Black();
+
+// Method 1: Change individual colors
+blackPalette.SetSchemeColor(SchemeBaseColors.TextLabelControl, Color.FromArgb(120, 120, 120));
+blackPalette.SetSchemeColor(SchemeBaseColors.PanelClient, Color.FromArgb(40, 40, 40));
+blackPalette.SetSchemeColor(SchemeBaseColors.ButtonNormalBack1, Color.FromArgb(80, 120, 160));
+
+// Method 2: Update multiple colors at once
+var colorUpdates = new Dictionary<SchemeBaseColors, Color>
+{
+    { SchemeBaseColors.TextLabelControl, Color.White },
+    { SchemeBaseColors.PanelClient, Color.FromArgb(30, 30, 30) },
+    { SchemeBaseColors.ButtonNormalBack1, Color.DarkBlue },
+    { SchemeBaseColors.ButtonNormalBack2, Color.LightBlue }
+};
+blackPalette.UpdateSchemeColors(colorUpdates);
+
+// Method 3: Apply a completely new scheme
+var customScheme = new PaletteMicrosoft365BlackScheme();
+customScheme.TextLabelControl = Color.Yellow;
+customScheme.PanelClient = Color.DarkRed;
+blackPalette.ApplyScheme(customScheme);
+
+// Method 4: Get current color values
+Color currentTextColor = blackPalette.GetSchemeColor(SchemeBaseColors.TextLabelControl);
+
+// Method 5: Direct indexer access
+blackPalette[SchemeBaseColors.TextLabelControl] = Color.White;
+blackPalette[SchemeBaseColors.PanelClient] = Color.DarkGray;
+
+// Method 6: Direct array access
+blackPalette.SchemeColors[(int)SchemeBaseColors.ButtonNormalBack1] = Color.Blue;
+// Manually regenerate after direct array changes
+// (Note: Indexer handles this automatically)
+```
+
+After modifications, call `Invalidate()` on controls using the palette to trigger a visual refresh if needed.
+
+## How the Wiring Works
+
+The color-scheme abstraction integrates with the palette system as follows:
+
+1. **Scheme to Array Conversion**: When a palette is constructed with an `AbstractBaseColorScheme`, the private `ConvertSchemeToArray` method uses reflection to extract all property values into a `Color[]` array, matching the order of the `SchemeBaseColors` enum.
+
+2. **Internal Storage**: The palette stores this array in `_ribbonColors` for fast access during rendering.
+
+3. **Color Table Generation**: The `ColorTable` property lazily creates a `KryptonColorTable365` using `_ribbonColors`. Setting `Table = null` forces regeneration on next access.
+
+4. **Runtime Updates**: Modification methods update `_ribbonColors` directly and set `Table = null` to ensure the next UI paint uses the new colors.
+
+5. **Enumeration Safety**: Property names in schemes match enum values, ensuring type-safe access without magic numbers.
+
+This design maintains performance (array lookups) while providing a safe, extensible API for color management.

@@ -214,28 +214,6 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
         Color.FromArgb(255, 249, 196) // Button, Checked Tracking, Back 2
     ];
-    /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-    private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-    private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
-    private static readonly Color[] _buttonBorderColors = new Color[]{ Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                       Color.FromArgb(205, 230, 247),  // Button, Tracking, Border 1
-                                                                       Color.FromArgb(205, 230, 247),  // Button, Tracking, Border 2
-                                                                       Color.FromArgb(146, 192, 244),  // Button, Pressed, Border 1
-                                                                       Color.FromArgb(146, 192, 244),  // Button, Pressed, Border 2
-                                                                       Color.FromArgb(146, 192, 244),  // Button, Checked, Border 1
-                                                                       Color.FromArgb(146, 192, 244)   // Button, Checked, Border 2
-                                                                     };
-    private static readonly Color[] _buttonBackColors = new Color[]{ Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                                     Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                                      Color.FromArgb(205, 230, 247), // Button, Tracking, Back 1
-                                                                     Color.FromArgb(205, 230, 247), // Button, Tracking, Back 2
-                                                                     Color.FromArgb(146, 192, 244), // Button, Pressed, Back 1
-                                                                     Color.FromArgb(146, 192, 244), // Button, Pressed, Back 2
-                                                                     Color.FromArgb(146, 192, 244), // Button, Checked, Back 1
-                                                                     Color.FromArgb(146, 192, 244), // Button, Checked, Back 2
-                                                                     Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                                     Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                                   };*/
 
     #endregion
 
@@ -4421,6 +4399,61 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// Gets access to the color table instance.
     /// </summary>
     public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable365(_ribbonColors, InheritBool.True, this);
+    #endregion
+
+    #region Palette Helpers
+    // Make the color array accessible for modification
+    protected Color[] RibbonColors => _ribbonColors;
+
+    // Add public methods to modify specific colors at runtime
+    public void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
+    {
+        _ribbonColors[(int)colorIndex] = newColor;
+
+        // Force regeneration of the color table
+        Table = null;
+    }
+
+    public Color GetSchemeColor(SchemeBaseColors colorIndex)
+    {
+        return _ribbonColors[(int)colorIndex];
+    }
+
+    // Method to update multiple colors at once
+    public void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
+    {
+        foreach (var update in colorUpdates)
+        {
+            _ribbonColors[(int)update.Key] = update.Value;
+        }
+
+        // Force regeneration of the color table
+        Table = null;
+    }
+
+    // Indexer for direct access to color array
+    public Color this[SchemeBaseColors colorIndex]
+    {
+        get => _ribbonColors[(int)colorIndex];
+        set
+        {
+            _ribbonColors[(int)colorIndex] = value;
+            Table = null; // Force color table regeneration
+        }
+    }
+
+    // Property to access the entire color array
+    public Color[] SchemeColors => _ribbonColors;
+
+    // Method to apply a new scheme at runtime
+    public void ApplyScheme(AbstractBaseColorScheme newScheme)
+    {
+        var newColors = ConvertSchemeToArray(newScheme);
+        Array.Copy(newColors, _ribbonColors, newColors.Length);
+
+        // Force regeneration of the color table
+        Table = null;
+    }
     #endregion
 
     #region OnUserPreferenceChanged
