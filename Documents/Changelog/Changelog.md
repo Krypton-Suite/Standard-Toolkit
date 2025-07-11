@@ -813,4 +813,3 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Support for .NET Core LTS (currently 3.1)
 * Changed `490` to `500`
 * Builds from now on will be labelled as `YYMM`
-
