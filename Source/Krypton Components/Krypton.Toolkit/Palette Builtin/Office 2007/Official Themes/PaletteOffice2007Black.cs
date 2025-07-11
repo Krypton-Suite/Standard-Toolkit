@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
             Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
             Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -221,38 +221,32 @@ namespace Krypton.Toolkit
             Color.FromArgb(140, 140, 140), // RibbonQATMini3I
             Color.FromArgb(12, Color.White), // RibbonQATMini4I
             Color.FromArgb(14, Color.White), // RibbonQATMini5I
-            Color.FromArgb(141, 144, 147), // RibbonQATFullbar1                                                      
-            Color.FromArgb(133, 135, 137), // RibbonQATFullbar2                                                      
-            Color.FromArgb(93, 96, 100), // RibbonQATFullbar3                                                      
-            Color.FromArgb(103, 103, 103), // RibbonQATButtonDark                                                      
-            Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
-            Color.FromArgb(118, 128, 142), // RibbonQATOverflow1                                                      
-            Color.FromArgb(55, 60, 67), // RibbonQATOverflow2                                                      
-            Color.FromArgb(163, 168,
-                170), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(230, 233,
-                235), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217,
-                219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222,
-                223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188,
-                191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156,
-                159), // ButtonClusterButtonBorder2                                                      
-            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-            Color.White, // GridListNormal1                                                    
-            Color.FromArgb(212, 215, 219), // GridListNormal2                                                    
-            Color.FromArgb(210, 213, 218), // GridListPressed1                                                    
-            Color.FromArgb(252, 253, 253), // GridListPressed2                                                    
-            Color.FromArgb(186, 189, 194), // GridListSelected                                                    
-            Color.FromArgb(248, 248, 248), // GridSheetColNormal1                                                    
-            Color.FromArgb(222, 222, 222), // GridSheetColNormal2                                                    
-            Color.FromArgb(224, 224, 224), // GridSheetColPressed1                                                    
-            Color.FromArgb(195, 195, 195), // GridSheetColPressed2                                                    
+            Color.FromArgb(141, 144, 147), // RibbonQATFullbar1
+            Color.FromArgb(133, 135, 137), // RibbonQATFullbar2
+            Color.FromArgb(93, 96, 100), // RibbonQATFullbar3
+            Color.FromArgb(103, 103, 103), // RibbonQATButtonDark
+            Color.FromArgb(225, 225, 225), // RibbonQATButtonLight
+            Color.FromArgb(118, 128, 142), // RibbonQATOverflow1
+            Color.FromArgb(55, 60, 67), // RibbonQATOverflow2
+            Color.FromArgb(163, 168, 170), // RibbonGroupSeparatorDark
+            Color.FromArgb(230, 233, 235), // RibbonGroupSeparatorLight
+            Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1
+            Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2
+            Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1
+            Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2
+            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor 
+            Color.White, // GridListNormal1 
+            Color.FromArgb(212, 215, 219), // GridListNormal2 
+            Color.FromArgb(210, 213, 218), // GridListPressed1 
+            Color.FromArgb(252, 253, 253), // GridListPressed2 
+            Color.FromArgb(186, 189, 194), // GridListSelected 
+            Color.FromArgb(248, 248, 248), // GridSheetColNormal1 
+            Color.FromArgb(222, 222, 222), // GridSheetColNormal2 
+            Color.FromArgb(224, 224, 224), // GridSheetColPressed1 
+            Color.FromArgb(195, 195, 195), // GridSheetColPressed2 
             Color.FromArgb(249, 217, 159), // GridSheetColSelected1
             Color.FromArgb(241, 193, 95), // GridSheetColSelected2
-            Color.FromArgb(237, 237, 237), // GridSheetRowNormal                                                   
+            Color.FromArgb(237, 237, 237), // GridSheetRowNormal
             Color.FromArgb(196, 196, 196), // GridSheetRowPressed
             Color.FromArgb(255, 213, 141), // GridSheetRowSelected
             Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -292,6 +286,8 @@ namespace Krypton.Toolkit
             GlobalStaticValues.EMPTY_COLOR, // RibbonTabTracking4
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder3
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder4
+            GlobalStaticValues.EMPTY_COLOR, // RibbonGroupBorder5
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitleText
             Color.FromArgb(225, 225, 225), // RibbonDropArrowLight
             Color.FromArgb(103, 103, 103) // RibbonDropArrowDark
         ];
@@ -536,43 +532,43 @@ namespace Krypton.Toolkit
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) => style switch
                                                  {
-                                                     PaletteButtonSpecStyle.FormClose => state switch
-                                                     {
-                                                         PaletteState.Disabled => _blackCloseDisabled,
-                                                         PaletteState.Tracking => _blackCloseActive,
-                                                         PaletteState.Pressed => _blackClosePressed,
-                                                         _ => _blackCloseNormal
-                                                     },
-                                                     PaletteButtonSpecStyle.FormMin => state switch
-                                                     {
-                                                         PaletteState.Disabled => _blackMinimiseDisabled,
-                                                         PaletteState.Tracking => _blackMinimiseActive,
-                                                         PaletteState.Pressed => _blackMinimisePressed,
-                                                         _ => _blackMinimiseNormal
-                                                     },
-                                                     PaletteButtonSpecStyle.FormMax => state switch
-                                                     {
-                                                         PaletteState.Disabled => _blackMaximiseDisabled,
-                                                         PaletteState.Tracking => _blackMaximiseActive,
-                                                         PaletteState.Pressed => _blackMaximisePressed,
-                                                         _ => _blackMaximiseNormal
-                                                     },
-                                                     PaletteButtonSpecStyle.FormRestore => state switch
-                                                     {
-                                                         PaletteState.Disabled => _blackRestoreDisabled,
-                                                         PaletteState.Tracking => _blackRestoreActive,
-                                                         PaletteState.Pressed => _blackRestorePressed,
-                                                         _ => _blackRestoreNormal
-                                                     },
-                                                     PaletteButtonSpecStyle.FormHelp => state switch
-                                                     {
-                                                         PaletteState.Disabled => _blackHelpDisabled,
-                                                         PaletteState.Tracking => _blackHelpActive,
-                                                         _ => _blackHelpNormal
-                                                     },
-                                                     PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
-                                                     PaletteButtonSpecStyle.RibbonExpand => _blackRibbonExpand,
-                                                     _ => base.GetButtonSpecImage(style, state)
+  PaletteButtonSpecStyle.FormClose => state switch
+  {
+  PaletteState.Disabled => _blackCloseDisabled,
+  PaletteState.Tracking => _blackCloseActive,
+  PaletteState.Pressed => _blackClosePressed,
+  _ => _blackCloseNormal
+  },
+  PaletteButtonSpecStyle.FormMin => state switch
+  {
+  PaletteState.Disabled => _blackMinimiseDisabled,
+  PaletteState.Tracking => _blackMinimiseActive,
+  PaletteState.Pressed => _blackMinimisePressed,
+  _ => _blackMinimiseNormal
+  },
+  PaletteButtonSpecStyle.FormMax => state switch
+  {
+  PaletteState.Disabled => _blackMaximiseDisabled,
+  PaletteState.Tracking => _blackMaximiseActive,
+  PaletteState.Pressed => _blackMaximisePressed,
+  _ => _blackMaximiseNormal
+  },
+  PaletteButtonSpecStyle.FormRestore => state switch
+  {
+  PaletteState.Disabled => _blackRestoreDisabled,
+  PaletteState.Tracking => _blackRestoreActive,
+  PaletteState.Pressed => _blackRestorePressed,
+  _ => _blackRestoreNormal
+  },
+  PaletteButtonSpecStyle.FormHelp => state switch
+  {
+  PaletteState.Disabled => _blackHelpDisabled,
+  PaletteState.Tracking => _blackHelpActive,
+  _ => _blackHelpNormal
+  },
+  PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
+  PaletteButtonSpecStyle.RibbonExpand => _blackRibbonExpand,
+  _ => base.GetButtonSpecImage(style, state)
                                                  };
         #endregion
 

@@ -303,32 +303,32 @@ namespace Krypton.Toolkit
             Color.FromArgb(140, 140, 140), // RibbonQATMini3I
             Color.FromArgb(12, Color.White), // RibbonQATMini4I
             Color.FromArgb(14, Color.White), // RibbonQATMini5I
-            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1                                                      
-            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2                                                      
-            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3                                                      
-            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark                                                      
-            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight                                                      
-            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1                                                      
-            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2                                                      
-            Color.FromArgb(82, 82, 82), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(190, 190, 190), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2                                                      
-            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-            Color.FromArgb(205, 205, 205), // GridListNormal1                                                    
-            Color.FromArgb(166, 166, 166), // GridListNormal2                                                    
-            Color.FromArgb(166, 166, 166), // GridListPressed1                                                    
-            Color.FromArgb(205, 205, 205), // GridListPressed2                                                    
-            Color.FromArgb(150, 150, 150), // GridListSelected                                                    
-            Color.FromArgb(220, 220, 220), // GridSheetColNormal1                                                    
-            Color.FromArgb(200, 200, 200), // GridSheetColNormal2                                                    
-            Color.FromArgb(255, 223, 107), // GridSheetColPressed1                                                    
-            Color.FromArgb(255, 252, 230), // GridSheetColPressed2                                                    
+            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1
+            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2
+            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3
+            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark
+            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight
+            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1
+            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2
+            Color.FromArgb(82, 82, 82), // RibbonGroupSeparatorDark
+            Color.FromArgb(190, 190, 190), // RibbonGroupSeparatorLight
+            Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1
+            Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2
+            Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1
+            Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2
+            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor
+            Color.FromArgb(205, 205, 205), // GridListNormal1
+            Color.FromArgb(166, 166, 166), // GridListNormal2
+            Color.FromArgb(166, 166, 166), // GridListPressed1
+            Color.FromArgb(205, 205, 205), // GridListPressed2
+            Color.FromArgb(150, 150, 150), // GridListSelected
+            Color.FromArgb(220, 220, 220), // GridSheetColNormal1
+            Color.FromArgb(200, 200, 200), // GridSheetColNormal2
+            Color.FromArgb(255, 223, 107), // GridSheetColPressed1
+            Color.FromArgb(255, 252, 230), // GridSheetColPressed2
             Color.FromArgb(255, 211, 89), // GridSheetColSelected1
             Color.FromArgb(255, 239, 113), // GridSheetColSelected2
-            Color.FromArgb(205, 205, 205), // GridSheetRowNormal                                                   
+            Color.FromArgb(205, 205, 205), // GridSheetRowNormal
             Color.FromArgb(255, 223, 107), // GridSheetRowPressed
             Color.FromArgb(245, 210, 87), // GridSheetRowSelected
             Color.FromArgb(218, 220, 221), // GridDataCellBorder
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(148, 148, 143), // ButtonNavigatorPressed2
             Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
             Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
+            Color.FromArgb(201, 201, 201) // ToolTipBottom
         ];
 
         #endregion

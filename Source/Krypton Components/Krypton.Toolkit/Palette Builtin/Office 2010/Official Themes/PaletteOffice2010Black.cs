@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(167, 167, 168), // RibbonGroupFrameInside2
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside3
             GlobalStaticValues.EMPTY_COLOR, // RibbonGroupFrameInside4
-            Color.FromArgb(59, 59, 59), // RibbonGroupCollapsedText         
+            Color.FromArgb(59, 59, 59), // RibbonGroupCollapsedText
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -257,43 +257,36 @@ namespace Krypton.Toolkit
             Color.FromArgb(140, 140, 140), // RibbonQATMini3I
             Color.FromArgb(12, Color.White), // RibbonQATMini4I
             Color.FromArgb(14, Color.White), // RibbonQATMini5I
-            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1                                                      
-            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2                                                      
-            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3                                                      
-            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark                                                      
-            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight                                                      
-            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1                                                      
-            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2                                                      
-            Color.FromArgb(82, 82,
-                82), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(190, 190,
-                190), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217,
-                219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222,
-                223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188,
-                191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156,
-                159), // ButtonClusterButtonBorder2                                                      
-            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-            Color.FromArgb(205, 205, 205), // GridListNormal1                                                    
-            Color.FromArgb(166, 166, 166), // GridListNormal2                                                    
-            Color.FromArgb(166, 166, 166), // GridListPressed1                                                    
-            Color.FromArgb(205, 205, 205), // GridListPressed2                                                    
-            Color.FromArgb(150, 150, 150), // GridListSelected                                                    
-            Color.FromArgb(220, 220, 220), // GridSheetColNormal1                                                    
-            Color.FromArgb(200, 200, 200), // GridSheetColNormal2                                                    
-            Color.FromArgb(255, 223, 107), // GridSheetColPressed1                                                    
-            Color.FromArgb(255, 252, 230), // GridSheetColPressed2                                                    
+            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1
+            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2
+            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3
+            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark
+            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight
+            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1
+            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2
+            Color.FromArgb(82, 82, 82), // RibbonGroupSeparatorDark
+            Color.FromArgb(190, 190, 190), // RibbonGroupSeparatorLight
+            Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1
+            Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2
+            Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1
+            Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2
+            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor
+            Color.FromArgb(205, 205, 205), // GridListNormal1
+            Color.FromArgb(166, 166, 166), // GridListNormal2
+            Color.FromArgb(166, 166, 166), // GridListPressed1
+            Color.FromArgb(205, 205, 205), // GridListPressed2
+            Color.FromArgb(150, 150, 150), // GridListSelected
+            Color.FromArgb(220, 220, 220), // GridSheetColNormal1
+            Color.FromArgb(200, 200, 200), // GridSheetColNormal2
+            Color.FromArgb(255, 223, 107), // GridSheetColPressed1
+            Color.FromArgb(255, 252, 230), // GridSheetColPressed2
             Color.FromArgb(255, 211, 89), // GridSheetColSelected1
             Color.FromArgb(255, 239, 113), // GridSheetColSelected2
-            Color.FromArgb(205, 205, 205), // GridSheetRowNormal                                                   
+            Color.FromArgb(205, 205, 205), // GridSheetRowNormal
             Color.FromArgb(255, 223, 107), // GridSheetRowPressed
             Color.FromArgb(245, 210, 87), // GridSheetRowSelected
             Color.FromArgb(218, 220, 221), // GridDataCellBorder
-            Color.FromArgb(183, 219, 255), // GridDataCellSelected
-            //Color.Black,    
+            Color.FromArgb(183, 219, 255), // GridDataCellSelected  //Color.Black,    
             Color.FromArgb(70, 70, 70), // InputControlTextNormal
             Color.FromArgb(168, 168, 168), // InputControlTextDisabled
             Color.FromArgb(132, 132, 132), // InputControlBorderNormal
@@ -343,7 +336,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(148, 148, 143), // ButtonNavigatorPressed2
             Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
             Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
+            Color.FromArgb(201, 201, 201) // ToolTipBottom
         ];
 
         #endregion
@@ -1366,8 +1359,8 @@ namespace Krypton.Toolkit
                         PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery ? _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBack1] : _buttonBackColors[1],
                         PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.NormalDefaultOverride => style is PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight
-                                                            ? GlobalStaticValues.EMPTY_COLOR
-                                                            : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack2],
+     ? GlobalStaticValues.EMPTY_COLOR
+     : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBack2],
                         PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl ? _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2] : _buttonBackColors[7],
                         PaletteState.Tracking => _buttonBackColors[3],
                         PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[5],
@@ -1722,11 +1715,11 @@ namespace Krypton.Toolkit
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-                                                    ? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-                                                    : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+: _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
-                                                    ? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive]
-                                                    : _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive],
+? _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderInactive]
+: _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive],
                 PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
@@ -1737,8 +1730,8 @@ namespace Krypton.Toolkit
                 },
                 PaletteBorderStyle.ContextMenuItemImage => _contextMenuImageBorderChecked,
                 PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2 or PaletteBorderStyle.InputControlCustom3 => state == PaletteState.Disabled
-                                                        ? _ribbonColors[(int)SchemeOfficeColors.InputControlBorderDisabled]
-                                                        : _ribbonColors[(int)SchemeOfficeColors.InputControlBorderNormal],
+ ? _ribbonColors[(int)SchemeOfficeColors.InputControlBorderDisabled]
+ : _ribbonColors[(int)SchemeOfficeColors.InputControlBorderNormal],
                 PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.GridDataCellBorder],
                 PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.RibbonGroupsArea1],
                 PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.AppButtonBorder],
@@ -1746,8 +1739,8 @@ namespace Krypton.Toolkit
                 PaletteBorderStyle.ContextMenuInner => _contextMenuBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-                                                    ? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
-                                                    : _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
+? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
+: _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
@@ -1769,8 +1762,8 @@ namespace Krypton.Toolkit
                     PaletteState.Disabled => style == PaletteBorderStyle.ButtonGallery ? _ribbonColors[(int)SchemeOfficeColors.RibbonGalleryBack2] : _buttonBorderColors[0],
                     PaletteState.Normal => _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
-                                                            ? GlobalStaticValues.EMPTY_COLOR
-                                                            : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
+     ? GlobalStaticValues.EMPTY_COLOR
+     : _ribbonColors[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
                     PaletteState.CheckedNormal => _buttonBorderColors[5],
                     PaletteState.Tracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
@@ -1852,8 +1845,8 @@ namespace Krypton.Toolkit
                                                 : _ribbonColors[(int)SchemeOfficeColors.FormBorderHeaderActive],
                 PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-                                                    ? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-                                                    : _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+? _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+: _ribbonColors[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
                 {
@@ -1872,8 +1865,8 @@ namespace Krypton.Toolkit
                 PaletteBorderStyle.ContextMenuInner => _contextMenuBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-                                                    ? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
-                                                    : _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
+? _ribbonColors[(int)SchemeOfficeColors.FormBorderInactive]
+: _ribbonColors[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticValues.EMPTY_COLOR,
@@ -2755,8 +2748,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -3154,8 +3147,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -3230,8 +3223,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },

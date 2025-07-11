@@ -2482,8 +2482,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -2560,8 +2560,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -2959,8 +2959,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
@@ -3035,8 +3035,8 @@ namespace Krypton.Toolkit
                 PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
                 {
                     PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                                                   ? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
-                                                   : _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
+? _ribbonColors[(int)SchemeOfficeColors.TextLabelControl]
+: _ribbonColors[(int)SchemeOfficeColors.TextLabelPanel],
                     PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeOfficeColors.TextButtonChecked],
                     _ => _ribbonColors[(int)SchemeOfficeColors.TextButtonNormal]
                 },
