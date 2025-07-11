@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -1722,8 +1722,8 @@ namespace Krypton.Toolkit
         {
             get => _baseFont;
 
-            set 
-            { 
+            set
+            {
                 _baseFont = value;
                 DefineFonts();
                 // Call an event to force repaint style things
@@ -1874,7 +1874,7 @@ namespace Krypton.Toolkit
 
             return hsl.Color;
         }
-        #endregion       
+        #endregion
 
         #region InputControlPadding
         /// <summary>
@@ -2005,5 +2005,26 @@ namespace Krypton.Toolkit
         protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
 
         #endregion
+
+        #region IDisposable Implementation
+        /// <summary>
+        /// Releases the unmanaged resources used by the PaletteBase and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Detach from static SystemEvents to prevent memory leaks.
+                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+
+                // Dispose any font resources we created.
+                DisposeFonts();
+            }
+
+            base.Dispose(disposing);
+        }
+        #endregion
+
     }
 }
