@@ -228,6 +228,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
+    private readonly object _schemeColorsLock = new object();
     #endregion
 
     #region Constructor
@@ -4405,54 +4406,75 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     // Make the color array accessible for modification
     protected Color[] RibbonColors => _ribbonColors;
 
-    // Add public methods to modify specific colors at runtime
+    // Thread-safe single-color setter
     public void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
     {
-        _ribbonColors[(int)colorIndex] = newColor;
-
-        // Force regeneration of the color table
-        Table = null;
+        lock (_schemeColorsLock)
+        {
+            _ribbonColors[(int)colorIndex] = newColor;
+            Table = null; // force colour-table regeneration
+        }
     }
 
+    // Thread-safe single-color getter
     public Color GetSchemeColor(SchemeBaseColors colorIndex)
     {
-        return _ribbonColors[(int)colorIndex];
+        lock (_schemeColorsLock)
+        {
+            return _ribbonColors[(int)colorIndex];
+        }
     }
 
-    // Method to update multiple colors at once
+    // Thread-safe batch update
     public void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
     {
-        foreach (var update in colorUpdates)
-        {
-            _ribbonColors[(int)update.Key] = update.Value;
-        }
+        if (colorUpdates is null)
+            throw new ArgumentNullException(nameof(colorUpdates));
 
-        // Force regeneration of the color table
-        Table = null;
+        lock (_schemeColorsLock)
+        {
+            foreach (var update in colorUpdates)
+            {
+                _ribbonColors[(int)update.Key] = update.Value;
+            }
+
+            Table = null; // force colour-table regeneration
+        }
     }
 
-    // Indexer for direct access to color array
+    // Thread-safe direct indexer
     public Color this[SchemeBaseColors colorIndex]
     {
-        get => _ribbonColors[(int)colorIndex];
+        get
+        {
+            lock (_schemeColorsLock)
+            {
+                return _ribbonColors[(int)colorIndex];
+            }
+        }
         set
         {
-            _ribbonColors[(int)colorIndex] = value;
-            Table = null; // Force color table regeneration
+            lock (_schemeColorsLock)
+            {
+                _ribbonColors[(int)colorIndex] = value;
+                Table = null; // force colour-table regeneration
+            }
         }
     }
 
-    // Property to access the entire color array
-    public Color[] SchemeColors => _ribbonColors;
-
-    // Method to apply a new scheme at runtime
+    // Thread-safe full-scheme replacement
     public void ApplyScheme(AbstractBaseColorScheme newScheme)
     {
-        var newColors = ConvertSchemeToArray(newScheme);
-        Array.Copy(newColors, _ribbonColors, newColors.Length);
+        if (newScheme is null)
+            throw new ArgumentNullException(nameof(newScheme));
 
-        // Force regeneration of the color table
-        Table = null;
+        var newColors = ConvertSchemeToArray(newScheme);
+
+        lock (_schemeColorsLock)
+        {
+            Array.Copy(newColors, _ribbonColors, newColors.Length);
+            Table = null; // force colour-table regeneration
+        }
     }
     #endregion
 

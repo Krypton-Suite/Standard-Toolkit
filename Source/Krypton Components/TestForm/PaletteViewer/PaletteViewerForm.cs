@@ -28,6 +28,27 @@ namespace TestForm
         private readonly System.Collections.Generic.HashSet<System.Type> _processedBases = new System.Collections.Generic.HashSet<System.Type>();
         private Krypton.Toolkit.KryptonManager _kryptonManager1;
 
+        // Add undo stack for colour edits
+        private readonly System.Collections.Generic.Stack<UndoItem> _undoStack = new System.Collections.Generic.Stack<UndoItem>();
+
+        private readonly struct UndoItem
+        {
+            public Krypton.Toolkit.PaletteBase Palette { get; }
+            public Krypton.Toolkit.SchemeBaseColors ColorEnum { get; }
+            public System.Drawing.Color OldColor { get; }
+            public int RowIndex { get; }
+            public int ColumnIndex { get; }
+
+            public UndoItem(Krypton.Toolkit.PaletteBase palette, Krypton.Toolkit.SchemeBaseColors colorEnum, System.Drawing.Color oldColor, int rowIndex, int columnIndex)
+            {
+                Palette = palette;
+                ColorEnum = colorEnum;
+                OldColor = oldColor;
+                RowIndex = rowIndex;
+                ColumnIndex = columnIndex;
+            }
+        }
+
         private static readonly Krypton.Toolkit.PaletteMode[] LegacyProfessionalModes = new[]
         {
             Krypton.Toolkit.PaletteMode.ProfessionalSystem,
@@ -1472,6 +1493,9 @@ namespace TestForm
 
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
+                    // Record undo information BEFORE changing colour
+                    _undoStack.Push(new UndoItem(palette, colorEnum, currentColor, rowIndex, colIndex));
+
                     palette.SetSchemeColor(colorEnum, dialog.Color);
 
                     // Commit any pending edit before updating
@@ -1497,6 +1521,52 @@ namespace TestForm
                     }
                 }
             }
+        }
+
+        private void UndoLastColorChange()
+        {
+            if (_undoStack.Count == 0)
+            {
+                return;
+            }
+
+            var action = _undoStack.Pop();
+
+            if (action.Palette is PaletteMicrosoft365Black blackPalette)
+            {
+                blackPalette.SetSchemeColor(action.ColorEnum, action.OldColor);
+            }
+
+            if (action.RowIndex >= 0 && action.RowIndex < this.dataGridViewPalette.Rows.Count &&
+                action.ColumnIndex >= 0 && action.ColumnIndex < this.dataGridViewPalette.Columns.Count)
+            {
+                DataGridViewCell cell = this.dataGridViewPalette.Rows[action.RowIndex].Cells[action.ColumnIndex];
+                cell.Value = "#" + action.OldColor.R.ToString("X2") + action.OldColor.G.ToString("X2") + action.OldColor.B.ToString("X2");
+                cell.Style.BackColor = action.OldColor;
+                cell.Style.ForeColor = ContrastColor(action.OldColor);
+                cell.Style.SelectionBackColor = AdjustSelectionBack(action.OldColor);
+                cell.Style.SelectionForeColor = cell.Style.ForeColor;
+
+                this.dataGridViewPalette.CurrentCell = null;
+                this.dataGridViewPalette.CurrentCell = cell;
+                this.dataGridViewPalette.Refresh();
+            }
+
+            if (KryptonManager.CurrentGlobalPalette == action.Palette)
+            {
+                this.Invalidate(true);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                UndoLastColorChange();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }
