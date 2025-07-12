@@ -369,42 +369,42 @@ namespace Krypton.Toolkit
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) => style switch
                                                  {
-  PaletteButtonSpecStyle.FormClose => state switch
-  {
-  PaletteState.Disabled => _blueCloseDisabled,
-  PaletteState.Tracking => _blueCloseActive,
-  PaletteState.Pressed => _blueClosePressed,
-  _ => _blueCloseNormal
-  },
-  PaletteButtonSpecStyle.FormMin => state switch
-  {
-  PaletteState.Disabled => _blueMinimiseDisabled,
-  PaletteState.Tracking => _blueMinimiseActive,
-  PaletteState.Pressed => _blueMinimisePressed,
-  _ => _blueMinimiseNormal
-  },
-  PaletteButtonSpecStyle.FormMax => state switch
-  {
-  PaletteState.Disabled => _blueMaximiseDisabled,
-  PaletteState.Tracking => _blueMaximiseActive,
-  PaletteState.Pressed => _blueMaximisePressed,
-  _ => _blueMaximiseNormal
-  },
-  PaletteButtonSpecStyle.FormRestore => state switch
-  {
-  PaletteState.Disabled => _blueRestoreDisabled,
-  PaletteState.Tracking => _blueRestoreActive,
-  PaletteState.Pressed => _blueRestorePressed,
-  _ => _blueRestoreNormal
-  },
-  PaletteButtonSpecStyle.FormHelp => state switch
-  {
-  PaletteState.Disabled => _blueHelpDisabled,
-  PaletteState.Tracking => _blueHelpActive,
-  PaletteState.Pressed => _blueHelpPressed,
-  _ => _blueHelpNormal
-  },
-  _ => base.GetButtonSpecImage(style, state)
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blueCloseDisabled,
+                                                         PaletteState.Tracking => _blueCloseActive,
+                                                         PaletteState.Pressed => _blueClosePressed,
+                                                         _ => _blueCloseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blueMinimiseDisabled,
+                                                         PaletteState.Tracking => _blueMinimiseActive,
+                                                         PaletteState.Pressed => _blueMinimisePressed,
+                                                         _ => _blueMinimiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blueMaximiseDisabled,
+                                                         PaletteState.Tracking => _blueMaximiseActive,
+                                                         PaletteState.Pressed => _blueMaximisePressed,
+                                                         _ => _blueMaximiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blueRestoreDisabled,
+                                                         PaletteState.Tracking => _blueRestoreActive,
+                                                         PaletteState.Pressed => _blueRestorePressed,
+                                                         _ => _blueRestoreNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blueHelpDisabled,
+                                                         PaletteState.Tracking => _blueHelpActive,
+                                                         PaletteState.Pressed => _blueHelpPressed,
+                                                         _ => _blueHelpNormal
+                                                     },
+                                                     _ => base.GetButtonSpecImage(style, state)
                                                  };
         #endregion
 

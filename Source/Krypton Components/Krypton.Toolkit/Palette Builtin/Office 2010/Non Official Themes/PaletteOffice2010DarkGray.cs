@@ -382,42 +382,42 @@ namespace Krypton.Toolkit
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) => style switch
                                                  {
- PaletteButtonSpecStyle.FormClose => state switch
- {
-  PaletteState.Tracking => _formCloseActive,
-  PaletteState.Normal => _formCloseNormal,
-  PaletteState.Pressed => _formClosePressed,
-  _ => _formCloseDisabled
- },
- PaletteButtonSpecStyle.FormMin => state switch
- {
-  PaletteState.Normal => _formMinimiseNormal,
-  PaletteState.Tracking => _formMinimiseActive,
-  PaletteState.Pressed => _formMinimisePressed,
-  _ => _formMinimiseDisabled
- },
- PaletteButtonSpecStyle.FormMax => state switch
- {
-  PaletteState.Normal => _formMaximiseNormal,
-  PaletteState.Tracking => _formMaximiseActive,
-  PaletteState.Pressed => _formMaximisePressed,
-  _ => _formMaximiseDisabled
- },
- PaletteButtonSpecStyle.FormRestore => state switch
- {
-  PaletteState.Normal => _formRestoreNormal,
-  PaletteState.Tracking => _formRestoreActive,
-  PaletteState.Pressed => _formRestorePressed,
-  _ => _formRestoreDisabled
- },
- PaletteButtonSpecStyle.FormHelp => state switch
- {
-  PaletteState.Tracking => _formHelpActive,
-  PaletteState.Pressed => _formHelpPressed,
-  PaletteState.Normal => _formHelpNormal,
-  _ => _formHelpDisabled
- },
- _ => base.GetButtonSpecImage(style, state)
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formCloseActive,
+                                                         PaletteState.Normal => _formCloseNormal,
+                                                         PaletteState.Pressed => _formClosePressed,
+                                                         _ => _formCloseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMinimiseNormal,
+                                                         PaletteState.Tracking => _formMinimiseActive,
+                                                         PaletteState.Pressed => _formMinimisePressed,
+                                                         _ => _formMinimiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Normal => _formMaximiseNormal,
+                                                         PaletteState.Tracking => _formMaximiseActive,
+                                                         PaletteState.Pressed => _formMaximisePressed,
+                                                         _ => _formMaximiseDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Normal => _formRestoreNormal,
+                                                         PaletteState.Tracking => _formRestoreActive,
+                                                         PaletteState.Pressed => _formRestorePressed,
+                                                         _ => _formRestoreDisabled
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Tracking => _formHelpActive,
+                                                         PaletteState.Pressed => _formHelpPressed,
+                                                         PaletteState.Normal => _formHelpNormal,
+                                                         _ => _formHelpDisabled
+                                                     },
+                                                     _ => base.GetButtonSpecImage(style, state)
                                                  };
         #endregion
 

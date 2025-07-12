@@ -532,43 +532,43 @@ namespace Krypton.Toolkit
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) => style switch
                                                  {
-  PaletteButtonSpecStyle.FormClose => state switch
-  {
-  PaletteState.Disabled => _blackCloseDisabled,
-  PaletteState.Tracking => _blackCloseActive,
-  PaletteState.Pressed => _blackClosePressed,
-  _ => _blackCloseNormal
-  },
-  PaletteButtonSpecStyle.FormMin => state switch
-  {
-  PaletteState.Disabled => _blackMinimiseDisabled,
-  PaletteState.Tracking => _blackMinimiseActive,
-  PaletteState.Pressed => _blackMinimisePressed,
-  _ => _blackMinimiseNormal
-  },
-  PaletteButtonSpecStyle.FormMax => state switch
-  {
-  PaletteState.Disabled => _blackMaximiseDisabled,
-  PaletteState.Tracking => _blackMaximiseActive,
-  PaletteState.Pressed => _blackMaximisePressed,
-  _ => _blackMaximiseNormal
-  },
-  PaletteButtonSpecStyle.FormRestore => state switch
-  {
-  PaletteState.Disabled => _blackRestoreDisabled,
-  PaletteState.Tracking => _blackRestoreActive,
-  PaletteState.Pressed => _blackRestorePressed,
-  _ => _blackRestoreNormal
-  },
-  PaletteButtonSpecStyle.FormHelp => state switch
-  {
-  PaletteState.Disabled => _blackHelpDisabled,
-  PaletteState.Tracking => _blackHelpActive,
-  _ => _blackHelpNormal
-  },
-  PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
-  PaletteButtonSpecStyle.RibbonExpand => _blackRibbonExpand,
-  _ => base.GetButtonSpecImage(style, state)
+                                                     PaletteButtonSpecStyle.FormClose => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blackCloseDisabled,
+                                                         PaletteState.Tracking => _blackCloseActive,
+                                                         PaletteState.Pressed => _blackClosePressed,
+                                                         _ => _blackCloseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMin => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blackMinimiseDisabled,
+                                                         PaletteState.Tracking => _blackMinimiseActive,
+                                                         PaletteState.Pressed => _blackMinimisePressed,
+                                                         _ => _blackMinimiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormMax => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blackMaximiseDisabled,
+                                                         PaletteState.Tracking => _blackMaximiseActive,
+                                                         PaletteState.Pressed => _blackMaximisePressed,
+                                                         _ => _blackMaximiseNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormRestore => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blackRestoreDisabled,
+                                                         PaletteState.Tracking => _blackRestoreActive,
+                                                         PaletteState.Pressed => _blackRestorePressed,
+                                                         _ => _blackRestoreNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.FormHelp => state switch
+                                                     {
+                                                         PaletteState.Disabled => _blackHelpDisabled,
+                                                         PaletteState.Tracking => _blackHelpActive,
+                                                         _ => _blackHelpNormal
+                                                     },
+                                                     PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
+                                                     PaletteButtonSpecStyle.RibbonExpand => _blackRibbonExpand,
+                                                     _ => base.GetButtonSpecImage(style, state)
                                                  };
         #endregion
 
