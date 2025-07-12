@@ -240,7 +240,7 @@ public static class SchemeGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace " + ns + ";");
         sb.AppendLine();
-        sb.AppendLine("public sealed class " + className + " : AbstractBaseColorScheme");
+        sb.AppendLine("public class " + className + " : AbstractBaseColorScheme");
         sb.AppendLine("{");
         const int braceCol = 60;
         var indent = new string(' ', 4);
