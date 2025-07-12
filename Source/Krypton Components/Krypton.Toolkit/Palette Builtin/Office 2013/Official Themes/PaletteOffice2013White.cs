@@ -226,18 +226,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(210, 212, 215), // RibbonQATButtonLight                                                      
             Color.FromArgb(233, 237, 241), // RibbonQATOverflow1                                                      
             Color.FromArgb(138, 144, 150), // RibbonQATOverflow2                                                      
-            Color.FromArgb(191, 195,
-                199), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(255, 255,
-                255), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(231, 234,
-                238), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(241, 243,
-                243), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(197, 198,
-                199), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(157, 158,
-                159), // ButtonClusterButtonBorder2                                                      
+            Color.FromArgb(191, 195, 199), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(255, 255, 255), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(231, 234, 238), // ButtonClusterButtonBack1                                                      
+            Color.FromArgb(241, 243, 243), // ButtonClusterButtonBack2                                                      
+            Color.FromArgb(197, 198, 199), // ButtonClusterButtonBorder1                                                      
+            Color.FromArgb(157, 158, 159), // ButtonClusterButtonBorder2                                                      
             Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor                                                    
             Color.White, // GridListNormal1                                                    
             Color.White, // GridListNormal2                                                    
