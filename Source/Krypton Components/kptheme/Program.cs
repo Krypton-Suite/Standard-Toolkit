@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Krypton.ThemeGen;
 using System.Linq;
+using System.IO;
 
 internal static class Program
 {
@@ -17,10 +18,16 @@ internal static class Program
     {
         if (args.Length == 0)
         {
-            PrintGeneralUsage();
+            PrintGenSchemeUsage();
             return 1;
         }
-        var cmd = args[0].ToLowerInvariant();
+        var first = args[0].ToLowerInvariant();
+        if (first == "--help" || first == "-h")
+        {
+            PrintGenSchemeUsage();
+            return 0;
+        }
+        var cmd = first;
         var rest = args.Length > 1 ? args.Skip(1).ToArray() : Array.Empty<string>();
         try
         {
@@ -36,7 +43,7 @@ internal static class Program
                     return 2;
                 default:
                     Console.Error.WriteLine("Unknown command: " + cmd);
-                    PrintGeneralUsage();
+                    PrintGenSchemeUsage();
                     return 1;
             }
         }
@@ -57,10 +64,14 @@ internal static class Program
             PrintGenSchemeUsage();
             return 1;
         }
-        dict.TryGetValue("--output", out var output);
-        dict.TryGetValue("-o", out output);
+        string? output = null;
+        if (!dict.TryGetValue("--output", out output))
+        {
+            dict.TryGetValue("-o", out output);
+        }
         var dryRun = dict.ContainsKey("--dry-run");
-        SchemeGenerator.Generate(palette, output, embedResx: dict.ContainsKey("--embed-resx"), dryRun: dryRun);
+        var overwrite = dict.ContainsKey("--overwrite");
+        SchemeGenerator.Generate(palette ?? string.Empty, output ?? string.Empty, embedResx: dict.ContainsKey("--embed-resx"), dryRun: dryRun, overwrite: overwrite);
         return 0;
     }
 
@@ -85,13 +96,6 @@ internal static class Program
         return dict;
     }
 
-    private static void PrintGeneralUsage()
-    {
-        Console.WriteLine("kptheme <command> [options]");
-        Console.WriteLine("Commands: genscheme");
-        Console.WriteLine("Run 'kptheme <command> --help' for command-specific options.");
-    }
-
     private static void PrintGenSchemeUsage()
     {
         Console.WriteLine();
@@ -108,6 +112,7 @@ internal static class Program
         Console.WriteLine("                           Convert palette files under the given directory");
         Console.WriteLine("  -r, --recursive          With -d/--directory, also search sub-directories");
         Console.WriteLine("  --embed-resx             Embed generated resources (*.resx) next to scheme");
+        Console.WriteLine("  --overwrite              Overwrite existing *Scheme.cs files if present");
         Console.WriteLine();
         Console.WriteLine("Example: kptheme genscheme --file PaletteOffice2010Blue.cs --output Generated --dry-run");
     }

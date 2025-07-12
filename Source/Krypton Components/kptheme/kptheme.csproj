@@ -24,6 +24,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <PackageId>kptheme</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Krypton.ThemeGen\Krypton.ThemeGen.csproj" />
