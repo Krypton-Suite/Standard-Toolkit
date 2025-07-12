@@ -1,101 +1,84 @@
-#region BSD License
-/*
- *
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
- *
- */
-#endregion
-
 using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace TestForm;
-
-public class WindowStateInfo
+namespace TestForm
 {
-    public int Left { get; set; }
-    public int Top { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public System.Windows.Forms.FormWindowState State { get; set; }
-    public int SelectedTab { get; set; }
-    public int ContentSplitterDistance { get; set; }
-    public string LastWtsFolder { get; set; }
-    public string LastTheme { get; set; }
-    public string SourcePath { get; set; }
-}
-
-public class WindowStateStore
-{
-    private readonly string _filePath;
-
-    public WindowStateStore()
+    public class WindowStateInfo
     {
-        var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TestForm");
-        Directory.CreateDirectory(dir);
-        _filePath = Path.Combine(dir, "windowstate.ini");
+        public int Left { get; set; }
+        public int Top { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public FormWindowState State { get; set; }
+        public string LastTheme { get; set; }
+        public string SourcePath { get; set; }
     }
 
-    public WindowStateInfo? Load()
+    public class WindowStateStore
     {
-        if (!File.Exists(_filePath))
+        private readonly string _filePath;
+
+        public WindowStateStore()
         {
-            return null;
+            var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TestForm");
+            Directory.CreateDirectory(dir);
+            _filePath = Path.Combine(dir, "windowstate.ini");
         }
 
-        var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var line in File.ReadAllLines(_filePath))
+        public WindowStateInfo? Load()
         {
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";") || line.StartsWith("#")) continue;
-            var idx = line.IndexOf('=');
-            if (idx <= 0) continue;
-            var key = line.Substring(0, idx).Trim();
-            var value = line.Substring(idx + 1).Trim();
-            dict[key] = value;
+            if (!File.Exists(_filePath))
+            {
+                return null;
+            }
+
+            var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var line in File.ReadAllLines(_filePath))
+            {
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";") || line.StartsWith("#")) continue;
+                var idx = line.IndexOf('=');
+                if (idx <= 0) continue;
+                var key = line.Substring(0, idx).Trim();
+                var value = line.Substring(idx + 1).Trim();
+                dict[key] = value;
+            }
+
+            FormWindowState state;
+            Enum.TryParse(dict.TryGetValue("State", out var s) ? s : null, out state);
+
+            int ParseInt(string key)
+            {
+                return dict.TryGetValue(key, out var v) && int.TryParse(v, out var result) ? result : 0;
+            }
+
+            var info = new WindowStateInfo
+            {
+                Left = ParseInt("Left"),
+                Top = ParseInt("Top"),
+                Width = ParseInt("Width"),
+                Height = ParseInt("Height"),
+                State = state,
+                LastTheme = dict.TryGetValue("LastTheme", out var l2) ? l2 : string.Empty,
+                SourcePath = dict.TryGetValue("SourcePath", out var l3) ? l3 : string.Empty
+            };
+
+            return info;
         }
 
-        System.Windows.Forms.FormWindowState state;
-        Enum.TryParse(dict.TryGetValue("State", out var s) ? s : null, out state);
-
-        int ParseInt(string key)
+        public void Save(WindowStateInfo info)
         {
-            return dict.TryGetValue(key, out var v) && int.TryParse(v, out var result) ? result : 0;
+            var lines = new List<string>
+            {
+                $"Left={info.Left}",
+                $"Top={info.Top}",
+                $"Width={info.Width}",
+                $"Height={info.Height}",
+                $"State={info.State}",
+                $"LastTheme={info.LastTheme}",
+                $"SourcePath={info.SourcePath}"
+            };
+            File.WriteAllLines(_filePath, lines);
         }
-
-        var info = new WindowStateInfo
-        {
-            Left = ParseInt("Left"),
-            Top = ParseInt("Top"),
-            Width = ParseInt("Width"),
-            Height = ParseInt("Height"),
-            State = state,
-            SelectedTab = ParseInt("SelectedTab"),
-            ContentSplitterDistance = ParseInt("ContentSplitterDistance"),
-            LastWtsFolder = dict.TryGetValue("LastWtsFolder", out var l1) ? l1 : string.Empty,
-            LastTheme = dict.TryGetValue("LastTheme", out var l2) ? l2 : string.Empty,
-            SourcePath = dict.TryGetValue("SourcePath", out var l3) ? l3 : string.Empty
-        };
-
-        return info;
-    }
-
-    public void Save(WindowStateInfo info)
-    {
-        var lines = new List<string>
-        {
-            $"Left={info.Left}",
-            $"Top={info.Top}",
-            $"Width={info.Width}",
-            $"Height={info.Height}",
-            $"State={info.State}",
-            $"SelectedTab={info.SelectedTab}",
-            $"ContentSplitterDistance={info.ContentSplitterDistance}",
-            $"LastWtsFolder={info.LastWtsFolder ?? string.Empty}",
-            $"LastTheme={info.LastTheme ?? string.Empty}",
-            $"SourcePath={info.SourcePath ?? string.Empty}"
-        };
-        File.WriteAllLines(_filePath, lines);
     }
 }
