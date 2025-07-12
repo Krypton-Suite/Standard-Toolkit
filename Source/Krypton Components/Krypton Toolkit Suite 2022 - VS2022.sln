@@ -90,6 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{80
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForm", "TestForm\TestForm.csproj", "{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}"
 	ProjectSection(ProjectDependencies) = postProject
+		{41106C29-69F0-1E5A-1F71-D0D3E19FAE5D} = {41106C29-69F0-1E5A-1F71-D0D3E19FAE5D}
 		{F9E31BD7-42BE-48E8-92CC-74CA1871B4E6} = {F9E31BD7-42BE-48E8-92CC-74CA1871B4E6}
 	EndProjectSection
 EndProject
@@ -122,6 +123,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.ThemeGen", "Krypton.ThemeGen\Krypton.ThemeGen.csproj", "{41106C29-69F0-1E5A-1F71-D0D3E19FAE5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kptheme", "kptheme\kptheme.csproj", "{F837E8F1-0842-329B-5842-E72F88EE1F8B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55} = {CCCEFACF-9B84-4649-BCFF-33C8A0FC8F55}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1207,7 +1207,7 @@ namespace TestForm
             }
         }
 
-        private void EditingTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void EditingTextBox_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F6)
             {

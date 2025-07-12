@@ -3,6 +3,7 @@
 ==== 
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
+* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Added ThemeGen assembly and kptheme CLI app.
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.
 * Resolved [#2264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2264), Implementation of style: `PaletteBackStyle.Control`, `PaletteContentStyle.LabelAlternateControl` and `PaletteContentStyle.LabelAlternatePanel` in all themes
 * Resolved [#2200](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2200), `KryptonAutoHiddenSlidePanel.PreFilterMessage` will now use the ActiveFormTracker.
@@ -888,4 +889,3 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Support for .NET Core LTS (currently 3.1)
 * Changed `490` to `500`
 * Builds from now on will be labelled as `YYMM`
-

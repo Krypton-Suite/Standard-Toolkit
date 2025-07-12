@@ -17,7 +17,7 @@ internal static class Program
     {
         if (args.Length == 0)
         {
-            ShowHelp();
+            PrintGeneralUsage();
             return 1;
         }
         var cmd = args[0].ToLowerInvariant();
@@ -36,7 +36,7 @@ internal static class Program
                     return 2;
                 default:
                     Console.Error.WriteLine("Unknown command: " + cmd);
-                    ShowHelp();
+                    PrintGeneralUsage();
                     return 1;
             }
         }
@@ -50,9 +50,11 @@ internal static class Program
     private static int RunGenScheme(string[] args)
     {
         var dict = ParseArgs(args);
-        if (!dict.TryGetValue("--file", out var palette) && !dict.TryGetValue("-f", out palette))
+        if (!dict.TryGetValue("--file", out var palette) && !dict.TryGetValue("-f", out palette) &&
+            !dict.ContainsKey("--directory") && !dict.ContainsKey("-d"))
         {
-            Console.Error.WriteLine("--file <path> is required");
+            Console.Error.WriteLine("No --file or --directory specified. Nothing to do.");
+            PrintGenSchemeUsage();
             return 1;
         }
         dict.TryGetValue("--output", out var output);
@@ -83,10 +85,30 @@ internal static class Program
         return dict;
     }
 
-    private static void ShowHelp()
+    private static void PrintGeneralUsage()
     {
         Console.WriteLine("kptheme <command> [options]");
-        Console.WriteLine("Commands: genscheme (TODO: list, export, import, fix-images)");
+        Console.WriteLine("Commands: genscheme");
+        Console.WriteLine("Run 'kptheme <command> --help' for command-specific options.");
+    }
+
+    private static void PrintGenSchemeUsage()
+    {
+        Console.WriteLine();
+        Console.WriteLine("usage: kptheme genscheme [--dry-run] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r] [--embed-resx]");
+        Console.WriteLine();
+        Console.WriteLine("Generate *Scheme.cs classes for Krypton palettes");
+        Console.WriteLine();
+        Console.WriteLine("options:");
+        Console.WriteLine("  --dry-run                Preview actions without writing files");
+        Console.WriteLine("  -o OUTPUT, --output OUTPUT");
+        Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
+        Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");
+        Console.WriteLine("  -d DIRECTORY, --directory DIRECTORY");
+        Console.WriteLine("                           Convert palette files under the given directory");
+        Console.WriteLine("  -r, --recursive          With -d/--directory, also search sub-directories");
+        Console.WriteLine("  --embed-resx             Embed generated resources (*.resx) next to scheme");
+        Console.WriteLine();
         Console.WriteLine("Example: kptheme genscheme --file PaletteOffice2010Blue.cs --output Generated --dry-run");
     }
 }
