@@ -4,6 +4,7 @@
 
 # 2025-08-25 - Build 2508 (Patch 8) - August 2025
 * Resolved [#2277](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2277), Added colors in the `Color[] _schemeOfficeColors`.
+* Resolved [#2301](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2301), Fix memory leak in PaletteBase
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.
 * Resolved [#2264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2264), Implementation of style: `PaletteBackStyle.Control`, `PaletteContentStyle.LabelAlternateControl` and `PaletteContentStyle.LabelAlternatePanel` in all themes.
 
