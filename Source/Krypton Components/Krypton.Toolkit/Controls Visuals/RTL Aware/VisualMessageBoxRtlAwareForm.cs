@@ -38,7 +38,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
     public VisualMessageBoxRtlAwareForm()
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
     }
 
@@ -50,7 +50,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         bool? showHelpButton,
         bool? showCloseButton)
     {
-        //SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Store incoming values
         _text = CommonHelper.NormalizeLineBreaks(text ?? string.Empty);
         _caption = caption;
