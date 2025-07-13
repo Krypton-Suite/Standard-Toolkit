@@ -1,3 +1,12 @@
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
 using System.Collections.Generic;
 
 namespace Classes
@@ -20,9 +29,9 @@ namespace Classes
         /// <summary>
         /// True when no discrepancies were found.
         /// </summary>
-        public bool IsClean => MissingCount == 0 
-            && UnlabelledCount == 0 
-            && OutOfOrderCount == 0 
+        public bool IsClean => MissingCount == 0
+            && UnlabelledCount == 0
+            && OutOfOrderCount == 0
             && ExtraCount == 0;
     }
 }

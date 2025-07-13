@@ -123,7 +123,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(358, 520);
+            this.kryptonPanel1.Size = new System.Drawing.Size(379, 531);
             this.kryptonPanel1.TabIndex = 0;
             //
             // kbtnBlurredForm
@@ -336,10 +336,10 @@ namespace TestForm
             // kbtnExit
             //
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnExit.Location = new System.Drawing.Point(12, 493);
+            this.kbtnExit.Location = new System.Drawing.Point(124, 498);
             this.kbtnExit.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnExit.Name = "kbtnExit";
-            this.kbtnExit.Size = new System.Drawing.Size(153, 20);
+            this.kbtnExit.Size = new System.Drawing.Size(153, 22);
             this.kbtnExit.TabIndex = 15;
             this.kbtnExit.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnExit.Values.Text = "Exit";
@@ -498,7 +498,7 @@ namespace TestForm
             //
             // kbtnVisualControls
             //
-            this.kbtnVisualControls.Location = new System.Drawing.Point(223, 469);
+            this.kbtnVisualControls.Location = new System.Drawing.Point(13, 468);
             this.kbtnVisualControls.Margin = new System.Windows.Forms.Padding(2);
             this.kbtnVisualControls.Name = "kbtnVisualControls";
             this.kbtnVisualControls.Size = new System.Drawing.Size(153, 20);
@@ -519,7 +519,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(390, 530);
+            this.ClientSize = new System.Drawing.Size(379, 531);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
