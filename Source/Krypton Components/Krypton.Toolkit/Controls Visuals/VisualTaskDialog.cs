@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -123,7 +123,7 @@ public class VisualTaskDialog : KryptonForm
     /// <exception cref="ArgumentNullException"></exception>
     public VisualTaskDialog(KryptonTaskDialog taskDialog)
     {
-        SetInheritedControlOverride();
+        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Must provide a valid reference
 
         _taskDialog = taskDialog ??
@@ -154,7 +154,7 @@ public class VisualTaskDialog : KryptonForm
         UpdateContents();
     }
 
-    /// <summary> 
+    /// <summary>
     /// Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -750,7 +750,7 @@ public class VisualTaskDialog : KryptonForm
             messageContentSize.Width = (int)(messageContentSize.Width * FactorDpiX);
             messageContentSize.Height = (int)(messageContentSize.Height * FactorDpiY);
 
-            // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
+            // Always add on an extra 5 pixels as sometimes the measure size does not draw the last
             // character it contains, this ensures there is always definitely enough space for it all
             messageMainSize.Width += 5;
             messageContentSize.Width += 5;
@@ -951,7 +951,7 @@ public class VisualTaskDialog : KryptonForm
         var footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
         var footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
 
-        // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
+        // Always add on an extra 5 pixels as sometimes the measure size does not draw the last
         // character it contains, this ensures there is always definitely enough space for it all
         footerTextSize.Width += 5;
         footerHyperlinkSize.Width += 5;
@@ -1171,9 +1171,9 @@ public class VisualTaskDialog : KryptonForm
         this._panelFooter.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this._iconFooter)).BeginInit();
         this.SuspendLayout();
-        // 
+        //
         // _panelMain
-        // 
+        //
         this._panelMain.AutoSize = true;
         this._panelMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         this._panelMain.Controls.Add(this._panelMainSpacer);
@@ -1186,34 +1186,34 @@ public class VisualTaskDialog : KryptonForm
         this._panelMain.Name = "_panelMain";
         this._panelMain.Size = new System.Drawing.Size(790, 72);
         this._panelMain.TabIndex = 0;
-        // 
+        //
         // _panelMainSpacer
-        // 
+        //
         this._panelMainSpacer.Location = new System.Drawing.Point(42, 59);
         this._panelMainSpacer.Name = "_panelMainSpacer";
         this._panelMainSpacer.Size = new System.Drawing.Size(10, 10);
         this._panelMainSpacer.TabIndex = 3;
-        // 
+        //
         // _panelMainCommands
-        // 
+        //
         this._panelMainCommands.AutoSize = true;
         this._panelMainCommands.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         this._panelMainCommands.Location = new System.Drawing.Point(208, 10);
         this._panelMainCommands.Name = "_panelMainCommands";
         this._panelMainCommands.Size = new System.Drawing.Size(0, 0);
         this._panelMainCommands.TabIndex = 2;
-        // 
+        //
         // _panelMainRadio
-        // 
+        //
         this._panelMainRadio.AutoSize = true;
         this._panelMainRadio.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         this._panelMainRadio.Location = new System.Drawing.Point(208, 32);
         this._panelMainRadio.Name = "_panelMainRadio";
         this._panelMainRadio.Size = new System.Drawing.Size(0, 0);
         this._panelMainRadio.TabIndex = 1;
-        // 
+        //
         // _panelMainText
-        // 
+        //
         this._panelMainText.AutoSize = true;
         this._panelMainText.Controls.Add(this._messageContent);
         this._panelMainText.Controls.Add(this._messageContentMultiline);
@@ -1224,9 +1224,9 @@ public class VisualTaskDialog : KryptonForm
         this._panelMainText.Padding = new System.Windows.Forms.Padding(5, 5, 5, 0);
         this._panelMainText.Size = new System.Drawing.Size(407, 60);
         this._panelMainText.TabIndex = 0;
-        // 
+        //
         // _messageContent
-        // 
+        //
         this._messageContent.AutoSize = false;
         this._messageContent.Font = new System.Drawing.Font("Segoe UI", 9F);
         this._messageContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
@@ -1236,9 +1236,9 @@ public class VisualTaskDialog : KryptonForm
         this._messageContent.Name = "_messageContent";
         this._messageContent.Size = new System.Drawing.Size(78, 15);
         this._messageContent.Text = "Content";
-        // 
+        //
         // _messageContentMultiline
-        // 
+        //
         this._messageContentMultiline.Location = new System.Drawing.Point(48, 45);
         this._messageContentMultiline.Multiline = true;
         this._messageContentMultiline.Name = "_messageContentMultiline";
@@ -1246,9 +1246,9 @@ public class VisualTaskDialog : KryptonForm
         this._messageContentMultiline.ScrollBars = System.Windows.Forms.ScrollBars.Both;
         this._messageContentMultiline.Size = new System.Drawing.Size(351, 10);
         this._messageContentMultiline.TabIndex = 4;
-        // 
+        //
         // _messageText
-        // 
+        //
         this._messageText.AutoSize = false;
         this._messageText.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
         this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
@@ -1258,9 +1258,9 @@ public class VisualTaskDialog : KryptonForm
         this._messageText.Name = "_messageText";
         this._messageText.Size = new System.Drawing.Size(139, 27);
         this._messageText.Text = "Message Text";
-        // 
+        //
         // _panelIcon
-        // 
+        //
         this._panelIcon.AutoSize = true;
         this._panelIcon.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         this._panelIcon.Controls.Add(this._messageIcon);
@@ -1270,9 +1270,9 @@ public class VisualTaskDialog : KryptonForm
         this._panelIcon.Padding = new System.Windows.Forms.Padding(10, 10, 0, 10);
         this._panelIcon.Size = new System.Drawing.Size(42, 52);
         this._panelIcon.TabIndex = 0;
-        // 
+        //
         // _messageIcon
-        // 
+        //
         this._messageIcon.BackColor = System.Drawing.Color.Transparent;
         this._messageIcon.Location = new System.Drawing.Point(10, 10);
         this._messageIcon.Margin = new System.Windows.Forms.Padding(0);
@@ -1280,9 +1280,9 @@ public class VisualTaskDialog : KryptonForm
         this._messageIcon.Size = new System.Drawing.Size(32, 32);
         this._messageIcon.TabIndex = 0;
         this._messageIcon.TabStop = false;
-        // 
+        //
         // _panelButtons
-        // 
+        //
         this._panelButtons.Controls.Add(this._checkBox);
         this._panelButtons.Controls.Add(this._panelButtonsBorderTop);
         this._panelButtons.Controls.Add(this._buttonOK);
@@ -1298,26 +1298,26 @@ public class VisualTaskDialog : KryptonForm
         this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
         this._panelButtons.Size = new System.Drawing.Size(790, 46);
         this._panelButtons.TabIndex = 1;
-        // 
+        //
         // _checkBox
-        // 
+        //
         this._checkBox.Location = new System.Drawing.Point(12, 12);
         this._checkBox.Name = "_checkBox";
         this._checkBox.Size = new System.Drawing.Size(75, 20);
         this._checkBox.TabIndex = 0;
         this._checkBox.Values.Text = "checkBox";
-        // 
+        //
         // _panelButtonsBorderTop
-        // 
+        //
         this._panelButtonsBorderTop.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
         this._panelButtonsBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
         this._panelButtonsBorderTop.Location = new System.Drawing.Point(0, 0);
         this._panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
         this._panelButtonsBorderTop.Size = new System.Drawing.Size(790, 1);
         this._panelButtonsBorderTop.Text = "kryptonBorderEdge1";
-        // 
+        //
         // _buttonOK
-        // 
+        //
         this._buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonOK.AutoSize = true;
         this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -1329,9 +1329,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonOK.Size = new System.Drawing.Size(50, 26);
         this._buttonOK.TabIndex = 1;
         this._buttonOK.Values.Text = "OK";
-        // 
+        //
         // _buttonYes
-        // 
+        //
         this._buttonYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonYes.AutoSize = true;
         this._buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
@@ -1343,9 +1343,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonYes.Size = new System.Drawing.Size(50, 26);
         this._buttonYes.TabIndex = 2;
         this._buttonYes.Values.Text = "Yes";
-        // 
+        //
         // _buttonNo
-        // 
+        //
         this._buttonNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonNo.AutoSize = true;
         this._buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
@@ -1357,9 +1357,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonNo.Size = new System.Drawing.Size(50, 26);
         this._buttonNo.TabIndex = 3;
         this._buttonNo.Values.Text = "No";
-        // 
+        //
         // _buttonRetry
-        // 
+        //
         this._buttonRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonRetry.AutoSize = true;
         this._buttonRetry.DialogResult = System.Windows.Forms.DialogResult.Retry;
@@ -1371,9 +1371,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonRetry.Size = new System.Drawing.Size(50, 26);
         this._buttonRetry.TabIndex = 5;
         this._buttonRetry.Values.Text = "Retry";
-        // 
+        //
         // _buttonCancel
-        // 
+        //
         this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonCancel.AutoSize = true;
         this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -1385,9 +1385,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonCancel.Size = new System.Drawing.Size(57, 26);
         this._buttonCancel.TabIndex = 4;
         this._buttonCancel.Values.Text = "Cancel";
-        // 
+        //
         // _buttonClose
-        // 
+        //
         this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this._buttonClose.AutoSize = true;
         this._buttonClose.IgnoreAltF4 = false;
@@ -1398,9 +1398,9 @@ public class VisualTaskDialog : KryptonForm
         this._buttonClose.Size = new System.Drawing.Size(50, 26);
         this._buttonClose.TabIndex = 6;
         this._buttonClose.Values.Text = "Close";
-        // 
+        //
         // _panelFooter
-        // 
+        //
         this._panelFooter.Controls.Add(this._linkLabelFooter);
         this._panelFooter.Controls.Add(this._iconFooter);
         this._panelFooter.Controls.Add(this._footerLabel);
@@ -1411,17 +1411,17 @@ public class VisualTaskDialog : KryptonForm
         this._panelFooter.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
         this._panelFooter.Size = new System.Drawing.Size(790, 49);
         this._panelFooter.TabIndex = 2;
-        // 
+        //
         // _linkLabelFooter
-        // 
+        //
         this._linkLabelFooter.Location = new System.Drawing.Point(127, 11);
         this._linkLabelFooter.Name = "_linkLabelFooter";
         this._linkLabelFooter.Size = new System.Drawing.Size(110, 20);
         this._linkLabelFooter.TabIndex = 0;
         this._linkLabelFooter.Values.Text = "kryptonLinkLabel1";
-        // 
+        //
         // _iconFooter
-        // 
+        //
         this._iconFooter.BackColor = System.Drawing.Color.Transparent;
         this._iconFooter.Location = new System.Drawing.Point(10, 10);
         this._iconFooter.Margin = new System.Windows.Forms.Padding(0);
@@ -1429,9 +1429,9 @@ public class VisualTaskDialog : KryptonForm
         this._iconFooter.Size = new System.Drawing.Size(16, 16);
         this._iconFooter.TabIndex = 4;
         this._iconFooter.TabStop = false;
-        // 
+        //
         // _footerLabel
-        // 
+        //
         this._footerLabel.AutoSize = false;
         this._footerLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
         this._footerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
@@ -1441,18 +1441,18 @@ public class VisualTaskDialog : KryptonForm
         this._footerLabel.Name = "_footerLabel";
         this._footerLabel.Size = new System.Drawing.Size(78, 15);
         this._footerLabel.Text = "Content";
-        // 
+        //
         // _panelFooterBorderTop
-        // 
+        //
         this._panelFooterBorderTop.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
         this._panelFooterBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
         this._panelFooterBorderTop.Location = new System.Drawing.Point(0, 0);
         this._panelFooterBorderTop.Name = "_panelFooterBorderTop";
         this._panelFooterBorderTop.Size = new System.Drawing.Size(790, 1);
         this._panelFooterBorderTop.Text = "kryptonBorderEdge1";
-        // 
+        //
         // VisualTaskDialog
-        // 
+        //
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.AutoScroll = true;
