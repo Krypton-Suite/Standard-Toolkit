@@ -123,7 +123,14 @@ If you prefer data-only classes, you can auto-generate these from the existing c
 
 ---
 
-## 6.  Impact & follow-ups
+## 6. Documentation
+
+This is a major change and affects a lot of classes and their interactions as well as interplay with other tools.
+Documentation of breaking changes with a high detail level is extremely important, even if tedious (use AI to assist!).
+
+---
+
+## 7.  Impact & follow-ups
 
 1. **Binary breaking change** – Every consumer that instantiated a concrete `KryptonColorTableXYZ` now needs to create a `KryptonColorScheme` + `KryptonColorTable`.  
 2. **Smaller DLL footprint** – only slim scheme classes remain.  
