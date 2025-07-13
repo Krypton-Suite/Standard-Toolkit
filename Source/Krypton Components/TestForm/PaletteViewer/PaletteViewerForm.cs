@@ -37,27 +37,6 @@ public partial class PaletteViewerForm : KryptonForm
     private readonly System.Collections.Generic.HashSet<System.Type> _processedBases = new System.Collections.Generic.HashSet<System.Type>();
     private Krypton.Toolkit.KryptonManager _kryptonManager1;
 
-    // Add undo stack for colour edits
-    private readonly System.Collections.Generic.Stack<UndoItem> _undoStack = new System.Collections.Generic.Stack<UndoItem>();
-
-    private readonly struct UndoItem
-    {
-        public Krypton.Toolkit.PaletteBase Palette { get; }
-        public Krypton.Toolkit.SchemeBaseColors ColorEnum { get; }
-        public System.Drawing.Color OldColor { get; }
-        public int RowIndex { get; }
-        public int ColumnIndex { get; }
-
-        public UndoItem(Krypton.Toolkit.PaletteBase palette, Krypton.Toolkit.SchemeBaseColors colorEnum, System.Drawing.Color oldColor, int rowIndex, int columnIndex)
-        {
-            Palette = palette;
-            ColorEnum = colorEnum;
-            OldColor = oldColor;
-            RowIndex = rowIndex;
-            ColumnIndex = columnIndex;
-        }
-    }
-
     private static readonly Krypton.Toolkit.PaletteMode[] LegacyProfessionalModes = new[]
     {
         Krypton.Toolkit.PaletteMode.ProfessionalSystem,
@@ -1210,18 +1189,6 @@ public partial class PaletteViewerForm : KryptonForm
             tb.BorderStyle = BorderStyle.None;
             tb.BackColor = System.Drawing.SystemColors.Window;
             // No need to capture or reset text – leaving it untouched avoids unwanted changes
-
-            tb.KeyDown -= EditingTextBox_KeyDown;
-            tb.KeyDown += EditingTextBox_KeyDown;
-        }
-    }
-
-    private void EditingTextBox_KeyDown(object? sender, KeyEventArgs e)
-    {
-        if (e.KeyCode == Keys.F6)
-        {
-            e.Handled = true;
-            EditCurrentCellColor();
         }
     }
 
@@ -1459,122 +1426,5 @@ public partial class PaletteViewerForm : KryptonForm
         _winStore.Save(ws);
 
         UpdateUIState();
-    }
-
-    private void EditCurrentCellColor()
-    {
-        if (this.dataGridViewPalette.CurrentCell == null)
-        {
-            return;
-        }
-
-        int colIndex = this.dataGridViewPalette.CurrentCell.ColumnIndex;
-        int rowIndex = this.dataGridViewPalette.CurrentCell.RowIndex;
-
-        if (colIndex <= 2 || rowIndex < 0 || rowIndex >= this._enumValues.Length)
-        {
-            return;
-        }
-
-        DataGridViewColumn col = this.dataGridViewPalette.Columns[colIndex];
-
-        if (col.Name != typeof(Krypton.Toolkit.PaletteMicrosoft365Black).FullName)
-        {
-            return;
-        }
-
-        PaletteMicrosoft365Black? palette = this._palettes.Find(p => p.GetType().FullName == col.Name) as PaletteMicrosoft365Black;
-
-        if (palette == null)
-        {
-            return;
-        }
-
-        SchemeBaseColors colorEnum = this._enumValues[rowIndex];
-
-        System.Drawing.Color currentColor = palette.GetSchemeColor(colorEnum);
-
-        using (ColorDialog dialog = new ColorDialog())
-        {
-            dialog.Color = currentColor;
-            dialog.AllowFullOpen = true;
-            dialog.FullOpen = true;
-
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                // Record undo information BEFORE changing colour
-                _undoStack.Push(new UndoItem(palette, colorEnum, currentColor, rowIndex, colIndex));
-
-                palette.SetSchemeColor(colorEnum, dialog.Color);
-
-                // Commit any pending edit before updating
-                this.dataGridViewPalette.EndEdit();
-
-                // Update cell visuals
-                DataGridViewCell cell = this.dataGridViewPalette.CurrentCell;
-                cell.Value = "#" + dialog.Color.R.ToString("X2") + dialog.Color.G.ToString("X2") + dialog.Color.B.ToString("X2");
-                cell.Style.BackColor = dialog.Color;
-                cell.Style.ForeColor = ContrastColor(dialog.Color);
-                cell.Style.SelectionBackColor = AdjustSelectionBack(dialog.Color);
-                cell.Style.SelectionForeColor = cell.Style.ForeColor;
-
-                // Force the grid to refresh by moving focus
-                this.dataGridViewPalette.CurrentCell = null;
-                this.dataGridViewPalette.CurrentCell = cell;
-                this.dataGridViewPalette.Refresh();
-
-                // If this is the active palette, refresh the UI
-                if (KryptonManager.CurrentGlobalPalette == palette)
-                {
-                    this.Invalidate(true);
-                }
-            }
-        }
-    }
-
-    private void UndoLastColorChange()
-    {
-        if (_undoStack.Count == 0)
-        {
-            return;
-        }
-
-        var action = _undoStack.Pop();
-
-        if (action.Palette is PaletteMicrosoft365Black blackPalette)
-        {
-            blackPalette.SetSchemeColor(action.ColorEnum, action.OldColor);
-        }
-
-        if (action.RowIndex >= 0 && action.RowIndex < this.dataGridViewPalette.Rows.Count &&
-            action.ColumnIndex >= 0 && action.ColumnIndex < this.dataGridViewPalette.Columns.Count)
-        {
-            DataGridViewCell cell = this.dataGridViewPalette.Rows[action.RowIndex].Cells[action.ColumnIndex];
-            cell.Value = "#" + action.OldColor.R.ToString("X2") + action.OldColor.G.ToString("X2") + action.OldColor.B.ToString("X2");
-            cell.Style.BackColor = action.OldColor;
-            cell.Style.ForeColor = ContrastColor(action.OldColor);
-            cell.Style.SelectionBackColor = AdjustSelectionBack(action.OldColor);
-            cell.Style.SelectionForeColor = cell.Style.ForeColor;
-
-            this.dataGridViewPalette.CurrentCell = null;
-            this.dataGridViewPalette.CurrentCell = cell;
-            this.dataGridViewPalette.Refresh();
-        }
-
-        if (KryptonManager.CurrentGlobalPalette == action.Palette)
-        {
-            this.Invalidate(true);
-        }
-    }
-
-    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-    {
-        if (keyData == (Keys.Control | Keys.Z))
-        {
-            UndoLastColorChange();
-            return true;
-        }
-
-        return base.ProcessCmdKey(ref msg, keyData);
     }
 }

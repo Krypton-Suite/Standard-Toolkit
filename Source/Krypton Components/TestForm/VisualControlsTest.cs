@@ -74,7 +74,7 @@ namespace TestForm
             ShowFormByName("VisualInformationBoxForm");
 
         private void kbtnVisualMultilineStringEditorForm_Click(object sender, EventArgs e) =>
-            ShowFormByName("VisualMultilineStringEditorForm", new string[] { "Alpha", "Beta", "Gamma" }, null, true, "Demo header", "Multiline Editor Demo");
+            ShowFormByName("VisualMultilineStringEditorForm", new string[] { "Alpha", "Beta", "Gamma" }, null!, true, "Demo header", "Multiline Editor Demo");
 
         private void kbtnVisualSplashScreen_Click(object sender, EventArgs e)
         {
