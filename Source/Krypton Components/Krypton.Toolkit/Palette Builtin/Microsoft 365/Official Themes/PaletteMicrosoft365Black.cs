@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -197,9 +197,11 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     public PaletteMicrosoft365Black() : base(_scheme, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
     {
     }
-    #endregion
+
+    #endregion Constructors
 
     #region Images
+
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.
     /// </summary>
@@ -208,9 +210,10 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     /// </returns>
     public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
-    #endregion
+    #endregion Images
 
     #region ButtonSpec
+
     /// <summary>
     /// Gets the image to display for the button.
     /// </summary>
@@ -347,7 +350,8 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
         },
         _ => base.GetButtonSpecImage(style, state)
     };
-    #endregion
+
+    #endregion ButtonSpec
 
     #region Tab Row Background
 
@@ -368,7 +372,7 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
 
-    #endregion
+    #endregion Tab Row Background
 
     #region AppButton Colors
 
@@ -381,5 +385,5 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     /// <inheritdoc />
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 
-    #endregion
+    #endregion AppButton Colors
 }

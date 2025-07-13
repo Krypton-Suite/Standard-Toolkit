@@ -2,10 +2,11 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
+
 namespace Krypton.ThemeGen;
 
 using System;
@@ -17,7 +18,21 @@ using System.Text.RegularExpressions;
 
 public static class SchemeGenerator
 {
-    private const string ArrayMarker = "private static readonly Color[] _schemeBaseColors";
+    // Header to prepend to all generated scheme files
+    private static readonly string LicenseHeader =
+"#region BSD License\n" +
+"/*\n" +
+" *\n" +
+" *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)\n" +
+" *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.\n" +
+" *\n" +
+" */\n" +
+"#endregion\n";
+
+    private const string BaseColorMarker = "private static readonly Color[] _schemeBaseColors";
+
+    // Marker for track-bar colour arrays found in palette classes
+    private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
     public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite)
     {
@@ -46,44 +61,114 @@ public static class SchemeGenerator
                 continue;
             }
             var colorsRaw = ExtractColorExpressions(palettePath);
-            if (colorsRaw.Count == 0) {
-                Console.Error.WriteLine($"{palettePath}: no colors found");
-                fail++;
-                continue;
-            }
-            var commentNames = ExtractArrayComments(palettePath);
-            var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
-            while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
-            while (commentNames.Count < maxLen) commentNames.Add(string.Empty);
+            bool hasBaseColors = colorsRaw.Count > 0;
 
-            List<string> alignedColors;
-            List<bool> missingFlags;
-            AlignColors(enumNames, colorsRaw, commentNames, out alignedColors, out missingFlags);
-
-            var className = Path.GetFileNameWithoutExtension(palettePath) + "Scheme";
-            var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
+            List<string> alignedColors = new();
+            List<bool> missingFlags = new();
+            string? destPath = null;
 
             var outputDir = string.IsNullOrWhiteSpace(outputFolder) ? Path.GetDirectoryName(palettePath)! : Path.GetFullPath(outputFolder);
             Directory.CreateDirectory(outputDir);
 
-            var destPath = Path.Combine(outputDir, className + ".cs");
-
-            if (dryRun)
+            if (hasBaseColors)
             {
-                Console.WriteLine(destPath);
-                continue;
+                var commentNames = ExtractArrayComments(palettePath);
+                var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
+                while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
+                while (commentNames.Count < maxLen) commentNames.Add(string.Empty);
+
+                AlignColors(enumNames, colorsRaw, commentNames, out alignedColors, out missingFlags);
+
+                var className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
+                var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
+
+                destPath = Path.Combine(outputDir, className + ".cs");
+
+                if (dryRun)
+                {
+                    Console.WriteLine(destPath);
+                }
+                else
+                {
+                    bool existed = File.Exists(destPath);
+                    if (existed && !overwrite)
+                    {
+                        Console.WriteLine(destPath + " *File exists, not replaced.");
+                    }
+                    else
+                    {
+                        File.WriteAllText(destPath, code, Encoding.UTF8);
+                        Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
+                        ok++;
+                    }
+                }
             }
 
-            bool existed = File.Exists(destPath);
-            if (existed && !overwrite)
+            // Prepare track-bar scheme generation (if the palette defines _trackBarColors)
+            string? trackDestPath = null;
+            var trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
+            if (trackBarColorsRaw.Count > 0)
             {
-                Console.WriteLine(destPath + " *File exists, not replaced.");
-                continue;
+                var trackEnumNames = ParseEnumNames(enumFile, "SchemeTrackBarColors");
+                if (trackEnumNames.Count == 0)
+                {
+                    Console.Error.WriteLine($"{palettePath}: scheme track-bar enum parse failed");
+                }
+                else
+                {
+                    // Map colours 1:1 by index; comments are irrelevant for track-bar schemes
+                    var trackAligned = new List<string>(trackEnumNames.Count);
+                    var trackMissing = new List<bool>(trackEnumNames.Count);
+                    for (int i = 0; i < trackEnumNames.Count; i++)
+                    {
+                        if (i < trackBarColorsRaw.Count)
+                        {
+                            trackAligned.Add(trackBarColorsRaw[i]);
+                            trackMissing.Add(false);
+                        }
+                        else
+                        {
+                            trackAligned.Add("GlobalStaticValues.EMPTY_COLOR");
+                            trackMissing.Add(true);
+                        }
+                    }
+
+                    var trackClassName = Path.GetFileNameWithoutExtension(palettePath) + "_TrackBarScheme";
+                    var trackCode = GenerateSchemeCode(trackClassName, trackAligned, trackEnumNames, trackMissing, "KryptonColorTrackBarSchemeBase", 44);
+                    trackDestPath = Path.Combine(outputDir, trackClassName + ".cs");
+
+                    if (dryRun)
+                    {
+                        Console.WriteLine(trackDestPath);
+                    }
+                    else
+                    {
+                        bool trackExists = File.Exists(trackDestPath);
+                        if (trackExists && !overwrite)
+                        {
+                            Console.WriteLine(trackDestPath + " *File exists, not replaced.");
+                        }
+                        else
+                        {
+                            File.WriteAllText(trackDestPath, trackCode, Encoding.UTF8);
+                            Console.WriteLine(trackDestPath + (trackExists ? " *Overwritten." : string.Empty));
+                            ok++;
+                        }
+                    }
+                }
             }
 
-            File.WriteAllText(destPath, code, Encoding.UTF8);
-            Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
-            ok++;
+            if (!hasBaseColors && trackBarColorsRaw.Count == 0)
+            {
+                Console.Error.WriteLine($"{palettePath}: no scheme arrays found");
+                fail++;
+            }
+
+            // When in dry-run mode we already printed paths above; simply continue next palette
+            if (dryRun) continue;
+
+            // Nothing further to do, base scheme handled earlier when hasBaseColors
+            continue;
         }
 
         if (fail > 0 && ok == 0) throw new InvalidOperationException("All palette generations failed");
@@ -105,7 +190,7 @@ public static class SchemeGenerator
         return lastMatch?.FullName ?? throw new InvalidOperationException("Unable to locate repo root");
     }
 
-    private static List<string> ParseEnumNames(string enumFile)
+    private static List<string> ParseEnumNames(string enumFile, string enumName = "SchemeBaseColors")
     {
         var result = new List<string>();
         var inside = false;
@@ -113,7 +198,7 @@ public static class SchemeGenerator
         {
             if (!inside)
             {
-                if (line.Contains("enum SchemeBaseColors")) inside = true;
+                if (line.Contains($"enum {enumName}")) inside = true;
                 continue;
             }
             if (line.Contains("}")) break;
@@ -125,10 +210,10 @@ public static class SchemeGenerator
         return result;
     }
 
-    private static List<string> ExtractColorExpressions(string palettePath)
+    private static List<string> ExtractColorExpressions(string palettePath, string marker = BaseColorMarker)
     {
         var lines = File.ReadAllLines(palettePath);
-        var start = Array.FindIndex(lines, l => l.Contains(ArrayMarker));
+        var start = Array.FindIndex(lines, l => l.Contains(marker));
         if (start < 0) return new List<string>();
         var colors = new List<string>();
         var current = new StringBuilder();
@@ -152,10 +237,10 @@ public static class SchemeGenerator
         return colors;
     }
 
-    private static List<string> ExtractArrayComments(string palettePath)
+    private static List<string> ExtractArrayComments(string palettePath, string marker = BaseColorMarker)
     {
         var lines = File.ReadAllLines(palettePath);
-        var start = Array.FindIndex(lines, l => l.Contains(ArrayMarker));
+        var start = Array.FindIndex(lines, l => l.Contains(marker));
         if (start < 0) return new List<string>();
 
         var names = new List<string>();
@@ -234,15 +319,15 @@ public static class SchemeGenerator
         }
     }
 
-    private static string GenerateSchemeCode(string className, IReadOnlyList<string> colors, IReadOnlyList<string> enumNames, IReadOnlyList<bool> missingFlags)
+    private static string GenerateSchemeCode(string className, IReadOnlyList<string> colors, IReadOnlyList<string> enumNames, IReadOnlyList<bool> missingFlags, string baseClassName = "KryptonColorSchemeBase", int braceCol = 59)
     {
         var ns = "Krypton.Toolkit";
         var sb = new StringBuilder();
+        sb.AppendLine(LicenseHeader);
         sb.AppendLine("namespace " + ns + ";");
         sb.AppendLine();
-        sb.AppendLine("public class " + className + " : AbstractBaseColorScheme");
+        sb.AppendLine("public sealed class " + className + " : " + baseClassName);
         sb.AppendLine("{");
-        const int braceCol = 60;
         var indent = new string(' ', 4);
         for (var i = 0; i < enumNames.Count; i++)
         {

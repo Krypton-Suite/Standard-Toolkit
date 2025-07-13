@@ -2,14 +2,14 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-public sealed class PaletteMicrosoft365BlackScheme : AbstractBaseColorScheme
+public sealed class PaletteMicrosoft365BlackScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                  { get; set; } = Color.FromArgb(70, 70, 70);
     public override Color TextButtonNormal                  { get; set; } = Color.FromArgb(70, 70, 70);

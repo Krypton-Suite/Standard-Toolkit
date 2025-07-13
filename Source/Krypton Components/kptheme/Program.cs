@@ -16,6 +16,14 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        var exitCode = MainInternal(args);
+        Console.WriteLine("--- Press ENTER to end the program. ---");
+        Console.ReadLine();
+        return exitCode;
+    }
+
+    private static int MainInternal(string[] args)
+    {
         if (args.Length == 0)
         {
             PrintGenSchemeUsage();
@@ -70,6 +78,10 @@ internal static class Program
             dict.TryGetValue("-o", out output);
         }
         var dryRun = dict.ContainsKey("--dry-run");
+        if (dryRun)
+        {
+            Console.WriteLine("Dry-run mode: no files will be written.");
+        }
         var overwrite = dict.ContainsKey("--overwrite");
         SchemeGenerator.Generate(palette ?? string.Empty, output ?? string.Empty, embedResx: dict.ContainsKey("--embed-resx"), dryRun: dryRun, overwrite: overwrite);
         return 0;

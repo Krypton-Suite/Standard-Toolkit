@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -839,6 +839,24 @@ public enum SchemeExtraColors
 
     /// <summary>Text color used in tooltips.</summary>
     ToolTipText = 35,
+}
+
+#endregion
+
+#region Enumeration: SchemeTrackBarColors
+
+/// <summary>
+/// Defines color roles used for rendering track bars.
+/// Each value represents a specific color usage within a trackbar.
+/// </summary>
+public enum SchemeTrackBarColors
+{
+    TickMarks       = 0, // Tick marks
+    TopTrack        = 1, // Top track
+    BottomTrack     = 2, // Bottom track
+    FillTrack       = 3, // Fill track
+    OutsidePosition = 4, // Outside position
+    BorderPosition  = 5  // Border (normal) position
 }
 
 #endregion

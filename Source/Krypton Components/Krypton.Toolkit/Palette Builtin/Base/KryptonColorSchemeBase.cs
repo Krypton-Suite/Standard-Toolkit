@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-public abstract class AbstractBaseColorScheme
+public abstract class KryptonColorSchemeBase
 {
     #region Variables
     public abstract Color TextLabelControl                 { get; set; }
