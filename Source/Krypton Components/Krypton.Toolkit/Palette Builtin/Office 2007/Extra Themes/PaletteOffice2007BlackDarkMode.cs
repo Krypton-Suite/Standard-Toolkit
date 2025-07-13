@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -189,7 +189,7 @@ public class PaletteOffice2007BlackDarkMode : PaletteOffice2007BlackDarkModeBase
         Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
         Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
         Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-        Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+        Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText
         Color.FromArgb(158, 163, 172), // AlternatePressedBack1
         Color.FromArgb(212, 215, 216), // AlternatePressedBack2
         Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -209,38 +209,38 @@ public class PaletteOffice2007BlackDarkMode : PaletteOffice2007BlackDarkModeBase
         Color.FromArgb(140, 140, 140), // RibbonQATMini3I
         Color.FromArgb(12, Color.White), // RibbonQATMini4I
         Color.FromArgb(14, Color.White), // RibbonQATMini5I
-        Color.FromArgb(141, 144, 147), // RibbonQATFullbar1                                                      
-        Color.FromArgb(133, 135, 137), // RibbonQATFullbar2                                                      
-        Color.FromArgb(93, 96, 100), // RibbonQATFullbar3                                                      
-        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark                                                      
-        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
-        Color.FromArgb(118, 128, 142), // RibbonQATOverflow1                                                      
-        Color.FromArgb(55, 60, 67), // RibbonQATOverflow2                                                      
+        Color.FromArgb(141, 144, 147), // RibbonQATFullbar1
+        Color.FromArgb(133, 135, 137), // RibbonQATFullbar2
+        Color.FromArgb(93, 96, 100), // RibbonQATFullbar3
+        Color.FromArgb(103, 103, 103), // RibbonQATButtonDark
+        Color.FromArgb(225, 225, 225), // RibbonQATButtonLight
+        Color.FromArgb(118, 128, 142), // RibbonQATOverflow1
+        Color.FromArgb(55, 60, 67), // RibbonQATOverflow2
         Color.FromArgb(163, 168,
-            170), // RibbonGroupSeparatorDark                                                      
+            170), // RibbonGroupSeparatorDark
         Color.FromArgb(230, 233,
-            235), // RibbonGroupSeparatorLight                                                      
+            235), // RibbonGroupSeparatorLight
         Color.FromArgb(210, 217,
-            219), // ButtonClusterButtonBack1                                                      
+            219), // ButtonClusterButtonBack1
         Color.FromArgb(214, 222,
-            223), // ButtonClusterButtonBack2                                                      
+            223), // ButtonClusterButtonBack2
         Color.FromArgb(179, 188,
-            191), // ButtonClusterButtonBorder1                                                      
+            191), // ButtonClusterButtonBorder1
         Color.FromArgb(145, 156,
-            159), // ButtonClusterButtonBorder2                                                      
-        Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-        Color.FromArgb(10, 10, 10), // GridListNormal1                                                    
-        Color.FromArgb(41, 41, 41), // GridListNormal2                                                    
-        Color.FromArgb(41, 41, 41), // GridListPressed1                                                    
-        Color.FromArgb(61, 61, 61), // GridListPressed2                                                    
-        Color.FromArgb(33, 33, 33), // GridListSelected                                                    
-        Color.FromArgb(10, 10, 10), // GridSheetColNormal1                                                    
-        Color.FromArgb(41, 41, 41), // GridSheetColNormal2                                                    
-        Color.FromArgb(224, 224, 224), // GridSheetColPressed1                                                    
-        Color.FromArgb(195, 195, 195), // GridSheetColPressed2                                                    
+            159), // ButtonClusterButtonBorder2
+        Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor
+        Color.FromArgb(10, 10, 10), // GridListNormal1
+        Color.FromArgb(41, 41, 41), // GridListNormal2
+        Color.FromArgb(41, 41, 41), // GridListPressed1
+        Color.FromArgb(61, 61, 61), // GridListPressed2
+        Color.FromArgb(33, 33, 33), // GridListSelected
+        Color.FromArgb(10, 10, 10), // GridSheetColNormal1
+        Color.FromArgb(41, 41, 41), // GridSheetColNormal2
+        Color.FromArgb(224, 224, 224), // GridSheetColPressed1
+        Color.FromArgb(195, 195, 195), // GridSheetColPressed2
         Color.FromArgb(91, 91, 91), // GridSheetColSelected1
         Color.FromArgb(33, 33, 33), // GridSheetColSelected2
-        Color.FromArgb(237, 237, 237), // GridSheetRowNormal                                                   
+        Color.FromArgb(237, 237, 237), // GridSheetRowNormal
         Color.FromArgb(196, 196, 196), // GridSheetRowPressed
         Color.FromArgb(61, 61, 61), // GridSheetRowSelected
         Color.FromArgb(188, 195, 209), // GridDataCellBorder
@@ -638,7 +638,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
     private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
     private static readonly Padding _contentPaddingDock = new Padding(2, 2, 2, 1);
     private static readonly Padding _contentPaddingCalendar = new Padding(2);
-    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);         
+    //private static readonly Padding _contentPaddingHeaderForm = new Padding(owningForm!.RealWindowBorders.Left, owningForm!.RealWindowBorders.Bottom / 2, 0, 0);
     private static readonly Padding _contentPaddingLabel = new Padding(3, 1, 3, 1);
     private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
     private static readonly Padding _contentPaddingButtonCalendar = new Padding(-1);
@@ -853,7 +853,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
     #region Instance Fields
     private KryptonColorTable2007BlackDarkMode? _table;
     private readonly Color[] _ribbonColours;
-    private readonly Color[] _trackBarColours;
+    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -904,7 +904,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
 
         if (trackBarColors != null)
         {
-            _trackBarColours = trackBarColors;
+            _trackBarColors = trackBarColors;
         }
 
         // Get the font settings from the system
@@ -5668,14 +5668,14 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[1];
+                return _trackBarColors[1];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColours[4]
+                    _ => _trackBarColors[4]
                 };
             default:
                 // Should never happen!
@@ -5704,9 +5704,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[2];
+                return _trackBarColors[2];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -5744,9 +5744,9 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -5786,14 +5786,14 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -5835,14 +5835,14 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[0];
+                return _trackBarColors[0];
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColours[3];
+                return _trackBarColors[3];
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
