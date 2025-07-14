@@ -29,6 +29,12 @@ public static class SchemeGenerator
 " */\n" +
 "#endregion\n";
 
+    // UTF8 encoding without BOM
+    private static readonly Encoding Utf8NoBom = new UTF8Encoding(false);
+
+    // Normalize line endings to CRLF
+    private static string ToCrLf(string text) => text.Replace("\r\n", "\n").Replace("\r", "").Replace("\n", "\r\n");
+
     private const string BaseColorMarker = "private static readonly Color[] _schemeBaseColors";
 
     // Marker for track-bar colour arrays found in palette classes
@@ -144,7 +150,7 @@ public static class SchemeGenerator
             }
             else
             {
-                File.WriteAllText(destPath, code, Encoding.UTF8);
+                File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
                 Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
                 ok++;
                 destWritten = true;
@@ -257,6 +263,13 @@ public static class SchemeGenerator
         {
             var line = lines[i];
             if (line.Contains("]")) break;
+
+            var codePart = line.Split(new[] { "//" }, 2, StringSplitOptions.None)[0].Trim();
+            if (codePart.Length == 0 || codePart == "[" || codePart == "]")
+            {
+                // Skip non-value lines (opening bracket, blank, etc.)
+                continue;
+            }
 
             var idx = line.LastIndexOf("//", StringComparison.Ordinal);
             if (idx >= 0)
@@ -396,7 +409,8 @@ public static class SchemeGenerator
             }
         }
 
-        File.WriteAllLines(filePath, lines);
+        var finalText = ToCrLf(string.Join("\r\n", lines));
+        File.WriteAllText(filePath, finalText, Utf8NoBom);
     }
 
     /// <summary>
@@ -436,7 +450,7 @@ public static class SchemeGenerator
             }
         }
 
-        File.WriteAllText(filePath, text);
+        File.WriteAllText(filePath, ToCrLf(text), Utf8NoBom);
     }
 
     private static IEnumerable<string> EnumeratePaletteFiles(string spec)

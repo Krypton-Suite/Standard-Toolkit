@@ -33,7 +33,7 @@ public static class SchemeBaseColorsExtensions
     }
 
     /// <summary>
-    /// Extracts the six TrackBar-related colours from a scheme into the legacy <see cref="Color[]"/> layout expected
+    /// Extracts the six TrackBar-related colours from a scheme into the legacy Color array layout expected
     /// by older palette constructors.
     /// </summary>
     /// <param name="scheme">Scheme instance.</param>
