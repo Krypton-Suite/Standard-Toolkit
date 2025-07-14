@@ -113,7 +113,10 @@ internal static class Program
         Console.WriteLine();
         Console.WriteLine("usage: kptheme genscheme [--dry-run] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r] [--embed-resx]");
         Console.WriteLine();
-        Console.WriteLine("Generate *Scheme.cs classes for Krypton palettes");
+        Console.WriteLine("Generates scheme classes for Krypton palettes (*._BaseScheme.cs and/or *_TrackBarScheme.cs)");
+        Console.WriteLine("- Generator will extract whichever of the arrays are present in the source file(s).");
+        Console.WriteLine("- Existing files will *not* be overwritten, unless --overwrite flag is used.");
+        Console.WriteLine("- Dry-run does *not* create any files, it'll only list *expected* filenames.");
         Console.WriteLine();
         Console.WriteLine("options:");
         Console.WriteLine("  --dry-run                Preview actions without writing files");
@@ -126,6 +129,6 @@ internal static class Program
         Console.WriteLine("  --embed-resx             Embed generated resources (*.resx) next to scheme");
         Console.WriteLine("  --overwrite              Overwrite existing *Scheme.cs files if present");
         Console.WriteLine();
-        Console.WriteLine("Example: kptheme genscheme --file PaletteOffice2010Blue.cs --output Generated --dry-run");
+        Console.WriteLine("Example: kptheme genscheme --file PaletteMicrosoft365White.cs --output Generated --dry-run");
     }
 }
