@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-public sealed class PaletteMicrosoft365BlackScheme : KryptonColorSchemeBase
+public sealed class PaletteMicrosoft365Black_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                  { get; set; } = Color.FromArgb(70, 70, 70);
     public override Color TextButtonNormal                  { get; set; } = Color.FromArgb(70, 70, 70);

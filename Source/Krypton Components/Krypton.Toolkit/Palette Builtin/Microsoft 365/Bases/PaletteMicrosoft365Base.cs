@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -223,11 +223,13 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     protected KryptonColorTable365? Table { get; set; }
 
-    private readonly KryptonColorSchemeBase _colorScheme;
+    protected readonly KryptonColorSchemeBase? BaseColors;
+
+    protected readonly KryptonColorTrackBarSchemeBase? TrackbarColors;
 
     private readonly Color[] _ribbonColors;
-
     private readonly Color[] _trackBarColors;
+
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
@@ -239,24 +241,24 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteMicrosoft365Base"/> class.
     /// </summary>
-    /// <param name="schemeColours">The scheme colours.</param>
+    /// <param name="schemeColors">The scheme colours.</param>
     /// <param name="checkBoxList">The check box list.</param>
     /// <param name="galleryButtonList">The gallery button list.</param>
     /// <param name="radioButtonArray">The radio button array.</param>
-    /// <param name="trackBarColours">The track bar colours.</param>
-    protected PaletteMicrosoft365Base([DisallowNull] Color[] schemeColours,
+    /// <param name="trackBarColors">The track bar colours.</param>
+    protected PaletteMicrosoft365Base([DisallowNull] Color[] schemeColors,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColours)
+        [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColors)
     {
-        Debug.Assert(schemeColours != null);
+        Debug.Assert(schemeColors != null);
         Debug.Assert(checkBoxList != null);
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        if (schemeColours != null)
+        if (schemeColors != null)
         {
-            _ribbonColors = schemeColours;
+            _ribbonColors = schemeColors;
         }
 
         if (checkBoxList != null)
@@ -274,9 +276,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             _radioButtonArray = radioButtonArray;
         }
 
-        if (trackBarColours != null)
+        if (trackBarColors != null)
         {
-            _trackBarColors = trackBarColours;
+            _trackBarColors = trackBarColors;
         }
 
         DefineFonts();
@@ -290,15 +292,16 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         KryptonColorSchemeBase scheme,
         ImageList checkBoxList,
         ImageList galleryButtonList,
-        Image?[]   radioButtonArray,
-        Color[]    trackBarColours)
+        Image?[]  radioButtonArray,
+        KryptonColorTrackBarSchemeBase trackBarScheme)
         : this(scheme.ToArray(),
                checkBoxList,
                galleryButtonList,
                radioButtonArray,
-               trackBarColours)
+               trackBarScheme.ToArray())
     {
-        _colorScheme = scheme;
+        BaseColors = scheme;
+        TrackbarColors = trackBarScheme;
     }
     #endregion
 

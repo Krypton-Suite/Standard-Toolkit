@@ -31,4 +31,31 @@ public static class SchemeBaseColorsExtensions
 
         return colors;
     }
+
+    /// <summary>
+    /// Converts the provided <see cref="KryptonColorTrackBarSchemeBase"/> into a <see cref="Color"/> array.
+    /// </summary>
+    /// <param name="scheme">Concrete color scheme instance containing properties that match the enumeration names.</param>
+    /// <returns>Array of colors indexed by <see cref="SchemeTrackBarColors"/> values.</returns>
+    public static Color[] ToArray(this KryptonColorTrackBarSchemeBase scheme)
+    {
+        if (scheme == null)
+        {
+            throw new ArgumentNullException(nameof(scheme));
+        }
+
+        var names = Enum.GetNames(typeof(SchemeTrackBarColors));
+        var colors = new Color[names.Length];
+        var type = scheme.GetType();
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            var property = type.GetProperty(names[i]);
+            colors[i] = property is null
+                ? GlobalStaticValues.EMPTY_COLOR
+                : (Color)property.GetValue(scheme)!;
+        }
+
+        return colors;
+    }
 }

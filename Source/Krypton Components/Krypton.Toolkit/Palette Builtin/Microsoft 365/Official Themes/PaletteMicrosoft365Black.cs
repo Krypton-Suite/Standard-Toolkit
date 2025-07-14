@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -23,30 +23,28 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
 
     private static readonly Color _tabRowBackgroundColor = Color.FromArgb(99, 99, 99);
 
-    #endregion
+    #endregion Colors
 
     #region Ribbon Specific Colors
 
     private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
-
     private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
-
     private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
-    #endregion
+    #endregion Ribbon Specific Colors
 
     #region Image Lists
 
     private static readonly ImageList _checkBoxList;
     private static readonly ImageList _galleryButtonList;
 
-    #endregion
+    #endregion Image Lists
 
     #region Image Array
 
     private static readonly Image?[] _radioButtonArray;
 
-    #endregion
+    #endregion Image Array
 
     #region Images
 
@@ -78,83 +76,40 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
     private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
 
+    #endregion Images
+
     #region Integrated Toolbar Images
 
     private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
-
     private static readonly Image _integratedToolbarNewDisabled = Office2019ToolbarImageResources.Office2019ToolbarNewDisabled;
-
     private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
-
     private static readonly Image _integratedToolbarOpenDisabled = Office2019ToolbarImageResources.Office2019ToolbarOpenDisabled;
-
     private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
-
     private static readonly Image _integratedToolbarSaveAllDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled;
-
     private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
-
     private static readonly Image _integratedToolbarSaveAsDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAsDisabled;
-
     private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
-
     private static readonly Image _integratedToolbarSaveDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveDisabled;
-
     private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
-
     private static readonly Image _integratedToolbarCutDisabled = Office2019ToolbarImageResources.Office2019ToolbarCutDisabled;
-
     private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
-
     private static readonly Image _integratedToolbarCopyDisabled = Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled;
-
     private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
-
     private static readonly Image _integratedToolbarPasteDisabled = Office2019ToolbarImageResources.Office2019ToolbarPasteDisabled;
-
     private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
-
     private static readonly Image _integratedToolbarUndoDisabled = Office2019ToolbarImageResources.Office2019ToolbarUndoDisabled;
-
     private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
-
     private static readonly Image _integratedToolbarRedoDisabled = Office2019ToolbarImageResources.Office2019ToolbarRedoDisabled;
-
     private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
-
     private static readonly Image _integratedToolbarPageSetupDisabled = Office2019ToolbarImageResources.Office2019ToolbarPageSetupDisabled;
-
     private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
-
     private static readonly Image _integratedToolbarPrintPreviewDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled;
-
     private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
-
     private static readonly Image _integratedToolbarPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintDisabled;
-
     private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
-
     private static readonly Image _integratedToolbarQuickPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintDisabled;
 
-    #endregion
-
-    #endregion
-
-    #region Colour Arrays
-
-    private static readonly Color[] _trackBarColors =
-    [
-        Color.FromArgb(17, 17, 17), // Tick marks
-        Color.FromArgb(37, 37, 37), // Top track
-        Color.FromArgb(174, 174, 174), // Bottom track
-        Color.FromArgb(131, 132, 132), // Fill track
-        Color.FromArgb(64, Color.White), // Outside position
-        Color.FromArgb(35, 35, 35) // Border (normal) position
-    ];
-
-    private static readonly PaletteMicrosoft365BlackScheme _scheme = new();
-
-    #endregion
+    #endregion Integrated Toolbar Images
 
     #endregion Static Fields
 
@@ -194,7 +149,12 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteMicrosoft365Black"/> class.
     /// </summary>
-    public PaletteMicrosoft365Black() : base(_scheme, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+    public PaletteMicrosoft365Black() : base(
+        new PaletteMicrosoft365Black_BaseScheme(),
+        _checkBoxList,
+        _galleryButtonList,
+        _radioButtonArray,
+        new PaletteMicrosoft365Black_TrackBarScheme())
     {
     }
 
