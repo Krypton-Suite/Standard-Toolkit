@@ -225,8 +225,6 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     protected readonly KryptonColorSchemeBase? BaseColors;
 
-    protected readonly KryptonColorTrackBarSchemeBase? TrackbarColors;
-
     private readonly Color[] _ribbonColors;
     private readonly Color[] _trackBarColors;
 
@@ -293,15 +291,14 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         ImageList checkBoxList,
         ImageList galleryButtonList,
         Image?[]  radioButtonArray,
-        KryptonColorTrackBarSchemeBase trackBarScheme)
+        Color[] trackBarColors)
         : this(scheme.ToArray(),
                checkBoxList,
                galleryButtonList,
                radioButtonArray,
-               trackBarScheme.ToArray())
+               trackBarColors)
     {
         BaseColors = scheme;
-        TrackbarColors = trackBarScheme;
     }
     #endregion
 
@@ -4389,7 +4386,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable365(_ribbonColors, InheritBool.True, this);
+    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable365(BaseColors?.ToArray() ?? _ribbonColors, InheritBool.True, this);
     #endregion
 
     #region Palette Helpers

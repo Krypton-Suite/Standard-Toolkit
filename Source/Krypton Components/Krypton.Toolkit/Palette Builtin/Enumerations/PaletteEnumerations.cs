@@ -718,7 +718,25 @@ public enum SchemeBaseColors
     DisabledMenuItemText = 231,
 
     /// <summary>Text color for menu strips.</summary>
-    MenuStripText = 232
+    MenuStripText = 232,
+
+    /// <summary>TrackBar Tick Marks color.</summary>
+    TrackBarTickMarks = 233,
+
+    /// <summary>TrackBar Top Track color.</summary>
+    TrackBarTopTrack = 234,
+
+    /// <summary>TrackBar Bottom Track color.</summary>
+    TrackBarBottomTrack = 235,
+
+    /// <summary>TrackBar Fill Track color.</summary>
+    TrackBarFillTrack = 236,
+
+    /// <summary>TrackBar Outside Position color.</summary>
+    TrackBarOutsidePosition = 237,
+
+    /// <summary>TrackBar Border Position color.</summary>
+    TrackBarBorderPosition = 238
 }
 
 #endregion
@@ -839,24 +857,6 @@ public enum SchemeExtraColors
 
     /// <summary>Text color used in tooltips.</summary>
     ToolTipText = 35,
-}
-
-#endregion
-
-#region Enumeration: SchemeTrackBarColors
-
-/// <summary>
-/// Defines color roles used for rendering track bars.
-/// Each value represents a specific color usage within a trackbar.
-/// </summary>
-public enum SchemeTrackBarColors
-{
-    TickMarks       = 0, // Tick marks
-    TopTrack        = 1, // Top track
-    BottomTrack     = 2, // Bottom track
-    FillTrack       = 3, // Fill track
-    OutsidePosition = 4, // Outside position
-    BorderPosition  = 5  // Border (normal) position
 }
 
 #endregion

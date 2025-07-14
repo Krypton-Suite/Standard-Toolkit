@@ -111,6 +111,20 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
 
     #endregion Integrated Toolbar Images
 
+    #region Colour Arrays
+
+    private static readonly Color[] _trackBarColors =
+    [
+        Color.FromArgb(17, 17, 17), // Tick marks
+        Color.FromArgb(37, 37, 37), // Top track
+        Color.FromArgb(174, 174, 174), // Bottom track
+        Color.FromArgb(131, 132, 132), // Fill track
+        Color.FromArgb(64, Color.White), // Outside position
+        Color.FromArgb(35, 35, 35) // Border (normal) position
+    ];
+
+    #endregion
+
     #endregion Static Fields
 
     #region Constructors
@@ -154,7 +168,7 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
         _checkBoxList,
         _galleryButtonList,
         _radioButtonArray,
-        new PaletteMicrosoft365Black_TrackBarScheme())
+        _trackBarColors)
     {
     }
 

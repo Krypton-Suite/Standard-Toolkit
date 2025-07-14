@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public abstract class KryptonColorSchemeBase
 {
     #region Variables
+
     public abstract Color TextLabelControl                 { get; set; }
     public abstract Color TextButtonNormal                 { get; set; }
     public abstract Color TextButtonChecked                { get; set; }
@@ -245,5 +246,12 @@ public abstract class KryptonColorSchemeBase
     public abstract Color MenuMarginGradientEnd            { get; set; }
     public abstract Color DisabledMenuItemText             { get; set; }
     public abstract Color MenuStripText                    { get; set; }
+    public abstract Color TrackBarTickMarks                { get; set; }
+    public abstract Color TrackBarTopTrack                 { get; set; }
+    public abstract Color TrackBarBottomTrack              { get; set; }
+    public abstract Color TrackBarFillTrack                { get; set; }
+    public abstract Color TrackBarOutsidePosition          { get; set; }
+    public abstract Color TrackBarBorderPosition           { get; set; }
+
     #endregion
 }

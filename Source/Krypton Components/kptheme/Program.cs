@@ -78,12 +78,18 @@ internal static class Program
             dict.TryGetValue("-o", out output);
         }
         var dryRun = dict.ContainsKey("--dry-run");
+        var remove = dict.ContainsKey("--remove");
         if (dryRun)
         {
             Console.WriteLine("Dry-run mode: no files will be written.");
         }
         var overwrite = dict.ContainsKey("--overwrite");
-        SchemeGenerator.Generate(palette ?? string.Empty, output ?? string.Empty, embedResx: dict.ContainsKey("--embed-resx"), dryRun: dryRun, overwrite: overwrite);
+        SchemeGenerator.Generate(palette ?? string.Empty,
+                                 output ?? string.Empty,
+                                 embedResx: dict.ContainsKey("--embed-resx"),
+                                 dryRun: dryRun,
+                                 overwrite: overwrite,
+                                 remove: remove);
         return 0;
     }
 
@@ -111,22 +117,23 @@ internal static class Program
     private static void PrintGenSchemeUsage()
     {
         Console.WriteLine();
-        Console.WriteLine("usage: kptheme genscheme [--dry-run] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r] [--embed-resx]");
+        Console.WriteLine("usage: kptheme genscheme [--dry-run] [--remove] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r]");
         Console.WriteLine();
-        Console.WriteLine("Generates scheme classes for Krypton palettes (*._BaseScheme.cs and/or *_TrackBarScheme.cs)");
+        Console.WriteLine("Generate *_BaseScheme.cs classes for Krypton palette files, optionally removing color arrays from the source");
         Console.WriteLine("- Generator will extract whichever of the arrays are present in the source file(s).");
         Console.WriteLine("- Existing files will *not* be overwritten, unless --overwrite flag is used.");
+        Console.WriteLine("- With --remove existing arrays will be removed from source palette files!");
         Console.WriteLine("- Dry-run does *not* create any files, it'll only list *expected* filenames.");
         Console.WriteLine();
         Console.WriteLine("options:");
         Console.WriteLine("  --dry-run                Preview actions without writing files");
+        Console.WriteLine("  --remove                 Remove colour arrays from palette source once generation succeeds");
         Console.WriteLine("  -o OUTPUT, --output OUTPUT");
         Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
         Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");
         Console.WriteLine("  -d DIRECTORY, --directory DIRECTORY");
         Console.WriteLine("                           Convert palette files under the given directory");
         Console.WriteLine("  -r, --recursive          With -d/--directory, also search sub-directories");
-        Console.WriteLine("  --embed-resx             Embed generated resources (*.resx) next to scheme");
         Console.WriteLine("  --overwrite              Overwrite existing *Scheme.cs files if present");
         Console.WriteLine();
         Console.WriteLine("Example: kptheme genscheme --file PaletteMicrosoft365White.cs --output Generated --dry-run");

@@ -244,4 +244,10 @@ public sealed class PaletteMicrosoft365Black_BaseScheme : KryptonColorSchemeBase
     public override Color MenuMarginGradientEnd             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color DisabledMenuItemText              { get; set; } = GlobalStaticValues.EMPTY_COLOR;
     public override Color MenuStripText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color TrackBarTickMarks                 { get; set; } = Color.FromArgb(17, 17, 17);
+    public override Color TrackBarTopTrack                  { get; set; } = Color.FromArgb(37, 37, 37);
+    public override Color TrackBarBottomTrack               { get; set; } = Color.FromArgb(174, 174, 174);
+    public override Color TrackBarFillTrack                 { get; set; } = Color.FromArgb(131, 132, 132);
+    public override Color TrackBarOutsidePosition           { get; set; } = Color.FromArgb(64, Color.White);
+    public override Color TrackBarBorderPosition            { get; set; } = Color.FromArgb(35, 35, 35);
 }

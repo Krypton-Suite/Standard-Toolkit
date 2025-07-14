@@ -34,13 +34,23 @@ public static class SchemeGenerator
     // Marker for track-bar colour arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
-    public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite)
+    public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite, bool remove)
     {
         if (string.IsNullOrWhiteSpace(paletteFile)) throw new ArgumentException("paletteFile");
 
-        static bool IsBasePalette(string path) => Path.GetFileName(path).EndsWith("Base.cs", StringComparison.OrdinalIgnoreCase) && Path.GetFileName(path).StartsWith("Palette", StringComparison.OrdinalIgnoreCase);
+        static bool ShouldSkipPaletteFile(string path)
+        {
+            var fileName = Path.GetFileName(path);
+            // Skip original base palette classes like "PaletteOffice2010Base.cs"
+            if (fileName.EndsWith("Base.cs", StringComparison.OrdinalIgnoreCase) && fileName.StartsWith("Palette", StringComparison.OrdinalIgnoreCase)) return true;
 
-        var files = EnumeratePaletteFiles(paletteFile).Where(f => !IsBasePalette(f)).ToArray();
+            // Skip any previously generated scheme classes
+            if (fileName.EndsWith("_BaseScheme.cs", StringComparison.OrdinalIgnoreCase)) return true;
+
+            return false;
+        }
+
+        var files = EnumeratePaletteFiles(paletteFile).Where(f => !ShouldSkipPaletteFile(f)).ToArray();
         if (files.Length == 0) throw new FileNotFoundException($"No palette file found matching '{paletteFile}' (after excluding base classes)");
 
         int ok = 0, fail = 0;
@@ -61,118 +71,117 @@ public static class SchemeGenerator
                 continue;
             }
             var colorsRaw = ExtractColorExpressions(palettePath);
-            bool hasBaseColors = colorsRaw.Count > 0;
+            var trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
+
+            // If no arrays found at all, report and continue
+            if (colorsRaw.Count == 0 && trackBarColorsRaw.Count == 0)
+            {
+                Console.Error.WriteLine($"{palettePath}: no scheme arrays found");
+                fail++;
+                continue;
+            }
 
             List<string> alignedColors = new();
             List<bool> missingFlags = new();
             string? destPath = null;
 
-            var outputDir = string.IsNullOrWhiteSpace(outputFolder) ? Path.GetDirectoryName(palettePath)! : Path.GetFullPath(outputFolder);
+            var outputDir = string.IsNullOrWhiteSpace(outputFolder)
+                ? Path.Combine(Path.GetDirectoryName(palettePath)!, "Schemes")
+                : Path.GetFullPath(outputFolder);
             Directory.CreateDirectory(outputDir);
 
-            if (hasBaseColors)
-            {
-                var commentNames = ExtractArrayComments(palettePath);
-                var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
-                while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
-                while (commentNames.Count < maxLen) commentNames.Add(string.Empty);
+            // Align base colours first (may be empty)
+            var commentNames = ExtractArrayComments(palettePath);
+            var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
+            while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
+            while (commentNames.Count < maxLen) commentNames.Add(string.Empty);
 
-                AlignColors(enumNames, colorsRaw, commentNames, out alignedColors, out missingFlags);
+            AlignColors(enumNames, colorsRaw, commentNames, out alignedColors, out missingFlags);
 
-                var className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
-                var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
-
-                destPath = Path.Combine(outputDir, className + ".cs");
-
-                if (dryRun)
-                {
-                    Console.WriteLine(destPath);
-                }
-                else
-                {
-                    bool existed = File.Exists(destPath);
-                    if (existed && !overwrite)
-                    {
-                        Console.WriteLine(destPath + " *File exists, not replaced.");
-                    }
-                    else
-                    {
-                        File.WriteAllText(destPath, code, Encoding.UTF8);
-                        Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
-                        ok++;
-                    }
-                }
-            }
-
-            // Prepare track-bar scheme generation (if the palette defines _trackBarColors)
-            string? trackDestPath = null;
-            var trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
+            // Overlay track-bar colours onto the aligned list
             if (trackBarColorsRaw.Count > 0)
             {
-                var trackEnumNames = ParseEnumNames(enumFile, "SchemeTrackBarColors");
-                if (trackEnumNames.Count == 0)
+                string[] trackBarEnumNames =
                 {
-                    Console.Error.WriteLine($"{palettePath}: scheme track-bar enum parse failed");
-                }
-                else
+                    "TrackBarTickMarks",
+                    "TrackBarTopTrack",
+                    "TrackBarBottomTrack",
+                    "TrackBarFillTrack",
+                    "TrackBarOutsidePosition",
+                    "TrackBarBorderPosition"
+                };
+
+                for (int i = 0; i < trackBarEnumNames.Length; i++)
                 {
-                    // Map colours 1:1 by index; comments are irrelevant for track-bar schemes
-                    var trackAligned = new List<string>(trackEnumNames.Count);
-                    var trackMissing = new List<bool>(trackEnumNames.Count);
-                    for (int i = 0; i < trackEnumNames.Count; i++)
+                    var idx = enumNames.IndexOf(trackBarEnumNames[i]);
+                    if (idx >= 0)
                     {
                         if (i < trackBarColorsRaw.Count)
                         {
-                            trackAligned.Add(trackBarColorsRaw[i]);
-                            trackMissing.Add(false);
-                        }
-                        else
-                        {
-                            trackAligned.Add("GlobalStaticValues.EMPTY_COLOR");
-                            trackMissing.Add(true);
-                        }
-                    }
-
-                    var trackClassName = Path.GetFileNameWithoutExtension(palettePath) + "_TrackBarScheme";
-                    var trackCode = GenerateSchemeCode(trackClassName, trackAligned, trackEnumNames, trackMissing, "KryptonColorTrackBarSchemeBase", 44);
-                    trackDestPath = Path.Combine(outputDir, trackClassName + ".cs");
-
-                    if (dryRun)
-                    {
-                        Console.WriteLine(trackDestPath);
-                    }
-                    else
-                    {
-                        bool trackExists = File.Exists(trackDestPath);
-                        if (trackExists && !overwrite)
-                        {
-                            Console.WriteLine(trackDestPath + " *File exists, not replaced.");
-                        }
-                        else
-                        {
-                            File.WriteAllText(trackDestPath, trackCode, Encoding.UTF8);
-                            Console.WriteLine(trackDestPath + (trackExists ? " *Overwritten." : string.Empty));
-                            ok++;
+                            alignedColors[idx] = trackBarColorsRaw[i];
+                            missingFlags[idx] = false;
                         }
                     }
                 }
             }
 
-            if (!hasBaseColors && trackBarColorsRaw.Count == 0)
+            var className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
+            var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
+
+            destPath = Path.Combine(outputDir, className + ".cs");
+
+            if (dryRun)
             {
-                Console.Error.WriteLine($"{palettePath}: no scheme arrays found");
-                fail++;
+                Console.WriteLine(destPath);
+                continue;
             }
 
-            // When in dry-run mode we already printed paths above; simply continue next palette
-            if (dryRun) continue;
+            bool existed = File.Exists(destPath);
+            bool destWritten = false;
+            if (existed && !overwrite)
+            {
+                Console.WriteLine(destPath + " *File exists, not replaced.");
+            }
+            else
+            {
+                File.WriteAllText(destPath, code, Encoding.UTF8);
+                Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
+                ok++;
+                destWritten = true;
+            }
 
-            // Nothing further to do, base scheme handled earlier when hasBaseColors
+            // Optional removal of processed arrays from the palette source
+            if (remove && destWritten && !dryRun)
+            {
+                if (colorsRaw.Count > 0)
+                {
+                    RemoveArrayFromFile(palettePath, BaseColorMarker);
+                }
+                if (trackBarColorsRaw.Count > 0)
+                {
+                    RemoveArrayFromFile(palettePath, TrackBarColorMarker);
+                }
+
+                // Update constructor arguments to use generated scheme + extension method
+                UpdateConstructorArguments(palettePath, className);
+            }
+
+            // done processing this palette
             continue;
         }
 
-        if (fail > 0 && ok == 0) throw new InvalidOperationException("All palette generations failed");
-        if (fail > 0 && ok > 0) Console.Error.WriteLine($"{fail} palette files failed");
+        if (!dryRun)
+        {
+            if (fail > 0 && ok == 0)
+            {
+                throw new InvalidOperationException("All palette generations failed");
+            }
+
+            if (fail > 0 && ok > 0)
+            {
+                Console.Error.WriteLine($"{fail} palette files failed");
+            }
+        }
     }
 
     private static string LocateRepoRoot(string start)
@@ -345,6 +354,89 @@ public static class SchemeGenerator
         }
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Removes the field declaration that begins with the given marker from a source file.
+    /// </summary>
+    private static void RemoveArrayFromFile(string filePath, string marker)
+    {
+        var lines = File.ReadAllLines(filePath).ToList();
+        int start = lines.FindIndex(l => l.Contains(marker));
+        if (start < 0) return; // nothing to remove
+
+        int bracketDepth = 0;
+        int end = -1;
+
+        for (int i = start; i < lines.Count; i++)
+        {
+            string line = lines[i];
+            bracketDepth += line.Count(c => c == '[');
+            bracketDepth -= line.Count(c => c == ']');
+
+            // Once brackets balance out and a semicolon is encountered, we've reached the end
+            if (bracketDepth == 0 && line.Contains(";"))
+            {
+                end = i;
+                break;
+            }
+        }
+
+        if (end < 0) return; // unmatched – abort
+
+        lines.RemoveRange(start, end - start + 1);
+
+        // Remove any consecutive blank lines introduced by deletion
+        for (int i = Math.Max(0, start - 1); i < lines.Count - 1; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]) && string.IsNullOrWhiteSpace(lines[i + 1]))
+            {
+                lines.RemoveAt(i);
+                i--; // stay at same index
+            }
+        }
+
+        File.WriteAllLines(filePath, lines);
+    }
+
+    /// <summary>
+    /// Replaces constructor arguments referencing the removed arrays with calls to the generated scheme class.
+    /// </summary>
+    private static void UpdateConstructorArguments(string filePath, string schemeClassName)
+    {
+        var text = File.ReadAllText(filePath);
+
+        var schemeCtor = $"new {schemeClassName}()";
+
+        // 1) Default replacements (arrays removed in most contexts)
+        text = Regex.Replace(text, "\\b_schemeBaseColors\\b", schemeCtor + ".ToArray()");
+        text = Regex.Replace(text, "\\b_trackBarColors\\b", schemeCtor + ".ToTrackBarArray()");
+
+        // 2) Fix the base-constructor argument list which should receive the scheme instance, not its array
+        var baseIdx = text.IndexOf(": base(");
+        if (baseIdx >= 0)
+        {
+            int openIdx = text.IndexOf('(', baseIdx);
+            if (openIdx > -1)
+            {
+                int depth = 1;
+                int i = openIdx + 1;
+                for (; i < text.Length && depth > 0; i++)
+                {
+                    if (text[i] == '(') depth++;
+                    else if (text[i] == ')') depth--;
+                }
+                if (depth == 0)
+                {
+                    var callSpan = text.Substring(openIdx + 1, i - openIdx - 2); // inside parentheses
+                    var fixedSpan = callSpan.Replace(schemeCtor + ".ToArray()", schemeCtor);
+                    // trackbar should stay array
+                    text = text.Remove(openIdx + 1, callSpan.Length).Insert(openIdx + 1, fixedSpan);
+                }
+            }
+        }
+
+        File.WriteAllText(filePath, text);
     }
 
     private static IEnumerable<string> EnumeratePaletteFiles(string spec)
