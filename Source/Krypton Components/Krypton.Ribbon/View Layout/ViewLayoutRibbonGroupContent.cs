@@ -630,7 +630,8 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
         // We take on all the available display area and then remove our constant padding
         ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
 
-        var x = ClientLocation.X;
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+        int x = isRtl ? ClientRectangle.Right : ClientLocation.X;
 
         // Are there any children to layout?
         if (Count > 0)
@@ -638,9 +639,15 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
             var y = ClientLocation.Y;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
-            for (int i = 0, j = 0; i < Count; i++)
+            // Determine layout order based on RTL
+            IEnumerable<int> childIndices = isRtl
+                ? Enumerable.Range(0, Count).Reverse()
+                : Enumerable.Range(0, Count);
+
+            int containerWidthIndex = 0;
+            foreach (int childIdxIter in childIndices)
             {
+                int i = childIdxIter;
                 ViewBase? child = this[i];
 
                 // We only position visible items
@@ -650,7 +657,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
 
                     if ((_containerWidths != null) && (child is IRibbonViewGroupContainerView))
                     {
-                        childSize = new Size(_containerWidths[j++], _ribbon.CalculatedValues.GroupTripleHeight);
+                        childSize = new Size(_containerWidths[containerWidthIndex++], _ribbon.CalculatedValues.GroupTripleHeight);
                     }
                     else
                     {
@@ -660,14 +667,25 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
                     // Only interested in items with some width
                     if (childSize.Width > 0)
                     {
-                        // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
-
-                        // Position the element
+                        Rectangle childRect;
+                        if (isRtl)
+                        {
+                            x -= childSize.Width;
+                            childRect = new Rectangle(x, y, childSize.Width, height);
+                        }
+                        else
+                        {
+                            childRect = new Rectangle(x, y, childSize.Width, height);
+                            x += childSize.Width;
+                        }
+                        context.DisplayRectangle = childRect;
                         this[i]!.Layout(context);
 
-                        // Move across to next position (add 1 extra as the spacing gap)
-                        x += childSize.Width + 1;
+                        // Add spacing gap (except for the last item in RTL mode)
+                        if (!isRtl || childIdxIter != childIndices.Last())
+                        {
+                            x += isRtl ? -1 : 1;
+                        }
                     }
                 }
             }
@@ -686,8 +704,14 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
 
         var regenerate = new ContainerToView();
 
+        // Determine container order based on RTL
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+        IEnumerable<KryptonRibbonGroupContainer> containerOrder = isRtl
+            ? _ribbonGroup.Items.Reverse()
+            : _ribbonGroup.Items;
+
         // Add a view element for each group item
-        foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
+        foreach (KryptonRibbonGroupContainer container in containerOrder)
         {
             // Do we already have a view for this container definition
             ViewBase containerView = _containerToView.TryGetValue(container, out ViewBase? value)

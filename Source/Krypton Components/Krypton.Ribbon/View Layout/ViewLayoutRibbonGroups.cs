@@ -312,7 +312,8 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
+        bool isRtl = _ribbon is { RightToLeft: RightToLeft.Yes };
+        int x = isRtl ? ClientRectangle.Right : ClientLocation.X;
 
         // Are there any children to layout?
         if (Count > 0)
@@ -320,17 +321,20 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             var y = ClientLocation.Y;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
-            for (int i = 0, j = 0; i < Count; i++)
+            // Lay out children in the correct order for RTL or LTR
+            IEnumerable<int> childIndices = isRtl
+                ? Enumerable.Range(0, Count).Reverse()
+                : Enumerable.Range(0, Count);
+
+            for (int childIdxIter = 0, j = 0; childIdxIter < Count; childIdxIter++)
             {
+                int i = childIndices.ElementAt(childIdxIter);
                 ViewBase? child = this[i];
 
                 // We only position visible items
                 if (child!.Visible)
                 {
                     // Cache preferred size of the child
-
-                    // If a group then pull in the cached value
                     Size childSize = child is ViewDrawRibbonGroup
                         ? new Size(_groupWidths[j++], _ribbon!.CalculatedValues.GroupHeight)
                         : this[i]!.GetPreferredSize(context);
@@ -338,24 +342,29 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                     // Only interested in items with some width
                     if (childSize.Width > 0)
                     {
-                        // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
-
-                        // Position the element
+                        Rectangle childRect;
+                        if (isRtl)
+                        {
+                            x -= childSize.Width;
+                            childRect = new Rectangle(x, y, childSize.Width, height);
+                        }
+                        else
+                        {
+                            childRect = new Rectangle(x, y, childSize.Width, height);
+                            x += childSize.Width;
+                        }
+                        context.DisplayRectangle = childRect;
                         this[i]?.Layout(context);
-
-                        // Move across to next position
-                        x += childSize.Width;
                     }
                 }
             }
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 
@@ -423,14 +432,20 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         // We ignore the first separator
         var ignoreSep = true;
 
-        // Add child elements appropriate for each ribbon group
-        for (var i = 0; i < _ribbonTab.Groups.Count; i++)
+        // Determine group and separator order based on RTL
+        bool isRtl = _ribbon is { RightToLeft: RightToLeft.Yes };
+        int groupCount = _ribbonTab.Groups.Count;
+        IEnumerable<int> groupIndices = isRtl
+            ? Enumerable.Range(0, groupCount).Reverse()
+            : Enumerable.Range(0, groupCount);
+
+        foreach (int idx in groupIndices)
         {
-            KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[i];
+            KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[idx];
 
             // Only make the separator visible if the group is and not the first sep
             var groupVisible = _ribbon!.InDesignHelperMode || ribbonGroup.Visible;
-            _groupSepCache[i].Visible = groupVisible && !ignoreSep;
+            _groupSepCache[idx].Visible = groupVisible && !ignoreSep;
             regenerate[ribbonGroup].Visible = groupVisible;
 
             // Only add a separator for the second group onwards
@@ -439,7 +454,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 ignoreSep = false;
             }
 
-            Add(_groupSepCache[i]);
+            Add(_groupSepCache[idx]);
             Add(regenerate[ribbonGroup]);
 
             // Remove entries we still are using

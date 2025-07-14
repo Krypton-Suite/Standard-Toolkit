@@ -3204,4 +3204,15 @@ public class KryptonRibbon : VisualSimple,
         }
     }
     #endregion
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        base.OnRightToLeftChanged(e);
+        // Invalidate and relayout the ribbon for RTL changes
+        PerformNeedPaint(true);
+    }
 }

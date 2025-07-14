@@ -265,8 +265,9 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
-        var right = ClientRectangle.Right;
+        bool isRtl = Ribbon.RightToLeft == RightToLeft.Yes;
+        int x = isRtl ? ClientRectangle.Right : ClientLocation.X;
+        int right = ClientRectangle.Right;
 
         // If we need to show the extra button
         if (_extraButton != null)
@@ -274,8 +275,15 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
             // Find size of the extra button
             Size childSize = _extraButton.GetPreferredSize(context);
 
-            // Make sure there is always enough room for it at the right hand side
-            right -= childSize.Width;
+            // Make sure there is always enough room for it at the appropriate side
+            if (isRtl)
+            {
+                x -= childSize.Width;
+            }
+            else
+            {
+                right -= childSize.Width;
+            }
         }
 
         var y = ClientLocation.Y;
@@ -285,9 +293,14 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         // Are there any children to layout?
         if (Count > 0)
         {
-            // Position each item from left to right taking up entire height
-            for (var i = 0; i < Count; i++)
+            // Determine layout order based on RTL
+            IEnumerable<int> childIndices = isRtl
+                ? Enumerable.Range(0, Count).Reverse()
+                : Enumerable.Range(0, Count);
+
+            foreach (int childIdxIter in childIndices)
             {
+                int i = childIdxIter;
                 ViewBase? child = this[i];
 
                 // We only position visible items, and we always ignore the extra button
@@ -298,17 +311,26 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
                         // Cache preferred size of the child
                         Size childSize = this[i]!.GetPreferredSize(context);
 
-                        // Is there enough width for this item to be displayed
-                        if ((childSize.Width + x) <= right)
+                        // Check if there's enough width for this item
+                        bool hasSpace = isRtl
+                            ? (x - childSize.Width) >= ClientLocation.X
+                            : (childSize.Width + x) <= right;
+
+                        if (hasSpace)
                         {
-                            // Define display rectangle for the group
-                            context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
-
-                            // Position the element
+                            Rectangle childRect;
+                            if (isRtl)
+                            {
+                                x -= childSize.Width;
+                                childRect = new Rectangle(x, y, childSize.Width, height);
+                            }
+                            else
+                            {
+                                childRect = new Rectangle(x, y, childSize.Width, height);
+                                x += childSize.Width;
+                            }
+                            context.DisplayRectangle = childRect;
                             this[i]!.Layout(context);
-
-                            // Move across to next position
-                            x += childSize.Width;
                         }
                         else
                         {
@@ -340,17 +362,26 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
             // Cache preferred size of the child
             Size childSize = _extraButton.GetPreferredSize(context);
 
-            // Is there enough width for this item to be displayed
-            if ((childSize.Width + x) <= ClientRectangle.Right)
+            // Check if there's enough width for the extra button
+            bool hasSpace = isRtl
+                ? (x - childSize.Width) >= ClientLocation.X
+                : (childSize.Width + x) <= ClientRectangle.Right;
+
+            if (hasSpace)
             {
-                // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
-
-                // Position the element
+                Rectangle extraRect;
+                if (isRtl)
+                {
+                    x -= childSize.Width;
+                    extraRect = new Rectangle(x, y, childSize.Width, height);
+                }
+                else
+                {
+                    extraRect = new Rectangle(x, y, childSize.Width, height);
+                    x += childSize.Width;
+                }
+                context.DisplayRectangle = extraRect;
                 _extraButton.Layout(context);
-
-                // Move across to next position
-                x += childSize.Width;
             }
 
             // Should button show as overflow or customization
@@ -358,10 +389,10 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 
@@ -541,8 +572,14 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
             regenerate.Add(qatButton, view);
         }
 
+        // Determine button order based on RTL
+        bool isRtl = Ribbon.RightToLeft == RightToLeft.Yes;
+        var buttonOrder = isRtl
+            ? qatButtons.AsEnumerable().Reverse().ToArray()
+            : qatButtons;
+
         // Add child elements appropriate for each qat button
-        foreach (IQuickAccessToolbarButton qatButton in qatButtons)
+        foreach (IQuickAccessToolbarButton qatButton in buttonOrder)
         {
             // Does the layout processing require the view to be updated
             if (layout)

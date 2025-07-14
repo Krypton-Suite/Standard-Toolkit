@@ -1645,10 +1645,44 @@ public class KryptonDataGridView : DataGridView
         _drawPanel.Enabled = Enabled;
 
         // Change in enabled state requires a layout and repaint
-        OnNeedResyncPaint(this, new NeedLayoutEventArgs(true));
+        PerformNeedPaint(true);
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that DataGridView columns are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The method triggers the necessary layout and repaint updates to reflect RTL changes.
+    /// Column order and positioning are handled by the base DataGridView RTL support.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force a layout update to reflect RTL changes
+        PerformNeedPaint(true);
+        
+        // Invalidate the control to trigger a repaint
+        Invalidate();
+        
+        // Sync cell styles to ensure proper RTL alignment
+        SyncCellStylesWithPalette();
     }
 
     /// <summary>
@@ -2286,6 +2320,17 @@ public class KryptonDataGridView : DataGridView
     private DataGridViewContentAlignment RelativeToAlign(PaletteRelativeAlign textH,
         PaletteRelativeAlign textV)
     {
+        // In RTL mode, we need to mirror the horizontal alignment
+        if (RightToLeftInternal)
+        {
+            textH = textH switch
+            {
+                PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                _ => textH
+            };
+        }
+
         switch (textH)
         {
             case PaletteRelativeAlign.Near:

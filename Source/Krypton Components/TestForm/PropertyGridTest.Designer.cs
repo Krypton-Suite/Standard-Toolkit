@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kpgExample = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kpgExample = new Krypton.Toolkit.KryptonPropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -43,18 +43,8 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(387, 535);
+            this.kryptonPanel1.Size = new System.Drawing.Size(405, 534);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kpgExample
-            // 
-            this.kpgExample.Location = new System.Drawing.Point(13, 41);
-            this.kpgExample.Name = "kpgExample";
-            this.kpgExample.Padding = new System.Windows.Forms.Padding(1);
-            this.kpgExample.SelectedObject = this.kpgExample;
-            this.kpgExample.Size = new System.Drawing.Size(362, 485);
-            this.kpgExample.TabIndex = 0;
-            this.kpgExample.Text = "kryptonPropertyGrid1";
             // 
             // kryptonThemeComboBox1
             // 
@@ -67,11 +57,21 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
+            // kpgExample
+            // 
+            this.kpgExample.Location = new System.Drawing.Point(13, 41);
+            this.kpgExample.Name = "kpgExample";
+            this.kpgExample.Padding = new System.Windows.Forms.Padding(1);
+            this.kpgExample.SelectedObject = this.kpgExample;
+            this.kpgExample.Size = new System.Drawing.Size(362, 485);
+            this.kpgExample.TabIndex = 0;
+            this.kpgExample.Text = "kryptonPropertyGrid1";
+            // 
             // PropertyGridTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 535);
+            this.ClientSize = new System.Drawing.Size(405, 534);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;

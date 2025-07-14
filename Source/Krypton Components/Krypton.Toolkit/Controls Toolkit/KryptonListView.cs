@@ -1625,6 +1625,22 @@ public class KryptonListView : VisualControlBase,
         base.OnMouseLeave(e);
     }
 
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Update the internal ListView RTL settings
+        _listView.RightToLeft = RightToLeft;
+        _listView.RightToLeftLayout = CommonHelper.GetRightToLeftLayout(this);
+        
+        // Trigger layout update
+        PerformNeedPaint(true);
+        
+        base.OnRightToLeftChanged(e);
+    }
+
     /// <inheritdoc />
     protected override void OnNotifyMessage(Message m)
     {

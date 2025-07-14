@@ -619,16 +619,31 @@ public class KryptonDomainUpDown : VisualControlBase,
                     this, VisualOrientation.Top, false);
             }
 
-            // Update with the latset button style for the up/down buttons
+            // Update with the latest button style for the up/down buttons
             _palette.SetStyles(DomainUpDown.UpDownButtonStyle);
 
-            // Find button rectangles
-            var upRect = clientRect with { Height = clientRect.Height / 2 };
-            var downRect = clientRect with { Y = upRect.Bottom, Height = clientRect.Bottom - upRect.Bottom };
+            // Determine if we're in RTL mode
+            bool isRtl = DomainUpDown.RightToLeft == RightToLeft.Yes;
+
+            // Find button rectangles - in RTL mode, swap the button positions
+            Rectangle upRect, downRect;
+            if (isRtl)
+            {
+                // In RTL mode, down button is on top, up button is on bottom
+                downRect = clientRect with { Height = clientRect.Height / 2 };
+                upRect = clientRect with { Y = downRect.Bottom, Height = clientRect.Bottom - downRect.Bottom };
+            }
+            else
+            {
+                // In LTR mode, up button is on top, down button is on bottom
+                upRect = clientRect with { Height = clientRect.Height / 2 };
+                downRect = clientRect with { Y = upRect.Bottom, Height = clientRect.Bottom - upRect.Bottom };
+            }
 
             // Position and draw the up/down buttons
             using var layoutContext = new ViewLayoutContext(DomainUpDown, DomainUpDown.Renderer);
             using var renderContext = new RenderContext(DomainUpDown, g, clientRect, DomainUpDown.Renderer);
+            
             // Up button
             layoutContext.DisplayRectangle = upRect;
             _viewButton.ElementState = ButtonElementState(upRect);
@@ -965,7 +980,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     [AmbientValue(null)]
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override Font Font
+    public override Font Font 
     {
         get => base.Font;
         set => base.Font = value;
@@ -1544,15 +1559,49 @@ public class KryptonDomainUpDown : VisualControlBase,
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
-        _drawDockerOuter.Enabled = Enabled;
 
         // Update state to reflect change in enabled state
-        _buttonManager.RefreshButtons();
+        _buttonManager?.RefreshButtons();
 
         PerformNeedPaint(true);
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that the domain up/down control is properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called when the RightToLeft property changes to update the layout accordingly.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force layout update for RTL changes
+        ForceControlLayout();
+        
+        // Invalidate the control for repaint
+        Invalidate();
+        
+        // Update the internal domain up/down control RTL settings
+        if (_domainUpDown != null)
+        {
+            _domainUpDown.RightToLeft = RightToLeft;
+        }
     }
 
     /// <summary>

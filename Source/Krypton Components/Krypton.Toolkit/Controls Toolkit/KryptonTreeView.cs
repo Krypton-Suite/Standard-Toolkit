@@ -2168,9 +2168,22 @@ public class KryptonTreeView : VisualControlBase,
 
             // Create indent rectangle and adjust bounds for remainder
             var nodeIndent = NodeIndent(e.Node) + 2;
-            var indentBounds = bounds with { X = bounds.X + nodeIndent - indent, Width = indent };
-            bounds.X += nodeIndent;
-            bounds.Width -= nodeIndent;
+            
+            // In RTL mode, adjust the bounds calculation for proper mirroring
+            Rectangle indentBounds;
+            if (RightToLeft == RightToLeft.Yes && RightToLeftLayout)
+            {
+                // For RTL, the indent area is on the right side
+                indentBounds = bounds with { X = bounds.Right - indent, Width = indent };
+                bounds.Width -= nodeIndent;
+            }
+            else
+            {
+                // For LTR, the indent area is on the left side
+                indentBounds = bounds with { X = bounds.X + nodeIndent - indent, Width = indent };
+                bounds.X += nodeIndent;
+                bounds.Width -= nodeIndent;
+            }
 
             // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
             var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
@@ -2279,6 +2292,61 @@ public class KryptonTreeView : VisualControlBase,
                                 g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
                                     indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
                                     drawImage.Width, drawImage.Height));
+                            }
+                            else
+                            {
+                                // Draw fallback triangle for expand/collapse
+                                int size = Math.Min(indentBounds.Width, indentBounds.Height) - 6;
+                                if (size < 6) size = 6;
+                                int cx = indentBounds.X + indentBounds.Width / 2;
+                                int cy = indentBounds.Y + indentBounds.Height / 2;
+                                Point[] triangle;
+                                bool isRtl = (RightToLeft == RightToLeft.Yes && RightToLeftLayout);
+                                if (!e.Node.IsExpanded)
+                                {
+                                    // Collapsed: arrow points to right (LTR) or left (RTL)
+                                    if (isRtl)
+                                    {
+                                        // Left-pointing triangle (RTL)
+                                        triangle = new[]
+                                        {
+                                            new Point(cx + size / 2, cy - size / 2),
+                                            new Point(cx + size / 2, cy + size / 2),
+                                            new Point(cx - size / 2, cy)
+                                        };
+                                    }
+                                    else
+                                    {
+                                        // Right-pointing triangle (LTR)
+                                        triangle = new[]
+                                        {
+                                            new Point(cx - size / 2, cy - size / 2),
+                                            new Point(cx - size / 2, cy + size / 2),
+                                            new Point(cx + size / 2, cy)
+                                        };
+                                    }
+                                }
+                                else
+                                {
+                                    // Expanded: arrow always points down
+                                    triangle = new[]
+                                    {
+                                        new Point(cx - size / 2, cy - size / 4),
+                                        new Point(cx + size / 2, cy - size / 4),
+                                        new Point(cx, cy + size / 2)
+                                    };
+                                }
+                                using (Brush b = new SolidBrush(SystemColors.ControlText))
+                                    g.FillPolygon(b, triangle);
+
+                                // DEBUG: Draw a red rectangle around the indent area
+                                using (Pen debugPen = new Pen(Color.Red, 1))
+                                    g.DrawRectangle(debugPen, indentBounds);
+
+                                // DEBUG: Draw the RTL state as a string (larger, bold, and with indent X)
+                                string rtlState = $"RTL:{RightToLeft} RTLLayout:{RightToLeftLayout} IndentX:{indentBounds.X}";
+                                using (Font debugFont = new Font("Arial", 10, FontStyle.Bold))
+                                    g.DrawString(rtlState, debugFont, Brushes.Red, indentBounds.X + 2, indentBounds.Y + 2);
                             }
                         }
                     }
@@ -2464,5 +2532,43 @@ public class KryptonTreeView : VisualControlBase,
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
     #endregion
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that TreeView nodes are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The method triggers the necessary layout and repaint updates to reflect RTL changes.
+    /// Node layout and positioning are handled by the base TreeView RTL support.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force a layout update to reflect RTL changes
+        PerformNeedPaint(true);
+        
+        // Invalidate the control to trigger a repaint
+        Invalidate();
+        
+        // Update the internal tree view RTL settings
+        _treeView.RightToLeft = RightToLeft;
+        _treeView.RightToLeftLayout = RightToLeftLayout;
+        
+        // Force the tree view to recreate its handle for RTL changes
+        _treeView.Recreate();
+    }
 
 }

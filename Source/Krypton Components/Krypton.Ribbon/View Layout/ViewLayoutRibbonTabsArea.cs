@@ -520,13 +520,29 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         _rightSeparator = new ViewLayoutRibbonSeparator(FAR_TAB_GAP, true);
         _leftSeparator = new ViewLayoutRibbonSeparator(BUTTON_TAB_GAP_2007, true);
 
-        // Place application button on left  and tabs as the filler (with some separators for neatness)
-        Add(_rightSeparator, ViewDockStyle.Left);
-        Add(_leftSeparator, ViewDockStyle.Left);
-        Add(LayoutAppButton, ViewDockStyle.Left);
-        Add(_layoutAppButtonSep, ViewDockStyle.Left);
-        Add(LayoutAppTab, ViewDockStyle.Left);
-        Add(tabsDocker, ViewDockStyle.Fill);
+        // Determine layout direction based on RTL
+        bool isRtl = _ribbon.RightToLeft == RightToLeft.Yes;
+
+        if (isRtl)
+        {
+            // Place application button on right and tabs as the filler in RTL mode
+            Add(_leftSeparator, ViewDockStyle.Right);
+            Add(LayoutAppButton, ViewDockStyle.Right);
+            Add(_layoutAppButtonSep, ViewDockStyle.Right);
+            Add(LayoutAppTab, ViewDockStyle.Right);
+            Add(tabsDocker, ViewDockStyle.Fill);
+            Add(_rightSeparator, ViewDockStyle.Right);
+        }
+        else
+        {
+            // Place application button on left and tabs as the filler in LTR mode
+            Add(_rightSeparator, ViewDockStyle.Left);
+            Add(_leftSeparator, ViewDockStyle.Left);
+            Add(LayoutAppButton, ViewDockStyle.Left);
+            Add(_layoutAppButtonSep, ViewDockStyle.Left);
+            Add(LayoutAppTab, ViewDockStyle.Left);
+            Add(tabsDocker, ViewDockStyle.Fill);
+        }
 
         // Create button specification collection manager
         PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);

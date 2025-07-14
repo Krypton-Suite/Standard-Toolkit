@@ -456,37 +456,57 @@ internal class ViewLayoutRibbonTabs : ViewComposite
             var bottom = ClientRectangle.Bottom;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
-            for (var i = 0; i < Count; i++)
+            if (_ribbon.RightToLeft == RightToLeft.Yes)
             {
-                // Only interested in visible items
-                if (layoutSizes[i].Width > 0)
+                // Layout from right to left
+                x = ClientRectangle.Right;
+                for (var i = 0; i < Count; i++)
                 {
-                    // Separators are made the full height, others are aligned on the bottom edge
-                    switch (this[i])
+                    if (layoutSizes[i].Width > 0)
                     {
-                        case ViewDrawRibbonTabSep tabSep:
-                            // Update separator with latest calculated need to draw
-                            tabSep.Draw = _showSeparators;
-
-                            context.DisplayRectangle = new Rectangle(x, y, layoutSizes[i].Width, height);
-                            break;
-                        case ViewDrawRibbonTab tab:
-                            // Update checked state of the tab
-                            tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
-
-                            context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
-                            break;
-                        case ViewDrawRibbonDesignTab:
-                            context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
-                            break;
+                        x -= layoutSizes[i].Width;
+                        switch (this[i])
+                        {
+                            case ViewDrawRibbonTabSep tabSep:
+                                tabSep.Draw = _showSeparators;
+                                context.DisplayRectangle = new Rectangle(x, y, layoutSizes[i].Width, height);
+                                break;
+                            case ViewDrawRibbonTab tab:
+                                tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
+                                context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                                break;
+                            case ViewDrawRibbonDesignTab:
+                                context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                                break;
+                        }
+                        this[i]?.Layout(context);
                     }
-
-                    // Position the element
-                    this[i]?.Layout(context);
-
-                    // Move across to next position
-                    x += layoutSizes[i].Width;
+                }
+            }
+            else
+            {
+                // Layout from left to right (default)
+                for (var i = 0; i < Count; i++)
+                {
+                    if (layoutSizes[i].Width > 0)
+                    {
+                        switch (this[i])
+                        {
+                            case ViewDrawRibbonTabSep tabSep:
+                                tabSep.Draw = _showSeparators;
+                                context.DisplayRectangle = new Rectangle(x, y, layoutSizes[i].Width, height);
+                                break;
+                            case ViewDrawRibbonTab tab:
+                                tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
+                                context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                                break;
+                            case ViewDrawRibbonDesignTab:
+                                context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                                break;
+                        }
+                        this[i]?.Layout(context);
+                        x += layoutSizes[i].Width;
+                    }
                 }
             }
         }
@@ -523,10 +543,10 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(Math.Abs(x - ClientLocation.X), ClientHeight));
     }
     #endregion
 

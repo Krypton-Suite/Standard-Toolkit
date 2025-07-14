@@ -2444,13 +2444,8 @@ public class KryptonWorkspace : VisualContainerControl,
         // Push correct palettes into the view
         _drawPanel.SetPalettes(Enabled ? StateNormal.Back : StateDisabled.Back);
 
+        // Update with latest enabled state
         _drawPanel.Enabled = Enabled;
-
-        // Update all the separators to match control state
-        foreach (ViewDrawWorkspaceSeparator separator in _drawPanel.Cast<ViewDrawWorkspaceSeparator>())
-        {
-            separator.Enabled = Enabled;
-        }
 
         // Change in enabled state requires a layout and repaint
         PerformNeedPaint(true);
@@ -3021,6 +3016,9 @@ public class KryptonWorkspace : VisualContainerControl,
         // Find orientation specific length that needs allocating
         var availableSpace = (seq.Orientation == Orientation.Vertical) ? client.Height : client.Width;
 
+        // Check if we need to apply RTL layout adjustments
+        bool isRtl = RightToLeft == RightToLeft.Yes && CommonHelper.GetRightToLeftLayout(this);
+
         // Temporary structures used to cache info during calculations
         var info = new LayoutInfo[seq.Children!.Count];
 
@@ -3209,10 +3207,19 @@ public class KryptonWorkspace : VisualContainerControl,
         // Pass #5, Create display rectangles based on space allocated to each item
         var offset = 0;
         var first = true;
+        
+        // In RTL mode, we need to reverse the order of items for proper mirroring
+        var itemIndices = new int[seq.Children.Count];
         for (var i = 0; i < seq.Children.Count; i++)
         {
+            itemIndices[i] = isRtl ? (seq.Children.Count - 1 - i) : i;
+        }
+        
+        for (var i = 0; i < seq.Children.Count; i++)
+        {
+            var itemIndex = itemIndices[i];
             // Can only work with items that have an IWorkspaceItem interface
-            IWorkspaceItem? workspaceItem = info[i].WorkspaceItem;
+            IWorkspaceItem? workspaceItem = info[itemIndex].WorkspaceItem;
             if (workspaceItem != null)
             {
                 // If no separator is associated with workspace, then create one now
@@ -3272,14 +3279,14 @@ public class KryptonWorkspace : VisualContainerControl,
                         viewSeparator.Visible = false;
                     }
 
-                    // Calculate the display rect for the item
-                    info[i].DisplayRect = seq.Orientation == Orientation.Vertical
-                        ? client with { Y = client.Y + offset, Height = info[i].DisplaySpace }
-                        : client with { X = client.X + offset, Width = info[i].DisplaySpace };
+                                    // Calculate the display rect for the item
+                info[itemIndex].DisplayRect = seq.Orientation == Orientation.Vertical
+                    ? client with { Y = client.Y + offset, Height = info[itemIndex].DisplaySpace }
+                    : client with { X = client.X + offset, Width = info[itemIndex].DisplaySpace };
 
-                    // Move over the cell
-                    offset += info[i].DisplaySpace;
-                    first = false;
+                // Move over the cell
+                offset += info[itemIndex].DisplaySpace;
+                first = false;
                 }
                 else
                 {
@@ -3291,11 +3298,12 @@ public class KryptonWorkspace : VisualContainerControl,
         // Pass #6, Position children and recurse into child sequences
         for (var i = 0; i < seq.Children.Count; i++)
         {
+            var itemIndex = itemIndices[i];
             // Can only work with items that have an IWorkspaceItem interface
-            if (info[i].WorkspaceItem != null)
+            if (info[itemIndex].WorkspaceItem != null)
             {
                 // Is the child an actual control
-                if (seq.Children[i] is Control control)
+                if (seq.Children[itemIndex] is Control control)
                 {
                     // If not already a child control then it should be!
                     if (!Controls.Contains(control))
@@ -3314,25 +3322,25 @@ public class KryptonWorkspace : VisualContainerControl,
                     controls.Add(control);
 
                     // Only position visible children
-                    if (info[i].WorkspaceVisible)
+                    if (info[itemIndex].WorkspaceVisible)
                     {
                         // Position the child control
-                        control.SetBounds(info[i].DisplayRect.X,
-                            info[i].DisplayRect.Y,
-                            info[i].DisplayRect.Width,
-                            info[i].DisplayRect.Height);
+                        control.SetBounds(info[itemIndex].DisplayRect.X,
+                            info[itemIndex].DisplayRect.Y,
+                            info[itemIndex].DisplayRect.Width,
+                            info[itemIndex].DisplayRect.Height);
                     }
                 }
                 else
                 {
                     // Only position visible children
-                    if (info[i].WorkspaceVisible)
+                    if (info[itemIndex].WorkspaceVisible)
                     {
                         // If the item is a sequence, then position its contents inside the allocated area
-                        if (seq.Children[i] is KryptonWorkspaceSequence)
+                        if (seq.Children[itemIndex] is KryptonWorkspaceSequence)
                         {
-                            LayoutSequenceNonMaximized((seq.Children[i] as KryptonWorkspaceSequence)!,
-                                info[i].DisplayRect,
+                            LayoutSequenceNonMaximized((seq.Children[itemIndex] as KryptonWorkspaceSequence)!,
+                                info[itemIndex].DisplayRect,
                                 controls,
                                 separators,
                                 layoutContext);
@@ -3341,7 +3349,7 @@ public class KryptonWorkspace : VisualContainerControl,
                     else
                     {
                         // Ensure we mark all the controls contained in the sequence as still needed
-                        LayoutSequenceIsHidden((seq.Children[i] as KryptonWorkspaceSequence)!, controls);
+                        LayoutSequenceIsHidden((seq.Children[itemIndex] as KryptonWorkspaceSequence)!, controls);
                     }
                 }
             }
@@ -4089,4 +4097,35 @@ public class KryptonWorkspace : VisualContainerControl,
     }
 
     #endregion
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that cells and separators are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The actual RTL layout logic is handled in the layout methods.
+    /// This method triggers the necessary layout and repaint updates.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force a layout update to reflect RTL changes
+        PerformNeedPaint(true);
+        
+        // Invalidate the control to trigger a repaint
+        Invalidate();
+    }
 }

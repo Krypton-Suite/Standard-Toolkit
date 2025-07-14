@@ -454,8 +454,16 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 
         // Place app button on left side and fill remainder with context titles
         Add(_contextTiles, ViewDockStyle.Fill);
-        Add(_nonCaptionQAT, ViewDockStyle.Left);
-        Add(_otherAppButton, ViewDockStyle.Left);
+        if (_ribbon.RightToLeft == RightToLeft.Yes)
+        {
+            Add(_nonCaptionQAT, ViewDockStyle.Right);
+            Add(_otherAppButton, ViewDockStyle.Right);
+        }
+        else
+        {
+            Add(_nonCaptionQAT, ViewDockStyle.Left);
+            Add(_otherAppButton, ViewDockStyle.Left);
+        }
 
         // Update base class to use correct palette interface
         base.SetPalettes(_redirectCaption.PaletteBack, _redirectCaption.PaletteBorder!);

@@ -645,13 +645,28 @@ public class KryptonNumericUpDown : VisualControlBase,
             // Update with the latest button style for the up/down buttons
             _palette.SetStyles(NumericUpDown.UpDownButtonStyle);
 
-            // Find button rectangles
-            var upRect = clientRect with { Height = clientRect.Height / 2 };
-            var downRect = clientRect with { Y = upRect.Bottom, Height = clientRect.Bottom - upRect.Bottom };
+            // Determine if we're in RTL mode
+            bool isRtl = NumericUpDown.RightToLeft == RightToLeft.Yes;
+
+            // Find button rectangles - in RTL mode, swap the button positions
+            Rectangle upRect, downRect;
+            if (isRtl)
+            {
+                // In RTL mode, down button is on top, up button is on bottom
+                downRect = clientRect with { Height = clientRect.Height / 2 };
+                upRect = clientRect with { Y = downRect.Bottom, Height = clientRect.Bottom - downRect.Bottom };
+            }
+            else
+            {
+                // In LTR mode, up button is on top, down button is on bottom
+                upRect = clientRect with { Height = clientRect.Height / 2 };
+                downRect = clientRect with { Y = upRect.Bottom, Height = clientRect.Bottom - upRect.Bottom };
+            }
 
             // Position and draw the up/down buttons
             using var layoutContext = new ViewLayoutContext(NumericUpDown, NumericUpDown.Renderer);
             using var renderContext = new RenderContext(NumericUpDown, g, clientRect, NumericUpDown.Renderer);
+            
             // Up button
             layoutContext.DisplayRectangle = upRect;
             _viewButton.ElementState = ButtonElementState(upRect);
@@ -1670,7 +1685,6 @@ public class KryptonNumericUpDown : VisualControlBase,
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
-        _drawDockerOuter.Enabled = Enabled;
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
@@ -1679,6 +1693,41 @@ public class KryptonNumericUpDown : VisualControlBase,
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+
+        // Let base class handle the event
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that the numeric up/down control is properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called when the RightToLeft property changes to update the layout accordingly.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force layout update for RTL changes
+        ForceControlLayout();
+        
+        // Invalidate the control for repaint
+        Invalidate();
+        
+        // Update the internal numeric up/down control RTL settings
+        if (_numericUpDown != null)
+        {
+            _numericUpDown.RightToLeft = RightToLeft;
+        }
     }
 
     /// <summary>

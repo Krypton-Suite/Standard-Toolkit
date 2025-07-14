@@ -1400,6 +1400,18 @@ public class KryptonSplitContainer : VisualControlContainment,
     /// <param name="e">An ControlEventArgs containing the event data.</param>
     protected override void OnControlRemoved(ControlEventArgs e) => ControlRemoved?.Invoke(this, e);
 
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        // Trigger layout update to recalculate panel positions for RTL
+        PerformNeedPaint(true);
+        
+        base.OnRightToLeftChanged(e);
+    }
+
     #endregion
 
     #region Implementation

@@ -955,4 +955,29 @@ public class KryptonPropertyGrid : VisualControlBase,
     }
 
     #endregion
+
+    /// <summary>
+    ///  Sets or gets the visibility state of the toolStrip.
+    /// </summary>
+    [Category("Appearance")]
+    [Description("Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.Repaint)]
+    public bool RightToLeftLayout
+    {
+        get => CommonHelper.GetRightToLeftLayout(this);
+        set
+        {
+            // PropertyGrid doesn't support RightToLeftLayout property directly
+            // The RTL layout is handled through the RightToLeft property
+            PerformNeedPaint(true);
+        }
+    }
+
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        base.OnRightToLeftChanged(e);
+        _propertyGrid.RightToLeft = this.RightToLeft;
+        PerformNeedPaint(true);
+    }
 }

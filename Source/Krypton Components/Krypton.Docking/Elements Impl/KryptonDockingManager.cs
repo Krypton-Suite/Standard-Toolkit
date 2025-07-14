@@ -3946,6 +3946,16 @@ public class KryptonDockingManager : DockingElementOpenCollection
     protected virtual void OnDoDragDropQuit(EventArgs e) => DoDragDropQuit?.Invoke(this, e);
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnRightToLeftChanged(EventArgs e)
+    {
+        // Rebuild the layout for RTL support
+        RebuildLayoutForRtl();
+    }
+
+    /// <summary>
     /// Gets the xml element name to use when saving.
     /// </summary>
     protected override string XmlElementName => @"DM";
@@ -4229,6 +4239,24 @@ public class KryptonDockingManager : DockingElementOpenCollection
         }
 
         return array;
+    }
+
+    /// <summary>
+    /// Rebuilds the layout to support RTL mirroring.
+    /// This method ensures that docking elements are properly positioned in RTL mode.
+    /// </summary>
+    /// <remarks>
+    /// This is called whenever RightToLeft changes.
+    /// The actual RTL layout logic is handled in the individual docking elements.
+    /// This method triggers the necessary layout and repaint updates.
+    /// </remarks>
+    private void RebuildLayoutForRtl()
+    {
+        // Force a layout update to reflect RTL changes
+        // The individual docking elements will handle their own RTL logic
+        // Use StartUpdate and EndUpdate to force a complete layout refresh
+        PropogateAction(DockingPropogateAction.StartUpdate, (string[]?)null);
+        PropogateAction(DockingPropogateAction.EndUpdate, (string[]?)null);
     }
     #endregion
 }
