@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -15,6 +15,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 public static class SchemeGenerator
 {
@@ -24,7 +27,7 @@ public static class SchemeGenerator
 "/*\n" +
 " *\n" +
 " *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)\n" +
-" *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.\n" +
+" *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.\n" +
 " *\n" +
 " */\n" +
 "#endregion\n";
@@ -40,7 +43,7 @@ public static class SchemeGenerator
     // Marker for track-bar colour arrays found in palette classes
     private const string TrackBarColorMarker = "private static readonly Color[] _trackBarColors";
 
-    public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite, bool remove)
+    public static void Generate(string paletteFile, string outputFolder, bool embedResx, bool dryRun, bool overwrite, bool migrate, bool printMapping = false)
     {
         if (string.IsNullOrWhiteSpace(paletteFile)) throw new ArgumentException("paletteFile");
 
@@ -76,8 +79,30 @@ public static class SchemeGenerator
                 fail++;
                 continue;
             }
-            var colorsRaw = ExtractColorExpressions(palettePath);
-            var trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
+            List<string> colorsRaw;
+            List<string> commentNames;
+            try
+            {
+                colorsRaw = ExtractColorsRoslyn(palettePath, "_schemeBaseColors", out commentNames, enumNames);
+                Console.WriteLine($"[DEBUG] Successfully used Roslyn extraction for {Path.GetFileName(palettePath)}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DEBUG] Roslyn extraction failed for {Path.GetFileName(palettePath)}: {ex.Message}");
+                Console.WriteLine("[DEBUG] Falling back to regex extraction");
+                colorsRaw = ExtractColorExpressions(palettePath);
+                commentNames = ExtractArrayComments(palettePath);
+            }
+
+            List<string> trackBarColorsRaw;
+            try
+            {
+                trackBarColorsRaw = ExtractColorsRoslyn(palettePath, "_trackBarColors", out _, enumNames);
+            }
+            catch
+            {
+                trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
+            }
 
             // If no arrays found at all, report and continue
             if (colorsRaw.Count == 0 && trackBarColorsRaw.Count == 0)
@@ -97,7 +122,7 @@ public static class SchemeGenerator
             Directory.CreateDirectory(outputDir);
 
             // Align base colours first (may be empty)
-            var commentNames = ExtractArrayComments(palettePath);
+            // commentNames already obtained via Roslyn or fallback above
             var maxLen = Math.Max(colorsRaw.Count, commentNames.Count);
             while (colorsRaw.Count < maxLen) colorsRaw.Add("GlobalStaticValues.EMPTY_COLOR");
             while (commentNames.Count < maxLen) commentNames.Add(string.Empty);
@@ -131,33 +156,57 @@ public static class SchemeGenerator
                 }
             }
 
+            // Build lookup of comment -> color for printing
+            var commentColorLookup = new Dictionary<string, string>(StringComparer.Ordinal);
+            var maxCommentMap = Math.Max(colorsRaw.Count, commentNames.Count);
+            for (int i = 0; i < maxCommentMap; i++)
+            {
+                if (i < commentNames.Count && i < colorsRaw.Count)
+                {
+                    var labelRaw = commentNames[i];
+                    var labelNorm = NormalizeComment(labelRaw);
+                    if (!string.IsNullOrEmpty(labelNorm) && !commentColorLookup.ContainsKey(labelNorm))
+                    {
+                        commentColorLookup[labelNorm] = colorsRaw[i];
+                    }
+                }
+            }
+
+            if (printMapping)
+            {
+                PrintMappingTable(enumNames, commentNames, colorsRaw, alignedColors);
+            }
+
             var className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
             var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
 
             destPath = Path.Combine(outputDir, className + ".cs");
 
-            if (dryRun)
+            if (!printMapping && dryRun)
             {
                 Console.WriteLine(destPath);
                 continue;
             }
 
-            bool existed = File.Exists(destPath);
             bool destWritten = false;
-            if (existed && !overwrite)
+            if (!printMapping && !dryRun)
             {
-                Console.WriteLine(destPath + " *File exists, not replaced.");
-            }
-            else
-            {
-                File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
-                Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
-                ok++;
-                destWritten = true;
+                bool existed = File.Exists(destPath);
+                if (existed && !overwrite)
+                {
+                    Console.WriteLine(destPath + " *File exists, not replaced.");
+                }
+                else
+                {
+                    File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+                    Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
+                    ok++;
+                    destWritten = true;
+                }
             }
 
             // Optional removal of processed arrays from the palette source
-            if (remove && destWritten && !dryRun)
+            if (migrate && destWritten && !dryRun)
             {
                 if (colorsRaw.Count > 0)
                 {
@@ -258,33 +307,62 @@ public static class SchemeGenerator
         var start = Array.FindIndex(lines, l => l.Contains(marker));
         if (start < 0) return new List<string>();
 
-        var names = new List<string>();
+        var comments = new List<string>();
+
+        int parenDepth = 0;
+        string? currentComment = null;
+
         for (var i = start + 1; i < lines.Length; i++)
         {
             var line = lines[i];
-            if (line.Contains("]")) break;
 
-            var codePart = line.Split(new[] { "//" }, 2, StringSplitOptions.None)[0].Trim();
-            if (codePart.Length == 0 || codePart == "[" || codePart == "]")
+            if (line.Contains("]") && parenDepth == 0)
             {
-                // Skip non-value lines (opening bracket, blank, etc.)
-                continue;
+                // Reached end of array definition
+                break;
             }
 
-            var idx = line.LastIndexOf("//", StringComparison.Ordinal);
-            if (idx >= 0)
+            // Split code vs comment part on the first // occurrence
+            var parts = line.Split(new[] { "//" }, 2, StringSplitOptions.None);
+            var codePart = parts[0].Trim();
+
+            bool isStructural = codePart.Length == 0 || codePart == "[" || codePart == "]";
+
+            // Track parentheses depth exactly like ExtractColorExpressions
+            parenDepth += codePart.Count(c => c == '(') - codePart.Count(c => c == ')');
+
+            // Capture comment token (use *last* comment on the line to skip debug numeric comments like //(155, 187, 227))
+            var lastIdx = line.LastIndexOf("//", StringComparison.Ordinal);
+            if (lastIdx >= 0)
             {
-                var token = line.Substring(idx + 2).Trim();
+                var token = line.Substring(lastIdx + 2).Trim();
                 var match = Regex.Match(token, "^([A-Za-z0-9_]+)");
                 if (match.Success)
                 {
-                    names.Add(NormalizeComment(match.Groups[1].Value));
-                    continue;
+                    currentComment = NormalizeComment(match.Groups[1].Value);
                 }
             }
-            names.Add(string.Empty);
+
+            // If structural/blank line: assign comment (if any) to previous expression when missing
+            if (isStructural)
+            {
+                if (currentComment != null && comments.Count > 0 && string.IsNullOrEmpty(comments[comments.Count - 1]))
+                {
+                    comments[comments.Count - 1] = currentComment;
+                    currentComment = null;
+                }
+                continue;
+            }
+
+            // When parentheses balance out, we've completed a single color expression
+            if (parenDepth == 0)
+            {
+                comments.Add(currentComment ?? string.Empty);
+                currentComment = null;
+            }
         }
-        return names;
+
+        return comments;
     }
 
     private static readonly HashSet<string> MenuNames = new HashSet<string>(StringComparer.Ordinal)
@@ -301,11 +379,14 @@ public static class SchemeGenerator
     {
         if (string.IsNullOrEmpty(token)) return token;
 
+        var original = token;
+
         token = token.Replace("Inctive", "Inactive");
         if (token == "ButtonNormalBorder1") return "ButtonNormalBorder";
         if (token == "ButtonNormalBorder2") return "ButtonNormalDefaultBorder";
         if (token == "ContextMenuHeading") return "ContextMenuHeadingBack";
         if (token == "AppButtonMenuDocs") return "AppButtonMenuDocsBack";
+
         return token;
     }
 
@@ -316,7 +397,8 @@ public static class SchemeGenerator
         var max = Math.Max(colors.Count, commentNames.Count);
         for (var i = 0; i < max; i++)
         {
-            var label = i < commentNames.Count ? NormalizeComment(commentNames[i]) : string.Empty;
+            // Don't normalize again - commentNames from Roslyn are already normalized
+            var label = i < commentNames.Count ? commentNames[i] : string.Empty;
             var colour = i < colors.Count ? colors[i] : "GlobalStaticValues.EMPTY_COLOR";
             if (!string.IsNullOrEmpty(label) && !lookup.ContainsKey(label))
             {
@@ -376,7 +458,7 @@ public static class SchemeGenerator
     {
         var lines = File.ReadAllLines(filePath).ToList();
         int start = lines.FindIndex(l => l.Contains(marker));
-        if (start < 0) return; // nothing to remove
+        if (start < 0) return; // nothing to migrate
 
         int bracketDepth = 0;
         int end = -1;
@@ -473,5 +555,225 @@ public static class SchemeGenerator
         }
 
         return Array.Empty<string>();
+    }
+
+    /// <summary>
+    /// Parses the specified array variable using Roslyn and returns aligned colour expressions and comments.
+    /// </summary>
+    private static List<string> ExtractColorsRoslyn(string filePath, string variableName, out List<string> commentsOut, IReadOnlyList<string> enumNames)
+    {
+        commentsOut = new List<string>();
+        var code = File.ReadAllText(filePath);
+        var tree = CSharpSyntaxTree.ParseText(code, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
+        var root = tree.GetCompilationUnitRoot();
+
+        // Locate the field
+        var field = root.DescendantNodes()
+                        .OfType<FieldDeclarationSyntax>()
+                        .FirstOrDefault(f => f.Declaration.Variables.Any(v => v.Identifier.Text == variableName));
+
+        if (field == null)
+            throw new InvalidOperationException("Variable not found: " + variableName);
+
+        var varDecl = field.Declaration.Variables.First(v => v.Identifier.Text == variableName);
+        var equals = varDecl.Initializer ?? throw new InvalidOperationException("No initializer for " + variableName);
+
+        // The initializer expression may be a CollectionExpressionSyntax or an InitializerExpressionSyntax
+        var expr = equals.Value;
+
+        // Build a unified element list regardless of initializer style
+        var exprNodes = new List<SyntaxNode>();
+
+        if (expr is InitializerExpressionSyntax init)
+        {
+            exprNodes.AddRange(init.Expressions);
+        }
+        else if (expr is CollectionExpressionSyntax coll)
+        {
+            foreach (var cel in coll.Elements)
+            {
+                if (cel is ExpressionElementSyntax eel)
+                {
+                    exprNodes.Add(eel.Expression);
+                }
+            }
+        }
+        else
+        {
+            throw new InvalidOperationException("Unsupported array initializer kind for " + variableName);
+        }
+
+        var colours = new List<string>();
+
+        for (int idx = 0; idx < exprNodes.Count; idx++)
+        {
+            var exprNode = exprNodes[idx];
+            var rawExpr = exprNode.ToFullString().Replace("\r", "").Replace("\n", " ");
+            rawExpr = Regex.Replace(rawExpr, "\\s+", " "); // collapse whitespace
+            var colourExpr = rawExpr.Split(new[] {"//"}, 2, StringSplitOptions.None)[0].Trim().TrimEnd(',');
+            colours.Add(colourExpr);
+
+            // Gather trivia for potential comment labels
+            string label = string.Empty;
+
+            // Check trailing trivia first
+            foreach (var triv in exprNode.GetTrailingTrivia())
+            {
+                if (TryExtractEnumFromTrivia(triv, enumNames, out label))
+                    break;
+            }
+
+            // Only check separator trivia if we haven't found a label yet
+            if (string.IsNullOrEmpty(label))
+            {
+                // Separator (comma) trivia
+                SyntaxToken separatorToken;
+                if (expr is InitializerExpressionSyntax ini && idx < ini.Expressions.Count - 1)
+                {
+                    var sep = ini.Expressions.GetSeparator(idx);
+                    separatorToken = sep;
+                }
+                else if (expr is CollectionExpressionSyntax col && idx < col.Elements.Count - 1)
+                {
+                    var sep = col.Elements.GetSeparator(idx);
+                    separatorToken = sep;
+                }
+                else separatorToken = default;
+
+                if (separatorToken.IsKind(SyntaxKind.CommaToken))
+                {
+                    foreach (var triv in separatorToken.LeadingTrivia)
+                    {
+                        if (TryExtractEnumFromTrivia(triv, enumNames, out label))
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(label))
+                    {
+                        foreach (var triv in separatorToken.TrailingTrivia)
+                        {
+                            if (TryExtractEnumFromTrivia(triv, enumNames, out label))
+                                break;
+                        }
+                    }
+                }
+
+                // Only check next token trivia if still no label
+                if (string.IsNullOrEmpty(label))
+                {
+                    var nextToken = separatorToken != default ? separatorToken.GetNextToken() : exprNode.GetLastToken().GetNextToken();
+                    foreach (var triv in nextToken.LeadingTrivia)
+                    {
+                        if (TryExtractEnumFromTrivia(triv, enumNames, out label))
+                            break;
+                    }
+                }
+            }
+
+            commentsOut.Add(label);
+        }
+
+        return colours;
+    }
+
+    private static bool TryExtractEnumFromTrivia(SyntaxTrivia trivia, IReadOnlyList<string> enumNames, out string label)
+    {
+        label = string.Empty;
+
+        if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            return false;
+
+        var commentText = trivia.ToString().Substring(2).Trim();
+
+        // Split on common separators that might indicate embedded code
+        var parts = commentText.Split(new[] { "Color.", "Color(", "FromArgb" }, StringSplitOptions.None);
+        var mainPart = parts[0].Trim();
+
+        foreach (Match m in Regex.Matches(mainPart, "[A-Za-z_][A-Za-z0-9_]*"))
+        {
+            var candidate = NormalizeComment(m.Value);
+            if (enumNames.Contains(candidate))
+            {
+                label = candidate;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void PrintMappingTable(IReadOnlyList<string> enumNames,
+                                          IReadOnlyList<string> commentNames,
+                                          IReadOnlyList<string> commentColors,
+                                          IReadOnlyList<string> alignedColors)
+    {
+        // Build lookup dictionary from comment name -> source color expression
+        var commentLookup = new Dictionary<string, string>(StringComparer.Ordinal);
+        for (int i = 0; i < commentNames.Count && i < commentColors.Count; i++)
+        {
+            var name = commentNames[i];
+            if (!string.IsNullOrEmpty(name) && !commentLookup.ContainsKey(name))
+                commentLookup[name] = commentColors[i];
+        }
+
+        // Determine column widths (include MISSING!)
+        const string missingToken = "MISSING!";
+
+        var headerEnum = "Enum Name";
+        var headerComment = "Comment";
+        var headerCommentColor = "Comment Color";
+        var headerFinalColor = "Final Color";
+
+        int enumWidth = Math.Max(enumNames.Max(n => n.Length), headerEnum.Length);
+        int commentWidth = Math.Max(Math.Max(commentLookup.Keys.Any() ? commentLookup.Keys.Max(k => k.Length) : 0, missingToken.Length), headerComment.Length);
+        int commentColorWidth = Math.Max(commentLookup.Values.Any() ? commentLookup.Values.Max(c => c.Length) : 0, headerCommentColor.Length);
+        int finalColorWidth = Math.Max(alignedColors.Max(c => c.Length), headerFinalColor.Length);
+
+        string rowFormat = $"| {{0,-{enumWidth}}} | {{1,-{commentWidth}}} | {{2,-{commentColorWidth}}} | {{3,-{finalColorWidth}}} |";
+
+        string separator = new string('-', rowFormat.Length - 2);
+
+        Console.WriteLine(separator);
+        Console.WriteLine(rowFormat, headerEnum, headerComment, headerCommentColor, headerFinalColor);
+        Console.WriteLine(separator);
+
+        int missingCount = 0;
+
+        for (int i = 0; i < enumNames.Count; i++)
+        {
+            var enumName = enumNames[i];
+
+            bool hasComment = commentLookup.TryGetValue(enumName, out var commentColor);
+
+            bool isTrackBar = enumName.StartsWith("TrackBar", StringComparison.Ordinal);
+
+            string commentName;
+            string prefix;
+
+            if (!hasComment && isTrackBar)
+            {
+                // Suppress missing marker for TrackBar* enums
+                commentName = string.Empty;
+                prefix = " ";
+            }
+            else
+            {
+                commentName = hasComment ? enumName : missingToken;
+                prefix = hasComment ? " " : "!";
+                if (!hasComment) missingCount++;
+            }
+
+            string finalColor = i < alignedColors.Count ? alignedColors[i] : string.Empty;
+
+            Console.Write(prefix);
+            Console.WriteLine(rowFormat, enumName, commentName, hasComment ? commentColor : string.Empty, finalColor);
+        }
+
+        Console.WriteLine(separator);
+
+        if (missingCount > 0)
+        {
+            Console.Error.WriteLine($"WARNING: Detected {missingCount} enumeration/comment mismatches (missing comments). Rows are prefixed with '!'.");
+        }
     }
 }

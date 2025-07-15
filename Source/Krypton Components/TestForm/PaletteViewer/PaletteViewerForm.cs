@@ -526,6 +526,7 @@ public partial class PaletteViewerForm : KryptonForm
 
         var col = new System.Windows.Forms.DataGridViewTextBoxColumn();
         col.HeaderText = baseHeader;
+        // Use full type name for unique identification across namespaces
         col.Name = palette.GetType().FullName;
         col.ReadOnly = false;
         col.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -1478,14 +1479,12 @@ public partial class PaletteViewerForm : KryptonForm
 
         DataGridViewColumn col = this.dataGridViewPalette.Columns[colIndex];
 
-        if (col.Name != typeof(Krypton.Toolkit.PaletteMicrosoft365Black).FullName)
-        {
-            return;
-        }
+        // Column Name already stores the full type name, use it directly
+        string expectedName = col.Name;
+        Krypton.Toolkit.PaletteBase? palette = this._palettes
+            .Find(p => string.Equals(p.GetType().FullName, expectedName, StringComparison.Ordinal));
 
-        PaletteMicrosoft365Black? palette = this._palettes.Find(p => p.GetType().FullName == col.Name) as PaletteMicrosoft365Black;
-
-        if (palette == null)
+        if (palette is null)
         {
             return;
         }
@@ -1541,10 +1540,7 @@ public partial class PaletteViewerForm : KryptonForm
 
         var action = _undoStack.Pop();
 
-        if (action.Palette is PaletteMicrosoft365Black blackPalette)
-        {
-            blackPalette.SetSchemeColor(action.ColorEnum, action.OldColor);
-        }
+        action.Palette.SetSchemeColor(action.ColorEnum, action.OldColor);
 
         if (action.RowIndex >= 0 && action.RowIndex < this.dataGridViewPalette.Rows.Count &&
             action.ColumnIndex >= 0 && action.ColumnIndex < this.dataGridViewPalette.Columns.Count)

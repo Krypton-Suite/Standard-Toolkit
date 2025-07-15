@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -129,12 +129,10 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
 
     #endregion
 
-    #region Color Arrays
-
-    #endregion
     #endregion
 
-    #region Identity
+    #region Constructors
+
     static PaletteMicrosoft365White()
     {
         _checkBoxList = new ImageList
@@ -143,6 +141,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
             ColorDepth = ColorDepth.Depth24Bit
         };
         _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
+
         _galleryButtonList = new ImageList
         {
             ImageSize = new Size(13, 7),
@@ -150,6 +149,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
             TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
+
         _radioButtonArray =
         [
             Office2010RadioButtonImageResources.RadioButton2010BlueD,
@@ -166,17 +166,18 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
     /// <summary>
     /// Initialize a new instance of the PaletteMicrosoft2010Silver class.
     /// </summary>
-    public PaletteMicrosoft365White()
-        : base(new PaletteMicrosoft365White_BaseScheme(),
-            _checkBoxList,
-            _galleryButtonList,
-            _radioButtonArray,
-            new PaletteMicrosoft365White_BaseScheme().ToTrackBarArray())
+    public PaletteMicrosoft365White() : base(
+        new PaletteMicrosoft365White_BaseScheme(),
+        _checkBoxList,
+        _galleryButtonList,
+        _radioButtonArray)
     {
     }
-    #endregion
+
+    #endregion Constructors
 
     #region Images
+
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.
     /// </summary>
@@ -186,6 +187,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
     #endregion
 
     #region ButtonSpec
+
     /// <summary>
     /// Gets the image to display for the button.
     /// </summary>
@@ -319,10 +321,13 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
     #endregion
 
     #region ColorTable
+
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable365White(new PaletteMicrosoft365White_BaseScheme().ToArray(), InheritBool.True, this);
+    public override KryptonColorTable ColorTable =>
+        Table ??= new KryptonColorTable365White(BaseColors!.ToArray(), InheritBool.True, this);
+
     #endregion
 
     #region Tab Row Background

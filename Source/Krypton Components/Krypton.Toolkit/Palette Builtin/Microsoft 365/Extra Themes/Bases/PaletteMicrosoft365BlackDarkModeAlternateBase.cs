@@ -1,11 +1,7 @@
 #region BSD License
 /*
- *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege, et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -13,10 +9,10 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Provides a base for Office 365 Black Dark Mode palettes.
+/// Provides a base for Office 365 palettes.
 /// </summary>
 /// <seealso cref="PaletteBase" />
-public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
+public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBase
 {
     #region Static Fields
 
@@ -125,9 +121,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
     private static readonly Color _buttonTextTracking = Color.Black;
     private static readonly Color _gridTextColor = Color.White;
-    private static readonly Color _disabledText2 = Color.FromArgb(166, 166, 166);
-    private static readonly Color _disabledText = Color.FromArgb(32, 32, 32);
-    private static readonly Color _disabledBack = Color.FromArgb(102, 102, 102);
+    private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78);
+    private static readonly Color _disabledText = Color.FromArgb(172, 172, 172);
+    private static readonly Color _disabledBack = Color.FromArgb(128, 128, 128);
     private static readonly Color _disabledBack2 = Color.FromArgb(128, 128, 128);
     private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
     private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
@@ -143,7 +139,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     private static readonly Color _toolTipBack2 = Color.FromArgb(91, 91, 91);
     private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
     private static readonly Color _toolTipText = Color.FromArgb(255, 255, 255); //(76, 76, 76);
-    private static readonly Color _contextMenuBack = Color.FromArgb(10, 10, 10);
+    private static readonly Color _contextMenuBack = Color.FromArgb(31, 31, 31);
     private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
     private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
     private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
@@ -161,6 +157,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
 
     #endregion
+
+    #region Colour Arrays
 
     private static readonly Color[] _appButtonNormal =
     [
@@ -210,46 +208,51 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         Color.FromArgb(91, 91, 91), // Button, Pressed, Back 2
         Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
         Color.FromArgb(88, 88, 88), // Button, Checked, Back 2
-        Color.FromArgb(41, 41, 41), // Button, Checked Tracking, Back 1
+        Color.FromArgb(15, 15, 15), // Button, Checked Tracking, Back 1
         Color.FromArgb(70, 70, 70) // Button, Checked Tracking, Back 2
     ];
 
     #endregion
 
+    #endregion Static Fields
+
     #region Variables
-    private KryptonColorTable365BlackDarkMode? _table;
+
+    protected KryptonColorTable365BlackDarkModeAlternate? Table;
+
+    protected readonly KryptonColorSchemeBase BaseColors;
 
     private readonly Color[] _ribbonColours;
 
-    private readonly Color[] _trackBarColors;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
+
     #endregion
 
     #region Constructor
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlackDarkModeBase"/> class.
+    /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlackDarkModeAlternateBase"/> class.
     /// </summary>
-    /// <param name="schemeColours">The scheme colours.</param>
+    /// <param name="scheme">The KryptonColorSchemeBase-derived scheme instance.</param>
     /// <param name="checkBoxList">The check box list.</param>
     /// <param name="galleryButtonList">The gallery button list.</param>
     /// <param name="radioButtonArray">The radio button array.</param>
-    /// <param name="trackBarColours">The track bar colours.</param>
-    protected PaletteMicrosoft365BlackDarkModeBase([DisallowNull] Color[] schemeColours,
+    protected PaletteMicrosoft365BlackDarkModeAlternateBase(
+        [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColours)
+        [DisallowNull] Image?[] radioButtonArray)
     {
-        Debug.Assert(schemeColours != null);
+        Debug.Assert(scheme != null);
         Debug.Assert(checkBoxList != null);
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        if (schemeColours != null)
-        {
-            _ribbonColours = schemeColours;
-        }
+        BaseColors = scheme!;
+
+        _ribbonColours = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -266,16 +269,13 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             _radioButtonArray = radioButtonArray;
         }
 
-        if (trackBarColours != null)
-        {
-            _trackBarColors = trackBarColours;
-        }
-
         DefineFonts();
     }
+
     #endregion
 
     #region Renderer
+
     /// <summary>
     /// Gets the renderer to use for this palette.
     /// </summary>
@@ -287,6 +287,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     #endregion
 
     #region Back
+
     /// <summary>
     /// Gets a value indicating if background should be drawn.
     /// </summary>
@@ -306,15 +307,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 => InheritBool.False,
             PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled
-                    or PaletteState.Normal
-                    or PaletteState.NormalDefaultOverride => InheritBool.False,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
                 _ => InheritBool.True
             },
             PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight => state switch
             {
-                PaletteState.Normal
-                    or PaletteState.NormalDefaultOverride => InheritBool.False,
+                PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
                 _ => InheritBool.True
             },
             PaletteBackStyle.ButtonInputControl => state is PaletteState.Disabled or PaletteState.Normal ? InheritBool.False : InheritBool.True,
@@ -981,11 +979,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBackStyle.GridDataCellSheet => PaletteColorStyle.ExpertChecked,
             PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.Pressed
-                    or PaletteState.CheckedNormal
-                    or PaletteState.CheckedTracking
-                    or PaletteState.CheckedPressed => PaletteColorStyle.GlassFade,
+                PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => PaletteColorStyle.GlassFade,
                 _ => PaletteColorStyle.QuarterPhase
             },
             PaletteBackStyle.TabStandardProfile => state switch
@@ -1009,14 +1003,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.HeaderDockActive => PaletteColorStyle.Rounded,
             PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
             {
-                PaletteState.Disabled
-                    or PaletteState.Normal
-                    or PaletteState.NormalDefaultOverride
-                    or PaletteState.CheckedNormal
-                    or PaletteState.Tracking
-                    or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal or PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
+                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.LinearShadow,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemHighlight => state switch
@@ -1024,8 +1012,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.Disabled => PaletteColorStyle.Solid,
                 PaletteState.Normal => PaletteColorStyle.Linear,
                 PaletteState.Tracking => PaletteColorStyle.ExpertTracking,
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => PaletteColorStyle.ExpertPressed,
+                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.ExpertPressed,
                 PaletteState.CheckedNormal => PaletteColorStyle.ExpertChecked,
                 PaletteState.CheckedTracking => PaletteColorStyle.ExpertCheckedTracking,
                 _ => throw DebugTools.NotImplemented(state.ToString())
@@ -1033,11 +1020,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBackStyle.ContextMenuItemImage => PaletteColorStyle.Solid,
             PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.Pressed => PaletteColorStyle.SolidAllLine,
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedTracking
-                    or PaletteState.CheckedPressed => PaletteColorStyle.ExpertSquareHighlight,
+                PaletteState.Tracking or PaletteState.Pressed => PaletteColorStyle.SolidAllLine,
+                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => PaletteColorStyle.ExpertSquareHighlight,
                 _ => PaletteColorStyle.Solid
             },
             _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -1164,9 +1148,11 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-    #endregion
+
+    #endregion Back
 
     #region Border
+
     /// <summary>
     /// Gets a value indicating if border should be drawn.
     /// </summary>
@@ -1196,15 +1182,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlToolTip or PaletteBorderStyle.ControlRibbon or PaletteBorderStyle.ControlRibbonAppMenu or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.ContextMenuOuter or PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit or PaletteBorderStyle.ContextMenuItemImageColumn or PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2 or PaletteBorderStyle.InputControlCustom3 or PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCalendar or PaletteBorderStyle.HeaderForm or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabDock or PaletteBorderStyle.TabDockAutoHidden or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 or PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonGallery or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 or PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => InheritBool.True,
             PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCalendarDay or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose or PaletteBorderStyle.ButtonInputControl => state switch
             {
-                PaletteState.Disabled
-                    or PaletteState.Normal
-                    or PaletteState.NormalDefaultOverride => InheritBool.False,
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
                 _ => InheritBool.True
             },
             PaletteBorderStyle.ContextMenuItemImage or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
-                PaletteState.Normal
-                    or PaletteState.NormalDefaultOverride => InheritBool.False,
+                PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
                 _ => InheritBool.True
             },
             _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -1286,12 +1269,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
             {
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBorder,
-                PaletteState.Normal
-                    or PaletteState.Tracking
-                    or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _ribbonColours[(int)SchemeBaseColors.ButtonNormalBorder],
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedPressed
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.ControlBorder],
+                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _ribbonColours[(int)SchemeBaseColors.ButtonNormalBorder],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.ControlBorder],
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDock => state switch
@@ -1358,18 +1337,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     ? _ribbonColours[(int)SchemeBaseColors.RibbonGalleryBack2]
                     : _buttonBorderColors[0],
                 PaletteState.Normal => _ribbonColours[(int)SchemeBaseColors.ButtonNormalBorder],
-                PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile
-                    or PaletteBorderStyle.ButtonBreadCrumb
-                    or PaletteBorderStyle.ButtonListItem
-                    or PaletteBorderStyle.ButtonCommand
-                    or PaletteBorderStyle.ButtonButtonSpec
-                    or PaletteBorderStyle.ContextMenuItemHighlight
+                PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
                     ? GlobalStaticValues.EMPTY_COLOR
                     : _ribbonColours[(int)SchemeBaseColors.ButtonNormalDefaultBorder],
                 PaletteState.CheckedNormal => _buttonBorderColors[5],
                 PaletteState.Tracking => _buttonBorderColors[1],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => _buttonBorderColors[3],
+                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
                 PaletteState.CheckedTracking => _buttonBorderColors[3],
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -1424,12 +1397,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 => state switch
             {
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBorder,
-                PaletteState.Normal
-                    or PaletteState.Tracking
-                    or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _ribbonColours[(int)SchemeBaseColors.ButtonNormalBorder],
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedPressed
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.ControlBorder],
+                PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _ribbonColours[(int)SchemeBaseColors.ButtonNormalBorder],
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.ControlBorder],
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDock => state switch
@@ -1499,8 +1468,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeBaseColors.ButtonNormalDefaultBorder],
                 PaletteState.CheckedNormal => _buttonBorderColors[6],
                 PaletteState.Tracking => _buttonBorderColors[2],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => _buttonBorderColors[4],
+                PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[4],
                 PaletteState.CheckedTracking => _buttonBorderColors[4],
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
@@ -1561,8 +1529,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonGallery or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
                 PaletteState.Normal => PaletteColorStyle.Solid,
-                PaletteState.Disabled
-                    or PaletteState.NormalDefaultOverride => PaletteColorStyle.Solid,
+                PaletteState.Disabled or PaletteState.NormalDefaultOverride => PaletteColorStyle.Solid,
                 _ => PaletteColorStyle.Linear
             },
             PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose => PaletteColorStyle.Solid,
@@ -1722,9 +1689,11 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-    #endregion
+
+    #endregion Border
 
     #region Content
+
     /// <summary>
     /// Gets a value indicating if content should be drawn.
     /// </summary>
@@ -1921,9 +1890,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
             {
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedPressed
-                    or PaletteState.CheckedTracking => TabFontSelected,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
                 _ => TabFontNormal
             },
             PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
@@ -2171,23 +2138,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColours[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeBaseColors.ContextMenuHeadingText],
-            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile
-                or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote
-                or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2
-                or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone
-                or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate
-                or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1
-                or PaletteContentStyle.ButtonCustom2
-                or PaletteContentStyle.ButtonCustom3 => state switch
-                {
-                    PaletteState.Tracking => _buttonTextTracking,
-                    PaletteState.Normal => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
-                    _ => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked]
-                },
-            /*state != PaletteState.Normal
-                ? _ribbonColours[(int)SchemeBaseColors.TextButtonChecked]
-                : _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
-                */
+            PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state switch
+            {
+                PaletteState.Tracking => _buttonTextTracking,
+                PaletteState.Normal => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
+                _ => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked]
+            },
             PaletteContentStyle.TabDockAutoHidden => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
@@ -2195,31 +2151,23 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.Disabled => _disabledText2,
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
             },
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand
-                or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb
-                or PaletteContentStyle.ButtonButtonSpec => state switch
-                {
-                    PaletteState.Tracking => _buttonTextTracking,
-                    PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                        ? _ribbonColours[(int)SchemeBaseColors.TextLabelControl]
-                        : _ribbonColours[(int)SchemeBaseColors.TextLabelPanel],
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
-                    _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
-                },
+            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
+            {
+                PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
+                    ? _ribbonColours[(int)SchemeBaseColors.TextLabelControl]
+                    : _ribbonColours[(int)SchemeBaseColors.TextLabelPanel],
+                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
+                _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
+            },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed
-                    or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
+                PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
+                PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonFormNormal]
             },
-            PaletteContentStyle.ButtonInputControl => state switch
-            {
-                PaletteState.Disabled => _ribbonColours[(int)SchemeBaseColors.InputDropDownDisabled1],
-                _ => _ribbonColours[(int)SchemeBaseColors.InputDropDownNormal1]
-            },
+            PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
+                ? _ribbonColours[(int)SchemeBaseColors.InputDropDownNormal1]
+                : _ribbonColours[(int)SchemeBaseColors.InputDropDownDisabled1],
             PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => state != PaletteState.Normal
                 ? _ribbonColours[(int)SchemeBaseColors.ButtonNavigatorText]
                 : _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
@@ -2290,17 +2238,13 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? _ribbonColours[(int)SchemeBaseColors.TextLabelControl]
                     : _ribbonColours[(int)SchemeBaseColors.TextLabelPanel],
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedTracking
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
+                PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
+                PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonFormNormal]
             },
             PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
@@ -2461,9 +2405,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
             {
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedPressed
-                    or PaletteState.CheckedTracking => TabFontSelected,
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
                 _ => TabFontNormal
             },
             PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
@@ -2695,9 +2637,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? _ribbonColours[(int)SchemeBaseColors.TextLabelControl]
                     : _ribbonColours[(int)SchemeBaseColors.TextLabelPanel],
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedTracking
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonCalendarDay => state switch
@@ -2707,17 +2647,13 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
+                PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
+                PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonFormNormal]
             },
-            PaletteContentStyle.ButtonInputControl => state switch
-            {
-                PaletteState.Disabled => _ribbonColours[(int)SchemeBaseColors.InputDropDownDisabled1],
-                _ => _ribbonColours[(int)SchemeBaseColors.InputDropDownNormal1]
-            },
+            PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
+                ? _ribbonColours[(int)SchemeBaseColors.InputDropDownNormal1]
+                : _ribbonColours[(int)SchemeBaseColors.InputDropDownDisabled1],
             PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => state != PaletteState.Normal
                 ? _ribbonColours[(int)SchemeBaseColors.ButtonNavigatorText]
                 : _ribbonColours[(int)SchemeBaseColors.TextButtonNormal],
@@ -2782,9 +2718,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
                     ? _ribbonColours[(int)SchemeBaseColors.TextLabelControl]
                     : _ribbonColours[(int)SchemeBaseColors.TextLabelPanel],
-                PaletteState.CheckedNormal
-                    or PaletteState.CheckedTracking
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
+                PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonNormal]
             },
             PaletteContentStyle.ButtonCalendarDay => state switch
@@ -2794,10 +2728,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
-                PaletteState.Tracking
-                    or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
-                PaletteState.Pressed
-                    or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
+                PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeBaseColors.TextButtonFormTracking],
+                PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColours[(int)SchemeBaseColors.TextButtonFormNormal]
             },
             PaletteContentStyle.ButtonInputControl => state != PaletteState.Disabled
@@ -3059,7 +2991,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             _ => throw new ArgumentOutOfRangeException(nameof(style))
         };
     }
-    #endregion
+
+    #endregion Content
 
     #region Metric
 
@@ -3194,9 +3127,11 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
         return Padding.Empty;
     }
-    #endregion
+
+    #endregion Metric
 
     #region Images
+
     /// <summary>
     /// Gets a tree view image appropriate for the provided state.
     /// </summary>
@@ -3327,7 +3262,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
         _ => _galleryButtonList.Images[0]
     };
-    #endregion
+
+    #endregion Images
 
     #region ButtonSpec
 
@@ -3415,9 +3351,10 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         }
     }
 
-    #endregion
+    #endregion ButtonSpec
 
     #region RibbonGeneral
+
     /// <summary>
     /// Gets the ribbon shape that should be used.
     /// </summary>
@@ -3557,9 +3494,10 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColours[(int)SchemeBaseColors.RibbonQATButtonLight];
 
-    #endregion
+    #endregion RibbonGeneral
 
     #region RibbonBack
+
     /// <summary>
     /// Gets the method used to draw the background of a ribbon item.
     /// </summary>
@@ -4153,7 +4091,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
         return Color.Red;
     }
-    #endregion
+
+    #endregion RibbonBack
 
     #region RibbonText
     /// <summary>
@@ -4202,6 +4141,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     #endregion
 
     #region ElementColor
+
     /// <summary>
     /// Gets the first element color.
     /// </summary>
@@ -4219,14 +4159,14 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[1];
+                return BaseColors!.TrackBarTopTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
                     PaletteState.Disabled => GlobalStaticValues.EMPTY_COLOR,
-                    _ => _trackBarColors[4]
+                    _ => BaseColors!.TrackBarOutsidePosition
                 };
             default:
                 // Should never happen!
@@ -4254,9 +4194,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[2];
+                return BaseColors!.TrackBarBottomTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4292,9 +4232,9 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
         switch (element)
         {
             case PaletteElement.TrackBarTick:
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
-                return _trackBarColors[3];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 return state switch
                 {
@@ -4332,14 +4272,14 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
 
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
-                return _trackBarColors[3];
+                return BaseColors!.TrackBarFillTrack;
 
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
@@ -4381,14 +4321,14 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[0];
+                return BaseColors!.TrackBarTickMarks;
             case PaletteElement.TrackBarTrack:
                 if (CommonHelper.IsOverrideState(state))
                 {
                     return GlobalStaticValues.EMPTY_COLOR;
                 }
 
-                return _trackBarColors[3];
+                return BaseColors!.TrackBarFillTrack;
             case PaletteElement.TrackBarPosition:
                 if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                 {
@@ -4413,22 +4353,18 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
         return Color.Red;
     }
-    #endregion
+
+    #endregion ElementColor
 
     #region ColorTable
+
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    public override KryptonColorTable ColorTable
-    {
-        get
-        {
-            _table ??= new KryptonColorTable365BlackDarkMode(_ribbonColours, InheritBool.True, this);
+    public override KryptonColorTable ColorTable =>
+        Table ??= new KryptonColorTable365BlackDarkModeAlternate(BaseColors.ToArray(), InheritBool.True, this);
 
-            return _table;
-        }
-    }
-    #endregion
+    #endregion ColorTable
 
     #region OnUserPreferenceChanged
     /// <summary>
@@ -4439,662 +4375,12 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     protected override void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
     {
         // Remove the current table, so it gets regenerated when next requested
-        _table = null;
+        Table = null;
 
         // Update fonts to reflect any change in system settings
         DefineFonts();
 
         base.OnUserPreferenceChanged(sender, e);
     }
-    #endregion
-}
-
-/// <summary>
-/// Provide KryptonColorTable365BlackDarkMode values using an array of Color values as the source.
-/// </summary>
-public class KryptonColorTable365BlackDarkMode : KryptonColorTable
-{
-    #region Static Fields
-
-    private static readonly Color _contextMenuBackground = Color.FromArgb(10, 10, 10);
-    private static readonly Color _menuBorder = Color.FromArgb(167, 171, 176);
-    private static readonly Color _checkBackground = Color.FromArgb(252, 241, 194);
-    private static readonly Color _buttonSelectedBegin = Color.FromArgb(91, 91, 91);
-    private static readonly Color _buttonSelectedEnd = Color.FromArgb(89, 89, 89);
-    private static readonly Color _buttonPressedBegin = Color.FromArgb(91, 91, 91);
-    private static readonly Color _buttonPressedEnd = Color.FromArgb(91, 91, 91);
-    private static readonly Color _buttonCheckedBegin = Color.FromArgb(91, 91, 91);
-    private static readonly Color _buttonCheckedEnd = Color.FromArgb(91, 91, 91);
-    private static readonly Color _menuItemSelectedBegin = Color.FromArgb(91, 91, 91);
-    private static readonly Color _menuItemSelectedEnd = Color.FromArgb(89, 89, 89);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
-
-    #endregion
-
-    #region Instance Fields
-
-    private readonly Color[] _colors;
-    private readonly InheritBool _roundedEdges;
-
-    #endregion
-
-    #region Identity
-
-    [SecuritySafeCritical]
-    static KryptonColorTable365BlackDarkMode()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
-    /// <summary>
-    /// Initialize a new instance of the KryptonColorTable2010 class.
-    /// </summary>
-    /// <param name="colors">Source of </param>
-    /// <param name="roundedEdges">Should have rounded edges.</param>
-    /// <param name="palette">Associated palette instance.</param>
-    public KryptonColorTable365BlackDarkMode([DisallowNull] Color[] colors,
-        InheritBool roundedEdges, PaletteBase palette)
-        : base(palette)
-    {
-        Debug.Assert(colors != null);
-        if (colors != null)
-        {
-            _colors = colors;
-        }
-        _roundedEdges = roundedEdges;
-    }
-    #endregion
-
-    #region Colors
-
-    /// <summary>
-    /// Gets the raw set of colors.
-    /// </summary>
-    public Color[] Colors => _colors;
-
-    #endregion
-
-    #region RoundedEdges
-
-    /// <summary>
-    /// Gets a value indicating if rounded edges are required.
-    /// </summary>
-    public override InheritBool UseRoundedEdges => _roundedEdges;
-
-    #endregion
-
-    #region ButtonPressed
-
-    #region ButtonPressedBorder
-
-    /// <summary>
-    /// Gets the border color for a button being pressed.
-    /// </summary>
-    public override Color ButtonPressedBorder => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-
-    #region ButtonPressedGradientBegin
-
-    /// <summary>
-    /// Gets the background starting color for a button being pressed.
-    /// </summary>
-    public override Color ButtonPressedGradientBegin => _buttonPressedBegin;
-
-    #endregion
-
-    #region ButtonPressedGradientMiddle
-    /// <summary>
-    /// Gets the background middle color for a button being pressed.
-    /// </summary>
-    public override Color ButtonPressedGradientMiddle => _buttonPressedBegin;
-
-    #endregion
-
-    #region ButtonPressedGradientEnd
-    /// <summary>
-    /// Gets the background ending color for a button being pressed.
-    /// </summary>
-    public override Color ButtonPressedGradientEnd => _buttonPressedEnd;
-
-    #endregion
-
-    #region ButtonPressedHighlight
-    /// <summary>
-    /// Gets the highlight background for a pressed button.
-    /// </summary>
-    public override Color ButtonPressedHighlight => _buttonPressedBegin;
-
-    #endregion
-
-    #region ButtonPressedHighlightBorder
-    /// <summary>
-    /// Gets the highlight border for a pressed button.
-    /// </summary>
-    public override Color ButtonPressedHighlightBorder => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-    #endregion
-
-    #region ButtonSelected
-
-    #region ButtonSelectedBorder
-
-    /// <summary>
-    /// Gets the border color for a button being selected.
-    /// </summary>
-    public override Color ButtonSelectedBorder => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-
-    #region ButtonSelectedGradientBegin
-
-    /// <summary>
-    /// Gets the background starting color for a button being selected.
-    /// </summary>
-    public override Color ButtonSelectedGradientBegin => _buttonSelectedBegin;
-
-    #endregion
-
-    #region ButtonSelectedGradientMiddle
-    /// <summary>
-    /// Gets the background middle color for a button being selected.
-    /// </summary>
-    public override Color ButtonSelectedGradientMiddle => _buttonSelectedBegin;
-
-    #endregion
-
-    #region ButtonSelectedGradientEnd
-    /// <summary>
-    /// Gets the background ending color for a button being selected.
-    /// </summary>
-    public override Color ButtonSelectedGradientEnd => _buttonSelectedEnd;
-
-    #endregion
-
-    #region ButtonSelectedHighlight
-    /// <summary>
-    /// Gets the highlight background for a selected button.
-    /// </summary>
-    public override Color ButtonSelectedHighlight => _buttonSelectedBegin;
-
-    #endregion
-
-    #region ButtonSelectedHighlightBorder
-    /// <summary>
-    /// Gets the highlight border for a selected button.
-    /// </summary>
-    public override Color ButtonSelectedHighlightBorder => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-    #endregion
-
-    #region ButtonChecked
-
-    #region ButtonCheckedGradientBegin
-
-    /// <summary>
-    /// Gets the background starting color for a checked button.
-    /// </summary>
-    public override Color ButtonCheckedGradientBegin => _buttonCheckedBegin;
-
-    #endregion
-
-    #region ButtonCheckedGradientMiddle
-
-    /// <summary>
-    /// Gets the background middle color for a checked button.
-    /// </summary>
-    public override Color ButtonCheckedGradientMiddle => _buttonCheckedBegin;
-
-    #endregion
-
-    #region ButtonCheckedGradientEnd
-
-    /// <summary>
-    /// Gets the background ending color for a checked button.
-    /// </summary>
-    public override Color ButtonCheckedGradientEnd => _buttonCheckedEnd;
-
-    #endregion
-
-    #region ButtonCheckedHighlight
-
-    /// <summary>
-    /// Gets the highlight background for a checked button.
-    /// </summary>
-    public override Color ButtonCheckedHighlight => _buttonCheckedBegin;
-
-    #endregion
-
-    #region ButtonCheckedHighlightBorder
-
-    /// <summary>
-    /// Gets the highlight border for a checked button.
-    /// </summary>
-    public override Color ButtonCheckedHighlightBorder => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-
-    #endregion ButtonChecked
-
-    #region Check
-
-    #region CheckBackground
-
-    /// <summary>
-    /// Get background of the check mark area.
-    /// </summary>
-    public override Color CheckBackground => _checkBackground;
-
-    #endregion
-
-    #region CheckBackground
-
-    /// <summary>
-    /// Get background of a pressed check mark area.
-    /// </summary>
-    public override Color CheckPressedBackground => _checkBackground;
-
-    #endregion
-
-    #region CheckBackground
-
-    /// <summary>
-    /// Get background of a selected check mark area.
-    /// </summary>
-    public override Color CheckSelectedBackground => _checkBackground;
-
-    #endregion
-
-    #endregion Check
-
-    #region Grip
-    #region GripLight
-    /// <summary>
-    /// Gets the light color used to draw grips.
-    /// </summary>
-    public override Color GripLight => _colors[(int)SchemeBaseColors.GripLight];
-
-    #endregion
-
-    #region GripDark
-    /// <summary>
-    /// Gets the dark color used to draw grips.
-    /// </summary>
-    public override Color GripDark => _colors[(int)SchemeBaseColors.GripDark];
-
-    #endregion
-    #endregion
-
-    #region ImageMargin
-    #region ImageMarginGradientBegin
-    /// <summary>
-    /// Gets the starting color for the context menu margin.
-    /// </summary>
-    public override Color ImageMarginGradientBegin => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-
-    #region ImageMarginGradientMiddle
-    /// <summary>
-    /// Gets the middle color for the context menu margin.
-    /// </summary>
-    public override Color ImageMarginGradientMiddle => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-
-    #region ImageMarginGradientEnd
-    /// <summary>
-    /// Gets the ending color for the context menu margin.
-    /// </summary>
-    public override Color ImageMarginGradientEnd => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-
-    #region ImageMarginRevealedGradientBegin
-    /// <summary>
-    /// Gets the starting color for the context menu margin revealed.
-    /// </summary>
-    public override Color ImageMarginRevealedGradientBegin => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-
-    #region ImageMarginRevealedGradientMiddle
-    /// <summary>
-    /// Gets the middle color for the context menu margin revealed.
-    /// </summary>
-    public override Color ImageMarginRevealedGradientMiddle => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-
-    #region ImageMarginRevealedGradientEnd
-    /// <summary>
-    /// Gets the ending color for the context menu margin revealed.
-    /// </summary>
-    public override Color ImageMarginRevealedGradientEnd => _colors[(int)SchemeBaseColors.ImageMargin];
-
-    #endregion
-    #endregion
-
-    #region MenuBorder
-    /// <summary>
-    /// Gets the color of the border around menus.
-    /// </summary>
-    public override Color MenuBorder => _menuBorder;
-
-    #endregion
-
-    #region MenuItem
-    #region MenuItemBorder
-    /// <summary>
-    /// Gets the border color for around the menu item.
-    /// </summary>
-    public override Color MenuItemBorder => _menuBorder;
-
-    #endregion
-
-    #region MenuItemSelected
-    /// <summary>
-    /// Gets the color of a selected menu item.
-    /// </summary>
-    public override Color MenuItemSelected => _colors[(int)SchemeBaseColors.ButtonBorder];
-
-    #endregion
-
-    #region MenuItemPressedGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed down.
-    /// </summary>
-    public override Color MenuItemPressedGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBegin];
-
-    #endregion
-
-    #region MenuItemPressedGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed down.
-    /// </summary>
-    public override Color MenuItemPressedGradientEnd => _colors[(int)SchemeBaseColors.ToolStripEnd];
-
-    #endregion
-
-    #region MenuItemPressedGradientMiddle
-    /// <summary>
-    /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed down.
-    /// </summary>
-    public override Color MenuItemPressedGradientMiddle => _colors[(int)SchemeBaseColors.ToolStripMiddle];
-
-    #endregion
-
-    #region MenuItemSelectedGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used when the ToolStripMenuItem is selected.
-    /// </summary>
-    public override Color MenuItemSelectedGradientBegin => _menuItemSelectedBegin;
-
-    #endregion
-
-    #region MenuItemSelectedGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used when the ToolStripMenuItem is selected.
-    /// </summary>
-    public override Color MenuItemSelectedGradientEnd => _menuItemSelectedEnd;
-
-    #endregion
-    #endregion
-
-    #region MenuStrip
-    #region MenuStripGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used in the MenuStrip.
-    /// </summary>
-    public override Color MenuStripGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #region MenuStripGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used in the MenuStrip.
-    /// </summary>
-    public override Color MenuStripGradientEnd => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #endregion
-
-    #region OverflowButton
-    #region OverflowButtonGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
-    /// </summary>
-    public override Color OverflowButtonGradientBegin => _colors[(int)SchemeBaseColors.OverflowBegin];
-
-    #endregion
-
-    #region OverflowButtonGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used in the ToolStripOverflowButton.
-    /// </summary>
-    public override Color OverflowButtonGradientEnd => _colors[(int)SchemeBaseColors.OverflowEnd];
-
-    #endregion
-
-    #region OverflowButtonGradientMiddle
-    /// <summary>
-    /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
-    /// </summary>
-    public override Color OverflowButtonGradientMiddle => _colors[(int)SchemeBaseColors.OverflowMiddle];
-
-    #endregion
-    #endregion
-
-    #region RaftingContainer
-    #region RaftingContainerGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used in the ToolStripContainer.
-    /// </summary>
-    public override Color RaftingContainerGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #region RaftingContainerGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used in the ToolStripContainer.
-    /// </summary>
-    public override Color RaftingContainerGradientEnd => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #endregion
-
-    #region Separator
-    #region SeparatorLight
-    /// <summary>
-    /// Gets the light separator color.
-    /// </summary>
-    public override Color SeparatorLight => _colors[(int)SchemeBaseColors.SeparatorLight];
-
-    #endregion
-
-    #region SeparatorDark
-    /// <summary>
-    /// Gets the dark separator color.
-    /// </summary>
-    public override Color SeparatorDark => _colors[(int)SchemeBaseColors.SeparatorDark];
-
-    #endregion
-    #endregion
-
-    #region StatusStrip
-    #region StatusStripGradientBegin
-    /// <summary>
-    /// Gets the starting color for the status strip background.
-    /// </summary>
-    public override Color StatusStripGradientBegin => _colors[(int)SchemeBaseColors.StatusStripLight];
-
-    #endregion
-
-    #region StatusStripGradientEnd
-    /// <summary>
-    /// Gets the ending color for the status strip background.
-    /// </summary>
-    public override Color StatusStripGradientEnd => _colors[(int)SchemeBaseColors.StatusStripDark];
-
-    #endregion
-    #endregion
-
-    #region Text
-    #region MenuItemText
-    /// <summary>
-    /// Gets the text color used on the menu items.
-    /// </summary>
-    public override Color MenuItemText => _colors[(int)SchemeBaseColors.TextButtonNormal];
-
-    #endregion
-
-    #region MenuStripText
-    /// <summary>
-    /// Gets the text color used on the menu strip.
-    /// </summary>
-    public override Color MenuStripText => _colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region ToolStripText
-    /// <summary>
-    /// Gets the text color used on the tool strip.
-    /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region StatusStripText
-    /// <summary>
-    /// Gets the text color used on the status strip.
-    /// </summary>
-    public override Color StatusStripText => _colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
-
-    #endregion
-    #endregion Text
-
-    #region ToolStrip
-
-    #region ToolStripBorder
-    /// <summary>
-    /// Gets the border color to use on the bottom edge of the ToolStrip.
-    /// </summary>
-    public override Color ToolStripBorder => _colors[(int)SchemeBaseColors.ToolStripBorder];
-
-    #endregion
-
-    #region ToolStripContentPanelGradientBegin
-    /// <summary>
-    /// Gets the starting color for the content panel background.
-    /// </summary>
-    public override Color ToolStripContentPanelGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #region ToolStripContentPanelGradientEnd
-    /// <summary>
-    /// Gets the ending color for the content panel background.
-    /// </summary>
-    public override Color ToolStripContentPanelGradientEnd => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #region ToolStripDropDownBackground
-    /// <summary>
-    /// Gets the background color for drop-down menus.
-    /// </summary>
-    public override Color ToolStripDropDownBackground => _contextMenuBackground;
-
-    #endregion
-
-    #region ToolStripGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used in the ToolStrip background.
-    /// </summary>
-    public override Color ToolStripGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBegin];
-
-    #endregion
-
-    #region ToolStripGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used in the ToolStrip background.
-    /// </summary>
-    public override Color ToolStripGradientEnd => _colors[(int)SchemeBaseColors.ToolStripEnd];
-
-    #endregion
-
-    #region ToolStripGradientMiddle
-    /// <summary>
-    /// Gets the middle color of the gradient used in the ToolStrip background.
-    /// </summary>
-    public override Color ToolStripGradientMiddle => _colors[(int)SchemeBaseColors.ToolStripMiddle];
-
-    #endregion
-
-    #region ToolStripPanelGradientBegin
-    /// <summary>
-    /// Gets the starting color of the gradient used in the ToolStripPanel.
-    /// </summary>
-    public override Color ToolStripPanelGradientBegin => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #region ToolStripPanelGradientEnd
-    /// <summary>
-    /// Gets the end color of the gradient used in the ToolStripPanel.
-    /// </summary>
-    public override Color ToolStripPanelGradientEnd => _colors[(int)SchemeBaseColors.ToolStripBack];
-
-    #endregion
-
-    #endregion ToolStrip
-
-    #region Implementation
-
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
-    #endregion
+    #endregion OnUserPreferenceChanged
 }

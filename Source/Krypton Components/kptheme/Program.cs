@@ -78,7 +78,14 @@ internal static class Program
             dict.TryGetValue("-o", out output);
         }
         var dryRun = dict.ContainsKey("--dry-run");
-        var remove = dict.ContainsKey("--remove");
+        var printMapping = dict.ContainsKey("--print");
+
+        if (printMapping)
+        {
+            // --print implies dry-run behaviour (no writes)
+            dryRun = true;
+        }
+        var migrate = dict.ContainsKey("--migrate");
         if (dryRun)
         {
             Console.WriteLine("Dry-run mode: no files will be written.");
@@ -89,7 +96,8 @@ internal static class Program
                                  embedResx: dict.ContainsKey("--embed-resx"),
                                  dryRun: dryRun,
                                  overwrite: overwrite,
-                                 remove: remove);
+                                 migrate: migrate,
+                                 printMapping: printMapping);
         return 0;
     }
 
@@ -117,17 +125,18 @@ internal static class Program
     private static void PrintGenSchemeUsage()
     {
         Console.WriteLine();
-        Console.WriteLine("usage: kptheme genscheme [--dry-run] [--remove] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r]");
+        Console.WriteLine("usage: kptheme genscheme [--dry-run] [--migrate] [-o OUTPUT] (-f FILE | -d DIRECTORY) [-r]");
         Console.WriteLine();
         Console.WriteLine("Generate *_BaseScheme.cs classes for Krypton palette files, optionally removing color arrays from the source");
         Console.WriteLine("- Generator will extract whichever of the arrays are present in the source file(s).");
         Console.WriteLine("- Existing files will *not* be overwritten, unless --overwrite flag is used.");
-        Console.WriteLine("- With --remove existing arrays will be removed from source palette files!");
+        Console.WriteLine("- With --migrate existing arrays will be removed from source palette files!");
         Console.WriteLine("- Dry-run does *not* create any files, it'll only list *expected* filenames.");
         Console.WriteLine();
         Console.WriteLine("options:");
         Console.WriteLine("  --dry-run                Preview actions without writing files");
-        Console.WriteLine("  --remove                 Remove colour arrays from palette source once generation succeeds");
+        Console.WriteLine("  --print                  Display mapping table to console; implies --dry-run and disables file writes");
+        Console.WriteLine("  --migrate                Remove colour arrays from palette source once generation succeeds");
         Console.WriteLine("  -o OUTPUT, --output OUTPUT");
         Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
         Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");

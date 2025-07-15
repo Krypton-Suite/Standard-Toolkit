@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -154,8 +154,7 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
         new PaletteMicrosoft365Black_BaseScheme(),
         _checkBoxList,
         _galleryButtonList,
-        _radioButtonArray,
-        new PaletteMicrosoft365Black_BaseScheme().ToTrackBarArray())
+        _radioButtonArray)
     {
     }
 
