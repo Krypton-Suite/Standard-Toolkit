@@ -188,7 +188,7 @@ public sealed class PaletteMicrosoft365SilverDarkMode_BaseScheme : KryptonColorS
     public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb(245, 199, 149);
     public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(188, 195, 209);
     public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(194, 217, 240);
-    public override Color InputControlTextNormal           { get; set; } = Color.FromArgb(255, 255, 255);
+    public override Color InputControlTextNormal           { get; set; } = Color.FromArgb(234, 234, 234);
     public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(51, 51, 51);
     public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(169, 177, 184);
     public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(177, 187, 198);
