@@ -4339,9 +4339,6 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
 
     #region Palette Helpers
 
-    // Make the color array accessible for modification
-    protected Color[] RibbonColors => _ribbonColors;
-
     // Thread-safe single-color setter
     public void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
     {

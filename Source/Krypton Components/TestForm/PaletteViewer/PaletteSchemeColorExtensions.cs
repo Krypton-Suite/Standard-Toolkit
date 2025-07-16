@@ -30,7 +30,7 @@ internal static class PaletteSchemeColorExtensions
         if (TryGetBaseScheme(palette, out var schemeObj))
         {
             string propName = colorEnum.ToString();
-            PropertyInfo? pi = schemeObj.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo? pi = schemeObj!.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
             if (pi != null && pi.PropertyType == typeof(Color))
             {
                 return (Color)pi.GetValue(schemeObj)!;
@@ -59,6 +59,24 @@ internal static class PaletteSchemeColorExtensions
         if (setter != null)
         {
             setter.Invoke(palette, new object[] { colorEnum, newColor });
+
+            // Ensure BaseColors scheme stays in sync with the updated ribbon colour
+            if (TryGetBaseScheme(palette, out var nativeScheme))
+            {
+                string propName = colorEnum.ToString();
+                PropertyInfo? pi = nativeScheme!.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+                if (pi != null && pi.CanWrite && pi.PropertyType == typeof(Color))
+                {
+                    pi.SetValue(nativeScheme, newColor);
+
+                    // Verify the assignment succeeded – fall back to backing field if required
+                    if (((Color)pi.GetValue(nativeScheme)!) != newColor)
+                    {
+                        var backingField = nativeScheme.GetType().GetField($"<{propName}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+                        backingField?.SetValue(nativeScheme, newColor);
+                    }
+                }
+            }
         }
         else
         {
@@ -80,7 +98,7 @@ internal static class PaletteSchemeColorExtensions
             if (TryGetBaseScheme(palette, out var baseScheme))
             {
                 string propName = colorEnum.ToString();
-                PropertyInfo? pi = baseScheme.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+                PropertyInfo? pi = baseScheme!.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
                 if (pi != null && pi.CanWrite && pi.PropertyType == typeof(Color))
                 {
                     pi.SetValue(baseScheme, newColor);

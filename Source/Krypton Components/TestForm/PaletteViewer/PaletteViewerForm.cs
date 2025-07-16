@@ -40,6 +40,13 @@ public partial class PaletteViewerForm : KryptonForm
     // Add undo stack for colour edits
     private readonly System.Collections.Generic.Stack<UndoItem> _undoStack = new System.Collections.Generic.Stack<UndoItem>();
 
+    // Active filter state
+    private System.Drawing.Color? _activeColourFilter;
+    private string? _activeNameFilter;
+    private string? _lastColorFilterInput;
+
+    private System.Windows.Forms.ContextMenuStrip? _contextMenu;
+
     private readonly struct UndoItem
     {
         public Krypton.Toolkit.PaletteBase Palette { get; }
@@ -97,6 +104,8 @@ public partial class PaletteViewerForm : KryptonForm
     public PaletteViewerForm()
     {
         InitializeComponent();
+
+        SetupContextMenu();
 
         // load persisted window state
         _winStore = new WindowStateStore();
@@ -941,6 +950,12 @@ public partial class PaletteViewerForm : KryptonForm
             e.Column.Frozen = true;
         }
         e.Column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+
+        // Add tooltip for palette/theme columns to indicate activation behaviour
+        if (e.Column.Index >= 3)
+        {
+            e.Column.HeaderCell.ToolTipText = "Click to activate";
+        }
     }
 
     private void DataGridViewPalette_ColumnHeaderMouseClick(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
@@ -1493,41 +1508,58 @@ public partial class PaletteViewerForm : KryptonForm
 
         System.Drawing.Color currentColor = palette.GetSchemeColor(colorEnum);
 
-        using (ColorDialog dialog = new ColorDialog())
+        using (var dialog = new TestForm.LiveColorPickerDialog())
         {
             dialog.Color = currentColor;
-            dialog.AllowFullOpen = true;
-            dialog.FullOpen = true;
+            dialog.Text = $"A:{currentColor.A} R:{currentColor.R} G:{currentColor.G} B:{currentColor.B}";
 
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            // live-update handler
+            dialog.LiveColorChanged += (_, eArgs) =>
             {
-                // Record undo information BEFORE changing colour
-                _undoStack.Push(new UndoItem(palette, colorEnum, currentColor, rowIndex, colIndex));
+                ApplySelectedColor(eArgs.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
+            };
 
-                palette.SetSchemeColor(colorEnum, dialog.Color);
-
-                // Commit any pending edit before updating
-                this.dataGridViewPalette.EndEdit();
-
-                // Update cell visuals
-                DataGridViewCell cell = this.dataGridViewPalette.CurrentCell;
-                cell.Value = "#" + dialog.Color.R.ToString("X2") + dialog.Color.G.ToString("X2") + dialog.Color.B.ToString("X2");
-                cell.Style.BackColor = dialog.Color;
-                cell.Style.ForeColor = ContrastColor(dialog.Color);
-                cell.Style.SelectionBackColor = AdjustSelectionBack(dialog.Color);
-                cell.Style.SelectionForeColor = cell.Style.ForeColor;
-
-                // Force the grid to refresh by moving focus
-                this.dataGridViewPalette.CurrentCell = null;
-                this.dataGridViewPalette.CurrentCell = cell;
-                this.dataGridViewPalette.Refresh();
-
-                // If this is the active palette, refresh the UI
-                if (KryptonManager.CurrentGlobalPalette == palette)
-                {
-                    this.Invalidate(true);
-                }
+            var result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                ApplySelectedColor(dialog.Color, palette, colorEnum, rowIndex, colIndex, pushUndo: true);
             }
+            else
+            {
+                // Revert any live preview changes if the user cancels the dialog
+                ApplySelectedColor(currentColor, palette, colorEnum, rowIndex, colIndex, pushUndo: false);
+            }
+        }
+    }
+
+    private void ApplySelectedColor(System.Drawing.Color newColor, Krypton.Toolkit.PaletteBase palette, SchemeBaseColors colorEnum, int rowIndex, int colIndex, bool pushUndo)
+    {
+        if (pushUndo)
+        {
+            _undoStack.Push(new UndoItem(palette, colorEnum, palette.GetSchemeColor(colorEnum), rowIndex, colIndex));
+        }
+
+        palette.SetSchemeColor(colorEnum, newColor);
+
+        // Commit any pending edit before updating
+        this.dataGridViewPalette.EndEdit();
+
+        // Update cell visuals
+        DataGridViewCell cell = this.dataGridViewPalette.Rows[rowIndex].Cells[colIndex];
+        cell.Value = "#" + newColor.R.ToString("X2") + newColor.G.ToString("X2") + newColor.B.ToString("X2");
+        cell.Style.BackColor = newColor;
+        cell.Style.ForeColor = ContrastColor(newColor);
+        cell.Style.SelectionBackColor = AdjustSelectionBack(newColor);
+        cell.Style.SelectionForeColor = cell.Style.ForeColor;
+
+        // Ensure refresh
+        this.dataGridViewPalette.CurrentCell = null;
+        this.dataGridViewPalette.CurrentCell = cell;
+        this.dataGridViewPalette.Refresh();
+
+        if (KryptonManager.CurrentGlobalPalette == palette)
+        {
+            this.Invalidate(true);
         }
     }
 
@@ -1563,6 +1595,175 @@ public partial class PaletteViewerForm : KryptonForm
         }
     }
 
+    // ------------------------- Search / Filter helpers ---------------------------
+
+    private static bool TryParseColorString(string input, out System.Drawing.Color color)
+    {
+        color = System.Drawing.Color.Empty;
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return false;
+        }
+
+        input = input.Trim();
+
+        // Hex with #
+        if (input.StartsWith("#", System.StringComparison.Ordinal))
+        {
+            try
+            {
+                color = System.Drawing.ColorTranslator.FromHtml(input);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Hex without #
+        if (input.Length == 6 || input.Length == 8)
+        {
+            try
+            {
+                color = System.Drawing.ColorTranslator.FromHtml("#" + input);
+                return true;
+            }
+            catch
+            {
+            }
+        }
+
+        // RGB triplet "R,G,B"
+        var parts = input.Split(',');
+        if (parts.Length == 3 &&
+            byte.TryParse(parts[0].Trim(), out byte r) &&
+            byte.TryParse(parts[1].Trim(), out byte g) &&
+            byte.TryParse(parts[2].Trim(), out byte b))
+        {
+            color = System.Drawing.Color.FromArgb(r, g, b);
+            return true;
+        }
+
+        // Named colour
+        var named = System.Drawing.Color.FromName(input);
+        if (named.IsKnownColor || named.IsNamedColor)
+        {
+            color = named;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void SearchForColor()
+    {
+        string? input = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        {
+            Prompt = "Enter colour to search (e.g. #FF0000 or 255,0,0):",
+            Caption = "Search Colour",
+            DefaultResponse = "#"
+        });
+
+        if (!TryParseColorString(input, out var target))
+        {
+            UpdateStatus("Invalid colour value.");
+            return;
+        }
+
+        // starting position after current cell
+        int startRow = this.dataGridViewPalette.CurrentCell?.RowIndex ?? 0;
+        int startCol = this.dataGridViewPalette.CurrentCell?.ColumnIndex ?? 3;
+
+        // Search forward from next cell
+        bool found = false;
+        int rowCount = this.dataGridViewPalette.Rows.Count;
+        int colCount = this.dataGridViewPalette.Columns.Count;
+
+        int r = startRow;
+        int c = startCol + 1;
+
+        for (int iter = 0; iter < rowCount * (colCount - 3); iter++)
+        {
+            if (c >= colCount)
+            {
+                r = (r + 1) % rowCount;
+                c = 3;
+            }
+
+            var cell = this.dataGridViewPalette.Rows[r].Cells[c];
+            if (cell.Style.BackColor.ToArgb() == target.ToArgb())
+            {
+                this.dataGridViewPalette.CurrentCell = cell;
+                found = true;
+                break;
+            }
+
+            c++;
+        }
+
+        UpdateStatus(found ? "Colour found." : "Colour not found.");
+    }
+
+    private void ApplyRowFilter(Func<DataGridViewRow, bool> predicate)
+    {
+        foreach (DataGridViewRow row in this.dataGridViewPalette.Rows)
+        {
+            if (row.IsNewRow) continue;
+            row.Visible = predicate(row);
+        }
+    }
+
+    private void FilterRowsByColour()
+    {
+        string? input = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        {
+            Prompt = "Enter colour to filter by (e.g. #FF0000 or 255,0,0):",
+            Caption = "Filter Rows – Colour",
+            DefaultResponse = _lastColorFilterInput ?? "#"
+        });
+
+        if (!TryParseColorString(input, out var target))
+        {
+            UpdateStatus("Invalid colour value.");
+            return;
+        }
+
+        _activeColourFilter = target;
+        _lastColorFilterInput = input;
+        UpdateRowVisibility();
+        UpdateStatus("Applied colour filter.");
+    }
+
+    private void FilterRowsByEnumSubstring()
+    {
+        string? keyword = Krypton.Toolkit.KryptonInputBox.Show(new Krypton.Toolkit.KryptonInputBoxData
+        {
+            Prompt = "Enter text to filter SchemeBaseColors (contains, case-insensitive):",
+            Caption = "Filter Rows – SchemeBaseColors",
+            DefaultResponse = string.Empty
+        });
+
+        if (string.IsNullOrWhiteSpace(keyword))
+        {
+            UpdateStatus("Filter cleared.");
+            ClearRowFilter();
+            return;
+        }
+
+        _activeNameFilter = keyword.Trim();
+        UpdateRowVisibility();
+        UpdateStatus("Applied name filter.");
+    }
+
+    private void ClearRowFilter()
+    {
+        _activeColourFilter = null;
+        _activeNameFilter = null;
+        UpdateRowVisibility();
+        UpdateStatus("Filters cleared.");
+    }
+
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         if (keyData == (Keys.Control | Keys.Z))
@@ -1571,6 +1772,86 @@ public partial class PaletteViewerForm : KryptonForm
             return true;
         }
 
+        // Ctrl+F – search next colour
+        if (keyData == (Keys.Control | Keys.F))
+        {
+            SearchForColor();
+            return true;
+        }
+
+        // Ctrl+Shift+C – filter by colour
+        if (keyData == (Keys.Control | Keys.Shift | Keys.C))
+        {
+            FilterRowsByColour();
+            return true;
+        }
+
+        // Ctrl+Shift+F – filter by enum substring
+        if (keyData == (Keys.Control | Keys.Shift | Keys.F))
+        {
+            FilterRowsByEnumSubstring();
+            return true;
+        }
+
+        // Ctrl+Shift+R – clear filters
+        if (keyData == (Keys.Control | Keys.Shift | Keys.R))
+        {
+            ClearRowFilter();
+            return true;
+        }
+
         return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void SetupContextMenu()
+    {
+        _contextMenu = new System.Windows.Forms.ContextMenuStrip();
+        _contextMenu.Items.Add("Search Colour...\tCtrl+F", null, (_, __) => SearchForColor());
+        _contextMenu.Items.Add("Filter by Colour...\tCtrl+Shift+C", null, (_, __) => FilterRowsByColour());
+        _contextMenu.Items.Add("Filter by Name...\tCtrl+Shift+F", null, (_, __) => FilterRowsByEnumSubstring());
+        _contextMenu.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+        _contextMenu.Items.Add("Reset Filters\tCtrl+Shift+R", null, (_, __) => ClearRowFilter());
+
+        this.dataGridViewPalette.ContextMenuStrip = _contextMenu;
+    }
+
+    //-------------- Filter evaluation -------------------
+    private bool RowPassesFilters(System.Windows.Forms.DataGridViewRow row)
+    {
+        if (row.IsNewRow) return false;
+
+        bool passesColour = true;
+        if (_activeColourFilter.HasValue)
+        {
+            passesColour = false;
+            for (int col = 3; col < row.Cells.Count; col++)
+            {
+                if (row.Cells[col].Style.BackColor.ToArgb() == _activeColourFilter.Value.ToArgb())
+                {
+                    passesColour = true;
+                    break;
+                }
+            }
+        }
+
+        bool passesName = true;
+        if (!string.IsNullOrWhiteSpace(_activeNameFilter))
+        {
+            string? enumName = row.Cells.Count > 1 ? row.Cells[1].Value?.ToString() : null;
+            passesName = enumName != null && enumName.IndexOf(_activeNameFilter, System.StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        return passesColour && passesName;
+    }
+
+    private void UpdateRowVisibility()
+    {
+        foreach (System.Windows.Forms.DataGridViewRow row in this.dataGridViewPalette.Rows)
+        {
+            if (row.IsNewRow) continue;
+            row.Visible = RowPassesFilters(row);
+        }
+
+        this.dataGridViewPalette.Refresh();
     }
 }

@@ -227,6 +227,8 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
+    private readonly object _schemeColorsLock = new object();
+
     #endregion
 
     #region Constructor
@@ -4432,6 +4434,61 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
     #endregion ColorTable
 
+    #region Palette Helpers
+
+    // Thread-safe single-color setter
+    public void SetSchemeColor(SchemeBaseColors colorIndex, Color newColor)
+    {
+        lock (_schemeColorsLock)
+        {
+            _ribbonColors[(int)colorIndex] = newColor;
+            Table = null; // force colour-table regeneration
+        }
+    }
+
+    // Thread-safe single-color getter
+    public Color GetSchemeColor(SchemeBaseColors colorIndex)
+    {
+        lock (_schemeColorsLock)
+        {
+            return _ribbonColors[(int)colorIndex];
+        }
+    }
+
+    // Thread-safe batch update
+    public void UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null)
+            throw new ArgumentNullException(nameof(colorUpdates));
+
+        lock (_schemeColorsLock)
+        {
+            foreach (var update in colorUpdates)
+            {
+                _ribbonColors[(int)update.Key] = update.Value;
+            }
+
+            Table = null; // force colour-table regeneration
+        }
+    }
+
+    // Thread-safe full-scheme replacement
+    public void ApplyScheme(KryptonColorSchemeBase newScheme)
+    {
+        if (newScheme is null)
+            throw new ArgumentNullException(nameof(newScheme));
+
+        var newColors = newScheme.ToArray();
+
+        lock (_schemeColorsLock)
+        {
+            Array.Copy(newColors, _ribbonColors, newColors.Length);
+            Table = null; // force colour-table regeneration
+        }
+    }
+
+    #endregion Palette Helpers
+
     #region OnUserPreferenceChanged
 
     /// <summary>
@@ -4449,6 +4506,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
 
         base.OnUserPreferenceChanged(sender, e);
     }
+
     #endregion OnUserPreferenceChanged
 }
 

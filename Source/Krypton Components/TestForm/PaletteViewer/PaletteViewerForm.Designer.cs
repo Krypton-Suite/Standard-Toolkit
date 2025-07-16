@@ -16,6 +16,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton buttonClear;
         private Krypton.Toolkit.KryptonComboBox comboSaveFormat;
         private Krypton.Toolkit.KryptonButton buttonSave;
+        private Krypton.Toolkit.KryptonButton buttonHelp;
         private Krypton.Toolkit.KryptonLabel labelSourceTitle;
         private Krypton.Toolkit.KryptonTextBox textSourcePath;
         private Krypton.Toolkit.KryptonButton buttonBrowseSource;
@@ -39,6 +40,7 @@ namespace TestForm
             this.buttonClear = new Krypton.Toolkit.KryptonButton();
             this.comboSaveFormat = new Krypton.Toolkit.KryptonComboBox();
             this.buttonSave = new Krypton.Toolkit.KryptonButton();
+            this.buttonHelp = new Krypton.Toolkit.KryptonButton();
             this.buttonCancel = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox = new Krypton.Toolkit.KryptonThemeComboBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -121,6 +123,7 @@ namespace TestForm
             this.panelTop.Controls.Add(this.buttonClear);
             this.panelTop.Controls.Add(this.comboSaveFormat);
             this.panelTop.Controls.Add(this.buttonSave);
+            this.panelTop.Controls.Add(this.buttonHelp);
             this.panelTop.Controls.Add(this.buttonCancel);
             this.panelTop.Controls.Add(this.kryptonThemeComboBox);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -227,6 +230,22 @@ namespace TestForm
             this.buttonSave.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.buttonSave.Values.Text = "Save";
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+
+            // 
+            // buttonHelp
+            // 
+            this.buttonHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonHelp.AutoSize = true;
+            this.buttonHelp.Location = new System.Drawing.Point(1051, 8);
+            this.buttonHelp.Name = "buttonHelp";
+            this.buttonHelp.Size = new System.Drawing.Size(26, 26);
+            this.buttonHelp.TabIndex = 16;
+            this.buttonHelp.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.buttonHelp.Values.Text = "?";
+            this.buttonHelp.ToolTipValues.EnableToolTips = true;
+            this.buttonHelp.ToolTipValues.Heading = "Hotkeys";
+            this.buttonHelp.ToolTipValues.Description = "F6 – Edit cell colour\nCtrl+Z – Undo last colour change\nCtrl+F – Search colour\nCtrl+Shift+C – Filter by colour\nCtrl+Shift+F – Filter by name\nCtrl+Shift+R – Clear filters";
+            this.buttonHelp.ToolTipValues.ToolTipPosition.PlacementMode = Krypton.Toolkit.PlacementMode.Bottom;
             // 
             // buttonCancel
             // 
