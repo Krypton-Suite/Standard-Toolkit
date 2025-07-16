@@ -130,13 +130,13 @@ internal static class Program
         Console.WriteLine("Generate *_BaseScheme.cs classes for Krypton palette files, optionally removing color arrays from the source");
         Console.WriteLine("- Generator will extract whichever of the arrays are present in the source file(s).");
         Console.WriteLine("- Existing files will *not* be overwritten, unless --overwrite flag is used.");
-        Console.WriteLine("- With --migrate existing arrays will be removed from source palette files!");
+        Console.WriteLine("- With --migrate existing arrays will be removed and residual array index accesses will be converted to property-based access in the source file(s)!");
         Console.WriteLine("- Dry-run does *not* create any files, it'll only list *expected* filenames.");
         Console.WriteLine();
         Console.WriteLine("options:");
         Console.WriteLine("  --dry-run                Preview actions without writing files");
         Console.WriteLine("  --print                  Display mapping table to console; implies --dry-run and disables file writes");
-        Console.WriteLine("  --migrate                Remove colour arrays from palette source once generation succeeds");
+        Console.WriteLine("  --migrate                Remove colour arrays and convert remaining _ribbonColors/_trackBarColors index usages to BaseColors properties");
         Console.WriteLine("  -o OUTPUT, --output OUTPUT");
         Console.WriteLine("                           Directory to place all generated files instead of alongside palette files");
         Console.WriteLine("  -f FILE, --file FILE     Convert one specific palette .cs file");

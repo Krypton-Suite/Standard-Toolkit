@@ -47,19 +47,32 @@ public static class SchemeGenerator
     {
         if (string.IsNullOrWhiteSpace(paletteFile)) throw new ArgumentException("paletteFile");
 
-        static bool ShouldSkipPaletteFile(string path)
+        var enumerated = EnumeratePaletteFiles(paletteFile);
+
+        bool treatAsExplicit = !paletteFile.Contains("*") && !paletteFile.Contains("?") && !Directory.Exists(paletteFile);
+        string specFileName = Path.GetFileName(paletteFile);
+
+        var files = enumerated.Where(f =>
         {
-            var fileName = Path.GetFileName(path);
-            // Skip original base palette classes like "PaletteOffice2010Base.cs"
-            if (fileName.EndsWith("Base.cs", StringComparison.OrdinalIgnoreCase) && fileName.StartsWith("Palette", StringComparison.OrdinalIgnoreCase)) return true;
+            var fileName = Path.GetFileName(f);
 
-            // Skip any previously generated scheme classes
-            if (fileName.EndsWith("_BaseScheme.cs", StringComparison.OrdinalIgnoreCase)) return true;
+            // Always exclude previously generated *_BaseScheme.cs files
+            if (fileName.EndsWith("_BaseScheme.cs", StringComparison.OrdinalIgnoreCase)) return false;
 
-            return false;
-        }
+            bool isPaletteBase = fileName.EndsWith("Base.cs", StringComparison.OrdinalIgnoreCase) && fileName.StartsWith("Palette", StringComparison.OrdinalIgnoreCase);
 
-        var files = EnumeratePaletteFiles(paletteFile).Where(f => !ShouldSkipPaletteFile(f)).ToArray();
+            if (treatAsExplicit)
+            {
+                // If user provided a specific filename (no wildcards), allow that single file even if it's a base palette.
+                if (string.Equals(fileName, specFileName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            // Default filtering
+            // Allow Palette*Base.cs when migration is requested
+            return !isPaletteBase || migrate;
+        }).ToArray();
+
         if (files.Length == 0) throw new FileNotFoundException($"No palette file found matching '{paletteFile}' (after excluding base classes)");
 
         int ok = 0, fail = 0;
@@ -79,19 +92,20 @@ public static class SchemeGenerator
                 fail++;
                 continue;
             }
-            List<string> colorsRaw;
-            List<string> commentNames;
+            List<string> colorsRaw = new();
+            List<string> commentNames = new();
             try
             {
                 colorsRaw = ExtractColorsRoslyn(palettePath, "_schemeBaseColors", out commentNames, enumNames);
-                Console.WriteLine($"[DEBUG] Successfully used Roslyn extraction for {Path.GetFileName(palettePath)}");
+            }
+            catch (InvalidOperationException ioe) when (ioe.Message.Contains("Variable not found"))
+            {
+                // _schemeBaseColors array absent – treat as already migrated; leave lists empty
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DEBUG] Roslyn extraction failed for {Path.GetFileName(palettePath)}: {ex.Message}");
-                Console.WriteLine("[DEBUG] Falling back to regex extraction");
-                colorsRaw = ExtractColorExpressions(palettePath);
-                commentNames = ExtractArrayComments(palettePath);
+                Console.Error.WriteLine($"{Path.GetFileName(palettePath)}: failed to parse scheme array – {ex.Message}. Skipping file.");
+                continue; // skip further processing for this palette
             }
 
             List<string> trackBarColorsRaw;
@@ -104,12 +118,10 @@ public static class SchemeGenerator
                 trackBarColorsRaw = ExtractColorExpressions(palettePath, TrackBarColorMarker);
             }
 
-            // If no arrays found at all, report and continue
-            if (colorsRaw.Count == 0 && trackBarColorsRaw.Count == 0)
+            bool hasAnyArrays = colorsRaw.Count > 0 || trackBarColorsRaw.Count > 0;
+            if (!hasAnyArrays)
             {
-                Console.Error.WriteLine($"{palettePath}: no scheme arrays found");
-                fail++;
-                continue;
+                Console.WriteLine($"Info: {Path.GetFileName(palettePath)} – no colour arrays found (already migrated). Running index conversion only.");
             }
 
             List<string> alignedColors = new();
@@ -177,48 +189,87 @@ public static class SchemeGenerator
                 PrintMappingTable(enumNames, commentNames, colorsRaw, alignedColors);
             }
 
-            var className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
-            var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
-
-            destPath = Path.Combine(outputDir, className + ".cs");
-
-            if (!printMapping && dryRun)
-            {
-                Console.WriteLine(destPath);
-                continue;
-            }
-
             bool destWritten = false;
-            if (!printMapping && !dryRun)
+            string? className = null;
+            if (hasAnyArrays)
             {
-                bool existed = File.Exists(destPath);
-                if (existed && !overwrite)
+                className = Path.GetFileNameWithoutExtension(palettePath) + "_BaseScheme";
+                var code = GenerateSchemeCode(className, alignedColors, enumNames, missingFlags);
+
+                destPath = Path.Combine(outputDir, className + ".cs");
+
+                if (!printMapping && dryRun)
                 {
-                    Console.WriteLine(destPath + " *File exists, not replaced.");
+                    Console.WriteLine(destPath);
                 }
-                else
+                else if (!printMapping && !dryRun)
                 {
-                    File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
-                    Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
-                    ok++;
-                    destWritten = true;
+                    bool existed = File.Exists(destPath);
+                    if (existed && !overwrite)
+                    {
+                        Console.WriteLine(destPath + " *File exists, not replaced.");
+                    }
+                    else
+                    {
+                        File.WriteAllText(destPath, ToCrLf(code), Utf8NoBom);
+                        Console.WriteLine(destPath + (existed ? " *Overwritten." : string.Empty));
+                        ok++;
+                        destWritten = true;
+                    }
                 }
             }
 
-            // Optional removal of processed arrays from the palette source
-            if (migrate && destWritten && !dryRun)
+            // Optional migration steps (array removal, constructor fix, index conversions).
+            // We only touch the original palette file when:
+            //   • we generated a scheme alongside it (destWritten), or
+            //   • no separate output folder was specified (in-place generation).
+            bool inPlace = string.IsNullOrWhiteSpace(outputFolder);
+            if (migrate && !dryRun)
             {
-                if (colorsRaw.Count > 0)
+                // 1) Remove arrays only if we generated and wrote the scheme file *or* in-place processing
+                if ((destWritten || inPlace) && className != null)
                 {
-                    RemoveArrayFromFile(palettePath, BaseColorMarker);
-                }
-                if (trackBarColorsRaw.Count > 0)
-                {
-                    RemoveArrayFromFile(palettePath, TrackBarColorMarker);
+                    if (colorsRaw.Count > 0)
+                    {
+                        RemoveArrayFromFile(palettePath, BaseColorMarker);
+                    }
+                    if (trackBarColorsRaw.Count > 0)
+                    {
+                        RemoveArrayFromFile(palettePath, TrackBarColorMarker);
+                    }
+
+                    // Update constructor arguments to use generated scheme
+                    UpdateConstructorArguments(palettePath, className);
                 }
 
-                // Update constructor arguments to use generated scheme + extension method
-                UpdateConstructorArguments(palettePath, className);
+                // 2) Always run the colour index to property conversion
+                try
+                {
+                    var srcText = File.ReadAllText(palettePath);
+                    var replacedText = ConvertRibbonColorArrayEntriesToProperties(srcText);
+                    replacedText = ConvertTrackBarColorArrayEntriesToProperties(replacedText);
+
+                    if (!string.Equals(srcText, replacedText, StringComparison.Ordinal))
+                    {
+                        if (hasAnyArrays || inPlace)
+                        {
+                            // In-place modification (arrays removed or user requested it)
+                            File.WriteAllText(palettePath, ToCrLf(replacedText), Utf8NoBom);
+                        }
+                        else if (!string.IsNullOrWhiteSpace(outputFolder))
+                        {
+                            // Base palette without arrays – write converted copy to output folder
+                            var copyPath = Path.Combine(Path.GetFullPath(outputFolder), Path.GetFileName(palettePath));
+                            Directory.CreateDirectory(Path.GetDirectoryName(copyPath)!);
+                            File.WriteAllText(copyPath, ToCrLf(replacedText), Utf8NoBom);
+                            Console.WriteLine($"Converted copy written to {copyPath}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"{palettePath}: array reference conversion failed - {ex.Message}");
+                }
             }
 
             // done processing this palette
@@ -299,70 +350,6 @@ public static class SchemeGenerator
             }
         }
         return colors;
-    }
-
-    private static List<string> ExtractArrayComments(string palettePath, string marker = BaseColorMarker)
-    {
-        var lines = File.ReadAllLines(palettePath);
-        var start = Array.FindIndex(lines, l => l.Contains(marker));
-        if (start < 0) return new List<string>();
-
-        var comments = new List<string>();
-
-        int parenDepth = 0;
-        string? currentComment = null;
-
-        for (var i = start + 1; i < lines.Length; i++)
-        {
-            var line = lines[i];
-
-            if (line.Contains("]") && parenDepth == 0)
-            {
-                // Reached end of array definition
-                break;
-            }
-
-            // Split code vs comment part on the first // occurrence
-            var parts = line.Split(new[] { "//" }, 2, StringSplitOptions.None);
-            var codePart = parts[0].Trim();
-
-            bool isStructural = codePart.Length == 0 || codePart == "[" || codePart == "]";
-
-            // Track parentheses depth exactly like ExtractColorExpressions
-            parenDepth += codePart.Count(c => c == '(') - codePart.Count(c => c == ')');
-
-            // Capture comment token (use *last* comment on the line to skip debug numeric comments like //(155, 187, 227))
-            var lastIdx = line.LastIndexOf("//", StringComparison.Ordinal);
-            if (lastIdx >= 0)
-            {
-                var token = line.Substring(lastIdx + 2).Trim();
-                var match = Regex.Match(token, "^([A-Za-z0-9_]+)");
-                if (match.Success)
-                {
-                    currentComment = NormalizeComment(match.Groups[1].Value);
-                }
-            }
-
-            // If structural/blank line: assign comment (if any) to previous expression when missing
-            if (isStructural)
-            {
-                if (currentComment != null && comments.Count > 0 && string.IsNullOrEmpty(comments[comments.Count - 1]))
-                {
-                    comments[comments.Count - 1] = currentComment;
-                    currentComment = null;
-                }
-                continue;
-            }
-
-            // When parentheses balance out, we've completed a single color expression
-            if (parenDepth == 0)
-            {
-                comments.Add(currentComment ?? string.Empty);
-                currentComment = null;
-            }
-        }
-
-        return comments;
     }
 
     private static readonly HashSet<string> MenuNames = new HashSet<string>(StringComparer.Ordinal)
@@ -500,39 +487,114 @@ public static class SchemeGenerator
     /// </summary>
     private static void UpdateConstructorArguments(string filePath, string schemeClassName)
     {
-        var text = File.ReadAllText(filePath);
+        var source = File.ReadAllText(filePath);
 
-        var schemeCtor = $"new {schemeClassName}()";
+        var tree = CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview));
+        var root = tree.GetCompilationUnitRoot();
 
-        // 1) Default replacements (arrays removed in most contexts)
-        text = Regex.Replace(text, "\\b_schemeBaseColors\\b", schemeCtor + ".ToArray()");
-        text = Regex.Replace(text, "\\b_trackBarColors\\b", schemeCtor + ".ToTrackBarArray()");
+        var rewriter = new BaseCtorArgRewriter(schemeClassName);
+        var newRoot = (CompilationUnitSyntax)rewriter.Visit(root);
 
-        // 2) Fix the base-constructor argument list which should receive the scheme instance, not its array
-        var baseIdx = text.IndexOf(": base(");
-        if (baseIdx >= 0)
+        if (!rewriter.HasChanges)
         {
-            int openIdx = text.IndexOf('(', baseIdx);
-            if (openIdx > -1)
-            {
-                int depth = 1;
-                int i = openIdx + 1;
-                for (; i < text.Length && depth > 0; i++)
-                {
-                    if (text[i] == '(') depth++;
-                    else if (text[i] == ')') depth--;
-                }
-                if (depth == 0)
-                {
-                    var callSpan = text.Substring(openIdx + 1, i - openIdx - 2); // inside parentheses
-                    var fixedSpan = callSpan.Replace(schemeCtor + ".ToArray()", schemeCtor);
-                    // trackbar should stay array
-                    text = text.Remove(openIdx + 1, callSpan.Length).Insert(openIdx + 1, fixedSpan);
-                }
-            }
+            return; // nothing modified
         }
 
-        File.WriteAllText(filePath, ToCrLf(text), Utf8NoBom);
+        var newText = newRoot.ToFullString();
+        File.WriteAllText(filePath, ToCrLf(newText), Utf8NoBom);
+    }
+
+    /// <summary>
+    /// Roslyn-based visitor that rewrites only the <c>: base(...)</c> constructor initializer.
+    ///
+    /// What it changes:
+    ///   • <c>_schemeBaseColors</c>  → <c>new {schemeClass}()</c><br/>
+    ///   • <c>_trackBarColors</c>   → <c>new {schemeClass}().ToTrackBarArray()</c><br/>
+    ///   • Legacy fragment <c>new {schemeClass}().ToArray()</c> → <c>new {schemeClass}()</c>
+    ///
+    /// Everything else—including comments, strings and any other code—remains untouched.
+    /// On subsequent runs, if there is nothing left to fix, <see cref="HasChanges"/> stays <c>false</c>
+    /// and the source file is left exactly as it is.
+    /// </summary>
+    private sealed class BaseCtorArgRewriter : CSharpSyntaxRewriter
+    {
+        private readonly string _schemeClassName;
+        public bool HasChanges { get; private set; }
+
+        private ExpressionSyntax SchemeCtorExpr => SyntaxFactory.ParseExpression($"new {_schemeClassName}()");
+        private ExpressionSyntax TrackBarExpr  => SyntaxFactory.ParseExpression($"new {_schemeClassName}().ToTrackBarArray()");
+
+        public BaseCtorArgRewriter(string schemeClassName)
+        {
+            _schemeClassName = schemeClassName;
+        }
+
+        public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+        {
+            // Only process constructors that delegate to base(...)
+            var init = node.Initializer;
+            if (init == null || init.Kind() != SyntaxKind.BaseConstructorInitializer)
+            {
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
+            }
+
+            var args = init.ArgumentList.Arguments;
+            bool updated = false;
+
+            var newArgs = args;
+
+            for (int i = 0; i < args.Count; i++)
+            {
+                var arg = args[i];
+                var expr = arg.Expression;
+
+                ExpressionSyntax? replacement = null;
+
+                if (expr is IdentifierNameSyntax id)
+                {
+                    var name = id.Identifier.Text;
+                    if (name == "_schemeBaseColors")
+                    {
+                        replacement = SchemeCtorExpr;
+                    }
+                    else if (name == "_trackBarColors")
+                    {
+                        replacement = TrackBarExpr;
+                    }
+                }
+                else if (expr is InvocationExpressionSyntax inv &&
+                         inv.Expression is MemberAccessExpressionSyntax ma &&
+                         ma.Name.Identifier.Text == "ToArray" &&
+                         ma.Expression is ObjectCreationExpressionSyntax oce &&
+                         oce.Type.ToString() == _schemeClassName)
+                {
+                    // Replace 'new Scheme().ToArray()' with 'new Scheme()'
+                    replacement = SchemeCtorExpr;
+                }
+
+                if (replacement != null)
+                {
+                    updated = true;
+                    var newArg = arg.WithExpression(replacement);
+                    newArgs = newArgs.Replace(arg, newArg);
+                }
+            }
+
+            if (!updated)
+            {
+                var visited = base.VisitConstructorDeclaration(node);
+                return visited ?? node;
+            }
+
+            var newInit = init!.WithArgumentList(init.ArgumentList.WithArguments(newArgs));
+            var newNode = node.WithInitializer(newInit);
+
+            HasChanges = true;
+
+            var visitedNew = base.VisitConstructorDeclaration(newNode);
+            return visitedNew ?? newNode;
+        }
     }
 
     private static IEnumerable<string> EnumeratePaletteFiles(string spec)
@@ -775,5 +837,51 @@ public static class SchemeGenerator
         {
             Console.Error.WriteLine($"WARNING: Detected {missingCount} enumeration/comment mismatches (missing comments). Rows are prefixed with '!'.");
         }
+    }
+
+    /// <summary>
+    /// Replaces all _ribbonColors[(int)SchemeBaseColors.SomeValue] entries with BaseColors.SomeValue properties<br/>
+    /// Where "SomeValue" here is just an example property.
+    /// </summary>
+    /// <param name="file">Text to work on.</param>
+    /// <returns>The updated result of the replace operation.</returns>
+    private static string ConvertRibbonColorArrayEntriesToProperties(string text)
+    {
+        // Handles _ribbonColors[(int)SchemeBaseColors.SomeValue] (optionally spanning multiple lines / spaces)
+        const string pattern = @"_ribbonColou?rs\s*\[\s*\(\s*int\s*\)\s*SchemeBaseColors\s*\.\s*(\w+)\s*\]";
+
+        return Regex.Replace(text, pattern, m => $"BaseColors.{m.Groups[1].Value}", RegexOptions.Singleline);
+    }
+
+    // Mapping for track-bar colours
+    private static readonly Dictionary<string, string> TrackBarIndexMap = new Dictionary<string, string>(6)
+    {
+        { "0", "TrackBarTickMarks" },
+        { "1", "TrackBarTopTrack" },
+        { "2", "TrackBarBottomTrack" },
+        { "3", "TrackBarFillTrack" },
+        { "4", "TrackBarOutsidePosition" },
+        { "5", "TrackBarBorderPosition" }
+    };
+
+    /// <summary>
+    /// Replaces all _trackBarColors[n] entries with BaseColors.GridListPressed1 properties<br/>
+    /// Where "GridListPressed1" here is just an example property.
+    /// </summary>
+    /// <param name="file">Text to work on.</param>
+    /// <returns>The updated result of the replace operation.</returns>
+    private static string ConvertTrackBarColorArrayEntriesToProperties(string text)
+    {
+        const string pattern = @"_trackBarColors\s*\[\s*(\d+)\s*\]";
+
+        return Regex.Replace(text, pattern, m =>
+        {
+            var idx = m.Groups[1].Value;
+            if (TrackBarIndexMap.TryGetValue(idx, out var prop))
+            {
+                return $"BaseColors.{prop}";
+            }
+            throw new ArgumentOutOfRangeException($"Array index incorrect: {idx}");
+        }, RegexOptions.Singleline);
     }
 }

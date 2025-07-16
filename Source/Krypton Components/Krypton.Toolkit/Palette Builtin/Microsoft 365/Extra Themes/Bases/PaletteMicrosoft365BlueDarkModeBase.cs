@@ -225,7 +225,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
 
     protected readonly KryptonColorSchemeBase BaseColors;
 
-    private readonly Color[] _ribbonColours;
+    private readonly Color[] _ribbonColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -255,7 +255,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
 
         BaseColors = scheme!;
 
-        _ribbonColours = scheme!.ToArray();
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -2048,22 +2048,16 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
             {
                 PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl => state switch
                 {
-                    PaletteState.LinkNotVisitedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkNotVisitedOverrideControl],
-                    PaletteState.LinkVisitedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkVisitedOverrideControl],
-                    PaletteState.LinkPressedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkPressedOverrideControl],
+                    PaletteState.LinkNotVisitedOverride => BaseColors.LinkNotVisitedOverrideControl,
+                    PaletteState.LinkVisitedOverride => BaseColors.LinkVisitedOverrideControl,
+                    PaletteState.LinkPressedOverride => BaseColors.LinkPressedOverrideControl,
                     _ => GlobalStaticValues.EMPTY_COLOR
                 },
                 PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => state switch
                 {
-                    PaletteState.LinkNotVisitedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkNotVisitedOverridePanel],
-                    PaletteState.LinkVisitedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkVisitedOverridePanel],
-                    PaletteState.LinkPressedOverride => _ribbonColours[
-                        (int)SchemeBaseColors.LinkPressedOverridePanel],
+                    PaletteState.LinkNotVisitedOverride => BaseColors.LinkNotVisitedOverridePanel,
+                    PaletteState.LinkVisitedOverride => BaseColors.LinkVisitedOverridePanel,
+                    PaletteState.LinkPressedOverride => BaseColors.LinkPressedOverridePanel,
                     _ => GlobalStaticValues.EMPTY_COLOR
                 },
                 _ => GlobalStaticValues.EMPTY_COLOR
