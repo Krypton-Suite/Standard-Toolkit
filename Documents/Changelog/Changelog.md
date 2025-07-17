@@ -3,8 +3,8 @@
 ====
 
 ## 2025-11-xx - Build 2511 (V10 - alpha) - November 2025
-* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Added ThemeGen assembly and kptheme CLI app.
 * Resolved [#2309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2309), `KryptonDataGridViewImageColumn` causes lagging in grid refresh when a new row is auto added.
+* Resolved [#2294](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2294), Added ThemeGen assembly and kptheme CLI app.
 * Resolved [#2296](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2296), Fix `Visual Controls' components from showing blank content.
 * Resolved [#2299](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2299), Fix memory leak in PaletteBase
 * Resolved [#2235](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2235), `OSUtilities` Adds OsVersionInfo to the properties.
